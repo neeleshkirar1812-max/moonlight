@@ -53,6 +53,7 @@ const AdminLayout = () => {
   ];
 
   const superAdminNav = [
+    { name: 'Login Approvals & Passwords', href: '/super-admin/approvals', icon: KeyRound },
     { name: 'Admin Accounts', href: '/super-admin/admins', icon: ShieldCheck },
     { name: 'System Audit Logs', href: '/super-admin/audit-logs', icon: Activity },
     { name: 'Server Diagnostics', href: '/super-admin/system-config', icon: Settings },

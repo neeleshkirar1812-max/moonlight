@@ -66,6 +66,7 @@ import AdminSettings from './pages/admin/AdminSettings';
 
 // Super Admin Pages
 import SuperAdminDashboard from './pages/superadmin/SuperAdminDashboard';
+import SuperAdminApprovals from './pages/superadmin/SuperAdminApprovals';
 import SuperAdminAdmins from './pages/superadmin/SuperAdminAdmins';
 import SuperAdminAuditLogs from './pages/superadmin/SuperAdminAuditLogs';
 import SuperAdminConfig from './pages/superadmin/SuperAdminConfig';
@@ -200,6 +201,7 @@ const App = () => {
       >
         <Route index element={<Navigate to="/super-admin/dashboard" replace />} />
         <Route path="dashboard" element={<SuperAdminDashboard />} />
+        <Route path="approvals" element={<SuperAdminApprovals />} />
         <Route path="admins" element={<SuperAdminAdmins />} />
         <Route path="audit-logs" element={<SuperAdminAuditLogs />} />
         <Route path="config" element={<SuperAdminConfig />} />
