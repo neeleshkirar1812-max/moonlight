@@ -19,7 +19,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 
-const realProductionCrew = [
+export const realProductionCrew = [
   {
     _id: 'emp-1',
     employeeCode: 'EMP-MLP-001',
@@ -121,16 +121,37 @@ const realProductionCrew = [
   },
 ];
 
+export const getCombinedCrew = () => {
+  const baseMap = new Map();
+  realProductionCrew.forEach((c) => baseMap.set(c.user?.email || c.name, c));
+
+  try {
+    const saved = localStorage.getItem('ml_employees');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed)) {
+        parsed.forEach((c) => {
+          const key = c.user?.email || c.name;
+          if (key) {
+            baseMap.set(key, { ...(baseMap.get(key) || {}), ...c });
+          }
+        });
+      }
+    }
+  } catch (e) {}
+
+  return Array.from(baseMap.values());
+};
+
 const AdminEmployees = () => {
-  const [employees, setEmployees] = useState(realProductionCrew);
+  const [employees, setEmployees] = useState(getCombinedCrew);
   const [search, setSearch] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const { addToast } = useNotification();
 
   useEffect(() => {
-    // Force write realProductionCrew to guarantee 100% fresh data
-    localStorage.setItem('ml_employees', JSON.stringify(realProductionCrew));
-    setEmployees(realProductionCrew);
+    // Refresh combined crew on mount
+    setEmployees(getCombinedCrew());
   }, []);
 
   const handleResetToRealCrew = () => {
@@ -150,34 +171,42 @@ const AdminEmployees = () => {
     phone: '',
     designation: 'Master Cinematographer',
     department: 'Cinematography',
+    speciality: 'Luxury Wedding Production',
   });
 
   const handleCreateEmployee = (e) => {
     e.preventDefault();
+    if (!form.name || !form.email || !form.phone) {
+      addToast({ title: 'Missing Info', message: 'Name, email and phone number are required.', type: 'warning' });
+      return;
+    }
+
     const newEmp = {
       _id: `emp-${Date.now()}`,
       employeeCode: `EMP-MLP-${String(employees.length + 1).padStart(3, '0')}`,
       name: form.name,
-      designation: form.designation,
-      department: form.department,
+      designation: form.designation || 'Master Cinematographer',
+      department: form.department || 'Cinematography',
       user: { email: form.email, phone: form.phone },
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80',
       status: 'pending_approval',
-      speciality: 'Luxury Wedding Production',
+      speciality: form.speciality || 'Luxury Wedding Production',
     };
 
-    setEmployees([newEmp, ...employees]);
+    const updated = [newEmp, ...employees];
+    setEmployees(updated);
+    localStorage.setItem('ml_employees', JSON.stringify(updated));
 
     // Push to Super Admin Approvals Queue
     const pending = JSON.parse(localStorage.getItem('moonlight_pending_approvals') || '[]');
     pending.unshift({
-      id: `REQ-${Date.now().toString().slice(-3)}`,
+      id: `REQ-${Date.now().toString().slice(-4)}`,
       name: form.name,
       email: form.email,
       phone: form.phone,
       role: 'employee',
       designation: form.designation,
-      createdBy: 'HR / Studio Admin',
+      createdBy: 'Studio Admin / HR (Neelesh Kirar)',
       department: form.department,
       requestedAt: new Date().toISOString(),
       status: 'pending',
@@ -186,11 +215,19 @@ const AdminEmployees = () => {
 
     addToast({
       title: 'Crew Registration Submitted',
-      message: `${form.name} queued for Super Admin clearance.`,
+      message: `${form.name} added and queued for Super Admin approval.`,
       type: 'success',
     });
     setModalOpen(false);
-    setForm({ name: '', email: '', password: 'Crew@2026', phone: '', designation: 'Master Cinematographer', department: 'Cinematography' });
+    setForm({
+      name: '',
+      email: '',
+      password: 'Crew@2026',
+      phone: '',
+      designation: 'Master Cinematographer',
+      department: 'Cinematography',
+      speciality: 'Luxury Wedding Production',
+    });
   };
 
   const filteredCrew = employees.filter((emp) => {
@@ -221,7 +258,7 @@ const AdminEmployees = () => {
           <button
             onClick={handleResetToRealCrew}
             className="px-4 py-2.5 rounded-full bg-obsidian-300 hover:bg-gold-500 hover:text-black border border-white/15 text-gold-300 font-bold text-xs uppercase tracking-wider transition-all flex items-center shrink-0"
-            title="Force reload all 9 real team members"
+            title="Force reload base 9 team members"
           >
             <Sparkles className="w-3.5 h-3.5 mr-1.5" /> 🔄 Sync 9 Real Crew
           </button>
@@ -240,7 +277,7 @@ const AdminEmployees = () => {
         <div className="flex items-center space-x-2.5">
           <ShieldCheck className="w-5 h-5 text-gold-400 shrink-0" />
           <p className="text-neutral-200">
-            <strong>Official Crew Directory:</strong> All 9 studio masters are active with verified phone numbers. Password resets and credentials governance are managed under Super Admin Control.
+            <strong>Official Crew Directory:</strong> When HR adds a crew member, their account is flagged as <em>Pending Clearance</em> until approved by the Super Admin Director.
           </p>
         </div>
       </div>
@@ -261,10 +298,13 @@ const AdminEmployees = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredCrew.map((emp) => {
           const cleanPhone = (emp.user?.phone || '').replace(/[^0-9]/g, '');
+          const isPending = emp.status === 'pending_approval' || emp.status === 'pending';
           return (
             <div
               key={emp._id}
-              className="bg-[#141418] rounded-3xl p-6 border border-white/10 hover:border-gold-500/40 shadow-xl space-y-4 transition-all flex flex-col justify-between"
+              className={`bg-[#141418] rounded-3xl p-6 border transition-all flex flex-col justify-between ${
+                isPending ? 'border-amber-500/40 shadow-amber-900/20' : 'border-white/10 hover:border-gold-500/40 shadow-xl'
+              }`}
             >
               <div className="space-y-3">
                 <div className="flex items-start justify-between pb-3 border-b border-white/10">
@@ -272,7 +312,9 @@ const AdminEmployees = () => {
                     <img
                       src={emp.avatar}
                       alt={emp.name}
-                      className="w-12 h-12 rounded-full object-cover border-2 border-gold-400"
+                      className={`w-12 h-12 rounded-full object-cover border-2 ${
+                        isPending ? 'border-amber-400' : 'border-gold-400'
+                      }`}
                     />
                     <div>
                       <span className="text-[9.5px] px-2 py-0.2 rounded-full bg-gold-500/20 text-gold-300 font-mono font-bold border border-gold-500/40">
@@ -315,12 +357,12 @@ const AdminEmployees = () => {
 
                 <span
                   className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase ${
-                    emp.status === 'active'
+                    !isPending
                       ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/40'
-                      : 'bg-amber-500/15 text-amber-300 border border-amber-500/40'
+                      : 'bg-amber-500/15 text-amber-300 border border-amber-500/40 animate-pulse'
                   }`}
                 >
-                  {emp.status === 'active' ? '✅ Active Crew' : '⏳ Pending Super Admin'}
+                  {!isPending ? '✅ Active Crew' : '⏳ Pending Super Admin'}
                 </span>
               </div>
             </div>
@@ -342,7 +384,7 @@ const AdminEmployees = () => {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Aman Pawar"
+                  placeholder="e.g. Yash Vardhan"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-gold-400"
@@ -355,7 +397,7 @@ const AdminEmployees = () => {
                   <input
                     type="email"
                     required
-                    placeholder="amanpawar074@gmail.com"
+                    placeholder="yash@gmail.com"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-gold-400"
@@ -366,7 +408,7 @@ const AdminEmployees = () => {
                   <input
                     type="tel"
                     required
-                    placeholder="+91 96449 67287"
+                    placeholder="+91 98200 12345"
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
                     className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-gold-400 font-mono"
@@ -393,6 +435,17 @@ const AdminEmployees = () => {
                     className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2 text-white focus:outline-none"
                   />
                 </div>
+              </div>
+
+              <div>
+                <label className="text-neutral-300 block mb-1 font-bold">Camera / Cinema Speciality</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Steadicam & Low-Light Rituals"
+                  value={form.speciality}
+                  onChange={(e) => setForm({ ...form, speciality: e.target.value })}
+                  className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2 text-white focus:outline-none"
+                />
               </div>
 
               <div className="p-3 bg-black/60 rounded-xl border border-white/10 text-[11px] text-neutral-400 space-y-1">

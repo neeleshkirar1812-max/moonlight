@@ -99,22 +99,64 @@ const SuperAdminApprovals = () => {
     const req = approvals.find((a) => a.id === reqId);
     if (!req) return;
 
-    // Add to active users
+    // A. Update in ml_employees so Admin Crew Directory immediately reflects Active status
+    try {
+      const savedCrew = localStorage.getItem('ml_employees');
+      let crewList = savedCrew ? JSON.parse(savedCrew) : [];
+      const foundIdx = crewList.findIndex((c) => (c.user?.email || '').toLowerCase() === req.email.toLowerCase() || c.name === req.name);
+      if (foundIdx >= 0) {
+        crewList[foundIdx] = { ...crewList[foundIdx], status: 'active' };
+      } else {
+        crewList.unshift({
+          _id: `emp-${Date.now()}`,
+          employeeCode: `EMP-MLP-${String(crewList.length + 1).padStart(3, '0')}`,
+          name: req.name,
+          designation: req.designation || 'Master Cinematographer',
+          department: req.department || 'Cinematography',
+          user: { email: req.email, phone: req.phone },
+          avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80',
+          status: 'active',
+          speciality: 'Luxury Wedding Production',
+        });
+      }
+      localStorage.setItem('ml_employees', JSON.stringify(crewList));
+    } catch (e) {}
+
+    // B. Add to active users directory
     const newUser = {
       id: `usr-${Date.now()}`,
       name: req.name,
       email: req.email,
       role: req.role,
+      designation: req.designation || 'Production Crew Master',
       status: 'active',
-      lastLogin: 'Never',
+      lastLogin: 'Active (Approved by Super Admin)',
       phone: req.phone,
     };
-    setUsersList((prev) => [newUser, ...prev]);
-    setApprovals((prev) => prev.filter((a) => a.id !== reqId));
+    const updatedUsers = [newUser, ...usersList];
+    setUsersList(updatedUsers);
+    localStorage.setItem('moonlight_all_users', JSON.stringify(updatedUsers));
+
+    const remaining = approvals.filter((a) => a.id !== reqId);
+    setApprovals(remaining);
+    localStorage.setItem('moonlight_pending_approvals', JSON.stringify(remaining));
+
+    // C. Record Audit Log
+    try {
+      const savedLogs = localStorage.getItem('ml_auditLogs');
+      const logs = savedLogs ? JSON.parse(savedLogs) : [];
+      logs.unshift({
+        _id: `log-${Date.now()}`,
+        action: `Super Admin approved ${req.name} (${(req.role || 'crew').toUpperCase()})`,
+        performedBy: { name: 'Super Admin Director' },
+        createdAt: new Date().toISOString(),
+      });
+      localStorage.setItem('ml_auditLogs', JSON.stringify(logs));
+    } catch (e) {}
 
     addToast({
       title: 'Login Approved & Activated',
-      message: `Super Admin approved ${req.name} (${req.role.toUpperCase()}). Credentials are now active.`,
+      message: `Super Admin approved ${req.name} (${req.role.toUpperCase()}). Account is now fully active!`,
       type: 'success',
     });
   };
@@ -123,7 +165,20 @@ const SuperAdminApprovals = () => {
   const handleReject = (reqId) => {
     const req = approvals.find((a) => a.id === reqId);
     if (!req) return;
-    setApprovals((prev) => prev.filter((a) => a.id !== reqId));
+
+    try {
+      const savedCrew = localStorage.getItem('ml_employees');
+      if (savedCrew) {
+        let crewList = JSON.parse(savedCrew);
+        crewList = crewList.filter((c) => (c.user?.email || '').toLowerCase() !== req.email.toLowerCase());
+        localStorage.setItem('ml_employees', JSON.stringify(crewList));
+      }
+    } catch (e) {}
+
+    const remaining = approvals.filter((a) => a.id !== reqId);
+    setApprovals(remaining);
+    localStorage.setItem('moonlight_pending_approvals', JSON.stringify(remaining));
+
     addToast({
       title: 'Request Dismissed',
       message: `Account creation for ${req.name} was rejected.`,
