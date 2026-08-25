@@ -16,6 +16,7 @@ import {
   KeyRound,
   CheckCircle2,
   HelpCircle,
+  UserPlus,
 } from 'lucide-react';
 
 const Login = () => {
@@ -176,6 +177,25 @@ const Login = () => {
           </button>
         </div>
 
+        {/* Highlighted Self-Registration (Sign Up) Option for Couples */}
+        {activeTab === 'customer' && (
+          <div className="p-3 rounded-2xl bg-white/5 border border-gold-500/30 flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <UserPlus className="w-4 h-4 text-gold-400 shrink-0" />
+              <div>
+                <span className="text-xs font-bold text-white block">Don't have a Client ID yet?</span>
+                <span className="text-[10px] text-neutral-400">Create your own private sanctuary account.</span>
+              </div>
+            </div>
+            <Link
+              to="/register"
+              className="px-3 py-1.5 rounded-full bg-gold-500/20 hover:bg-gold-500 hover:text-black border border-gold-500/50 text-gold-300 font-extrabold text-[10.5px] uppercase tracking-wider transition-all shrink-0"
+            >
+              Sign Up →
+            </Link>
+          </div>
+        )}
+
         {/* Dynamic 1-Click Quick Demo Test Credentials Cards */}
         {activeTab === 'customer' && (
           <div className="p-3.5 rounded-2xl bg-gold-500/10 border border-gold-500/30 space-y-2">
@@ -307,14 +327,16 @@ const Login = () => {
         </form>
 
         {/* Footer Info */}
-        <div className="pt-4 border-t border-white/10 text-center text-xs text-neutral-400">
+        <div className="pt-4 border-t border-white/10 text-center text-xs text-neutral-400 space-y-2">
           {activeTab === 'customer' ? (
-            <p>
-              Planning a royal wedding celebration?{' '}
-              <Link to="/enquiry" className="text-gold-300 font-bold hover:underline">
-                Plan Shoot in 8 Steps →
-              </Link>
-            </p>
+            <div>
+              <p>
+                Don't have an account yet?{' '}
+                <Link to="/register" className="text-gold-300 font-extrabold hover:underline">
+                  Sign Up (Create Account) →
+                </Link>
+              </p>
+            </div>
           ) : (
             <p>
               Looking for commercial cinema vacancies?{' '}
