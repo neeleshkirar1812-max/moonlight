@@ -25,6 +25,7 @@ import {
   Inbox,
   FileText,
   Crown,
+  KeyRound,
 } from 'lucide-react';
 import { ToastContainer } from '../components/common/Toast';
 
