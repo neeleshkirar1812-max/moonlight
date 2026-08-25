@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Play, Calendar, Phone, Sparkles, MapPin, Eye } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, Calendar, Phone, Sparkles, MapPin } from 'lucide-react';
 
 const slides = [
   {
     id: 1,
     title: 'Royal Indian Weddings',
-    subtitle: 'Sacred Vedic Pheras, Sangeet Nights & Grand Palace Baraat',
+    subtitle: 'Sacred Vedic Pheras, Sangeet Nights & Palace Baraat',
     location: 'Udaipur, Jaipur & Central India',
     image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=2000&q=90',
     primaryCta: { label: 'Plan Wedding Shoot', path: '/enquiry' },
@@ -36,8 +36,8 @@ const slides = [
   },
   {
     id: 4,
-    title: 'Destination Wedding Commissions',
-    subtitle: 'Goa Sunset Beach, Rajasthan Forts & Heritage Resorts Across India',
+    title: 'Destination Commissions',
+    subtitle: 'Goa Sunset Beach, Rajasthan Forts & Heritage Resorts',
     location: 'All-India Travel & Production Crew Included',
     image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=2000&q=90',
     primaryCta: { label: 'View Pricing Tiers', path: '/services' },
@@ -70,11 +70,11 @@ const TeslaHeroSlider = ({ onPlayVideo }) => {
 
   return (
     <div
-      className="relative w-full h-screen min-h-[640px] max-h-[1080px] bg-black overflow-hidden flex flex-col justify-between select-none"
+      className="relative w-full h-[100dvh] min-h-[520px] max-h-[1080px] bg-black overflow-hidden flex flex-col justify-between select-none"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* Background Image Carousel with Smooth Fade Transitions */}
+      {/* Background Image Carousel */}
       <div className="absolute inset-0 z-0">
         <AnimatePresence mode="wait">
           <motion.div
@@ -82,7 +82,7 @@ const TeslaHeroSlider = ({ onPlayVideo }) => {
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.1, ease: 'easeOut' }}
+            transition={{ duration: 1, ease: 'easeOut' }}
             className="absolute inset-0 w-full h-full"
           >
             <img
@@ -90,87 +90,86 @@ const TeslaHeroSlider = ({ onPlayVideo }) => {
               alt={slide.title}
               className="w-full h-full object-cover object-center filter brightness-[0.72] contrast-[1.08]"
             />
-            {/* Top & Bottom Cinematic Vignette */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/60" />
-            <div className="absolute inset-0 bg-radial-vignette opacity-50" />
+            {/* Top & Bottom Vignette */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-black/60" />
           </motion.div>
         </AnimatePresence>
       </div>
 
       {/* Top Floating Badge */}
-      <div className="relative z-10 pt-28 sm:pt-32 text-center">
+      <div className="relative z-10 pt-20 sm:pt-28 text-center px-4">
         <motion.div
           key={`badge-${slide.id}`}
-          initial={{ opacity: 0, y: -15 }}
+          initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-black/50 border border-gold-500/40 backdrop-blur-md text-[11px] font-mono uppercase tracking-[0.2em] text-gold-300 shadow-xl"
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-black/60 border border-gold-400/50 backdrop-blur-md text-[9.5px] sm:text-[11px] font-mono uppercase tracking-[0.18em] text-gold-300 shadow-xl"
         >
-          <Sparkles className="w-3.5 h-3.5 text-gold-400" />
+          <Sparkles className="w-3 h-3 text-gold-400 shrink-0" />
           <span>Moonlight Production • India</span>
         </motion.div>
       </div>
 
       {/* Center-Aligned Tesla-Grade Hero Typography & Dual Action Buttons */}
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto space-y-6 pb-20 sm:pb-24">
+      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto space-y-3 sm:space-y-5 pb-16 sm:pb-24">
         {/* Slide Title & Subtitle */}
         <AnimatePresence mode="wait">
           <motion.div
             key={`content-${slide.id}`}
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.7 }}
-            className="space-y-3"
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.6 }}
+            className="space-y-1.5 sm:space-y-3"
           >
-            <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight drop-shadow-2xl">
+            <h1 className="font-serif text-3xl sm:text-5xl md:text-7xl font-black text-white tracking-tight drop-shadow-2xl leading-tight">
               {slide.title}
             </h1>
-            <p className="text-sm sm:text-lg md:text-xl text-neutral-200 font-light tracking-wide max-w-2xl mx-auto drop-shadow-md">
+            <p className="text-xs sm:text-base md:text-lg text-neutral-100 font-medium tracking-wide max-w-xl mx-auto drop-shadow-md line-clamp-2">
               {slide.subtitle}
             </p>
-            <p className="text-xs text-gold-400 font-mono tracking-widest uppercase flex items-center justify-center">
-              <MapPin className="w-3 h-3 mr-1" />
-              {slide.location}
+            <p className="text-[10px] sm:text-xs text-gold-300 font-mono tracking-widest uppercase flex items-center justify-center">
+              <MapPin className="w-3 h-3 mr-1 text-gold-400 shrink-0" />
+              <span className="truncate max-w-[280px] sm:max-w-none">{slide.location}</span>
             </p>
           </motion.div>
         </AnimatePresence>
 
-        {/* Dual Side-by-Side Action Buttons (Tesla Aesthetic) */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4 max-w-md mx-auto">
-          {/* Primary CTA (Bold Blue / Gold Solid Pill) */}
+        {/* Dual Action Buttons (Side-by-Side on Mobile and Desktop) */}
+        <div className="flex flex-row items-center justify-center gap-2 sm:gap-3.5 pt-2 max-w-md mx-auto w-full px-2">
+          {/* Primary CTA */}
           {slide.primaryCta.external ? (
             <a
               href={slide.primaryCta.external}
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-1/2 py-3.5 px-6 rounded-full bg-gold-gradient text-black font-bold text-xs uppercase tracking-widest shadow-gold-subtle hover:brightness-110 active:scale-95 transition-all text-center btn-shimmer"
+              className="flex-1 py-2.5 sm:py-3.5 px-3 sm:px-6 rounded-full bg-gold-gradient text-black font-black text-[10px] sm:text-xs uppercase tracking-wider shadow-gold-subtle active:scale-95 transition-all text-center truncate btn-shimmer"
             >
               {slide.primaryCta.label}
             </a>
           ) : (
             <Link
               to={slide.primaryCta.path}
-              className="w-full sm:w-1/2 py-3.5 px-6 rounded-full bg-gold-gradient text-black font-bold text-xs uppercase tracking-widest shadow-gold-subtle hover:brightness-110 active:scale-95 transition-all text-center btn-shimmer"
+              className="flex-1 py-2.5 sm:py-3.5 px-3 sm:px-6 rounded-full bg-gold-gradient text-black font-black text-[10px] sm:text-xs uppercase tracking-wider shadow-gold-subtle active:scale-95 transition-all text-center truncate btn-shimmer"
             >
               {slide.primaryCta.label}
             </Link>
           )}
 
-          {/* Secondary CTA (Frosted White / Glass Pill) */}
+          {/* Secondary CTA */}
           {slide.secondaryCta.external ? (
             <a
               href={slide.secondaryCta.external}
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-1/2 py-3.5 px-6 rounded-full bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold text-xs uppercase tracking-widest backdrop-blur-xl active:scale-95 transition-all text-center"
+              className="flex-1 py-2.5 sm:py-3.5 px-3 sm:px-6 rounded-full bg-white/20 hover:bg-white/30 border border-white/40 text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider backdrop-blur-xl active:scale-95 transition-all text-center truncate"
             >
               {slide.secondaryCta.label}
             </a>
           ) : (
             <Link
               to={slide.secondaryCta.path}
-              className="w-full sm:w-1/2 py-3.5 px-6 rounded-full bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold text-xs uppercase tracking-widest backdrop-blur-xl active:scale-95 transition-all text-center"
+              className="flex-1 py-2.5 sm:py-3.5 px-3 sm:px-6 rounded-full bg-white/20 hover:bg-white/30 border border-white/40 text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider backdrop-blur-xl active:scale-95 transition-all text-center truncate"
             >
               {slide.secondaryCta.label}
             </Link>
@@ -179,38 +178,37 @@ const TeslaHeroSlider = ({ onPlayVideo }) => {
 
         {/* Quick 1-Click 4K Video Preview Modal Button */}
         {onPlayVideo && slide.videoModalId && (
-          <div className="pt-2">
+          <div className="pt-1">
             <button
               onClick={() => onPlayVideo(slide.videoModalId, slide.title)}
-              className="inline-flex items-center text-xs text-gold-300 hover:text-white font-mono tracking-wider transition-colors"
+              className="inline-flex items-center text-[10.5px] sm:text-xs text-gold-300 hover:text-white font-mono tracking-wider transition-colors"
             >
-              <Play className="w-3.5 h-3.5 mr-1 fill-gold-400 text-gold-400" />
+              <Play className="w-3 h-3 mr-1 fill-gold-400 text-gold-400" />
               Watch Sample 4K Teaser Film
             </button>
           </div>
         )}
       </div>
 
-      {/* Left Navigation Chevron Button */}
+      {/* Desktop Left/Right Navigation Chevrons */}
       <button
         onClick={prevSlide}
         aria-label="Previous Slide"
-        className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-black/80 border border-white/15 text-white flex items-center justify-center backdrop-blur-md hover:scale-110 active:scale-95 transition-all shadow-2xl group"
+        className="hidden md:flex absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-black/80 border border-white/20 text-white items-center justify-center backdrop-blur-md hover:scale-110 active:scale-95 transition-all shadow-2xl group"
       >
         <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
       </button>
 
-      {/* Right Navigation Chevron Button */}
       <button
         onClick={nextSlide}
         aria-label="Next Slide"
-        className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-black/80 border border-white/15 text-white flex items-center justify-center backdrop-blur-md hover:scale-110 active:scale-95 transition-all shadow-2xl group"
+        className="hidden md:flex absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-black/80 border border-white/20 text-white items-center justify-center backdrop-blur-md hover:scale-110 active:scale-95 transition-all shadow-2xl group"
       >
         <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
       </button>
 
       {/* Bottom Pagination Dots (Tesla Style) */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center space-x-2.5">
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center space-x-2">
         {slides.map((s, index) => (
           <button
             key={s.id}
@@ -218,8 +216,8 @@ const TeslaHeroSlider = ({ onPlayVideo }) => {
             aria-label={`Go to slide ${index + 1}`}
             className={`transition-all duration-300 rounded-full ${
               currentSlide === index
-                ? 'w-8 h-2 bg-gold-400 shadow-gold-subtle'
-                : 'w-2 h-2 bg-white/40 hover:bg-white/80'
+                ? 'w-6 sm:w-8 h-1.5 sm:h-2 bg-gold-400 shadow-gold-subtle'
+                : 'w-1.5 sm:w-2 h-1.5 sm:h-2 bg-white/50 hover:bg-white/80'
             }`}
           />
         ))}
