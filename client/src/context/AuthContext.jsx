@@ -88,28 +88,41 @@ export const AuthProvider = ({ children }) => {
       'priyanshu@gmail.com': { name: 'Priyanshu', code: 'EMP-MLP-009', designation: 'Shoot Logistics & Production Lead', phone: '+91 93028 45731', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80' },
     };
 
-    const isNeeleshHR = normalizedEmail === 'nkneeleshkirar@gmail.com' || normalizedEmail.includes('neelesh');
-    const matchedEmp = realEmployeesMap[normalizedEmail];
+    const isNeelesh = normalizedEmail === 'nkneeleshkirar@gmail.com' || normalizedEmail.includes('neelesh');
+    const matchedEmp = role === 'employee' ? realEmployeesMap[normalizedEmail] : null;
+
+    let finalRole = role;
+    if (explicitRole === 'superadmin' || normalizedEmail.includes('superadmin')) {
+      finalRole = 'superadmin';
+    } else if (explicitRole === 'admin') {
+      finalRole = 'admin';
+    } else if (matchedEmp || explicitRole === 'employee') {
+      finalRole = 'employee';
+    }
 
     const authenticatedUser = {
-      _id: isNeeleshHR ? 'adm-hr-1' : matchedEmp?.code || `usr-${Date.now()}`,
+      _id: finalRole === 'superadmin' ? 'usr-super-1' : isNeelesh ? 'adm-hr-1' : matchedEmp?.code || `usr-${Date.now()}`,
       employeeCode: matchedEmp?.code,
-      name: isNeeleshHR ? 'Neelesh Kirar' : matchedEmp?.name || (email.split('@')[0].replace(/[._]/g, ' ').toUpperCase()),
-      designation: isNeeleshHR
+      name: isNeelesh
+        ? (finalRole === 'superadmin' ? 'Neelesh Kirar (Super Admin)' : 'Neelesh Kirar')
+        : matchedEmp?.name || (email.split('@')[0].replace(/[._]/g, ' ').toUpperCase()),
+      designation: finalRole === 'superadmin'
+        ? 'Supreme Creative Director & Super Admin'
+        : isNeelesh
         ? 'Head of Studio Operations & Lead HR'
-        : matchedEmp?.designation || (role === 'employee' ? 'Production Crew Master' : undefined),
+        : matchedEmp?.designation || (finalRole === 'employee' ? 'Production Crew Master' : 'VIP Studio Client'),
       email: email,
-      role: isNeeleshHR ? 'admin' : matchedEmp ? 'employee' : role,
-      avatar: isNeeleshHR
+      role: finalRole,
+      avatar: finalRole === 'superadmin'
+        ? 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80'
+        : isNeelesh
         ? 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80'
-        : matchedEmp?.avatar || (role === 'superadmin'
-        ? 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80'
-        : role === 'admin'
+        : matchedEmp?.avatar || (finalRole === 'admin'
         ? 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80'
-        : role === 'employee'
+        : finalRole === 'employee'
         ? 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80'
         : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'),
-      phone: isNeeleshHR ? '+91 77489 06015' : matchedEmp?.phone || '+91 92292 29323',
+      phone: isNeelesh ? '+91 77489 06015' : matchedEmp?.phone || '+91 92292 29323',
       status: 'active',
     };
 
