@@ -124,11 +124,29 @@ const realProductionCrew = [
 const AdminEmployees = () => {
   const [employees, setEmployees] = useState(() => {
     const saved = localStorage.getItem('ml_employees');
-    return saved ? JSON.parse(saved) : realProductionCrew;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        const hasAman = Array.isArray(parsed) && parsed.some((e) => (e.name || '').includes('Aman'));
+        if (hasAman) return parsed;
+      } catch (e) {}
+    }
+    localStorage.setItem('ml_employees', JSON.stringify(realProductionCrew));
+    return realProductionCrew;
   });
   const [search, setSearch] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const { addToast } = useNotification();
+
+  const handleResetToRealCrew = () => {
+    setEmployees(realProductionCrew);
+    localStorage.setItem('ml_employees', JSON.stringify(realProductionCrew));
+    addToast({
+      title: 'Crew Directory Refreshed',
+      message: 'Successfully synchronized all 9 official Moonlight Production crew members.',
+      type: 'success',
+    });
+  };
 
   const [form, setForm] = useState({
     name: '',
@@ -208,12 +226,22 @@ const AdminEmployees = () => {
           </p>
         </div>
 
-        <button
-          onClick={() => setModalOpen(true)}
-          className="px-5 py-2.5 rounded-full bg-gold-gradient text-black font-extrabold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 active:scale-95 transition-all flex items-center shrink-0 btn-shimmer"
-        >
-          <UserPlus className="w-4 h-4 mr-1.5" /> + Add New Crew Member
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleResetToRealCrew}
+            className="px-4 py-2.5 rounded-full bg-obsidian-300 hover:bg-gold-500 hover:text-black border border-white/15 text-gold-300 font-bold text-xs uppercase tracking-wider transition-all flex items-center shrink-0"
+            title="Force reload all 9 real team members"
+          >
+            <Sparkles className="w-3.5 h-3.5 mr-1.5" /> 🔄 Sync 9 Real Crew
+          </button>
+
+          <button
+            onClick={() => setModalOpen(true)}
+            className="px-5 py-2.5 rounded-full bg-gold-gradient text-black font-extrabold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 active:scale-95 transition-all flex items-center shrink-0 btn-shimmer"
+          >
+            <UserPlus className="w-4 h-4 mr-1.5" /> + Add New Crew Member
+          </button>
+        </div>
       </div>
 
       {/* HR Notice */}

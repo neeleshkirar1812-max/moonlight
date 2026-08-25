@@ -59,11 +59,22 @@ const SuperAdminApprovals = () => {
     const saved = localStorage.getItem('moonlight_pending_approvals');
     return saved ? JSON.parse(saved) : defaultPendingApprovals;
   });
-  const [usersList, setUsersList] = useState(allSystemUsers);
+  const [usersList, setUsersList] = useState(() => {
+    const saved = localStorage.getItem('moonlight_all_users');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        const hasAman = Array.isArray(parsed) && parsed.some((u) => (u.name || '').includes('Aman'));
+        if (hasAman) return parsed;
+      } catch (e) {}
+    }
+    localStorage.setItem('moonlight_all_users', JSON.stringify(allSystemUsers));
+    return allSystemUsers;
+  });
   const [resetTickets, setResetTickets] = useState(() => {
     const saved = localStorage.getItem('moonlight_reset_tickets');
     return saved ? JSON.parse(saved) : [
-      { id: 'TICK-9901', email: 'rohan.sanjana@gmail.com', reason: 'Forgot password & phone unreachable', requestedAt: new Date().toISOString(), status: 'pending' },
+      { id: 'TICK-9901', email: 'vikram.singhania@gmail.com', reason: 'Emergency password reset request for destination shoot', requestedAt: new Date().toISOString(), status: 'pending' },
     ];
   });
 

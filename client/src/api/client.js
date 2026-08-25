@@ -439,7 +439,15 @@ const getCollection = (key) => {
   const stored = localStorage.getItem(`ml_${key}`);
   if (stored) {
     try {
-      return JSON.parse(stored);
+      const parsed = JSON.parse(stored);
+      if (key === 'employees') {
+        const hasAman = Array.isArray(parsed) && parsed.some((e) => (e.name || '').includes('Aman'));
+        if (!hasAman) {
+          localStorage.setItem(`ml_${key}`, JSON.stringify(initialData.employees));
+          return initialData.employees;
+        }
+      }
+      return parsed;
     } catch (e) {}
   }
   const defaultVal = initialData[key] || [];
