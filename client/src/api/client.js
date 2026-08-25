@@ -436,18 +436,14 @@ const initialData = {
 
 // Helper to get or initialize local storage collection
 const getCollection = (key) => {
+  if (key === 'employees') {
+    localStorage.setItem(`ml_${key}`, JSON.stringify(initialData.employees));
+    return initialData.employees;
+  }
   const stored = localStorage.getItem(`ml_${key}`);
   if (stored) {
     try {
-      const parsed = JSON.parse(stored);
-      if (key === 'employees') {
-        const hasAman = Array.isArray(parsed) && parsed.some((e) => (e.name || '').includes('Aman'));
-        if (!hasAman) {
-          localStorage.setItem(`ml_${key}`, JSON.stringify(initialData.employees));
-          return initialData.employees;
-        }
-      }
-      return parsed;
+      return JSON.parse(stored);
     } catch (e) {}
   }
   const defaultVal = initialData[key] || [];

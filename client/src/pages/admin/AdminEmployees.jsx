@@ -122,21 +122,16 @@ const realProductionCrew = [
 ];
 
 const AdminEmployees = () => {
-  const [employees, setEmployees] = useState(() => {
-    const saved = localStorage.getItem('ml_employees');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        const hasAman = Array.isArray(parsed) && parsed.some((e) => (e.name || '').includes('Aman'));
-        if (hasAman) return parsed;
-      } catch (e) {}
-    }
-    localStorage.setItem('ml_employees', JSON.stringify(realProductionCrew));
-    return realProductionCrew;
-  });
+  const [employees, setEmployees] = useState(realProductionCrew);
   const [search, setSearch] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const { addToast } = useNotification();
+
+  useEffect(() => {
+    // Force write realProductionCrew to guarantee 100% fresh data
+    localStorage.setItem('ml_employees', JSON.stringify(realProductionCrew));
+    setEmployees(realProductionCrew);
+  }, []);
 
   const handleResetToRealCrew = () => {
     setEmployees(realProductionCrew);
@@ -156,10 +151,6 @@ const AdminEmployees = () => {
     designation: 'Master Cinematographer',
     department: 'Cinematography',
   });
-
-  useEffect(() => {
-    localStorage.setItem('ml_employees', JSON.stringify(employees));
-  }, [employees]);
 
   const handleCreateEmployee = (e) => {
     e.preventDefault();
