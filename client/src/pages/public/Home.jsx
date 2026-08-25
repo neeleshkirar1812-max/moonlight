@@ -128,20 +128,20 @@ const Home = () => {
   };
 
   return (
-    <div className="relative bg-[#FAF8F5] text-black overflow-x-hidden selection:bg-gold-500 selection:text-white">
+    <div className="relative bg-[#0B0B0C] text-white overflow-x-hidden selection:bg-gold-500 selection:text-black">
       {/* 1. TESLA-GRADE FULL-VIEWPORT HERO SLIDER */}
       <TeslaHeroSlider onPlayVideo={handleHeroVideoPlay} />
 
-      {/* 2. PRESS & ROYAL RECOGNITIONS BAR (Mobile 2x2 Grid) */}
-      <section className="py-5 sm:py-7 bg-white border-y-2 border-neutral-300">
+      {/* 2. PRESS & ROYAL RECOGNITIONS BAR */}
+      <section className="py-5 sm:py-7 bg-[#101014] border-y border-gold-500/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:flex md:items-center md:justify-around gap-4 sm:gap-6 text-black text-xs font-mono uppercase tracking-[0.15em] text-center">
+          <div className="grid grid-cols-2 md:flex md:items-center md:justify-around gap-4 sm:gap-6 text-neutral-300 text-xs font-mono uppercase tracking-[0.15em] text-center">
             {pressLogos.map((p, idx) => (
               <div key={idx} className="group cursor-default p-1">
-                <span className="font-serif text-xs sm:text-sm font-black text-black group-hover:text-gold-700 transition-colors block">
+                <span className="font-serif text-xs sm:text-sm font-bold text-white group-hover:text-gold-300 transition-colors block">
                   {p.name}
                 </span>
-                <span className="text-[9px] sm:text-[9.5px] text-neutral-700 font-bold tracking-wider font-sans block mt-0.5">{p.note}</span>
+                <span className="text-[9px] sm:text-[9.5px] text-neutral-400 font-medium tracking-wider font-sans block mt-0.5">{p.note}</span>
               </div>
             ))}
           </div>
@@ -153,46 +153,46 @@ const Home = () => {
         {teslaShowcases.map((showcase, index) => (
           <div
             key={showcase.id}
-            className="relative rounded-3xl overflow-hidden min-h-[420px] sm:min-h-[540px] flex flex-col justify-between p-6 sm:p-12 border-2 border-black/20 shadow-xl group"
+            className="relative rounded-3xl overflow-hidden min-h-[420px] sm:min-h-[540px] flex flex-col justify-between p-6 sm:p-12 border border-white/10 shadow-2xl group"
           >
             {/* Background Image */}
             <div className="absolute inset-0 z-0">
               <img
                 src={showcase.image}
                 alt={showcase.title}
-                className="w-full h-full object-cover object-center filter brightness-[0.75] group-hover:scale-105 transition-transform duration-1000"
+                className="w-full h-full object-cover object-center filter brightness-[0.7] group-hover:scale-105 transition-transform duration-1000"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-black/50" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-black/60" />
             </div>
 
             {/* Top Tag */}
             <div className="relative z-10">
-              <span className="px-3 py-1 rounded-full bg-white border-2 border-black text-black text-[9.5px] sm:text-[10.5px] font-mono uppercase font-black tracking-widest backdrop-blur-md shadow-md inline-block">
+              <span className="px-3 py-1 rounded-full bg-black/70 border border-gold-500/40 text-gold-300 text-[9.5px] sm:text-[10.5px] font-mono uppercase font-bold tracking-widest backdrop-blur-md shadow-md inline-block">
                 {showcase.tag}
               </span>
             </div>
 
             {/* Center-Bottom Typography & Dual Buttons (Tesla Aesthetic) */}
             <div className="relative z-10 text-center max-w-2xl mx-auto space-y-3 sm:space-y-4">
-              <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight drop-shadow-xl leading-tight">
+              <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight drop-shadow-xl leading-tight">
                 {showcase.title}
               </h2>
-              <p className="text-xs sm:text-base text-neutral-100 font-medium tracking-wide drop-shadow-md line-clamp-2">
+              <p className="text-xs sm:text-base text-neutral-200 font-light tracking-wide drop-shadow-md line-clamp-2">
                 {showcase.subtitle}
               </p>
 
               {/* Dual Action Buttons */}
-              <div className="flex flex-row items-center justify-center gap-2 sm:gap-3 pt-2 w-full max-w-md mx-auto">
+              <div className="flex flex-row items-center justify-center gap-2 sm:gap-3.5 pt-2 w-full max-w-md mx-auto">
                 <Link
                   to={showcase.primaryCta.path}
-                  className="flex-1 py-2.5 sm:py-3.5 px-3 sm:px-8 rounded-full bg-white hover:bg-neutral-100 text-black font-black text-[10px] sm:text-xs uppercase tracking-wider shadow-2xl active:scale-95 transition-all text-center truncate"
+                  className="flex-1 py-2.5 sm:py-3.5 px-3 sm:px-8 rounded-full bg-gold-gradient text-black font-extrabold text-[10px] sm:text-xs uppercase tracking-wider shadow-gold-subtle active:scale-95 transition-all text-center truncate btn-shimmer"
                 >
                   {showcase.primaryCta.label}
                 </Link>
 
                 <Link
                   to={showcase.secondaryCta.path}
-                  className="flex-1 py-2.5 sm:py-3.5 px-3 sm:px-8 rounded-full bg-black/60 hover:bg-black border-2 border-white text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider backdrop-blur-xl active:scale-95 transition-all text-center truncate"
+                  className="flex-1 py-2.5 sm:py-3.5 px-3 sm:px-8 rounded-full bg-white/15 hover:bg-white/25 border border-white/30 text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider backdrop-blur-xl active:scale-95 transition-all text-center truncate"
                 >
                   {showcase.secondaryCta.label}
                 </Link>
@@ -204,16 +204,16 @@ const Home = () => {
 
       {/* 4. REAL MOONLIGHT PRODUCTION 4K YOUTUBE FILMS SECTION */}
       {videos.length > 0 && (
-        <section className="py-12 sm:py-20 bg-[#F6F4EF] border-t-2 border-neutral-300">
+        <section className="py-12 sm:py-20 bg-[#0E0E12] border-t border-gold-500/20">
           <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 space-y-8 sm:space-y-12">
             <div className="text-center space-y-1.5 max-w-2xl mx-auto px-2">
-              <span className="text-[10px] sm:text-xs uppercase font-mono tracking-[0.25em] text-gold-800 font-black block">
+              <span className="text-[10px] sm:text-xs uppercase font-mono tracking-[0.25em] text-gold-400 font-bold block">
                 Official YouTube Cinema
               </span>
-              <h2 className="font-serif text-2xl sm:text-4xl font-black text-black">
+              <h2 className="font-serif text-2xl sm:text-4xl font-bold text-white">
                 Moonlight Production 4K Films
               </h2>
-              <p className="text-xs text-neutral-800 font-medium">
+              <p className="text-xs text-neutral-400 font-light">
                 Every film crafted with emotional depth, custom color grades, and royal storytelling from @moonlightproductions_films.
               </p>
             </div>
@@ -233,41 +233,41 @@ const Home = () => {
                   <div
                     key={vid.id || vid._id}
                     onClick={() => setActiveVideo(vidObj)}
-                    className="group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-white border-2 border-neutral-300 hover:border-black cursor-pointer transition-all shadow-lg hover:shadow-2xl"
+                    className="group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-[#141418] border border-white/10 hover:border-gold-500/50 cursor-pointer transition-all shadow-xl hover:shadow-2xl flex flex-col justify-between"
                   >
                     <div className="relative aspect-video overflow-hidden img-zoom-container bg-black">
                       <img
                         src={vid.hqThumbnail || vid.thumbnail || `https://img.youtube.com/vi/${vid.id}/hqdefault.jpg`}
                         alt={vid.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-95"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-90 group-hover:brightness-100"
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src = `https://img.youtube.com/vi/${vid.id}/0.jpg`;
                         }}
                       />
-                      <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                        <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white text-black flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
-                          <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-current ml-0.5 text-gold-700" />
+                      <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                        <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gold-gradient text-black flex items-center justify-center shadow-gold-glow group-hover:scale-110 transition-transform">
+                          <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-black ml-0.5" />
                         </div>
                       </div>
 
                       {vid.duration && (
-                        <span className="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-black text-[9.5px] font-mono font-bold text-white flex items-center border border-white/30">
+                        <span className="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-black/80 backdrop-blur-md text-[9.5px] font-mono font-bold text-white flex items-center border border-white/20">
                           {vid.duration}
                         </span>
                       )}
                     </div>
 
                     <div className="p-4 sm:p-6 space-y-1">
-                      <div className="flex items-center justify-between text-[10px] uppercase font-mono text-gold-800 font-black">
+                      <div className="flex items-center justify-between text-[10px] uppercase font-mono text-gold-400 font-bold">
                         <span>Moonlight Cinema • 4K</span>
-                        {vid.views && <span className="text-black font-bold lowercase">{vid.views}</span>}
+                        {vid.views && <span className="text-neutral-400 font-normal lowercase">{vid.views}</span>}
                       </div>
-                      <h3 className="font-serif text-base sm:text-xl font-black text-black group-hover:text-gold-700 line-clamp-1">
+                      <h3 className="font-serif text-base sm:text-xl font-bold text-white group-hover:text-gold-200 line-clamp-1 transition-colors">
                         {vid.title}
                       </h3>
-                      <div className="pt-1.5 flex items-center text-xs text-black font-bold">
-                        <Play className="w-3 h-3 mr-1 text-gold-700" /> Click to Watch in 4K
+                      <div className="pt-1.5 flex items-center text-xs text-gold-400 font-semibold">
+                        <Play className="w-3 h-3 mr-1" /> Click to Watch in 4K
                       </div>
                     </div>
                   </div>
@@ -278,15 +278,15 @@ const Home = () => {
             <div className="text-center pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
                 to="/portfolio/films"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 rounded-full bg-black hover:bg-neutral-800 text-white font-extrabold text-xs uppercase tracking-wider shadow-md hover:brightness-110 transition-all btn-shimmer"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 rounded-full bg-gold-gradient text-black font-extrabold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 active:scale-95 transition-all btn-shimmer"
               >
-                Explore All 30+ 4K Wedding Films <ArrowRight className="w-3.5 h-3.5 ml-1.5 text-gold-400" />
+                Explore All 30+ 4K Wedding Films <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
               </Link>
               <a
                 href="https://www.youtube.com/@moonlightproductions_films"
                 target="_blank"
                 rel="noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-5 sm:px-6 py-3 rounded-full bg-red-50 hover:bg-red-600 text-red-700 hover:text-white border-2 border-red-300 text-xs font-black uppercase tracking-wider transition-all font-mono shadow-sm"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-5 sm:px-6 py-3 rounded-full bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 text-xs font-bold uppercase tracking-wider transition-all font-mono shadow-sm"
               >
                 <Youtube className="w-4 h-4 mr-1.5" /> YouTube Channel
               </a>
@@ -297,43 +297,43 @@ const Home = () => {
 
       {/* 5. INTERACTIVE 8-STEP WEDDING PLANNER ESTIMATOR */}
       <section className="py-12 sm:py-20 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl overflow-hidden border-2 border-neutral-300 bg-white p-5 sm:p-12 shadow-2xl">
+        <div className="relative rounded-3xl overflow-hidden border border-gold-500/30 bg-[#121216]/90 backdrop-blur-2xl p-5 sm:p-12 shadow-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center relative z-10">
             {/* Left Description */}
             <div className="lg:col-span-7 space-y-3 sm:space-y-4">
-              <span className="px-3 py-1 rounded-full bg-gold-50 text-gold-900 text-[10px] sm:text-[10.5px] font-mono font-black uppercase tracking-widest border-2 border-gold-400 inline-block">
+              <span className="px-3 py-1 rounded-full bg-gold-500/10 text-gold-300 text-[10px] sm:text-[10.5px] font-mono font-bold uppercase tracking-widest border border-gold-500/30 inline-block">
                 Interactive Concierge Wizard
               </span>
-              <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-black text-black leading-tight">
+              <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
                 Plan Your Indian Wedding Shoot in 8 Easy Steps
               </h2>
-              <p className="text-xs sm:text-sm text-neutral-800 leading-relaxed font-semibold">
+              <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-light">
                 Calculate estimated budgets, select your palace destination, configure 4K drone cinematography, and receive a bespoke proposal with direct WhatsApp concierge assistance.
               </p>
 
               <div className="pt-2">
                 <Link
                   to="/enquiry"
-                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-7 py-3 rounded-full bg-black hover:bg-neutral-800 text-white font-extrabold text-xs uppercase tracking-wider shadow-md hover:brightness-110 transition-all btn-shimmer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-7 py-3.5 rounded-full bg-gold-gradient text-black font-extrabold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 active:scale-95 transition-all btn-shimmer"
                 >
-                  <Calendar className="w-3.5 h-3.5 mr-2 text-gold-400" />
+                  <Calendar className="w-3.5 h-3.5 mr-2" />
                   Launch Full 8-Step Wizard
                 </Link>
               </div>
             </div>
 
             {/* Right Live Calculator Card */}
-            <div className="lg:col-span-5 bg-[#FAF8F5] rounded-2xl sm:rounded-3xl p-5 sm:p-7 border-2 border-neutral-300 shadow-xl space-y-4 sm:space-y-5">
-              <div className="flex items-center justify-between border-b-2 border-neutral-200 pb-3">
-                <span className="text-xs uppercase font-mono tracking-wider text-black font-black">
+            <div className="lg:col-span-5 bg-[#18181D] rounded-2xl sm:rounded-3xl p-5 sm:p-7 border border-white/10 shadow-xl space-y-4 sm:space-y-5">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <span className="text-xs uppercase font-mono tracking-wider text-gold-400 font-bold">
                   Quick Estimate Calculator
                 </span>
-                <span className="text-[10px] text-neutral-700 font-bold">Live AI Estimate</span>
+                <span className="text-[10px] text-neutral-400">Live AI Estimate</span>
               </div>
 
               {/* Service Pills Selector */}
               <div className="space-y-2">
-                <label className="text-[10.5px] sm:text-[11px] uppercase font-mono text-black font-black block">
+                <label className="text-[10.5px] sm:text-[11px] uppercase font-mono text-neutral-300 font-bold block">
                   Select Coverage Options:
                 </label>
                 <div className="flex flex-wrap gap-1.5 sm:gap-2">
@@ -346,11 +346,11 @@ const Home = () => {
                         onClick={() => toggleCalculatorService(s)}
                         className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10.5px] sm:text-xs font-mono transition-all flex items-center space-x-1.5 ${
                           isSelected
-                            ? 'bg-gold-100 border-2 border-gold-600 text-black font-black'
-                            : 'bg-white border-2 border-neutral-300 text-neutral-800 font-bold hover:text-black hover:border-black'
+                            ? 'bg-gold-500/20 border border-gold-500 text-gold-300 font-bold'
+                            : 'bg-black/40 border border-white/10 text-neutral-400 hover:text-white'
                         }`}
                       >
-                        {isSelected ? <Check className="w-3 h-3 text-gold-800 stroke-[3]" /> : <span className="w-3 h-3 block" />}
+                        {isSelected ? <Check className="w-3 h-3 text-gold-400 stroke-[3]" /> : <span className="w-3 h-3 block" />}
                         <span>{s}</span>
                       </button>
                     );
@@ -360,7 +360,7 @@ const Home = () => {
 
               {/* Guest Tier */}
               <div className="space-y-2">
-                <label className="text-[10.5px] sm:text-[11px] uppercase font-mono text-black font-black block">
+                <label className="text-[10.5px] sm:text-[11px] uppercase font-mono text-neutral-300 font-bold block">
                   Celebration Scale (Guests):
                 </label>
                 <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
@@ -371,8 +371,8 @@ const Home = () => {
                       onClick={() => setGuestTier(t)}
                       className={`py-1.5 rounded-xl text-xs font-mono transition-all ${
                         guestTier === t
-                          ? 'bg-black text-white font-black'
-                          : 'bg-white border-2 border-neutral-300 text-black font-bold hover:border-black'
+                          ? 'bg-gold-gradient text-black font-extrabold shadow-gold-subtle'
+                          : 'bg-black/40 border border-white/10 text-neutral-400 hover:text-white'
                       }`}
                     >
                       {t}
@@ -382,17 +382,17 @@ const Home = () => {
               </div>
 
               {/* Estimated Total Display */}
-              <div className="pt-3 border-t-2 border-neutral-200 flex items-center justify-between">
+              <div className="pt-3 border-t border-white/10 flex items-center justify-between">
                 <div>
-                  <span className="text-[9.5px] sm:text-[10px] uppercase font-mono text-neutral-700 font-bold block">Estimated Investment</span>
-                  <span className="font-serif text-xl sm:text-2xl font-black text-black">
+                  <span className="text-[9.5px] sm:text-[10px] uppercase font-mono text-neutral-400 block">Estimated Investment</span>
+                  <span className="font-serif text-xl sm:text-2xl font-bold text-gold-300">
                     ₹{calculateEstimate().toLocaleString('en-IN')}
                   </span>
                 </div>
 
                 <Link
                   to="/enquiry"
-                  className="px-3.5 sm:px-4 py-2 rounded-full bg-black hover:bg-neutral-800 text-white text-[11px] sm:text-xs font-black uppercase tracking-wider transition-all shadow-sm"
+                  className="px-3.5 sm:px-4 py-2 rounded-full bg-white hover:bg-neutral-200 text-black text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all shadow-sm"
                 >
                   Lock Estimate →
                 </Link>

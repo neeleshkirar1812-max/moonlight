@@ -61,25 +61,25 @@ const CustomerDashboard = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in text-black">
+    <div className="space-y-8 animate-fade-in text-white">
       {/* Welcome Banner */}
-      <div className="relative rounded-3xl overflow-hidden p-6 sm:p-10 border-2 border-neutral-300 bg-white shadow-xl">
+      <div className="relative rounded-3xl overflow-hidden p-6 sm:p-10 border border-gold-500/30 bg-[#141418] shadow-2xl">
         <div className="relative z-10 max-w-2xl space-y-3">
-          <span className="text-xs uppercase font-mono tracking-[0.25em] text-gold-800 font-black block">
+          <span className="text-xs uppercase font-mono tracking-[0.25em] text-gold-400 font-bold block">
             Moonlight Client Concierge
           </span>
-          <h1 className="font-serif text-3xl sm:text-4xl font-black text-black">
+          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-white">
             Welcome, {user?.name || 'Aarav & Ananya'}
           </h1>
-          <p className="text-neutral-800 text-xs sm:text-sm font-semibold leading-relaxed">
+          <p className="text-neutral-300 text-xs sm:text-sm font-light leading-relaxed">
             Your personalized sanctuary for tracking shoot preparations, accessing high-resolution private galleries, managing payments, and viewing 4K wedding films.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-3 text-xs font-mono">
-            <span className="px-3.5 py-1.5 rounded-full bg-gold-100 text-black border-2 border-gold-600 font-black">
+            <span className="px-3.5 py-1.5 rounded-full bg-gold-500/15 text-gold-300 border border-gold-500/40 font-bold">
               Booking Ref: {activeBooking.bookingNumber}
             </span>
-            <span className="px-3.5 py-1.5 rounded-full bg-black text-white font-bold">
+            <span className="px-3.5 py-1.5 rounded-full bg-black/60 border border-white/10 text-neutral-300">
               {activeBooking.eventType}
             </span>
           </div>
@@ -89,125 +89,125 @@ const CustomerDashboard = () => {
       {/* Countdown Card & Active Status */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Days Left Card */}
-        <div className="bg-white rounded-2xl p-6 flex items-center justify-between border-2 border-neutral-300 shadow-md">
+        <div className="bg-[#141418] rounded-2xl p-6 flex items-center justify-between border border-white/10 shadow-lg">
           <div>
-            <span className="text-[10.5px] uppercase tracking-wider text-neutral-600 font-bold font-mono block">Wedding Countdown</span>
-            <h3 className="font-serif text-4xl font-black text-black mt-1">
-              {getDaysLeft(activeBooking.eventDate)} <span className="text-sm font-sans font-bold text-neutral-600">Days</span>
+            <span className="text-[10.5px] uppercase tracking-wider text-gold-400 font-bold font-mono block">Wedding Countdown</span>
+            <h3 className="font-serif text-4xl font-bold text-white mt-1">
+              {getDaysLeft(activeBooking.eventDate)} <span className="text-sm font-sans font-normal text-neutral-400">Days</span>
             </h3>
-            <p className="text-xs text-neutral-700 font-semibold mt-1 flex items-center">
-              <MapPin className="w-3.5 h-3.5 mr-1 text-gold-800" />
+            <p className="text-xs text-neutral-400 font-light mt-1 flex items-center">
+              <MapPin className="w-3.5 h-3.5 mr-1 text-gold-400" />
               {activeBooking.venue}
             </p>
           </div>
-          <div className="w-14 h-14 rounded-2xl bg-gold-50 border-2 border-gold-600 flex items-center justify-center text-black">
-            <Clock className="w-7 h-7" />
+          <div className="w-12 h-12 rounded-2xl bg-gold-500/15 border border-gold-500/40 flex items-center justify-center text-gold-400">
+            <Clock className="w-6 h-6" />
           </div>
         </div>
 
-        {/* Payment Status Card */}
-        <div className="bg-white rounded-2xl p-6 flex items-center justify-between border-2 border-neutral-300 shadow-md">
-          <div>
-            <span className="text-[10.5px] uppercase tracking-wider text-neutral-600 font-bold font-mono block">Payment Status</span>
-            <h3 className="font-serif text-2xl font-black text-emerald-800 mt-1">
-              Advance Cleared
-            </h3>
-            <p className="text-xs text-neutral-700 font-semibold mt-1">GST Tax Invoice #MLP-INV-841</p>
+        {/* Shoot Crew Card */}
+        <div className="bg-[#141418] rounded-2xl p-6 flex flex-col justify-between border border-white/10 shadow-lg">
+          <div className="flex items-center justify-between">
+            <span className="text-[10.5px] uppercase tracking-wider text-gold-400 font-bold font-mono">Assigned Shoot Crew</span>
+            <span className="text-xs bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded-full font-mono font-bold">
+              3 Masters
+            </span>
           </div>
-          <div className="w-14 h-14 rounded-2xl bg-emerald-50 border-2 border-emerald-600 flex items-center justify-center text-emerald-800">
-            <CheckCircle2 className="w-7 h-7" />
+          <div className="flex items-center space-x-2 my-2">
+            {activeBooking.assignedEmployees?.map((emp, i) => (
+              <img
+                key={i}
+                src={emp.avatar}
+                alt={emp.name}
+                title={`${emp.name} (${emp.designation})`}
+                className="w-10 h-10 rounded-full object-cover border-2 border-gold-400"
+              />
+            ))}
           </div>
+          <p className="text-xs text-neutral-400 font-light">Lead Cinematographer, Candid Master & Drone Pilot</p>
         </div>
 
-        {/* Gallery Albums */}
-        <div className="bg-white rounded-2xl p-6 flex items-center justify-between border-2 border-neutral-300 shadow-md">
-          <div>
-            <span className="text-[10.5px] uppercase tracking-wider text-neutral-600 font-bold font-mono block">Private Archives</span>
-            <h3 className="font-serif text-2xl font-black text-black mt-1">
-              3 Albums Ready
-            </h3>
-            <Link to="/customer/gallery" className="text-xs text-gold-800 font-black hover:underline mt-1 block">
-              View & Download 4K Photos →
-            </Link>
+        {/* Payment & Invoices */}
+        <div className="bg-[#141418] rounded-2xl p-6 flex flex-col justify-between border border-white/10 shadow-lg">
+          <div className="flex items-center justify-between">
+            <span className="text-[10.5px] uppercase tracking-wider text-gold-400 font-bold font-mono">Payment Status</span>
+            <span className="text-xs text-emerald-400 font-mono font-bold">{activeBooking.paymentStatus}</span>
           </div>
-          <div className="w-14 h-14 rounded-2xl bg-gold-50 border-2 border-gold-600 flex items-center justify-center text-gold-800">
-            <Sparkles className="w-7 h-7" />
+          <div className="my-2">
+            <span className="text-xs text-neutral-400 block font-mono">Total Commission Value</span>
+            <h4 className="font-serif text-2xl font-bold text-gold-300">₹5,00,000</h4>
           </div>
+          <Link
+            to="/customer/payments"
+            className="text-xs text-gold-300 hover:text-white font-bold flex items-center"
+          >
+            View GST Receipts & Invoices <ArrowRight className="w-3.5 h-3.5 ml-1" />
+          </Link>
         </div>
       </div>
 
-      {/* Quick Action Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Link
-          to="/customer/bookings"
-          className="bg-white rounded-2xl p-6 group block border-2 border-neutral-300 hover:border-black shadow-md space-y-2 transition-all hover:shadow-xl"
-        >
-          <Calendar className="w-6 h-6 text-gold-700 group-hover:scale-110 transition-transform" />
-          <h4 className="font-serif text-lg font-black text-black group-hover:text-gold-800 transition-colors">
-            My Bookings & Timeline
-          </h4>
-          <p className="text-xs text-neutral-700 font-medium">View shoot itineraries, assigned crew, and deliverable checklists.</p>
-        </Link>
-
+      {/* Quick Action Navigation Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <Link
           to="/customer/gallery"
-          className="bg-white rounded-2xl p-6 group block border-2 border-neutral-300 hover:border-black shadow-md space-y-2 transition-all hover:shadow-xl"
+          className="p-6 rounded-2xl bg-[#141418] border border-white/10 hover:border-gold-500/50 shadow-lg hover:shadow-2xl transition-all space-y-3 group"
         >
-          <Sparkles className="w-6 h-6 text-gold-700 group-hover:scale-110 transition-transform" />
-          <h4 className="font-serif text-lg font-black text-black group-hover:text-gold-800 transition-colors">
-            Private Photo Albums
-          </h4>
-          <p className="text-xs text-neutral-700 font-medium">Enter PIN, curate favorites for album printing, and download master files.</p>
+          <div className="w-10 h-10 rounded-xl bg-gold-500/15 border border-gold-500/40 flex items-center justify-center text-gold-400 group-hover:scale-110 transition-transform">
+            <Sparkles className="w-5 h-5" />
+          </div>
+          <h3 className="font-serif text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
+            Private 4K Galleries
+          </h3>
+          <p className="text-xs text-neutral-400 font-light">
+            View high-res wedding photos, approve album selections & download originals.
+          </p>
         </Link>
 
         <Link
-          to="/customer/payments"
-          className="bg-white rounded-2xl p-6 group block border-2 border-neutral-300 hover:border-black shadow-md space-y-2 transition-all hover:shadow-xl"
+          to="/customer/videos"
+          className="p-6 rounded-2xl bg-[#141418] border border-white/10 hover:border-gold-500/50 shadow-lg hover:shadow-2xl transition-all space-y-3 group"
         >
-          <CreditCard className="w-6 h-6 text-gold-700 group-hover:scale-110 transition-transform" />
-          <h4 className="font-serif text-lg font-black text-black group-hover:text-gold-800 transition-colors">
-            Payments & Razorpay
-          </h4>
-          <p className="text-xs text-neutral-700 font-medium">Pay advance or balance securely via UPI, Card, or NetBanking.</p>
+          <div className="w-10 h-10 rounded-xl bg-gold-500/15 border border-gold-500/40 flex items-center justify-center text-gold-400 group-hover:scale-110 transition-transform">
+            <Video className="w-5 h-5" />
+          </div>
+          <h3 className="font-serif text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
+            Wedding Cinema Films
+          </h3>
+          <p className="text-xs text-neutral-400 font-light">
+            Stream full 4K documentary wedding films, Instagram teasers, and trailers.
+          </p>
         </Link>
 
         <Link
           to="/customer/invoices"
-          className="bg-white rounded-2xl p-6 group block border-2 border-neutral-300 hover:border-black shadow-md space-y-2 transition-all hover:shadow-xl"
+          className="p-6 rounded-2xl bg-[#141418] border border-white/10 hover:border-gold-500/50 shadow-lg hover:shadow-2xl transition-all space-y-3 group"
         >
-          <FileText className="w-6 h-6 text-gold-700 group-hover:scale-110 transition-transform" />
-          <h4 className="font-serif text-lg font-black text-black group-hover:text-gold-800 transition-colors">
-            Official GST Invoices
-          </h4>
-          <p className="text-xs text-neutral-700 font-medium">Download signed PDF invoices and tax receipts for your records.</p>
+          <div className="w-10 h-10 rounded-xl bg-gold-500/15 border border-gold-500/40 flex items-center justify-center text-gold-400 group-hover:scale-110 transition-transform">
+            <FileText className="w-5 h-5" />
+          </div>
+          <h3 className="font-serif text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
+            Invoices & GST Receipts
+          </h3>
+          <p className="text-xs text-neutral-400 font-light">
+            Download stamped tax invoices, payment schedule breakdowns, and agreements.
+          </p>
+        </Link>
+
+        <Link
+          to="/customer/bookings"
+          className="p-6 rounded-2xl bg-[#141418] border border-white/10 hover:border-gold-500/50 shadow-lg hover:shadow-2xl transition-all space-y-3 group"
+        >
+          <div className="w-10 h-10 rounded-xl bg-gold-500/15 border border-gold-500/40 flex items-center justify-center text-gold-400 group-hover:scale-110 transition-transform">
+            <Calendar className="w-5 h-5" />
+          </div>
+          <h3 className="font-serif text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
+            Ceremony Timeline
+          </h3>
+          <p className="text-xs text-neutral-400 font-light">
+            Review event dates, shoot timings, call sheets, and shot checklists.
+          </p>
         </Link>
       </div>
-
-      {/* Assigned Production Team */}
-      {activeBooking.assignedEmployees?.length > 0 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-neutral-300 shadow-xl space-y-6">
-          <div>
-            <span className="text-xs uppercase font-mono tracking-wider text-gold-800 font-black block">Production Crew</span>
-            <h3 className="font-serif text-2xl font-black text-black">Your Assigned Masters</h3>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {activeBooking.assignedEmployees.map((emp) => (
-              <div key={emp._id} className="p-4 rounded-2xl bg-[#FAF8F5] border-2 border-neutral-300 flex items-center space-x-3.5 shadow-sm">
-                <img
-                  src={emp.avatar}
-                  alt={emp.name}
-                  className="w-12 h-12 rounded-full object-cover border-2 border-black"
-                />
-                <div>
-                  <h4 className="text-sm font-black text-black">{emp.name}</h4>
-                  <p className="text-xs text-gold-800 font-mono font-bold">{emp.designation}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

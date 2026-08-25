@@ -27,54 +27,54 @@ const SuperAdminDashboard = () => {
   }, []);
 
   return (
-    <div className="space-y-8 animate-fade-in text-black">
+    <div className="space-y-8 animate-fade-in text-white">
       <div className="flex items-center justify-between">
         <div>
-          <span className="text-xs uppercase font-mono tracking-widest text-gold-800 font-black block">
+          <span className="text-xs uppercase font-mono tracking-widest text-gold-400 font-bold block">
             System Governance
           </span>
-          <h1 className="font-serif text-3xl sm:text-4xl font-black text-black">Super Admin Control Center</h1>
+          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-white">Super Admin Control Center</h1>
         </div>
       </div>
 
       {/* System Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white rounded-2xl p-6 border-2 border-neutral-300 shadow-md">
+        <div className="bg-[#141418] rounded-2xl p-6 border border-white/10 shadow-lg">
           <div className="flex items-center justify-between">
-            <span className="text-[10.5px] uppercase text-neutral-600 font-mono font-bold">Studio Admins</span>
-            <Shield className="w-5 h-5 text-gold-700" />
+            <span className="text-[10.5px] uppercase text-neutral-400 font-mono">Studio Admins</span>
+            <Shield className="w-5 h-5 text-gold-400" />
           </div>
-          <h3 className="font-serif text-3xl font-black text-black mt-2">{stats?.adminsCount || 1}</h3>
-          <p className="text-xs text-neutral-700 mt-1 font-mono font-semibold">Privileged Admin Accounts</p>
+          <h3 className="font-serif text-3xl font-bold text-white mt-2">{stats?.adminsCount || 1}</h3>
+          <p className="text-xs text-neutral-400 mt-1 font-mono">Privileged Admin Accounts</p>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border-2 border-neutral-300 shadow-md">
+        <div className="bg-[#141418] rounded-2xl p-6 border border-white/10 shadow-lg">
           <div className="flex items-center justify-between">
-            <span className="text-[10.5px] uppercase text-neutral-600 font-mono font-bold">Security Health</span>
-            <Activity className="w-5 h-5 text-emerald-600" />
+            <span className="text-[10.5px] uppercase text-neutral-400 font-mono">Security Health</span>
+            <Activity className="w-5 h-5 text-emerald-400" />
           </div>
-          <h3 className="font-serif text-3xl font-black text-emerald-800 mt-2">100%</h3>
-          <p className="text-xs text-emerald-700 mt-1 font-mono font-bold flex items-center">
+          <h3 className="font-serif text-3xl font-bold text-emerald-400 mt-2">100%</h3>
+          <p className="text-xs text-emerald-400 mt-1 font-mono flex items-center">
             <CheckCircle2 className="w-3.5 h-3.5 mr-1" /> RBAC Enforced
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border-2 border-neutral-300 shadow-md">
+        <div className="bg-[#141418] rounded-2xl p-6 border border-white/10 shadow-lg">
           <div className="flex items-center justify-between">
-            <span className="text-[10.5px] uppercase text-neutral-600 font-mono font-bold">Database Engine</span>
-            <Server className="w-5 h-5 text-gold-700" />
+            <span className="text-[10.5px] uppercase text-neutral-400 font-mono">Database Engine</span>
+            <Server className="w-5 h-5 text-gold-400" />
           </div>
-          <h3 className="font-serif text-2xl font-black text-black mt-2">MongoDB</h3>
-          <p className="text-xs text-neutral-700 mt-1 font-mono font-semibold">22 Schemas Active</p>
+          <h3 className="font-serif text-2xl font-bold text-white mt-2">MongoDB</h3>
+          <p className="text-xs text-neutral-400 mt-1 font-mono">22 Schemas Active</p>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border-2 border-neutral-300 shadow-md">
+        <div className="bg-[#141418] rounded-2xl p-6 border border-white/10 shadow-lg">
           <div className="flex items-center justify-between">
-            <span className="text-[10.5px] uppercase text-neutral-600 font-mono font-bold">Razorpay / CDN</span>
-            <Lock className="w-5 h-5 text-gold-700" />
+            <span className="text-[10.5px] uppercase text-neutral-400 font-mono">Razorpay / CDN</span>
+            <Lock className="w-5 h-5 text-gold-400" />
           </div>
-          <h3 className="font-serif text-2xl font-black text-gold-800 mt-2">Integrated</h3>
-          <p className="text-xs text-neutral-700 mt-1 font-mono font-semibold">HMAC Verified</p>
+          <h3 className="font-serif text-2xl font-bold text-gold-300 mt-2">Integrated</h3>
+          <p className="text-xs text-neutral-400 mt-1 font-mono">HMAC Verified</p>
         </div>
       </div>
 
@@ -82,60 +82,57 @@ const SuperAdminDashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Link
           to="/super-admin/admins"
-          className="bg-white rounded-2xl p-6 group block border-2 border-neutral-300 hover:border-black shadow-md space-y-2 transition-all hover:shadow-xl"
+          className="bg-[#141418] rounded-2xl p-6 group block border border-white/10 hover:border-gold-500/50 shadow-lg space-y-2 transition-all hover:shadow-2xl"
         >
-          <Shield className="w-6 h-6 text-gold-700 group-hover:scale-110 transition-transform" />
-          <h3 className="font-serif text-lg font-black text-black group-hover:text-gold-800 transition-colors">
+          <Shield className="w-6 h-6 text-gold-400 group-hover:scale-110 transition-transform" />
+          <h3 className="font-serif text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
             Admin Accounts & Permissions
           </h3>
-          <p className="text-xs text-neutral-700 font-medium">Create new admin accounts and grant fine-grained permissions.</p>
+          <p className="text-xs text-neutral-400 font-light">Create new admin accounts and grant fine-grained permissions.</p>
         </Link>
 
         <Link
           to="/super-admin/audit-logs"
-          className="bg-white rounded-2xl p-6 group block border-2 border-neutral-300 hover:border-black shadow-md space-y-2 transition-all hover:shadow-xl"
+          className="bg-[#141418] rounded-2xl p-6 group block border border-white/10 hover:border-gold-500/50 shadow-lg space-y-2 transition-all hover:shadow-2xl"
         >
-          <Activity className="w-6 h-6 text-gold-700 group-hover:scale-110 transition-transform" />
-          <h3 className="font-serif text-lg font-black text-black group-hover:text-gold-800 transition-colors">
+          <Activity className="w-6 h-6 text-gold-400 group-hover:scale-110 transition-transform" />
+          <h3 className="font-serif text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
             Immutable Audit Trail
           </h3>
-          <p className="text-xs text-neutral-700 font-medium">Inspect real-time security events, IP records, and admin actions.</p>
+          <p className="text-xs text-neutral-400 font-light">Real-time surveillance of logins, data exports, and deletions.</p>
         </Link>
 
         <Link
           to="/super-admin/system-config"
-          className="bg-white rounded-2xl p-6 group block border-2 border-neutral-300 hover:border-black shadow-md space-y-2 transition-all hover:shadow-xl"
+          className="bg-[#141418] rounded-2xl p-6 group block border border-white/10 hover:border-gold-500/50 shadow-lg space-y-2 transition-all hover:shadow-2xl"
         >
-          <Server className="w-6 h-6 text-gold-700 group-hover:scale-110 transition-transform" />
-          <h3 className="font-serif text-lg font-black text-black group-hover:text-gold-800 transition-colors">
-            System Diagnostics & Config
+          <Server className="w-6 h-6 text-gold-400 group-hover:scale-110 transition-transform" />
+          <h3 className="font-serif text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
+            Server Diagnostics & Cloud API
           </h3>
-          <p className="text-xs text-neutral-700 font-medium">Inspect server runtime parameters and integration tokens.</p>
+          <p className="text-xs text-neutral-400 font-light">Manage email SMTP providers, SMS webhooks, and AWS S3 storage buckets.</p>
         </Link>
       </div>
 
-      {/* Recent Security Audit Logs */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-neutral-300 shadow-xl space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="font-serif text-xl font-black text-black">Recent Security Audit Logs</h3>
-          <Link to="/super-admin/audit-logs" className="text-xs text-gold-800 font-black hover:underline">
-            View All Logs →
-          </Link>
-        </div>
-
-        <div className="space-y-2 font-mono text-xs">
-          <div className="p-3 rounded-xl bg-[#FAF8F5] border border-neutral-300 flex items-center justify-between">
-            <span className="text-neutral-800 font-bold">AUTH_SUCCESS: admin@moonlightproduction.com</span>
-            <span className="text-[10.5px] text-neutral-600 font-bold">Just Now</span>
-          </div>
-          <div className="p-3 rounded-xl bg-[#FAF8F5] border border-neutral-300 flex items-center justify-between">
-            <span className="text-neutral-800 font-bold">CLIENT_LOGIN: aarav.ananya@gmail.com</span>
-            <span className="text-[10.5px] text-neutral-600 font-bold">2 mins ago</span>
-          </div>
-          <div className="p-3 rounded-xl bg-[#FAF8F5] border border-neutral-300 flex items-center justify-between">
-            <span className="text-neutral-800 font-bold">RAZORPAY_WEBHOOK_VERIFIED: order_rcptid_841</span>
-            <span className="text-[10.5px] text-neutral-600 font-bold">15 mins ago</span>
-          </div>
+      {/* Real-Time Audit Log Preview */}
+      <div className="bg-[#141418] rounded-3xl p-6 sm:p-8 border border-white/10 shadow-xl space-y-4">
+        <h3 className="font-serif text-xl font-bold text-white">Recent Super Admin Activity</h3>
+        <div className="space-y-2.5">
+          {auditLogs.length === 0 ? (
+            <div className="text-xs font-mono text-neutral-400 p-4 bg-[#1A1A20] rounded-xl border border-white/10">
+              No recent high-severity anomalies detected. System running securely.
+            </div>
+          ) : (
+            auditLogs.map((log, i) => (
+              <div key={i} className="p-3 bg-[#1A1A20] rounded-xl border border-white/10 flex items-center justify-between text-xs font-mono">
+                <div>
+                  <span className="text-white font-bold">{log.action}</span>
+                  <span className="text-neutral-400 ml-2">by {log.performedBy?.name || 'System Admin'}</span>
+                </div>
+                <span className="text-[10px] text-neutral-400">{new Date(log.createdAt).toLocaleTimeString()}</span>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

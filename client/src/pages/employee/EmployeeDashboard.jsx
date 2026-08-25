@@ -50,50 +50,50 @@ const EmployeeDashboard = () => {
   ];
 
   return (
-    <div className="space-y-8 animate-fade-in text-black">
+    <div className="space-y-8 animate-fade-in text-white">
       {/* Welcome Banner */}
-      <div className="relative rounded-3xl overflow-hidden p-6 sm:p-10 border-2 border-neutral-300 bg-white shadow-xl">
+      <div className="relative rounded-3xl overflow-hidden p-6 sm:p-10 border border-gold-500/30 bg-[#141418] shadow-2xl">
         <div className="relative z-10 space-y-2">
-          <span className="text-xs uppercase font-mono tracking-widest text-gold-800 font-black block">
+          <span className="text-xs uppercase font-mono tracking-widest text-gold-400 font-bold block">
             Production & Cinema Crew Portal
           </span>
-          <h1 className="font-serif text-3xl sm:text-4xl font-black text-black">
+          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-white">
             Hello, {user?.name || 'Rohan Verma'}
           </h1>
-          <p className="text-xs sm:text-sm text-neutral-800 font-semibold">
-            You have <strong className="text-black font-black">{defaultBookings.length} active wedding shoots</strong> assigned to your schedule.
+          <p className="text-xs sm:text-sm text-neutral-300 font-light">
+            You have <strong className="text-gold-300 font-semibold">{defaultBookings.length} active wedding shoots</strong> assigned to your schedule.
           </p>
         </div>
       </div>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div className="bg-white rounded-2xl p-6 border-2 border-neutral-300 shadow-md flex items-center justify-between">
+        <div className="bg-[#141418] rounded-2xl p-6 border border-white/10 shadow-lg flex items-center justify-between">
           <div>
-            <span className="text-[10.5px] uppercase font-mono font-bold text-neutral-600">Assigned Shoots</span>
-            <p className="font-serif text-3xl font-black text-black mt-1">{defaultBookings.length}</p>
+            <span className="text-[10.5px] uppercase font-mono text-neutral-400">Assigned Shoots</span>
+            <p className="font-serif text-3xl font-bold text-white mt-1">{defaultBookings.length}</p>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-gold-50 border-2 border-gold-600 flex items-center justify-center text-black">
+          <div className="w-12 h-12 rounded-xl bg-gold-500/15 border border-gold-500/40 flex items-center justify-center text-gold-400">
             <Camera className="w-6 h-6" />
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border-2 border-neutral-300 shadow-md flex items-center justify-between">
+        <div className="bg-[#141418] rounded-2xl p-6 border border-white/10 shadow-lg flex items-center justify-between">
           <div>
-            <span className="text-[10.5px] uppercase font-mono font-bold text-neutral-600">Assigned Enquiries</span>
-            <p className="font-serif text-3xl font-black text-black mt-1">4</p>
+            <span className="text-[10.5px] uppercase font-mono text-neutral-400">Assigned Enquiries</span>
+            <p className="font-serif text-3xl font-bold text-white mt-1">4</p>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-gold-50 border-2 border-gold-600 flex items-center justify-center text-black">
+          <div className="w-12 h-12 rounded-xl bg-gold-500/15 border border-gold-500/40 flex items-center justify-center text-gold-400">
             <Users className="w-6 h-6" />
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 border-2 border-neutral-300 shadow-md flex items-center justify-between">
+        <div className="bg-[#141418] rounded-2xl p-6 border border-white/10 shadow-lg flex items-center justify-between">
           <div>
-            <span className="text-[10.5px] uppercase font-mono font-bold text-neutral-600">Readiness Status</span>
-            <p className="font-serif text-2xl font-black text-emerald-800 mt-1">Gear Ready</p>
+            <span className="text-[10.5px] uppercase font-mono text-neutral-400">Readiness Status</span>
+            <p className="font-serif text-2xl font-bold text-emerald-400 mt-1">Gear Ready</p>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-emerald-50 border-2 border-emerald-600 flex items-center justify-center text-emerald-800">
+          <div className="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
             <CheckSquare className="w-6 h-6" />
           </div>
         </div>
@@ -102,37 +102,37 @@ const EmployeeDashboard = () => {
       {/* Upcoming Shoots Table */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="font-serif text-xl font-black text-black">My Upcoming Shoot Schedule</h2>
-          <Link to="/employee/projects" className="text-xs text-gold-800 font-black hover:underline">
+          <h2 className="font-serif text-xl font-bold text-white">My Upcoming Shoot Schedule</h2>
+          <Link to="/employee/projects" className="text-xs text-gold-400 font-bold hover:underline">
             View All Projects →
           </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {defaultBookings.map((bkg) => (
-            <div key={bkg._id} className="bg-white rounded-2xl p-6 border-2 border-neutral-300 shadow-md space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-neutral-200">
-                <span className="font-mono text-xs text-gold-800 font-black">{bkg.bookingNumber}</span>
-                <span className="px-2.5 py-1 rounded-full text-[10.5px] font-mono font-bold bg-gold-100 text-black border border-gold-600">
+            <div key={bkg._id} className="bg-[#141418] rounded-2xl p-6 border border-white/10 shadow-lg space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                <span className="font-mono text-xs text-gold-400 font-bold">{bkg.bookingNumber}</span>
+                <span className="px-2.5 py-1 rounded-full text-[10.5px] font-mono font-bold bg-gold-500/20 text-gold-300 border border-gold-500/40">
                   {bkg.bookingStatus}
                 </span>
               </div>
 
               <div>
-                <h3 className="font-serif text-xl font-black text-black">{bkg.eventType}</h3>
-                <div className="space-y-1 text-xs text-neutral-800 font-semibold mt-2">
-                  <p className="flex items-center"><Calendar className="w-3.5 h-3.5 mr-1.5 text-gold-700" /> {new Date(bkg.eventDate).toLocaleDateString('en-US', { dateStyle: 'full' })}</p>
-                  <p className="flex items-center"><MapPin className="w-3.5 h-3.5 mr-1.5 text-gold-700" /> {bkg.location?.venue}, {bkg.location?.city}</p>
-                  <p className="flex items-center"><Users className="w-3.5 h-3.5 mr-1.5 text-gold-700" /> Client: {bkg.customer?.name} ({bkg.customer?.phone})</p>
+                <h3 className="font-serif text-xl font-bold text-white">{bkg.eventType}</h3>
+                <div className="space-y-1 text-xs text-neutral-300 font-light mt-2">
+                  <p className="flex items-center"><Calendar className="w-3.5 h-3.5 mr-1.5 text-gold-400" /> {new Date(bkg.eventDate).toLocaleDateString('en-US', { dateStyle: 'full' })}</p>
+                  <p className="flex items-center"><MapPin className="w-3.5 h-3.5 mr-1.5 text-gold-400" /> {bkg.location?.venue}, {bkg.location?.city}</p>
+                  <p className="flex items-center"><Users className="w-3.5 h-3.5 mr-1.5 text-gold-400" /> Client: {bkg.customer?.name} ({bkg.customer?.phone})</p>
                 </div>
               </div>
 
               <div className="pt-2">
                 <Link
                   to="/employee/projects"
-                  className="inline-flex items-center text-xs font-black text-black hover:text-gold-800 uppercase tracking-wider"
+                  className="inline-flex items-center text-xs font-bold text-gold-400 hover:text-white uppercase tracking-wider"
                 >
-                  View Project Brief & Shot Checklist <ArrowRight className="w-3.5 h-3.5 ml-1.5 text-gold-700" />
+                  View Project Brief & Shot Checklist <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
                 </Link>
               </div>
             </div>

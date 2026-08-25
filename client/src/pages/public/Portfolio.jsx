@@ -55,7 +55,7 @@ const defaultIndianPortfolios = [
     coupleName: 'Kabir & Maya',
     location: { city: 'Bhopal', venue: 'Jehan Numa Palace' },
     coverImage: 'https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&w=1200&q=80',
-    description: 'Grand royal Indian banquet with candlelit palace terraces and bespoke Sabyasachi portraiture.',
+    description: 'Grand royal Indian banquet with candlelit palace terraces and bespoke portraiture.',
   },
   {
     _id: 'p-5',
@@ -116,23 +116,23 @@ const Portfolio = () => {
   });
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#0B0B0C] text-white pt-28 pb-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Header Title */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <span className="text-xs uppercase tracking-[0.35em] text-gold-700 font-bold block">
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <span className="text-xs uppercase font-mono tracking-[0.35em] text-gold-400 font-bold block">
             Moonlight Production Archives
           </span>
-          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-900">
+          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-white">
             Indian Royal Wedding Portfolio
           </h1>
-          <p className="text-neutral-600 text-sm sm:text-base font-light max-w-xl mx-auto">
+          <p className="text-neutral-300 text-xs sm:text-base font-light max-w-xl mx-auto">
             A curated anthology of timeless Indian love stories, regal palace unions, sacred Vedic rituals, and pre-wedding shoots.
           </p>
         </div>
 
         {/* Category Filter Tabs & Search Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-neutral-200">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-white/10">
           {/* Tabs */}
           <div className="flex items-center space-x-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 custom-scrollbar">
             {categories.map((cat) => {
@@ -141,10 +141,10 @@ const Portfolio = () => {
                 <button
                   key={cat.id}
                   onClick={() => setSearchParams(cat.id === 'all' ? {} : { category: cat.id })}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap ${
+                  className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
                     isActive
-                      ? 'bg-neutral-900 text-white font-bold shadow-md'
-                      : 'bg-white text-neutral-700 hover:text-neutral-950 hover:border-gold-500 border border-neutral-300 shadow-sm'
+                      ? 'bg-gold-gradient text-black font-extrabold shadow-gold-subtle'
+                      : 'bg-white/5 text-neutral-300 hover:text-white hover:border-gold-400 border border-white/10 shadow-sm'
                   }`}
                 >
                   {cat.name}
@@ -158,10 +158,10 @@ const Portfolio = () => {
             <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search city (Maheshwar, Bhopal, Udaipur)..."
+              placeholder="Search destination or couple..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white border border-neutral-300 rounded-full pl-10 pr-4 py-2 text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-gold-500 shadow-sm"
+              className="w-full bg-black/60 border border-white/15 rounded-full pl-10 pr-4 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-gold-400 shadow-sm"
             />
           </div>
         </div>
@@ -170,10 +170,10 @@ const Portfolio = () => {
         {loading ? (
           <CardSkeleton count={6} height="h-96" />
         ) : filteredItems.length === 0 ? (
-          <div className="text-center py-20 bg-white rounded-3xl border border-neutral-200 shadow-sm space-y-4">
-            <Sparkles className="w-10 h-10 text-gold-600 mx-auto opacity-50" />
-            <h3 className="font-serif text-2xl text-neutral-900 font-bold">No Stories Found</h3>
-            <p className="text-xs text-neutral-500">Try selecting a different category or refining your search term.</p>
+          <div className="text-center py-20 bg-[#121215] rounded-3xl border border-white/10 shadow-sm space-y-4">
+            <Sparkles className="w-10 h-10 text-gold-400 mx-auto opacity-50" />
+            <h3 className="font-serif text-2xl text-white font-bold">No Stories Found</h3>
+            <p className="text-xs text-neutral-400">Try selecting a different category or refining your search term.</p>
           </div>
         ) : (
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
@@ -185,34 +185,34 @@ const Portfolio = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
-                  className="break-inside-avoid group relative rounded-2xl overflow-hidden bg-white border border-neutral-200 luxury-card cursor-pointer shadow-lg hover:shadow-2xl"
+                  className="break-inside-avoid group relative rounded-2xl overflow-hidden bg-[#141418] border border-white/10 hover:border-gold-500/50 cursor-pointer shadow-xl hover:shadow-2xl transition-all"
                   onClick={() => setLightboxIndex(index)}
                 >
                   <div className="relative overflow-hidden">
                     <img
                       src={item.coverImage}
                       alt={item.title}
-                      className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-95 group-hover:brightness-105"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 flex flex-col justify-between" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-6 flex flex-col justify-between" />
 
                     {/* Top Tag */}
                     <div className="absolute top-3 left-3">
-                      <span className="px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-neutral-200 text-[10px] text-gold-800 font-bold uppercase tracking-widest font-mono shadow-sm">
+                      <span className="px-3 py-1 rounded-full bg-black/80 backdrop-blur-md border border-gold-500/40 text-[10px] text-gold-300 font-bold uppercase tracking-widest font-mono shadow-sm">
                         {item.category}
                       </span>
                     </div>
 
                     {/* Bottom Info on Hover */}
                     <div className="absolute bottom-0 left-0 right-0 p-6 space-y-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="flex items-center text-[10px] text-gold-300 font-mono tracking-wider">
+                      <div className="flex items-center text-[10px] text-gold-400 font-mono tracking-wider">
                         <MapPin className="w-3 h-3 mr-1 text-gold-400" />
                         {item.location?.venue || item.location?.city}
                       </div>
                       <h3 className="font-serif text-lg font-bold text-white">{item.title}</h3>
-                      <p className="text-xs text-neutral-200 line-clamp-2 font-light">{item.description}</p>
-                      <div className="pt-2 flex items-center justify-between text-xs text-gold-300">
+                      <p className="text-xs text-neutral-300 line-clamp-2 font-light">{item.description}</p>
+                      <div className="pt-2 flex items-center justify-between text-xs text-gold-400">
                         <span className="flex items-center"><ZoomIn className="w-3.5 h-3.5 mr-1" /> View Full-Screen</span>
                         <span>Moonlight Studio</span>
                       </div>
