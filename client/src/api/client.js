@@ -400,11 +400,41 @@ const initialData = {
   ],
   admins: [
     {
+      _id: 'adm-hr-1',
+      name: 'Neelesh Kirar',
+      roleTitle: 'Head of Studio Operations & HR Director',
+      role: 'admin',
+      user: {
+        name: 'Neelesh Kirar',
+        email: 'nkneeleshkirar@gmail.com',
+        phone: '+91 77489 06015',
+      },
+      permissions: {
+        canManagePortfolios: true,
+        canManageEnquiries: true,
+        canManageFinances: true,
+        canManageUsers: true,
+        canAccessSystemSettings: true,
+      },
+      status: 'active',
+    },
+    {
       _id: 'adm-1',
       name: 'Moonlight Studio Director',
-      email: 'admin@moonlightproduction.com',
+      roleTitle: 'Studio Executive Director',
       role: 'admin',
-      permissions: ['ALL_PERMISSIONS'],
+      user: {
+        name: 'Studio Director',
+        email: 'admin@moonlightproduction.com',
+        phone: '+91 92292 29323',
+      },
+      permissions: {
+        canManagePortfolios: true,
+        canManageEnquiries: true,
+        canManageFinances: true,
+        canManageUsers: true,
+        canAccessSystemSettings: true,
+      },
       status: 'active',
     },
   ],
@@ -439,6 +469,10 @@ const getCollection = (key) => {
   if (key === 'employees') {
     localStorage.setItem(`ml_${key}`, JSON.stringify(initialData.employees));
     return initialData.employees;
+  }
+  if (key === 'admins') {
+    localStorage.setItem(`ml_${key}`, JSON.stringify(initialData.admins));
+    return initialData.admins;
   }
   const stored = localStorage.getItem(`ml_${key}`);
   if (stored) {

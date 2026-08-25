@@ -88,23 +88,28 @@ export const AuthProvider = ({ children }) => {
       'priyanshu@gmail.com': { name: 'Priyanshu', code: 'EMP-MLP-009', designation: 'Shoot Logistics & Production Lead', phone: '+91 93028 45731', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80' },
     };
 
+    const isNeeleshHR = normalizedEmail === 'nkneeleshkirar@gmail.com' || normalizedEmail.includes('neelesh');
     const matchedEmp = realEmployeesMap[normalizedEmail];
 
     const authenticatedUser = {
-      _id: matchedEmp?.code || `usr-${Date.now()}`,
+      _id: isNeeleshHR ? 'adm-hr-1' : matchedEmp?.code || `usr-${Date.now()}`,
       employeeCode: matchedEmp?.code,
-      name: matchedEmp?.name || (email.split('@')[0].replace(/[._]/g, ' ').toUpperCase()),
-      designation: matchedEmp?.designation || (role === 'employee' ? 'Production Crew Master' : undefined),
+      name: isNeeleshHR ? 'Neelesh Kirar' : matchedEmp?.name || (email.split('@')[0].replace(/[._]/g, ' ').toUpperCase()),
+      designation: isNeeleshHR
+        ? 'Head of Studio Operations & Lead HR'
+        : matchedEmp?.designation || (role === 'employee' ? 'Production Crew Master' : undefined),
       email: email,
-      role: matchedEmp ? 'employee' : role,
-      avatar: matchedEmp?.avatar || (role === 'superadmin'
+      role: isNeeleshHR ? 'admin' : matchedEmp ? 'employee' : role,
+      avatar: isNeeleshHR
+        ? 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80'
+        : matchedEmp?.avatar || (role === 'superadmin'
         ? 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80'
         : role === 'admin'
         ? 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80'
         : role === 'employee'
         ? 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80'
         : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'),
-      phone: matchedEmp?.phone || '+91 92292 29323',
+      phone: isNeeleshHR ? '+91 77489 06015' : matchedEmp?.phone || '+91 92292 29323',
       status: 'active',
     };
 
