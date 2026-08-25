@@ -14,6 +14,8 @@ import {
   ChevronDown,
   Heart,
   ShieldCheck,
+  User,
+  LogIn,
 } from 'lucide-react';
 
 const Navbar = () => {
@@ -63,9 +65,9 @@ const Navbar = () => {
           : 'bg-white/90 backdrop-blur-md border-b border-neutral-200 py-3'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* 1. Left: Brand Logo & Studio Identity */}
-        <Link to="/" className="flex items-center space-x-2.5 group shrink-0">
+        <Link to="/" className="flex items-center space-x-2 sm:space-x-2.5 group shrink-0">
           <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-gold-600 p-0.5 flex items-center justify-center bg-white group-hover:border-black transition-all shadow-sm overflow-hidden">
             <img
               src="https://ugc.production.linktr.ee/bbcf2874-0602-4cdb-b362-ad612f9fc135_zV3Uuw-tQraxE7KwMApwOHbWTg75v6W5ZJJOyWhXSJBR8O1GMQMZMOQ4CvB8uCMV4mM0SXMK-Q-s800-c-k-c0x00ffffff-no-r.jpeg?io=true&size=avatar-v3_0"
@@ -79,16 +81,16 @@ const Navbar = () => {
             />
           </div>
           <div className="flex flex-col">
-            <span className="font-serif text-sm sm:text-base font-extrabold tracking-[0.16em] text-black group-hover:text-gold-700 transition-colors">
+            <span className="font-serif text-xs sm:text-base font-extrabold tracking-[0.14em] text-black group-hover:text-gold-700 transition-colors">
               MOONLIGHT
             </span>
-            <span className="text-[7.5px] tracking-[0.22em] text-black font-mono uppercase font-black">
+            <span className="text-[7px] sm:text-[7.5px] tracking-[0.2em] text-black font-mono uppercase font-black">
               Production • Films
             </span>
           </div>
         </Link>
 
-        {/* 2. Center: Perfectly Centered & Compact Navigation Links (Solid Black Font) */}
+        {/* 2. Center: Perfectly Centered & Compact Navigation Links (Desktop) */}
         <nav className="hidden lg:flex items-center justify-center space-x-1 xl:space-x-1.5 px-3">
           {navLinks.map((link) => {
             const isActive = location.pathname === link.path;
@@ -111,7 +113,7 @@ const Navbar = () => {
           })}
         </nav>
 
-        {/* 3. Right: Dual Login & Primary CTA Action Buttons */}
+        {/* 3. Right: Desktop Dual Login & CTA Action Buttons */}
         <div className="hidden lg:flex items-center space-x-2 shrink-0">
           {isAuthenticated ? (
             /* Logged in User Profile Dropdown */
@@ -162,7 +164,7 @@ const Navbar = () => {
               )}
             </div>
           ) : (
-            /* DUAL LOGIN BUTTONS (Crisp Solid Black Font) */
+            /* DUAL LOGIN BUTTONS (Desktop) */
             <div className="flex items-center space-x-1.5">
               <Link
                 to="/login?role=customer"
@@ -192,14 +194,31 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Mobile Hamburger Toggle */}
+        {/* 4. Mobile Controls: Direct 1-Click Login Button + Book Button + Hamburger */}
         <div className="lg:hidden flex items-center space-x-1.5">
+          {isAuthenticated ? (
+            <Link
+              to={getDashboardPath()}
+              className="px-2.5 py-1 text-[9.5px] font-black uppercase tracking-wider bg-gold-100 border border-gold-600 text-black rounded-full shadow-sm flex items-center"
+            >
+              <User className="w-2.5 h-2.5 mr-1 text-gold-700" /> Portal
+            </Link>
+          ) : (
+            <Link
+              to="/login?role=customer"
+              className="px-2.5 py-1 text-[9.5px] font-black uppercase tracking-wider border-2 border-gold-600 bg-gold-50 text-black rounded-full shadow-sm flex items-center"
+            >
+              <LogIn className="w-2.5 h-2.5 mr-1 text-gold-700" /> Login
+            </Link>
+          )}
+
           <Link
             to="/enquiry"
-            className="px-3 py-1 text-[10px] font-black uppercase tracking-wider bg-black text-white rounded-full shadow-sm"
+            className="px-2.5 py-1 text-[9.5px] font-black uppercase tracking-wider bg-black text-white rounded-full shadow-sm"
           >
             Book
           </Link>
+
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-1.5 text-black hover:text-neutral-700 rounded-lg focus:outline-none"
@@ -210,22 +229,14 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Slide-Out Drawer */}
+      {/* Mobile Slide-Out Full Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 top-[52px] bg-white/98 backdrop-blur-2xl z-50 px-6 py-5 border-t border-neutral-300 flex flex-col justify-between overflow-y-auto animate-fade-in custom-scrollbar text-black">
-          <div className="space-y-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                className="block text-base font-serif font-black tracking-wider text-black hover:text-gold-700 border-b border-neutral-200 pb-2.5 transition-colors"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </div>
-
-          <div className="pt-4 border-t border-neutral-300 space-y-2.5">
+        <div className="lg:hidden fixed inset-0 top-[52px] bg-white/98 backdrop-blur-2xl z-50 px-5 py-5 border-t border-neutral-300 flex flex-col justify-between overflow-y-auto animate-fade-in custom-scrollbar text-black">
+          {/* Quick Dual Login Action Box (Top of Mobile Menu) */}
+          <div className="mb-4 p-3 rounded-2xl bg-[#FAF8F5] border-2 border-neutral-300 space-y-2">
+            <span className="text-[10px] uppercase font-mono font-black text-black block tracking-wider">
+              🔐 Account & Client Sanctuary
+            </span>
             {isAuthenticated ? (
               <div className="space-y-2">
                 <Link
@@ -247,21 +258,36 @@ const Navbar = () => {
               <div className="grid grid-cols-2 gap-2">
                 <Link
                   to="/login?role=customer"
-                  className="flex items-center justify-center py-2.5 rounded-xl border-2 border-gold-600 bg-gold-50 text-black font-black text-xs uppercase tracking-wider text-center shadow-sm"
+                  className="flex items-center justify-center py-2.5 rounded-xl border-2 border-gold-600 bg-gold-50 text-black font-black text-[11px] uppercase tracking-wider text-center shadow-sm"
                 >
                   <Heart className="w-3.5 h-3.5 mr-1 text-gold-700" /> Couple Login
                 </Link>
                 <Link
                   to="/login?role=staff"
-                  className="flex items-center justify-center py-2.5 rounded-xl border-2 border-black bg-white text-black font-black text-xs uppercase tracking-wider text-center shadow-sm"
+                  className="flex items-center justify-center py-2.5 rounded-xl border-2 border-black bg-white text-black font-black text-[11px] uppercase tracking-wider text-center shadow-sm"
                 >
                   <ShieldCheck className="w-3.5 h-3.5 mr-1 text-gold-700" /> Staff Login
                 </Link>
               </div>
             )}
+          </div>
 
-            {/* Direct Official Social Channels in Mobile */}
-            <div className="flex justify-around items-center text-black pt-3 border-t border-neutral-200 text-xs font-mono font-bold">
+          {/* Navigation Links */}
+          <div className="space-y-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.path}
+                className="block text-base font-serif font-black tracking-wider text-black hover:text-gold-700 border-b border-neutral-200 pb-2.5 transition-colors"
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+
+          {/* Direct Official Social Channels in Mobile */}
+          <div className="pt-4 border-t border-neutral-300">
+            <div className="flex justify-around items-center text-black text-xs font-mono font-bold">
               <a href="https://instagram.com/moonlight_production__" target="_blank" rel="noreferrer" className="flex items-center hover:text-pink-600">
                 <Instagram className="w-4 h-4 mr-1 text-pink-600" /> Instagram
               </a>
