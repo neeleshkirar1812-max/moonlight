@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { generateLuxuryInvoicePDF } from '../../utils/invoicePdfGenerator';
 
-const InvoiceModal = ({ invoice, onClose, onResend, isAdmin = false }) => {
+const InvoiceModal = ({ invoice, onClose, onResend, onPay, isAdmin = false }) => {
   if (!invoice) return null;
 
   const handleDownload = () => {
@@ -212,6 +212,14 @@ const InvoiceModal = ({ invoice, onClose, onResend, isAdmin = false }) => {
           </p>
 
           <div className="flex items-center space-x-3">
+            {!isAdmin && onPay && Number(invoice.remainingBalance || 0) > 0 && (
+              <button
+                onClick={onPay}
+                className="px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs uppercase tracking-wider shadow-lg transition-all flex items-center"
+              >
+                <CreditCard className="w-3.5 h-3.5 mr-1.5" /> Pay Online (UPI / Card)
+              </button>
+            )}
             {isAdmin && onResend && (
               <button
                 onClick={() => onResend(invoice)}
