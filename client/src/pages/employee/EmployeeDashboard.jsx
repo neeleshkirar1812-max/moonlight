@@ -58,7 +58,7 @@ const EmployeeDashboard = () => {
             Production & Cinema Crew Portal
           </span>
           <h1 className="font-serif text-3xl sm:text-4xl font-bold text-white">
-            Hello, {user?.name || 'Rohan Verma'}
+            Hello, {user?.name || 'Aman Pawar'}
           </h1>
           <p className="text-xs sm:text-sm text-neutral-300 font-light">
             You have <strong className="text-gold-300 font-semibold">{defaultBookings.length} active wedding shoots</strong> assigned to your schedule.

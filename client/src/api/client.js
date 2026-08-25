@@ -96,7 +96,7 @@ const initialData = {
       package: { name: 'The Imperial Heritage Suite', totalAmount: 1850000 },
       advancePaid: 555000,
       status: 'CONFIRMED',
-      leadCrew: 'Rohan Verma (Director)',
+      leadCrew: 'Aman Pawar (Lead Director)',
       createdAt: '2026-08-20T10:00:00Z',
     },
     {
@@ -109,7 +109,7 @@ const initialData = {
       package: { name: 'The Royal Sovereign Collection', totalAmount: 1250000 },
       advancePaid: 375000,
       status: 'CONFIRMED',
-      leadCrew: 'Priya Mehta (Lead Master)',
+      leadCrew: 'Bunny Singh (Senior Master)',
       createdAt: '2026-08-22T14:30:00Z',
     },
   ],

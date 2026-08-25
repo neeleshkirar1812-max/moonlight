@@ -47,9 +47,9 @@ const CustomerDashboard = () => {
     venue: 'Ahilya Fort, Maheshwar Ghats',
     paymentStatus: 'Advance Received (60%)',
     assignedEmployees: [
-      { _id: 'e1', name: 'Rohan Verma', designation: 'Lead Cinematographer', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80' },
-      { _id: 'e2', name: 'Priya Mehta', designation: 'Senior Candid Master', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80' },
-      { _id: 'e3', name: 'Kabir Singh', designation: '4K Drone Pilot', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80' },
+      { _id: 'EMP-MLP-001', name: 'Aman Pawar', designation: 'Lead Cinematographer & Film Director', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80' },
+      { _id: 'EMP-MLP-002', name: 'Bunny Singh', designation: 'Senior Candid Master & Royal Portraiture', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80' },
+      { _id: 'EMP-MLP-003', name: 'Chinnu', designation: '4K Commercial Drone Cinematographer', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80' },
     ],
   };
 
