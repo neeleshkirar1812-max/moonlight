@@ -3,6 +3,7 @@ import api from '../../api/client';
 import { useNotification } from '../../context/NotificationContext';
 import { generateLuxuryInvoicePDF } from '../../utils/invoicePdfGenerator';
 import InvoiceModal from '../../components/common/InvoiceModal';
+import * as XLSX from 'xlsx';
 import {
   FileText,
   Plus,
@@ -19,6 +20,12 @@ import {
   X,
   Eye,
   Sparkles,
+  FileSpreadsheet,
+  DollarSign,
+  Receipt,
+  Clock,
+  ArrowRight,
+  ShieldCheck,
 } from 'lucide-react';
 
 const AdminInvoices = () => {
@@ -27,11 +34,23 @@ const AdminInvoices = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [selectedInvoiceForPayment, setSelectedInvoiceForPayment] = useState(null);
   const [previewInvoice, setPreviewInvoice] = useState(null);
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [search, setSearch] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const { addToast } = useNotification();
+
+  // Payment Recording State
+  const [paymentForm, setPaymentForm] = useState({
+    amount: '',
+    paymentMethod: 'UPI',
+    reference: '',
+    notes: '30% Advance Booking Retainer Received',
+    sendReceiptWhatsApp: true,
+    sendReceiptEmail: true,
+  });
 
   // Invoice Form State with Direct Client Fields & Studio T&C Defaults
   const [form, setForm] = useState({
@@ -235,6 +254,150 @@ const AdminInvoices = () => {
     }
   };
 
+  // Open Payment Capture Modal
+  const openRecordPaymentModal = (inv) => {
+    setSelectedInvoiceForPayment(inv);
+    const suggestedAdvance = inv.paidAmount > 0 
+      ? Math.round(Number(inv.totalAmount || 0) * 0.5) // Pre-wedding 50%
+      : Math.round(Number(inv.totalAmount || 0) * 0.3); // Advance 30%
+    
+    const maxPayable = Number(inv.remainingBalance || 0);
+    setPaymentForm({
+      amount: Math.min(suggestedAdvance, maxPayable) || maxPayable,
+      paymentMethod: 'UPI',
+      reference: `UTR-${Math.floor(100000000 + Math.random() * 900000000)}`,
+      notes: inv.paidAmount === 0 ? '30% Advance Booking Retainer' : 'Pre-Wedding Milestone Payment',
+      sendReceiptWhatsApp: true,
+      sendReceiptEmail: true,
+    });
+    setPaymentModalOpen(true);
+  };
+
+  // Handle Recording Payment (Advance or Full)
+  const handleRecordPaymentSubmit = async (e) => {
+    e.preventDefault();
+    if (!selectedInvoiceForPayment) return;
+
+    const paymentAmount = Number(paymentForm.amount);
+    if (!paymentAmount || paymentAmount <= 0) {
+      addToast({ title: 'Invalid Amount', message: 'Please enter a valid payment amount.', type: 'warning' });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const currentPaid = Number(selectedInvoiceForPayment.paidAmount || 0);
+      const totalAmount = Number(selectedInvoiceForPayment.totalAmount || 0);
+      const newPaid = currentPaid + paymentAmount;
+      const newRemaining = Math.max(0, totalAmount - newPaid);
+      const newStatus = newRemaining === 0 ? 'PAID' : 'PARTIALLY_PAID';
+
+      // Update Invoice in local storage and backend
+      const updatedInvoice = {
+        ...selectedInvoiceForPayment,
+        paidAmount: newPaid,
+        remainingBalance: newRemaining,
+        status: newStatus,
+        lastPaymentDate: new Date().toISOString(),
+        lastPaymentRef: paymentForm.reference,
+      };
+
+      // Record transaction entry
+      const newTransaction = {
+        _id: `pay-${Date.now()}`,
+        invoiceId: selectedInvoiceForPayment._id,
+        invoiceNumber: selectedInvoiceForPayment.invoiceNumber,
+        clientName: selectedInvoiceForPayment.clientInfo?.name || selectedInvoiceForPayment.customer?.name,
+        amount: paymentAmount,
+        method: paymentForm.paymentMethod,
+        reference: paymentForm.reference,
+        notes: paymentForm.notes,
+        date: new Date().toISOString(),
+        status: 'SUCCESS',
+      };
+
+      await api.post('/payments', newTransaction);
+
+      // Save updated invoice
+      const allInvoices = invoices.map((inv) => (inv._id === selectedInvoiceForPayment._id ? updatedInvoice : inv));
+      setInvoices(allInvoices);
+      localStorage.setItem('ml_invoices', JSON.stringify(allInvoices));
+
+      // WhatsApp payment receipt
+      if (paymentForm.sendReceiptWhatsApp && (selectedInvoiceForPayment.clientInfo?.phone || selectedInvoiceForPayment.customer?.phone)) {
+        const rawPhone = selectedInvoiceForPayment.clientInfo?.phone || selectedInvoiceForPayment.customer?.phone;
+        const cleanPhone = rawPhone.replace(/[^0-9]/g, '');
+        const clientName = selectedInvoiceForPayment.clientInfo?.name || selectedInvoiceForPayment.customer?.name || 'Valued Client';
+        const msg = encodeURIComponent(
+          `*MOONLIGHT PRODUCTION & FILMS* 🎬✨\n` +
+          `*Official Payment Confirmation & Advance Receipt*\n\n` +
+          `Dear *${clientName}*,\n` +
+          `We have successfully received your payment of *₹${paymentAmount.toLocaleString('en-IN')}*.\n\n` +
+          `📄 *Invoice No:* ${selectedInvoiceForPayment.invoiceNumber}\n` +
+          `💳 *Payment Mode:* ${paymentForm.paymentMethod} (Ref: ${paymentForm.reference})\n` +
+          `💰 *Total Collected to Date:* ₹${newPaid.toLocaleString('en-IN')}\n` +
+          `⏳ *Outstanding Balance:* ₹${newRemaining.toLocaleString('en-IN')}\n` +
+          `📌 *Payment Status:* ${newStatus}\n\n` +
+          `*Thank you for trusting Moonlight Production with your royal celebrations!*\n` +
+          `*Hotline:* +91 92292 29323`
+        );
+        window.open(`https://wa.me/${cleanPhone.startsWith('91') ? cleanPhone : '91' + cleanPhone}?text=${msg}`, '_blank');
+      }
+
+      addToast({
+        title: 'Payment Recorded & Receipt Sent',
+        message: `₹${paymentAmount.toLocaleString('en-IN')} recorded for Invoice ${selectedInvoiceForPayment.invoiceNumber}! Status: ${newStatus}`,
+        type: 'success',
+      });
+
+      setPaymentModalOpen(false);
+      setSelectedInvoiceForPayment(null);
+    } catch (err) {
+      addToast({ title: 'Error', message: err.message, type: 'error' });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  // Export to Master Excel Spreadsheet (.xlsx)
+  const exportToExcel = () => {
+    try {
+      const dataRows = invoices.map((inv, idx) => ({
+        'S.No': idx + 1,
+        'Invoice Number': inv.invoiceNumber,
+        'Client Name': inv.clientInfo?.name || inv.customer?.name || 'N/A',
+        'Client Email': inv.clientInfo?.email || inv.customer?.email || 'N/A',
+        'Mobile / WhatsApp': inv.clientInfo?.phone || inv.customer?.phone || 'N/A',
+        'Palace Venue / Address': inv.clientInfo?.address || 'Heritage Venue',
+        'Issue Date': new Date(inv.issueDate || Date.now()).toLocaleDateString('en-IN'),
+        'Due Date': new Date(inv.dueDate || Date.now()).toLocaleDateString('en-IN'),
+        'Subtotal (INR)': inv.subtotal || 0,
+        'GST Rate (%)': inv.taxRate || 18,
+        'GST Amount (INR)': inv.taxAmount || 0,
+        'Grand Total (INR)': inv.totalAmount || 0,
+        'Advance Received (INR)': inv.paidAmount || 0,
+        'Remaining Balance (INR)': inv.remainingBalance || 0,
+        'Status': inv.status || 'ISSUED',
+        '30% Advance Retainer': Math.round((inv.totalAmount || 0) * 0.3),
+        '50% Pre-Wedding Milestone': Math.round((inv.totalAmount || 0) * 0.5),
+        '20% Final Delivery Balance': Math.round((inv.totalAmount || 0) * 0.2),
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(dataRows);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Financial_Ledger');
+      XLSX.writeFile(workbook, `Moonlight_Invoices_Financial_Ledger_${new Date().toISOString().split('T')[0]}.xlsx`);
+
+      addToast({
+        title: 'Excel Export Complete',
+        message: `${invoices.length} invoices successfully exported to Excel spreadsheet!`,
+        type: 'success',
+      });
+    } catch (err) {
+      addToast({ title: 'Export Error', message: err.message, type: 'error' });
+    }
+  };
+
   // Resend Invoice to Customer via Direct Backend Dispatch (No redirect)
   const handleResendInvoice = async (inv) => {
     try {
@@ -254,8 +417,8 @@ const AdminInvoices = () => {
     if (!window.confirm('Are you sure you want to delete this invoice?')) return;
     try {
       await api.delete(`/invoices/${invoiceId}`);
+      setInvoices((prev) => prev.filter((i) => i._id !== invoiceId));
       addToast({ title: 'Invoice Deleted', message: 'Invoice removed from records.', type: 'success' });
-      fetchData();
     } catch (err) {
       addToast({ title: 'Error', message: err.message, type: 'error' });
     }
@@ -266,19 +429,27 @@ const AdminInvoices = () => {
     generateLuxuryInvoicePDF(inv);
   };
 
-  // KPIs
-  const totalInvoiced = invoices.reduce((acc, i) => acc + (i.totalAmount || 0), 0);
-  const totalPaid = invoices.reduce((acc, i) => acc + (i.paidAmount || 0), 0);
-  const totalPending = invoices.reduce((acc, i) => acc + (i.remainingBalance || 0), 0);
+  // Dynamic KPIs
+  const totalInvoiced = invoices.reduce((acc, i) => acc + (Number(i.totalAmount) || 0), 0);
+  const totalPaid = invoices.reduce((acc, i) => acc + (Number(i.paidAmount) || 0), 0);
+  const totalPending = invoices.reduce((acc, i) => acc + (Number(i.remainingBalance) || 0), 0);
+
+  // Status Filter counts
+  const countIssued = invoices.filter((i) => (i.status || 'ISSUED').toUpperCase() === 'ISSUED').length;
+  const countPartiallyPaid = invoices.filter((i) => (i.status || '').toUpperCase() === 'PARTIALLY_PAID').length;
+  const countPaid = invoices.filter((i) => (i.status || '').toUpperCase() === 'PAID').length;
 
   const filteredInvoices = invoices.filter((inv) => {
-    if (statusFilter !== 'ALL' && inv.status !== statusFilter) return false;
+    if (statusFilter !== 'ALL') {
+      const invStatus = (inv.status || 'ISSUED').toUpperCase();
+      if (invStatus !== statusFilter.toUpperCase()) return false;
+    }
     if (search.trim()) {
       const q = search.toLowerCase();
       const num = (inv.invoiceNumber || '').toLowerCase();
       const name = (inv.clientInfo?.name || inv.customer?.name || '').toLowerCase();
-      const email = (inv.clientInfo?.email || '').toLowerCase();
-      const phone = (inv.clientInfo?.phone || '').toLowerCase();
+      const email = (inv.clientInfo?.email || inv.customer?.email || '').toLowerCase();
+      const phone = (inv.clientInfo?.phone || inv.customer?.phone || '').toLowerCase();
       return num.includes(q) || name.includes(q) || email.includes(q) || phone.includes(q);
     }
     return true;
@@ -290,20 +461,32 @@ const AdminInvoices = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-xs uppercase tracking-widest text-gold-400 font-semibold block">
-            Studio Billing & Contracts
+            Studio Billing & Financial Ledger
           </span>
-          <h1 className="font-serif text-3xl font-bold text-white">Client Invoices & Legal Agreements</h1>
+          <h1 className="font-serif text-3xl font-bold text-white">Client Invoices & Advance Tracking</h1>
           <p className="text-xs text-neutral-400 mt-1">
-            Official GST tax bills with 30% booking advance milestones, 90-day delivery SLAs, and 6-month cloud retention clauses.
+            Complete lifecycle: Inquiries ➔ Bookings ➔ 30% Advance Retainers ➔ Milestone Tracking ➔ Auto-Sync Excel.
           </p>
         </div>
 
-        <button
-          onClick={() => setModalOpen(true)}
-          className="px-5 py-2.5 rounded-full bg-gold-gradient text-black font-bold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 transition-all flex items-center shrink-0"
-        >
-          <Plus className="w-4 h-4 mr-1.5" /> Create & Direct Send Bill
-        </button>
+        <div className="flex items-center gap-3">
+          {/* Export to Excel */}
+          <button
+            onClick={exportToExcel}
+            className="px-4 py-2.5 rounded-full bg-obsidian-300 hover:bg-emerald-500 hover:text-black border border-emerald-500/40 text-emerald-300 font-bold text-xs uppercase tracking-wider transition-all flex items-center shrink-0 shadow-sm"
+            title="Download Master Financial Spreadsheet (.xlsx)"
+          >
+            <FileSpreadsheet className="w-4 h-4 mr-1.5" /> Export Excel (.xlsx)
+          </button>
+
+          {/* Create Bill */}
+          <button
+            onClick={() => setModalOpen(true)}
+            className="px-5 py-2.5 rounded-full bg-gold-gradient text-black font-bold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 transition-all flex items-center shrink-0"
+          >
+            <Plus className="w-4 h-4 mr-1.5" /> Create & Direct Send Bill
+          </button>
+        </div>
       </div>
 
       {/* KPI Cards Grid */}
@@ -317,39 +500,44 @@ const AdminInvoices = () => {
           <p className="text-[11px] text-neutral-400 font-mono">{invoices.length} Studio Invoices Issued</p>
         </div>
 
-        <div className="luxury-card rounded-2xl p-6 border border-white/10 space-y-1">
+        <div className="luxury-card rounded-2xl p-6 border border-emerald-500/30 space-y-1">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase font-mono text-neutral-400">Total Collected</span>
+            <span className="text-[10px] uppercase font-mono text-neutral-400">Advance Collected</span>
             <CheckCircle2 className="w-5 h-5 text-emerald-400" />
           </div>
           <h3 className="font-serif text-3xl font-bold text-emerald-400">₹{totalPaid.toLocaleString('en-IN')}</h3>
-          <p className="text-[11px] text-neutral-400 font-mono">Captured via Razorpay / Bank</p>
+          <p className="text-[11px] text-neutral-400 font-mono">Captured via Razorpay / UPI / Bank</p>
         </div>
 
-        <div className="luxury-card rounded-2xl p-6 border border-white/10 space-y-1">
+        <div className="luxury-card rounded-2xl p-6 border border-amber-500/30 space-y-1">
           <div className="flex items-center justify-between">
             <span className="text-[10px] uppercase font-mono text-neutral-400">Outstanding Balance</span>
-            <CreditCard className="w-5 h-5 text-gold-400" />
+            <CreditCard className="w-5 h-5 text-amber-400" />
           </div>
           <h3 className="font-serif text-3xl font-bold text-gold-300">₹{totalPending.toLocaleString('en-IN')}</h3>
-          <p className="text-[11px] text-amber-400 font-mono">Pre-wedding & delivery balances</p>
+          <p className="text-[11px] text-amber-400 font-mono">Pre-wedding & final delivery dues</p>
         </div>
       </div>
 
       {/* Filter & Search Bar */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 pb-4 border-b border-white/10">
         <div className="flex items-center space-x-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 custom-scrollbar">
-          {['ALL', 'ISSUED', 'PARTIALLY_PAID', 'PAID', 'DRAFT', 'CANCELLED'].map((st) => (
+          {[
+            { key: 'ALL', label: `All Invoices (${invoices.length})` },
+            { key: 'ISSUED', label: `Issued (${countIssued})` },
+            { key: 'PARTIALLY_PAID', label: `Partially Paid (${countPartiallyPaid})` },
+            { key: 'PAID', label: `Fully Paid (${countPaid})` },
+          ].map((tab) => (
             <button
-              key={st}
-              onClick={() => setStatusFilter(st)}
+              key={tab.key}
+              onClick={() => setStatusFilter(tab.key)}
               className={`px-3.5 py-1.5 rounded-full text-xs font-mono uppercase font-semibold transition-all whitespace-nowrap ${
-                statusFilter === st
+                statusFilter === tab.key
                   ? 'bg-gold-gradient text-black font-bold shadow-gold-subtle'
                   : 'bg-obsidian-300 text-neutral-400 hover:text-white border border-white/10'
               }`}
             >
-              {st}
+              {tab.label}
             </button>
           ))}
         </div>
@@ -373,7 +561,11 @@ const AdminInvoices = () => {
         <div className="text-center py-20 bg-obsidian-400 rounded-3xl border border-white/10 space-y-3">
           <FileText className="w-8 h-8 text-gold-400 mx-auto opacity-50" />
           <h3 className="font-serif text-xl text-white">No Invoices Found</h3>
-          <p className="text-xs text-neutral-400">Click "Create & Direct Send Bill" to generate a studio invoice.</p>
+          <p className="text-xs text-neutral-400">
+            {statusFilter !== 'ALL' 
+              ? `No invoices with status "${statusFilter}". Try switching to "All Invoices".` 
+              : 'Click "Create & Direct Send Bill" to generate a studio invoice.'}
+          </p>
         </div>
       ) : (
         <div className="luxury-card rounded-2xl overflow-hidden border border-white/10">
@@ -384,11 +576,11 @@ const AdminInvoices = () => {
                   <th className="p-4">Invoice Ref</th>
                   <th className="p-4">Client Details (Email & Phone)</th>
                   <th className="p-4">Total Amount</th>
-                  <th className="p-4">Paid</th>
-                  <th className="p-4">Remaining</th>
+                  <th className="p-4">Advance Paid</th>
+                  <th className="p-4">Remaining Due</th>
                   <th className="p-4">Status</th>
                   <th className="p-4">Due Date</th>
-                  <th className="p-4 text-right">Actions</th>
+                  <th className="p-4 text-right">Actions & Milestones</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5 text-neutral-300">
@@ -416,36 +608,47 @@ const AdminInvoices = () => {
                       </div>
                     </td>
                     <td className="p-4 font-serif text-sm font-bold text-white">
-                      ₹{inv.totalAmount?.toLocaleString('en-IN')}
+                      ₹{Number(inv.totalAmount || 0).toLocaleString('en-IN')}
                     </td>
-                    <td className="p-4 font-mono text-emerald-400">
-                      ₹{inv.paidAmount?.toLocaleString('en-IN')}
+                    <td className="p-4 font-mono text-emerald-400 font-bold">
+                      ₹{Number(inv.paidAmount || 0).toLocaleString('en-IN')}
                     </td>
-                    <td className="p-4 font-mono text-gold-300 font-bold">
-                      ₹{inv.remainingBalance?.toLocaleString('en-IN')}
+                    <td className="p-4 font-mono text-amber-400 font-bold">
+                      ₹{Number(inv.remainingBalance || 0).toLocaleString('en-IN')}
                     </td>
                     <td className="p-4">
                       <span
                         className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold uppercase ${
-                          inv.status === 'PAID'
+                          (inv.status || 'ISSUED').toUpperCase() === 'PAID'
                             ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                            : inv.status === 'PARTIALLY_PAID'
+                            : (inv.status || '').toUpperCase() === 'PARTIALLY_PAID'
                             ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
                             : 'bg-gold-500/20 text-gold-300 border border-gold-500/40'
                         }`}
                       >
-                        {inv.status}
+                        {inv.status || 'ISSUED'}
                       </span>
                     </td>
                     <td className="p-4 font-mono text-neutral-400">
-                      {new Date(inv.dueDate || inv.issueDate).toLocaleDateString()}
+                      {new Date(inv.dueDate || inv.issueDate || Date.now()).toLocaleDateString()}
                     </td>
                     <td className="p-4 text-right">
                       <div className="flex items-center justify-end space-x-2">
+                        {/* 1-Click Record Advance / Milestone Payment */}
+                        {Number(inv.remainingBalance || 0) > 0 && (
+                          <button
+                            onClick={() => openRecordPaymentModal(inv)}
+                            title="Record Advance / Milestone Payment"
+                            className="px-2.5 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500 hover:text-black border border-emerald-500/40 text-emerald-300 font-bold text-[11px] flex items-center transition-all"
+                          >
+                            <CreditCard className="w-3 h-3 mr-1" /> Capture Pay
+                          </button>
+                        )}
+
                         {/* View Studio Bill & T&C Preview Modal */}
                         <button
                           onClick={() => setPreviewInvoice(inv)}
-                          title="View Bill Details & Terms"
+                          title="View Bill Details & Legal Agreement"
                           className="p-1.5 rounded-lg bg-obsidian-300 hover:bg-gold-500 hover:text-black border border-white/10 text-gold-300 transition-all"
                         >
                           <Eye className="w-3.5 h-3.5" />
@@ -455,9 +658,9 @@ const AdminInvoices = () => {
                         <button
                           onClick={() => handleResendInvoice(inv)}
                           title="Direct Resend to Client's Email & WhatsApp"
-                          className="px-2.5 py-1.5 rounded-lg bg-gold-500/15 text-gold-300 hover:bg-gold-500 hover:text-black border border-gold-500/30 transition-all flex items-center font-bold text-[11px]"
+                          className="px-2 py-1.5 rounded-lg bg-gold-500/15 text-gold-300 hover:bg-gold-500 hover:text-black border border-gold-500/30 transition-all flex items-center font-bold text-[11px]"
                         >
-                          <Send className="w-3 h-3 mr-1" /> Send
+                          <Send className="w-3 h-3 mr-1" /> Resend
                         </button>
 
                         {/* Download PDF */}
@@ -483,6 +686,157 @@ const AdminInvoices = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Record Advance / Milestone Payment Modal */}
+      {paymentModalOpen && selectedInvoiceForPayment && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-obsidian-400 border border-emerald-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl space-y-5 animate-fade-in">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+              <div className="flex items-center space-x-2.5">
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+                  <CreditCard className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-serif text-xl font-bold text-white">Record Advance / Milestone Payment</h3>
+                  <p className="text-xs text-neutral-400 font-mono">Invoice #{selectedInvoiceForPayment.invoiceNumber}</p>
+                </div>
+              </div>
+              <button onClick={() => setPaymentModalOpen(false)} className="text-neutral-400 hover:text-white">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Client Summary Box */}
+            <div className="p-3.5 rounded-2xl bg-obsidian-500/80 border border-white/10 text-xs space-y-1 font-mono">
+              <div className="flex justify-between">
+                <span className="text-neutral-400">Client:</span>
+                <strong className="text-white">{selectedInvoiceForPayment.clientInfo?.name || selectedInvoiceForPayment.customer?.name}</strong>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-neutral-400">Total Billed:</span>
+                <span className="text-white">₹{Number(selectedInvoiceForPayment.totalAmount || 0).toLocaleString('en-IN')}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-neutral-400">Already Collected:</span>
+                <span className="text-emerald-400">₹{Number(selectedInvoiceForPayment.paidAmount || 0).toLocaleString('en-IN')}</span>
+              </div>
+              <div className="flex justify-between pt-1 border-t border-white/10">
+                <span className="text-amber-400 font-bold">Outstanding Due:</span>
+                <strong className="text-amber-400 font-bold">₹{Number(selectedInvoiceForPayment.remainingBalance || 0).toLocaleString('en-IN')}</strong>
+              </div>
+            </div>
+
+            <form onSubmit={handleRecordPaymentSubmit} className="space-y-4 text-xs">
+              {/* Payment Amount Input */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between">
+                  <label className="text-neutral-300 font-bold uppercase text-[10.5px] tracking-wider">
+                    Payment Amount Received (₹) *
+                  </label>
+                  {/* Quick Milestone Fill Buttons */}
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => setPaymentForm({ ...paymentForm, amount: Math.round(Number(selectedInvoiceForPayment.totalAmount || 0) * 0.3) })}
+                      className="px-2 py-0.5 rounded bg-gold-500/20 text-gold-300 text-[10px] font-mono hover:bg-gold-500 hover:text-black transition-all"
+                    >
+                      30% Retainer
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setPaymentForm({ ...paymentForm, amount: Number(selectedInvoiceForPayment.remainingBalance || 0) })}
+                      className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-mono hover:bg-emerald-500 hover:text-black transition-all"
+                    >
+                      Full Clear
+                    </button>
+                  </div>
+                </div>
+                <input
+                  type="number"
+                  required
+                  min="1"
+                  max={selectedInvoiceForPayment.remainingBalance}
+                  value={paymentForm.amount}
+                  onChange={(e) => setPaymentForm({ ...paymentForm, amount: e.target.value })}
+                  placeholder="e.g. 150000"
+                  className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-3 py-2.5 text-emerald-400 font-mono text-sm focus:outline-none focus:border-emerald-400"
+                />
+              </div>
+
+              {/* Payment Mode & Reference */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-neutral-300 font-semibold uppercase text-[10.5px]">Payment Channel *</label>
+                  <select
+                    value={paymentForm.paymentMethod}
+                    onChange={(e) => setPaymentForm({ ...paymentForm, paymentMethod: e.target.value })}
+                    className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-3 py-2 text-white font-mono"
+                  >
+                    <option value="UPI">UPI / QR Code</option>
+                    <option value="RAZORPAY">Razorpay Gateway</option>
+                    <option value="NEFT_RTGS">NEFT / RTGS Bank Transfer</option>
+                    <option value="CASH">Cash / Cheque</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-neutral-300 font-semibold uppercase text-[10.5px]">Reference / UTR No. *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. UTR-202684920"
+                    value={paymentForm.reference}
+                    onChange={(e) => setPaymentForm({ ...paymentForm, reference: e.target.value })}
+                    className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-3 py-2 text-white font-mono"
+                  />
+                </div>
+              </div>
+
+              {/* Notes */}
+              <div className="space-y-1">
+                <label className="text-neutral-300 font-semibold uppercase text-[10.5px]">Milestone Milestone Notes</label>
+                <input
+                  type="text"
+                  placeholder="e.g. 30% Booking Retainer Advance"
+                  value={paymentForm.notes}
+                  onChange={(e) => setPaymentForm({ ...paymentForm, notes: e.target.value })}
+                  className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-3 py-2 text-white"
+                />
+              </div>
+
+              {/* Instant WhatsApp Receipt Checkbox */}
+              <label className="flex items-center space-x-2.5 p-3 rounded-xl bg-obsidian-500/60 border border-white/10 cursor-pointer text-emerald-400 font-semibold">
+                <input
+                  type="checkbox"
+                  checked={paymentForm.sendReceiptWhatsApp}
+                  onChange={(e) => setPaymentForm({ ...paymentForm, sendReceiptWhatsApp: e.target.checked })}
+                  className="accent-emerald-500 w-4 h-4"
+                />
+                <span>💬 Auto-Dispatch Payment Receipt to Client's WhatsApp</span>
+              </label>
+
+              {/* Submit Buttons */}
+              <div className="flex justify-end space-x-3 pt-3 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setPaymentModalOpen(false)}
+                  className="px-4 py-2 rounded-full border border-white/15 text-neutral-300 hover:text-white"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="px-6 py-2 rounded-full bg-emerald-gradient text-black font-bold uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center disabled:opacity-50"
+                >
+                  <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
+                  {submitting ? 'Recording...' : 'Confirm & Send Receipt'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
