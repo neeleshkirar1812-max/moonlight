@@ -115,7 +115,7 @@ const AdminEmployees = () => {
                   <input
                     type="email"
                     required
-                    placeholder="vikram@lumierestudios.com"
+                    placeholder="vikram@Moonlight Production.com"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-3 py-2 text-white focus:outline-none"

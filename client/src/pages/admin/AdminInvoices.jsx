@@ -668,7 +668,7 @@ const AdminInvoices = () => {
                 </strong>
                 <p>• <strong>Payment Schedule:</strong> 30% Advance (Non-refundable) + 50% Pre-Wedding + 20% on Final Delivery.</p>
                 <p>• <strong>Delivery SLA:</strong> Edited photos & 4K films delivered in 90 days (3 months).</p>
-                <p>• <strong>Cloud Storage:</strong> Project files preserved on Lumière Cloud for 6 months post-event.</p>
+                <p>• <strong>Cloud Storage:</strong> Project files preserved on Moonlight Cloud for 6 months post-event.</p>
               </div>
 
               {/* Direct Channels Checklist */}

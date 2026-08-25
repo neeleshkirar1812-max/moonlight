@@ -9,7 +9,7 @@ const Terms = () => {
 
         <div className="prose prose-invert max-w-none text-xs text-neutral-300 font-light leading-relaxed space-y-6">
           <p>
-            Welcome to Lumière Studios. By commissioning our studio for photography, cinematography, and media production services, you agree to the following bespoke terms and standards.
+            Welcome to Moonlight Production. By commissioning our studio for photography, cinematography, and media production services, you agree to the following bespoke terms and standards.
           </p>
 
           <h3 className="font-serif text-xl font-bold text-white pt-4">1. Date Retention & Advance</h3>
@@ -19,7 +19,7 @@ const Terms = () => {
 
           <h3 className="font-serif text-xl font-bold text-white pt-4">2. Artistic Discretion & Color Grading</h3>
           <p>
-            The studio retains complete artistic discretion regarding composition, lighting, and color grading in accordance with the signature Lumière luxury editorial aesthetic shown in our public portfolio.
+            The studio retains complete artistic discretion regarding composition, lighting, and color grading in accordance with the signature Moonlight luxury editorial aesthetic shown in our public portfolio.
           </p>
 
           <h3 className="font-serif text-xl font-bold text-white pt-4">3. Deliverable Timelines</h3>

@@ -51,7 +51,7 @@ const CustomerPayments = () => {
         key: 'rzp_test_luxury_wedding_key', // Public Test Key
         amount: orderData.order.amount,
         currency: 'INR',
-        name: 'Lumière Studios Ltd.',
+        name: 'Moonlight Production Pvt. Ltd.',
         description: `Payment for Booking ${booking.bookingNumber}`,
         image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=200&q=80',
         order_id: orderData.order.id,

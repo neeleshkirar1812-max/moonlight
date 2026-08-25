@@ -9,7 +9,7 @@ const PrivacyPolicy = () => {
 
         <div className="prose prose-invert max-w-none text-xs text-neutral-300 font-light leading-relaxed space-y-6">
           <p>
-            At Lumière Studios, we treat high-profile client privacy and data discretion with paramount importance. We understand that royal families, celebrities, and prominent couples require absolute non-disclosure and secure digital asset protection.
+            At Moonlight Production, we treat high-profile client privacy and data discretion with paramount importance. We understand that royal families, celebrities, and prominent couples require absolute non-disclosure and secure digital asset protection.
           </p>
 
           <h3 className="font-serif text-xl font-bold text-white pt-4">1. Private Gallery Confidentiality</h3>

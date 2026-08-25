@@ -19,10 +19,10 @@ const demoUsers = {
     role: 'admin',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80',
   },
-  'admin@lumierestudios.com': {
+  'admin@Moonlight Production.com': {
     _id: 'demo-admin-1',
     name: 'Moonlight Studio Director',
-    email: 'admin@lumierestudios.com',
+    email: 'admin@Moonlight Production.com',
     role: 'admin',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80',
   },
@@ -33,10 +33,10 @@ const demoUsers = {
     role: 'superadmin',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80',
   },
-  'superadmin@lumierestudios.com': {
+  'superadmin@Moonlight Production.com': {
     _id: 'demo-super-1',
     name: 'Executive Super Admin',
-    email: 'superadmin@lumierestudios.com',
+    email: 'superadmin@Moonlight Production.com',
     role: 'superadmin',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80',
   },
@@ -47,10 +47,10 @@ const demoUsers = {
     role: 'employee',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80',
   },
-  'lead.photographer@lumierestudios.com': {
+  'lead.photographer@Moonlight Production.com': {
     _id: 'demo-emp-1',
     name: 'Rohan Verma (Lead Cinematographer)',
-    email: 'lead.photographer@lumierestudios.com',
+    email: 'lead.photographer@Moonlight Production.com',
     role: 'employee',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80',
   },
@@ -58,14 +58,14 @@ const demoUsers = {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem('lumiere_user');
+    const saved = localStorage.getItem('Moonlight_user');
     return saved ? JSON.parse(saved) : null;
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem('lumiere_token');
+      const token = localStorage.getItem('Moonlight_token');
       if (!token) {
         setLoading(false);
         return;
@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }) => {
           const data = await api.get('/auth/me');
           if (data?.user) {
             setUser(data.user);
-            localStorage.setItem('lumiere_user', JSON.stringify(data.user));
+            localStorage.setItem('Moonlight_user', JSON.stringify(data.user));
             setLoading(false);
             return;
           }
@@ -84,7 +84,7 @@ export const AuthProvider = ({ children }) => {
         // Continue with local storage user
       }
       
-      const saved = localStorage.getItem('lumiere_user');
+      const saved = localStorage.getItem('Moonlight_user');
       if (saved) {
         setUser(JSON.parse(saved));
       } else {
@@ -103,9 +103,9 @@ export const AuthProvider = ({ children }) => {
       try {
         const data = await api.post('/auth/login', { email, password });
         if (data?.token && data?.user) {
-          localStorage.setItem('lumiere_token', data.token);
-          localStorage.setItem('lumiere_refresh_token', data.refreshToken || `refresh_${Date.now()}`);
-          localStorage.setItem('lumiere_user', JSON.stringify(data.user));
+          localStorage.setItem('Moonlight_token', data.token);
+          localStorage.setItem('Moonlight_refresh_token', data.refreshToken || `refresh_${Date.now()}`);
+          localStorage.setItem('Moonlight_user', JSON.stringify(data.user));
           setUser(data.user);
           return data.user;
         }
@@ -118,8 +118,8 @@ export const AuthProvider = ({ children }) => {
     const matched = demoUsers[normalizedEmail];
     if (matched) {
       const fakeToken = `moonlight_jwt_${Date.now()}`;
-      localStorage.setItem('lumiere_token', fakeToken);
-      localStorage.setItem('lumiere_user', JSON.stringify(matched));
+      localStorage.setItem('Moonlight_token', fakeToken);
+      localStorage.setItem('Moonlight_user', JSON.stringify(matched));
       setUser(matched);
       return matched;
     }
@@ -139,8 +139,8 @@ export const AuthProvider = ({ children }) => {
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80',
       phone: '+91 92292 29323',
     };
-    localStorage.setItem('lumiere_token', `moonlight_jwt_${Date.now()}`);
-    localStorage.setItem('lumiere_user', JSON.stringify(fallbackUser));
+    localStorage.setItem('Moonlight_token', `moonlight_jwt_${Date.now()}`);
+    localStorage.setItem('Moonlight_user', JSON.stringify(fallbackUser));
     setUser(fallbackUser);
     return fallbackUser;
   };
@@ -150,9 +150,9 @@ export const AuthProvider = ({ children }) => {
       if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || import.meta.env.VITE_API_URL) {
         const data = await api.post('/auth/register', userData);
         if (data?.token && data?.user) {
-          localStorage.setItem('lumiere_token', data.token);
-          localStorage.setItem('lumiere_refresh_token', data.refreshToken || `refresh_${Date.now()}`);
-          localStorage.setItem('lumiere_user', JSON.stringify(data.user));
+          localStorage.setItem('Moonlight_token', data.token);
+          localStorage.setItem('Moonlight_refresh_token', data.refreshToken || `refresh_${Date.now()}`);
+          localStorage.setItem('Moonlight_user', JSON.stringify(data.user));
           setUser(data.user);
           return data.user;
         }
@@ -169,16 +169,16 @@ export const AuthProvider = ({ children }) => {
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80',
       phone: userData.phone || '+91 92292 29323',
     };
-    localStorage.setItem('lumiere_token', `moonlight_jwt_${Date.now()}`);
-    localStorage.setItem('lumiere_user', JSON.stringify(fallbackUser));
+    localStorage.setItem('Moonlight_token', `moonlight_jwt_${Date.now()}`);
+    localStorage.setItem('Moonlight_user', JSON.stringify(fallbackUser));
     setUser(fallbackUser);
     return fallbackUser;
   };
 
   const logout = () => {
-    localStorage.removeItem('lumiere_token');
-    localStorage.removeItem('lumiere_refresh_token');
-    localStorage.removeItem('lumiere_user');
+    localStorage.removeItem('Moonlight_token');
+    localStorage.removeItem('Moonlight_refresh_token');
+    localStorage.removeItem('Moonlight_user');
     setUser(null);
     window.location.href = '/login';
   };
@@ -186,7 +186,7 @@ export const AuthProvider = ({ children }) => {
   const updateUser = (updated) => {
     const newUserData = { ...user, ...updated };
     setUser(newUserData);
-    localStorage.setItem('lumiere_user', JSON.stringify(newUserData));
+    localStorage.setItem('Moonlight_user', JSON.stringify(newUserData));
   };
 
   return (

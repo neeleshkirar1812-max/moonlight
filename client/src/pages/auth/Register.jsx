@@ -28,7 +28,7 @@ const Register = () => {
     setLoading(true);
     try {
       await register(formData);
-      addToast({ title: 'Welcome to Lumière', message: 'Your customer account has been created.', type: 'success' });
+      addToast({ title: 'Welcome to Moonlight', message: 'Your customer account has been created.', type: 'success' });
       navigate('/customer/dashboard');
     } catch (err) {
       addToast({ title: 'Registration Failed', message: err.message, type: 'error' });

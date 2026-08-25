@@ -70,7 +70,7 @@ const Careers = () => {
             Join Our Creative Guild
           </span>
           <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white">
-            Careers at Lumière Studios
+            Careers at Moonlight Production
           </h1>
           <p className="text-neutral-400 text-sm sm:text-base font-light max-w-xl mx-auto">
             We are always seeking visionary photographers, cinematographers, drone pilots, and master editors who treat visual storytelling as high art.
@@ -82,7 +82,7 @@ const Careers = () => {
           <div className="luxury-card rounded-2xl p-6 space-y-2 border border-white/10">
             <Sparkles className="w-6 h-6 text-gold-400" />
             <h3 className="font-serif text-lg font-bold text-white">Global Destination Shoots</h3>
-            <p className="text-xs text-neutral-300 font-light">Travel across royal palaces in India, Lake Como, the Amalfi Coast, Paris, and Switzerland on high-profile commissions.</p>
+            <p className="text-xs text-neutral-300 font-light">Travel across royal palaces in India, Lake Pichola, Udaipur, the Goa Sunset Beach, Paris, and Switzerland on high-profile commissions.</p>
           </div>
           <div className="luxury-card rounded-2xl p-6 space-y-2 border border-white/10">
             <Briefcase className="w-6 h-6 text-gold-400" />

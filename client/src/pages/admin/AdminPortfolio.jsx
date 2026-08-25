@@ -43,7 +43,7 @@ const AdminPortfolio = () => {
     if (!file) return;
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('folder', 'lumiere/portfolio');
+    formData.append('folder', 'Moonlight/portfolio');
 
     try {
       addToast({ title: 'Uploading', message: 'Uploading image to Cloudinary...', type: 'warning' });

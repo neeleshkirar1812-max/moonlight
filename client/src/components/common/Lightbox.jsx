@@ -77,7 +77,7 @@ const Lightbox = ({
       <div className="relative flex-1 flex items-center justify-center my-4 overflow-hidden select-none">
         <img
           src={imageUrl}
-          alt={currentImage.caption || currentImage.title || 'Lumiere Master Photograph'}
+          alt={currentImage.caption || currentImage.title || 'Moonlight Master Photograph'}
           className="max-h-[82vh] max-w-[92vw] object-contain rounded shadow-2xl transition-all duration-300"
         />
 

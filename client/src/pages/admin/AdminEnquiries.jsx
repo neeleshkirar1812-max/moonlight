@@ -205,7 +205,7 @@ const AdminEnquiries = () => {
 
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Enquiries Pipeline');
-      XLSX.writeFile(workbook, `Lumiere_Enquiries_AutoSheet_${new Date().toISOString().split('T')[0]}.xlsx`);
+      XLSX.writeFile(workbook, `Moonlight_Enquiries_AutoSheet_${new Date().toISOString().split('T')[0]}.xlsx`);
 
       addToast({
         title: 'Auto-Excel Sheet Exported',

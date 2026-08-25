@@ -168,7 +168,7 @@ const EnquiryPlanner = () => {
   // SUCCESS CONFIRMATION SCREEN
   if (submittedEnquiry) {
     const cleanPhone = (submittedEnquiry.customerDetails?.whatsappNumber || '919820012345').replace(/[^\d]/g, '');
-    const waText = encodeURIComponent(`Hello Lumière Studios, I have just submitted my wedding enquiry (ID: ${submittedEnquiry.enquiryId}) for ${submittedEnquiry.eventType} on ${new Date(submittedEnquiry.eventDate).toLocaleDateString()}. Looking forward to speaking!`);
+    const waText = encodeURIComponent(`Hello Moonlight Production, I have just submitted my wedding enquiry (ID: ${submittedEnquiry.enquiryId}) for ${submittedEnquiry.eventType} on ${new Date(submittedEnquiry.eventDate).toLocaleDateString()}. Looking forward to speaking!`);
     const waUrl = `https://wa.me/919820012345?text=${waText}`;
 
     return (
@@ -384,7 +384,7 @@ const EnquiryPlanner = () => {
                     <label className="text-xs font-semibold text-neutral-300 uppercase">City *</label>
                     <input
                       type="text"
-                      placeholder="e.g. Udaipur, Mumbai, Lake Como"
+                      placeholder="e.g. Udaipur, Mumbai, Lake Pichola, Udaipur"
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                       className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-4 py-3 text-white text-sm focus:border-gold-400 focus:outline-none"

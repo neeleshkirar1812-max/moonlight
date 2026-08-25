@@ -5,14 +5,14 @@ import { Settings, Save, Globe, Phone, Mail, MapPin, Instagram, Youtube } from '
 
 const AdminSettings = () => {
   const [settings, setSettings] = useState({
-    siteName: 'Lumière Studios',
+    siteName: 'Moonlight Production',
     tagline: 'Luxury Wedding Photography & Cinematic Heirlooms',
-    contactEmail: 'concierge@lumierestudios.com',
+    contactEmail: 'concierge@Moonlight Production.com',
     contactPhone: '+91 98200 12345',
     whatsappNumber: '+919820012345',
-    address: 'Lumière Penthouse, 18th Floor, Hill Road, Bandra West, Mumbai 400050',
-    instagramUrl: 'https://instagram.com/lumierestudios',
-    youtubeUrl: 'https://youtube.com/@lumierestudios',
+    address: 'Moonlight Penthouse, 18th Floor, Hill Road, Bandra West, Mumbai 400050',
+    instagramUrl: 'https://instagram.com/Moonlight Production',
+    youtubeUrl: 'https://youtube.com/@Moonlight Production',
     defaultCurrency: 'INR',
     enableWatermarkByDefault: false,
   });
@@ -110,7 +110,7 @@ const AdminSettings = () => {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-neutral-300 font-semibold uppercase">Atelier Physical Address</label>
+            <label className="text-neutral-300 font-semibold uppercase">Studio Physical Address</label>
             <input
               type="text"
               value={settings.address}

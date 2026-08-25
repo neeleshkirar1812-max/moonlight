@@ -102,7 +102,7 @@ const AdminBookings = () => {
 
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Confirmed Bookings');
-      XLSX.writeFile(workbook, `Lumiere_Confirmed_Bookings_${new Date().toISOString().split('T')[0]}.xlsx`);
+      XLSX.writeFile(workbook, `Moonlight_Confirmed_Bookings_${new Date().toISOString().split('T')[0]}.xlsx`);
 
       addToast({
         title: 'Bookings Excel Sheet Exported',

@@ -32,7 +32,7 @@ const InvoiceModal = ({ invoice, onClose, onResend, isAdmin = false }) => {
             </div>
             <div>
               <span className="font-serif text-lg font-bold tracking-widest text-white block">
-                LUMIÈRE STUDIOS ATELIER
+                Moonlight Production Studio
               </span>
               <p className="text-[10px] text-gold-400 font-mono uppercase tracking-wider">
                 Official Studio Tax Invoice & Production Agreement
@@ -163,13 +163,13 @@ const InvoiceModal = ({ invoice, onClose, onResend, isAdmin = false }) => {
               🏦 Studio Official Bank & UPI Transfer Details:
             </span>
             <p className="text-neutral-200">
-              Beneficiary: <strong>Lumière Studios International Ltd.</strong>
+              Beneficiary: <strong>Moonlight Production Private Limited</strong>
             </p>
             <p className="text-neutral-300">
               Bank: <strong>HDFC Bank Ltd., Bandra West Branch</strong> | A/C: <strong>50200084920194</strong> | IFSC: <strong>HDFC0000043</strong>
             </p>
             <p className="text-emerald-400 font-bold">
-              Official Studio UPI: <strong>lumierestudios@hdfcbank</strong>
+              Official Studio UPI: <strong>Moonlight Production@hdfcbank</strong>
             </p>
           </div>
 
@@ -196,7 +196,7 @@ const InvoiceModal = ({ invoice, onClose, onResend, isAdmin = false }) => {
                 <strong className="text-white">Client Revisions:</strong> Includes one (1) round of editorial feedback on the wedding cinema trailer within 14 days of teaser preview.
               </li>
               <li>
-                <strong className="text-white">Copyright & Moral Rights:</strong> Lumière Studios retains moral creative copyright for portfolio and award entries, with unrestricted personal print/sharing rights for the couple.
+                <strong className="text-white">Copyright & Moral Rights:</strong> Moonlight Production retains moral creative copyright for portfolio and award entries, with unrestricted personal print/sharing rights for the couple.
               </li>
               <li>
                 <strong className="text-white">Jurisdiction:</strong> All legal disputes subject to Mumbai, India court jurisdiction.
@@ -208,7 +208,7 @@ const InvoiceModal = ({ invoice, onClose, onResend, isAdmin = false }) => {
         {/* Footer Actions */}
         <div className="p-4 bg-black/80 border-t border-white/10 flex items-center justify-between">
           <p className="text-[11px] text-neutral-400 font-mono">
-            Lumière Studios • Authorized Creative Director Signature Verified
+            Moonlight Production • Authorized Creative Director Signature Verified
           </p>
 
           <div className="flex items-center space-x-3">

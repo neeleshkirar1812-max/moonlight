@@ -27,7 +27,7 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-5">
           <div className="space-y-1 text-center md:text-left">
             <span className="text-[10px] uppercase font-mono tracking-[0.25em] text-gold-700 font-bold block">
-              Moonlight Production • India Atelier
+              Moonlight Production • India Studio
             </span>
             <h3 className="font-serif text-xl sm:text-2xl font-bold text-neutral-900">
               Booking Dates Open for 2026 – 2027 Royal Wedding Season

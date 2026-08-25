@@ -43,7 +43,7 @@ export const generateLuxuryInvoicePDF = (inv) => {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(212, 175, 55);
-  doc.text('ATELIER OF ROYAL WEDDING PHOTOGRAPHY & HAUTE CINEMA', 32, 23);
+  doc.text('Studio OF ROYAL WEDDING PHOTOGRAPHY & cinematic wedding films', 32, 23);
 
   doc.setFontSize(7);
   doc.setTextColor(180, 180, 180);
@@ -235,7 +235,7 @@ export const generateLuxuryInvoicePDF = (inv) => {
     currentLineY += wrapped.length * 3.1 + 0.8;
   });
 
-  // 7. Signatory & Atelier Seal
+  // 7. Signatory & Studio Seal
   const footerY = 280;
   doc.setDrawColor(200, 200, 200);
   doc.setLineWidth(0.3);
@@ -256,5 +256,5 @@ export const generateLuxuryInvoicePDF = (inv) => {
   doc.setTextColor(100, 100, 100);
   doc.text('Founder & Creative Director (Authorized Signatory)', 138, footerY + 2.5);
 
-  doc.save(`${inv.invoiceNumber || 'Lumiere_Invoice'}.pdf`);
+  doc.save(`${inv.invoiceNumber || 'Moonlight_Invoice'}.pdf`);
 };

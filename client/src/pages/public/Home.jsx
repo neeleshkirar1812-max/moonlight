@@ -35,7 +35,7 @@ import defaultMoonlightFilms from '../../data/moonlightFilms.json';
 
 const pressLogos = [
   { name: 'VOGUE WEDDINGS', note: 'Featured Master Directors 2025' },
-  { name: "HARPER'S BAZAAR BRIDE", note: 'Cover Story & Best Atelier' },
+  { name: "HARPER'S BAZAAR BRIDE", note: 'Cover Story & Best Studio' },
   { name: 'CONDÉ NAST TRAVELLER', note: 'Top Destination Cinematographers' },
   { name: 'WEDDING SUTRA', note: 'Excellence in Royal Wedding Cinema' },
 ];
