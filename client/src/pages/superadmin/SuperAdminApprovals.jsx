@@ -62,11 +62,19 @@ const defaultPendingApprovals = [
 ];
 
 const allSystemUsers = [
-  { id: 'usr-1', name: 'Aarav & Ananya Sharma', email: 'aarav.ananya@gmail.com', role: 'customer', status: 'active', lastLogin: '10 mins ago', phone: '+91 92292 29323' },
-  { id: 'usr-2', name: 'Studio Director & HR', email: 'admin@moonlightproduction.com', role: 'admin', status: 'active', lastLogin: '1 hour ago', phone: '+91 92292 29323' },
-  { id: 'usr-3', name: 'Rohan Verma', email: 'lead.photographer@moonlightproduction.com', role: 'employee', status: 'active', lastLogin: 'Yesterday', phone: '+91 98260 11223' },
-  { id: 'usr-4', name: 'Rohan & Sanjana Nair', email: 'rohan.sanjana@gmail.com', role: 'customer', status: 'active', lastLogin: '3 days ago', phone: '+91 98200 44556' },
-  { id: 'usr-5', name: 'Executive Super Admin', email: 'superadmin@moonlightproduction.com', role: 'superadmin', status: 'active', lastLogin: 'Just now', phone: '+91 92292 29323' },
+  { id: 'EMP-MLP-001', name: 'Aman Pawar', email: 'amanpawar074@gmail.com', role: 'employee', designation: 'Lead Cinematographer & Film Director', status: 'active', lastLogin: 'Active', phone: '+91 96449 67287' },
+  { id: 'EMP-MLP-002', name: 'Bunny Singh', email: 'bunnysingh@gmail.com', role: 'employee', designation: 'Senior Candid Master & Portraiture', status: 'active', lastLogin: 'Active', phone: '+91 84358 29345' },
+  { id: 'EMP-MLP-003', name: 'Chinnu', email: 'xxx@gmail.com', role: 'employee', designation: '4K Commercial Drone Cinematographer', status: 'active', lastLogin: 'Active', phone: '+91 88275 68013' },
+  { id: 'EMP-MLP-004', name: 'Rohit Manekar', email: 'rohitmanekar475@gmail.com', role: 'employee', designation: 'Senior 4K Colorist & Film Editor', status: 'active', lastLogin: 'Active', phone: '+91 78284 24137' },
+  { id: 'EMP-MLP-005', name: 'Sumit', email: 'sumit.moonlight@gmail.com', role: 'employee', designation: 'Gimbal Operator & 2nd Camera Master', status: 'active', lastLogin: 'Active', phone: '+91 96305 08294' },
+  { id: 'EMP-MLP-006', name: 'Tarun Rathore', email: 'rsthoretsrun@gmail.com', role: 'employee', designation: 'Lighting Director & Technical Lead', status: 'active', lastLogin: 'Active', phone: '+91 90395 83534' },
+  { id: 'EMP-MLP-007', name: 'Santosh Rathore', email: 'santosh.moonlight@gmail.com', role: 'employee', designation: 'Audio & Sound Design Recordist', status: 'active', lastLogin: 'Active', phone: '+91 73978 82436' },
+  { id: 'EMP-MLP-008', name: 'Lucky', email: 'lucky@gmail.com', role: 'employee', designation: 'Post-Production Editor & Reels', status: 'active', lastLogin: 'Active', phone: '+91 88188 58557' },
+  { id: 'EMP-MLP-009', name: 'Priyanshu', email: 'priyanshu@gmail.com', role: 'employee', designation: 'Shoot Logistics & Production Lead', status: 'active', lastLogin: 'Active', phone: '+91 93028 45731' },
+  { id: 'usr-admin-1', name: 'Studio Director & HR', email: 'admin@moonlightproduction.com', role: 'admin', designation: 'Studio Operations Lead', status: 'active', lastLogin: 'Active', phone: '+91 92292 29323' },
+  { id: 'usr-super-1', name: 'Executive Super Admin Director', email: 'superadmin@moonlightproduction.com', role: 'superadmin', designation: 'Supreme System Command', status: 'active', lastLogin: 'Just now', phone: '+91 92292 29323' },
+  { id: 'usr-cust-1', name: 'Aarav & Ananya Sharma', email: 'aarav.ananya@gmail.com', role: 'customer', designation: 'VIP Royal Couple (Bhopal)', status: 'active', lastLogin: '10 mins ago', phone: '+91 92292 29323' },
+  { id: 'usr-cust-2', name: 'Vikram & Radhika Singhania', email: 'vikram.singhania@gmail.com', role: 'customer', designation: 'Palace Wedding Couple (Udaipur)', status: 'active', lastLogin: 'Yesterday', phone: '+91 98200 99887' },
 ];
 
 const SuperAdminApprovals = () => {

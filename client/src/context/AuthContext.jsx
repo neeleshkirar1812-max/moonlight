@@ -75,19 +75,36 @@ export const AuthProvider = ({ children }) => {
       }
     }
 
+    const realEmployeesMap = {
+      'amanpawar074@gmail.com': { name: 'Aman Pawar', code: 'EMP-MLP-001', designation: 'Lead Cinematographer & Film Director', phone: '+91 96449 67287', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80' },
+      'bunnysingh@gmail.com': { name: 'Bunny Singh', code: 'EMP-MLP-002', designation: 'Senior Candid Master', phone: '+91 84358 29345', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80' },
+      'xxx@gmail.com': { name: 'Chinnu', code: 'EMP-MLP-003', designation: '4K Commercial Drone Cinematographer', phone: '+91 88275 68013', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80' },
+      'chinnu@gmail.com': { name: 'Chinnu', code: 'EMP-MLP-003', designation: '4K Commercial Drone Cinematographer', phone: '+91 88275 68013', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80' },
+      'rohitmanekar475@gmail.com': { name: 'Rohit Manekar', code: 'EMP-MLP-004', designation: 'Senior 4K Colorist & Film Editor', phone: '+91 78284 24137', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&q=80' },
+      'sumit.moonlight@gmail.com': { name: 'Sumit', code: 'EMP-MLP-005', designation: 'Gimbal Operator & 2nd Camera Master', phone: '+91 96305 08294', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80' },
+      'rsthoretsrun@gmail.com': { name: 'Tarun Rathore', code: 'EMP-MLP-006', designation: 'Lighting Director & Technical Lead', phone: '+91 90395 83534', avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=150&q=80' },
+      'santosh.moonlight@gmail.com': { name: 'Santosh Rathore', code: 'EMP-MLP-007', designation: 'Audio & Sound Recordist', phone: '+91 73978 82436', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80' },
+      'lucky@gmail.com': { name: 'Lucky', code: 'EMP-MLP-008', designation: 'Post-Production Editor & Reels', phone: '+91 88188 58557', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80' },
+      'priyanshu@gmail.com': { name: 'Priyanshu', code: 'EMP-MLP-009', designation: 'Shoot Logistics & Production Lead', phone: '+91 93028 45731', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80' },
+    };
+
+    const matchedEmp = realEmployeesMap[normalizedEmail];
+
     const authenticatedUser = {
-      _id: `usr-${Date.now()}`,
-      name: email.split('@')[0].replace(/[._]/g, ' ').toUpperCase(),
+      _id: matchedEmp?.code || `usr-${Date.now()}`,
+      employeeCode: matchedEmp?.code,
+      name: matchedEmp?.name || (email.split('@')[0].replace(/[._]/g, ' ').toUpperCase()),
+      designation: matchedEmp?.designation || (role === 'employee' ? 'Production Crew Master' : undefined),
       email: email,
-      role: role,
-      avatar: role === 'superadmin'
+      role: matchedEmp ? 'employee' : role,
+      avatar: matchedEmp?.avatar || (role === 'superadmin'
         ? 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80'
         : role === 'admin'
         ? 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80'
         : role === 'employee'
         ? 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80'
-        : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80',
-      phone: '+91 92292 29323',
+        : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'),
+      phone: matchedEmp?.phone || '+91 92292 29323',
       status: 'active',
     };
 
