@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /customer/
+Disallow: /employee/
+Disallow: /admin/
+Disallow: /super-admin/
+Disallow: /api/
+
+Sitemap: https://lumierestudios.com/sitemap.xml

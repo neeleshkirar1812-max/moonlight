@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "Lumière Studios",
+    "slug": "lumiere-studios-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#0B0B0B"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lumierestudios.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0B0B0B"
+      },
+      "package": "com.lumierestudios.app"
+    }
+  }
+}
