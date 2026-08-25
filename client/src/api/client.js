@@ -438,8 +438,41 @@ const handleMockRequest = async (method, url, data) => {
     let items = getCollection('invoices');
     if (method === 'GET') return { data: items };
     if (method === 'POST') {
-      const newItem = { _id: `inv-${Date.now()}`, invoiceNumber: `INV-${Date.now().toString().slice(-4)}`, ...data };
-      items = [newItem, ...items];
+      const subtotal = (data.items || []).reduce((acc, it) => acc + (Number(it.quantity) || 1) * (Number(it.unitPrice) || 0), 0);
+      const taxRate = Number(data.taxRate || 18);
+      const taxAmount = Math.round((subtotal * taxRate) / 100);
+      const totalAmount = subtotal + taxAmount;
+      const paidAmount = Number(data.paidAmount || 0);
+      const remainingBalance = Math.max(0, totalAmount - paidAmount);
+
+      const newItem = {
+        _id: `inv-${Date.now()}`,
+        invoiceNumber: data.invoiceNumber || `INV-2026-${Math.floor(1000 + Math.random() * 9000)}`,
+        issueDate: new Date().toISOString(),
+        dueDate: data.dueDate || new Date(Date.now() + 15 * 86400000).toISOString().split('T')[0],
+        status: paidAmount >= totalAmount ? 'PAID' : paidAmount > 0 ? 'PARTIALLY_PAID' : (data.status || 'ISSUED'),
+        subtotal,
+        taxRate,
+        taxAmount,
+        totalAmount,
+        paidAmount,
+        remainingBalance,
+        clientInfo: {
+          name: data.clientName || data.clientInfo?.name || 'Valued Client',
+          email: data.clientEmail || data.clientInfo?.email || '',
+          phone: data.clientPhone || data.clientInfo?.phone || '',
+          address: data.clientAddress || data.clientInfo?.address || '',
+        },
+        items: (data.items || []).map((it) => ({
+          ...it,
+          quantity: Number(it.quantity) || 1,
+          unitPrice: Number(it.unitPrice) || 0,
+          total: (Number(it.quantity) || 1) * (Number(it.unitPrice) || 0),
+        })),
+        notes: data.notes || '',
+        ...data,
+      };
+      items = [newItem, ...items.filter((i) => i._id !== newItem._id)];
       setCollection('invoices', items);
       return { data: newItem };
     }

@@ -63,11 +63,20 @@ const AdminInvoices = () => {
         api.get('/admin/customers'),
         api.get('/bookings'),
       ]);
-      if (invRes.status === 'fulfilled') setInvoices(invRes.value.data || []);
-      if (custRes.status === 'fulfilled') setCustomers(custRes.value.data || []);
-      if (bkgRes.status === 'fulfilled') setBookings(bkgRes.value.data || []);
+      if (invRes.status === 'fulfilled') {
+        const invList = invRes.value?.data || invRes.value || [];
+        setInvoices(Array.isArray(invList) ? invList : []);
+      }
+      if (custRes.status === 'fulfilled') {
+        const custList = custRes.value?.data || custRes.value || [];
+        setCustomers(Array.isArray(custList) ? custList : []);
+      }
+      if (bkgRes.status === 'fulfilled') {
+        const bkgList = bkgRes.value?.data || bkgRes.value || [];
+        setBookings(Array.isArray(bkgList) ? bkgList : []);
+      }
     } catch (err) {
-      console.error(err);
+      console.error('Error fetching invoices:', err);
     } finally {
       setLoading(false);
     }
@@ -140,7 +149,7 @@ const AdminInvoices = () => {
 
   const currentTotals = calculateTotals();
 
-  // Create Invoice Submit (Direct Server-Side Send - NO Browser Redirects)
+  // Create Invoice Submit (Direct Server-Side Send & Auto PDF Download)
   const handleCreateInvoice = async (e) => {
     e.preventDefault();
     if (!form.clientName || !form.clientEmail || !form.clientPhone) {
@@ -160,9 +169,41 @@ const AdminInvoices = () => {
         taxRate: Number(form.taxRate),
       });
 
+      const createdInvoice = res?.data || res;
+
+      // 1. Immediately update table list state with new invoice
+      setInvoices((prev) => [createdInvoice, ...prev.filter((i) => i._id !== createdInvoice._id)]);
+
+      // 2. Automatically generate and download luxury PDF invoice!
+      try {
+        generateLuxuryInvoicePDF(createdInvoice);
+      } catch (pdfErr) {
+        console.error('PDF generation error:', pdfErr);
+      }
+
+      // 3. If WhatsApp channel checked, open WhatsApp Web with bill message
+      if (form.sendWhatsApp && form.clientPhone) {
+        const cleanPhone = form.clientPhone.replace(/[^0-9]/g, '');
+        const msg = encodeURIComponent(
+          `*MOONLIGHT PRODUCTION & FILMS* 🎬✨\n` +
+          `*Official Studio Tax Invoice & Legal Agreement*\n\n` +
+          `Dear *${createdInvoice.clientInfo?.name || form.clientName}*,\n` +
+          `Your luxury wedding cinema & photography invoice has been generated.\n\n` +
+          `📄 *Invoice No:* ${createdInvoice.invoiceNumber}\n` +
+          `💰 *Total Amount:* ₹${Number(createdInvoice.totalAmount || 0).toLocaleString('en-IN')}\n` +
+          `💳 *Advance Paid:* ₹${Number(createdInvoice.paidAmount || 0).toLocaleString('en-IN')}\n` +
+          `⏳ *Remaining Balance:* ₹${Number(createdInvoice.remainingBalance || 0).toLocaleString('en-IN')}\n` +
+          `📅 *Due Date:* ${new Date(createdInvoice.dueDate).toLocaleDateString('en-IN')}\n\n` +
+          `*Payment Terms:* 30% Booking Advance + 50% Pre-Wedding + 20% on Final Deliverables.\n\n` +
+          `*Online Portal:* https://moonlight-pink-two.vercel.app\n` +
+          `*Studio Concierge:* +91 92292 29323`
+        );
+        window.open(`https://wa.me/${cleanPhone.startsWith('91') ? cleanPhone : '91' + cleanPhone}?text=${msg}`, '_blank');
+      }
+
       addToast({
-        title: 'Studio Bill Dispatched',
-        message: `Invoice ${res.data?.invoiceNumber} with full T&C delivered to ${form.clientEmail} and WhatsApp (+${form.clientPhone})!`,
+        title: 'Studio Bill Generated & PDF Downloaded',
+        message: `Invoice ${createdInvoice.invoiceNumber} created and PDF downloaded for ${form.clientName}!`,
         type: 'success',
       });
 
@@ -187,7 +228,6 @@ const AdminInvoices = () => {
           { description: 'Two Handcrafted Bespoke Italian Leather Lay-Flat Heirloom Albums', quantity: 1, unitPrice: 95000 },
         ],
       });
-      fetchData();
     } catch (err) {
       addToast({ title: 'Error', message: err.message, type: 'error' });
     } finally {
