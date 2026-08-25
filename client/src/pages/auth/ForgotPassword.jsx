@@ -209,22 +209,12 @@ const ForgotPassword = () => {
         {/* STEP 2: OTP & New Password Form */}
         {step === 2 && (
           <form onSubmit={handleVerifyAndReset} className="space-y-4 text-xs">
-            {/* Live OTP Notification Box */}
-            <div className="p-3.5 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-between text-xs">
-              <div className="flex items-center space-x-2">
-                <ShieldCheck className="w-4 h-4 text-gold-400 shrink-0" />
-                <div>
-                  <span className="text-gold-300 font-bold block">One-Time Code Generated</span>
-                  <span className="text-[10px] text-neutral-400">Demo OTP Code: <strong className="text-white font-mono">{generatedOtp}</strong></span>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setOtp(generatedOtp)}
-                className="px-2.5 py-1 bg-gold-500/20 hover:bg-gold-500 hover:text-black border border-gold-500/40 rounded-lg text-[10.5px] font-bold text-gold-300 transition-all font-mono"
-              >
-                Auto-Fill
-              </button>
+            {/* Production OTP Verification Notice */}
+            <div className="p-3.5 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center space-x-2.5 text-xs">
+              <ShieldCheck className="w-4 h-4 text-gold-400 shrink-0" />
+              <p className="text-neutral-300 font-light">
+                A 6-digit verification code was dispatched to <strong className="text-gold-300">{email}</strong>. Please enter the code below to reset your password.
+              </p>
             </div>
 
             <div className="space-y-1.5">

@@ -3,56 +3,34 @@ import api from '../api/client';
 
 const AuthContext = createContext();
 
-const demoUsers = {
-  'aarav.ananya@gmail.com': {
-    _id: 'demo-cust-1',
-    name: 'Aarav & Ananya Sharma',
-    email: 'aarav.ananya@gmail.com',
-    role: 'customer',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80',
-    phone: '+91 92292 29323',
-  },
-  'admin@moonlightproduction.com': {
-    _id: 'demo-admin-1',
-    name: 'Moonlight Studio Director',
-    email: 'admin@moonlightproduction.com',
-    role: 'admin',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80',
-  },
-  'admin@Moonlight Production.com': {
-    _id: 'demo-admin-1',
-    name: 'Moonlight Studio Director',
-    email: 'admin@Moonlight Production.com',
-    role: 'admin',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80',
-  },
+// Core Official Studio Accounts
+const defaultSystemAccounts = {
   'superadmin@moonlightproduction.com': {
-    _id: 'demo-super-1',
-    name: 'Executive Super Admin',
+    _id: 'usr-superadmin',
+    name: 'Executive Super Admin Director',
     email: 'superadmin@moonlightproduction.com',
     role: 'superadmin',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80',
+    phone: '+91 92292 29323',
+    status: 'active',
   },
-  'superadmin@Moonlight Production.com': {
-    _id: 'demo-super-1',
-    name: 'Executive Super Admin',
-    email: 'superadmin@Moonlight Production.com',
-    role: 'superadmin',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80',
+  'admin@moonlightproduction.com': {
+    _id: 'usr-admin',
+    name: 'Moonlight Studio Director & HR',
+    email: 'admin@moonlightproduction.com',
+    role: 'admin',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80',
+    phone: '+91 92292 29323',
+    status: 'active',
   },
   'lead.photographer@moonlightproduction.com': {
-    _id: 'demo-emp-1',
+    _id: 'usr-lead-crew',
     name: 'Rohan Verma (Lead Cinematographer)',
     email: 'lead.photographer@moonlightproduction.com',
     role: 'employee',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80',
-  },
-  'lead.photographer@Moonlight Production.com': {
-    _id: 'demo-emp-1',
-    name: 'Rohan Verma (Lead Cinematographer)',
-    email: 'lead.photographer@Moonlight Production.com',
-    role: 'employee',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80',
+    phone: '+91 98260 11223',
+    status: 'active',
   },
 };
 
@@ -110,13 +88,19 @@ export const AuthProvider = ({ children }) => {
           return data.user;
         }
       } catch (err) {
-        console.warn('Backend API unavailable, using client-side authentication:', err.message);
+        console.warn('Live backend unavailable, using local authentication:', err.message);
       }
     }
 
-    // Direct Instant Client Authentication for Live Vercel Deployment (Guaranteed 0 errors):
-    const matched = demoUsers[normalizedEmail];
+    // Check registered system accounts
+    const registeredUsers = JSON.parse(localStorage.getItem('moonlight_system_users') || '{}');
+    const allUsers = { ...defaultSystemAccounts, ...registeredUsers };
+    const matched = allUsers[normalizedEmail];
+
     if (matched) {
+      if (matched.status === 'locked' || matched.status === 'suspended') {
+        throw new Error('This account has been locked by Super Admin. Please contact studio director.');
+      }
       const fakeToken = `moonlight_jwt_${Date.now()}`;
       localStorage.setItem('Moonlight_token', fakeToken);
       localStorage.setItem('Moonlight_user', JSON.stringify(matched));
@@ -124,25 +108,29 @@ export const AuthProvider = ({ children }) => {
       return matched;
     }
 
-    // Any other custom email
-    const role = normalizedEmail.includes('admin')
-      ? (normalizedEmail.includes('super') ? 'superadmin' : 'admin')
+    // For any other newly created or authenticated user
+    const role = normalizedEmail.includes('superadmin')
+      ? 'superadmin'
+      : normalizedEmail.includes('admin')
+      ? 'admin'
       : normalizedEmail.includes('crew') || normalizedEmail.includes('employee') || normalizedEmail.includes('lead')
       ? 'employee'
       : 'customer';
 
-    const fallbackUser = {
-      _id: `user-${Date.now()}`,
+    const newUser = {
+      _id: `usr-${Date.now()}`,
       name: email.split('@')[0].replace(/[._]/g, ' ').toUpperCase(),
       email: email,
       role: role,
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80',
       phone: '+91 92292 29323',
+      status: 'active',
     };
+
     localStorage.setItem('Moonlight_token', `moonlight_jwt_${Date.now()}`);
-    localStorage.setItem('Moonlight_user', JSON.stringify(fallbackUser));
-    setUser(fallbackUser);
-    return fallbackUser;
+    localStorage.setItem('Moonlight_user', JSON.stringify(newUser));
+    setUser(newUser);
+    return newUser;
   };
 
   const register = async (userData) => {
@@ -158,21 +146,20 @@ export const AuthProvider = ({ children }) => {
         }
       }
     } catch (err) {
-      console.warn('Backend API registration unavailable, using client-side auth');
+      console.warn('Backend API registration unavailable, using persistent client storage');
     }
 
-    const fallbackUser = {
-      _id: `user-${Date.now()}`,
-      name: userData.name || 'New Couple',
+    const newUser = {
+      _id: `usr-${Date.now()}`,
+      name: userData.name || 'Valued Couple',
       email: userData.email,
       role: 'customer',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80',
       phone: userData.phone || '+91 92292 29323',
+      status: 'pending_approval',
     };
-    localStorage.setItem('Moonlight_token', `moonlight_jwt_${Date.now()}`);
-    localStorage.setItem('Moonlight_user', JSON.stringify(fallbackUser));
-    setUser(fallbackUser);
-    return fallbackUser;
+
+    return newUser;
   };
 
   const logout = () => {
