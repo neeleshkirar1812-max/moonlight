@@ -842,6 +842,70 @@ const handleMockRequest = async (method, url, data) => {
     return { data: items };
   }
 
+  // 14. Contact Concierge
+  if (cleanUrl === '/contact' || cleanUrl.startsWith('/contact/')) {
+    if (method === 'POST') {
+      const contacts = JSON.parse(localStorage.getItem('ml_contacts') || '[]');
+      const newContact = {
+        _id: `contact-${Date.now()}`,
+        ...data,
+        receivedAt: new Date().toISOString(),
+        status: 'UNREAD',
+      };
+      contacts.unshift(newContact);
+      localStorage.setItem('ml_contacts', JSON.stringify(contacts));
+      return {
+        data: {
+          success: true,
+          message: 'Your inquiry has been received by Moonlight Concierge. We will contact you within 2 hours.',
+        },
+      };
+    }
+    return { data: JSON.parse(localStorage.getItem('ml_contacts') || '[]') };
+  }
+
+  // 15. Auth Routes (/auth/login, /auth/register, /auth/me)
+  if (cleanUrl.startsWith('/auth')) {
+    if (cleanUrl.includes('login')) {
+      const email = (data?.email || '').toLowerCase().trim();
+      const token = `moonlight_jwt_${Date.now()}`;
+      return {
+        data: {
+          token,
+          user: {
+            email,
+            name: email.split('@')[0],
+          },
+        },
+      };
+    }
+    if (cleanUrl.includes('register')) {
+      const reg = JSON.parse(localStorage.getItem('moonlight_registered_clients') || '[]');
+      reg.unshift({
+        name: data?.name || 'Valued Client',
+        email: data?.email || '',
+        phone: data?.phone || '',
+        registeredAt: new Date().toISOString(),
+      });
+      localStorage.setItem('moonlight_registered_clients', JSON.stringify(reg));
+      return {
+        data: {
+          success: true,
+          token: `moonlight_jwt_${Date.now()}`,
+          user: {
+            email: data?.email,
+            name: data?.name,
+            role: 'customer',
+          },
+        },
+      };
+    }
+    if (cleanUrl.includes('me')) {
+      const saved = localStorage.getItem('Moonlight_user');
+      return { data: saved ? JSON.parse(saved) : null };
+    }
+  }
+
   // Generic fallback
   return { data: { success: true, message: 'Operation completed in offline resilient storage.' } };
 };
