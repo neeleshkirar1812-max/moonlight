@@ -162,3 +162,76 @@ export const exportBookingsExcel = async (req, res, next) => {
   }
 };
 
+// @desc    Update booking order tracking stage
+// @route   PATCH /api/bookings/:id/stage
+// @access  Private (Admin or assigned Employee)
+export const updateBookingStage = async (req, res, next) => {
+  try {
+    const { stage, note } = req.body;
+    const booking = await Booking.findById(req.params.id);
+    if (!booking) return next(new AppError('Booking not found', 404));
+
+    const allowedStages = [
+      'ENQUIRY_RECEIVED',
+      'QUOTATION_SENT',
+      'ADVANCE_PAID',
+      'CONFIRMED',
+      'SHOOT_SCHEDULED',
+      'SHOOT_COMPLETED',
+      'EDITING',
+      'DELIVERED',
+      'CLOSED',
+    ];
+
+    if (!allowedStages.includes(stage)) {
+      return next(new AppError(`Invalid stage. Allowed: ${allowedStages.join(', ')}`, 400));
+    }
+
+    if (req.user.role === 'employee') {
+      const isAssigned = booking.assignedEmployees.some(
+        (empId) => empId.toString() === req.user._id.toString()
+      );
+      if (!isAssigned) {
+        return next(new AppError('You are not assigned to this shoot.', 403));
+      }
+      if (!['SHOOT_COMPLETED', 'EDITING'].includes(stage)) {
+        return next(new AppError('Production crew can only update shoot execution and editing stages.', 403));
+      }
+    }
+
+    booking.orderStage = stage;
+    booking.stageHistory.push({
+      stage,
+      updatedBy: req.user._id,
+      updaterName: req.user.name || 'Staff Member',
+      timestamp: new Date(),
+      note: note || `Stage updated to ${stage.replace(/_/g, ' ')}`,
+    });
+
+    await booking.save();
+
+    await logAuditEvent(req, 'UPDATE_BOOKING_STAGE', 'Booking', booking._id, {
+      newStage: stage,
+      updatedBy: req.user.name,
+      note,
+    });
+
+    await Notification.create({
+      recipient: booking.customer,
+      title: 'Booking Order Update',
+      message: `Your wedding shoot (${booking.bookingNumber}) is now in stage: ${stage.replace(/_/g, ' ')}.`,
+      type: 'BOOKING_STAGE_UPDATE',
+      link: '/customer/dashboard',
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `Booking stage successfully updated to ${stage}`,
+      data: booking,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+

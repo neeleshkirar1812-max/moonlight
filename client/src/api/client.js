@@ -542,7 +542,59 @@ const handleMockRequest = async (method, url, data) => {
       setCollection('bookings', items);
       return { data: newItem };
     }
+    if (method === 'PATCH' && cleanUrl.includes('/stage')) {
+      const parts = cleanUrl.split('/');
+      const id = parts[2];
+      const { stage, note } = data || {};
+      items = items.map((b) => {
+        if (b._id === id) {
+          const history = b.stageHistory || [];
+          return {
+            ...b,
+            orderStage: stage,
+            stageHistory: [
+              ...history,
+              { stage, note, timestamp: new Date().toISOString(), updaterName: 'Staff' },
+            ],
+          };
+        }
+        return b;
+      });
+      setCollection('bookings', items);
+      return { data: { success: true } };
+    }
     if (method === 'PUT') {
+      return { data: { success: true } };
+    }
+  }
+
+  // 3b. Salary Slips & Payroll
+  if (cleanUrl === '/salary' || cleanUrl.startsWith('/salary/')) {
+    let items = getCollection('salaries') || [];
+    if (method === 'GET') return { data: items };
+    if (method === 'POST' && cleanUrl === '/salary/bulk') {
+      return { data: items };
+    }
+    if (method === 'POST') {
+      const newItem = { _id: `slip-${Date.now()}`, ...data };
+      items = [newItem, ...items];
+      setCollection('salaries', items);
+      return { data: newItem };
+    }
+    if (method === 'PATCH' && cleanUrl.includes('/pay')) {
+      const parts = cleanUrl.split('/');
+      const id = parts[2];
+      items = items.map((s) =>
+        s._id === id
+          ? {
+              ...s,
+              paymentStatus: 'Paid',
+              paymentDate: new Date().toISOString(),
+              ...data,
+            }
+          : s
+      );
+      setCollection('salaries', items);
       return { data: { success: true } };
     }
   }
@@ -910,8 +962,8 @@ const handleMockRequest = async (method, url, data) => {
   return { data: { success: true, message: 'Operation completed in offline resilient storage.' } };
 };
 
-// Check if we have a live backend endpoint
-const isLiveBackendAvailable = Boolean(import.meta.env.VITE_API_URL);
+// Always attempt live backend first (via VITE_API_URL or relative /api on Vercel)
+const isLiveBackendAvailable = true;
 
 // Base Axios instance
 const axiosInstance = axios.create({
@@ -922,71 +974,85 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-// Resilient API Wrapper that prevents 405 Method Not Allowed errors
+// Interceptor to inject Authorization Bearer token from localStorage
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('Moonlight_token') || localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Resilient API Wrapper: Calls real Live Backend first; falls back to offline storage ONLY on network disconnect
 const api = {
   get: async (url, config = {}) => {
-    if (isLiveBackendAvailable) {
-      try {
-        const res = await axiosInstance.get(url, config);
-        return res.data;
-      } catch (err) {
-        // Fall back seamlessly
+    try {
+      const res = await axiosInstance.get(url, config);
+      return res.data;
+    } catch (err) {
+      if (err.response) {
+        // Real server responded with error status (400, 401, 403, 404, 500)
+        throw err;
       }
+      // Network failure / offline: fall back seamlessly to local mock store
+      const mock = await handleMockRequest('GET', url);
+      return mock.data;
     }
-    const mock = await handleMockRequest('GET', url);
-    return mock.data;
   },
 
   post: async (url, data = {}, config = {}) => {
-    if (isLiveBackendAvailable) {
-      try {
-        const res = await axiosInstance.post(url, data, config);
-        return res.data;
-      } catch (err) {
-        // Fall back seamlessly
+    try {
+      const res = await axiosInstance.post(url, data, config);
+      return res.data;
+    } catch (err) {
+      if (err.response) {
+        throw err;
       }
+      const mock = await handleMockRequest('POST', url, data);
+      return mock.data;
     }
-    const mock = await handleMockRequest('POST', url, data);
-    return mock.data;
   },
 
   put: async (url, data = {}, config = {}) => {
-    if (isLiveBackendAvailable) {
-      try {
-        const res = await axiosInstance.put(url, data, config);
-        return res.data;
-      } catch (err) {
-        // Fall back seamlessly
+    try {
+      const res = await axiosInstance.put(url, data, config);
+      return res.data;
+    } catch (err) {
+      if (err.response) {
+        throw err;
       }
+      const mock = await handleMockRequest('PUT', url, data);
+      return mock.data;
     }
-    const mock = await handleMockRequest('PUT', url, data);
-    return mock.data;
   },
 
   delete: async (url, config = {}) => {
-    if (isLiveBackendAvailable) {
-      try {
-        const res = await axiosInstance.delete(url, config);
-        return res.data;
-      } catch (err) {
-        // Fall back seamlessly
+    try {
+      const res = await axiosInstance.delete(url, config);
+      return res.data;
+    } catch (err) {
+      if (err.response) {
+        throw err;
       }
+      const mock = await handleMockRequest('DELETE', url);
+      return mock.data;
     }
-    const mock = await handleMockRequest('DELETE', url);
-    return mock.data;
   },
 
   patch: async (url, data = {}, config = {}) => {
-    if (isLiveBackendAvailable) {
-      try {
-        const res = await axiosInstance.patch(url, data, config);
-        return res.data;
-      } catch (err) {
-        // Fall back seamlessly
+    try {
+      const res = await axiosInstance.patch(url, data, config);
+      return res.data;
+    } catch (err) {
+      if (err.response) {
+        throw err;
       }
+      const mock = await handleMockRequest('PUT', url, data);
+      return mock.data;
     }
-    const mock = await handleMockRequest('PUT', url, data);
-    return mock.data;
   },
 };
 

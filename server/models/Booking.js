@@ -70,6 +70,31 @@ const bookingSchema = new mongoose.Schema(
       default: 'CONFIRMED',
       index: true,
     },
+    orderStage: {
+      type: String,
+      enum: [
+        'ENQUIRY_RECEIVED',
+        'QUOTATION_SENT',
+        'ADVANCE_PAID',
+        'CONFIRMED',
+        'SHOOT_SCHEDULED',
+        'SHOOT_COMPLETED',
+        'EDITING',
+        'DELIVERED',
+        'CLOSED',
+      ],
+      default: 'CONFIRMED',
+      index: true,
+    },
+    stageHistory: [
+      {
+        stage: { type: String, required: true },
+        updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        updaterName: { type: String, default: 'System' },
+        timestamp: { type: Date, default: Date.now },
+        note: { type: String, default: '' },
+      },
+    ],
     assignedEmployees: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

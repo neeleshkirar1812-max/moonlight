@@ -27,6 +27,7 @@ import settingsRoutes from './routes/settingsRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import superAdminRoutes from './routes/superAdminRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+import salaryRoutes from './routes/salaryRoutes.js';
 
 const app = express();
 
@@ -95,16 +96,19 @@ app.use('/api/settings', settingsRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/super-admin', superAdminRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/salary', salaryRoutes);
 
 // Error Handling Middlewares
 app.use(notFound);
 app.use(errorHandler);
 
-// Connect DB & Start Server
-connectDB().then(() => {
-  app.listen(ENV.PORT, () => {
-    console.log(`✨ [Lumière Studios Server] Running on http://localhost:${ENV.PORT} in ${ENV.NODE_ENV} mode.`);
+// Connect DB & Start Server (for local and persistent deployment like Render)
+if (!process.env.VERCEL) {
+  connectDB().then(() => {
+    app.listen(ENV.PORT, () => {
+      console.log(`✨ [Moonlight Production Server] Running on http://localhost:${ENV.PORT} in ${ENV.NODE_ENV} mode.`);
+    });
   });
-});
+}
 
 export default app;

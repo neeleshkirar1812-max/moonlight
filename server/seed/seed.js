@@ -43,12 +43,12 @@ export const seedData = async (exitOnComplete = false) => {
 
     console.log('✅ Collections purged. Seeding Users & Roles...');
 
-    // 1. Create Super Admin
+    // 1. Create Super Admin (Neelesh Kirar)
     const superAdmin = await User.create({
-      name: 'Julian Montgomery',
-      email: 'superadmin@lumierestudios.com',
+      name: 'Neelesh Kirar (Super Admin)',
+      email: 'nkneeleshkirar@gmail.com',
       password: 'SuperAdmin@2026',
-      phone: '+91 98200 00001',
+      phone: '+91 77489 06015',
       role: 'superadmin',
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
       permissions: ['*'],
@@ -56,8 +56,8 @@ export const seedData = async (exitOnComplete = false) => {
 
     await Admin.create({
       user: superAdmin._id,
-      roleTitle: 'Executive Creative Director & Founder',
-      department: 'Executive Atelier',
+      roleTitle: 'Supreme Creative Director & Founder',
+      department: 'Executive Command',
       permissions: {
         canManagePortfolios: true,
         canManageEnquiries: true,
@@ -67,12 +67,23 @@ export const seedData = async (exitOnComplete = false) => {
       },
     });
 
-    // 2. Create Studio Admin
+    // Secondary Super Admin
+    await User.create({
+      name: 'Executive Super Admin',
+      email: 'superadmin@moonlightproduction.com',
+      password: 'SuperAdmin@2026',
+      phone: '+91 77489 06015',
+      role: 'superadmin',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+      permissions: ['*'],
+    });
+
+    // 2. Create Studio Admin & Operations
     const studioAdmin = await User.create({
-      name: 'Natasha Roy Kapoor',
-      email: 'admin@lumierestudios.com',
+      name: 'Moonlight Studio Admin',
+      email: 'admin@moonlightproduction.com',
       password: 'Admin@2026',
-      phone: '+91 98200 00002',
+      phone: '+91 77489 06015',
       role: 'admin',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
       permissions: [
@@ -104,46 +115,145 @@ export const seedData = async (exitOnComplete = false) => {
       },
     });
 
-    // 3. Create Employees (Crew)
-    const emp1 = await User.create({
-      name: 'Vikramaditya Seth',
-      email: 'lead.photographer@lumierestudios.com',
-      password: 'Employee@2026',
-      phone: '+91 98200 00003',
-      role: 'employee',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
-    });
+    // 3. Create All 9 Official Production Crew Members
+    const realCrew = [
+      {
+        name: 'Aman Pawar',
+        email: 'amanpawar074@gmail.com',
+        phone: '+91 96449 67287',
+        designation: 'Lead Cinematographer & Film Director',
+        skills: ['Sony FX3/FX6', 'Director of Photography', 'Royal Cinema Framing'],
+        gearList: ['Sony FX3 Full-Frame Cinema Camera', 'Sony 24-70mm f/2.8 GM II', 'DJI RS3 Pro Gimbal'],
+      },
+      {
+        name: 'Bunny Singh',
+        email: 'bunnysingh@gmail.com',
+        phone: '+91 84358 29345',
+        designation: 'Senior Candid Master & Portraiture',
+        skills: ['Candid Photography', 'Royal Pheras', 'Natural Light Framing'],
+        gearList: ['Sony A7R V (61MP)', 'Sony 85mm f/1.4 GM', 'Profoto B10X'],
+      },
+      {
+        name: 'Chinnu',
+        email: 'chinnu@gmail.com',
+        phone: '+91 88275 68013',
+        designation: '4K Commercial Drone Cinematographer',
+        skills: ['DJI Inspire 3', 'Mavic 3 Cine', 'Architectural Palace Sweeps'],
+        gearList: ['DJI Mavic 3 Cine 5.1K Apple ProRes', 'RC Pro Enterprise Controller'],
+      },
+      {
+        name: 'Rohit Manekar',
+        email: 'rohitmanekar475@gmail.com',
+        phone: '+91 78284 24137',
+        designation: 'Senior 4K Colorist & Film Editor',
+        skills: ['DaVinci Resolve Studio', 'ACES Color Pipeline', 'Sound Design'],
+        gearList: ['Mac Studio M2 Ultra', 'Flanders Scientific Color Grading Monitor'],
+      },
+      {
+        name: 'Sumit',
+        email: 'sumit.moonlight@gmail.com',
+        phone: '+91 96305 08294',
+        designation: 'Gimbal Operator & 2nd Camera Master',
+        skills: ['High-Energy Baraat Tracking', 'Steadicam Flow', 'Sony Alpha'],
+        gearList: ['Sony FX3', 'DJI RS3 Pro', 'Sony 35mm f/1.4 GM'],
+      },
+      {
+        name: 'Tarun Rathore',
+        email: 'rsthoretsrun@gmail.com',
+        phone: '+91 90395 83534',
+        designation: 'Lighting Director & Technical Lead',
+        skills: ['Aputure Light Storm', 'Wireless DMX Control', 'Sunset Mandap Glow'],
+        gearList: ['Aputure 600d Pro', 'Amaran 300c RGBWW', 'Light Dome 150'],
+      },
+      {
+        name: 'Santosh Rathore',
+        email: 'santosh.moonlight@gmail.com',
+        phone: '+91 73978 82436',
+        designation: 'Audio & Sound Design Recordist',
+        skills: ['Sennheiser Wireless Kits', 'Live Vows Multi-Track Recording'],
+        gearList: ['Zoom F6 32-Bit Float Recorder', 'Sennheiser MKH 416', 'Rode Wireless Pro'],
+      },
+      {
+        name: 'Lucky',
+        email: 'lucky@gmail.com',
+        phone: '+91 88188 58557',
+        designation: 'Post-Production Editor & Reels Specialist',
+        skills: ['Fast Same-Day Edits', 'Instagram Reels Master', 'Premiere Pro'],
+        gearList: ['Apple MacBook Pro M3 Max', 'Dual NVMe RAID 4TB'],
+      },
+      {
+        name: 'Priyanshu',
+        email: 'priyanshu@gmail.com',
+        phone: '+91 93028 45731',
+        designation: 'Shoot Logistics & Production Lead',
+        skills: ['Destination Shoot Call-Sheets', 'Palace Permit Approvals', 'Client Concierge'],
+        gearList: ['Production Logistics Suite', 'Starlink Satellite Mobile Uplink'],
+      },
+    ];
 
-    await Employee.create({
-      user: emp1._id,
-      designation: 'Principal Lead Photographer',
-      department: 'Photography',
-      specialization: ['Royal Heritage Ceremonies', 'Editorial Portraiture'],
-      bio: 'Master framing specialist trained at Speos Paris with 12 years capturing royal dynasties across Rajasthan and Lake Como.',
-      assignedEquipment: ['Sony Alpha 1 (x2)', 'Sony 50mm f/1.2 GM', 'Profoto B10X Plus'],
-      rating: 4.9,
-    });
+    let emp1 = null;
+    for (const c of realCrew) {
+      const u = await User.create({
+        name: c.name,
+        email: c.email,
+        password: 'Employee@2026',
+        phone: c.phone,
+        role: 'employee',
+        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+      });
+      const empRecord = await Employee.create({
+        user: u._id,
+        designation: c.designation,
+        department: 'Production Crew',
+        skills: c.skills,
+        gearList: c.gearList,
+        rating: 5.0,
+      });
+      if (!emp1) emp1 = u;
+    }
 
     // 4. Create Customers (Couples)
     const client1 = await User.create({
-      name: 'Aarav Singhania',
+      name: 'Aarav & Ananya Sharma',
       email: 'aarav.ananya@gmail.com',
       password: 'Customer@2026',
-      phone: '+91 98200 12345',
+      phone: '+91 92292 29323',
       role: 'customer',
       avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=400&q=80',
     });
 
     await Customer.create({
       user: client1._id,
-      partnerName: 'Ananya Goenka',
+      partnerName: 'Ananya Sharma',
       weddingDate: new Date('2026-11-20'),
       address: {
-        street: 'Penthouse 4B, Sky Villa, Worli Sea Face',
-        city: 'Mumbai',
-        state: 'Maharashtra',
+        street: 'Lake View Enclave, Shamla Hills',
+        city: 'Bhopal',
+        state: 'Madhya Pradesh',
         country: 'India',
-        postalCode: '400018',
+        postalCode: '462013',
+      },
+    });
+
+    const client2 = await User.create({
+      name: 'Vikram & Radhika Singhania',
+      email: 'vikram.singhania@gmail.com',
+      password: 'Customer@2026',
+      phone: '+91 98200 99887',
+      role: 'customer',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+    });
+
+    await Customer.create({
+      user: client2._id,
+      partnerName: 'Radhika Singhania',
+      weddingDate: new Date('2026-12-14'),
+      address: {
+        street: 'Civil Lines',
+        city: 'Udaipur',
+        state: 'Rajasthan',
+        country: 'India',
+        postalCode: '313001',
       },
     });
 
@@ -498,35 +608,33 @@ export const seedData = async (exitOnComplete = false) => {
 
     // 15. Global Settings
     await Settings.create({
-      siteName: 'Lumière Studios',
-      tagline: 'Luxury Wedding Photography & Cinematic Heirlooms',
-      contactEmail: 'concierge@lumierestudios.com',
-      contactPhone: '+91 98200 12345',
-      whatsappNumber: '+919820012345',
+      siteName: 'Moonlight Production',
+      tagline: 'Luxury Destination Wedding Cinema & Royal Heirlooms',
+      contactEmail: 'nkneeleshkirar@gmail.com',
+      contactPhone: '+91 77489 06015',
+      whatsappNumber: '+917748906015',
       address: {
-        street: 'Lumière Penthouse, 18th Floor, Hill Road, Bandra West',
-        city: 'Mumbai',
-        state: 'Maharashtra',
+        street: 'Moonlight Production Studio, City Center',
+        city: 'Bhopal',
+        state: 'Madhya Pradesh',
         country: 'India',
-        postalCode: '400050',
+        postalCode: '462001',
       },
       socialLinks: {
-        instagram: 'https://instagram.com/lumierestudios',
-        youtube: 'https://youtube.com/@lumierestudios',
-        facebook: 'https://facebook.com/lumierestudios',
-        linkedin: 'https://linkedin.com/company/lumierestudios',
-        pinterest: 'https://pinterest.com/lumierestudios',
-        whatsapp: 'https://wa.me/919820012345',
+        instagram: 'https://instagram.com/moonlight_production_bhopal',
+        youtube: 'https://youtube.com/@moonlightproduction',
+        facebook: 'https://facebook.com/moonlightproduction',
+        whatsapp: 'https://wa.me/917748906015',
       },
     });
 
-    console.log('✨ [Database Seeded Successfully]');
+    console.log('✨ [Database Seeded Successfully to MongoDB Atlas Cloud]');
     console.log('====================================================');
-    console.log('🔑 TEST ACCOUNTS CREATED:');
-    console.log('  1. Super Admin: superadmin@lumierestudios.com / SuperAdmin@2026');
-    console.log('  2. Admin:       admin@lumierestudios.com / Admin@2026');
-    console.log('  3. Employee:    lead.photographer@lumierestudios.com / Employee@2026');
-    console.log('  4. Customer:    aarav.ananya@gmail.com / Customer@2026 (Gallery PIN: 2026)');
+    console.log('🔑 MOONLIGHT PRODUCTION PRODUCTION ACCOUNTS:');
+    console.log('  1. Super Admin: nkneeleshkirar@gmail.com / SuperAdmin@2026');
+    console.log('  2. Studio Admin: admin@moonlightproduction.com / Admin@2026');
+    console.log('  3. Production Crew (9 Real Members): amanpawar074@gmail.com (and all 9 crew) / Employee@2026');
+    console.log('  4. Customer: aarav.ananya@gmail.com / Customer@2026 (Gallery PIN: 2026)');
     console.log('====================================================');
 
     if (exitOnComplete) {

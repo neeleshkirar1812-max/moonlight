@@ -62,6 +62,7 @@ import AdminApplications from './pages/admin/AdminApplications';
 import AdminTestimonials from './pages/admin/AdminTestimonials';
 import AdminCustomers from './pages/admin/AdminCustomers';
 import AdminEmployees from './pages/admin/AdminEmployees';
+import AdminPayroll from './pages/admin/AdminPayroll';
 import AdminSettings from './pages/admin/AdminSettings';
 
 // Super Admin Pages
@@ -188,6 +189,7 @@ const App = () => {
         <Route path="testimonials" element={<AdminTestimonials />} />
         <Route path="customers" element={<AdminCustomers />} />
         <Route path="employees" element={<AdminEmployees />} />
+        <Route path="payroll" element={<AdminPayroll />} />
         <Route path="settings" element={<AdminSettings />} />
       </Route>
 

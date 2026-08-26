@@ -45,20 +45,21 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password, explicitRole) => {
     const normalizedEmail = (email || '').toLowerCase().trim();
 
-    // 1. Check if live backend server is available
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || import.meta.env.VITE_API_URL) {
-      try {
-        const data = await api.post('/auth/login', { email, password });
-        if (data?.token && data?.user) {
-          localStorage.setItem('Moonlight_token', data.token);
-          localStorage.setItem('Moonlight_refresh_token', data.refreshToken || `refresh_${Date.now()}`);
-          localStorage.setItem('Moonlight_user', JSON.stringify(data.user));
-          setUser(data.user);
-          return data.user;
-        }
-      } catch (err) {
-        // Fall back gracefully
+    // 1. Try live backend server first
+    try {
+      const data = await api.post('/auth/login', { email, password });
+      if (data?.token && data?.user) {
+        localStorage.setItem('Moonlight_token', data.token);
+        localStorage.setItem('Moonlight_refresh_token', data.refreshToken || `refresh_${Date.now()}`);
+        localStorage.setItem('Moonlight_user', JSON.stringify(data.user));
+        setUser(data.user);
+        return data.user;
       }
+    } catch (err) {
+      if (err.response?.data?.message) {
+        throw new Error(err.response.data.message);
+      }
+      // If completely offline or network fails, continue to offline verification
     }
 
     // 2. Real Production Dynamic Role Mapping with Strict Registered Email Verification
@@ -234,18 +235,19 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || import.meta.env.VITE_API_URL) {
-        const data = await api.post('/auth/register', userData);
-        if (data?.token && data?.user) {
-          localStorage.setItem('Moonlight_token', data.token);
-          localStorage.setItem('Moonlight_refresh_token', data.refreshToken || `refresh_${Date.now()}`);
-          localStorage.setItem('Moonlight_user', JSON.stringify(data.user));
-          setUser(data.user);
-          return data.user;
-        }
+      const data = await api.post('/auth/register', userData);
+      if (data?.token && data?.user) {
+        localStorage.setItem('Moonlight_token', data.token);
+        localStorage.setItem('Moonlight_refresh_token', data.refreshToken || `refresh_${Date.now()}`);
+        localStorage.setItem('Moonlight_user', JSON.stringify(data.user));
+        setUser(data.user);
+        return data.user;
       }
     } catch (err) {
-      // Fallback
+      if (err.response?.data?.message) {
+        throw new Error(err.response.data.message);
+      }
+      // If offline, continue to fallback
     }
 
     const newUser = {

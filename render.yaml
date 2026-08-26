@@ -1,0 +1,28 @@
+﻿services:
+  - type: web
+    name: moonlight-backend
+    env: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: node server.js
+    plan: free
+    region: singapore
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: MONGODB_URI
+        value: mongodb+srv://admin:admin@cluster0.61illn3.mongodb.net/lumiere_studios?retryWrites=true&w=majority&appName=Cluster0
+      - key: MONGO_URI
+        value: mongodb+srv://admin:admin@cluster0.61illn3.mongodb.net/lumiere_studios?retryWrites=true&w=majority&appName=Cluster0
+      - key: JWT_SECRET
+        value: moonlight_luxury_jwt_super_secret_key_2026_!@#$%^
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: JWT_REFRESH_SECRET
+        value: moonlight_refresh_secret_key_luxury_wedding_987654321
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: 30d
+      - key: CLIENT_URL
+        value: https://moonlight-pink-two.vercel.app

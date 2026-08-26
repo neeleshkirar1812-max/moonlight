@@ -1,6 +1,7 @@
 import Payment from '../models/Payment.js';
 import Booking from '../models/Booking.js';
 import User from '../models/User.js';
+import Invoice from '../models/Invoice.js';
 import Notification from '../models/Notification.js';
 import { createRazorpayOrder, verifyPaymentSignature } from '../services/razorpayService.js';
 import { createInvoiceForBooking } from '../services/invoiceService.js';
@@ -106,21 +107,49 @@ export const verifyPayment = async (req, res, next) => {
     payment.paidAt = new Date();
     await payment.save();
 
-    // Update Booking status
+    // Update Booking status and Order Stage
     const booking = await Booking.findById(payment.booking);
     if (booking) {
       if (payment.amount >= booking.totalAmount || booking.remainingAmount <= payment.amount) {
         booking.paymentStatus = 'PAID';
         booking.remainingAmount = 0;
+        if (booking.orderStage === 'ENQUIRY_RECEIVED' || booking.orderStage === 'QUOTATION_SENT' || booking.orderStage === 'ADVANCE_PAID') {
+          booking.orderStage = 'CONFIRMED';
+          booking.stageHistory.push({
+            stage: 'CONFIRMED',
+            updaterName: 'Razorpay Auto-Sync',
+            timestamp: new Date(),
+            note: 'Full payment captured. Booking confirmed.',
+          });
+        }
       } else {
         booking.paymentStatus = 'PARTIAL';
         booking.remainingAmount = Math.max(0, booking.remainingAmount - payment.amount);
+        if (booking.orderStage === 'ENQUIRY_RECEIVED' || booking.orderStage === 'QUOTATION_SENT') {
+          booking.orderStage = 'ADVANCE_PAID';
+          booking.stageHistory.push({
+            stage: 'ADVANCE_PAID',
+            updaterName: 'Razorpay Auto-Sync',
+            timestamp: new Date(),
+            note: `Advance payment of ₹${payment.amount.toLocaleString('en-IN')} received.`,
+          });
+        }
       }
       await booking.save();
 
-      // Generate Official Invoice
+      // Automatically sync or generate official GST Invoice
       const customerUser = await User.findById(booking.customer);
-      const invoice = await createInvoiceForBooking(booking, customerUser, payment);
+      const existingInvoice = await Invoice.findOne({ booking: booking._id });
+
+      if (existingInvoice) {
+        existingInvoice.paidAmount = (existingInvoice.paidAmount || 0) + payment.amount;
+        existingInvoice.remainingBalance = Math.max(0, existingInvoice.totalAmount - existingInvoice.paidAmount);
+        existingInvoice.status = existingInvoice.remainingBalance <= 0 ? 'PAID' : 'PARTIALLY_PAID';
+        existingInvoice.payment = payment._id;
+        await existingInvoice.save();
+      } else {
+        await createInvoiceForBooking(booking, customerUser, payment);
+      }
 
       // Email receipt
       sendPaymentReceiptEmail(payment, customerUser).catch(err => console.error('[Receipt Email Error]', err));

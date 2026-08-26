@@ -28,6 +28,7 @@ import {
   KeyRound,
   Sparkles,
   AlertCircle,
+  DollarSign,
 } from 'lucide-react';
 import { ToastContainer } from '../components/common/Toast';
 
@@ -54,22 +55,23 @@ const AdminLayout = () => {
   }, [location.pathname]);
 
   const coreNav = [
-    { name: 'KPI Analytics', href: '/admin/dashboard', icon: LayoutDashboard },
-    { name: 'Enquiries Pipeline', href: '/admin/enquiries', icon: MessageSquare },
-    { name: 'Bookings & Shoots', href: '/admin/bookings', icon: Calendar },
-    { name: 'Client GST Invoices', href: '/admin/invoices', icon: FileText },
-    { name: 'Razorpay Transactions', href: '/admin/payments', icon: CreditCard },
-    { name: 'Portfolio CMS', href: '/admin/portfolio', icon: Image },
-    { name: 'Private Client Galleries', href: '/admin/galleries', icon: FolderLock },
-    { name: 'Wedding Films', href: '/admin/videos', icon: Film },
-    { name: 'Services & Tiers', href: '/admin/services', icon: FileCheck },
-    { name: 'Editorial Blogs', href: '/admin/blogs', icon: BookOpen },
-    { name: 'Careers & Positions', href: '/admin/careers', icon: Briefcase },
-    { name: 'Job Applications', href: '/admin/applications', icon: Inbox },
-    { name: 'Client Testimonials', href: '/admin/testimonials', icon: Star },
-    { name: 'Client Directory', href: '/admin/customers', icon: Users },
-    { name: 'Production Crew', href: '/admin/employees', icon: UserCheck },
-    { name: 'Studio Settings', href: '/admin/settings', icon: Settings },
+    { name: 'Studio Performance', href: '/admin/dashboard', icon: LayoutDashboard, permission: null },
+    { name: 'Wedding Enquiries', href: '/admin/enquiries', icon: MessageSquare, permission: 'canManageBookings' },
+    { name: 'Bookings & Shoots', href: '/admin/bookings', icon: Calendar, permission: 'canManageBookings' },
+    { name: 'Client GST Invoices', href: '/admin/invoices', icon: FileText, permission: 'canManageInvoices' },
+    { name: 'Accounting & Ledger', href: '/admin/payments', icon: CreditCard, permission: 'canManagePayments' },
+    { name: 'Staff Payroll & Slips', href: '/admin/payroll', icon: DollarSign, permission: 'canManageHR' },
+    { name: 'Photo Portfolio', href: '/admin/portfolio', icon: Image, permission: 'canManagePortfolioCMS' },
+    { name: 'Client Private Galleries', href: '/admin/galleries', icon: FolderLock, permission: 'canManagePortfolioCMS' },
+    { name: 'Wedding Cinema Films', href: '/admin/videos', icon: Film, permission: 'canManagePortfolioCMS' },
+    { name: 'Packages & Services', href: '/admin/services', icon: FileCheck, permission: 'canManageSettings' },
+    { name: 'Journal & Stories', href: '/admin/blogs', icon: BookOpen, permission: 'canManageBlogsCMS' },
+    { name: 'Job Openings', href: '/admin/careers', icon: Briefcase, permission: 'canManageHR' },
+    { name: 'Job Applications', href: '/admin/applications', icon: Inbox, permission: 'canManageHR' },
+    { name: 'Client Reviews', href: '/admin/testimonials', icon: Star, permission: 'canManageBlogsCMS' },
+    { name: 'Customer Directory', href: '/admin/customers', icon: Users, permission: 'canManageBookings' },
+    { name: 'Shoot Crew & Team', href: '/admin/employees', icon: UserCheck, permission: 'canManageHR' },
+    { name: 'Studio Settings', href: '/admin/settings', icon: Settings, permission: 'canManageSettings' },
   ];
 
   const superAdminNav = [
@@ -196,25 +198,34 @@ const AdminLayout = () => {
             <p className="text-[9px] uppercase tracking-[0.2em] text-neutral-400 font-bold px-2 py-1">
               Studio Operations & CRM
             </p>
-            {coreNav.map((item) => {
-              const isActive = location.pathname === item.href;
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
-                    isActive
-                      ? 'bg-gold-gradient text-black font-extrabold shadow-gold-subtle'
-                      : 'text-neutral-300 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  <Icon className={`w-4 h-4 mr-2.5 shrink-0 ${isActive ? 'text-black' : 'text-gold-400'}`} />
-                  <span className="truncate">{item.name}</span>
-                </Link>
-              );
-            })}
+            {coreNav
+              .filter((item) => {
+                if (isSuperAdmin) return true;
+                if (!item.permission) return true;
+                if (user?.permissions && user.permissions[item.permission] === false) {
+                  return false;
+                }
+                return true;
+              })
+              .map((item) => {
+                const isActive = location.pathname === item.href;
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    onClick={() => setSidebarOpen(false)}
+                    className={`flex items-center px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
+                      isActive
+                        ? 'bg-gold-gradient text-black font-extrabold shadow-gold-subtle'
+                        : 'text-neutral-300 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    <Icon className={`w-4 h-4 mr-2.5 shrink-0 ${isActive ? 'text-black' : 'text-gold-400'}`} />
+                    <span className="truncate">{item.name}</span>
+                  </Link>
+                );
+              })}
           </nav>
         </div>
 

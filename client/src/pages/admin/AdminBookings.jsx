@@ -24,7 +24,30 @@ const AdminBookings = () => {
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [assignModalBooking, setAssignModalBooking] = useState(null);
   const [selectedEmployees, setSelectedEmployees] = useState([]);
+  const [stageModalBooking, setStageModalBooking] = useState(null);
+  const [selectedStage, setSelectedStage] = useState('CONFIRMED');
+  const [stageNote, setStageNote] = useState('');
   const { addToast } = useNotification();
+
+  const handleUpdateStage = async (e) => {
+    e.preventDefault();
+    try {
+      await api.patch(`/bookings/${stageModalBooking._id}/stage`, {
+        stage: selectedStage,
+        note: stageNote,
+      });
+      addToast({
+        title: 'Order Stage Updated',
+        message: `Booking ${stageModalBooking.bookingNumber} moved to ${selectedStage.replace(/_/g, ' ')}.`,
+        type: 'success',
+      });
+      setStageModalBooking(null);
+      setStageNote('');
+      fetchData();
+    } catch (err) {
+      addToast({ title: 'Error', message: err.message, type: 'error' });
+    }
+  };
 
   const fetchData = async () => {
     setLoading(true);
@@ -207,9 +230,14 @@ const AdminBookings = () => {
                   <span className="font-mono text-xs font-bold text-gold-300">
                     {booking.bookingNumber}
                   </span>
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-                    {booking.bookingStatus}
-                  </span>
+                  <div className="flex items-center space-x-1.5">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase bg-gold-500/20 text-gold-300 border border-gold-500/40 font-bold">
+                      {(booking.orderStage || 'CONFIRMED').replace(/_/g, ' ')}
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                      {booking.bookingStatus}
+                    </span>
+                  </div>
                 </div>
 
                 <div>
@@ -268,14 +296,24 @@ const AdminBookings = () => {
                 </div>
               </div>
 
-              {/* Assign Crew Action Button */}
-              <div className="pt-3 border-t border-white/10 flex justify-end">
+              {/* Action Buttons Row */}
+              <div className="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+                <button
+                  onClick={() => {
+                    setStageModalBooking(booking);
+                    setSelectedStage(booking.orderStage || 'CONFIRMED');
+                    setStageNote('');
+                  }}
+                  className="px-3.5 py-2 rounded-xl bg-gold-500/15 hover:bg-gold-500 text-gold-300 hover:text-black border border-gold-500/40 font-bold text-xs uppercase tracking-wider transition-all flex items-center"
+                >
+                  <Clock className="w-3.5 h-3.5 mr-1.5" /> Update Stage
+                </button>
                 <button
                   onClick={() => {
                     setAssignModalBooking(booking);
                     setSelectedEmployees(booking.assignedEmployees?.map((e) => e._id || e) || []);
                   }}
-                  className="px-4 py-2 rounded-xl bg-obsidian-300 hover:bg-gold-500 hover:text-black border border-white/10 text-gold-300 font-bold text-xs uppercase tracking-wider transition-all flex items-center"
+                  className="px-3.5 py-2 rounded-xl bg-obsidian-300 hover:bg-white/10 border border-white/10 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center"
                 >
                   <UserPlus className="w-3.5 h-3.5 mr-1.5" /> Assign Crew
                 </button>
@@ -337,6 +375,115 @@ const AdminBookings = () => {
                   className="px-5 py-2 rounded-full bg-gold-gradient text-black font-bold uppercase tracking-wider text-xs shadow-gold-subtle"
                 >
                   Save Crew
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Order Stage Tracker & Update Modal */}
+      {stageModalBooking && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-obsidian-400 border border-gold-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl space-y-5 animate-fade-in text-white max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div>
+                <span className="text-[10px] uppercase font-mono tracking-widest text-gold-400 font-bold block">
+                  Order Tracking System
+                </span>
+                <h3 className="font-serif text-lg font-bold text-white">
+                  Update Stage: {stageModalBooking.bookingNumber}
+                </h3>
+              </div>
+              <button
+                onClick={() => setStageModalBooking(null)}
+                className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-neutral-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleUpdateStage} className="space-y-4 text-xs">
+              <div>
+                <label className="text-neutral-300 font-bold block mb-1.5 font-mono">
+                  Select Production Stage:
+                </label>
+                <select
+                  value={selectedStage}
+                  onChange={(e) => setSelectedStage(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-obsidian-500 border border-white/15 text-white font-mono text-xs focus:border-gold-400 focus:outline-none"
+                >
+                  <option value="ENQUIRY_RECEIVED">1. Enquiry Received (Reviewing Date)</option>
+                  <option value="QUOTATION_SENT">2. Quotation Sent (Awaiting Client)</option>
+                  <option value="ADVANCE_PAID">3. Advance Paid (Retainer Received)</option>
+                  <option value="CONFIRMED">4. Confirmed (Dates Locked)</option>
+                  <option value="SHOOT_SCHEDULED">5. Shoot Scheduled (Call-Sheets & Gear Prepped)</option>
+                  <option value="SHOOT_COMPLETED">6. Shoot Completed (Master Footage Ingested)</option>
+                  <option value="EDITING">7. Editing / Post-Production (Color Grading & Audio)</option>
+                  <option value="DELIVERED">8. Delivered (Private Gallery & 4K Master Dispatched)</option>
+                  <option value="CLOSED">9. Closed (Order Completed)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-neutral-300 font-bold block mb-1.5 font-mono">
+                  Stage Update Note / Reason (Visible in Customer Timeline):
+                </label>
+                <textarea
+                  rows="3"
+                  value={stageNote}
+                  onChange={(e) => setStageNote(e.target.value)}
+                  placeholder="e.g. Master footage ingested to editing suite. Color grading begun on DaVinci Resolve."
+                  className="w-full p-3 rounded-xl bg-obsidian-500 border border-white/15 text-white text-xs focus:border-gold-400 focus:outline-none"
+                />
+              </div>
+
+              {/* Past Stage Audit History */}
+              {stageModalBooking.stageHistory?.length > 0 && (
+                <div className="space-y-2 pt-2 border-t border-white/10">
+                  <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400 font-bold block">
+                    Stage Audit Trail History:
+                  </span>
+                  <div className="space-y-2 max-h-40 overflow-y-auto custom-scrollbar pr-1">
+                    {stageModalBooking.stageHistory
+                      .slice()
+                      .reverse()
+                      .map((h, i) => (
+                        <div key={i} className="p-2.5 rounded-xl bg-black/40 border border-white/5 space-y-1">
+                          <div className="flex items-center justify-between text-[11px]">
+                            <strong className="text-gold-300 font-mono">
+                              {h.stage?.replace(/_/g, ' ')}
+                            </strong>
+                            <span className="text-[10px] text-neutral-400 font-mono">
+                              {new Date(h.timestamp).toLocaleString('en-IN', {
+                                dateStyle: 'short',
+                                timeStyle: 'short',
+                              })}
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-neutral-300 font-light">{h.note || 'No notes'}</p>
+                          <span className="text-[9.5px] text-neutral-400 font-mono block">
+                            Updated by: {h.updaterName || 'Staff'}
+                          </span>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="flex justify-end space-x-2 pt-4 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setStageModalBooking(null)}
+                  className="px-4 py-2 rounded-full border border-white/10 text-neutral-300 hover:text-white"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2.5 rounded-full bg-gold-gradient text-black font-bold uppercase tracking-wider text-xs shadow-gold-subtle hover:scale-105 transition-all"
+                >
+                  Save Stage & Notify Client
                 </button>
               </div>
             </form>

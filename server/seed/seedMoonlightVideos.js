@@ -1,8 +1,13 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import dns from 'dns';
 import Video from '../models/Video.js';
 import fs from 'fs';
 import path from 'path';
+
+try {
+  dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+} catch (e) {}
 
 dotenv.config();
 

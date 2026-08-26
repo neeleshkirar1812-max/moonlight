@@ -14,8 +14,11 @@ try {
 let mongoMemoryServer = null;
 
 export const connectDB = async () => {
+  if (mongoose.connection.readyState >= 1) {
+    return mongoose.connection;
+  }
   try {
-    const maskedUri = ENV.MONGODB_URI.replace(/:([^:@]+)@/, ':****@');
+    const maskedUri = (ENV.MONGODB_URI || '').replace(/:([^:@]+)@/, ':****@');
     console.log(`[MongoDB] Attempting connection to Atlas Cloud: ${maskedUri}...`);
     
     const conn = await mongoose.connect(ENV.MONGODB_URI, {
