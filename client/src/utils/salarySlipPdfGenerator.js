@@ -1,4 +1,4 @@
-﻿import jsPDF from 'jspdf';
+import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 /**
@@ -83,10 +83,24 @@ export const generateSalarySlipPDF = (slip) => {
   doc.setFontSize(8);
   doc.setTextColor(50, 50, 50);
 
-  // Column 1
-  doc.text(`Employee Code: ${slip.employeeCode || 'EMP-MLP-000'}`, 18, y + 13);
-  doc.text(`Employee Name: ${slip.employeeName || slip.user?.name || 'Production Crew Member'}`, 18, y + 19);
-  doc.text(`Designation: ${slip.designation || 'Specialist'}`, 18, y + 25);
+  // Column 1 - Employee Credentials
+  const resolvedName =
+    slip.employeeName ||
+    slip.user?.name ||
+    slip.employee?.name ||
+    slip.employee?.user?.name ||
+    slip.name ||
+    'Production Crew Member';
+  const resolvedCode = slip.employeeCode || slip.employee?.employeeCode || 'EMP-MLP-001';
+  const resolvedDesig = slip.designation || slip.employee?.designation || 'Production Specialist';
+
+  doc.text(`Employee Code: ${resolvedCode}`, 18, y + 13);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(11, 11, 11);
+  doc.text(`Employee Name: ${resolvedName}`, 18, y + 19);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(50, 50, 50);
+  doc.text(`Designation: ${resolvedDesig}`, 18, y + 25);
 
   // Column 2
   doc.text(`Payment Mode: ${slip.paymentMethod || 'BANK_TRANSFER'}`, 110, y + 13);

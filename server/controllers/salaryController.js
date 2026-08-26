@@ -1,4 +1,4 @@
-﻿import Salary from '../models/Salary.js';
+import Salary from '../models/Salary.js';
 import Employee from '../models/Employee.js';
 import User from '../models/User.js';
 import { AppError } from '../middleware/error.js';
@@ -71,10 +71,10 @@ export const createSalarySlip = async (req, res, next) => {
 
     const newSlip = await Salary.create({
       employee: emp._id,
-      user: emp.user._id,
-      employeeCode: emp.employeeCode || `EMP-${Date.now().toString().slice(-4)}`,
-      employeeName: emp.user.name,
-      designation: emp.designation || 'Production Specialist',
+      user: emp.user?._id || emp.user,
+      employeeCode: emp.employeeCode || req.body.employeeCode || `EMP-${Date.now().toString().slice(-4)}`,
+      employeeName: emp.user?.name || req.body.employeeName || 'Production Crew Member',
+      designation: emp.designation || req.body.designation || 'Production Specialist',
       month,
       year,
       slipNumber,
@@ -138,14 +138,15 @@ export const bulkGenerateSalarySlips = async (req, res, next) => {
       const netPay = gross - deductions;
 
       const randomSuffix = Math.floor(100 + Math.random() * 900);
-      const cleanMonth = month.replace(/\s+/g, '').toUpperCase();
-      const slipNumber = `SLIP-${cleanMonth}-${emp.user.name.slice(0, 3).toUpperCase()}-${randomSuffix}`;
+      const empName = emp.user?.name || emp.name || 'Crew Member';
+      const initials = empName.replace(/[^A-Za-z]/g, '').slice(0, 3).toUpperCase() || 'EMP';
+      const slipNumber = `SLIP-${cleanMonth}-${initials}-${randomSuffix}`;
 
       const slip = await Salary.create({
         employee: emp._id,
-        user: emp.user._id,
+        user: emp.user?._id || emp.user,
         employeeCode: emp.employeeCode || `EMP-${randomSuffix}`,
-        employeeName: emp.user.name,
+        employeeName: empName,
         designation: emp.designation || 'Production Crew',
         month,
         year,

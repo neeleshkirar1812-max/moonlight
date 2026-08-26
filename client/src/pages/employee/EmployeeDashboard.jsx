@@ -32,8 +32,14 @@ const EmployeeDashboard = () => {
           api.get('/bookings'),
           api.get('/salary'),
         ]);
-        if (bRes.status === 'fulfilled' && bRes.value.data) setAssignedBookings(bRes.value.data);
-        if (sRes.status === 'fulfilled' && sRes.value.data) setSalarySlips(sRes.value.data);
+        if (bRes.status === 'fulfilled') {
+          const bData = Array.isArray(bRes.value) ? bRes.value : bRes.value?.data || [];
+          setAssignedBookings(bData);
+        }
+        if (sRes.status === 'fulfilled') {
+          const sData = Array.isArray(sRes.value) ? sRes.value : sRes.value?.data || [];
+          setSalarySlips(sData);
+        }
       } catch (err) {
         console.error('Employee data error', err);
       } finally {
@@ -300,7 +306,14 @@ const EmployeeDashboard = () => {
                       </td>
                       <td className="py-3.5 px-4 text-right">
                         <button
-                          onClick={() => generateSalarySlipPDF(slip)}
+                          onClick={() =>
+                            generateSalarySlipPDF({
+                              ...slip,
+                              employeeName: slip.employeeName || slip.user?.name || user?.name || 'Production Crew Member',
+                              employeeCode: slip.employeeCode || 'EMP-MLP-001',
+                              designation: slip.designation || 'Production Specialist',
+                            })
+                          }
                           className="px-3 py-1.5 rounded-lg bg-gold-500/15 hover:bg-gold-500/30 text-gold-300 border border-gold-500/30 font-bold text-[11px] inline-flex items-center transition-all"
                         >
                           <Download className="w-3.5 h-3.5 mr-1" /> Pay Slip PDF

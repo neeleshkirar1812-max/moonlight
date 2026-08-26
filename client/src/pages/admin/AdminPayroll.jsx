@@ -57,29 +57,68 @@ const AdminPayroll = () => {
         api.get('/admin/employees'),
       ]);
 
-      let loadedSlips = sRes.status === 'fulfilled' ? sRes.value.data || [] : [];
-      let loadedEmps = eRes.status === 'fulfilled' ? eRes.value.data || [] : [];
+      let loadedSlips = sRes.status === 'fulfilled'
+        ? (Array.isArray(sRes.value) ? sRes.value : sRes.value?.data || [])
+        : [];
+      let loadedEmps = eRes.status === 'fulfilled'
+        ? (Array.isArray(eRes.value) ? eRes.value : eRes.value?.data || [])
+        : [];
+
+      // Normalize all slips to ensure employeeName, code and designation are always populated
+      loadedSlips = loadedSlips.map((slip, i) => {
+        const empId = slip.employee?._id || slip.employee;
+        const matchingEmp = loadedEmps.find((e) => e._id === empId || e.id === empId);
+        const resolvedName =
+          slip.employeeName ||
+          slip.user?.name ||
+          slip.employee?.user?.name ||
+          slip.employee?.name ||
+          matchingEmp?.user?.name ||
+          matchingEmp?.name ||
+          `Crew Member ${i + 1}`;
+        const resolvedCode =
+          slip.employeeCode ||
+          slip.employee?.employeeCode ||
+          matchingEmp?.employeeCode ||
+          `EMP-MLP-00${i + 1}`;
+        const resolvedDesig =
+          slip.designation ||
+          slip.employee?.designation ||
+          matchingEmp?.designation ||
+          'Production Specialist';
+
+        return {
+          ...slip,
+          employeeName: resolvedName,
+          employeeCode: resolvedCode,
+          designation: resolvedDesig,
+        };
+      });
 
       // If no slips in DB for selected month, seed default official slips for the 9 crew
       if (loadedSlips.length === 0 && loadedEmps.length > 0) {
         loadedSlips = loadedEmps.map((emp, i) => {
-          const basic = emp.designation?.toLowerCase().includes('director') || emp.designation?.toLowerCase().includes('lead') ? 55000 : 45000;
+          const name = emp.user?.name || emp.name || `Crew Member ${i + 1}`;
+          const code = emp.employeeCode || `EMP-MLP-00${i + 1}`;
+          const desig = emp.designation || 'Production Specialist';
+          const basic = desig.toLowerCase().includes('director') || desig.toLowerCase().includes('lead') ? 55000 : 45000;
           const hra = Math.round(basic * 0.2);
           const bonus = 5000;
           const travel = 2500;
           const gross = basic + hra + bonus + travel;
           const deductions = 3500;
           const net = gross - deductions;
+          const initials = name.replace(/[^A-Za-z]/g, '').slice(0, 3).toUpperCase() || 'EMP';
 
           return {
             _id: `slip-demo-${i + 1}`,
             employee: emp._id,
-            employeeCode: emp.employeeCode || `EMP-MLP-00${i + 1}`,
-            employeeName: emp.name || emp.user?.name || `Crew Member ${i + 1}`,
-            designation: emp.designation || 'Production Specialist',
+            employeeCode: code,
+            employeeName: name,
+            designation: desig,
             month: selectedMonth,
             year: 2026,
-            slipNumber: `SLIP-202608-${(emp.name || 'EMP').slice(0, 3).toUpperCase()}-${100 + i}`,
+            slipNumber: `SLIP-202608-${initials}-${100 + i}`,
             basicPay: basic,
             hraAllowances: hra,
             shootBonus: bonus,
@@ -100,7 +139,14 @@ const AdminPayroll = () => {
       setSlips(loadedSlips);
       setEmployees(loadedEmps);
       if (loadedEmps.length > 0 && !form.employeeId) {
-        setForm((prev) => ({ ...prev, employeeId: loadedEmps[0]._id }));
+        const firstEmp = loadedEmps[0];
+        setForm((prev) => ({
+          ...prev,
+          employeeId: firstEmp._id,
+          employeeName: firstEmp.user?.name || firstEmp.name || 'Aman Pawar',
+          employeeCode: firstEmp.employeeCode || 'EMP-MLP-001',
+          designation: firstEmp.designation || 'Lead Cinematographer',
+        }));
       }
     } catch (err) {
       console.error(err);
@@ -117,8 +163,25 @@ const AdminPayroll = () => {
     e.preventDefault();
     try {
       const selectedEmpObj = employees.find((e) => e._id === form.employeeId);
+      const resolvedName =
+        selectedEmpObj?.user?.name ||
+        selectedEmpObj?.name ||
+        form.employeeName ||
+        'Production Crew Member';
+      const resolvedCode =
+        selectedEmpObj?.employeeCode ||
+        form.employeeCode ||
+        `EMP-MLP-${Date.now().toString().slice(-3)}`;
+      const resolvedDesig =
+        selectedEmpObj?.designation ||
+        form.designation ||
+        'Production Specialist';
+
       const payload = {
         ...form,
+        employeeName: resolvedName,
+        employeeCode: resolvedCode,
+        designation: resolvedDesig,
         basicPay: Number(form.basicPay),
         hraAllowances: Number(form.hraAllowances),
         shootBonus: Number(form.shootBonus),
@@ -129,23 +192,20 @@ const AdminPayroll = () => {
       };
 
       const res = await api.post('/salary', payload);
-      const newSlip = res.data || {
-        _id: `slip-${Date.now()}`,
+      const resData = res?.data || res;
+      const newSlip = {
+        _id: resData?._id || `slip-${Date.now()}`,
         ...payload,
-        employeeName: selectedEmpObj?.name || 'Production Crew Member',
-        designation: selectedEmpObj?.designation || 'Specialist',
-        employeeCode: selectedEmpObj?.employeeCode || 'EMP-MLP-NEW',
-        slipNumber: `SLIP-202608-${Math.floor(1000 + Math.random() * 9000)}`,
-        grossPay: payload.basicPay + payload.hraAllowances + payload.shootBonus + payload.travelReimbursement,
-        totalDeductions: payload.taxDeduction + payload.providentFund + payload.advanceDeduction,
-        netPay: (payload.basicPay + payload.hraAllowances + payload.shootBonus + payload.travelReimbursement) - (payload.taxDeduction + payload.providentFund + payload.advanceDeduction),
-        paymentStatus: 'Pending',
+        ...resData,
+        employeeName: resData?.employeeName || resolvedName,
+        employeeCode: resData?.employeeCode || resolvedCode,
+        designation: resData?.designation || resolvedDesig,
       };
 
       setSlips([newSlip, ...slips]);
       addToast({
         title: 'Salary Slip Generated',
-        message: `Official pay slip created for ${selectedEmpObj?.name || 'Crew Member'}.`,
+        message: `Official pay slip created for ${resolvedName}.`,
         type: 'success',
       });
       setCreateModalOpen(false);
@@ -365,9 +425,9 @@ const AdminPayroll = () => {
                     <tr key={slip._id} className="hover:bg-white/[0.02] transition-colors">
                       <td className="py-3.5 px-4">
                         <strong className="text-white block font-serif font-bold text-sm">
-                          {slip.employeeName}
+                          {slip.employeeName || slip.user?.name || slip.employee?.user?.name || slip.employee?.name || 'Production Crew Member'}
                         </strong>
-                        <span className="text-[10px] text-gold-400">{slip.employeeCode}</span>
+                        <span className="text-[10px] text-gold-400">{slip.employeeCode || slip.employee?.employeeCode || 'EMP-MLP'}</span>
                       </td>
 
                       <td className="py-3.5 px-4 text-neutral-300 font-sans">{slip.designation}</td>
@@ -466,14 +526,32 @@ const AdminPayroll = () => {
                 <select
                   required
                   value={form.employeeId}
-                  onChange={(e) => setForm({ ...form, employeeId: e.target.value })}
+                  onChange={(e) => {
+                    const empId = e.target.value;
+                    const foundEmp = employees.find((emp) => emp._id === empId || emp.id === empId);
+                    const empName = foundEmp?.user?.name || foundEmp?.name || '';
+                    const empCode = foundEmp?.employeeCode || '';
+                    const desig = foundEmp?.designation || '';
+                    setForm({
+                      ...form,
+                      employeeId: empId,
+                      employeeName: empName,
+                      employeeCode: empCode,
+                      designation: desig,
+                    });
+                  }}
                   className="w-full p-3 rounded-xl bg-black/50 border border-white/15 text-white font-mono focus:border-gold-400 focus:outline-none"
                 >
-                  {employees.map((emp) => (
-                    <option key={emp._id} value={emp._id}>
-                      {emp.name || emp.user?.name} — {emp.designation} ({emp.employeeCode})
-                    </option>
-                  ))}
+                  {employees.map((emp) => {
+                    const name = emp.user?.name || emp.name || 'Crew Member';
+                    const desig = emp.designation || 'Specialist';
+                    const code = emp.employeeCode || emp.code || 'EMP';
+                    return (
+                      <option key={emp._id} value={emp._id}>
+                        {name} — {desig} ({code})
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
 
