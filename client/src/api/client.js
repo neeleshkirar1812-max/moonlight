@@ -712,10 +712,17 @@ const handleMockRequest = async (method, url, data) => {
     let items = getCollection('employees');
     if (method === 'GET') return { data: items };
     if (method === 'POST') {
+      const email = (data.user?.email || data.email || '').toLowerCase().trim();
+      const existingIdx = email ? items.findIndex((e) => (e.user?.email || '').toLowerCase().trim() === email) : -1;
+      if (existingIdx >= 0) {
+        items[existingIdx] = { ...items[existingIdx], ...data };
+        setCollection('employees', items);
+        return { data: items[existingIdx] };
+      }
       const newItem = {
-        _id: `emp-${Date.now()}`,
-        employeeCode: `EMP-MLP-${String(items.length + 1).padStart(3, '0')}`,
-        status: 'active',
+        _id: data._id || `emp-${Date.now()}`,
+        employeeCode: data.employeeCode || `EMP-MLP-${String(items.length + 1).padStart(3, '0')}`,
+        status: data.status || 'pending_approval',
         ...data,
       };
       items = [newItem, ...items];

@@ -156,10 +156,19 @@ const AdminEmployees = () => {
     setEmployees(current);
   }, []);
 
-  // Save to localStorage helper
+  // Save to localStorage helper with automatic deduplication
   const persistEmployees = (updatedList) => {
-    setEmployees(updatedList);
-    localStorage.setItem('ml_employees', JSON.stringify(updatedList));
+    const seen = new Set();
+    const unique = updatedList.filter((emp) => {
+      const email = (emp.user?.email || '').trim().toLowerCase();
+      const id = emp._id || '';
+      const key = email || id;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    setEmployees(unique);
+    localStorage.setItem('ml_employees', JSON.stringify(unique));
   };
 
   // 1. Reset to Default 9 Crew
@@ -175,7 +184,7 @@ const AdminEmployees = () => {
     });
   };
 
-  // Add Form State
+  // Add Form State - Defaults to pending_approval for Super Admin Clearance
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -183,7 +192,7 @@ const AdminEmployees = () => {
     designation: 'Master Cinematographer',
     department: 'Cinematography',
     speciality: 'Sony FX3 & Low-Light Rituals',
-    status: 'active',
+    status: 'pending_approval',
   });
 
   // Edit Form State
@@ -197,11 +206,24 @@ const AdminEmployees = () => {
     status: 'active',
   });
 
-  // 2. CREATE EMPLOYEE (Manual Add)
-  const handleCreateEmployee = async (e) => {
+  // 2. CREATE EMPLOYEE (Manual Add - Guaranteed No Duplicate & Guaranteed Super Admin Approval)
+  const handleCreateEmployee = (e) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.phone) {
       addToast({ title: 'Required Fields', message: 'Name, email and phone number are required.', type: 'warning' });
+      return;
+    }
+
+    const cleanEmail = form.email.trim().toLowerCase();
+
+    // Check if employee with this email already exists
+    const existing = employees.find((emp) => (emp.user?.email || '').toLowerCase() === cleanEmail);
+    if (existing) {
+      addToast({
+        title: 'Already Exists',
+        message: `A crew member with email ${form.email} is already in the directory. Please edit the existing profile instead.`,
+        type: 'warning',
+      });
       return;
     }
 
@@ -211,43 +233,42 @@ const AdminEmployees = () => {
       name: form.name.trim(),
       designation: form.designation.trim() || 'Master Cinematographer',
       department: form.department.trim() || 'Cinematography',
-      user: { email: form.email.trim(), phone: form.phone.trim() },
+      user: { email: cleanEmail, phone: form.phone.trim() },
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80',
-      status: form.status || 'active',
+      status: 'pending_approval',
       speciality: form.speciality.trim() || 'Luxury Wedding Production',
     };
 
+    // 1. Add single unique copy to roster
     const updated = [newEmp, ...employees];
     persistEmployees(updated);
 
-    // Call API route
+    // 2. ALWAYS dispatch to Super Admin Approvals Queue
     try {
-      await api.post('/admin/employees', newEmp);
-    } catch (err) {}
-
-    // If pending, also push to Super Admin Approvals Queue
-    if (form.status === 'pending_approval') {
-      try {
-        const pending = JSON.parse(localStorage.getItem('moonlight_pending_approvals') || '[]');
-        pending.unshift({
-          id: `REQ-${Date.now().toString().slice(-4)}`,
-          name: newEmp.name,
-          email: newEmp.user.email,
-          phone: newEmp.user.phone,
-          role: 'employee',
-          designation: newEmp.designation,
-          createdBy: 'Studio Admin / HR',
-          department: newEmp.department,
-          requestedAt: new Date().toISOString(),
-          status: 'pending',
-        });
-        localStorage.setItem('moonlight_pending_approvals', JSON.stringify(pending));
-      } catch (err) {}
+      const pendingStr = localStorage.getItem('moonlight_pending_approvals');
+      let pending = pendingStr ? JSON.parse(pendingStr) : [];
+      // Remove any existing request with same email to prevent queue duplicates
+      pending = pending.filter((p) => (p.email || '').toLowerCase() !== cleanEmail);
+      pending.unshift({
+        id: `REQ-${Date.now().toString().slice(-4)}`,
+        name: newEmp.name,
+        email: cleanEmail,
+        phone: newEmp.user.phone,
+        role: 'employee',
+        designation: newEmp.designation,
+        createdBy: 'Studio Admin / HR (Neelesh Kirar)',
+        department: newEmp.department,
+        requestedAt: new Date().toISOString(),
+        status: 'pending',
+      });
+      localStorage.setItem('moonlight_pending_approvals', JSON.stringify(pending));
+    } catch (err) {
+      console.error('Error queuing approval request:', err);
     }
 
     addToast({
-      title: 'Crew Member Added',
-      message: `${newEmp.name} has been added to the official directory!`,
+      title: 'Sent for Super Admin Approval',
+      message: `${newEmp.name} queued for Super Admin clearance. Super Admin can now approve in Approvals tab.`,
       type: 'success',
     });
 
@@ -259,7 +280,7 @@ const AdminEmployees = () => {
       designation: 'Master Cinematographer',
       department: 'Cinematography',
       speciality: 'Sony FX3 & Low-Light Rituals',
-      status: 'active',
+      status: 'pending_approval',
     });
   };
 
@@ -677,32 +698,13 @@ const AdminEmployees = () => {
                 />
               </div>
 
-              <div>
-                <label className="text-neutral-300 block mb-1 font-bold">Account Activation Status</label>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setForm({ ...form, status: 'active' })}
-                    className={`py-2 rounded-xl border font-bold text-center transition-all ${
-                      form.status === 'active'
-                        ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300'
-                        : 'bg-black/50 border-white/10 text-neutral-400'
-                    }`}
-                  >
-                    ✅ Active Instantly
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setForm({ ...form, status: 'pending_approval' })}
-                    className={`py-2 rounded-xl border font-bold text-center transition-all ${
-                      form.status === 'pending_approval'
-                        ? 'bg-amber-500/20 border-amber-500 text-amber-300'
-                        : 'bg-black/50 border-white/10 text-neutral-400'
-                    }`}
-                  >
-                    ⏳ Pending Clearance
-                  </button>
-                </div>
+              <div className="p-3 bg-black/60 rounded-xl border border-amber-500/30 text-[11px] text-neutral-300 space-y-1">
+                <span className="text-amber-400 font-bold flex items-center">
+                  <Clock className="w-3.5 h-3.5 mr-1 text-amber-400" /> Super Admin Clearance Queue:
+                </span>
+                <p className="text-neutral-400">
+                  This profile will be queued for the Super Admin Director to review and approve. Upon clearance in the Approvals Console, credentials will become active.
+                </p>
               </div>
 
               <div className="flex justify-end space-x-3 pt-3 border-t border-white/10">

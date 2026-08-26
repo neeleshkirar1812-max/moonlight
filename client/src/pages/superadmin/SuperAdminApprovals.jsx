@@ -99,11 +99,15 @@ const SuperAdminApprovals = () => {
     const req = approvals.find((a) => a.id === reqId);
     if (!req) return;
 
-    // A. Update in ml_employees so Admin Crew Directory immediately reflects Active status
+    // A. Update in ml_employees so Admin Crew Directory immediately reflects Active status without duplicates
     try {
       const savedCrew = localStorage.getItem('ml_employees');
       let crewList = savedCrew ? JSON.parse(savedCrew) : [];
-      const foundIdx = crewList.findIndex((c) => (c.user?.email || '').toLowerCase() === req.email.toLowerCase() || c.name === req.name);
+      const cleanEmail = (req.email || '').toLowerCase().trim();
+      const foundIdx = crewList.findIndex(
+        (c) => (c.user?.email || '').toLowerCase().trim() === cleanEmail || c.name === req.name
+      );
+
       if (foundIdx >= 0) {
         crewList[foundIdx] = { ...crewList[foundIdx], status: 'active' };
       } else {
@@ -113,27 +117,39 @@ const SuperAdminApprovals = () => {
           name: req.name,
           designation: req.designation || 'Master Cinematographer',
           department: req.department || 'Cinematography',
-          user: { email: req.email, phone: req.phone },
+          user: { email: cleanEmail, phone: req.phone },
           avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80',
           status: 'active',
           speciality: 'Luxury Wedding Production',
         });
       }
+
+      // Deduplicate before saving
+      const seen = new Set();
+      crewList = crewList.filter((c) => {
+        const key = (c.user?.email || c.name || c._id).toLowerCase();
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+
       localStorage.setItem('ml_employees', JSON.stringify(crewList));
-    } catch (e) {}
+    } catch (e) {
+      console.error('Error updating ml_employees:', e);
+    }
 
     // B. Add to active users directory
     const newUser = {
       id: `usr-${Date.now()}`,
       name: req.name,
       email: req.email,
-      role: req.role,
+      role: req.role || 'employee',
       designation: req.designation || 'Production Crew Master',
       status: 'active',
       lastLogin: 'Active (Approved by Super Admin)',
       phone: req.phone,
     };
-    const updatedUsers = [newUser, ...usersList];
+    const updatedUsers = [newUser, ...usersList.filter((u) => (u.email || '').toLowerCase() !== (req.email || '').toLowerCase())];
     setUsersList(updatedUsers);
     localStorage.setItem('moonlight_all_users', JSON.stringify(updatedUsers));
 
