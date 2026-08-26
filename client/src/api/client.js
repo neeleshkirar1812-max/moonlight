@@ -466,18 +466,13 @@ const initialData = {
 
 // Helper to get or initialize local storage collection
 const getCollection = (key) => {
-  if (key === 'employees') {
-    localStorage.setItem(`ml_${key}`, JSON.stringify(initialData.employees));
-    return initialData.employees;
-  }
-  if (key === 'admins') {
-    localStorage.setItem(`ml_${key}`, JSON.stringify(initialData.admins));
-    return initialData.admins;
-  }
   const stored = localStorage.getItem(`ml_${key}`);
   if (stored) {
     try {
-      return JSON.parse(stored);
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) || typeof parsed === 'object') {
+        return parsed;
+      }
     } catch (e) {}
   }
   const defaultVal = initialData[key] || [];
@@ -680,8 +675,39 @@ const handleMockRequest = async (method, url, data) => {
   }
 
   // 11. Admin Employees & Customers
-  if (cleanUrl === '/admin/employees' || cleanUrl === '/employees') {
-    return { data: getCollection('employees') };
+  if (
+    cleanUrl === '/admin/employees' ||
+    cleanUrl.startsWith('/admin/employees/') ||
+    cleanUrl === '/employees' ||
+    cleanUrl.startsWith('/employees/')
+  ) {
+    let items = getCollection('employees');
+    if (method === 'GET') return { data: items };
+    if (method === 'POST') {
+      const newItem = {
+        _id: `emp-${Date.now()}`,
+        employeeCode: `EMP-MLP-${String(items.length + 1).padStart(3, '0')}`,
+        status: 'active',
+        ...data,
+      };
+      items = [newItem, ...items];
+      setCollection('employees', items);
+      return { data: newItem };
+    }
+    if (method === 'PUT' || method === 'PATCH') {
+      const id = cleanUrl.split('/').pop();
+      items = items.map((emp) => (emp._id === id ? { ...emp, ...data } : emp));
+      setCollection('employees', items);
+      const updated = items.find((emp) => emp._id === id);
+      return { data: updated || data };
+    }
+    if (method === 'DELETE') {
+      const id = cleanUrl.split('/').pop();
+      items = items.filter((emp) => emp._id !== id);
+      setCollection('employees', items);
+      return { data: { success: true, message: 'Employee deleted successfully.' } };
+    }
+    return { data: items };
   }
   if (cleanUrl === '/admin/customers' || cleanUrl === '/customers') {
     return { data: getCollection('customers') };

@@ -17,6 +17,9 @@ import {
   Award,
   Video,
   Sparkles,
+  Edit2,
+  Trash2,
+  Filter,
 } from 'lucide-react';
 
 export const realProductionCrew = [
@@ -121,116 +124,226 @@ export const realProductionCrew = [
   },
 ];
 
-export const getCombinedCrew = () => {
-  const baseMap = new Map();
-  realProductionCrew.forEach((c) => baseMap.set(c.user?.email || c.name, c));
-
+// Helper: load stored employees from localStorage with zero overwriting
+export const loadStoredEmployees = () => {
   try {
     const saved = localStorage.getItem('ml_employees');
     if (saved) {
       const parsed = JSON.parse(saved);
-      if (Array.isArray(parsed)) {
-        parsed.forEach((c) => {
-          const key = c.user?.email || c.name;
-          if (key) {
-            baseMap.set(key, { ...(baseMap.get(key) || {}), ...c });
-          }
-        });
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
       }
     }
   } catch (e) {}
 
-  return Array.from(baseMap.values());
+  // Fallback initial setup only if never initialized
+  localStorage.setItem('ml_employees', JSON.stringify(realProductionCrew));
+  return realProductionCrew;
 };
 
 const AdminEmployees = () => {
-  const [employees, setEmployees] = useState(getCombinedCrew);
+  const [employees, setEmployees] = useState(loadStoredEmployees);
   const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('ALL');
   const [modalOpen, setModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editingEmp, setEditingEmp] = useState(null);
   const { addToast } = useNotification();
 
+  // Keep state updated if storage changes externally
   useEffect(() => {
-    // Refresh combined crew on mount
-    setEmployees(getCombinedCrew());
+    const current = loadStoredEmployees();
+    setEmployees(current);
   }, []);
 
+  // Save to localStorage helper
+  const persistEmployees = (updatedList) => {
+    setEmployees(updatedList);
+    localStorage.setItem('ml_employees', JSON.stringify(updatedList));
+  };
+
+  // 1. Reset to Default 9 Crew
   const handleResetToRealCrew = () => {
-    setEmployees(realProductionCrew);
-    localStorage.setItem('ml_employees', JSON.stringify(realProductionCrew));
+    if (!window.confirm('Restore official 9 Moonlight Production crew members? Any custom members added will be replaced.')) {
+      return;
+    }
+    persistEmployees(realProductionCrew);
     addToast({
-      title: 'Crew Directory Refreshed',
-      message: 'Successfully synchronized all 9 official Moonlight Production crew members.',
+      title: 'Default Team Restored',
+      message: 'Restored the 9 official Moonlight Production crew members.',
       type: 'success',
     });
   };
 
+  // Add Form State
   const [form, setForm] = useState({
     name: '',
     email: '',
-    password: 'Crew@2026',
     phone: '',
     designation: 'Master Cinematographer',
     department: 'Cinematography',
-    speciality: 'Luxury Wedding Production',
+    speciality: 'Sony FX3 & Low-Light Rituals',
+    status: 'active',
   });
 
-  const handleCreateEmployee = (e) => {
+  // Edit Form State
+  const [editForm, setEditForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    designation: '',
+    department: '',
+    speciality: '',
+    status: 'active',
+  });
+
+  // 2. CREATE EMPLOYEE (Manual Add)
+  const handleCreateEmployee = async (e) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.phone) {
-      addToast({ title: 'Missing Info', message: 'Name, email and phone number are required.', type: 'warning' });
+      addToast({ title: 'Required Fields', message: 'Name, email and phone number are required.', type: 'warning' });
       return;
     }
 
     const newEmp = {
       _id: `emp-${Date.now()}`,
       employeeCode: `EMP-MLP-${String(employees.length + 1).padStart(3, '0')}`,
-      name: form.name,
-      designation: form.designation || 'Master Cinematographer',
-      department: form.department || 'Cinematography',
-      user: { email: form.email, phone: form.phone },
+      name: form.name.trim(),
+      designation: form.designation.trim() || 'Master Cinematographer',
+      department: form.department.trim() || 'Cinematography',
+      user: { email: form.email.trim(), phone: form.phone.trim() },
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80',
-      status: 'pending_approval',
-      speciality: form.speciality || 'Luxury Wedding Production',
+      status: form.status || 'active',
+      speciality: form.speciality.trim() || 'Luxury Wedding Production',
     };
 
     const updated = [newEmp, ...employees];
-    setEmployees(updated);
-    localStorage.setItem('ml_employees', JSON.stringify(updated));
+    persistEmployees(updated);
 
-    // Push to Super Admin Approvals Queue
-    const pending = JSON.parse(localStorage.getItem('moonlight_pending_approvals') || '[]');
-    pending.unshift({
-      id: `REQ-${Date.now().toString().slice(-4)}`,
-      name: form.name,
-      email: form.email,
-      phone: form.phone,
-      role: 'employee',
-      designation: form.designation,
-      createdBy: 'Studio Admin / HR (Neelesh Kirar)',
-      department: form.department,
-      requestedAt: new Date().toISOString(),
-      status: 'pending',
-    });
-    localStorage.setItem('moonlight_pending_approvals', JSON.stringify(pending));
+    // Call API route
+    try {
+      await api.post('/admin/employees', newEmp);
+    } catch (err) {}
+
+    // If pending, also push to Super Admin Approvals Queue
+    if (form.status === 'pending_approval') {
+      try {
+        const pending = JSON.parse(localStorage.getItem('moonlight_pending_approvals') || '[]');
+        pending.unshift({
+          id: `REQ-${Date.now().toString().slice(-4)}`,
+          name: newEmp.name,
+          email: newEmp.user.email,
+          phone: newEmp.user.phone,
+          role: 'employee',
+          designation: newEmp.designation,
+          createdBy: 'Studio Admin / HR',
+          department: newEmp.department,
+          requestedAt: new Date().toISOString(),
+          status: 'pending',
+        });
+        localStorage.setItem('moonlight_pending_approvals', JSON.stringify(pending));
+      } catch (err) {}
+    }
 
     addToast({
-      title: 'Crew Registration Submitted',
-      message: `${form.name} added and queued for Super Admin approval.`,
+      title: 'Crew Member Added',
+      message: `${newEmp.name} has been added to the official directory!`,
       type: 'success',
     });
+
     setModalOpen(false);
     setForm({
       name: '',
       email: '',
-      password: 'Crew@2026',
       phone: '',
       designation: 'Master Cinematographer',
       department: 'Cinematography',
-      speciality: 'Luxury Wedding Production',
+      speciality: 'Sony FX3 & Low-Light Rituals',
+      status: 'active',
     });
   };
 
+  // 3. OPEN EDIT MODAL
+  const handleOpenEdit = (emp) => {
+    setEditingEmp(emp);
+    setEditForm({
+      name: emp.name || '',
+      email: emp.user?.email || '',
+      phone: emp.user?.phone || '',
+      designation: emp.designation || '',
+      department: emp.department || '',
+      speciality: emp.speciality || '',
+      status: emp.status || 'active',
+    });
+    setEditModalOpen(true);
+  };
+
+  // 4. SUBMIT EDIT (Manual Update)
+  const handleUpdateEmployee = async (e) => {
+    e.preventDefault();
+    if (!editingEmp) return;
+
+    const updatedList = employees.map((emp) => {
+      if (emp._id === editingEmp._id) {
+        return {
+          ...emp,
+          name: editForm.name.trim(),
+          designation: editForm.designation.trim(),
+          department: editForm.department.trim(),
+          speciality: editForm.speciality.trim(),
+          status: editForm.status,
+          user: {
+            ...emp.user,
+            email: editForm.email.trim(),
+            phone: editForm.phone.trim(),
+          },
+        };
+      }
+      return emp;
+    });
+
+    persistEmployees(updatedList);
+
+    try {
+      await api.put(`/admin/employees/${editingEmp._id}`, editForm);
+    } catch (err) {}
+
+    addToast({
+      title: 'Profile Updated',
+      message: `Updated profile for ${editForm.name}.`,
+      type: 'success',
+    });
+    setEditModalOpen(false);
+    setEditingEmp(null);
+  };
+
+  // 5. DELETE EMPLOYEE (Manual Delete)
+  const handleDeleteEmployee = async (emp) => {
+    if (!window.confirm(`Are you sure you want to delete ${emp.name} from the crew directory? This action cannot be undone.`)) {
+      return;
+    }
+
+    const updated = employees.filter((e) => e._id !== emp._id);
+    persistEmployees(updated);
+
+    try {
+      await api.delete(`/admin/employees/${emp._id}`);
+    } catch (err) {}
+
+    addToast({
+      title: 'Crew Member Deleted',
+      message: `${emp.name} was removed from the roster.`,
+      type: 'success',
+    });
+  };
+
+  // Filtering
   const filteredCrew = employees.filter((emp) => {
+    if (statusFilter !== 'ALL') {
+      const isPending = emp.status === 'pending_approval' || emp.status === 'pending';
+      if (statusFilter === 'ACTIVE' && isPending) return false;
+      if (statusFilter === 'PENDING' && !isPending) return false;
+    }
     if (!search.trim()) return true;
     const q = search.toLowerCase();
     const name = (emp.name || '').toLowerCase();
@@ -238,144 +351,253 @@ const AdminEmployees = () => {
     const email = (emp.user?.email || '').toLowerCase();
     const phone = (emp.user?.phone || '').toLowerCase();
     const designation = (emp.designation || '').toLowerCase();
-    return name.includes(q) || code.includes(q) || email.includes(q) || phone.includes(q) || designation.includes(q);
+    const department = (emp.department || '').toLowerCase();
+    return (
+      name.includes(q) ||
+      code.includes(q) ||
+      email.includes(q) ||
+      phone.includes(q) ||
+      designation.includes(q) ||
+      department.includes(q)
+    );
   });
 
+  const activeCount = employees.filter((e) => e.status === 'active' || !e.status).length;
+  const pendingCount = employees.filter((e) => e.status === 'pending_approval' || e.status === 'pending').length;
+
   return (
-    <div className="space-y-8 animate-fade-in text-white">
+    <div className="space-y-6 sm:space-y-8 animate-fade-in text-white">
+      {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="text-xs uppercase font-mono tracking-widest text-gold-400 font-bold block">
+          <span className="text-[10px] sm:text-xs uppercase font-mono tracking-widest text-gold-400 font-bold block">
             HR & Talent Operations
           </span>
-          <h1 className="font-serif text-3xl font-bold text-white">Official Production Crew Directory</h1>
+          <h1 className="font-serif text-2xl sm:text-3xl font-bold text-white">
+            Official Production Crew Directory
+          </h1>
           <p className="text-xs text-neutral-400 mt-1">
             Registered cinematographers, photographers, drone pilots, and editors with contact numbers and credentials.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        {/* Action Buttons: Responsive Flex */}
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <button
             onClick={handleResetToRealCrew}
-            className="px-4 py-2.5 rounded-full bg-obsidian-300 hover:bg-gold-500 hover:text-black border border-white/15 text-gold-300 font-bold text-xs uppercase tracking-wider transition-all flex items-center shrink-0"
-            title="Force reload base 9 team members"
+            className="px-3 sm:px-4 py-2 sm:py-2.5 rounded-full bg-[#181820] hover:bg-gold-500 hover:text-black border border-white/15 text-gold-300 font-bold text-xs uppercase tracking-wider transition-all flex items-center shrink-0"
+            title="Restore default 9 team members"
           >
-            <Sparkles className="w-3.5 h-3.5 mr-1.5" /> 🔄 Sync 9 Real Crew
+            <Sparkles className="w-3.5 h-3.5 mr-1.5" />
+            <span>Reset 9 Default</span>
           </button>
 
           <button
             onClick={() => setModalOpen(true)}
-            className="px-5 py-2.5 rounded-full bg-gold-gradient text-black font-extrabold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 active:scale-95 transition-all flex items-center shrink-0 btn-shimmer"
+            className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-gold-gradient text-black font-extrabold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 active:scale-95 transition-all flex items-center shrink-0 btn-shimmer"
           >
-            <UserPlus className="w-4 h-4 mr-1.5" /> + Add New Crew Member
+            <UserPlus className="w-4 h-4 mr-1.5" />
+            <span>+ Add New Crew</span>
           </button>
         </div>
       </div>
 
-      {/* HR Notice */}
-      <div className="p-4 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-between text-xs">
+      {/* Persistence Guarantee Notice */}
+      <div className="p-3 sm:p-4 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
         <div className="flex items-center space-x-2.5">
           <ShieldCheck className="w-5 h-5 text-gold-400 shrink-0" />
           <p className="text-neutral-200">
-            <strong>Official Crew Directory:</strong> When HR adds a crew member, their account is flagged as <em>Pending Clearance</em> until approved by the Super Admin Director.
+            <strong>Full Manual Control:</strong> You can add, edit, or delete any crew member anytime. All changes are saved permanently in local storage and will never disappear on refresh.
           </p>
+        </div>
+        <div className="flex items-center space-x-2 shrink-0 font-mono text-[11px]">
+          <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+            {activeCount} Active
+          </span>
+          {pendingCount > 0 && (
+            <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              {pendingCount} Pending
+            </span>
+          )}
         </div>
       </div>
 
-      {/* Search Bar */}
-      <div className="relative max-w-md">
-        <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-        <input
-          type="text"
-          placeholder="Search crew by name, mobile, email, or role..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full bg-obsidian-300 border border-white/15 rounded-full pl-10 pr-4 py-2.5 text-xs text-white focus:outline-none focus:border-gold-400"
-        />
+      {/* Filter Tabs & Search Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-white/10">
+        {/* Status Pills */}
+        <div className="flex items-center space-x-2 overflow-x-auto pb-2 sm:pb-0 custom-scrollbar">
+          {[
+            { id: 'ALL', label: `All (${employees.length})` },
+            { id: 'ACTIVE', label: `Active (${activeCount})` },
+            { id: 'PENDING', label: `Pending Clearance (${pendingCount})` },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setStatusFilter(tab.id)}
+              className={`px-3 py-1.5 rounded-full text-xs font-mono font-bold uppercase transition-all whitespace-nowrap ${
+                statusFilter === tab.id
+                  ? 'bg-gold-gradient text-black shadow-gold-subtle'
+                  : 'bg-[#181820] text-neutral-400 hover:text-white border border-white/10'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Search */}
+        <div className="relative w-full sm:w-72">
+          <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            placeholder="Search crew by name, mobile, role..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full bg-[#181820] border border-white/15 rounded-full pl-10 pr-4 py-2 text-xs text-white focus:outline-none focus:border-gold-400"
+          />
+        </div>
       </div>
 
       {/* Crew Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredCrew.map((emp) => {
-          const cleanPhone = (emp.user?.phone || '').replace(/[^0-9]/g, '');
-          const isPending = emp.status === 'pending_approval' || emp.status === 'pending';
-          return (
-            <div
-              key={emp._id}
-              className={`bg-[#141418] rounded-3xl p-6 border transition-all flex flex-col justify-between ${
-                isPending ? 'border-amber-500/40 shadow-amber-900/20' : 'border-white/10 hover:border-gold-500/40 shadow-xl'
-              }`}
-            >
-              <div className="space-y-3">
-                <div className="flex items-start justify-between pb-3 border-b border-white/10">
-                  <div className="flex items-center space-x-3">
-                    <img
-                      src={emp.avatar}
-                      alt={emp.name}
-                      className={`w-12 h-12 rounded-full object-cover border-2 ${
-                        isPending ? 'border-amber-400' : 'border-gold-400'
-                      }`}
-                    />
-                    <div>
-                      <span className="text-[9.5px] px-2 py-0.2 rounded-full bg-gold-500/20 text-gold-300 font-mono font-bold border border-gold-500/40">
-                        {emp.employeeCode || 'EMP-MLP'}
-                      </span>
-                      <h3 className="font-serif text-base font-bold text-white mt-1">{emp.name}</h3>
-                      <p className="text-[11px] text-gold-400 font-mono font-semibold">{emp.designation}</p>
+      {filteredCrew.length === 0 ? (
+        <div className="text-center py-16 bg-[#141418] rounded-3xl border border-white/10 space-y-3">
+          <Camera className="w-10 h-10 text-gold-400 mx-auto opacity-40" />
+          <h3 className="font-serif text-lg text-white font-bold">No Crew Members Found</h3>
+          <p className="text-xs text-neutral-400">
+            {search ? 'Try clearing your search filters.' : 'Click "+ Add New Crew" to add your first crew member.'}
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          {filteredCrew.map((emp) => {
+            const cleanPhone = (emp.user?.phone || '').replace(/[^0-9]/g, '');
+            const isPending = emp.status === 'pending_approval' || emp.status === 'pending';
+            return (
+              <div
+                key={emp._id}
+                className={`bg-[#141418] rounded-3xl p-5 sm:p-6 border transition-all flex flex-col justify-between space-y-4 ${
+                  isPending
+                    ? 'border-amber-500/40 shadow-amber-900/20'
+                    : 'border-white/10 hover:border-gold-500/40 shadow-xl'
+                }`}
+              >
+                <div className="space-y-3">
+                  {/* Top Profile Header */}
+                  <div className="flex items-start justify-between pb-3 border-b border-white/10">
+                    <div className="flex items-center space-x-3">
+                      <img
+                        src={emp.avatar || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80'}
+                        alt={emp.name}
+                        className={`w-12 h-12 rounded-full object-cover border-2 shrink-0 ${
+                          isPending ? 'border-amber-400' : 'border-gold-400'
+                        }`}
+                      />
+                      <div className="min-w-0">
+                        <div className="flex items-center space-x-1.5">
+                          <span className="text-[9.5px] px-2 py-0.5 rounded-full bg-gold-500/20 text-gold-300 font-mono font-bold border border-gold-500/40">
+                            {emp.employeeCode || 'EMP-MLP'}
+                          </span>
+                          <span
+                            className={`px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase ${
+                              !isPending
+                                ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/40'
+                                : 'bg-amber-500/15 text-amber-300 border border-amber-500/40 animate-pulse'
+                            }`}
+                          >
+                            {!isPending ? 'Active' : 'Pending'}
+                          </span>
+                        </div>
+                        <h3 className="font-serif text-base font-bold text-white mt-1 truncate">{emp.name}</h3>
+                        <p className="text-[11px] text-gold-400 font-mono font-semibold truncate">{emp.designation}</p>
+                      </div>
+                    </div>
+
+                    {/* Top Edit / Delete Quick Icons */}
+                    <div className="flex items-center space-x-1 shrink-0">
+                      <button
+                        onClick={() => handleOpenEdit(emp)}
+                        className="p-1.5 rounded-lg text-neutral-400 hover:text-gold-300 hover:bg-white/5 transition-colors"
+                        title="Edit profile"
+                      >
+                        <Edit2 className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteEmployee(emp)}
+                        className="p-1.5 rounded-lg text-neutral-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                        title="Delete crew member"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
                     </div>
                   </div>
-                </div>
 
-                <div className="space-y-1.5 text-xs text-neutral-300 font-mono">
-                  <p className="flex items-center text-white">
-                    <Phone className="w-3.5 h-3.5 mr-2 text-emerald-400 shrink-0" />
-                    <strong>{emp.user?.phone}</strong>
-                  </p>
-                  <p className="flex items-center text-neutral-300">
-                    <Mail className="w-3.5 h-3.5 mr-2 text-gold-400 shrink-0" />
-                    <span className="truncate">{emp.user?.email}</span>
-                  </p>
-                </div>
-
-                {emp.speciality && (
-                  <div className="p-2.5 rounded-xl bg-black/50 border border-white/5 text-[11px] text-neutral-400">
-                    <span className="text-gold-400 font-bold block text-[10px] uppercase tracking-wider">Speciality:</span>
-                    <p className="line-clamp-2">{emp.speciality}</p>
+                  {/* Contact Info */}
+                  <div className="space-y-1.5 text-xs text-neutral-300 font-mono">
+                    <p className="flex items-center text-white truncate">
+                      <Phone className="w-3.5 h-3.5 mr-2 text-emerald-400 shrink-0" />
+                      <strong>{emp.user?.phone || 'No phone'}</strong>
+                    </p>
+                    <p className="flex items-center text-neutral-300 truncate">
+                      <Mail className="w-3.5 h-3.5 mr-2 text-gold-400 shrink-0" />
+                      <span className="truncate">{emp.user?.email || 'No email'}</span>
+                    </p>
                   </div>
-                )}
+
+                  {/* Speciality */}
+                  {emp.speciality && (
+                    <div className="p-2.5 rounded-xl bg-black/50 border border-white/5 text-[11px] text-neutral-400">
+                      <span className="text-gold-400 font-bold block text-[10px] uppercase tracking-wider">
+                        Speciality:
+                      </span>
+                      <p className="line-clamp-2">{emp.speciality}</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Bottom Action Footer */}
+                <div className="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+                  <a
+                    href={`https://wa.me/${cleanPhone.startsWith('91') ? cleanPhone : '91' + cleanPhone}?text=${encodeURIComponent(`Hello ${emp.name}, regarding upcoming shoot schedule with Moonlight Production.`)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500 hover:text-black border border-emerald-500/40 text-emerald-300 font-bold text-[11px] flex items-center transition-all"
+                  >
+                    <MessageSquare className="w-3 h-3 mr-1" /> WhatsApp
+                  </a>
+
+                  <div className="flex items-center space-x-1">
+                    <button
+                      onClick={() => handleOpenEdit(emp)}
+                      className="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-gold-500 hover:text-black border border-white/10 text-neutral-300 hover:border-gold-400 font-bold text-[11px] transition-all flex items-center"
+                    >
+                      <Edit2 className="w-3 h-3 mr-1" /> Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteEmployee(emp)}
+                      className="px-2.5 py-1.5 rounded-xl bg-red-500/10 hover:bg-red-600 hover:text-white border border-red-500/30 text-red-400 font-bold text-[11px] transition-all flex items-center"
+                    >
+                      <Trash2 className="w-3 h-3 mr-1" /> Delete
+                    </button>
+                  </div>
+                </div>
               </div>
+            );
+          })}
+        </div>
+      )}
 
-              <div className="pt-3 border-t border-white/10 flex items-center justify-between">
-                <a
-                  href={`https://wa.me/${cleanPhone.startsWith('91') ? cleanPhone : '91' + cleanPhone}?text=${encodeURIComponent(`Hello ${emp.name}, regarding upcoming shoot schedule with Moonlight Production.`)}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500 hover:text-black border border-emerald-500/40 text-emerald-300 font-bold text-[11px] flex items-center transition-all"
-                >
-                  <MessageSquare className="w-3 h-3 mr-1" /> WhatsApp
-                </a>
-
-                <span
-                  className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase ${
-                    !isPending
-                      ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/40'
-                      : 'bg-amber-500/15 text-amber-300 border border-amber-500/40 animate-pulse'
-                  }`}
-                >
-                  {!isPending ? '✅ Active Crew' : '⏳ Pending Super Admin'}
-                </span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
+      {/* 1. ADD NEW CREW MODAL */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-[#141418] border border-gold-500/40 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-4 animate-fade-in text-xs text-white">
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-[#141418] border border-gold-500/40 rounded-3xl p-5 sm:p-7 max-w-md w-full shadow-2xl space-y-4 animate-fade-in text-xs text-white max-h-[90vh] overflow-y-auto custom-scrollbar">
             <div className="flex items-center justify-between pb-3 border-b border-white/10">
-              <h3 className="font-serif text-xl font-bold text-white">Add Crew Member (HR Request)</h3>
-              <button onClick={() => setModalOpen(false)} className="text-neutral-400 hover:text-white"><X className="w-5 h-5" /></button>
+              <div>
+                <h3 className="font-serif text-lg sm:text-xl font-bold text-white">+ Add Crew Member</h3>
+                <p className="text-[11px] text-neutral-400">Add cinematographer, photographer or editor to roster.</p>
+              </div>
+              <button onClick={() => setModalOpen(false)} className="text-neutral-400 hover:text-white">
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
             <form onSubmit={handleCreateEmployee} className="space-y-3">
@@ -387,11 +609,11 @@ const AdminEmployees = () => {
                   placeholder="e.g. Yash Vardhan"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-gold-400"
+                  className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-400"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="text-neutral-300 block mb-1 font-bold">Email Address *</label>
                   <input
@@ -400,40 +622,47 @@ const AdminEmployees = () => {
                     placeholder="yash@gmail.com"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-gold-400"
+                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-400"
                   />
                 </div>
                 <div>
-                  <label className="text-neutral-300 block mb-1 font-bold">Phone Number *</label>
+                  <label className="text-neutral-300 block mb-1 font-bold">Phone / WhatsApp *</label>
                   <input
                     type="tel"
                     required
                     placeholder="+91 98200 12345"
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-gold-400 font-mono"
+                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-400 font-mono"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="text-neutral-300 block mb-1 font-bold">Designation</label>
                   <input
                     type="text"
                     value={form.designation}
                     onChange={(e) => setForm({ ...form, designation: e.target.value })}
-                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2 text-white focus:outline-none"
+                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none"
                   />
                 </div>
                 <div>
                   <label className="text-neutral-300 block mb-1 font-bold">Department</label>
-                  <input
-                    type="text"
+                  <select
                     value={form.department}
                     onChange={(e) => setForm({ ...form, department: e.target.value })}
-                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2 text-white focus:outline-none"
-                  />
+                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none"
+                  >
+                    <option value="Cinematography">Cinematography</option>
+                    <option value="Photography">Photography</option>
+                    <option value="Aerial Cinematography">Aerial Cinematography</option>
+                    <option value="Post-Production">Post-Production</option>
+                    <option value="Production & Lighting">Production & Lighting</option>
+                    <option value="Audio Engineering">Audio Engineering</option>
+                    <option value="Studio Operations">Studio Operations</option>
+                  </select>
                 </div>
               </div>
 
@@ -441,21 +670,183 @@ const AdminEmployees = () => {
                 <label className="text-neutral-300 block mb-1 font-bold">Camera / Cinema Speciality</label>
                 <input
                   type="text"
-                  placeholder="e.g. Steadicam & Low-Light Rituals"
+                  placeholder="e.g. Sony FX6, Steadicam, Drone Sweeps"
                   value={form.speciality}
                   onChange={(e) => setForm({ ...form, speciality: e.target.value })}
-                  className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2 text-white focus:outline-none"
+                  className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none"
                 />
               </div>
 
-              <div className="p-3 bg-black/60 rounded-xl border border-white/10 text-[11px] text-neutral-400 space-y-1">
-                <span className="text-gold-400 font-bold block">🔒 Super Admin Clearance:</span>
-                <p>After clicking submit, this profile will be queued for Super Admin approval before credentials become active.</p>
+              <div>
+                <label className="text-neutral-300 block mb-1 font-bold">Account Activation Status</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setForm({ ...form, status: 'active' })}
+                    className={`py-2 rounded-xl border font-bold text-center transition-all ${
+                      form.status === 'active'
+                        ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300'
+                        : 'bg-black/50 border-white/10 text-neutral-400'
+                    }`}
+                  >
+                    ✅ Active Instantly
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setForm({ ...form, status: 'pending_approval' })}
+                    className={`py-2 rounded-xl border font-bold text-center transition-all ${
+                      form.status === 'pending_approval'
+                        ? 'bg-amber-500/20 border-amber-500 text-amber-300'
+                        : 'bg-black/50 border-white/10 text-neutral-400'
+                    }`}
+                  >
+                    ⏳ Pending Clearance
+                  </button>
+                </div>
               </div>
 
               <div className="flex justify-end space-x-3 pt-3 border-t border-white/10">
-                <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 rounded-full border border-white/15 text-neutral-300">Cancel</button>
-                <button type="submit" className="px-6 py-2 rounded-full bg-gold-gradient text-black font-extrabold uppercase btn-shimmer">Submit for Approval</button>
+                <button
+                  type="button"
+                  onClick={() => setModalOpen(false)}
+                  className="px-4 py-2 rounded-full border border-white/15 text-neutral-300 hover:text-white"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2 rounded-full bg-gold-gradient text-black font-extrabold uppercase btn-shimmer"
+                >
+                  Save to Directory
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* 2. EDIT CREW MODAL */}
+      {editModalOpen && editingEmp && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-[#141418] border border-gold-500/40 rounded-3xl p-5 sm:p-7 max-w-md w-full shadow-2xl space-y-4 animate-fade-in text-xs text-white max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+              <div>
+                <h3 className="font-serif text-lg sm:text-xl font-bold text-white">Edit Crew Profile</h3>
+                <span className="text-[10px] text-gold-400 font-mono">{editingEmp.employeeCode}</span>
+              </div>
+              <button onClick={() => setEditModalOpen(false)} className="text-neutral-400 hover:text-white">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleUpdateEmployee} className="space-y-3">
+              <div>
+                <label className="text-neutral-300 block mb-1 font-bold">Full Name</label>
+                <input
+                  type="text"
+                  required
+                  value={editForm.name}
+                  onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                  className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-400"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-neutral-300 block mb-1 font-bold">Email Address</label>
+                  <input
+                    type="email"
+                    required
+                    value={editForm.email}
+                    onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
+                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-400"
+                  />
+                </div>
+                <div>
+                  <label className="text-neutral-300 block mb-1 font-bold">Phone Number</label>
+                  <input
+                    type="tel"
+                    required
+                    value={editForm.phone}
+                    onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
+                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none font-mono"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-neutral-300 block mb-1 font-bold">Designation</label>
+                  <input
+                    type="text"
+                    value={editForm.designation}
+                    onChange={(e) => setEditForm({ ...editForm, designation: e.target.value })}
+                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-neutral-300 block mb-1 font-bold">Department</label>
+                  <input
+                    type="text"
+                    value={editForm.department}
+                    onChange={(e) => setEditForm({ ...editForm, department: e.target.value })}
+                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-neutral-300 block mb-1 font-bold">Speciality</label>
+                <input
+                  type="text"
+                  value={editForm.speciality}
+                  onChange={(e) => setEditForm({ ...editForm, speciality: e.target.value })}
+                  className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="text-neutral-300 block mb-1 font-bold">Status</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setEditForm({ ...editForm, status: 'active' })}
+                    className={`py-2 rounded-xl border font-bold text-center transition-all ${
+                      editForm.status === 'active'
+                        ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300'
+                        : 'bg-black/50 border-white/10 text-neutral-400'
+                    }`}
+                  >
+                    ✅ Active
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditForm({ ...editForm, status: 'pending_approval' })}
+                    className={`py-2 rounded-xl border font-bold text-center transition-all ${
+                      editForm.status === 'pending_approval'
+                        ? 'bg-amber-500/20 border-amber-500 text-amber-300'
+                        : 'bg-black/50 border-white/10 text-neutral-400'
+                    }`}
+                  >
+                    ⏳ Pending
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex justify-end space-x-3 pt-3 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setEditModalOpen(false)}
+                  className="px-4 py-2 rounded-full border border-white/15 text-neutral-300 hover:text-white"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2 rounded-full bg-gold-gradient text-black font-extrabold uppercase btn-shimmer"
+                >
+                  Save Changes
+                </button>
               </div>
             </form>
           </div>

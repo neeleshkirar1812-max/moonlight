@@ -381,7 +381,7 @@ const AdminEnquiries = () => {
 
       {/* VIEW MODE 1: LIVE KANBAN PIPELINE BOARD (Auto-updating columns) */}
       {viewMode === 'kanban' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-start overflow-x-auto custom-scrollbar pb-4">
+        <div className="flex lg:grid lg:grid-cols-5 gap-4 items-start overflow-x-auto custom-scrollbar pb-4 snap-x snap-mandatory">
           {kanbanColumns.map((col) => {
             const colLeads = filteredEnquiries.filter((e) => {
               if (col.id === 'NEW') return e.status === 'NEW';
@@ -395,7 +395,7 @@ const AdminEnquiries = () => {
             return (
               <div
                 key={col.id}
-                className="bg-[#121216] rounded-3xl p-4 border border-white/10 flex flex-col space-y-3 min-h-[500px]"
+                className="w-[85vw] sm:w-[320px] lg:w-auto shrink-0 lg:shrink snap-start bg-[#121216] rounded-3xl p-4 border border-white/10 flex flex-col space-y-3 min-h-[500px]"
               >
                 {/* Column Header */}
                 <div className="flex items-center justify-between pb-3 border-b border-white/10">

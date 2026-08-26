@@ -232,7 +232,7 @@ const Navbar = () => {
 
       {/* Mobile Slide-Out Full Drawer (Dark Luxury Glass) */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 top-[52px] bg-[#0E0E12]/98 backdrop-blur-2xl z-50 px-5 py-5 border-t border-gold-500/30 flex flex-col justify-between overflow-y-auto animate-fade-in custom-scrollbar text-white">
+        <div className="lg:hidden fixed inset-0 top-[58px] sm:top-[62px] bg-[#0E0E12]/98 backdrop-blur-2xl z-50 px-4 sm:px-6 py-5 border-t border-gold-500/30 flex flex-col justify-between overflow-y-auto animate-fade-in custom-scrollbar text-white">
           {/* Quick Dual Login Action Box (Top of Mobile Menu) */}
           <div className="mb-4 p-3.5 rounded-2xl bg-black/60 border border-gold-500/30 space-y-2">
             <span className="text-[10px] uppercase font-mono font-bold text-gold-400 block tracking-wider">

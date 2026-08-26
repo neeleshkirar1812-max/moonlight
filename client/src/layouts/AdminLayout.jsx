@@ -240,22 +240,23 @@ const AdminLayout = () => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 lg:pl-64">
         {/* Header with High-Visibility Role Accountability Banner */}
-        <header className="h-16 bg-[#0E0E12]/95 backdrop-blur-md border-b border-white/10 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30">
-          <div className="flex items-center space-x-3">
+        <header className="h-16 bg-[#0E0E12]/95 backdrop-blur-md border-b border-white/10 px-3 sm:px-6 flex items-center justify-between sticky top-0 z-30">
+          <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="p-2 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 lg:hidden"
+              className="p-2 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 lg:hidden shrink-0"
+              aria-label="Open sidebar menu"
             >
               <Menu className="w-5 h-5" />
             </button>
-            <div>
-              <h2 className="text-sm font-serif font-bold text-white tracking-wide">
+            <div className="min-w-0">
+              <h2 className="text-xs sm:text-sm font-serif font-bold text-white tracking-wide truncate max-w-[130px] xs:max-w-[200px] sm:max-w-none">
                 {coreNav.concat(superAdminNav).find((n) => n.href === location.pathname)?.name || 'Admin Console'}
               </h2>
             </div>
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
             {/* Role & Accountability Identity Badge */}
             <div className="hidden sm:flex items-center space-x-2 px-3 py-1 rounded-full bg-black/60 border border-white/15 text-xs font-mono">
               <span
@@ -273,24 +274,27 @@ const AdminLayout = () => {
             {isSuperAdmin && pendingApprovalsCount > 0 && (
               <Link
                 to="/super-admin/approvals"
-                className="px-3 py-1 rounded-full bg-amber-500/20 hover:bg-amber-500 hover:text-black border border-amber-500/40 text-amber-300 text-xs font-mono font-bold transition-all flex items-center space-x-1"
+                className="px-2.5 sm:px-3 py-1 rounded-full bg-amber-500/20 hover:bg-amber-500 hover:text-black border border-amber-500/40 text-amber-300 text-xs font-mono font-bold transition-all flex items-center space-x-1"
                 title="Pending Approvals Awaiting Clearance"
               >
-                <KeyRound className="w-3 h-3" />
-                <span>{pendingApprovalsCount} Approvals Pending</span>
+                <KeyRound className="w-3 h-3 text-amber-400" />
+                <span className="hidden sm:inline">{pendingApprovalsCount} Approvals Pending</span>
+                <span className="sm:hidden">{pendingApprovalsCount}</span>
               </Link>
             )}
 
             <button
               onClick={logout}
-              className="px-3 py-1 rounded-full bg-red-950/40 hover:bg-red-900/60 border border-red-900/40 text-red-300 text-xs font-semibold transition-all flex items-center"
+              className="px-2.5 sm:px-3 py-1 rounded-full bg-red-950/40 hover:bg-red-900/60 border border-red-900/40 text-red-300 text-xs font-semibold transition-all flex items-center"
+              title="Sign Out"
             >
-              <LogOut className="w-3 h-3 mr-1" /> Logout
+              <LogOut className="w-3 h-3 sm:mr-1" />
+              <span className="hidden sm:inline">Logout</span>
             </button>
           </div>
         </header>
 
-        <main className="p-4 sm:p-6 lg:p-8 flex-1 max-w-7xl w-full mx-auto animate-fade-in">
+        <main className="p-3 sm:p-6 lg:p-8 flex-1 max-w-7xl w-full mx-auto animate-fade-in">
           <Outlet />
         </main>
       </div>

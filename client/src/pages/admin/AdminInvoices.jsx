@@ -569,8 +569,8 @@ const AdminInvoices = () => {
         </div>
       ) : (
         <div className="luxury-card rounded-2xl overflow-hidden border border-white/10">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto custom-scrollbar">
+            <table className="w-full min-w-[850px] text-left text-xs">
               <thead className="bg-obsidian-500 border-b border-white/10 uppercase tracking-wider text-gold-400 font-mono">
                 <tr>
                   <th className="p-4">Invoice Ref</th>
