@@ -61,7 +61,9 @@ const Login = () => {
       const loggedUser = await login(email, password, selectedRole);
       addToast({ title: 'Authentication Successful', message: `Welcome ${loggedUser.name}!`, type: 'success' });
 
-      if (loggedUser.role === 'superadmin') {
+      if (selectedRole === 'admin' && (loggedUser.role === 'admin' || loggedUser.role === 'superadmin')) {
+        navigate('/admin/dashboard');
+      } else if (loggedUser.role === 'superadmin') {
         navigate('/super-admin/dashboard');
       } else if (loggedUser.role === 'admin') {
         navigate('/admin/dashboard');
@@ -98,12 +100,10 @@ const Login = () => {
             Moonlight Production • Portal
           </span>
           <h2 className="font-serif text-2xl sm:text-3xl font-extrabold text-white tracking-wide">
-            Sign In to Atelier
+            Secure Portal Sign In
           </h2>
-          <p className="text-xs text-neutral-400 max-w-sm mx-auto">
-            {activeTab === 'customer' && 'Access private wedding albums, 4K films, download selections & receipts.'}
-            {activeTab === 'admin' && 'Studio management, client pipelines, shoot logistics & command control.'}
-            {activeTab === 'crew' && 'Assigned shoot schedules, camera gear checklists & project briefs.'}
+          <p className="text-neutral-400 text-xs font-light">
+            Enter your authorized studio credentials to access your dedicated workspace.
           </p>
         </div>
 
@@ -151,31 +151,90 @@ const Login = () => {
 
         {/* Admin Sub-Role Selector (Super Admin vs Studio Admin) */}
         {activeTab === 'admin' && (
-          <div className="grid grid-cols-2 p-1 rounded-xl bg-[#181820] border border-white/10 text-xs font-mono">
-            <button
-              type="button"
-              onClick={() => setAdminRoleType('superadmin')}
-              className={`py-2 rounded-lg font-bold transition-all flex items-center justify-center gap-1.5 ${
-                adminRoleType === 'superadmin'
-                  ? 'bg-gold-500/20 text-gold-300 border border-gold-500/40 shadow-sm'
-                  : 'text-neutral-400 hover:text-white'
-              }`}
-            >
-              <Crown className="w-3.5 h-3.5 text-gold-400" />
-              <span>Super Admin</span>
-            </button>
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 p-1 rounded-xl bg-[#181820] border border-white/10 text-xs font-mono">
+              <button
+                type="button"
+                onClick={() => setAdminRoleType('superadmin')}
+                className={`py-2 rounded-lg font-bold transition-all flex items-center justify-center gap-1.5 ${
+                  adminRoleType === 'superadmin'
+                    ? 'bg-gold-500/20 text-gold-300 border border-gold-500/40 shadow-sm'
+                    : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                <Crown className="w-3.5 h-3.5 text-gold-400" />
+                <span>Super Admin</span>
+              </button>
 
+              <button
+                type="button"
+                onClick={() => setAdminRoleType('admin')}
+                className={`py-2 rounded-lg font-bold transition-all flex items-center justify-center gap-1.5 ${
+                  adminRoleType === 'admin'
+                    ? 'bg-gold-500/20 text-gold-300 border border-gold-500/40 shadow-sm'
+                    : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-gold-400" />
+                <span>Studio Admin / HR</span>
+              </button>
+            </div>
+
+            {/* Quick Auto-Fill helper card */}
+            {adminRoleType === 'admin' ? (
+              <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <span className="text-[11px] font-bold text-amber-300 block">Studio Admin Credentials</span>
+                  <span className="text-[10px] text-neutral-400 font-mono">admin@moonlightproduction.com</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmail('admin@moonlightproduction.com');
+                    setPassword('Admin@2026');
+                  }}
+                  className="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500 hover:text-black border border-amber-500/40 text-amber-300 text-[10px] font-mono font-bold transition-all shrink-0"
+                >
+                  ⚡ Auto-Fill
+                </button>
+              </div>
+            ) : (
+              <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <span className="text-[11px] font-bold text-amber-300 block">Super Admin Credentials</span>
+                  <span className="text-[10px] text-neutral-400 font-mono">nkneeleshkirar@gmail.com</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmail('nkneeleshkirar@gmail.com');
+                    setPassword('SuperAdmin@2026');
+                  }}
+                  className="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500 hover:text-black border border-amber-500/40 text-amber-300 text-[10px] font-mono font-bold transition-all shrink-0"
+                >
+                  ⚡ Auto-Fill
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Quick Auto-Fill helper card for Crew */}
+        {activeTab === 'crew' && (
+          <div className="p-3 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-between">
+            <div className="space-y-0.5">
+              <span className="text-[11px] font-bold text-gold-300 block">Crew Lead Credentials</span>
+              <span className="text-[10px] text-neutral-400 font-mono">amanpawar074@gmail.com</span>
+            </div>
             <button
               type="button"
-              onClick={() => setAdminRoleType('admin')}
-              className={`py-2 rounded-lg font-bold transition-all flex items-center justify-center gap-1.5 ${
-                adminRoleType === 'admin'
-                  ? 'bg-gold-500/20 text-gold-300 border border-gold-500/40 shadow-sm'
-                  : 'text-neutral-400 hover:text-white'
-              }`}
+              onClick={() => {
+                setEmail('amanpawar074@gmail.com');
+                setPassword('Crew@2026');
+              }}
+              className="px-3 py-1.5 rounded-lg bg-gold-500/20 hover:bg-gold-500 hover:text-black border border-gold-500/40 text-gold-300 text-[10px] font-mono font-bold transition-all shrink-0"
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-gold-400" />
-              <span>Studio Admin / HR</span>
+              ⚡ Auto-Fill
             </button>
           </div>
         )}

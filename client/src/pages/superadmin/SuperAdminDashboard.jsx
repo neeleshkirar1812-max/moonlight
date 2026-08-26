@@ -125,6 +125,63 @@ const SuperAdminDashboard = () => {
         </Link>
       </div>
 
+      {/* Studio Operations & CRM Quick Access */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-xs uppercase font-mono tracking-widest text-gold-400 font-bold">
+            Studio Operations & Business Modules
+          </span>
+          <Link to="/admin/dashboard" className="text-xs text-gold-400 hover:underline font-mono">
+            Open Full Studio Admin Console →
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Link
+            to="/admin/payroll"
+            className="p-4 rounded-2xl bg-gold-500/10 border border-gold-500/30 hover:border-gold-500/60 transition-all block group shadow-md"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-gold-300 group-hover:text-gold-200">Staff Payroll & Slips</span>
+              <span className="text-[10px] font-mono text-gold-400">9 Active Crew</span>
+            </div>
+            <p className="text-[11px] text-neutral-400 mt-1">View monthly earnings, crew salary slips & issue PDFs.</p>
+          </Link>
+
+          <Link
+            to="/admin/bookings"
+            className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-white/25 transition-all block group shadow-md"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-white group-hover:text-gold-300">Bookings & Shoots</span>
+              <span className="text-[10px] font-mono text-neutral-400">9-Stage Pipeline</span>
+            </div>
+            <p className="text-[11px] text-neutral-400 mt-1">Manage luxury wedding calendar, deliverables & crew.</p>
+          </Link>
+
+          <Link
+            to="/admin/enquiries"
+            className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-white/25 transition-all block group shadow-md"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-white group-hover:text-gold-300">Wedding Enquiries</span>
+              <span className="text-[10px] font-mono text-neutral-400">Lead CRM</span>
+            </div>
+            <p className="text-[11px] text-neutral-400 mt-1">Review wedding estimator requests & send quotes.</p>
+          </Link>
+
+          <Link
+            to="/admin/invoices"
+            className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-white/25 transition-all block group shadow-md"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-white group-hover:text-gold-300">GST Tax Invoices</span>
+              <span className="text-[10px] font-mono text-neutral-400">Milestones</span>
+            </div>
+            <p className="text-[11px] text-neutral-400 mt-1">Issue automated tax invoices, advances & final bills.</p>
+          </Link>
+        </div>
+      </div>
+
       {/* Real-Time Audit Log Preview */}
       <div className="bg-[#141418] rounded-3xl p-6 sm:p-8 border border-white/10 shadow-xl space-y-4">
         <h3 className="font-serif text-xl font-bold text-white">Recent Super Admin Activity</h3>

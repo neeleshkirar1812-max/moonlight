@@ -75,6 +75,7 @@ const AdminLayout = () => {
   ];
 
   const superAdminNav = [
+    { name: 'Super Admin Command', href: '/super-admin/dashboard', icon: Crown },
     {
       name: 'Login Approvals & Passwords',
       href: '/super-admin/approvals',

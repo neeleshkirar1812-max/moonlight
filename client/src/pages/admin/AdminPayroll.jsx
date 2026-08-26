@@ -19,10 +19,235 @@ import {
   Filter,
 } from 'lucide-react';
 
+const CREW_NAMES_MAP = {
+  'EMP-MLP-001': 'Aman Pawar',
+  'EMP-MLP-002': 'Bunny Singh',
+  'EMP-MLP-003': 'Chinnu',
+  'EMP-MLP-004': 'Rohit Manekar',
+  'EMP-MLP-005': 'Sumit',
+  'EMP-MLP-006': 'Tarun Rathore',
+  'EMP-MLP-007': 'Santosh Rathore',
+  'EMP-MLP-008': 'Lucky',
+  'EMP-MLP-009': 'Priyanshu',
+};
+
+const DEFAULT_CREW_MEMBERS = [
+  { _id: 'emp-1', name: 'Aman Pawar', employeeCode: 'EMP-MLP-001', designation: 'Lead Cinematographer & Film Director', user: { name: 'Aman Pawar' } },
+  { _id: 'emp-2', name: 'Bunny Singh', employeeCode: 'EMP-MLP-002', designation: 'Senior Candid Master & Portraiture', user: { name: 'Bunny Singh' } },
+  { _id: 'emp-3', name: 'Chinnu', employeeCode: 'EMP-MLP-003', designation: '4K Commercial Drone Cinematographer', user: { name: 'Chinnu' } },
+  { _id: 'emp-4', name: 'Rohit Manekar', employeeCode: 'EMP-MLP-004', designation: 'Senior 4K Colorist & Film Editor', user: { name: 'Rohit Manekar' } },
+  { _id: 'emp-5', name: 'Sumit', employeeCode: 'EMP-MLP-005', designation: 'Gimbal Operator & 2nd Camera Master', user: { name: 'Sumit' } },
+  { _id: 'emp-6', name: 'Tarun Rathore', employeeCode: 'EMP-MLP-006', designation: 'Lighting Director & Technical Lead', user: { name: 'Tarun Rathore' } },
+  { _id: 'emp-7', name: 'Santosh Rathore', employeeCode: 'EMP-MLP-007', designation: 'Audio & Sound Design Recordist', user: { name: 'Santosh Rathore' } },
+  { _id: 'emp-8', name: 'Lucky', employeeCode: 'EMP-MLP-008', designation: 'Post-Production Editor & Reels Specialist', user: { name: 'Lucky' } },
+  { _id: 'emp-9', name: 'Priyanshu', employeeCode: 'EMP-MLP-009', designation: 'Shoot Logistics & Production Lead', user: { name: 'Priyanshu' } },
+];
+
+const DEFAULT_CREW_SLIPS = [
+  {
+    _id: 'slip-1',
+    slipNumber: 'SLIP-202608-AMA-101',
+    employeeName: 'Aman Pawar',
+    employeeCode: 'EMP-MLP-001',
+    designation: 'Lead Cinematographer & Film Director',
+    month: 'August 2026',
+    year: 2026,
+    basicPay: 55000,
+    hraAllowances: 11000,
+    shootBonus: 5000,
+    travelReimbursement: 2500,
+    grossPay: 73500,
+    taxDeduction: 2000,
+    providentFund: 1500,
+    totalDeductions: 3500,
+    netPay: 70000,
+    paymentStatus: 'Paid',
+    paymentDate: '2026-08-01',
+    paymentMethod: 'BANK_TRANSFER',
+    transactionId: 'UTR-HDFC-98210401',
+  },
+  {
+    _id: 'slip-2',
+    slipNumber: 'SLIP-202608-BUN-102',
+    employeeName: 'Bunny Singh',
+    employeeCode: 'EMP-MLP-002',
+    designation: 'Senior Candid Master & Portraiture',
+    month: 'August 2026',
+    year: 2026,
+    basicPay: 50000,
+    hraAllowances: 10000,
+    shootBonus: 5000,
+    travelReimbursement: 2500,
+    grossPay: 67500,
+    taxDeduction: 2000,
+    providentFund: 1500,
+    totalDeductions: 3500,
+    netPay: 64000,
+    paymentStatus: 'Paid',
+    paymentDate: '2026-08-01',
+    paymentMethod: 'BANK_TRANSFER',
+    transactionId: 'UTR-HDFC-98210402',
+  },
+  {
+    _id: 'slip-3',
+    slipNumber: 'SLIP-202608-CHI-103',
+    employeeName: 'Chinnu',
+    employeeCode: 'EMP-MLP-003',
+    designation: '4K Commercial Drone Cinematographer',
+    month: 'August 2026',
+    year: 2026,
+    basicPay: 48000,
+    hraAllowances: 9600,
+    shootBonus: 5000,
+    travelReimbursement: 2500,
+    grossPay: 65100,
+    taxDeduction: 2000,
+    providentFund: 1500,
+    totalDeductions: 3500,
+    netPay: 61600,
+    paymentStatus: 'Paid',
+    paymentDate: '2026-08-01',
+    paymentMethod: 'BANK_TRANSFER',
+    transactionId: 'UTR-HDFC-98210403',
+  },
+  {
+    _id: 'slip-4',
+    slipNumber: 'SLIP-202608-ROH-104',
+    employeeName: 'Rohit Manekar',
+    employeeCode: 'EMP-MLP-004',
+    designation: 'Senior 4K Colorist & Film Editor',
+    month: 'August 2026',
+    year: 2026,
+    basicPay: 48000,
+    hraAllowances: 9600,
+    shootBonus: 5000,
+    travelReimbursement: 2500,
+    grossPay: 65100,
+    taxDeduction: 2000,
+    providentFund: 1500,
+    totalDeductions: 3500,
+    netPay: 61600,
+    paymentStatus: 'Paid',
+    paymentDate: '2026-08-01',
+    paymentMethod: 'BANK_TRANSFER',
+    transactionId: 'UTR-HDFC-98210404',
+  },
+  {
+    _id: 'slip-5',
+    slipNumber: 'SLIP-202608-SUM-105',
+    employeeName: 'Sumit',
+    employeeCode: 'EMP-MLP-005',
+    designation: 'Gimbal Operator & 2nd Camera Master',
+    month: 'August 2026',
+    year: 2026,
+    basicPay: 45000,
+    hraAllowances: 9000,
+    shootBonus: 5000,
+    travelReimbursement: 2500,
+    grossPay: 61500,
+    taxDeduction: 2000,
+    providentFund: 1500,
+    totalDeductions: 3500,
+    netPay: 58000,
+    paymentStatus: 'Paid',
+    paymentDate: '2026-08-01',
+    paymentMethod: 'BANK_TRANSFER',
+    transactionId: 'UTR-HDFC-98210405',
+  },
+  {
+    _id: 'slip-6',
+    slipNumber: 'SLIP-202608-TAR-106',
+    employeeName: 'Tarun Rathore',
+    employeeCode: 'EMP-MLP-006',
+    designation: 'Lighting Director & Technical Lead',
+    month: 'August 2026',
+    year: 2026,
+    basicPay: 45000,
+    hraAllowances: 9000,
+    shootBonus: 5000,
+    travelReimbursement: 2500,
+    grossPay: 61500,
+    taxDeduction: 2000,
+    providentFund: 1500,
+    totalDeductions: 3500,
+    netPay: 58000,
+    paymentStatus: 'Pending',
+    paymentDate: null,
+    paymentMethod: 'BANK_TRANSFER',
+    transactionId: '',
+  },
+  {
+    _id: 'slip-7',
+    slipNumber: 'SLIP-202608-SAN-107',
+    employeeName: 'Santosh Rathore',
+    employeeCode: 'EMP-MLP-007',
+    designation: 'Audio & Sound Design Recordist',
+    month: 'August 2026',
+    year: 2026,
+    basicPay: 45000,
+    hraAllowances: 9000,
+    shootBonus: 5000,
+    travelReimbursement: 2500,
+    grossPay: 61500,
+    taxDeduction: 2000,
+    providentFund: 1500,
+    totalDeductions: 3500,
+    netPay: 58000,
+    paymentStatus: 'Pending',
+    paymentDate: null,
+    paymentMethod: 'BANK_TRANSFER',
+    transactionId: '',
+  },
+  {
+    _id: 'slip-8',
+    slipNumber: 'SLIP-202608-LUC-108',
+    employeeName: 'Lucky',
+    employeeCode: 'EMP-MLP-008',
+    designation: 'Post-Production Editor & Reels Specialist',
+    month: 'August 2026',
+    year: 2026,
+    basicPay: 42000,
+    hraAllowances: 8400,
+    shootBonus: 5000,
+    travelReimbursement: 2500,
+    grossPay: 57900,
+    taxDeduction: 2000,
+    providentFund: 1500,
+    totalDeductions: 3500,
+    netPay: 54400,
+    paymentStatus: 'Pending',
+    paymentDate: null,
+    paymentMethod: 'BANK_TRANSFER',
+    transactionId: '',
+  },
+  {
+    _id: 'slip-9',
+    slipNumber: 'SLIP-202608-PRI-109',
+    employeeName: 'Priyanshu',
+    employeeCode: 'EMP-MLP-009',
+    designation: 'Shoot Logistics & Production Lead',
+    month: 'August 2026',
+    year: 2026,
+    basicPay: 42000,
+    hraAllowances: 8400,
+    shootBonus: 5000,
+    travelReimbursement: 2500,
+    grossPay: 57900,
+    taxDeduction: 2000,
+    providentFund: 1500,
+    totalDeductions: 3500,
+    netPay: 54400,
+    paymentStatus: 'Pending',
+    paymentDate: null,
+    paymentMethod: 'BANK_TRANSFER',
+    transactionId: '',
+  },
+];
+
 const AdminPayroll = () => {
-  const [slips, setSlips] = useState([]);
-  const [employees, setEmployees] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [slips, setSlips] = useState(DEFAULT_CREW_SLIPS);
+  const [employees, setEmployees] = useState(DEFAULT_CREW_MEMBERS);
+  const [loading, setLoading] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState('August 2026');
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [search, setSearch] = useState('');
@@ -34,14 +259,17 @@ const AdminPayroll = () => {
   });
 
   const [form, setForm] = useState({
-    employeeId: '',
+    employeeId: 'emp-1',
+    employeeName: 'Aman Pawar',
+    employeeCode: 'EMP-MLP-001',
+    designation: 'Lead Cinematographer & Film Director',
     month: 'August 2026',
-    basicPay: '45000',
-    hraAllowances: '9000',
+    basicPay: '55000',
+    hraAllowances: '11000',
     shootBonus: '5000',
     travelReimbursement: '2500',
-    taxDeduction: '3000',
-    providentFund: '1800',
+    taxDeduction: '2000',
+    providentFund: '1500',
     advanceDeduction: '0',
     paymentMethod: 'BANK_TRANSFER',
     notes: 'Monthly salary payout for wedding production crew.',
@@ -50,7 +278,6 @@ const AdminPayroll = () => {
   const { addToast } = useNotification();
 
   const fetchPayrollData = async () => {
-    setLoading(true);
     try {
       const [sRes, eRes] = await Promise.allSettled([
         api.get(`/salary?month=${encodeURIComponent(selectedMonth)}`),
@@ -64,77 +291,46 @@ const AdminPayroll = () => {
         ? (Array.isArray(eRes.value) ? eRes.value : eRes.value?.data || [])
         : [];
 
+      if (!loadedEmps || loadedEmps.length === 0) {
+        loadedEmps = DEFAULT_CREW_MEMBERS;
+      }
+
+      if (!loadedSlips || loadedSlips.length === 0) {
+        loadedSlips = DEFAULT_CREW_SLIPS;
+      }
+
       // Normalize all slips to ensure employeeName, code and designation are always populated
       loadedSlips = loadedSlips.map((slip, i) => {
         const empId = slip.employee?._id || slip.employee;
         const matchingEmp = loadedEmps.find((e) => e._id === empId || e.id === empId);
-        const resolvedName =
+        const code = slip.employeeCode || slip.employee?.employeeCode || matchingEmp?.employeeCode || `EMP-MLP-00${(i % 9) + 1}`;
+
+        let resolvedName =
           slip.employeeName ||
           slip.user?.name ||
           slip.employee?.user?.name ||
           slip.employee?.name ||
           matchingEmp?.user?.name ||
-          matchingEmp?.name ||
-          `Crew Member ${i + 1}`;
-        const resolvedCode =
-          slip.employeeCode ||
-          slip.employee?.employeeCode ||
-          matchingEmp?.employeeCode ||
-          `EMP-MLP-00${i + 1}`;
+          matchingEmp?.name;
+
+        if (!resolvedName || resolvedName === 'Production Crew Member' || resolvedName === 'undefined') {
+          resolvedName = CREW_NAMES_MAP[code] || DEFAULT_CREW_SLIPS[i % 9]?.employeeName || `Crew Member ${i + 1}`;
+        }
+
         const resolvedDesig =
           slip.designation ||
           slip.employee?.designation ||
           matchingEmp?.designation ||
+          DEFAULT_CREW_SLIPS[i % 9]?.designation ||
           'Production Specialist';
 
         return {
           ...slip,
           employeeName: resolvedName,
-          employeeCode: resolvedCode,
+          employeeCode: code,
           designation: resolvedDesig,
         };
       });
-
-      // If no slips in DB for selected month, seed default official slips for the 9 crew
-      if (loadedSlips.length === 0 && loadedEmps.length > 0) {
-        loadedSlips = loadedEmps.map((emp, i) => {
-          const name = emp.user?.name || emp.name || `Crew Member ${i + 1}`;
-          const code = emp.employeeCode || `EMP-MLP-00${i + 1}`;
-          const desig = emp.designation || 'Production Specialist';
-          const basic = desig.toLowerCase().includes('director') || desig.toLowerCase().includes('lead') ? 55000 : 45000;
-          const hra = Math.round(basic * 0.2);
-          const bonus = 5000;
-          const travel = 2500;
-          const gross = basic + hra + bonus + travel;
-          const deductions = 3500;
-          const net = gross - deductions;
-          const initials = name.replace(/[^A-Za-z]/g, '').slice(0, 3).toUpperCase() || 'EMP';
-
-          return {
-            _id: `slip-demo-${i + 1}`,
-            employee: emp._id,
-            employeeCode: code,
-            employeeName: name,
-            designation: desig,
-            month: selectedMonth,
-            year: 2026,
-            slipNumber: `SLIP-202608-${initials}-${100 + i}`,
-            basicPay: basic,
-            hraAllowances: hra,
-            shootBonus: bonus,
-            travelReimbursement: travel,
-            grossPay: gross,
-            taxDeduction: 2000,
-            providentFund: 1500,
-            totalDeductions: deductions,
-            netPay: net,
-            paymentStatus: i < 5 ? 'Paid' : 'Pending',
-            paymentDate: i < 5 ? new Date('2026-08-01') : null,
-            paymentMethod: 'BANK_TRANSFER',
-            transactionId: i < 5 ? `UTR-HDFC-982104${i}` : '',
-          };
-        });
-      }
 
       setSlips(loadedSlips);
       setEmployees(loadedEmps);

@@ -669,6 +669,20 @@ const initialData = {
 
 // Helper to get or initialize local storage collection
 const getCollection = (key) => {
+  if (key === 'salaries') {
+    let parsed = [];
+    try {
+      const stored = localStorage.getItem('ml_salaries');
+      if (stored) parsed = JSON.parse(stored);
+    } catch (e) {}
+
+    if (!Array.isArray(parsed) || parsed.length === 0 || parsed.some((s) => !s.employeeName)) {
+      localStorage.setItem('ml_salaries', JSON.stringify(initialData.salaries));
+      return initialData.salaries;
+    }
+    return parsed;
+  }
+
   const stored = localStorage.getItem(`ml_${key}`);
   if (stored) {
     try {
