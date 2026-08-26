@@ -68,7 +68,7 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* 1. Left: Brand Logo & Studio Identity */}
-        <Link to="/" className="flex items-center space-x-2 sm:space-x-2.5 group shrink-0">
+        <Link to="/" className="flex items-center space-x-1.5 sm:space-x-2.5 group shrink-0">
           <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-gold-400 p-0.5 flex items-center justify-center bg-black group-hover:border-gold-300 transition-all shadow-gold-subtle overflow-hidden">
             <img
               src="https://ugc.production.linktr.ee/bbcf2874-0602-4cdb-b362-ad612f9fc135_zV3Uuw-tQraxE7KwMApwOHbWTg75v6W5ZJJOyWhXSJBR8O1GMQMZMOQ4CvB8uCMV4mM0SXMK-Q-s800-c-k-c0x00ffffff-no-r.jpeg?io=true&size=avatar-v3_0"
@@ -82,10 +82,10 @@ const Navbar = () => {
             />
           </div>
           <div className="flex flex-col">
-            <span className="font-serif text-xs sm:text-base font-bold tracking-[0.16em] text-white group-hover:text-gold-300 transition-colors">
+            <span className="font-serif text-xs sm:text-base font-bold tracking-[0.14em] sm:tracking-[0.16em] text-white group-hover:text-gold-300 transition-colors">
               MOONLIGHT
             </span>
-            <span className="text-[7px] sm:text-[7.5px] tracking-[0.22em] text-gold-400 font-mono uppercase font-bold">
+            <span className="text-[7px] sm:text-[7.5px] tracking-[0.2em] text-gold-400 font-mono uppercase font-bold hidden xs:inline-block">
               Production • Films
             </span>
           </div>
@@ -121,42 +121,30 @@ const Navbar = () => {
             <div className="relative">
               <button
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                className="flex items-center space-x-1.5 bg-neutral-900 border border-gold-500/40 rounded-full px-3 py-1 hover:border-gold-400 transition-all text-[11px] shadow-sm text-white font-semibold"
+                className="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white/5 border border-gold-500/30 text-white hover:border-gold-400 transition-all text-xs"
               >
-                <img
-                  src={user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'}
-                  alt={user?.name}
-                  className="w-4 h-4 rounded-full object-cover border border-gold-500"
-                />
-                <span className="max-w-[80px] truncate text-gold-300">{user?.name?.split(' ')[0]}</span>
-                <ChevronDown className="w-3 h-3 text-gold-400" />
+                <div className="w-6 h-6 rounded-full bg-gold-gradient text-black flex items-center justify-center font-bold text-xs">
+                  {user?.name?.charAt(0) || 'U'}
+                </div>
+                <span className="font-medium max-w-[100px] truncate">{user?.name}</span>
+                <ChevronDown className="w-3.5 h-3.5 text-gold-400" />
               </button>
 
               {userDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-52 bg-[#121215] border border-gold-500/40 rounded-2xl shadow-2xl py-2 z-50 animate-fade-in text-white backdrop-blur-xl">
-                  <div className="px-4 py-2 border-b border-white/10">
-                    <p className="text-xs font-bold text-white truncate">{user?.name}</p>
-                    <p className="text-[9px] text-gold-400 uppercase tracking-wider font-mono font-bold">{user?.role}</p>
+                <div className="absolute right-0 mt-2 w-48 bg-[#141418] border border-gold-500/40 rounded-xl shadow-2xl py-2 z-50 text-xs animate-fade-in font-sans">
+                  <div className="px-3 py-1.5 border-b border-white/10 text-[11px] text-neutral-400 font-mono">
+                    Signed in as: <strong className="text-white block">{user?.role}</strong>
                   </div>
                   <Link
                     to={getDashboardPath()}
-                    className="flex items-center px-4 py-2 text-[11px] text-neutral-300 font-semibold hover:bg-gold-500/15 hover:text-gold-200 transition-colors"
+                    className="flex items-center px-3 py-2 text-neutral-200 hover:bg-gold-500/20 hover:text-white"
                   >
                     <LayoutDashboard className="w-3.5 h-3.5 mr-2 text-gold-400" />
-                    Access {user?.role} Portal
+                    Dashboard
                   </Link>
-                  {isCustomer && (
-                    <Link
-                      to="/customer/gallery"
-                      className="flex items-center px-4 py-2 text-[11px] text-neutral-300 font-semibold hover:bg-gold-500/15 hover:text-gold-200 transition-colors"
-                    >
-                      <Sparkles className="w-3.5 h-3.5 mr-2 text-gold-400" />
-                      Private Photo Gallery
-                    </Link>
-                  )}
                   <button
                     onClick={logout}
-                    className="w-full flex items-center px-4 py-2 text-[11px] text-red-400 font-bold hover:bg-red-500/10 transition-colors text-left"
+                    className="w-full flex items-center px-3 py-2 text-red-400 hover:bg-red-500/10 text-left"
                   >
                     <LogOut className="w-3.5 h-3.5 mr-2" />
                     Sign Out
@@ -165,27 +153,24 @@ const Navbar = () => {
               )}
             </div>
           ) : (
-            /* DUAL LOGIN BUTTONS (Desktop Dark Theme) */
-            <div className="flex items-center space-x-1.5">
+            <div className="flex items-center space-x-2">
               <Link
                 to="/login?role=customer"
-                className="px-2.5 py-1 rounded-full border border-gold-500/40 bg-gold-500/10 hover:bg-gold-500 hover:text-black text-gold-300 text-[10px] font-bold uppercase tracking-wider transition-all flex items-center shadow-sm group"
+                className="px-3.5 py-1.5 rounded-full border border-gold-500/40 hover:border-gold-400 bg-gold-500/10 text-gold-300 text-xs font-bold uppercase tracking-wider transition-all flex items-center shadow-sm"
               >
-                <Heart className="w-2.5 h-2.5 mr-1 text-gold-400 group-hover:text-black group-hover:scale-110 transition-transform" />
+                <Heart className="w-3.5 h-3.5 mr-1 text-gold-400" />
                 Couple
               </Link>
-
               <Link
                 to="/login?role=admin"
-                className="px-2.5 py-1 rounded-full border border-white/20 bg-white/5 hover:bg-white hover:text-black text-neutral-300 text-[10px] font-bold uppercase tracking-wider transition-all flex items-center shadow-sm"
+                className="px-3 py-1.5 rounded-full border border-white/20 hover:border-gold-400 bg-white/5 text-neutral-300 hover:text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center shadow-sm"
               >
-                <ShieldCheck className="w-2.5 h-2.5 mr-1 text-gold-400" />
+                <Crown className="w-3.5 h-3.5 mr-1 text-gold-400" />
                 Admin
               </Link>
             </div>
           )}
 
-          {/* Primary CTA: 8-Step Interactive Indian Wedding Planner */}
           <Link
             to="/enquiry"
             className="px-3.5 py-1.5 rounded-full bg-gold-gradient text-black font-extrabold text-[10.5px] uppercase tracking-wider shadow-gold-subtle hover:brightness-110 active:scale-95 transition-all flex items-center shrink-0 btn-shimmer"
@@ -196,18 +181,18 @@ const Navbar = () => {
         </div>
 
         {/* 4. Mobile Controls: Direct 1-Click Login Button + Book Button + Hamburger */}
-        <div className="lg:hidden flex items-center space-x-1.5">
+        <div className="lg:hidden flex items-center space-x-1 sm:space-x-1.5 shrink-0">
           {isAuthenticated ? (
             <Link
               to={getDashboardPath()}
-              className="px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-wider bg-gold-500/20 border border-gold-500/40 text-gold-300 rounded-full shadow-sm flex items-center"
+              className="px-2 sm:px-2.5 py-1 text-[9px] sm:text-[9.5px] font-bold uppercase tracking-wider bg-gold-500/20 border border-gold-500/40 text-gold-300 rounded-full shadow-sm flex items-center shrink-0 min-h-[34px]"
             >
               <User className="w-2.5 h-2.5 mr-1 text-gold-400" /> Portal
             </Link>
           ) : (
             <Link
               to="/login?role=customer"
-              className="px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-wider border border-gold-500/40 bg-gold-500/10 text-gold-300 rounded-full shadow-sm flex items-center"
+              className="px-2 sm:px-2.5 py-1 text-[9px] sm:text-[9.5px] font-bold uppercase tracking-wider border border-gold-500/40 bg-gold-500/10 text-gold-300 rounded-full shadow-sm flex items-center shrink-0 min-h-[34px]"
             >
               <LogIn className="w-2.5 h-2.5 mr-1 text-gold-400" /> Login
             </Link>
@@ -215,14 +200,14 @@ const Navbar = () => {
 
           <Link
             to="/enquiry"
-            className="px-2.5 py-1 text-[9.5px] font-extrabold uppercase tracking-wider bg-gold-gradient text-black rounded-full shadow-sm"
+            className="px-2 sm:px-2.5 py-1 text-[9px] sm:text-[9.5px] font-extrabold uppercase tracking-wider bg-gold-gradient text-black rounded-full shadow-sm shrink-0 min-h-[34px] flex items-center"
           >
             Book
           </Link>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-1.5 text-neutral-300 hover:text-white rounded-lg focus:outline-none"
+            className="text-neutral-300 hover:text-white rounded-lg focus:outline-none min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0 p-1"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5 text-gold-400" /> : <Menu className="w-5 h-5" />}
@@ -232,7 +217,7 @@ const Navbar = () => {
 
       {/* Mobile Slide-Out Full Drawer (Dark Luxury Glass) */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 top-[58px] sm:top-[62px] bg-[#0E0E12]/98 backdrop-blur-2xl z-50 px-4 sm:px-6 py-5 border-t border-gold-500/30 flex flex-col justify-between overflow-y-auto animate-fade-in custom-scrollbar text-white">
+        <div className="lg:hidden fixed inset-0 top-[54px] sm:top-[62px] bg-[#0E0E12]/98 backdrop-blur-2xl z-50 px-4 sm:px-6 py-5 border-t border-gold-500/30 flex flex-col justify-between overflow-y-auto animate-fade-in custom-scrollbar text-white">
           {/* Quick Dual Login Action Box (Top of Mobile Menu) */}
           <div className="mb-4 p-3.5 rounded-2xl bg-black/60 border border-gold-500/30 space-y-2">
             <span className="text-[10px] uppercase font-mono font-bold text-gold-400 block tracking-wider">
@@ -242,14 +227,14 @@ const Navbar = () => {
               <div className="space-y-2">
                 <Link
                   to={getDashboardPath()}
-                  className="flex items-center justify-center w-full py-2.5 rounded-xl bg-gold-gradient text-black font-extrabold text-xs uppercase tracking-wider shadow-gold-subtle"
+                  className="flex items-center justify-center w-full py-2.5 rounded-xl bg-gold-gradient text-black font-extrabold text-xs uppercase tracking-wider shadow-gold-subtle min-h-[44px]"
                 >
                   <LayoutDashboard className="w-3.5 h-3.5 mr-2" />
                   Access {user?.role} Portal
                 </Link>
                 <button
                   onClick={logout}
-                  className="w-full py-2 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 font-bold text-xs flex items-center justify-center"
+                  className="w-full py-2 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 font-bold text-xs flex items-center justify-center min-h-[44px]"
                 >
                   <LogOut className="w-3.5 h-3.5 mr-2" />
                   Sign Out
@@ -259,13 +244,13 @@ const Navbar = () => {
               <div className="grid grid-cols-2 gap-2">
                 <Link
                   to="/login?role=customer"
-                  className="flex items-center justify-center py-2.5 rounded-xl border border-gold-500/40 bg-gold-500/15 text-gold-200 font-bold text-[11px] uppercase tracking-wider text-center shadow-sm"
+                  className="flex items-center justify-center py-2.5 rounded-xl border border-gold-500/40 bg-gold-500/15 text-gold-200 font-bold text-[11px] uppercase tracking-wider text-center shadow-sm min-h-[44px]"
                 >
                   <Heart className="w-3.5 h-3.5 mr-1 text-gold-400" /> Couple
                 </Link>
                 <Link
                   to="/login?role=admin"
-                  className="flex items-center justify-center py-2.5 rounded-xl border border-white/20 bg-white/5 text-white font-bold text-[11px] uppercase tracking-wider text-center shadow-sm"
+                  className="flex items-center justify-center py-2.5 rounded-xl border border-white/20 bg-white/5 text-white font-bold text-[11px] uppercase tracking-wider text-center shadow-sm min-h-[44px]"
                 >
                   <Crown className="w-3.5 h-3.5 mr-1 text-gold-400" /> Admin
                 </Link>
@@ -274,12 +259,12 @@ const Navbar = () => {
           </div>
 
           {/* Navigation Links */}
-          <div className="space-y-2">
+          <div className="space-y-1">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
-                className="block text-base font-serif font-bold tracking-wider text-neutral-200 hover:text-gold-300 border-b border-white/10 pb-2.5 transition-colors"
+                className="flex items-center min-h-[44px] text-base font-serif font-bold tracking-wider text-neutral-200 hover:text-gold-300 border-b border-white/10 py-2 transition-colors"
               >
                 {link.name}
               </Link>

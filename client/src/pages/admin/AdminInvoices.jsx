@@ -469,11 +469,11 @@ const AdminInvoices = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full sm:w-auto">
           {/* Export to Excel */}
           <button
             onClick={exportToExcel}
-            className="px-4 py-2.5 rounded-full bg-obsidian-300 hover:bg-emerald-500 hover:text-black border border-emerald-500/40 text-emerald-300 font-bold text-xs uppercase tracking-wider transition-all flex items-center shrink-0 shadow-sm"
+            className="px-4 py-2.5 rounded-full bg-obsidian-300 hover:bg-emerald-500 hover:text-black border border-emerald-500/40 text-emerald-300 font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center shrink-0 shadow-sm min-h-[44px]"
             title="Download Master Financial Spreadsheet (.xlsx)"
           >
             <FileSpreadsheet className="w-4 h-4 mr-1.5" /> Export Excel (.xlsx)
@@ -482,7 +482,7 @@ const AdminInvoices = () => {
           {/* Create Bill */}
           <button
             onClick={() => setModalOpen(true)}
-            className="px-5 py-2.5 rounded-full bg-gold-gradient text-black font-bold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 transition-all flex items-center shrink-0"
+            className="px-4 sm:px-5 py-2.5 rounded-full bg-gold-gradient text-black font-bold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 transition-all flex items-center justify-center shrink-0 min-h-[44px]"
           >
             <Plus className="w-4 h-4 mr-1.5" /> Create & Direct Send Bill
           </button>

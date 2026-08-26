@@ -29,7 +29,7 @@ const EmployeeLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0B0B0C] flex text-white">
+    <div className="min-h-screen bg-[#0B0B0C] flex text-white w-full max-w-full overflow-x-hidden min-w-0">
       {sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}
@@ -121,21 +121,24 @@ const EmployeeLayout = () => {
       </aside>
 
       {/* Main stage */}
-      <div className="flex-1 flex flex-col min-w-0 lg:pl-64">
-        <header className="h-16 bg-[#0E0E12]/90 backdrop-blur-md border-b border-white/10 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="p-2 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 lg:hidden"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
-          <h2 className="text-sm font-serif font-bold text-white tracking-wide">
-            {navigation.find((n) => n.href === location.pathname)?.name || 'Crew Portal'}
-          </h2>
-          <span className="text-xs text-neutral-400 font-mono">{new Date().toDateString()}</span>
+      <div className="flex-1 flex flex-col min-w-0 w-full max-w-full overflow-x-hidden lg:pl-64">
+        <header className="h-16 bg-[#0E0E12]/90 backdrop-blur-md border-b border-white/10 px-3 sm:px-6 flex items-center justify-between sticky top-0 z-30">
+          <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="p-2 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0"
+              aria-label="Open crew navigation menu"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            <h2 className="text-xs sm:text-sm font-serif font-bold text-white tracking-wide truncate max-w-[180px] sm:max-w-none">
+              {navigation.find((n) => n.href === location.pathname)?.name || 'Crew Portal'}
+            </h2>
+          </div>
+          <span className="text-[11px] sm:text-xs text-neutral-400 font-mono shrink-0">{new Date().toDateString()}</span>
         </header>
 
-        <main className="p-4 sm:p-6 lg:p-8 flex-1 max-w-7xl w-full mx-auto animate-fade-in">
+        <main className="p-3 sm:p-6 lg:p-8 flex-1 max-w-7xl w-full mx-auto animate-fade-in min-w-0 overflow-x-hidden">
           <Outlet />
         </main>
       </div>

@@ -178,8 +178,8 @@ const CustomerPayments = () => {
           <p className="text-xs text-neutral-400">No transactions recorded yet.</p>
         ) : (
           <div className="luxury-card rounded-2xl overflow-hidden border border-white/10">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+            <div className="overflow-x-auto custom-scrollbar w-full">
+              <table className="w-full min-w-[650px] text-left text-xs">
                 <thead className="bg-obsidian-400 border-b border-white/10 uppercase tracking-wider text-gold-400 font-mono">
                   <tr>
                     <th className="p-4">Payment Ref</th>

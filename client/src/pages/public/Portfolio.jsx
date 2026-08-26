@@ -116,14 +116,14 @@ const Portfolio = () => {
   });
 
   return (
-    <div className="min-h-screen bg-[#0B0B0C] text-white pt-28 pb-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto space-y-12">
+    <div className="min-h-screen bg-[#0B0B0C] text-white pt-24 sm:pt-28 pb-16 sm:pb-20 px-3 sm:px-6 lg:px-8 w-full max-w-full overflow-x-hidden">
+      <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
         {/* Header Title */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <span className="text-xs uppercase font-mono tracking-[0.35em] text-gold-400 font-bold block">
+        <div className="text-center max-w-3xl mx-auto space-y-2 sm:space-y-3">
+          <span className="text-[11px] sm:text-xs uppercase font-mono tracking-[0.25em] sm:tracking-[0.35em] text-gold-400 font-bold block">
             Moonlight Production Archives
           </span>
-          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-white">
+          <h1 className="font-serif text-2xl sm:text-4xl lg:text-6xl font-bold text-white">
             Indian Royal Wedding Portfolio
           </h1>
           <p className="text-neutral-300 text-xs sm:text-base font-light max-w-xl mx-auto">
@@ -132,7 +132,7 @@ const Portfolio = () => {
         </div>
 
         {/* Category Filter Tabs & Search Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-white/10">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 pb-6 border-b border-white/10">
           {/* Tabs */}
           <div className="flex items-center space-x-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 custom-scrollbar">
             {categories.map((cat) => {
@@ -140,33 +140,33 @@ const Portfolio = () => {
               return (
                 <button
                   key={cat.id}
-                  onClick={() => setSearchParams(cat.id === 'all' ? {} : { category: cat.id })}
-                  className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`px-3.5 sm:px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap min-h-[44px] flex items-center ${
                     isActive
                       ? 'bg-gold-gradient text-black font-extrabold shadow-gold-subtle'
-                      : 'bg-white/5 text-neutral-300 hover:text-white hover:border-gold-400 border border-white/10 shadow-sm'
+                      : 'bg-[#141418] text-neutral-300 hover:text-white border border-white/10'
                   }`}
                 >
-                  {cat.name}
+                  {cat.label}
                 </button>
               );
             })}
           </div>
 
-          {/* Search Box */}
-          <div className="relative w-full md:w-72">
+          {/* Search Input */}
+          <div className="relative w-full md:w-72 shrink-0">
             <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search destination or couple..."
+              placeholder="Search by city, couple or ritual..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-black/60 border border-white/15 rounded-full pl-10 pr-4 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-gold-400 shadow-sm"
+              className="w-full bg-[#141418] border border-white/15 rounded-full pl-10 pr-4 py-2 text-xs text-white placeholder-neutral-500 focus:border-gold-400 focus:outline-none min-h-[44px]"
             />
           </div>
         </div>
 
-        {/* Portfolio Masonry Grid */}
+        {/* Dynamic Gallery Grid */}
         {loading ? (
           <CardSkeleton count={6} height="h-96" />
         ) : filteredItems.length === 0 ? (
@@ -176,7 +176,7 @@ const Portfolio = () => {
             <p className="text-xs text-neutral-400">Try selecting a different category or refining your search term.</p>
           </div>
         ) : (
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 sm:gap-6">
             <AnimatePresence>
               {filteredItems.map((item, index) => (
                 <motion.div
@@ -185,7 +185,7 @@ const Portfolio = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
-                  className="break-inside-avoid group relative rounded-2xl overflow-hidden bg-[#141418] border border-white/10 hover:border-gold-500/50 cursor-pointer shadow-xl hover:shadow-2xl transition-all"
+                  className="break-inside-avoid mb-4 sm:mb-6 group relative rounded-2xl overflow-hidden bg-[#141418] border border-white/10 hover:border-gold-500/50 cursor-pointer shadow-xl hover:shadow-2xl transition-all"
                   onClick={() => setLightboxIndex(index)}
                 >
                   <div className="relative overflow-hidden">

@@ -22,39 +22,43 @@ const InvoiceModal = ({ invoice, onClose, onResend, onPay, isAdmin = false }) =>
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-      <div className="bg-obsidian-400 border border-gold-500/40 rounded-3xl max-w-3xl w-full shadow-2xl overflow-hidden animate-fade-in relative my-auto">
+    <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto w-full max-w-full">
+      <div className="bg-obsidian-400 border border-gold-500/40 rounded-3xl max-w-3xl w-full shadow-2xl overflow-hidden animate-fade-in relative my-auto max-h-[95dvh] flex flex-col">
         {/* Top Obsidian Gold Header Banner */}
-        <div className="bg-black/90 p-6 border-b border-gold-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-full border border-gold-500/80 bg-obsidian flex items-center justify-center shadow-gold-subtle">
-              <span className="font-serif font-bold text-gold-400 text-xl">L</span>
+        <div className="bg-black/90 p-4 sm:p-6 border-b border-gold-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
+          <div className="flex items-center space-x-3 min-w-0">
+            <div className="w-10 h-10 rounded-full border border-gold-500/80 bg-obsidian flex items-center justify-center shadow-gold-subtle shrink-0">
+              <span className="font-serif font-bold text-gold-400 text-xl">M</span>
             </div>
-            <div>
-              <span className="font-serif text-lg font-bold tracking-widest text-white block">
+            <div className="min-w-0">
+              <span className="font-serif text-base sm:text-lg font-bold tracking-widest text-white block truncate">
                 Moonlight Production Studio
               </span>
-              <p className="text-[10px] text-gold-400 font-mono uppercase tracking-wider">
+              <p className="text-[9.5px] sm:text-[10px] text-gold-400 font-mono uppercase tracking-wider truncate">
                 Official Studio Tax Invoice & Production Agreement
               </p>
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 shrink-0 justify-end w-full sm:w-auto">
             <button
               onClick={handleDownload}
-              className="px-4 py-2 rounded-full bg-gold-gradient text-black font-bold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 transition-all flex items-center"
+              className="px-3.5 sm:px-4 py-2 rounded-full bg-gold-gradient text-black font-bold text-[11px] sm:text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 transition-all flex items-center min-h-[44px]"
             >
-              <Download className="w-3.5 h-3.5 mr-1.5" /> Download Signed PDF
+              <Download className="w-3.5 h-3.5 mr-1.5" /> Signed PDF
             </button>
-            <button onClick={onClose} className="p-2 text-neutral-400 hover:text-white rounded-full bg-obsidian-300">
+            <button
+              onClick={onClose}
+              className="p-2 text-neutral-400 hover:text-white rounded-full bg-obsidian-300 min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0"
+              aria-label="Close modal"
+            >
               <X className="w-5 h-5" />
             </button>
           </div>
         </div>
 
         {/* Invoice Body */}
-        <div className="p-6 sm:p-8 space-y-6 max-h-[75vh] overflow-y-auto custom-scrollbar text-xs">
+        <div className="p-4 sm:p-6 md:p-8 space-y-6 max-h-[75vh] overflow-y-auto custom-scrollbar text-xs flex-1">
           {/* Metadata & Billed-To Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Invoice Info */}
@@ -73,25 +77,21 @@ const InvoiceModal = ({ invoice, onClose, onResend, onPay, isAdmin = false }) =>
               </div>
               <div className="flex justify-between items-center pt-1">
                 <span className="text-neutral-400">Status:</span>
-                <span
-                  className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                    invoice.status === 'PAID'
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                      : invoice.status === 'PARTIALLY_PAID'
-                      ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
-                      : 'bg-gold-500/20 text-gold-300 border border-gold-500/40'
-                  }`}
-                >
-                  {invoice.status}
+                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase font-bold ${
+                  (invoice.status || '').toUpperCase() === 'PAID'
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                    : (invoice.status || '').toUpperCase() === 'PARTIALLY_PAID'
+                    ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
+                    : 'bg-gold-500/20 text-gold-300 border border-gold-500/40'
+                }`}>
+                  {invoice.status || 'ISSUED'}
                 </span>
               </div>
             </div>
 
-            {/* Client Info */}
-            <div className="p-4 rounded-2xl bg-obsidian-500/80 border border-white/10 space-y-1.5">
-              <span className="text-[10px] uppercase font-bold text-gold-400 tracking-wider block font-mono">
-                Billed To (Client Details)
-              </span>
+            {/* Billed To */}
+            <div className="p-4 rounded-2xl bg-obsidian-500/80 border border-white/10 space-y-1">
+              <span className="text-neutral-400 font-mono text-[10px] uppercase block tracking-wider">Billed To (Client):</span>
               <p className="font-serif text-sm font-bold text-white">
                 {invoice.clientInfo?.name || invoice.customer?.name || 'Valued Couple'}
               </p>
@@ -104,8 +104,8 @@ const InvoiceModal = ({ invoice, onClose, onResend, onPay, isAdmin = false }) =>
           </div>
 
           {/* Line Items Table */}
-          <div className="rounded-2xl overflow-hidden border border-white/10">
-            <table className="w-full text-left text-xs">
+          <div className="rounded-2xl overflow-x-auto custom-scrollbar border border-white/10">
+            <table className="w-full min-w-[480px] text-left text-xs">
               <thead className="bg-obsidian-600 uppercase tracking-wider text-gold-400 font-mono border-b border-white/10">
                 <tr>
                   <th className="p-3">Service & Cinema Inclusions</th>

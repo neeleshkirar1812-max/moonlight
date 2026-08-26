@@ -78,13 +78,13 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0B0C] text-white pt-24 sm:pt-28 pb-16 px-4 flex items-center justify-center relative overflow-hidden">
+    <div className="min-h-screen bg-[#0B0B0C] text-white pt-24 sm:pt-28 pb-16 px-3 sm:px-4 flex items-center justify-center relative overflow-x-hidden w-full max-w-full">
       {/* Background Ambient Radial Glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-gradient-to-b from-gold-500/15 via-gold-600/5 to-transparent rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-full max-w-[600px] h-[350px] bg-gradient-to-b from-gold-500/15 via-gold-600/5 to-transparent rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -top-20 -right-20 w-80 h-80 bg-gold-400/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-lg w-full bg-[#121215]/90 border border-gold-500/30 rounded-3xl p-6 sm:p-10 shadow-2xl relative z-10 backdrop-blur-2xl animate-fade-in space-y-6">
+      <div className="max-w-lg w-full bg-[#121215]/90 border border-gold-500/30 rounded-3xl p-4 sm:p-8 md:p-10 shadow-2xl relative z-10 backdrop-blur-2xl animate-fade-in space-y-6">
         {/* Brand Header */}
         <div className="text-center space-y-2">
           <div className="w-14 h-14 rounded-full border-2 border-gold-400/80 flex items-center justify-center bg-black/80 mx-auto shadow-gold-glow overflow-hidden p-0.5">
@@ -112,40 +112,40 @@ const Login = () => {
           <button
             type="button"
             onClick={() => setActiveTab('customer')}
-            className={`py-2.5 rounded-xl transition-all flex flex-col sm:flex-row items-center justify-center text-center gap-1 ${
+            className={`py-2 rounded-xl transition-all flex flex-col sm:flex-row items-center justify-center text-center gap-1 min-h-[44px] ${
               activeTab === 'customer'
                 ? 'bg-gold-gradient text-black font-extrabold shadow-gold-subtle'
                 : 'text-neutral-400 hover:text-white'
             }`}
           >
             <Heart className="w-3.5 h-3.5 shrink-0" />
-            <span className="text-[11px]">Couple</span>
+            <span className="text-[10.5px] sm:text-[11px]">Couple</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab('admin')}
-            className={`py-2.5 rounded-xl transition-all flex flex-col sm:flex-row items-center justify-center text-center gap-1 ${
+            className={`py-2 rounded-xl transition-all flex flex-col sm:flex-row items-center justify-center text-center gap-1 min-h-[44px] ${
               activeTab === 'admin'
                 ? 'bg-gold-gradient text-black font-extrabold shadow-gold-subtle'
                 : 'text-neutral-400 hover:text-white'
             }`}
           >
             <Crown className="w-3.5 h-3.5 shrink-0" />
-            <span className="text-[11px]">Admin</span>
+            <span className="text-[10.5px] sm:text-[11px]">Admin</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab('crew')}
-            className={`py-2.5 rounded-xl transition-all flex flex-col sm:flex-row items-center justify-center text-center gap-1 ${
+            className={`py-2 rounded-xl transition-all flex flex-col sm:flex-row items-center justify-center text-center gap-1 min-h-[44px] ${
               activeTab === 'crew'
                 ? 'bg-gold-gradient text-black font-extrabold shadow-gold-subtle'
                 : 'text-neutral-400 hover:text-white'
             }`}
           >
             <Camera className="w-3.5 h-3.5 shrink-0" />
-            <span className="text-[11px]">Crew</span>
+            <span className="text-[10.5px] sm:text-[11px]">Crew</span>
           </button>
         </div>
 

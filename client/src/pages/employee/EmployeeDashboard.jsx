@@ -232,8 +232,8 @@ const EmployeeDashboard = () => {
           </div>
 
           <div className="bg-[#141418] rounded-2xl border border-white/10 overflow-hidden shadow-xl">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+            <div className="overflow-x-auto custom-scrollbar w-full">
+              <table className="w-full min-w-[700px] text-left text-xs">
                 <thead className="bg-[#181820] text-gold-400 uppercase font-mono text-[10.5px] border-b border-white/10">
                   <tr>
                     <th className="py-3.5 px-4 font-bold">Month</th>

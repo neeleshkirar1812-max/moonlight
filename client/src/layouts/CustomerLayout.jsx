@@ -37,7 +37,7 @@ const CustomerLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0B0B0C] flex text-white">
+    <div className="min-h-screen bg-[#0B0B0C] flex text-white w-full max-w-full overflow-x-hidden min-w-0">
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
@@ -132,25 +132,26 @@ const CustomerLayout = () => {
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 lg:pl-64">
+      <div className="flex-1 flex flex-col min-w-0 w-full max-w-full overflow-x-hidden lg:pl-64">
         {/* Top bar for mobile trigger & quick actions */}
-        <header className="h-16 bg-[#0E0E12]/90 backdrop-blur-md border-b border-white/10 px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30">
-          <div className="flex items-center space-x-3">
+        <header className="h-16 bg-[#0E0E12]/90 backdrop-blur-md border-b border-white/10 px-3 sm:px-6 flex items-center justify-between sticky top-0 z-30">
+          <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="p-2 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 lg:hidden"
+              className="p-2 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0"
+              aria-label="Open navigation menu"
             >
               <Menu className="w-5 h-5" />
             </button>
-            <h2 className="text-sm font-serif font-bold text-white tracking-wide">
+            <h2 className="text-xs sm:text-sm font-serif font-bold text-white tracking-wide truncate max-w-[160px] sm:max-w-none">
               {navigation.find((n) => n.href === location.pathname)?.name || 'Client Sanctuary'}
             </h2>
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
             <Link
               to="/enquiry"
-              className="px-3.5 py-1.5 text-xs font-extrabold uppercase tracking-wider bg-gold-gradient text-black rounded-full shadow-gold-subtle hover:brightness-110 active:scale-95 transition-all btn-shimmer"
+              className="px-3 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-extrabold uppercase tracking-wider bg-gold-gradient text-black rounded-full shadow-gold-subtle hover:brightness-110 active:scale-95 transition-all btn-shimmer"
             >
               + New Enquiry
             </Link>
@@ -158,7 +159,7 @@ const CustomerLayout = () => {
         </header>
 
         {/* Outlet Content */}
-        <main className="p-4 sm:p-6 lg:p-8 flex-1 max-w-7xl w-full mx-auto animate-fade-in">
+        <main className="p-3 sm:p-6 lg:p-8 flex-1 max-w-7xl w-full mx-auto animate-fade-in min-w-0 overflow-x-hidden">
           <Outlet />
         </main>
       </div>

@@ -192,11 +192,11 @@ const CustomerGalleryDetail = () => {
           <h3 className="font-serif text-xl text-white">No photos in this section.</h3>
         </div>
       ) : (
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 sm:gap-6">
           {filteredItems.map((item, index) => (
             <div
               key={item._id || index}
-              className="break-inside-avoid group relative rounded-2xl overflow-hidden bg-obsidian-400 border border-white/10 luxury-card cursor-pointer"
+              className="break-inside-avoid mb-4 sm:mb-6 group relative rounded-2xl overflow-hidden bg-obsidian-400 border border-white/10 luxury-card cursor-pointer"
             >
               <img
                 src={item.displayUrl || item.url}

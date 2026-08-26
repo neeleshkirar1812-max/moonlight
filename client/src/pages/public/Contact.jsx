@@ -39,14 +39,14 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0B0C] text-white pt-28 pb-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto space-y-12 sm:space-y-16">
+    <div className="min-h-screen bg-[#0B0B0C] text-white pt-24 sm:pt-28 pb-16 sm:pb-20 px-3 sm:px-6 lg:px-8 w-full max-w-full overflow-x-hidden">
+      <div className="max-w-7xl mx-auto space-y-8 sm:space-y-16">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <span className="text-xs uppercase font-mono tracking-[0.35em] text-gold-400 font-bold block">
+        <div className="text-center max-w-3xl mx-auto space-y-2 sm:space-y-3">
+          <span className="text-[11px] sm:text-xs uppercase font-mono tracking-[0.25em] sm:tracking-[0.35em] text-gold-400 font-bold block">
             Direct Concierge
           </span>
-          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-white">
+          <h1 className="font-serif text-2xl sm:text-4xl lg:text-6xl font-bold text-white">
             Connect With Moonlight Production
           </h1>
           <p className="text-neutral-300 text-xs sm:text-base font-light max-w-xl mx-auto">

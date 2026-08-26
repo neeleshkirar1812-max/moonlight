@@ -87,7 +87,7 @@ const AdminLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0B0B0C] flex text-white">
+    <div className="min-h-screen bg-[#0B0B0C] flex text-white w-full max-w-full overflow-x-hidden min-w-0">
       {/* Mobile Backdrop */}
       {sidebarOpen && (
         <div
@@ -249,13 +249,13 @@ const AdminLayout = () => {
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 lg:pl-64">
+      <div className="flex-1 flex flex-col min-w-0 w-full max-w-full overflow-x-hidden lg:pl-64">
         {/* Header with High-Visibility Role Accountability Banner */}
         <header className="h-16 bg-[#0E0E12]/95 backdrop-blur-md border-b border-white/10 px-3 sm:px-6 flex items-center justify-between sticky top-0 z-30">
           <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="p-2 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 lg:hidden shrink-0"
+              className="p-2 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 lg:hidden shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center"
               aria-label="Open sidebar menu"
             >
               <Menu className="w-5 h-5" />
@@ -305,7 +305,7 @@ const AdminLayout = () => {
           </div>
         </header>
 
-        <main className="p-3 sm:p-6 lg:p-8 flex-1 max-w-7xl w-full mx-auto animate-fade-in">
+        <main className="p-3 sm:p-6 lg:p-8 flex-1 max-w-7xl w-full mx-auto animate-fade-in min-w-0 overflow-x-hidden">
           <Outlet />
         </main>
       </div>

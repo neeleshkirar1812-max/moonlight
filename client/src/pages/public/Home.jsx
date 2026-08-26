@@ -181,18 +181,18 @@ const Home = () => {
                 {showcase.subtitle}
               </p>
 
-              {/* Dual Action Buttons */}
-              <div className="flex flex-row items-center justify-center gap-2 sm:gap-3.5 pt-2 w-full max-w-md mx-auto">
+              {/* Dual Action Buttons (Stacked on mobile, side-by-side on >=380px) */}
+              <div className="flex flex-col xs:flex-row items-center justify-center gap-2 sm:gap-3.5 pt-2 w-full max-w-md mx-auto">
                 <Link
                   to={showcase.primaryCta.path}
-                  className="flex-1 py-2.5 sm:py-3.5 px-3 sm:px-8 rounded-full bg-gold-gradient text-black font-extrabold text-[10px] sm:text-xs uppercase tracking-wider shadow-gold-subtle active:scale-95 transition-all text-center truncate btn-shimmer"
+                  className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-8 rounded-full bg-gold-gradient text-black font-extrabold text-xs uppercase tracking-wider shadow-gold-subtle active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center btn-shimmer"
                 >
                   {showcase.primaryCta.label}
                 </Link>
 
                 <Link
                   to={showcase.secondaryCta.path}
-                  className="flex-1 py-2.5 sm:py-3.5 px-3 sm:px-8 rounded-full bg-white/15 hover:bg-white/25 border border-white/30 text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider backdrop-blur-xl active:scale-95 transition-all text-center truncate"
+                  className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-8 rounded-full bg-white/15 hover:bg-white/25 border border-white/30 text-white font-bold text-xs uppercase tracking-wider backdrop-blur-xl active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center"
                 >
                   {showcase.secondaryCta.label}
                 </Link>

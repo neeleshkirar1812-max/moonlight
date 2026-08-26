@@ -28,18 +28,18 @@ const Lightbox = ({
   const imageUrl = currentImage.displayUrl || currentImage.url;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col justify-between p-4 md:p-8 animate-fade-in">
+    <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col justify-between p-2 sm:p-4 md:p-8 animate-fade-in w-full max-w-full overflow-hidden">
       {/* Top Controls Bar */}
-      <div className="flex items-center justify-between z-10">
-        <div className="text-xs tracking-widest text-neutral-400 uppercase font-sans">
+      <div className="flex items-center justify-between z-10 gap-2">
+        <div className="text-[10.5px] sm:text-xs tracking-wider sm:tracking-widest text-neutral-400 uppercase font-sans truncate max-w-[150px] xs:max-w-[220px] sm:max-w-md">
           {currentIndex + 1} / {images.length} • {currentImage.title || currentImage.caption || 'Master Photograph'}
         </div>
 
-        <div className="flex items-center space-x-3 text-white">
+        <div className="flex items-center space-x-1.5 sm:space-x-3 text-white shrink-0">
           {onToggleFavorite && (
             <button
               onClick={() => onToggleFavorite(currentImage._id || currentImage.id)}
-              className={`p-2.5 rounded-full border transition-all ${
+              className={`min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full border transition-all ${
                 isFavorite
                   ? 'bg-red-500/20 border-red-500 text-red-500'
                   : 'bg-obsidian-200 border-white/20 hover:border-gold-400 hover:text-gold-400'
@@ -56,7 +56,7 @@ const Lightbox = ({
               target="_blank"
               rel="noreferrer"
               download
-              className="p-2.5 rounded-full bg-obsidian-200 border border-white/20 hover:border-gold-400 hover:text-gold-400 transition-all text-neutral-300"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-obsidian-200 border border-white/20 hover:border-gold-400 hover:text-gold-400 transition-all text-neutral-300"
               title="Download Master Image"
             >
               <Download className="w-4 h-4" />
@@ -65,7 +65,7 @@ const Lightbox = ({
 
           <button
             onClick={onClose}
-            className="p-2.5 rounded-full bg-obsidian-200 border border-white/20 hover:border-gold-400 hover:text-gold-400 transition-all text-neutral-300"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-obsidian-200 border border-white/20 hover:border-gold-400 hover:text-gold-400 transition-all text-neutral-300"
             title="Close Lightbox"
           >
             <X className="w-5 h-5" />
@@ -74,18 +74,18 @@ const Lightbox = ({
       </div>
 
       {/* Main Image Stage */}
-      <div className="relative flex-1 flex items-center justify-center my-4 overflow-hidden select-none">
+      <div className="relative flex-1 flex items-center justify-center my-2 sm:my-4 overflow-hidden select-none">
         <img
           src={imageUrl}
           alt={currentImage.caption || currentImage.title || 'Moonlight Master Photograph'}
-          className="max-h-[82vh] max-w-[92vw] object-contain rounded shadow-2xl transition-all duration-300"
+          className="max-h-[72vh] sm:max-h-[82vh] max-w-[94vw] object-contain rounded shadow-2xl transition-all duration-300"
         />
 
         {/* Previous Button */}
         {images.length > 1 && (
           <button
             onClick={onPrev}
-            className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-obsidian/70 border border-white/20 text-white hover:border-gold-400 hover:text-gold-400 transition-all backdrop-blur-md"
+            className="absolute left-1 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-obsidian/70 border border-white/20 text-white hover:border-gold-400 hover:text-gold-400 transition-all backdrop-blur-md"
             aria-label="Previous image"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -96,7 +96,7 @@ const Lightbox = ({
         {images.length > 1 && (
           <button
             onClick={onNext}
-            className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-obsidian/70 border border-white/20 text-white hover:border-gold-400 hover:text-gold-400 transition-all backdrop-blur-md"
+            className="absolute right-1 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-obsidian/70 border border-white/20 text-white hover:border-gold-400 hover:text-gold-400 transition-all backdrop-blur-md"
             aria-label="Next image"
           >
             <ChevronRight className="w-6 h-6" />

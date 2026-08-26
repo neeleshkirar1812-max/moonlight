@@ -74,18 +74,18 @@ const AdminDashboard = () => {
           <span className="text-xs uppercase font-mono tracking-widest text-gold-400 font-bold block">
             Executive Operations
           </span>
-          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-white">Studio Performance Dashboard</h1>
+          <h1 className="font-serif text-2xl sm:text-4xl font-bold text-white">Studio Performance Dashboard</h1>
         </div>
-        <div className="flex items-center space-x-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <Link
             to="/admin/enquiries"
-            className="px-4 py-2 rounded-full bg-gold-gradient text-black font-extrabold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 transition-all btn-shimmer"
+            className="px-4 py-2 rounded-full bg-gold-gradient text-black font-extrabold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 transition-all btn-shimmer min-h-[44px] flex items-center"
           >
             Review Enquiries
           </Link>
           <Link
             to="/admin/portfolio"
-            className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-bold text-white uppercase tracking-wider shadow-sm transition-all"
+            className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-bold text-white uppercase tracking-wider shadow-sm transition-all min-h-[44px] flex items-center"
           >
             + Upload Portfolio
           </Link>

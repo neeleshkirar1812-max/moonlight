@@ -307,7 +307,7 @@ const SuperAdminApprovals = () => {
       {/* TAB 1: PENDING LOGIN APPROVALS */}
       {activeTab === 'approvals' && (
         <div className="space-y-4">
-          <div className="p-4 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-between text-xs">
+          <div className="p-4 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
             <div className="flex items-center space-x-2.5">
               <ShieldCheck className="w-5 h-5 text-gold-400 shrink-0" />
               <p className="text-neutral-200">
@@ -405,8 +405,8 @@ const SuperAdminApprovals = () => {
           </div>
 
           <div className="bg-[#141418] rounded-3xl border border-white/10 overflow-hidden shadow-xl">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+            <div className="overflow-x-auto custom-scrollbar w-full">
+              <table className="w-full min-w-[700px] text-left text-xs">
                 <thead className="bg-[#181820] text-neutral-400 uppercase font-mono text-[10px] border-b border-white/10">
                   <tr>
                     <th className="p-4">User Details</th>

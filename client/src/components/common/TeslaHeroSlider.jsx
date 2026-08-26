@@ -122,7 +122,7 @@ const TeslaHeroSlider = ({ onPlayVideo }) => {
             transition={{ duration: 0.6 }}
             className="space-y-1.5 sm:space-y-3"
           >
-            <h1 className="font-serif text-3xl sm:text-5xl md:text-7xl font-black text-white tracking-tight drop-shadow-2xl leading-tight">
+            <h1 className="font-serif text-2xl xs:text-3xl sm:text-5xl md:text-7xl font-black text-white tracking-tight drop-shadow-2xl leading-tight">
               {slide.title}
             </h1>
             <p className="text-xs sm:text-base md:text-lg text-neutral-100 font-medium tracking-wide max-w-xl mx-auto drop-shadow-md line-clamp-2">
@@ -130,27 +130,27 @@ const TeslaHeroSlider = ({ onPlayVideo }) => {
             </p>
             <p className="text-[10px] sm:text-xs text-gold-300 font-mono tracking-widest uppercase flex items-center justify-center">
               <MapPin className="w-3 h-3 mr-1 text-gold-400 shrink-0" />
-              <span className="truncate max-w-[280px] sm:max-w-none">{slide.location}</span>
+              <span className="truncate max-w-[240px] sm:max-w-none">{slide.location}</span>
             </p>
           </motion.div>
         </AnimatePresence>
 
-        {/* Dual Action Buttons (Side-by-Side on Mobile and Desktop) */}
-        <div className="flex flex-row items-center justify-center gap-2 sm:gap-3.5 pt-2 max-w-md mx-auto w-full px-2">
+        {/* Dual Action Buttons (Stacked on Narrow Mobile, Side-by-Side on >=380px) */}
+        <div className="flex flex-col xs:flex-row items-center justify-center gap-2 sm:gap-3.5 pt-2 max-w-md mx-auto w-full px-3">
           {/* Primary CTA */}
           {slide.primaryCta.external ? (
             <a
               href={slide.primaryCta.external}
               target="_blank"
               rel="noreferrer"
-              className="flex-1 py-2.5 sm:py-3.5 px-3 sm:px-6 rounded-full bg-gold-gradient text-black font-black text-[10px] sm:text-xs uppercase tracking-wider shadow-gold-subtle active:scale-95 transition-all text-center truncate btn-shimmer"
+              className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-gold-gradient text-black font-black text-xs uppercase tracking-wider shadow-gold-subtle active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center btn-shimmer"
             >
               {slide.primaryCta.label}
             </a>
           ) : (
             <Link
               to={slide.primaryCta.path}
-              className="flex-1 py-2.5 sm:py-3.5 px-3 sm:px-6 rounded-full bg-gold-gradient text-black font-black text-[10px] sm:text-xs uppercase tracking-wider shadow-gold-subtle active:scale-95 transition-all text-center truncate btn-shimmer"
+              className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-gold-gradient text-black font-black text-xs uppercase tracking-wider shadow-gold-subtle active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center btn-shimmer"
             >
               {slide.primaryCta.label}
             </Link>
@@ -162,14 +162,14 @@ const TeslaHeroSlider = ({ onPlayVideo }) => {
               href={slide.secondaryCta.external}
               target="_blank"
               rel="noreferrer"
-              className="flex-1 py-2.5 sm:py-3.5 px-3 sm:px-6 rounded-full bg-white/20 hover:bg-white/30 border border-white/40 text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider backdrop-blur-xl active:scale-95 transition-all text-center truncate"
+              className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-white/20 hover:bg-white/30 border border-white/40 text-white font-bold text-xs uppercase tracking-wider backdrop-blur-xl active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center"
             >
               {slide.secondaryCta.label}
             </a>
           ) : (
             <Link
               to={slide.secondaryCta.path}
-              className="flex-1 py-2.5 sm:py-3.5 px-3 sm:px-6 rounded-full bg-white/20 hover:bg-white/30 border border-white/40 text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider backdrop-blur-xl active:scale-95 transition-all text-center truncate"
+              className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-white/20 hover:bg-white/30 border border-white/40 text-white font-bold text-xs uppercase tracking-wider backdrop-blur-xl active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center"
             >
               {slide.secondaryCta.label}
             </Link>

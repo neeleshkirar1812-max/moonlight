@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from '../../api/client';
 import { useNotification } from '../../context/NotificationContext';
 import * as XLSX from 'xlsx';
@@ -276,17 +276,17 @@ const AdminPayments = () => {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <button
             onClick={handleExportLedgerExcel}
-            className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-white font-mono text-xs font-bold transition-all flex items-center"
+            className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-white font-mono text-xs font-bold transition-all flex items-center justify-center min-h-[44px]"
           >
             <Download className="w-4 h-4 mr-1.5 text-gold-400" /> Export Excel (.xlsx)
           </button>
 
           <button
             onClick={() => setExpenseModalOpen(true)}
-            className="px-5 py-2.5 rounded-xl bg-gold-gradient text-black font-bold uppercase tracking-wider text-xs shadow-gold-subtle hover:scale-105 transition-all flex items-center"
+            className="px-4 sm:px-5 py-2.5 rounded-xl bg-gold-gradient text-black font-bold uppercase tracking-wider text-xs shadow-gold-subtle hover:brightness-110 transition-all flex items-center justify-center min-h-[44px]"
           >
             <Plus className="w-4 h-4 mr-1.5" /> Record Expense (Outflow)
           </button>
@@ -397,8 +397,8 @@ const AdminPayments = () => {
         </div>
       ) : (
         <div className="bg-[#141418] rounded-2xl border border-white/10 overflow-hidden shadow-xl">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto custom-scrollbar w-full">
+            <table className="w-full min-w-[750px] text-left text-xs">
               <thead className="bg-[#181820] text-gold-400 uppercase font-mono text-[10.5px] border-b border-white/10">
                 <tr>
                   <th className="py-3.5 px-4 font-bold">Date</th>

@@ -395,7 +395,7 @@ const AdminEnquiries = () => {
             return (
               <div
                 key={col.id}
-                className="w-[85vw] sm:w-[320px] lg:w-auto shrink-0 lg:shrink snap-start bg-[#121216] rounded-3xl p-4 border border-white/10 flex flex-col space-y-3 min-h-[500px]"
+                className="w-[85vw] max-w-[340px] sm:w-[320px] lg:w-auto shrink-0 lg:shrink snap-start bg-[#121216] rounded-3xl p-4 border border-white/10 flex flex-col space-y-3 min-h-[500px]"
               >
                 {/* Column Header */}
                 <div className="flex items-center justify-between pb-3 border-b border-white/10">
@@ -472,8 +472,8 @@ const AdminEnquiries = () => {
       {/* VIEW MODE 2: TABLE LIST VIEW */}
       {viewMode === 'list' && (
         <div className="bg-[#141418] rounded-3xl border border-white/10 overflow-hidden shadow-xl">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto custom-scrollbar w-full">
+            <table className="w-full min-w-[750px] text-left text-xs">
               <thead className="bg-[#181820] text-neutral-400 uppercase font-mono text-[10px] border-b border-white/10">
                 <tr>
                   <th className="p-4">Ref ID & Source</th>

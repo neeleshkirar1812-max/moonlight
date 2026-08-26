@@ -239,26 +239,26 @@ const EnquiryPlanner = () => {
   }
 
   return (
-    <div className="min-h-screen pt-28 pb-20 px-4 sm:px-6 relative">
+    <div className="min-h-screen pt-24 sm:pt-28 pb-16 sm:pb-20 px-3 sm:px-6 relative w-full max-w-full overflow-x-hidden">
       {/* Background Decorative */}
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-radial-gold pointer-events-none opacity-30" />
+      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-full max-w-[800px] h-[350px] bg-radial-gold pointer-events-none opacity-20 overflow-hidden" />
 
       <div className="max-w-3xl mx-auto relative z-10">
         {/* Header Title */}
-        <div className="text-center mb-10">
-          <span className="text-xs uppercase tracking-[0.3em] text-gold-400 font-semibold mb-2 block">
+        <div className="text-center mb-8 sm:mb-10">
+          <span className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-gold-400 font-semibold mb-2 block">
             Bespoke Wedding Concierge
           </span>
-          <h1 className="font-serif text-4xl sm:text-5xl text-white font-bold">
+          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-white font-bold">
             Plan Your Perfect Story
           </h1>
-          <p className="text-neutral-400 text-sm mt-3 max-w-lg mx-auto">
+          <p className="text-neutral-400 text-xs sm:text-sm mt-2 sm:mt-3 max-w-lg mx-auto">
             Answer a few thoughtful questions so our directors can curate an unforgettable visual archive tailored to your vision.
           </p>
         </div>
 
         {/* Progress Bar (Step X of 8) */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <div className="flex items-center justify-between text-xs font-semibold tracking-wider uppercase mb-2">
             <span className="text-gold-300">Step {step} of 8</span>
             <span className="text-neutral-400">{Math.round((step / 8) * 100)}% Completed</span>
@@ -274,7 +274,7 @@ const EnquiryPlanner = () => {
         </div>
 
         {/* Wizard Card Container */}
-        <div className="bg-obsidian-400/90 border border-gold-500/30 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-xl relative">
+        <div className="bg-obsidian-400/90 border border-gold-500/30 rounded-3xl p-4 sm:p-8 md:p-10 shadow-2xl backdrop-blur-xl relative">
           <AnimatePresence mode="wait">
             {/* STEP 1: EVENT TYPE */}
             {step === 1 && (
@@ -619,12 +619,12 @@ const EnquiryPlanner = () => {
           </AnimatePresence>
 
           {/* Navigation Controls */}
-          <div className="mt-10 pt-6 border-t border-white/10 flex items-center justify-between">
+          <div className="mt-8 sm:mt-10 pt-6 border-t border-white/10 flex items-center justify-between gap-3">
             {step > 1 ? (
               <button
                 type="button"
                 onClick={handleBack}
-                className="px-5 py-2.5 rounded-full border border-white/20 text-neutral-300 hover:text-white hover:border-gold-500 text-xs uppercase tracking-wider font-semibold flex items-center transition-all"
+                className="px-4 sm:px-5 py-2.5 rounded-full border border-white/20 text-neutral-300 hover:text-white hover:border-gold-500 text-xs uppercase tracking-wider font-semibold flex items-center transition-all min-h-[44px]"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
@@ -637,7 +637,7 @@ const EnquiryPlanner = () => {
               <button
                 type="button"
                 onClick={handleNext}
-                className="px-6 py-3 rounded-full bg-gold-gradient text-black text-xs uppercase tracking-wider font-bold shadow-gold-subtle hover:brightness-110 flex items-center transition-all"
+                className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-gold-gradient text-black text-xs uppercase tracking-wider font-bold shadow-gold-subtle hover:brightness-110 flex items-center transition-all min-h-[44px]"
               >
                 Next Step
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -647,7 +647,7 @@ const EnquiryPlanner = () => {
                 type="button"
                 disabled={loading}
                 onClick={handleSubmit}
-                className="px-8 py-3.5 rounded-full bg-gradient-to-r from-gold-500 via-gold-400 to-champagne text-black text-xs uppercase tracking-widest font-bold shadow-gold-glow hover:brightness-110 flex items-center transition-all disabled:opacity-50"
+                className="px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-gold-500 via-gold-400 to-champagne text-black text-xs uppercase tracking-widest font-bold shadow-gold-glow hover:brightness-110 flex items-center transition-all disabled:opacity-50 min-h-[44px]"
               >
                 {loading ? 'Submitting Story...' : 'Complete & Receive Proposal'}
                 <Sparkles className="w-4 h-4 ml-2" />

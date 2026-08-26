@@ -147,7 +147,7 @@ const CustomerDashboard = () => {
       </div>
 
       {/* Live Order & Wedding Shoot Tracking Bar */}
-      <div className="bg-[#141418] rounded-3xl p-6 sm:p-8 border border-gold-500/30 shadow-2xl space-y-6">
+      <div className="bg-[#141418] rounded-3xl p-4 sm:p-8 border border-gold-500/30 shadow-2xl space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
           <div>
             <div className="flex items-center space-x-2">
@@ -156,12 +156,12 @@ const CustomerDashboard = () => {
                 Live Shoot & Film Tracker
               </span>
             </div>
-            <h2 className="font-serif text-xl sm:text-2xl font-bold text-white mt-1">
+            <h2 className="font-serif text-lg sm:text-2xl font-bold text-white mt-1">
               Order Lifecycle & Production Status
             </h2>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs px-3.5 py-1.5 rounded-full bg-gold-500/15 border border-gold-500/40 text-gold-300 font-bold">
+            <span className="text-[11px] sm:text-xs px-3 py-1.5 rounded-full bg-gold-500/15 border border-gold-500/40 text-gold-300 font-bold">
               Current Stage: {(activeBooking.orderStage || 'SHOOT_SCHEDULED').replace(/_/g, ' ')}
             </span>
           </div>
@@ -170,7 +170,7 @@ const CustomerDashboard = () => {
         {/* 9-Stage Progress Steps */}
         <div className="relative pt-2">
           {/* Connecting Track Line */}
-          <div className="hidden lg:block absolute top-[28px] left-[4%] right-[4%] h-[3px] bg-white/10 z-0">
+          <div className="hidden lg:block absolute top-[24px] left-[4%] right-[4%] h-[3px] bg-white/10 z-0">
             <div
               className="h-full bg-gradient-to-r from-gold-500 to-amber-400 transition-all duration-700"
               style={{
@@ -194,7 +194,7 @@ const CustomerDashboard = () => {
             ></div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-9 gap-4 relative z-10">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-9 gap-3 sm:gap-4 relative z-10">
             {[
               { key: 'ENQUIRY_RECEIVED', label: 'Enquiry Received', desc: 'Date checked' },
               { key: 'QUOTATION_SENT', label: 'Quotation Sent', desc: 'Package offered' },
@@ -222,33 +222,33 @@ const CustomerDashboard = () => {
               const isCurrent = idx === currentIdx;
 
               return (
-                <div key={step.key} className="flex flex-col items-center text-center space-y-2">
+                <div key={step.key} className="flex flex-col items-center text-center space-y-1.5 sm:space-y-2">
                   <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300 shadow-md ${
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300 shadow-md ${
                       isCurrent
-                        ? 'bg-gold-500 text-black ring-4 ring-gold-500/30 scale-110'
+                        ? 'bg-gold-500 text-black ring-4 ring-gold-500/30 scale-105 sm:scale-110'
                         : isPassed
                         ? 'bg-emerald-500 text-white'
                         : 'bg-[#1e1e24] text-neutral-400 border border-white/10'
                     }`}
                   >
                     {isPassed ? (
-                      <CheckCircle2 className="w-5 h-5" />
+                      <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
                     ) : isCurrent ? (
-                      <span className="font-mono text-sm">{idx + 1}</span>
+                      <span className="font-mono text-xs sm:text-sm">{idx + 1}</span>
                     ) : (
-                      <span className="font-mono text-xs text-neutral-400">{idx + 1}</span>
+                      <span className="font-mono text-[11px] sm:text-xs text-neutral-400">{idx + 1}</span>
                     )}
                   </div>
                   <div>
                     <h4
-                      className={`text-xs font-bold ${
+                      className={`text-[11px] sm:text-xs font-bold leading-tight ${
                         isCurrent ? 'text-gold-300' : isPassed ? 'text-white' : 'text-neutral-400'
                       }`}
                     >
                       {step.label}
                     </h4>
-                    <p className="text-[10px] text-neutral-400 font-light mt-0.5">{step.desc}</p>
+                    <p className="text-[9px] sm:text-[10px] text-neutral-400 font-light mt-0.5">{step.desc}</p>
                   </div>
                 </div>
               );
