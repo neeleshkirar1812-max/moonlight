@@ -77,26 +77,33 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// API Routes Mounting
-app.use('/api/auth', authRoutes);
-app.use('/api/portfolio', portfolioRoutes);
-app.use('/api/services', serviceRoutes);
-app.use('/api/blogs', blogRoutes);
-app.use('/api/enquiries', enquiryRoutes);
-app.use('/api/bookings', bookingRoutes);
-app.use('/api/payments', paymentRoutes);
-app.use('/api/galleries', galleryRoutes);
-app.use('/api/videos', videoRoutes);
-app.use('/api/careers', careerRoutes);
-app.use('/api/testimonials', testimonialRoutes);
-app.use('/api/notifications', notificationRoutes);
-app.use('/api/invoices', invoiceRoutes);
-app.use('/api/contact', contactRoutes);
-app.use('/api/settings', settingsRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/super-admin', superAdminRoutes);
-app.use('/api/upload', uploadRoutes);
-app.use('/api/salary', salaryRoutes);
+// API Routes Mounting - Support both /api/* and /* for universal serverless & standard routing
+const routes = [
+  ['auth', authRoutes],
+  ['portfolio', portfolioRoutes],
+  ['services', serviceRoutes],
+  ['blogs', blogRoutes],
+  ['enquiries', enquiryRoutes],
+  ['bookings', bookingRoutes],
+  ['payments', paymentRoutes],
+  ['galleries', galleryRoutes],
+  ['videos', videoRoutes],
+  ['careers', careerRoutes],
+  ['testimonials', testimonialRoutes],
+  ['notifications', notificationRoutes],
+  ['invoices', invoiceRoutes],
+  ['contact', contactRoutes],
+  ['settings', settingsRoutes],
+  ['admin', adminRoutes],
+  ['super-admin', superAdminRoutes],
+  ['upload', uploadRoutes],
+  ['salary', salaryRoutes],
+];
+
+routes.forEach(([path, router]) => {
+  app.use(`/api/${path}`, router);
+  app.use(`/${path}`, router);
+});
 
 // Error Handling Middlewares
 app.use(notFound);

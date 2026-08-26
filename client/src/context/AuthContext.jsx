@@ -18,17 +18,15 @@ export const AuthProvider = ({ children }) => {
         return;
       }
       try {
-        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || import.meta.env.VITE_API_URL) {
-          const data = await api.get('/auth/me');
-          if (data?.user) {
-            setUser(data.user);
-            localStorage.setItem('Moonlight_user', JSON.stringify(data.user));
-            setLoading(false);
-            return;
-          }
+        const data = await api.get('/auth/me');
+        if (data?.user) {
+          setUser(data.user);
+          localStorage.setItem('Moonlight_user', JSON.stringify(data.user));
+          setLoading(false);
+          return;
         }
       } catch (err) {
-        // Continue with local storage user
+        // Fallback to local session if token expired or offline
       }
       
       const saved = localStorage.getItem('Moonlight_user');
