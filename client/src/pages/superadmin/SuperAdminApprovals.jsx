@@ -22,20 +22,7 @@ import {
   Crown,
 } from 'lucide-react';
 
-const defaultPendingApprovals = [
-  {
-    id: 'REQ-101',
-    name: 'Vikram & Radhika Singhania',
-    email: 'vikram.singhania@gmail.com',
-    phone: '+91 98200 99887',
-    role: 'customer',
-    designation: 'Client Sanctuary Access (3-Day Udaipur Wedding)',
-    createdBy: 'Self-Registered Online',
-    department: 'Client Sanctuary',
-    requestedAt: '2026-08-25T16:05:00Z',
-    status: 'pending',
-  },
-];
+const defaultPendingApprovals = [];
 
 const allSystemUsers = [
   { id: 'EMP-MLP-001', name: 'Aman Pawar', email: 'amanpawar074@gmail.com', role: 'employee', designation: 'Lead Cinematographer & Film Director', status: 'active', lastLogin: 'Active', phone: '+91 96449 67287' },
@@ -50,8 +37,6 @@ const allSystemUsers = [
   { id: 'usr-admin-hr', name: 'Neelesh Kirar', email: 'nkneeleshkirar@gmail.com', role: 'admin', designation: 'Head of Studio Operations & Lead HR', status: 'active', lastLogin: 'Active', phone: '+91 77489 06015' },
   { id: 'usr-admin-1', name: 'Studio Director & Operations', email: 'admin@moonlightproduction.com', role: 'admin', designation: 'Studio Operations Lead', status: 'active', lastLogin: 'Active', phone: '+91 92292 29323' },
   { id: 'usr-super-1', name: 'Executive Super Admin Director', email: 'superadmin@moonlightproduction.com', role: 'superadmin', designation: 'Supreme System Command', status: 'active', lastLogin: 'Just now', phone: '+91 92292 29323' },
-  { id: 'usr-cust-1', name: 'Aarav & Ananya Sharma', email: 'aarav.ananya@gmail.com', role: 'customer', designation: 'VIP Royal Couple (Bhopal)', status: 'active', lastLogin: '10 mins ago', phone: '+91 92292 29323' },
-  { id: 'usr-cust-2', name: 'Vikram & Radhika Singhania', email: 'vikram.singhania@gmail.com', role: 'customer', designation: 'Palace Wedding Couple (Udaipur)', status: 'active', lastLogin: 'Yesterday', phone: '+91 98200 99887' },
 ];
 
 const SuperAdminApprovals = () => {
@@ -74,9 +59,7 @@ const SuperAdminApprovals = () => {
   });
   const [resetTickets, setResetTickets] = useState(() => {
     const saved = localStorage.getItem('moonlight_reset_tickets');
-    return saved ? JSON.parse(saved) : [
-      { id: 'TICK-9901', email: 'vikram.singhania@gmail.com', reason: 'Emergency password reset request for destination shoot', requestedAt: new Date().toISOString(), status: 'pending' },
-    ];
+    return saved ? JSON.parse(saved) : [];
   });
 
   const [searchQuery, setSearchQuery] = useState('');
