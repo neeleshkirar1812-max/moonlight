@@ -595,6 +595,31 @@ const handleMockRequest = async (method, url, data) => {
   // 5. Payments
   if (cleanUrl === '/payments' || cleanUrl.startsWith('/payments/')) {
     let items = getCollection('payments');
+    if (cleanUrl.includes('create-order')) {
+      return {
+        data: {
+          order: {
+            id: `order_${Date.now()}`,
+            amount: (data.amount || 50000) * 100,
+            currency: 'INR',
+          },
+        },
+      };
+    }
+    if (cleanUrl.includes('verify')) {
+      const newPay = {
+        _id: `pay-${Date.now()}`,
+        paymentId: data.razorpay_payment_id || `pay_${Date.now()}`,
+        amount: data.amount || 50000,
+        status: 'SUCCESS',
+        method: 'UPI / Razorpay',
+        createdAt: new Date().toISOString(),
+        bookingId: data.bookingId,
+      };
+      items = [newPay, ...items];
+      setCollection('payments', items);
+      return { data: { success: true, payment: newPay } };
+    }
     if (method === 'GET') return { data: items };
     if (method === 'POST') {
       const newItem = { _id: `pay-${Date.now()}`, paymentId: `pay_${Date.now()}`, ...data };
@@ -607,6 +632,9 @@ const handleMockRequest = async (method, url, data) => {
   // 6. Galleries
   if (cleanUrl === '/galleries' || cleanUrl.startsWith('/galleries/')) {
     let items = getCollection('galleries');
+    if (cleanUrl.includes('/favorite')) {
+      return { data: { success: true, isFavorite: true } };
+    }
     if (method === 'GET') {
       if (cleanUrl.startsWith('/galleries/') && cleanUrl !== '/galleries') {
         const id = cleanUrl.replace('/galleries/', '');
@@ -733,7 +761,78 @@ const handleMockRequest = async (method, url, data) => {
 
   // 13. Enquiries
   if (cleanUrl === '/enquiries' || cleanUrl.startsWith('/enquiries/')) {
-    return { data: [] };
+    let items = getCollection('enquiries');
+    if (!items || items.length === 0) {
+      items = [
+        {
+          _id: 'enq-1',
+          enquiryId: 'ENQ-9812',
+          leadSource: 'Website Estimator',
+          customerDetails: { fullName: 'Aarav & Ananya Sharma', email: 'aarav.ananya@gmail.com', phone: '+91 92292 29323' },
+          eventType: 'Royal Palace Destination Wedding',
+          eventDate: '2026-11-18',
+          location: { city: 'Maheshwar', venue: 'Ahilya Fort' },
+          guestCount: 450,
+          budgetRange: '₹5L - ₹8L',
+          quotation: { totalAmount: 650000, advanceRequired: 195000, notes: '3-Day royal cinema & photo suite.' },
+          status: 'NEW',
+          createdAt: new Date().toISOString(),
+          storyDetails: 'Sunset pheras overlooking Narmada ghats and heritage palace.',
+        },
+        {
+          _id: 'enq-2',
+          enquiryId: 'ENQ-9813',
+          leadSource: 'Instagram',
+          customerDetails: { fullName: 'Kabir & Rhea Kapoor', email: 'kabir.rhea@gmail.com', phone: '+91 98200 12345' },
+          eventType: 'Pre-Wedding Rendezvous',
+          eventDate: '2026-10-15',
+          location: { city: 'Bhopal', venue: 'Jehan Numa Palace' },
+          guestCount: 50,
+          budgetRange: '₹1.5L - ₹3L',
+          quotation: { totalAmount: 225000, advanceRequired: 67500, notes: 'Full day pre-wedding shoot with drone.' },
+          status: 'CONTACTED',
+          createdAt: new Date().toISOString(),
+        },
+      ];
+      setCollection('enquiries', items);
+    }
+    if (method === 'GET') {
+      const statusParam = params.get('status');
+      const searchParam = (params.get('search') || '').toLowerCase();
+      let filtered = items;
+      if (statusParam && statusParam !== 'ALL') {
+        filtered = filtered.filter((e) => e.status === statusParam);
+      }
+      if (searchParam) {
+        filtered = filtered.filter(
+          (e) =>
+            (e.customerDetails?.fullName || '').toLowerCase().includes(searchParam) ||
+            (e.enquiryId || '').toLowerCase().includes(searchParam) ||
+            (e.location?.city || '').toLowerCase().includes(searchParam)
+        );
+      }
+      return { data: filtered };
+    }
+    if (method === 'POST') {
+      const newEnq = {
+        _id: `enq-${Date.now()}`,
+        enquiryId: `ENQ-${Math.floor(1000 + Math.random() * 9000)}`,
+        status: 'NEW',
+        createdAt: new Date().toISOString(),
+        ...data,
+      };
+      items = [newEnq, ...items];
+      setCollection('enquiries', items);
+      return { data: newEnq };
+    }
+    if (method === 'PUT' || method === 'PATCH') {
+      const id = cleanUrl.split('/').pop();
+      items = items.map((e) => (e._id === id || e.enquiryId === id ? { ...e, ...data } : e));
+      setCollection('enquiries', items);
+      const updated = items.find((e) => e._id === id || e.enquiryId === id);
+      return { data: updated || data };
+    }
+    return { data: items };
   }
 
   // Generic fallback

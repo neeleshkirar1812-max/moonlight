@@ -10,22 +10,36 @@ const defaultTasks = [
 ];
 
 const EmployeeTasks = () => {
-  const [tasks, setTasks] = useState(defaultTasks);
+  const [tasks, setTasks] = useState(() => {
+    try {
+      const saved = localStorage.getItem('ml_employee_tasks');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return defaultTasks;
+  });
   const [newTaskText, setNewTaskText] = useState('');
 
+  const updateAndPersist = (newTasks) => {
+    setTasks(newTasks);
+    try {
+      localStorage.setItem('ml_employee_tasks', JSON.stringify(newTasks));
+    } catch (e) {}
+  };
+
   const toggleTask = (id) => {
-    setTasks(tasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)));
+    updateAndPersist(tasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)));
   };
 
   const addTask = (e) => {
     e.preventDefault();
-    if (!newTaskText) return;
-    setTasks([...tasks, { id: Date.now(), text: newTaskText, completed: false, category: 'Custom Task' }]);
+    if (!newTaskText.trim()) return;
+    const updated = [...tasks, { id: Date.now(), text: newTaskText.trim(), completed: false, category: 'Custom Task' }];
+    updateAndPersist(updated);
     setNewTaskText('');
   };
 
   const deleteTask = (id) => {
-    setTasks(tasks.filter((t) => t.id !== id));
+    updateAndPersist(tasks.filter((t) => t.id !== id));
   };
 
   return (

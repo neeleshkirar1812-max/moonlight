@@ -32,8 +32,9 @@ const CustomerGalleryDetail = () => {
     setLoading(true);
     try {
       const res = await api.get(`/galleries/${id}${pin ? `?pin=${pin}` : ''}`);
-      setGallery(res.gallery);
-      setItems(res.items || []);
+      const galData = res.gallery || res.data || res;
+      setGallery(galData);
+      setItems(res.items || galData.items || galData.photos || []);
       setPinAuthorized(true);
     } catch (err) {
       if (err.message?.includes('PIN')) {
