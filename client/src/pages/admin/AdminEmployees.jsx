@@ -129,8 +129,17 @@ export const loadStoredEmployees = () => {
   try {
     const saved = localStorage.getItem('ml_employees');
     if (saved) {
-      const parsed = JSON.parse(saved);
+      let parsed = JSON.parse(saved);
       if (Array.isArray(parsed) && parsed.length > 0) {
+        // Automatically clean out old dummy testing employees
+        parsed = parsed.filter((e) => {
+          const name = (e.name || '').toLowerCase();
+          const email = (e.user?.email || e.email || '').toLowerCase();
+          if (name.includes('rohan deshmukh') || email.includes('rohan.deshmukh')) return false;
+          if (name.includes('kunal verma') || email.includes('kunal.drone')) return false;
+          return true;
+        });
+
         // Guarantee all 9 official crew are present, AND all custom crew added by user are preserved!
         const parsedEmails = new Set(parsed.map((e) => (e.user?.email || '').toLowerCase().trim()));
         const missingOfficial = realProductionCrew.filter(
@@ -526,24 +535,6 @@ const AdminEmployees = () => {
                         <h3 className="font-serif text-base font-bold text-white mt-1 truncate">{emp.name}</h3>
                         <p className="text-[11px] text-gold-400 font-mono font-semibold truncate">{emp.designation}</p>
                       </div>
-                    </div>
-
-                    {/* Top Edit / Delete Quick Icons */}
-                    <div className="flex items-center space-x-1 shrink-0">
-                      <button
-                        onClick={() => handleOpenEdit(emp)}
-                        className="p-1.5 rounded-lg text-neutral-400 hover:text-gold-300 hover:bg-white/5 transition-colors"
-                        title="Edit profile"
-                      >
-                        <Edit2 className="w-3.5 h-3.5" />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteEmployee(emp)}
-                        className="p-1.5 rounded-lg text-neutral-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
-                        title="Delete crew member"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
                     </div>
                   </div>
 
