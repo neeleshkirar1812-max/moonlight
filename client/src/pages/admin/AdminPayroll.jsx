@@ -355,6 +355,34 @@ const AdminPayroll = () => {
     fetchPayrollData();
   }, [selectedMonth]);
 
+  const handleOpenCreateModal = () => {
+    const empList = employees && employees.length > 0 ? employees : DEFAULT_CREW_MEMBERS;
+    const first = empList[0];
+    const firstName = first.user?.name || first.name || CREW_NAMES_MAP[first.employeeCode] || 'Aman Pawar';
+    const firstCode = first.employeeCode || 'EMP-MLP-001';
+    const firstDesig = first.designation || 'Lead Cinematographer & Film Director';
+    const basic = firstDesig.toLowerCase().includes('director') || firstDesig.toLowerCase().includes('lead') ? '55000' : '45000';
+    const hra = String(Math.round(Number(basic) * 0.2));
+
+    setForm({
+      employeeId: first._id || first.employeeCode || 'emp-1',
+      employeeName: firstName,
+      employeeCode: firstCode,
+      designation: firstDesig,
+      month: selectedMonth || 'August 2026',
+      basicPay: basic,
+      hraAllowances: hra,
+      shootBonus: '5000',
+      travelReimbursement: '2500',
+      taxDeduction: '2000',
+      providentFund: '1500',
+      advanceDeduction: '0',
+      paymentMethod: 'BANK_TRANSFER',
+      notes: `Official monthly pay slip for ${firstName}.`,
+    });
+    setCreateModalOpen(true);
+  };
+
   const handleCreateSlip = async (e) => {
     e.preventDefault();
     try {
@@ -507,7 +535,7 @@ const AdminPayroll = () => {
           </button>
 
           <button
-            onClick={() => setCreateModalOpen(true)}
+            onClick={handleOpenCreateModal}
             className="px-4 sm:px-5 py-2.5 rounded-xl bg-gold-gradient text-black font-bold uppercase tracking-wider text-xs shadow-gold-subtle hover:brightness-110 transition-all flex items-center justify-center min-h-[44px]"
           >
             <Plus className="w-4 h-4 mr-1.5" /> Create Salary Slip
@@ -724,26 +752,51 @@ const AdminPayroll = () => {
                   value={form.employeeId}
                   onChange={(e) => {
                     const empId = e.target.value;
-                    const foundEmp = employees.find((emp) => emp._id === empId || emp.id === empId);
-                    const empName = foundEmp?.user?.name || foundEmp?.name || '';
+                    const empList = employees && employees.length > 0 ? employees : DEFAULT_CREW_MEMBERS;
+                    const foundEmp = empList.find(
+                      (emp) => emp._id === empId || emp.id === empId || emp.employeeCode === empId
+                    );
+                    const empName =
+                      foundEmp?.user?.name ||
+                      foundEmp?.name ||
+                      CREW_NAMES_MAP[foundEmp?.employeeCode] ||
+                      'Production Crew Member';
                     const empCode = foundEmp?.employeeCode || '';
-                    const desig = foundEmp?.designation || '';
+                    const desig = foundEmp?.designation || 'Production Specialist';
+                    const basic =
+                      desig.toLowerCase().includes('director') || desig.toLowerCase().includes('lead')
+                        ? '55000'
+                        : '45000';
+                    const hra = String(Math.round(Number(basic) * 0.2));
+
                     setForm({
                       ...form,
                       employeeId: empId,
                       employeeName: empName,
                       employeeCode: empCode,
                       designation: desig,
+                      basicPay: basic,
+                      hraAllowances: hra,
                     });
                   }}
-                  className="w-full p-3 rounded-xl bg-black/50 border border-white/15 text-white font-mono focus:border-gold-400 focus:outline-none"
+                  className="w-full p-3 rounded-xl bg-[#181820] border border-gold-500/40 text-white font-mono text-xs focus:border-gold-400 focus:outline-none"
+                  style={{ backgroundColor: '#181820', color: '#ffffff' }}
                 >
-                  {employees.map((emp) => {
-                    const name = emp.user?.name || emp.name || 'Crew Member';
-                    const desig = emp.designation || 'Specialist';
+                  <option value="" disabled style={{ backgroundColor: '#181820', color: '#888' }}>
+                    -- Select Production Crew Member --
+                  </option>
+                  {(employees && employees.length > 0 ? employees : DEFAULT_CREW_MEMBERS).map((emp) => {
+                    const name =
+                      emp.user?.name || emp.name || CREW_NAMES_MAP[emp.employeeCode] || 'Crew Member';
+                    const desig = emp.designation || 'Production Specialist';
                     const code = emp.employeeCode || emp.code || 'EMP';
+                    const val = emp._id || code;
                     return (
-                      <option key={emp._id} value={emp._id}>
+                      <option
+                        key={val}
+                        value={val}
+                        style={{ backgroundColor: '#181820', color: '#ffffff' }}
+                      >
                         {name} — {desig} ({code})
                       </option>
                     );
