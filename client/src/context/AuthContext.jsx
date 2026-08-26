@@ -88,8 +88,32 @@ export const AuthProvider = ({ children }) => {
       'priyanshu@gmail.com': { name: 'Priyanshu', code: 'EMP-MLP-009', designation: 'Shoot Logistics & Production Lead', phone: '+91 93028 45731', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80' },
     };
 
+    // Look up in realEmployeesMap or persistent ml_employees storage
+    let storedEmp = null;
+    try {
+      const savedCrew = localStorage.getItem('ml_employees');
+      if (savedCrew) {
+        const crewList = JSON.parse(savedCrew);
+        storedEmp = crewList.find(
+          (c) => (c.user?.email || '').toLowerCase().trim() === normalizedEmail
+        );
+      }
+    } catch (e) {}
+
     const isNeelesh = normalizedEmail === 'nkneeleshkirar@gmail.com' || normalizedEmail.includes('neelesh');
-    const matchedEmp = role === 'employee' ? realEmployeesMap[normalizedEmail] : null;
+    const matchedEmp = role === 'employee' ? (realEmployeesMap[normalizedEmail] || (storedEmp ? {
+      name: storedEmp.name,
+      code: storedEmp.employeeCode,
+      designation: storedEmp.designation,
+      phone: storedEmp.user?.phone || '+91 92292 29323',
+      avatar: storedEmp.avatar,
+      status: storedEmp.status,
+    } : null)) : null;
+
+    // Security Gate: If employee is pending clearance, block login until Super Admin approves
+    if (matchedEmp?.status === 'pending_approval' || (storedEmp?.status === 'pending_approval' && role === 'employee')) {
+      throw new Error('Your account is awaiting Super Admin clearance. Please ask the Super Admin Director to approve your registration in the Approvals Console.');
+    }
 
     let finalRole = role;
     if (explicitRole === 'superadmin' || normalizedEmail.includes('superadmin')) {
