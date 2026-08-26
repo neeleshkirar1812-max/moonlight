@@ -22,149 +22,18 @@ import {
   Filter,
 } from 'lucide-react';
 
-export const realProductionCrew = [
-  {
-    _id: 'emp-1',
-    employeeCode: 'EMP-MLP-001',
-    name: 'Aman Pawar',
-    designation: 'Lead Cinematographer & Film Director',
-    department: 'Cinematography',
-    user: { email: 'amanpawar074@gmail.com', phone: '+91 96449 67287' },
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
-    status: 'active',
-    speciality: 'Sony FX6 Cinema Line & Royal Palace Steadicam',
-  },
-  {
-    _id: 'emp-2',
-    employeeCode: 'EMP-MLP-002',
-    name: 'Bunny Singh',
-    designation: 'Senior Candid Master & Royal Portraiture',
-    department: 'Photography',
-    user: { email: 'bunnysingh@gmail.com', phone: '+91 84358 29345' },
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80',
-    status: 'active',
-    speciality: 'Master Fine-Art Bridal Portraiture & Low-Light Rituals',
-  },
-  {
-    _id: 'emp-3',
-    employeeCode: 'EMP-MLP-003',
-    name: 'Chinnu',
-    designation: '4K Commercial Drone Cinematographer',
-    department: 'Aerial Cinematography',
-    user: { email: 'xxx@gmail.com', phone: '+91 88275 68013' },
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80',
-    status: 'active',
-    speciality: 'DJI Inspire 3 Aerial Sweeps & Waterfront Forts',
-  },
-  {
-    _id: 'emp-4',
-    employeeCode: 'EMP-MLP-004',
-    name: 'Rohit Manekar',
-    designation: 'Senior 4K Colorist & Film Editor',
-    department: 'Post-Production',
-    user: { email: 'rohitmanekar475@gmail.com', phone: '+91 78284 24137' },
-    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&q=80',
-    status: 'active',
-    speciality: 'DaVinci Resolve Color Grading & Same-Day Teasers',
-  },
-  {
-    _id: 'emp-5',
-    employeeCode: 'EMP-MLP-005',
-    name: 'Sumit',
-    designation: 'Gimbal Operator & 2nd Camera Master',
-    department: 'Cinematography',
-    user: { email: 'sumit.moonlight@gmail.com', phone: '+91 96305 08294' },
-    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80',
-    status: 'active',
-    speciality: 'Ronin RS3 Pro Dynamic Movement & Baraat Processions',
-  },
-  {
-    _id: 'emp-6',
-    employeeCode: 'EMP-MLP-006',
-    name: 'Tarun Rathore',
-    designation: 'Lighting Director & Technical Lead',
-    department: 'Production & Lighting',
-    user: { email: 'rsthoretsrun@gmail.com', phone: '+91 90395 83534' },
-    avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=150&q=80',
-    status: 'active',
-    speciality: 'Aputure & Nanlite Palace Mandap Ambience Lighting',
-  },
-  {
-    _id: 'emp-7',
-    employeeCode: 'EMP-MLP-007',
-    name: 'Santosh Rathore',
-    designation: 'Audio & Sound Recordist',
-    department: 'Audio Engineering',
-    user: { email: 'santosh.moonlight@gmail.com', phone: '+91 73978 82436' },
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
-    status: 'active',
-    speciality: '32-Bit Float Audio Capture & Multi-Mic Vows Setup',
-  },
-  {
-    _id: 'emp-8',
-    employeeCode: 'EMP-MLP-008',
-    name: 'Lucky',
-    designation: 'Post-Production Editor & Teaser Specialist',
-    department: 'Post-Production',
-    user: { email: 'lucky@gmail.com', phone: '+91 88188 58557' },
-    avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80',
-    status: 'active',
-    speciality: 'Instagram Reels, Social Teasers & Sound FX Synchronization',
-  },
-  {
-    _id: 'emp-9',
-    employeeCode: 'EMP-MLP-009',
-    name: 'Priyanshu',
-    designation: 'Shoot Logistics & Production Lead',
-    department: 'Studio Operations',
-    user: { email: 'priyanshu@gmail.com', phone: '+91 93028 45731' },
-    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80',
-    status: 'active',
-    speciality: 'Call Sheets, Venue Permits, Hotel Accommodations & Gear Inventory',
-  },
-];
+export const realProductionCrew = [];
 
-// Helper: load stored employees from localStorage with permanent merge guarantee
+// Helper: load stored employees from localStorage
 export const loadStoredEmployees = () => {
   try {
     const saved = localStorage.getItem('ml_employees');
     if (saved) {
-      let parsed = JSON.parse(saved);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        // Automatically clean out old dummy testing employees
-        parsed = parsed.filter((e) => {
-          const name = (e.name || '').toLowerCase();
-          const email = (e.user?.email || e.email || '').toLowerCase();
-          if (name.includes('rohan deshmukh') || email.includes('rohan.deshmukh')) return false;
-          if (name.includes('kunal verma') || email.includes('kunal.drone')) return false;
-          return true;
-        });
-
-        // Guarantee all 9 official crew are present, AND all custom crew added by user are preserved!
-        const parsedEmails = new Set(parsed.map((e) => (e.user?.email || '').toLowerCase().trim()));
-        const missingOfficial = realProductionCrew.filter(
-          (official) => !parsedEmails.has((official.user?.email || '').toLowerCase().trim())
-        );
-        const merged = [...parsed, ...missingOfficial];
-
-        const seen = new Set();
-        const unique = merged.filter((emp) => {
-          const email = (emp.user?.email || '').trim().toLowerCase();
-          const id = emp._id || '';
-          const key = email || id;
-          if (seen.has(key)) return false;
-          seen.add(key);
-          return true;
-        });
-
-        localStorage.setItem('ml_employees', JSON.stringify(unique));
-        return unique;
-      }
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed)) return parsed;
     }
   } catch (e) {}
-
-  localStorage.setItem('ml_employees', JSON.stringify(realProductionCrew));
-  return realProductionCrew;
+  return [];
 };
 
 const AdminEmployees = () => {
@@ -176,10 +45,21 @@ const AdminEmployees = () => {
   const [editingEmp, setEditingEmp] = useState(null);
   const { addToast } = useNotification();
 
-  // Keep state updated if storage changes externally
+  // Load real employees from backend and sync with state
+  const fetchEmployees = async () => {
+    try {
+      const res = await api.get('/admin/employees');
+      const data = Array.isArray(res) ? res : res?.data || [];
+      setEmployees(data);
+      localStorage.setItem('ml_employees', JSON.stringify(data));
+    } catch (err) {
+      const local = loadStoredEmployees();
+      setEmployees(local);
+    }
+  };
+
   useEffect(() => {
-    const current = loadStoredEmployees();
-    setEmployees(current);
+    fetchEmployees();
   }, []);
 
   // Save to localStorage helper with automatic deduplication

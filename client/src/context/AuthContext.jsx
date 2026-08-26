@@ -74,19 +74,6 @@ export const AuthProvider = ({ children }) => {
       }
     }
 
-    const realEmployeesMap = {
-      'amanpawar074@gmail.com': { name: 'Aman Pawar', code: 'EMP-MLP-001', designation: 'Lead Cinematographer & Film Director', phone: '+91 96449 67287', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80', status: 'active' },
-      'bunnysingh@gmail.com': { name: 'Bunny Singh', code: 'EMP-MLP-002', designation: 'Senior Candid Master', phone: '+91 84358 29345', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80', status: 'active' },
-      'xxx@gmail.com': { name: 'Chinnu', code: 'EMP-MLP-003', designation: '4K Commercial Drone Cinematographer', phone: '+91 88275 68013', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80', status: 'active' },
-      'chinnu@gmail.com': { name: 'Chinnu', code: 'EMP-MLP-003', designation: '4K Commercial Drone Cinematographer', phone: '+91 88275 68013', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80', status: 'active' },
-      'rohitmanekar475@gmail.com': { name: 'Rohit Manekar', code: 'EMP-MLP-004', designation: 'Senior 4K Colorist & Film Editor', phone: '+91 78284 24137', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&q=80', status: 'active' },
-      'sumit.moonlight@gmail.com': { name: 'Sumit', code: 'EMP-MLP-005', designation: 'Gimbal Operator & 2nd Camera Master', phone: '+91 96305 08294', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80', status: 'active' },
-      'rsthoretsrun@gmail.com': { name: 'Tarun Rathore', code: 'EMP-MLP-006', designation: 'Lighting Director & Technical Lead', phone: '+91 90395 83534', avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=150&q=80', status: 'active' },
-      'santosh.moonlight@gmail.com': { name: 'Santosh Rathore', code: 'EMP-MLP-007', designation: 'Audio & Sound Recordist', phone: '+91 73978 82436', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80', status: 'active' },
-      'lucky@gmail.com': { name: 'Lucky', code: 'EMP-MLP-008', designation: 'Post-Production Editor & Reels', phone: '+91 88188 58557', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80', status: 'active' },
-      'priyanshu@gmail.com': { name: 'Priyanshu', code: 'EMP-MLP-009', designation: 'Shoot Logistics & Production Lead', phone: '+91 93028 45731', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80', status: 'active' },
-    };
-
     // Look up in persistent ml_employees storage
     let storedEmp = null;
     try {
@@ -94,7 +81,7 @@ export const AuthProvider = ({ children }) => {
       if (savedCrew) {
         const crewList = JSON.parse(savedCrew);
         storedEmp = crewList.find(
-          (c) => (c.user?.email || '').toLowerCase().trim() === normalizedEmail
+          (c) => (c.user?.email || c.email || '').toLowerCase().trim() === normalizedEmail
         );
       }
     } catch (e) {}
@@ -115,9 +102,7 @@ export const AuthProvider = ({ children }) => {
     if (role === 'admin' || explicitRole === 'admin') {
       const allowedAdmins = [
         'nkneeleshkirar@gmail.com',
-        'admin@moonlightproduction.com',
-        'admin@gmail.com',
-        'admin',
+        'superadmin@moonlightproduction.com',
       ];
       let customAdmins = [];
       try {
@@ -130,27 +115,21 @@ export const AuthProvider = ({ children }) => {
 
       if (
         !allowedAdmins.includes(normalizedEmail) &&
-        !customAdmins.includes(normalizedEmail) &&
-        !normalizedEmail.includes('admin') &&
-        !normalizedEmail.includes('hr') &&
-        !normalizedEmail.includes('director')
+        !customAdmins.includes(normalizedEmail)
       ) {
-        throw new Error('Access Denied: Email is not registered as Studio Admin or HR. Please check your credentials or contact Studio Management.');
+        throw new Error('Access Denied: Email is not registered as Admin. Please ask the Super Admin to create your account.');
       }
     }
 
     // 3. Crew Member Strict Check
     if (role === 'employee' || explicitRole === 'employee') {
-      const isOfficialCrew = Boolean(realEmployeesMap[normalizedEmail]);
-      const isStoredCrew = Boolean(storedEmp);
-
-      if (!isOfficialCrew && !isStoredCrew) {
-        throw new Error('Access Denied: No crew account found with this email. Only registered Moonlight Production crew members can sign in.');
+      if (!storedEmp) {
+        throw new Error('Access Denied: No crew account found with this email. Please ask the Super Admin to add your profile in Shoot Crew & Team.');
       }
 
-      const activeCrewStatus = storedEmp?.status || realEmployeesMap[normalizedEmail]?.status;
+      const activeCrewStatus = storedEmp?.status;
       if (activeCrewStatus === 'pending_approval' || activeCrewStatus === 'pending') {
-        throw new Error('Access Pending: Your crew account is awaiting Super Admin clearance. Please ask the Super Admin to approve your account in the Approvals Console.');
+        throw new Error('Access Pending: Your crew account is awaiting Super Admin clearance. Please ask the Super Admin to approve your account.');
       }
     }
 
@@ -162,20 +141,13 @@ export const AuthProvider = ({ children }) => {
         registeredCouples = reg.map((c) => (c.email || '').toLowerCase().trim());
       } catch (e) {}
 
-      const defaultCouples = [
-        'aarav.ananya@gmail.com',
-        'vikram.singhania@gmail.com',
-        'kabir.rhea@gmail.com',
-        'client@gmail.com',
-      ];
-
       let invoiceEmails = [];
       try {
         const invs = JSON.parse(localStorage.getItem('ml_invoices') || '[]');
         invoiceEmails = invs.map((i) => (i.clientEmail || i.clientInfo?.email || '').toLowerCase().trim());
       } catch (e) {}
 
-      const allAllowedCouples = [...defaultCouples, ...registeredCouples, ...invoiceEmails];
+      const allAllowedCouples = [...registeredCouples, ...invoiceEmails];
 
       if (!allAllowedCouples.includes(normalizedEmail)) {
         throw new Error('Access Denied: Client account not found. Please click "Plan Shoot with Estimator" or register for an account first.');

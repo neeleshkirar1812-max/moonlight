@@ -19,234 +19,13 @@ import {
   Filter,
 } from 'lucide-react';
 
-const CREW_NAMES_MAP = {
-  'EMP-MLP-001': 'Aman Pawar',
-  'EMP-MLP-002': 'Bunny Singh',
-  'EMP-MLP-003': 'Chinnu',
-  'EMP-MLP-004': 'Rohit Manekar',
-  'EMP-MLP-005': 'Sumit',
-  'EMP-MLP-006': 'Tarun Rathore',
-  'EMP-MLP-007': 'Santosh Rathore',
-  'EMP-MLP-008': 'Lucky',
-  'EMP-MLP-009': 'Priyanshu',
-};
-
-const DEFAULT_CREW_MEMBERS = [
-  { _id: 'emp-1', name: 'Aman Pawar', employeeCode: 'EMP-MLP-001', designation: 'Lead Cinematographer & Film Director', user: { name: 'Aman Pawar' } },
-  { _id: 'emp-2', name: 'Bunny Singh', employeeCode: 'EMP-MLP-002', designation: 'Senior Candid Master & Portraiture', user: { name: 'Bunny Singh' } },
-  { _id: 'emp-3', name: 'Chinnu', employeeCode: 'EMP-MLP-003', designation: '4K Commercial Drone Cinematographer', user: { name: 'Chinnu' } },
-  { _id: 'emp-4', name: 'Rohit Manekar', employeeCode: 'EMP-MLP-004', designation: 'Senior 4K Colorist & Film Editor', user: { name: 'Rohit Manekar' } },
-  { _id: 'emp-5', name: 'Sumit', employeeCode: 'EMP-MLP-005', designation: 'Gimbal Operator & 2nd Camera Master', user: { name: 'Sumit' } },
-  { _id: 'emp-6', name: 'Tarun Rathore', employeeCode: 'EMP-MLP-006', designation: 'Lighting Director & Technical Lead', user: { name: 'Tarun Rathore' } },
-  { _id: 'emp-7', name: 'Santosh Rathore', employeeCode: 'EMP-MLP-007', designation: 'Audio & Sound Design Recordist', user: { name: 'Santosh Rathore' } },
-  { _id: 'emp-8', name: 'Lucky', employeeCode: 'EMP-MLP-008', designation: 'Post-Production Editor & Reels Specialist', user: { name: 'Lucky' } },
-  { _id: 'emp-9', name: 'Priyanshu', employeeCode: 'EMP-MLP-009', designation: 'Shoot Logistics & Production Lead', user: { name: 'Priyanshu' } },
-];
-
-const DEFAULT_CREW_SLIPS = [
-  {
-    _id: 'slip-1',
-    slipNumber: 'SLIP-202608-AMA-101',
-    employeeName: 'Aman Pawar',
-    employeeCode: 'EMP-MLP-001',
-    designation: 'Lead Cinematographer & Film Director',
-    month: 'August 2026',
-    year: 2026,
-    basicPay: 55000,
-    hraAllowances: 11000,
-    shootBonus: 5000,
-    travelReimbursement: 2500,
-    grossPay: 73500,
-    taxDeduction: 2000,
-    providentFund: 1500,
-    totalDeductions: 3500,
-    netPay: 70000,
-    paymentStatus: 'Paid',
-    paymentDate: '2026-08-01',
-    paymentMethod: 'BANK_TRANSFER',
-    transactionId: 'UTR-HDFC-98210401',
-  },
-  {
-    _id: 'slip-2',
-    slipNumber: 'SLIP-202608-BUN-102',
-    employeeName: 'Bunny Singh',
-    employeeCode: 'EMP-MLP-002',
-    designation: 'Senior Candid Master & Portraiture',
-    month: 'August 2026',
-    year: 2026,
-    basicPay: 50000,
-    hraAllowances: 10000,
-    shootBonus: 5000,
-    travelReimbursement: 2500,
-    grossPay: 67500,
-    taxDeduction: 2000,
-    providentFund: 1500,
-    totalDeductions: 3500,
-    netPay: 64000,
-    paymentStatus: 'Paid',
-    paymentDate: '2026-08-01',
-    paymentMethod: 'BANK_TRANSFER',
-    transactionId: 'UTR-HDFC-98210402',
-  },
-  {
-    _id: 'slip-3',
-    slipNumber: 'SLIP-202608-CHI-103',
-    employeeName: 'Chinnu',
-    employeeCode: 'EMP-MLP-003',
-    designation: '4K Commercial Drone Cinematographer',
-    month: 'August 2026',
-    year: 2026,
-    basicPay: 48000,
-    hraAllowances: 9600,
-    shootBonus: 5000,
-    travelReimbursement: 2500,
-    grossPay: 65100,
-    taxDeduction: 2000,
-    providentFund: 1500,
-    totalDeductions: 3500,
-    netPay: 61600,
-    paymentStatus: 'Paid',
-    paymentDate: '2026-08-01',
-    paymentMethod: 'BANK_TRANSFER',
-    transactionId: 'UTR-HDFC-98210403',
-  },
-  {
-    _id: 'slip-4',
-    slipNumber: 'SLIP-202608-ROH-104',
-    employeeName: 'Rohit Manekar',
-    employeeCode: 'EMP-MLP-004',
-    designation: 'Senior 4K Colorist & Film Editor',
-    month: 'August 2026',
-    year: 2026,
-    basicPay: 48000,
-    hraAllowances: 9600,
-    shootBonus: 5000,
-    travelReimbursement: 2500,
-    grossPay: 65100,
-    taxDeduction: 2000,
-    providentFund: 1500,
-    totalDeductions: 3500,
-    netPay: 61600,
-    paymentStatus: 'Paid',
-    paymentDate: '2026-08-01',
-    paymentMethod: 'BANK_TRANSFER',
-    transactionId: 'UTR-HDFC-98210404',
-  },
-  {
-    _id: 'slip-5',
-    slipNumber: 'SLIP-202608-SUM-105',
-    employeeName: 'Sumit',
-    employeeCode: 'EMP-MLP-005',
-    designation: 'Gimbal Operator & 2nd Camera Master',
-    month: 'August 2026',
-    year: 2026,
-    basicPay: 45000,
-    hraAllowances: 9000,
-    shootBonus: 5000,
-    travelReimbursement: 2500,
-    grossPay: 61500,
-    taxDeduction: 2000,
-    providentFund: 1500,
-    totalDeductions: 3500,
-    netPay: 58000,
-    paymentStatus: 'Paid',
-    paymentDate: '2026-08-01',
-    paymentMethod: 'BANK_TRANSFER',
-    transactionId: 'UTR-HDFC-98210405',
-  },
-  {
-    _id: 'slip-6',
-    slipNumber: 'SLIP-202608-TAR-106',
-    employeeName: 'Tarun Rathore',
-    employeeCode: 'EMP-MLP-006',
-    designation: 'Lighting Director & Technical Lead',
-    month: 'August 2026',
-    year: 2026,
-    basicPay: 45000,
-    hraAllowances: 9000,
-    shootBonus: 5000,
-    travelReimbursement: 2500,
-    grossPay: 61500,
-    taxDeduction: 2000,
-    providentFund: 1500,
-    totalDeductions: 3500,
-    netPay: 58000,
-    paymentStatus: 'Pending',
-    paymentDate: null,
-    paymentMethod: 'BANK_TRANSFER',
-    transactionId: '',
-  },
-  {
-    _id: 'slip-7',
-    slipNumber: 'SLIP-202608-SAN-107',
-    employeeName: 'Santosh Rathore',
-    employeeCode: 'EMP-MLP-007',
-    designation: 'Audio & Sound Design Recordist',
-    month: 'August 2026',
-    year: 2026,
-    basicPay: 45000,
-    hraAllowances: 9000,
-    shootBonus: 5000,
-    travelReimbursement: 2500,
-    grossPay: 61500,
-    taxDeduction: 2000,
-    providentFund: 1500,
-    totalDeductions: 3500,
-    netPay: 58000,
-    paymentStatus: 'Pending',
-    paymentDate: null,
-    paymentMethod: 'BANK_TRANSFER',
-    transactionId: '',
-  },
-  {
-    _id: 'slip-8',
-    slipNumber: 'SLIP-202608-LUC-108',
-    employeeName: 'Lucky',
-    employeeCode: 'EMP-MLP-008',
-    designation: 'Post-Production Editor & Reels Specialist',
-    month: 'August 2026',
-    year: 2026,
-    basicPay: 42000,
-    hraAllowances: 8400,
-    shootBonus: 5000,
-    travelReimbursement: 2500,
-    grossPay: 57900,
-    taxDeduction: 2000,
-    providentFund: 1500,
-    totalDeductions: 3500,
-    netPay: 54400,
-    paymentStatus: 'Pending',
-    paymentDate: null,
-    paymentMethod: 'BANK_TRANSFER',
-    transactionId: '',
-  },
-  {
-    _id: 'slip-9',
-    slipNumber: 'SLIP-202608-PRI-109',
-    employeeName: 'Priyanshu',
-    employeeCode: 'EMP-MLP-009',
-    designation: 'Shoot Logistics & Production Lead',
-    month: 'August 2026',
-    year: 2026,
-    basicPay: 42000,
-    hraAllowances: 8400,
-    shootBonus: 5000,
-    travelReimbursement: 2500,
-    grossPay: 57900,
-    taxDeduction: 2000,
-    providentFund: 1500,
-    totalDeductions: 3500,
-    netPay: 54400,
-    paymentStatus: 'Pending',
-    paymentDate: null,
-    paymentMethod: 'BANK_TRANSFER',
-    transactionId: '',
-  },
-];
+const CREW_NAMES_MAP = {};
+const DEFAULT_CREW_MEMBERS = [];
+const DEFAULT_CREW_SLIPS = [];
 
 const AdminPayroll = () => {
-  const [slips, setSlips] = useState(DEFAULT_CREW_SLIPS);
-  const [employees, setEmployees] = useState(DEFAULT_CREW_MEMBERS);
+  const [slips, setSlips] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState('August 2026');
   const [statusFilter, setStatusFilter] = useState('ALL');
@@ -259,91 +38,41 @@ const AdminPayroll = () => {
   });
 
   const [form, setForm] = useState({
-    employeeId: 'emp-1',
-    employeeName: 'Aman Pawar',
-    employeeCode: 'EMP-MLP-001',
-    designation: 'Lead Cinematographer & Film Director',
+    employeeId: '',
+    employeeName: '',
+    employeeCode: '',
+    designation: '',
     month: 'August 2026',
-    basicPay: '55000',
-    hraAllowances: '11000',
-    shootBonus: '5000',
-    travelReimbursement: '2500',
-    taxDeduction: '2000',
-    providentFund: '1500',
+    basicPay: '45000',
+    hraAllowances: '9000',
+    shootBonus: '0',
+    travelReimbursement: '0',
+    taxDeduction: '0',
+    providentFund: '0',
     advanceDeduction: '0',
     paymentMethod: 'BANK_TRANSFER',
-    notes: 'Monthly salary payout for wedding production crew.',
+    notes: '',
   });
 
   const { addToast } = useNotification();
 
   const fetchPayrollData = async () => {
     try {
+      setLoading(true);
       const [sRes, eRes] = await Promise.allSettled([
         api.get(`/salary?month=${encodeURIComponent(selectedMonth)}`),
         api.get('/admin/employees'),
       ]);
 
-      let loadedSlips = sRes.status === 'fulfilled'
+      const loadedSlips = sRes.status === 'fulfilled'
         ? (Array.isArray(sRes.value) ? sRes.value : sRes.value?.data || [])
         : [];
-      let loadedEmps = eRes.status === 'fulfilled'
+      const loadedEmps = eRes.status === 'fulfilled'
         ? (Array.isArray(eRes.value) ? eRes.value : eRes.value?.data || [])
         : [];
 
-      if (!loadedEmps || loadedEmps.length === 0) {
-        loadedEmps = DEFAULT_CREW_MEMBERS;
-      }
-
-      if (!loadedSlips || loadedSlips.length === 0) {
-        loadedSlips = DEFAULT_CREW_SLIPS;
-      }
-
-      // Normalize all slips to ensure employeeName, code and designation are always populated
-      loadedSlips = loadedSlips.map((slip, i) => {
-        const empId = slip.employee?._id || slip.employee;
-        const matchingEmp = loadedEmps.find((e) => e._id === empId || e.id === empId);
-        const code = slip.employeeCode || slip.employee?.employeeCode || matchingEmp?.employeeCode || `EMP-MLP-00${(i % 9) + 1}`;
-
-        let resolvedName =
-          slip.employeeName ||
-          slip.user?.name ||
-          slip.employee?.user?.name ||
-          slip.employee?.name ||
-          matchingEmp?.user?.name ||
-          matchingEmp?.name;
-
-        if (!resolvedName || resolvedName === 'Production Crew Member' || resolvedName === 'undefined') {
-          resolvedName = CREW_NAMES_MAP[code] || DEFAULT_CREW_SLIPS[i % 9]?.employeeName || `Crew Member ${i + 1}`;
-        }
-
-        const resolvedDesig =
-          slip.designation ||
-          slip.employee?.designation ||
-          matchingEmp?.designation ||
-          DEFAULT_CREW_SLIPS[i % 9]?.designation ||
-          'Production Specialist';
-
-        return {
-          ...slip,
-          employeeName: resolvedName,
-          employeeCode: code,
-          designation: resolvedDesig,
-        };
-      });
-
       setSlips(loadedSlips);
       setEmployees(loadedEmps);
-      if (loadedEmps.length > 0 && !form.employeeId) {
-        const firstEmp = loadedEmps[0];
-        setForm((prev) => ({
-          ...prev,
-          employeeId: firstEmp._id,
-          employeeName: firstEmp.user?.name || firstEmp.name || 'Aman Pawar',
-          employeeCode: firstEmp.employeeCode || 'EMP-MLP-001',
-          designation: firstEmp.designation || 'Lead Cinematographer',
-        }));
-      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -356,26 +85,47 @@ const AdminPayroll = () => {
   }, [selectedMonth]);
 
   const handleOpenCreateModal = () => {
-    const empList = employees && employees.length > 0 ? employees : DEFAULT_CREW_MEMBERS;
-    const first = empList[0];
-    const firstName = first.user?.name || first.name || CREW_NAMES_MAP[first.employeeCode] || 'Aman Pawar';
-    const firstCode = first.employeeCode || 'EMP-MLP-001';
-    const firstDesig = first.designation || 'Lead Cinematographer & Film Director';
+    if (!employees || employees.length === 0) {
+      addToast('No crew members found. Please add crew members in "Shoot Crew & Team" first.', 'info');
+      setForm({
+        employeeId: '',
+        employeeName: '',
+        employeeCode: '',
+        designation: '',
+        month: selectedMonth || 'August 2026',
+        basicPay: '45000',
+        hraAllowances: '9000',
+        shootBonus: '0',
+        travelReimbursement: '0',
+        taxDeduction: '0',
+        providentFund: '0',
+        advanceDeduction: '0',
+        paymentMethod: 'BANK_TRANSFER',
+        notes: '',
+      });
+      setCreateModalOpen(true);
+      return;
+    }
+
+    const first = employees[0];
+    const firstName = first.user?.name || first.name || 'Crew Member';
+    const firstCode = first.employeeCode || 'EMP-001';
+    const firstDesig = first.designation || 'Production Specialist';
     const basic = firstDesig.toLowerCase().includes('director') || firstDesig.toLowerCase().includes('lead') ? '55000' : '45000';
     const hra = String(Math.round(Number(basic) * 0.2));
 
     setForm({
-      employeeId: first._id || first.employeeCode || 'emp-1',
+      employeeId: first._id || first.employeeCode || '',
       employeeName: firstName,
       employeeCode: firstCode,
       designation: firstDesig,
       month: selectedMonth || 'August 2026',
       basicPay: basic,
       hraAllowances: hra,
-      shootBonus: '5000',
-      travelReimbursement: '2500',
-      taxDeduction: '2000',
-      providentFund: '1500',
+      shootBonus: '0',
+      travelReimbursement: '0',
+      taxDeduction: '0',
+      providentFund: '0',
       advanceDeduction: '0',
       paymentMethod: 'BANK_TRANSFER',
       notes: `Official monthly pay slip for ${firstName}.`,
@@ -783,11 +533,12 @@ const AdminPayroll = () => {
                   style={{ backgroundColor: '#181820', color: '#ffffff' }}
                 >
                   <option value="" disabled style={{ backgroundColor: '#181820', color: '#888' }}>
-                    -- Select Production Crew Member --
+                    {employees.length === 0
+                      ? '-- No crew members found. Add crew in Shoot Crew & Team first --'
+                      : '-- Select Production Crew Member --'}
                   </option>
-                  {(employees && employees.length > 0 ? employees : DEFAULT_CREW_MEMBERS).map((emp) => {
-                    const name =
-                      emp.user?.name || emp.name || CREW_NAMES_MAP[emp.employeeCode] || 'Crew Member';
+                  {employees.map((emp) => {
+                    const name = emp.user?.name || emp.name || 'Crew Member';
                     const desig = emp.designation || 'Production Specialist';
                     const code = emp.employeeCode || emp.code || 'EMP';
                     const val = emp._id || code;

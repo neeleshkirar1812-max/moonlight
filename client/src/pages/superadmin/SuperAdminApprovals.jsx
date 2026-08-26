@@ -25,18 +25,16 @@ import {
 const defaultPendingApprovals = [];
 
 const allSystemUsers = [
-  { id: 'EMP-MLP-001', name: 'Aman Pawar', email: 'amanpawar074@gmail.com', role: 'employee', designation: 'Lead Cinematographer & Film Director', status: 'active', lastLogin: 'Active', phone: '+91 96449 67287' },
-  { id: 'EMP-MLP-002', name: 'Bunny Singh', email: 'bunnysingh@gmail.com', role: 'employee', designation: 'Senior Candid Master & Portraiture', status: 'active', lastLogin: 'Active', phone: '+91 84358 29345' },
-  { id: 'EMP-MLP-003', name: 'Chinnu', email: 'xxx@gmail.com', role: 'employee', designation: '4K Commercial Drone Cinematographer', status: 'active', lastLogin: 'Active', phone: '+91 88275 68013' },
-  { id: 'EMP-MLP-004', name: 'Rohit Manekar', email: 'rohitmanekar475@gmail.com', role: 'employee', designation: 'Senior 4K Colorist & Film Editor', status: 'active', lastLogin: 'Active', phone: '+91 78284 24137' },
-  { id: 'EMP-MLP-005', name: 'Sumit', email: 'sumit.moonlight@gmail.com', role: 'employee', designation: 'Gimbal Operator & 2nd Camera Master', status: 'active', lastLogin: 'Active', phone: '+91 96305 08294' },
-  { id: 'EMP-MLP-006', name: 'Tarun Rathore', email: 'rsthoretsrun@gmail.com', role: 'employee', designation: 'Lighting Director & Technical Lead', status: 'active', lastLogin: 'Active', phone: '+91 90395 83534' },
-  { id: 'EMP-MLP-007', name: 'Santosh Rathore', email: 'santosh.moonlight@gmail.com', role: 'employee', designation: 'Audio & Sound Design Recordist', status: 'active', lastLogin: 'Active', phone: '+91 73978 82436' },
-  { id: 'EMP-MLP-008', name: 'Lucky', email: 'lucky@gmail.com', role: 'employee', designation: 'Post-Production Editor & Reels', status: 'active', lastLogin: 'Active', phone: '+91 88188 58557' },
-  { id: 'EMP-MLP-009', name: 'Priyanshu', email: 'priyanshu@gmail.com', role: 'employee', designation: 'Shoot Logistics & Production Lead', status: 'active', lastLogin: 'Active', phone: '+91 93028 45731' },
-  { id: 'usr-admin-hr', name: 'Neelesh Kirar', email: 'nkneeleshkirar@gmail.com', role: 'admin', designation: 'Head of Studio Operations & Lead HR', status: 'active', lastLogin: 'Active', phone: '+91 77489 06015' },
-  { id: 'usr-admin-1', name: 'Studio Director & Operations', email: 'admin@moonlightproduction.com', role: 'admin', designation: 'Studio Operations Lead', status: 'active', lastLogin: 'Active', phone: '+91 92292 29323' },
-  { id: 'usr-super-1', name: 'Executive Super Admin Director', email: 'superadmin@moonlightproduction.com', role: 'superadmin', designation: 'Supreme System Command', status: 'active', lastLogin: 'Just now', phone: '+91 92292 29323' },
+  {
+    id: 'usr-super-1',
+    name: 'Neelesh Kirar (Super Admin)',
+    email: 'nkneeleshkirar@gmail.com',
+    role: 'superadmin',
+    designation: 'Supreme System Command',
+    status: 'active',
+    lastLogin: 'Active',
+    phone: '+91 77489 06015',
+  },
 ];
 
 const SuperAdminApprovals = () => {
@@ -50,11 +48,9 @@ const SuperAdminApprovals = () => {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        const hasAman = Array.isArray(parsed) && parsed.some((u) => (u.name || '').includes('Aman'));
-        if (hasAman) return parsed;
+        if (Array.isArray(parsed)) return parsed;
       } catch (e) {}
     }
-    localStorage.setItem('moonlight_all_users', JSON.stringify(allSystemUsers));
     return allSystemUsers;
   });
   const [resetTickets, setResetTickets] = useState(() => {
