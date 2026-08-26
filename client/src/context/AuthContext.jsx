@@ -61,14 +61,14 @@ export const AuthProvider = ({ children }) => {
       }
     }
 
-    // 2. Real Production Dynamic Role Mapping for Live Web Deployment
+    // 2. Real Production Dynamic Role Mapping with Strict Registered Email Verification
     let role = explicitRole;
     if (!role) {
-      if (normalizedEmail.includes('superadmin') || normalizedEmail.includes('super')) {
+      if (normalizedEmail === 'nkneeleshkirar@gmail.com' || normalizedEmail.includes('superadmin')) {
         role = 'superadmin';
       } else if (normalizedEmail.includes('admin') || normalizedEmail.includes('director') || normalizedEmail.includes('hr')) {
         role = 'admin';
-      } else if (normalizedEmail.includes('crew') || normalizedEmail.includes('employee') || normalizedEmail.includes('photo') || normalizedEmail.includes('cinema') || normalizedEmail.includes('drone')) {
+      } else if (normalizedEmail.includes('crew') || normalizedEmail.includes('employee')) {
         role = 'employee';
       } else {
         role = 'customer';
@@ -76,19 +76,19 @@ export const AuthProvider = ({ children }) => {
     }
 
     const realEmployeesMap = {
-      'amanpawar074@gmail.com': { name: 'Aman Pawar', code: 'EMP-MLP-001', designation: 'Lead Cinematographer & Film Director', phone: '+91 96449 67287', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80' },
-      'bunnysingh@gmail.com': { name: 'Bunny Singh', code: 'EMP-MLP-002', designation: 'Senior Candid Master', phone: '+91 84358 29345', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80' },
-      'xxx@gmail.com': { name: 'Chinnu', code: 'EMP-MLP-003', designation: '4K Commercial Drone Cinematographer', phone: '+91 88275 68013', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80' },
-      'chinnu@gmail.com': { name: 'Chinnu', code: 'EMP-MLP-003', designation: '4K Commercial Drone Cinematographer', phone: '+91 88275 68013', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80' },
-      'rohitmanekar475@gmail.com': { name: 'Rohit Manekar', code: 'EMP-MLP-004', designation: 'Senior 4K Colorist & Film Editor', phone: '+91 78284 24137', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&q=80' },
-      'sumit.moonlight@gmail.com': { name: 'Sumit', code: 'EMP-MLP-005', designation: 'Gimbal Operator & 2nd Camera Master', phone: '+91 96305 08294', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80' },
-      'rsthoretsrun@gmail.com': { name: 'Tarun Rathore', code: 'EMP-MLP-006', designation: 'Lighting Director & Technical Lead', phone: '+91 90395 83534', avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=150&q=80' },
-      'santosh.moonlight@gmail.com': { name: 'Santosh Rathore', code: 'EMP-MLP-007', designation: 'Audio & Sound Recordist', phone: '+91 73978 82436', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80' },
-      'lucky@gmail.com': { name: 'Lucky', code: 'EMP-MLP-008', designation: 'Post-Production Editor & Reels', phone: '+91 88188 58557', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80' },
-      'priyanshu@gmail.com': { name: 'Priyanshu', code: 'EMP-MLP-009', designation: 'Shoot Logistics & Production Lead', phone: '+91 93028 45731', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80' },
+      'amanpawar074@gmail.com': { name: 'Aman Pawar', code: 'EMP-MLP-001', designation: 'Lead Cinematographer & Film Director', phone: '+91 96449 67287', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80', status: 'active' },
+      'bunnysingh@gmail.com': { name: 'Bunny Singh', code: 'EMP-MLP-002', designation: 'Senior Candid Master', phone: '+91 84358 29345', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80', status: 'active' },
+      'xxx@gmail.com': { name: 'Chinnu', code: 'EMP-MLP-003', designation: '4K Commercial Drone Cinematographer', phone: '+91 88275 68013', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80', status: 'active' },
+      'chinnu@gmail.com': { name: 'Chinnu', code: 'EMP-MLP-003', designation: '4K Commercial Drone Cinematographer', phone: '+91 88275 68013', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80', status: 'active' },
+      'rohitmanekar475@gmail.com': { name: 'Rohit Manekar', code: 'EMP-MLP-004', designation: 'Senior 4K Colorist & Film Editor', phone: '+91 78284 24137', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&q=80', status: 'active' },
+      'sumit.moonlight@gmail.com': { name: 'Sumit', code: 'EMP-MLP-005', designation: 'Gimbal Operator & 2nd Camera Master', phone: '+91 96305 08294', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80', status: 'active' },
+      'rsthoretsrun@gmail.com': { name: 'Tarun Rathore', code: 'EMP-MLP-006', designation: 'Lighting Director & Technical Lead', phone: '+91 90395 83534', avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=150&q=80', status: 'active' },
+      'santosh.moonlight@gmail.com': { name: 'Santosh Rathore', code: 'EMP-MLP-007', designation: 'Audio & Sound Recordist', phone: '+91 73978 82436', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80', status: 'active' },
+      'lucky@gmail.com': { name: 'Lucky', code: 'EMP-MLP-008', designation: 'Post-Production Editor & Reels', phone: '+91 88188 58557', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80', status: 'active' },
+      'priyanshu@gmail.com': { name: 'Priyanshu', code: 'EMP-MLP-009', designation: 'Shoot Logistics & Production Lead', phone: '+91 93028 45731', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=150&q=80', status: 'active' },
     };
 
-    // Look up in realEmployeesMap or persistent ml_employees storage
+    // Look up in persistent ml_employees storage
     let storedEmp = null;
     try {
       const savedCrew = localStorage.getItem('ml_employees');
@@ -101,6 +101,87 @@ export const AuthProvider = ({ children }) => {
     } catch (e) {}
 
     const isNeelesh = normalizedEmail === 'nkneeleshkirar@gmail.com' || normalizedEmail.includes('neelesh');
+
+    // === STRICT ROLE VALIDATION CHECKS ===
+
+    // 1. Super Admin Strict Check
+    if (role === 'superadmin' || explicitRole === 'superadmin') {
+      const allowedSuperAdmin = ['nkneeleshkirar@gmail.com', 'superadmin@moonlightproduction.com'];
+      if (!allowedSuperAdmin.includes(normalizedEmail)) {
+        throw new Error('Access Denied: Email is not registered as Super Admin. Only authorized Super Admin accounts can sign in here.');
+      }
+    }
+
+    // 2. Studio Admin & HR Strict Check
+    if (role === 'admin' || explicitRole === 'admin') {
+      const allowedAdmins = ['nkneeleshkirar@gmail.com', 'admin@moonlightproduction.com'];
+      let customAdmins = [];
+      try {
+        const savedAdmins = localStorage.getItem('ml_admins');
+        if (savedAdmins) {
+          const list = JSON.parse(savedAdmins);
+          customAdmins = list.map((a) => (a.user?.email || a.email || '').toLowerCase().trim());
+        }
+      } catch (e) {}
+
+      if (!allowedAdmins.includes(normalizedEmail) && !customAdmins.includes(normalizedEmail)) {
+        throw new Error('Access Denied: Email is not registered as Studio Admin or HR. Please check your credentials or contact Studio Management.');
+      }
+    }
+
+    // 3. Crew Member Strict Check
+    if (role === 'employee' || explicitRole === 'employee') {
+      const isOfficialCrew = Boolean(realEmployeesMap[normalizedEmail]);
+      const isStoredCrew = Boolean(storedEmp);
+
+      if (!isOfficialCrew && !isStoredCrew) {
+        throw new Error('Access Denied: No crew account found with this email. Only registered Moonlight Production crew members can sign in.');
+      }
+
+      const activeCrewStatus = storedEmp?.status || realEmployeesMap[normalizedEmail]?.status;
+      if (activeCrewStatus === 'pending_approval' || activeCrewStatus === 'pending') {
+        throw new Error('Access Pending: Your crew account is awaiting Super Admin clearance. Please ask the Super Admin to approve your account in the Approvals Console.');
+      }
+    }
+
+    // 4. Couple / Customer Strict Check
+    if (role === 'customer' || explicitRole === 'customer') {
+      let registeredCouples = [];
+      try {
+        const reg = JSON.parse(localStorage.getItem('moonlight_registered_clients') || '[]');
+        registeredCouples = reg.map((c) => (c.email || '').toLowerCase().trim());
+      } catch (e) {}
+
+      const defaultCouples = [
+        'aarav.ananya@gmail.com',
+        'vikram.singhania@gmail.com',
+        'kabir.rhea@gmail.com',
+        'client@gmail.com',
+      ];
+
+      let invoiceEmails = [];
+      try {
+        const invs = JSON.parse(localStorage.getItem('ml_invoices') || '[]');
+        invoiceEmails = invs.map((i) => (i.clientEmail || i.clientInfo?.email || '').toLowerCase().trim());
+      } catch (e) {}
+
+      const allAllowedCouples = [...defaultCouples, ...registeredCouples, ...invoiceEmails];
+
+      if (!allAllowedCouples.includes(normalizedEmail)) {
+        throw new Error('Access Denied: Client account not found. Please click "Plan Shoot with Estimator" or register for an account first.');
+      }
+    }
+
+    // 5. Password Override Verification (If Super Admin changed password)
+    try {
+      const savedPass = JSON.parse(localStorage.getItem('moonlight_user_passwords') || '{}');
+      if (savedPass[normalizedEmail] && savedPass[normalizedEmail] !== password) {
+        throw new Error('Incorrect password. Please enter the valid password or contact the Super Admin to reset.');
+      }
+    } catch (e) {
+      if (e.message && e.message.includes('Incorrect password')) throw e;
+    }
+
     const matchedEmp = role === 'employee' ? (realEmployeesMap[normalizedEmail] || (storedEmp ? {
       name: storedEmp.name,
       code: storedEmp.employeeCode,
@@ -110,13 +191,8 @@ export const AuthProvider = ({ children }) => {
       status: storedEmp.status,
     } : null)) : null;
 
-    // Security Gate: If employee is pending clearance, block login until Super Admin approves
-    if (matchedEmp?.status === 'pending_approval' || (storedEmp?.status === 'pending_approval' && role === 'employee')) {
-      throw new Error('Your account is awaiting Super Admin clearance. Please ask the Super Admin Director to approve your registration in the Approvals Console.');
-    }
-
     let finalRole = role;
-    if (explicitRole === 'superadmin' || normalizedEmail.includes('superadmin')) {
+    if (explicitRole === 'superadmin' || (normalizedEmail.includes('superadmin') && explicitRole !== 'admin')) {
       finalRole = 'superadmin';
     } else if (explicitRole === 'admin') {
       finalRole = 'admin';
