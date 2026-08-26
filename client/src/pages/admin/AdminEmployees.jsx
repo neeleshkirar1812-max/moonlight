@@ -124,19 +124,36 @@ export const realProductionCrew = [
   },
 ];
 
-// Helper: load stored employees from localStorage with zero overwriting
+// Helper: load stored employees from localStorage with permanent merge guarantee
 export const loadStoredEmployees = () => {
   try {
     const saved = localStorage.getItem('ml_employees');
     if (saved) {
       const parsed = JSON.parse(saved);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        return parsed;
+        // Guarantee all 9 official crew are present, AND all custom crew added by user are preserved!
+        const parsedEmails = new Set(parsed.map((e) => (e.user?.email || '').toLowerCase().trim()));
+        const missingOfficial = realProductionCrew.filter(
+          (official) => !parsedEmails.has((official.user?.email || '').toLowerCase().trim())
+        );
+        const merged = [...parsed, ...missingOfficial];
+
+        const seen = new Set();
+        const unique = merged.filter((emp) => {
+          const email = (emp.user?.email || '').trim().toLowerCase();
+          const id = emp._id || '';
+          const key = email || id;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+
+        localStorage.setItem('ml_employees', JSON.stringify(unique));
+        return unique;
       }
     }
   } catch (e) {}
 
-  // Fallback initial setup only if never initialized
   localStorage.setItem('ml_employees', JSON.stringify(realProductionCrew));
   return realProductionCrew;
 };
@@ -169,19 +186,6 @@ const AdminEmployees = () => {
     });
     setEmployees(unique);
     localStorage.setItem('ml_employees', JSON.stringify(unique));
-  };
-
-  // 1. Reset to Default 9 Crew
-  const handleResetToRealCrew = () => {
-    if (!window.confirm('Restore official 9 Moonlight Production crew members? Any custom members added will be replaced.')) {
-      return;
-    }
-    persistEmployees(realProductionCrew);
-    addToast({
-      title: 'Default Team Restored',
-      message: 'Restored the 9 official Moonlight Production crew members.',
-      type: 'success',
-    });
   };
 
   // Add Form State - Defaults to pending_approval for Super Admin Clearance
@@ -403,16 +407,7 @@ const AdminEmployees = () => {
         </div>
 
         {/* Action Buttons: Responsive Flex */}
-        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
-          <button
-            onClick={handleResetToRealCrew}
-            className="px-3 sm:px-4 py-2 sm:py-2.5 rounded-full bg-[#181820] hover:bg-gold-500 hover:text-black border border-white/15 text-gold-300 font-bold text-xs uppercase tracking-wider transition-all flex items-center shrink-0"
-            title="Restore default 9 team members"
-          >
-            <Sparkles className="w-3.5 h-3.5 mr-1.5" />
-            <span>Reset 9 Default</span>
-          </button>
-
+        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <button
             onClick={() => setModalOpen(true)}
             className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-gold-gradient text-black font-extrabold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 active:scale-95 transition-all flex items-center shrink-0 btn-shimmer"
