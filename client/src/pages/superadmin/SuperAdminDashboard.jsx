@@ -79,38 +79,49 @@ const SuperAdminDashboard = () => {
       </div>
 
       {/* Quick Action Links */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <Link
+          to="/super-admin/approvals"
+          className="bg-[#141418] rounded-2xl p-5 sm:p-6 group block border border-amber-500/30 hover:border-amber-500/60 shadow-lg space-y-2 transition-all hover:shadow-2xl"
+        >
+          <Key className="w-6 h-6 text-amber-400 group-hover:scale-110 transition-transform" />
+          <h3 className="font-serif text-base sm:text-lg font-bold text-white group-hover:text-amber-300 transition-colors">
+            Login Approvals & Passwords
+          </h3>
+          <p className="text-xs text-neutral-400 font-light">Approve new crew/client logins and reset credentials.</p>
+        </Link>
+
         <Link
           to="/super-admin/admins"
-          className="bg-[#141418] rounded-2xl p-6 group block border border-white/10 hover:border-gold-500/50 shadow-lg space-y-2 transition-all hover:shadow-2xl"
+          className="bg-[#141418] rounded-2xl p-5 sm:p-6 group block border border-white/10 hover:border-gold-500/50 shadow-lg space-y-2 transition-all hover:shadow-2xl"
         >
           <Shield className="w-6 h-6 text-gold-400 group-hover:scale-110 transition-transform" />
-          <h3 className="font-serif text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
-            Admin Accounts & Permissions
+          <h3 className="font-serif text-base sm:text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
+            Admin Accounts & Hierarchy
           </h3>
-          <p className="text-xs text-neutral-400 font-light">Create new admin accounts and grant fine-grained permissions.</p>
+          <p className="text-xs text-neutral-400 font-light">Manage Studio Admins, HR leads, and permissions.</p>
         </Link>
 
         <Link
           to="/super-admin/audit-logs"
-          className="bg-[#141418] rounded-2xl p-6 group block border border-white/10 hover:border-gold-500/50 shadow-lg space-y-2 transition-all hover:shadow-2xl"
+          className="bg-[#141418] rounded-2xl p-5 sm:p-6 group block border border-white/10 hover:border-gold-500/50 shadow-lg space-y-2 transition-all hover:shadow-2xl"
         >
           <Activity className="w-6 h-6 text-gold-400 group-hover:scale-110 transition-transform" />
-          <h3 className="font-serif text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
+          <h3 className="font-serif text-base sm:text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
             Immutable Audit Trail
           </h3>
           <p className="text-xs text-neutral-400 font-light">Real-time surveillance of logins, data exports, and deletions.</p>
         </Link>
 
         <Link
-          to="/super-admin/system-config"
-          className="bg-[#141418] rounded-2xl p-6 group block border border-white/10 hover:border-gold-500/50 shadow-lg space-y-2 transition-all hover:shadow-2xl"
+          to="/super-admin/config"
+          className="bg-[#141418] rounded-2xl p-5 sm:p-6 group block border border-white/10 hover:border-gold-500/50 shadow-lg space-y-2 transition-all hover:shadow-2xl"
         >
           <Server className="w-6 h-6 text-gold-400 group-hover:scale-110 transition-transform" />
-          <h3 className="font-serif text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
+          <h3 className="font-serif text-base sm:text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
             Server Diagnostics & Cloud API
           </h3>
-          <p className="text-xs text-neutral-400 font-light">Manage email SMTP providers, SMS webhooks, and AWS S3 storage buckets.</p>
+          <p className="text-xs text-neutral-400 font-light">Storage health, database latency, and API webhooks.</p>
         </Link>
       </div>
 
