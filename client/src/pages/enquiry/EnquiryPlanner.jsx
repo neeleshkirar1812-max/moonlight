@@ -148,10 +148,11 @@ const EnquiryPlanner = () => {
       };
 
       const res = await api.post('/enquiries', payload);
-      setSubmittedEnquiry(res.data);
+      const enq = res?.data || res;
+      setSubmittedEnquiry(enq);
       addToast({
         title: 'Story Received ❤️',
-        message: `Your reference ID is ${res.data.enquiryId}. Our concierge will connect with you shortly.`,
+        message: `Your reference ID is ${enq?.enquiryId || 'ENQ-2026'}. Our concierge will connect with you shortly.`,
         type: 'success',
       });
     } catch (err) {

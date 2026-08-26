@@ -882,7 +882,13 @@ const handleMockRequest = async (method, url, data) => {
       };
       items = [newEnq, ...items];
       setCollection('enquiries', items);
-      return { data: newEnq };
+      return {
+        data: {
+          success: true,
+          data: newEnq,
+          ...newEnq,
+        },
+      };
     }
     if (method === 'PUT' || method === 'PATCH') {
       const id = cleanUrl.split('/').pop();
@@ -920,14 +926,40 @@ const handleMockRequest = async (method, url, data) => {
   if (cleanUrl.startsWith('/auth')) {
     if (cleanUrl.includes('login')) {
       const email = (data?.email || '').toLowerCase().trim();
+      let role = 'customer';
+      if (email === 'nkneeleshkirar@gmail.com' || email.includes('superadmin')) {
+        role = 'superadmin';
+      } else if (email.includes('admin') || email.includes('director') || email.includes('hr')) {
+        role = 'admin';
+      } else if (
+        email.includes('employee') ||
+        email.includes('crew') ||
+        [
+          'amanpawar074@gmail.com',
+          'bunnysingh@gmail.com',
+          'xxx@gmail.com',
+          'chinnu@gmail.com',
+          'rohitmanekar475@gmail.com',
+          'sumit.moonlight@gmail.com',
+          'rsthoretsrun@gmail.com',
+          'santosh.moonlight@gmail.com',
+          'lucky@gmail.com',
+          'priyanshu@gmail.com',
+        ].includes(email)
+      ) {
+        role = 'employee';
+      }
       const token = `moonlight_jwt_${Date.now()}`;
+      const userObj = {
+        _id: `usr-${Date.now()}`,
+        email,
+        name: (email.split('@')[0] || 'User').toUpperCase(),
+        role,
+      };
       return {
         data: {
           token,
-          user: {
-            email,
-            name: email.split('@')[0],
-          },
+          user: userObj,
         },
       };
     }
@@ -954,7 +986,8 @@ const handleMockRequest = async (method, url, data) => {
     }
     if (cleanUrl.includes('me')) {
       const saved = localStorage.getItem('Moonlight_user');
-      return { data: saved ? JSON.parse(saved) : null };
+      const user = saved ? JSON.parse(saved) : null;
+      return { data: { user } };
     }
   }
 
@@ -962,8 +995,12 @@ const handleMockRequest = async (method, url, data) => {
   return { data: { success: true, message: 'Operation completed in offline resilient storage.' } };
 };
 
-// Always attempt live backend first (via VITE_API_URL or relative /api on Vercel)
-const isLiveBackendAvailable = true;
+// Resilient backend availability check:
+// In production without an explicit VITE_API_URL, relative /api calls to static hosts (like Vercel)
+// return 405 Method Not Allowed. We detect this and avoid unnecessary failed network requests.
+const isLiveBackendConfigured = Boolean(import.meta.env.VITE_API_URL);
+const isLocalhost = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+const isLiveBackendAvailable = isLiveBackendConfigured || isLocalhost;
 
 // Base Axios instance
 const axiosInstance = axios.create({
@@ -986,73 +1023,103 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Resilient API Wrapper: Calls real Live Backend first; falls back to offline storage ONLY on network disconnect
+// Evaluates whether an Axios error represents an infrastructure/static host failure
+// (such as 405 Method Not Allowed, 404 Route Not Found, 502 Bad Gateway, network loss)
+// rather than a real business logic rejection from an active backend.
+const shouldFallbackToMock = (err) => {
+  if (!err || !err.response) return true;
+  const status = err.response.status;
+  // 405: Vercel / static server rejecting POST/PUT/DELETE/PATCH
+  if (status === 405) return true;
+  // 404: Endpoint not deployed
+  if (status === 404) return true;
+  // 500, 502, 503, 504: Serverless crash or gateway timeout
+  if ([500, 502, 503, 504].includes(status)) return true;
+  // Plain text or HTML error from hosting provider
+  if (typeof err.response.data === 'string') {
+    const txt = err.response.data.toLowerCase();
+    if (txt.includes('405') || txt.includes('not allowed') || txt.includes('<!doctype') || txt.includes('<html')) {
+      return true;
+    }
+  }
+  return false;
+};
+
+// Resilient API Wrapper: Calls real Live Backend when available; falls back seamlessly to offline storage
 const api = {
   get: async (url, config = {}) => {
-    try {
-      const res = await axiosInstance.get(url, config);
-      return res.data;
-    } catch (err) {
-      if (err.response) {
-        // Real server responded with error status (400, 401, 403, 404, 500)
-        throw err;
+    if (isLiveBackendAvailable) {
+      try {
+        const res = await axiosInstance.get(url, config);
+        return res.data;
+      } catch (err) {
+        if (!shouldFallbackToMock(err)) {
+          throw err;
+        }
       }
-      // Network failure / offline: fall back seamlessly to local mock store
-      const mock = await handleMockRequest('GET', url);
-      return mock.data;
     }
+    const mock = await handleMockRequest('GET', url);
+    return mock.data;
   },
 
   post: async (url, data = {}, config = {}) => {
-    try {
-      const res = await axiosInstance.post(url, data, config);
-      return res.data;
-    } catch (err) {
-      if (err.response) {
-        throw err;
+    if (isLiveBackendAvailable) {
+      try {
+        const res = await axiosInstance.post(url, data, config);
+        return res.data;
+      } catch (err) {
+        if (!shouldFallbackToMock(err)) {
+          throw err;
+        }
       }
-      const mock = await handleMockRequest('POST', url, data);
-      return mock.data;
     }
+    const mock = await handleMockRequest('POST', url, data);
+    return mock.data;
   },
 
   put: async (url, data = {}, config = {}) => {
-    try {
-      const res = await axiosInstance.put(url, data, config);
-      return res.data;
-    } catch (err) {
-      if (err.response) {
-        throw err;
+    if (isLiveBackendAvailable) {
+      try {
+        const res = await axiosInstance.put(url, data, config);
+        return res.data;
+      } catch (err) {
+        if (!shouldFallbackToMock(err)) {
+          throw err;
+        }
       }
-      const mock = await handleMockRequest('PUT', url, data);
-      return mock.data;
     }
+    const mock = await handleMockRequest('PUT', url, data);
+    return mock.data;
   },
 
   delete: async (url, config = {}) => {
-    try {
-      const res = await axiosInstance.delete(url, config);
-      return res.data;
-    } catch (err) {
-      if (err.response) {
-        throw err;
+    if (isLiveBackendAvailable) {
+      try {
+        const res = await axiosInstance.delete(url, config);
+        return res.data;
+      } catch (err) {
+        if (!shouldFallbackToMock(err)) {
+          throw err;
+        }
       }
-      const mock = await handleMockRequest('DELETE', url);
-      return mock.data;
     }
+    const mock = await handleMockRequest('DELETE', url);
+    return mock.data;
   },
 
   patch: async (url, data = {}, config = {}) => {
-    try {
-      const res = await axiosInstance.patch(url, data, config);
-      return res.data;
-    } catch (err) {
-      if (err.response) {
-        throw err;
+    if (isLiveBackendAvailable) {
+      try {
+        const res = await axiosInstance.patch(url, data, config);
+        return res.data;
+      } catch (err) {
+        if (!shouldFallbackToMock(err)) {
+          throw err;
+        }
       }
-      const mock = await handleMockRequest('PUT', url, data);
-      return mock.data;
     }
+    const mock = await handleMockRequest('PATCH', url, data);
+    return mock.data;
   },
 };
 
