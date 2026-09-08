@@ -59,6 +59,24 @@ const AdminPayroll = () => {
   const fetchPayrollData = async () => {
     try {
       setLoading(true);
+
+      // 1. Initial load from persistent local store
+      let localEmps = [];
+      try {
+        const storedCrew = localStorage.getItem('ml_employees');
+        if (storedCrew) localEmps = JSON.parse(storedCrew);
+      } catch (e) {}
+
+      let localSlips = [];
+      try {
+        const storedSlips = localStorage.getItem('ml_salaries');
+        if (storedSlips) localSlips = JSON.parse(storedSlips);
+      } catch (e) {}
+
+      if (localEmps.length > 0) setEmployees(localEmps);
+      if (localSlips.length > 0) setSlips(localSlips);
+
+      // 2. Fetch from Backend
       const [sRes, eRes] = await Promise.allSettled([
         api.get(`/salary?month=${encodeURIComponent(selectedMonth)}`),
         api.get('/admin/employees'),
@@ -71,8 +89,14 @@ const AdminPayroll = () => {
         ? (Array.isArray(eRes.value) ? eRes.value : eRes.value?.data || [])
         : [];
 
-      setSlips(loadedSlips);
-      setEmployees(loadedEmps);
+      if (loadedSlips.length > 0) {
+        setSlips(loadedSlips);
+        localStorage.setItem('ml_salaries', JSON.stringify(loadedSlips));
+      }
+      if (loadedEmps.length > 0) {
+        setEmployees(loadedEmps);
+        localStorage.setItem('ml_employees', JSON.stringify(loadedEmps));
+      }
     } catch (err) {
       console.error(err);
     } finally {

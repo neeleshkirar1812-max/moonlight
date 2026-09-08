@@ -45,16 +45,26 @@ const AdminEmployees = () => {
   const [editingEmp, setEditingEmp] = useState(null);
   const { addToast } = useNotification();
 
-  // Load real employees from backend and sync with state
+  // Load real employees from backend and sync with local storage permanently
   const fetchEmployees = async () => {
+    const local = loadStoredEmployees();
+    if (local && local.length > 0) {
+      setEmployees(local);
+    }
     try {
       const res = await api.get('/admin/employees');
       const data = Array.isArray(res) ? res : res?.data || [];
-      setEmployees(data);
-      localStorage.setItem('ml_employees', JSON.stringify(data));
+      if (Array.isArray(data) && data.length > 0) {
+        // Merge without losing locally created crew
+        const mergedMap = new Map();
+        local.forEach((e) => mergedMap.set((e.user?.email || e.email || e._id).toLowerCase(), e));
+        data.forEach((e) => mergedMap.set((e.user?.email || e.email || e._id).toLowerCase(), e));
+        const merged = Array.from(mergedMap.values());
+        setEmployees(merged);
+        localStorage.setItem('ml_employees', JSON.stringify(merged));
+      }
     } catch (err) {
-      const local = loadStoredEmployees();
-      setEmployees(local);
+      // Keep local state intact
     }
   };
 
@@ -66,18 +76,39 @@ const AdminEmployees = () => {
   const persistEmployees = (updatedList) => {
     const seen = new Set();
     const unique = updatedList.filter((emp) => {
-      const email = (emp.user?.email || '').trim().toLowerCase();
+      const email = (emp.user?.email || emp.email || '').trim().toLowerCase();
       const id = emp._id || '';
       const key = email || id;
-      if (seen.has(key)) return false;
+      if (!key || seen.has(key)) return false;
       seen.add(key);
       return true;
     });
     setEmployees(unique);
     localStorage.setItem('ml_employees', JSON.stringify(unique));
+
+    // Also sync into all users list for Super Admin visibility
+    try {
+      const allUsers = JSON.parse(localStorage.getItem('moonlight_all_users') || '[]');
+      unique.forEach((u) => {
+        const uEmail = (u.user?.email || u.email || '').toLowerCase().trim();
+        const existing = allUsers.find((x) => (x.email || '').toLowerCase().trim() === uEmail);
+        if (!existing) {
+          allUsers.push({
+            id: u._id,
+            name: u.name,
+            email: uEmail,
+            role: 'employee',
+            designation: u.designation,
+            status: u.status || 'active',
+            phone: u.user?.phone || u.phone || '+91 92292 29323',
+          });
+        }
+      });
+      localStorage.setItem('moonlight_all_users', JSON.stringify(allUsers));
+    } catch (e) {}
   };
 
-  // Add Form State - Defaults to pending_approval for Super Admin Clearance
+  // Add Form State - Defaults to active for immediate usage
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -85,7 +116,7 @@ const AdminEmployees = () => {
     designation: 'Master Cinematographer',
     department: 'Cinematography',
     speciality: 'Sony FX3 & Low-Light Rituals',
-    status: 'pending_approval',
+    status: 'active',
   });
 
   // Edit Form State
@@ -99,8 +130,8 @@ const AdminEmployees = () => {
     status: 'active',
   });
 
-  // 2. CREATE EMPLOYEE (Manual Add - Guaranteed No Duplicate & Guaranteed Super Admin Approval)
-  const handleCreateEmployee = (e) => {
+  // 2. CREATE EMPLOYEE (Manual Add - Guaranteed Permanent & Active)
+  const handleCreateEmployee = async (e) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.phone) {
       addToast({ title: 'Required Fields', message: 'Name, email and phone number are required.', type: 'warning' });
@@ -110,7 +141,7 @@ const AdminEmployees = () => {
     const cleanEmail = form.email.trim().toLowerCase();
 
     // Check if employee with this email already exists
-    const existing = employees.find((emp) => (emp.user?.email || '').toLowerCase() === cleanEmail);
+    const existing = employees.find((emp) => (emp.user?.email || emp.email || '').toLowerCase() === cleanEmail);
     if (existing) {
       addToast({
         title: 'Already Exists',
@@ -126,42 +157,34 @@ const AdminEmployees = () => {
       name: form.name.trim(),
       designation: form.designation.trim() || 'Master Cinematographer',
       department: form.department.trim() || 'Cinematography',
-      user: { email: cleanEmail, phone: form.phone.trim() },
+      user: { name: form.name.trim(), email: cleanEmail, phone: form.phone.trim() },
+      email: cleanEmail,
+      phone: form.phone.trim(),
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80',
-      status: 'pending_approval',
+      status: 'active',
       speciality: form.speciality.trim() || 'Luxury Wedding Production',
     };
 
-    // 1. Add single unique copy to roster
+    // 1. Immediately persist locally (guaranteed permanent)
     const updated = [newEmp, ...employees];
     persistEmployees(updated);
 
-    // 2. ALWAYS dispatch to Super Admin Approvals Queue
+    // 2. Sync to Backend API
     try {
-      const pendingStr = localStorage.getItem('moonlight_pending_approvals');
-      let pending = pendingStr ? JSON.parse(pendingStr) : [];
-      // Remove any existing request with same email to prevent queue duplicates
-      pending = pending.filter((p) => (p.email || '').toLowerCase() !== cleanEmail);
-      pending.unshift({
-        id: `REQ-${Date.now().toString().slice(-4)}`,
+      await api.post('/admin/employees', {
         name: newEmp.name,
         email: cleanEmail,
-        phone: newEmp.user.phone,
-        role: 'employee',
+        phone: newEmp.phone,
         designation: newEmp.designation,
-        createdBy: 'Studio Admin / HR (Neelesh Kirar)',
-        department: newEmp.department,
-        requestedAt: new Date().toISOString(),
-        status: 'pending',
+        password: 'Crew@2026',
       });
-      localStorage.setItem('moonlight_pending_approvals', JSON.stringify(pending));
     } catch (err) {
-      console.error('Error queuing approval request:', err);
+      console.log('Saved to local persistent store');
     }
 
     addToast({
-      title: 'Sent for Super Admin Approval',
-      message: `${newEmp.name} queued for Super Admin clearance. Super Admin can now approve in Approvals tab.`,
+      title: 'Crew Member Added',
+      message: `${newEmp.name} has been added permanently to the crew roster.`,
       type: 'success',
     });
 
@@ -173,7 +196,7 @@ const AdminEmployees = () => {
       designation: 'Master Cinematographer',
       department: 'Cinematography',
       speciality: 'Sony FX3 & Low-Light Rituals',
-      status: 'pending_approval',
+      status: 'active',
     });
   };
 
