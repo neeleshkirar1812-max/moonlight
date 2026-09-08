@@ -180,42 +180,97 @@ const Login = () => {
               </button>
             </div>
 
-            {/* Quick Auto-Fill helper card for Super Admin */}
-            <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between">
+            {/* Quick Auto-Fill helper card for Super Admin & Studio Admin */}
+            {adminRoleType === 'superadmin' ? (
+              <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <span className="text-[11px] font-bold text-amber-300 block">Super Admin Credentials</span>
+                  <span className="text-[10px] text-neutral-400 font-mono">nkneeleshkirar@gmail.com</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmail('nkneeleshkirar@gmail.com');
+                    setPassword('SuperAdmin@2026');
+                  }}
+                  className="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500 hover:text-black border border-amber-500/40 text-amber-300 text-[10px] font-mono font-bold transition-all shrink-0"
+                >
+                  ⚡ Auto-Fill
+                </button>
+              </div>
+            ) : (
+              <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <span className="text-[11px] font-bold text-amber-300 block">Studio Admin Credentials</span>
+                  <span className="text-[10px] text-neutral-400 font-mono">admin@moonlightproduction.com</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmail('admin@moonlightproduction.com');
+                    setPassword('Admin@2026');
+                  }}
+                  className="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500 hover:text-black border border-amber-500/40 text-amber-300 text-[10px] font-mono font-bold transition-all shrink-0"
+                >
+                  ⚡ Auto-Fill
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Quick Auto-Fill helper card for Crew */}
+        {activeTab === 'crew' && (
+          <div className="p-3 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-between">
+            <div className="space-y-0.5">
+              <span className="text-[11px] font-bold text-gold-300 block">Crew Lead Credentials</span>
+              <span className="text-[10px] text-neutral-400 font-mono">amanpawar074@gmail.com</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setEmail('amanpawar074@gmail.com');
+                setPassword('Crew@2026');
+              }}
+              className="px-3 py-1.5 rounded-lg bg-gold-500/20 hover:bg-gold-500 hover:text-black border border-gold-500/40 text-gold-300 text-[10px] font-mono font-bold transition-all shrink-0"
+            >
+              ⚡ Auto-Fill
+            </button>
+          </div>
+        )}
+
+        {/* Quick Auto-Fill helper card & Self-Registration for Couples */}
+        {activeTab === 'customer' && (
+          <div className="space-y-2">
+            <div className="p-3 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-between">
               <div className="space-y-0.5">
-                <span className="text-[11px] font-bold text-amber-300 block">Super Admin Credentials</span>
-                <span className="text-[10px] text-neutral-400 font-mono">nkneeleshkirar@gmail.com</span>
+                <span className="text-[11px] font-bold text-gold-300 block">Couple Client Credentials</span>
+                <span className="text-[10px] text-neutral-400 font-mono">aarav.ananya@gmail.com</span>
               </div>
               <button
                 type="button"
                 onClick={() => {
-                  setEmail('nkneeleshkirar@gmail.com');
-                  setPassword('SuperAdmin@2026');
+                  setEmail('aarav.ananya@gmail.com');
+                  setPassword('Client@2026');
                 }}
-                className="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500 hover:text-black border border-amber-500/40 text-amber-300 text-[10px] font-mono font-bold transition-all shrink-0"
+                className="px-3 py-1.5 rounded-lg bg-gold-500/20 hover:bg-gold-500 hover:text-black border border-gold-500/40 text-gold-300 text-[10px] font-mono font-bold transition-all shrink-0"
               >
                 ⚡ Auto-Fill
               </button>
             </div>
-          </div>
-        )}
 
-        {/* Highlighted Self-Registration Option for Couples */}
-        {activeTab === 'customer' && (
-          <div className="p-3 rounded-2xl bg-white/5 border border-gold-500/30 flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <UserPlus className="w-4 h-4 text-gold-400 shrink-0" />
-              <div>
-                <span className="text-xs font-bold text-white block">New Couple Registration?</span>
-                <span className="text-[10px] text-neutral-400">Request private sanctuary credentials from studio.</span>
+            <div className="p-2.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <UserPlus className="w-3.5 h-3.5 text-gold-400 shrink-0" />
+                <span className="text-[11px] text-neutral-300 font-medium">New couple? Request account</span>
               </div>
+              <Link
+                to="/register"
+                className="px-2.5 py-1 rounded-full bg-gold-500/20 hover:bg-gold-500 hover:text-black border border-gold-500/50 text-gold-300 font-bold text-[10px] uppercase tracking-wider transition-all shrink-0"
+              >
+                Register →
+              </Link>
             </div>
-            <Link
-              to="/register"
-              className="px-3.5 py-1.5 rounded-full bg-gold-500/20 hover:bg-gold-500 hover:text-black border border-gold-500/50 text-gold-300 font-extrabold text-[10.5px] uppercase tracking-wider transition-all shrink-0"
-            >
-              Request Access →
-            </Link>
           </div>
         )}
 
