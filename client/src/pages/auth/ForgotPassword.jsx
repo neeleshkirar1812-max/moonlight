@@ -136,49 +136,46 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-24 sm:pt-28 pb-16 px-3 sm:px-4 flex items-center justify-center relative overflow-x-hidden w-full max-w-full">
-      {/* Background Radial Glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-full max-w-[600px] h-[350px] bg-gradient-to-b from-amber-500/10 via-amber-600/5 to-transparent rounded-full blur-3xl pointer-events-none" />
-
-      <div className="max-w-lg w-full bg-white border border-amber-900/15 rounded-3xl p-4 sm:p-8 md:p-10 shadow-2xl relative z-10 animate-fade-in space-y-6">
+    <div className="min-h-screen bg-[#F4F1EA] text-neutral-950 pt-24 sm:pt-28 pb-16 px-4 flex items-center justify-center relative">
+      <div className="max-w-md w-full bg-white border-2 border-neutral-300 rounded-3xl p-6 sm:p-8 shadow-xl relative z-10 space-y-6">
         {/* Header Icon */}
         <div className="text-center space-y-2">
-          <div className="w-14 h-14 rounded-full border-2 border-amber-500/60 flex items-center justify-center bg-amber-50 mx-auto shadow-md">
-            <KeyRound className="w-6 h-6 text-amber-800" />
+          <div className="w-16 h-16 rounded-full border-2 border-amber-600 flex items-center justify-center bg-amber-50 mx-auto shadow-md">
+            <KeyRound className="w-7 h-7 text-amber-900" />
           </div>
-          <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-amber-800 font-bold block">
-            Moonlight Security & Governance
+          <span className="text-xs font-mono uppercase tracking-widest text-amber-900 font-bold block">
+            MOONLIGHT SECURITY
           </span>
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900">
+          <h1 className="text-2xl sm:text-3xl font-bold text-neutral-950 tracking-tight">
             {step === 1 && 'Account Recovery'}
-            {step === 2 && 'Verify OTP & Set Password'}
+            {step === 2 && 'Verify OTP & Password'}
             {step === 3 && 'Recovery Completed'}
-            {step === 4 && 'Request Super Admin Reset'}
-          </h2>
-          <p className="text-xs text-neutral-600 max-w-sm mx-auto">
-            {step === 1 && 'Enter your registered email address to receive a secure 6-digit one-time code.'}
-            {step === 2 && `Enter the 6-digit OTP sent to ${email} and choose a new password.`}
+            {step === 4 && 'Super Admin Reset'}
+          </h1>
+          <p className="text-xs sm:text-sm text-neutral-700 font-medium max-w-sm mx-auto">
+            {step === 1 && 'Enter your registered email address to receive a secure 6-digit OTP code.'}
+            {step === 2 && `Enter the 6-digit OTP code sent to ${email} and choose a new password.`}
             {step === 3 && 'Your credentials have been updated. You can now sign in.'}
-            {step === 4 && 'If you lost email access, request the Super Admin Director to manually reset your password.'}
+            {step === 4 && 'If you cannot access your email, request the Super Admin to reset your password.'}
           </p>
         </div>
 
         {/* STEP 1: Enter Email Form */}
         {step === 1 && (
-          <form onSubmit={handleSendOtp} className="space-y-4 text-xs">
+          <form onSubmit={handleSendOtp} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="text-neutral-700 font-bold uppercase text-[10.5px] tracking-wider block">
+              <label className="text-neutral-950 font-bold text-xs uppercase tracking-wider block">
                 Registered Email Address
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Mail className="w-5 h-5 text-neutral-600 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
                   required
-                  placeholder="name@domain.com"
+                  placeholder="Enter your registered email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl pl-10 pr-4 py-3 text-neutral-900 placeholder-neutral-400 focus:border-amber-600 focus:bg-white focus:outline-none transition-colors"
+                  className="w-full bg-white border-2 border-neutral-400 rounded-xl pl-11 pr-4 py-3 text-neutral-950 font-medium text-sm placeholder-neutral-500 focus:border-amber-700 focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -186,20 +183,20 @@ const ForgotPassword = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 mt-2 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-widest shadow-md hover:brightness-105 active:scale-95 transition-all flex items-center justify-center disabled:opacity-50 btn-shimmer"
+              className="w-full py-3.5 mt-2 rounded-xl bg-amber-700 hover:bg-amber-800 active:bg-amber-900 text-white font-bold text-sm tracking-wide shadow-md transition-all flex items-center justify-center disabled:opacity-50"
             >
-              {loading ? 'Dispatching OTP...' : 'Send 6-Digit Verification OTP'}
+              {loading ? 'Sending OTP...' : 'Send 6-Digit OTP Code'}
               <ArrowRight className="w-4 h-4 ml-2" />
             </button>
 
             {/* Super Admin Ticket Link */}
-            <div className="pt-3 border-t border-neutral-200 text-center space-y-2">
+            <div className="pt-3 border-t border-neutral-300 text-center">
               <button
                 type="button"
                 onClick={() => setStep(4)}
-                className="text-amber-800 hover:text-amber-950 text-xs font-semibold hover:underline flex items-center justify-center mx-auto"
+                className="text-amber-900 hover:text-amber-950 text-xs font-bold hover:underline flex items-center justify-center mx-auto"
               >
-                <ShieldCheck className="w-3.5 h-3.5 mr-1 text-amber-700" />
+                <ShieldCheck className="w-4 h-4 mr-1 text-amber-800" />
                 Can't access email? Request Super Admin Reset →
               </button>
             </div>
@@ -208,20 +205,20 @@ const ForgotPassword = () => {
 
         {/* STEP 2: OTP & New Password Form */}
         {step === 2 && (
-          <form onSubmit={handleVerifyAndReset} className="space-y-4 text-xs">
+          <form onSubmit={handleVerifyAndReset} className="space-y-4">
             {/* Live OTP Notification Box */}
-            <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-900/15 flex items-center justify-between text-xs">
+            <div className="p-3.5 rounded-2xl bg-amber-50 border-2 border-amber-300 flex items-center justify-between text-xs">
               <div className="flex items-center space-x-2">
-                <ShieldCheck className="w-4 h-4 text-amber-700 shrink-0" />
+                <ShieldCheck className="w-5 h-5 text-amber-800 shrink-0" />
                 <div>
-                  <span className="text-amber-900 font-bold block">One-Time Code Generated</span>
-                  <span className="text-[10px] text-neutral-600">Demo OTP Code: <strong className="text-neutral-900 font-mono">{generatedOtp}</strong></span>
+                  <span className="text-amber-950 font-bold block">One-Time Code Generated</span>
+                  <span className="text-xs text-neutral-800 font-medium">Demo Code: <strong className="text-neutral-950 font-mono text-sm">{generatedOtp}</strong></span>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setOtp(generatedOtp)}
-                className="px-2.5 py-1 bg-amber-200/60 hover:bg-amber-300 border border-amber-400/60 rounded-lg text-[10.5px] font-bold text-amber-900 transition-all font-mono"
+                className="px-3 py-1.5 bg-amber-700 hover:bg-amber-800 text-white rounded-lg text-xs font-bold transition-all shadow-sm"
               >
                 Auto-Fill
               </button>
@@ -229,13 +226,13 @@ const ForgotPassword = () => {
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="text-neutral-700 font-bold uppercase text-[10.5px] tracking-wider">
+                <label className="text-neutral-950 font-bold text-xs uppercase tracking-wider block">
                   6-Digit OTP Code
                 </label>
-                <span className="text-[10.5px] text-neutral-600 font-mono flex items-center">
-                  <Clock className="w-3 h-3 mr-1 text-amber-700" />
+                <span className="text-xs text-neutral-700 font-mono font-medium flex items-center">
+                  <Clock className="w-3.5 h-3.5 mr-1 text-amber-800" />
                   {resendTimer > 0 ? `Resend in ${resendTimer}s` : (
-                    <button type="button" onClick={handleSendOtp} className="text-amber-800 hover:underline">
+                    <button type="button" onClick={handleSendOtp} className="text-amber-900 font-bold hover:underline">
                       Resend Code
                     </button>
                   )}
@@ -248,48 +245,48 @@ const ForgotPassword = () => {
                 placeholder="123456"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-                className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 text-center font-mono text-lg tracking-[0.3em] font-bold placeholder-neutral-400 focus:border-amber-600 focus:bg-white focus:outline-none transition-colors"
+                className="w-full bg-white border-2 border-neutral-400 rounded-xl px-4 py-3 text-neutral-950 text-center font-mono text-xl tracking-[0.3em] font-bold placeholder-neutral-400 focus:border-amber-700 focus:outline-none"
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="space-y-3">
               <div className="space-y-1.5">
-                <label className="text-neutral-700 font-bold uppercase text-[10.5px] tracking-wider">
-                  New Password *
+                <label className="text-neutral-950 font-bold text-xs uppercase tracking-wider block">
+                  New Password
                 </label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <Lock className="w-5 h-5 text-neutral-600 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     required
-                    placeholder="••••••••"
+                    placeholder="Enter new password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl pl-10 pr-9 py-2.5 text-neutral-900 focus:border-amber-600 focus:bg-white focus:outline-none transition-colors"
+                    className="w-full bg-white border-2 border-neutral-400 rounded-xl pl-11 pr-10 py-3 text-neutral-950 font-medium text-sm placeholder-neutral-500 focus:border-amber-700 focus:outline-none"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-900"
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-700 hover:text-black"
                   >
-                    {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-neutral-700 font-bold uppercase text-[10.5px] tracking-wider">
-                  Confirm Password *
+                <label className="text-neutral-950 font-bold text-xs uppercase tracking-wider block">
+                  Confirm Password
                 </label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <Lock className="w-5 h-5 text-neutral-600 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     required
-                    placeholder="••••••••"
+                    placeholder="Confirm new password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl pl-10 pr-4 py-2.5 text-neutral-900 focus:border-amber-600 focus:bg-white focus:outline-none transition-colors"
+                    className="w-full bg-white border-2 border-neutral-400 rounded-xl pl-11 pr-4 py-3 text-neutral-950 font-medium text-sm placeholder-neutral-500 focus:border-amber-700 focus:outline-none"
                   />
                 </div>
               </div>
@@ -298,7 +295,7 @@ const ForgotPassword = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 mt-2 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-widest shadow-md hover:brightness-105 active:scale-95 transition-all flex items-center justify-center disabled:opacity-50 btn-shimmer"
+              className="w-full py-3.5 mt-2 rounded-xl bg-amber-700 hover:bg-amber-800 active:bg-amber-900 text-white font-bold text-sm tracking-wide shadow-md transition-all flex items-center justify-center disabled:opacity-50"
             >
               {loading ? 'Verifying...' : 'Confirm OTP & Update Password'}
               <CheckCircle2 className="w-4 h-4 ml-2" />
@@ -308,53 +305,53 @@ const ForgotPassword = () => {
 
         {/* STEP 3: Success Confirmation */}
         {step === 3 && (
-          <div className="p-6 rounded-3xl bg-emerald-50 border border-emerald-300 text-center space-y-4">
-            <div className="w-12 h-12 rounded-full bg-emerald-100 border border-emerald-400 flex items-center justify-center text-emerald-700 mx-auto shadow-sm">
-              <CheckCircle2 className="w-6 h-6" />
+          <div className="p-6 rounded-3xl bg-emerald-50 border-2 border-emerald-400 text-center space-y-4">
+            <div className="w-14 h-14 rounded-full bg-emerald-100 border-2 border-emerald-500 flex items-center justify-center text-emerald-800 mx-auto shadow-sm">
+              <CheckCircle2 className="w-7 h-7" />
             </div>
             <div>
-              <h3 className="font-serif text-xl font-bold text-neutral-900">Credentials Ready</h3>
-              <p className="text-xs text-neutral-600 mt-1">
-                Your password update has been verified and synced across the Moonlight security engine.
+              <h3 className="text-xl font-bold text-neutral-950">Password Updated!</h3>
+              <p className="text-xs sm:text-sm text-neutral-800 mt-1 font-medium">
+                Your new password is now active and you can sign in to your portal.
               </p>
             </div>
             <Link
               to="/login"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-md hover:brightness-105 transition-all btn-shimmer"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-amber-700 hover:bg-amber-800 text-white font-bold text-sm tracking-wider shadow-md transition-all"
             >
-              Sign In to Atelier Portal <ArrowRight className="w-4 h-4 ml-1.5" />
+              Sign In Now <ArrowRight className="w-4 h-4 ml-1.5" />
             </Link>
           </div>
         )}
 
         {/* STEP 4: Request Super Admin Override */}
         {step === 4 && (
-          <form onSubmit={handleSuperAdminTicket} className="space-y-4 text-xs">
-            <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-300 flex items-start space-x-2.5 text-xs text-amber-900">
-              <AlertCircle className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
-              <p className="leading-relaxed font-normal">
-                This request will be delivered to the <strong>Super Admin Control Center</strong>. Super Admin will verify your identity and generate a temporary password.
+          <form onSubmit={handleSuperAdminTicket} className="space-y-4">
+            <div className="p-3.5 rounded-2xl bg-amber-50 border-2 border-amber-300 flex items-start space-x-2.5 text-xs text-amber-950">
+              <AlertCircle className="w-5 h-5 text-amber-800 shrink-0 mt-0.5" />
+              <p className="leading-relaxed font-medium">
+                This request will be delivered to the <strong>Super Admin</strong>. You will receive a call or SMS on your registered phone.
               </p>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-neutral-700 font-bold uppercase text-[10.5px]">Account Email Address *</label>
+              <label className="text-neutral-950 font-bold text-xs uppercase tracking-wider block">Account Email Address *</label>
               <input
                 type="email"
                 required
-                placeholder="name@domain.com"
+                placeholder="Enter your account email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 focus:border-amber-600 focus:bg-white focus:outline-none"
+                className="w-full bg-white border-2 border-neutral-400 rounded-xl px-4 py-3 text-neutral-950 font-medium text-sm focus:border-amber-700 focus:outline-none"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-neutral-700 font-bold uppercase text-[10.5px]">Reason for Super Admin Assistance</label>
+              <label className="text-neutral-950 font-bold text-xs uppercase tracking-wider block">Reason for Super Admin Assistance</label>
               <select
                 value={ticketReason}
                 onChange={(e) => setTicketReason(e.target.value)}
-                className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-3 py-3 text-neutral-900 focus:outline-none focus:border-amber-600"
+                className="w-full bg-white border-2 border-neutral-400 rounded-xl px-3 py-3 text-neutral-950 font-medium text-sm focus:outline-none focus:border-amber-700"
               >
                 <option value="Cannot access registered email address.">Cannot access registered email address</option>
                 <option value="Did not receive 6-digit OTP.">Did not receive 6-digit OTP</option>
@@ -367,16 +364,16 @@ const ForgotPassword = () => {
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="w-1/3 py-3 rounded-full border border-neutral-300 text-neutral-700 font-bold hover:bg-neutral-100"
+                className="w-1/3 py-3 rounded-xl border-2 border-neutral-400 text-neutral-800 font-bold hover:bg-neutral-100 text-xs"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="w-2/3 py-3 rounded-full bg-gold-gradient text-neutral-950 font-extrabold uppercase tracking-wider shadow-md hover:brightness-105 btn-shimmer"
+                className="w-2/3 py-3 rounded-xl bg-amber-700 hover:bg-amber-800 text-white font-bold text-xs tracking-wider shadow-md"
               >
-                {loading ? 'Submitting...' : 'Dispatch Ticket to Super Admin'}
+                {loading ? 'Submitting...' : 'Send to Super Admin'}
               </button>
             </div>
           </form>
@@ -384,8 +381,8 @@ const ForgotPassword = () => {
 
         {/* Back Link */}
         <div className="pt-2 text-center">
-          <Link to="/login" className="inline-flex items-center text-xs text-neutral-600 hover:text-neutral-900 font-medium">
-            <ArrowLeft className="w-3.5 h-3.5 mr-1" /> Return to Sign In Portal
+          <Link to="/login" className="inline-flex items-center text-xs text-neutral-700 hover:text-black font-bold">
+            <ArrowLeft className="w-4 h-4 mr-1" /> Return to Sign In
           </Link>
         </div>
       </div>
