@@ -6,7 +6,6 @@ import {
   Phone,
   Mail,
   MapPin,
-  Heart,
   ArrowUpRight,
   Sparkles,
   ShieldCheck,
@@ -17,7 +16,6 @@ import {
   ExternalLink,
   Camera,
   Film,
-  Crown,
 } from 'lucide-react';
 
 const Footer = () => {
@@ -160,7 +158,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact Concierge, Careers & Login */}
+          {/* Contact Concierge & Careers */}
           <div className="space-y-3.5">
             <h4 className="text-xs uppercase tracking-[0.2em] text-amber-800 font-bold font-mono">
               Studio Hotline
@@ -192,28 +190,16 @@ const Footer = () => {
               </a>
             </div>
 
-            <div className="pt-2 border-t border-neutral-300 space-y-2">
+            <div className="pt-2 border-t border-neutral-300">
               <Link
                 to="/careers"
-                className="flex items-center text-xs text-amber-900 hover:text-amber-950 font-bold bg-amber-500/15 hover:bg-amber-500/25 px-2.5 py-1.5 rounded-lg border border-amber-500/30 transition-all group"
+                className="flex items-center text-xs text-amber-900 hover:text-amber-950 font-bold bg-amber-500/15 hover:bg-amber-500/25 px-2.5 py-2 rounded-lg border border-amber-500/30 transition-all group"
               >
                 <Camera className="w-3.5 h-3.5 mr-1.5 text-amber-700" />
                 <span>Careers & Job Openings</span>
                 <span className="ml-auto px-1.5 py-0.2 rounded text-[9px] font-mono uppercase bg-emerald-600 text-white font-bold">
                   We're Hiring
                 </span>
-              </Link>
-              <Link
-                to="/login?role=customer"
-                className="flex items-center text-xs text-amber-800 hover:text-amber-900 font-bold"
-              >
-                <Heart className="w-3 h-3 mr-1.5 text-amber-600" /> Couple Sanctuary Login
-              </Link>
-              <Link
-                to="/login?role=admin"
-                className="flex items-center text-[11px] text-neutral-600 hover:text-neutral-900 font-medium"
-              >
-                <Crown className="w-3 h-3 mr-1.5 text-amber-600" /> Studio Admin Portal
               </Link>
             </div>
           </div>
