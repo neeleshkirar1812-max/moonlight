@@ -13,6 +13,9 @@ export const generateLuxuryInvoicePDF = (inv) => {
 
   const pageWidth = 210;
   const pageHeight = 297;
+  const margin = 14;
+  const contentWidth = 182;
+  const rightEdge = margin + contentWidth; // 196mm
 
   // 1. Top Obsidian Luxury Banner
   doc.setFillColor(11, 11, 11);
@@ -43,34 +46,34 @@ export const generateLuxuryInvoicePDF = (inv) => {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(212, 175, 55);
-  doc.text('Studio OF ROYAL WEDDING PHOTOGRAPHY & cinematic wedding films', 32, 23);
+  doc.text('STUDIO OF ROYAL WEDDING PHOTOGRAPHY & CINEMATIC WEDDING FILMS', 32, 23);
 
   doc.setFontSize(7);
   doc.setTextColor(180, 180, 180);
   doc.text('Moonlight Production Central Studio • GSTIN: 27AAAAA0000A1Z5 • PAN: AAACL1234F', 32, 28);
-  doc.text('WhatsApp: +91 92292 29323 • @moonlight_production__ • linktr.ee/moonlight_photography_in', 32, 33);
+  doc.text('WhatsApp: +91 92292 29323 • Instagram: @moonlight_production_bhopal • Phone: +91 77489 06015', 32, 33);
 
-  // Right Side Header Metadata
+  // Right Side Header Metadata (Aligned to 196mm)
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8.5);
+  doc.setFontSize(9);
   doc.setTextColor(212, 175, 55);
-  doc.text('TAX INVOICE', 155, 14);
+  doc.text('TAX INVOICE', rightEdge, 14, { align: 'right' });
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(220, 220, 220);
-  doc.text(`Invoice No: ${inv.invoiceNumber}`, 155, 20);
-  doc.text(`Issue Date: ${new Date(inv.issueDate || Date.now()).toLocaleDateString('en-IN')}`, 155, 25);
-  doc.text(`Due Date: ${new Date(inv.dueDate || Date.now()).toLocaleDateString('en-IN')}`, 155, 30);
+  doc.text(`Invoice No: ${inv.invoiceNumber}`, rightEdge, 20, { align: 'right' });
+  doc.text(`Issue Date: ${new Date(inv.issueDate || Date.now()).toLocaleDateString('en-IN')}`, rightEdge, 25, { align: 'right' });
+  doc.text(`Due Date: ${new Date(inv.dueDate || Date.now()).toLocaleDateString('en-IN')}`, rightEdge, 30, { align: 'right' });
   
   // Status Badge
   const statusColor = inv.status === 'PAID' ? [34, 197, 94] : inv.status === 'PARTIALLY_PAID' ? [59, 130, 246] : [212, 175, 55];
   doc.setFillColor(...statusColor);
-  doc.roundedRect(155, 33, 40, 5, 1, 1, 'F');
+  doc.roundedRect(rightEdge - 42, 33, 42, 5.5, 1, 1, 'F');
   doc.setTextColor(0, 0, 0);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7);
-  doc.text(`STATUS: ${inv.status || 'ISSUED'}`, 158, 36.8);
+  doc.text(`STATUS: ${inv.status || 'ISSUED'}`, rightEdge - 21, 37, { align: 'center' });
 
   // 2. Client Details Section Card
   doc.setFillColor(248, 246, 240);
@@ -181,38 +184,38 @@ export const generateLuxuryInvoicePDF = (inv) => {
 
   // 5. Studio Bank Account & UPI Box (Left Side of Totals)
   doc.setFillColor(245, 245, 245);
-  doc.roundedRect(14, finalY, 102, 32, 1.5, 1.5, 'F');
+  doc.roundedRect(margin, finalY, 102, 32, 1.5, 1.5, 'F');
   doc.setDrawColor(212, 175, 55);
-  doc.roundedRect(14, finalY, 102, 32, 1.5, 1.5, 'D');
+  doc.roundedRect(margin, finalY, 102, 32, 1.5, 1.5, 'D');
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.5);
   doc.setTextColor(212, 175, 55);
-  doc.text('OFFICIAL STUDIO PAYMENT DETAILS (NEFT / RTGS / UPI):', 18, finalY + 5);
+  doc.text('OFFICIAL STUDIO PAYMENT DETAILS (NEFT / RTGS / UPI):', margin + 4, finalY + 5);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7);
   doc.setTextColor(60, 60, 60);
-  doc.text('Beneficiary: Moonlight Production & Films', 18, finalY + 10);
-  doc.text('Bank: HDFC Bank Ltd., Central Branch', 18, finalY + 15);
-  doc.text('A/C No: 50200084920194  |  IFSC Code: HDFC0000043', 18, finalY + 20);
+  doc.text('Beneficiary: Moonlight Production & Films', margin + 4, finalY + 10);
+  doc.text('Bank: HDFC Bank Ltd., Central Branch', margin + 4, finalY + 15);
+  doc.text('A/C No: 50200084920194  |  IFSC Code: HDFC0000043', margin + 4, finalY + 20);
   doc.setFont('helvetica', 'bold');
-  doc.text('Official UPI ID: moonlightproduction@hdfcbank', 18, finalY + 25);
+  doc.text('Official UPI ID: moonlightproduction@hdfcbank', margin + 4, finalY + 25);
   doc.setFont('helvetica', 'normal');
-  doc.text('Note: Please share UTR / Transaction receipt to confirm allocation.', 18, finalY + 29);
+  doc.text('Note: Please share UTR / Transaction receipt to confirm allocation.', margin + 4, finalY + 29);
 
   // 6. Comprehensive Studio Terms & Conditions (T&C) Box
   const tncY = finalY + 36;
   doc.setFillColor(252, 250, 245);
-  doc.roundedRect(14, tncY, 182, 60, 2, 2, 'F');
+  doc.roundedRect(margin, tncY, contentWidth, 58, 2, 2, 'F');
   doc.setDrawColor(212, 175, 55);
   doc.setLineWidth(0.4);
-  doc.roundedRect(14, tncY, 182, 60, 2, 2, 'D');
+  doc.roundedRect(margin, tncY, contentWidth, 58, 2, 2, 'D');
 
   doc.setFont('times', 'bold');
   doc.setFontSize(8.5);
   doc.setTextColor(170, 130, 20);
-  doc.text('STUDIO TERMS & CONDITIONS AND PRODUCTION AGREEMENT', 18, tncY + 5.5);
+  doc.text('STUDIO TERMS & CONDITIONS AND PRODUCTION AGREEMENT', margin + 4, tncY + 5.5);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.8);
@@ -225,13 +228,13 @@ export const generateLuxuryInvoicePDF = (inv) => {
     '4. DIGITAL ARCHIVE STORAGE: Raw and master project files remain archived on our high-security cloud servers for 6 months post-event. After 6 months, storage is purged and the studio assumes no digital retention liability.',
     '5. REVISIONS POLICY: Client package includes one (1) complimentary round of editorial feedback on the wedding cinema teaser/film within 14 days of online preview release.',
     '6. COPYRIGHT & MORAL RIGHTS: Moonlight Production retains moral creative copyright for fine-art exhibition and award entries. Couples receive full unrestricted rights for personal printing and social media usage.',
-    '7. FORCE MAJEURE & JURISDICTION: Date rescheduling requires minimum 45 days written notice and is subject to studio crew availability. All legal matters subject to court jurisdiction.',
+    '7. FORCE MAJEURE & JURISDICTION: Date rescheduling requires minimum 45 days written notice and is subject to studio crew availability. All legal matters subject to court jurisdiction in MP, India.',
   ];
 
   let currentLineY = tncY + 10.5;
   tncLines.forEach((clause) => {
     const wrapped = doc.splitTextToSize(clause, 174);
-    doc.text(wrapped, 18, currentLineY);
+    doc.text(wrapped, margin + 4, currentLineY);
     currentLineY += wrapped.length * 3.1 + 0.8;
   });
 
@@ -239,22 +242,23 @@ export const generateLuxuryInvoicePDF = (inv) => {
   const footerY = 280;
   doc.setDrawColor(200, 200, 200);
   doc.setLineWidth(0.3);
-  doc.line(14, footerY - 4, 196, footerY - 4);
+  doc.line(margin, footerY - 4, rightEdge, footerY - 4);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.5);
   doc.setTextColor(120, 120, 120);
-  doc.text('Moonlight Production & Films • Mastercrafted Luxury Wedding Media • linktr.ee/moonlight_photography_in', 14, footerY);
+  doc.text('Moonlight Production & Films • Mastercrafted Luxury Wedding Media • linktr.ee/moonlight_photography_in', margin, footerY);
 
   // Digital Signature Stamp
   doc.setFont('times', 'bolditalic');
   doc.setFontSize(8.5);
   doc.setTextColor(212, 175, 55);
-  doc.text('Moonlight Production Lead Director', 150, footerY - 1);
+  doc.text('Moonlight Production Lead Director', rightEdge, footerY - 1, { align: 'right' });
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6);
   doc.setTextColor(100, 100, 100);
-  doc.text('Founder & Creative Director (Authorized Signatory)', 138, footerY + 2.5);
+  doc.text('Founder & Creative Director (Authorized Signatory)', rightEdge, footerY + 2.5, { align: 'right' });
 
   doc.save(`${inv.invoiceNumber || 'Moonlight_Invoice'}.pdf`);
+  return doc;
 };

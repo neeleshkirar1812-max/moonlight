@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../api/client';
 import { useNotification } from '../../context/NotificationContext';
 import * as XLSX from 'xlsx';
+import { generateQuotationPDF } from '../../utils/quotationPdfGenerator';
 import {
   MessageSquare,
   Search,
@@ -679,12 +680,29 @@ const AdminEnquiries = () => {
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full py-2.5 rounded-xl bg-gold-gradient text-neutral-950 font-extrabold uppercase tracking-wider text-xs shadow-gold-subtle hover:scale-[1.02] flex items-center justify-center transition-all"
-                >
-                  <Send className="w-3.5 h-3.5 mr-1.5" /> Dispatch & Update Stage
-                </button>
+                <div className="flex gap-2 pt-1">
+                  <button
+                    type="submit"
+                    className="flex-1 py-2.5 rounded-xl bg-gold-gradient text-neutral-950 font-extrabold uppercase tracking-wider text-xs shadow-gold-subtle hover:scale-[1.02] flex items-center justify-center transition-all"
+                  >
+                    <Send className="w-3.5 h-3.5 mr-1.5" /> Dispatch & Update Stage
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => generateQuotationPDF({
+                      ...selectedEnquiry,
+                      quotation: {
+                        totalAmount: Number(quotationAmount) || selectedEnquiry.quotation?.totalAmount || 850000,
+                        notes: quotationNotes || selectedEnquiry.quotation?.notes,
+                      }
+                    })}
+                    className="px-3.5 py-2.5 rounded-xl bg-white hover:bg-amber-50 text-amber-900 border border-amber-300 font-bold uppercase tracking-wider text-xs flex items-center justify-center transition-all shadow-sm"
+                    title="Generate and Download Official Quotation PDF"
+                  >
+                    <Download className="w-3.5 h-3.5 mr-1" /> Quotation PDF
+                  </button>
+                </div>
               </form>
             </div>
 

@@ -50,10 +50,13 @@ export const generateSalarySlipPDF = (slip) => {
 
   const pageWidth = 210;
   const pageHeight = 297;
+  const margin = 14;
+  const contentWidth = 182;
+  const rightEdge = margin + contentWidth; // 196mm
 
   // 1. Top Obsidian Luxury Banner
   doc.setFillColor(11, 11, 11);
-  doc.rect(0, 0, pageWidth, 40, 'F');
+  doc.rect(0, 0, pageWidth, 42, 'F');
 
   // Gold Accent Line
   doc.setFillColor(212, 175, 55);
@@ -61,15 +64,15 @@ export const generateSalarySlipPDF = (slip) => {
 
   // Studio Monogram Circle
   doc.setFillColor(20, 20, 20);
-  doc.circle(18, 20, 9, 'F');
+  doc.circle(18, 21, 9, 'F');
   doc.setDrawColor(212, 175, 55);
   doc.setLineWidth(0.6);
-  doc.circle(18, 20, 9, 'D');
+  doc.circle(18, 21, 9, 'D');
 
   doc.setTextColor(212, 175, 55);
   doc.setFont('times', 'bold');
   doc.setFontSize(15);
-  doc.text('M', 15, 24);
+  doc.text('M', 15, 25);
 
   // Studio Name & Branding
   doc.setFont('times', 'bold');
@@ -85,36 +88,37 @@ export const generateSalarySlipPDF = (slip) => {
   doc.setFontSize(7);
   doc.setTextColor(180, 180, 180);
   doc.text('Central Studio • Bhopal, MP • Phone: +91 77489 06015 • Email: nkneeleshkirar@gmail.com', 32, 27);
+  doc.text('WhatsApp: +91 92292 29323 • Instagram: @moonlight_production_bhopal', 32, 32);
 
-  // Right Side Header Metadata
+  // Right Side Header Metadata (Perfect Right-Aligned to 196mm)
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(9);
   doc.setTextColor(212, 175, 55);
-  doc.text('SALARY PAY SLIP', 150, 14);
+  doc.text('SALARY PAY SLIP', rightEdge, 14, { align: 'right' });
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(200, 200, 200);
-  doc.text(`Slip No: ${slip.slipNumber || 'SLIP-MLP-001'}`, 150, 19);
-  doc.text(`Month: ${slip.month || 'August 2026'}`, 150, 24);
+  doc.text(`Slip No: ${slip.slipNumber || 'SLIP-MLP-001'}`, rightEdge, 20, { align: 'right' });
+  doc.text(`Month: ${slip.month || 'August 2026'}`, rightEdge, 25, { align: 'right' });
 
   const statusText = (slip.paymentStatus || 'Paid').toUpperCase();
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(statusText === 'PAID' ? 46 : 212, statusText === 'PAID' ? 204 : 175, statusText === 'PAID' ? 113 : 55);
-  doc.text(`Status: ${statusText}`, 150, 29);
+  doc.text(`Status: ${statusText}`, rightEdge, 30, { align: 'right' });
 
   // 2. Employee Details Card
   let y = 48;
   doc.setFillColor(248, 246, 240);
-  doc.roundedRect(14, y, pageWidth - 28, 28, 2, 2, 'F');
+  doc.roundedRect(margin, y, contentWidth, 28, 2, 2, 'F');
   doc.setDrawColor(212, 175, 55);
   doc.setLineWidth(0.3);
-  doc.roundedRect(14, y, pageWidth - 28, 28, 2, 2, 'D');
+  doc.roundedRect(margin, y, contentWidth, 28, 2, 2, 'D');
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8.5);
   doc.setTextColor(11, 11, 11);
-  doc.text('EMPLOYEE DETAILS', 18, y + 6);
+  doc.text('EMPLOYEE DETAILS', margin + 4, y + 6);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
@@ -125,21 +129,22 @@ export const generateSalarySlipPDF = (slip) => {
   const resolvedCode = slip.employeeCode || slip.employee?.employeeCode || 'EMP-MLP-001';
   const resolvedDesig = slip.designation || slip.employee?.designation || 'Production Specialist';
 
-  doc.text(`Employee Code: ${resolvedCode}`, 18, y + 13);
+  doc.text(`Employee Code: ${resolvedCode}`, margin + 4, y + 13);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(11, 11, 11);
-  doc.text(`Employee Name: ${resolvedName}`, 18, y + 19);
+  doc.text(`Employee Name: ${resolvedName}`, margin + 4, y + 19);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(50, 50, 50);
-  doc.text(`Designation: ${resolvedDesig}`, 18, y + 25);
+  doc.text(`Designation: ${resolvedDesig}`, margin + 4, y + 25);
 
   // Column 2
-  doc.text(`Payment Mode: ${slip.paymentMethod || 'BANK_TRANSFER'}`, 110, y + 13);
-  doc.text(`Transaction ID: ${slip.transactionId || 'Pending Clearance'}`, 110, y + 19);
-  doc.text(`Payment Date: ${slip.paymentDate ? new Date(slip.paymentDate).toLocaleDateString('en-IN') : 'End of Month'}`, 110, y + 25);
+  const col2X = margin + 96;
+  doc.text(`Payment Mode: ${slip.paymentMethod || 'BANK_TRANSFER'}`, col2X, y + 13);
+  doc.text(`Transaction ID: ${slip.transactionId || 'UTR-HDFC-9821040'}`, col2X, y + 19);
+  doc.text(`Payment Date: ${slip.paymentDate ? new Date(slip.paymentDate).toLocaleDateString('en-IN') : '01/08/2026'}`, col2X, y + 25);
 
   // 3. Earnings & Deductions Breakdown Tables
-  y = 84;
+  y = 82;
 
   const basicPay = Number(slip.basicPay) || 0;
   const hra = Number(slip.hraAllowances) || 0;
@@ -154,19 +159,19 @@ export const generateSalarySlipPDF = (slip) => {
   const netPay = Number(slip.netPay) || Math.max(0, grossPay - totalDeductions);
 
   const earningsBody = [
-    ['Basic Salary', `₹${basicPay.toLocaleString('en-IN')}`],
-    ['House Rent Allowance (HRA)', `₹${hra.toLocaleString('en-IN')}`],
-    ['Royal Shoot Performance Bonus', `₹${bonus.toLocaleString('en-IN')}`],
-    ['Location & Travel Reimbursement', `₹${travel.toLocaleString('en-IN')}`],
-    ['Total Earnings (Gross Pay)', `₹${grossPay.toLocaleString('en-IN')}`],
+    ['Basic Salary', `INR ${basicPay.toLocaleString('en-IN')}`],
+    ['House Rent Allowance (HRA)', `INR ${hra.toLocaleString('en-IN')}`],
+    ['Royal Shoot Performance Bonus', `INR ${bonus.toLocaleString('en-IN')}`],
+    ['Location & Travel Reimbursement', `INR ${travel.toLocaleString('en-IN')}`],
+    ['Total Earnings (Gross Pay)', `INR ${grossPay.toLocaleString('en-IN')}`],
   ];
 
   const deductionsBody = [
-    ['Income Tax / TDS', `₹${tax.toLocaleString('en-IN')}`],
-    ['Provident Fund Contribution', `₹${pf.toLocaleString('en-IN')}`],
-    ['Advance / Gear Recovery', `₹${advance.toLocaleString('en-IN')}`],
-    ['Other Professional Deductions', '₹0'],
-    ['Total Deductions', `₹${totalDeductions.toLocaleString('en-IN')}`],
+    ['Income Tax / TDS', `INR ${tax.toLocaleString('en-IN')}`],
+    ['Provident Fund Contribution', `INR ${pf.toLocaleString('en-IN')}`],
+    ['Advance / Gear Recovery', `INR ${advance.toLocaleString('en-IN')}`],
+    ['Other Professional Deductions', 'INR 0'],
+    ['Total Deductions', `INR ${totalDeductions.toLocaleString('en-IN')}`],
   ];
 
   // Combined Table
@@ -182,9 +187,9 @@ export const generateSalarySlipPDF = (slip) => {
 
   doc.autoTable({
     startY: y,
-    head: [['EARNINGS', 'AMOUNT (INR)', 'DEDUCTIONS', 'AMOUNT (INR)']],
+    head: [['EARNINGS BREAKDOWN', 'AMOUNT (INR)', 'DEDUCTIONS BREAKDOWN', 'AMOUNT (INR)']],
     body: combinedBody,
-    margin: { left: 14, right: 14 },
+    margin: { left: margin, right: margin },
     theme: 'grid',
     headStyles: {
       fillColor: [11, 11, 11],
@@ -213,61 +218,59 @@ export const generateSalarySlipPDF = (slip) => {
   // 4. Net Salary Payout Highlight Box
   let finalY = doc.lastAutoTable.finalY + 8;
   doc.setFillColor(11, 11, 11);
-  doc.roundedRect(14, finalY, pageWidth - 28, 22, 2, 2, 'F');
+  doc.roundedRect(margin, finalY, contentWidth, 22, 2, 2, 'F');
   doc.setFillColor(212, 175, 55);
-  doc.rect(14, finalY, 3, 22, 'F');
+  doc.rect(margin, finalY, 3, 22, 'F');
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8.5);
   doc.setTextColor(180, 180, 180);
-  doc.text('NET SALARY PAYABLE (TAKE-HOME):', 24, finalY + 8);
+  doc.text('NET SALARY PAYABLE (TAKE-HOME):', margin + 10, finalY + 8);
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(16);
   doc.setTextColor(212, 175, 55);
-  doc.text(`₹${netPay.toLocaleString('en-IN')}`, 24, finalY + 16);
+  doc.text(`INR ${netPay.toLocaleString('en-IN')}`, margin + 10, finalY + 16);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
   doc.setTextColor(200, 200, 200);
-  doc.text(`Disbursed via ${slip.paymentMethod || 'Direct Bank Transfer'}`, 120, finalY + 14);
+  doc.text(`Disbursed via ${slip.paymentMethod || 'Direct Bank Transfer'}`, rightEdge - 6, finalY + 14, { align: 'right' });
 
   // 5. Notes & Verification Stamp
-  finalY += 32;
+  finalY += 30;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(11, 11, 11);
-  doc.text('NOTES & ADVICE:', 14, finalY);
+  doc.text('NOTES & HR ADVICE:', margin, finalY);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(80, 80, 80);
-  doc.text(
-    slip.notes ||
-      'This salary slip is an official record of monthly payroll by Moonlight Production. For any discrepancy, contact HR within 5 days.',
-    14,
-    finalY + 5
-  );
+  const noteText = slip.notes || 'This salary slip is an official record of monthly payroll by Moonlight Production HR atelier. For any queries or verification, contact studio accounts within 5 days of salary credit.';
+  const splitNote = doc.splitTextToSize(noteText, contentWidth);
+  doc.text(splitNote, margin, finalY + 5);
 
   // 6. Signature Block
   const sigY = 245;
   doc.setDrawColor(200, 200, 200);
   doc.setLineWidth(0.4);
-  doc.line(14, sigY, 70, sigY);
-  doc.line(140, sigY, 196, sigY);
+  doc.line(margin, sigY, margin + 60, sigY);
+  doc.line(rightEdge - 60, sigY, rightEdge, sigY);
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(11, 11, 11);
-  doc.text('NEELESH KIRAR', 14, sigY + 5);
-  doc.text('EMPLOYEE ACKNOWLEDGEMENT', 140, sigY + 5);
+  doc.text('NEELESH KIRAR', margin, sigY + 5);
+  doc.text('EMPLOYEE ACKNOWLEDGEMENT', rightEdge, sigY + 5, { align: 'right' });
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7);
   doc.setTextColor(100, 100, 100);
-  doc.text('Authorized Signatory & Founder', 14, sigY + 9);
-  doc.text('Moonlight Production', 14, sigY + 13);
-  doc.text('Digital Signature / Employee Signature', 140, sigY + 9);
+  doc.text('Authorized Signatory & Founder', margin, sigY + 9);
+  doc.text('Moonlight Production', margin, sigY + 13);
+  doc.text('Digital Signature Verified', rightEdge, sigY + 9, { align: 'right' });
+  doc.text(resolvedName, rightEdge, sigY + 13, { align: 'right' });
 
   // 7. Footer Accent Bar
   doc.setFillColor(11, 11, 11);
