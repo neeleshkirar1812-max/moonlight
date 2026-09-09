@@ -23,7 +23,7 @@ import {
 const demoAccounts = [
   {
     role: 'customer',
-    label: 'Couple Portal',
+    label: 'Couple',
     icon: Heart,
     email: 'aarav.ananya@gmail.com',
     pass: 'Client@2026',
@@ -31,7 +31,7 @@ const demoAccounts = [
   },
   {
     role: 'superadmin',
-    label: 'Super Admin',
+    label: 'Admin',
     icon: Crown,
     email: 'nkneeleshkirar@gmail.com',
     pass: 'SuperAdmin@2026',
@@ -39,7 +39,7 @@ const demoAccounts = [
   },
   {
     role: 'admin',
-    label: 'Studio Admin',
+    label: 'HR',
     icon: ShieldCheck,
     email: 'admin@moonlightproduction.com',
     pass: 'Admin@2026',
@@ -47,7 +47,7 @@ const demoAccounts = [
   },
   {
     role: 'employee',
-    label: 'Crew Lead',
+    label: 'Team',
     icon: Camera,
     email: 'amanpawar074@gmail.com',
     pass: 'Crew@2026',
@@ -233,7 +233,7 @@ const Login = () => {
                     <div className="flex items-center justify-between">
                       <IconComponent className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-amber-800'}`} />
                       <span className={`text-[9px] font-mono font-bold uppercase ${isSelected ? 'text-amber-200' : 'text-neutral-500'}`}>
-                        {d.role === 'customer' ? 'Couple' : d.role === 'superadmin' ? 'Owner' : d.role === 'admin' ? 'Admin' : 'Crew'}
+                        {d.role === 'customer' ? 'Couple' : d.role === 'superadmin' ? 'Admin' : d.role === 'admin' ? 'HR' : 'Team'}
                       </span>
                     </div>
                     <span className="text-[10.5px] font-bold leading-tight line-clamp-1 mt-1">
