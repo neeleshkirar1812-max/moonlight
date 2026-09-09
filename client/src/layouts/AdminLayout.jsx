@@ -294,15 +294,6 @@ const AdminLayout = () => {
                 <span className="sm:hidden">{pendingApprovalsCount}</span>
               </Link>
             )}
-
-            <button
-              onClick={logout}
-              className="px-2.5 sm:px-3 py-1 rounded-full bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 text-xs font-semibold transition-all flex items-center shadow-sm"
-              title="Sign Out"
-            >
-              <LogOut className="w-3 h-3 sm:mr-1" />
-              <span className="hidden sm:inline">Logout</span>
-            </button>
           </div>
         </header>
 
