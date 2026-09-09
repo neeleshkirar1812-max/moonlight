@@ -183,7 +183,7 @@ export const generateLuxuryInvoicePDF = (inv) => {
   doc.text(`Balance Remaining:`, 124, finalY + 29);
   doc.text(`INR ${remaining.toLocaleString('en-IN')}`, 192, finalY + 29, { align: 'right' });
 
-  // 5. Official Studio Bank Account Box (SBI)
+  // 5. Official Studio Bank Account Box (YES BANK Current Account)
   doc.setFillColor(245, 245, 245);
   doc.roundedRect(margin, finalY, 102, 32, 1.5, 1.5, 'F');
   doc.setDrawColor(212, 175, 55);
@@ -198,9 +198,9 @@ export const generateLuxuryInvoicePDF = (inv) => {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7);
   doc.setTextColor(60, 60, 60);
-  doc.text('Beneficiary Name: Raksha Rathore (Moonlight Production)', margin + 4, finalY + 10);
-  doc.text('Bank Name: State Bank of India (SBI)', margin + 4, finalY + 14.5);
-  doc.text('A/C No: 63032503918  |  IFSC Code: SBIN0061083', margin + 4, finalY + 19);
+  doc.text('Beneficiary Name: MOONLIGHT PRODUCTION', margin + 4, finalY + 10);
+  doc.text('Bank Name: YES BANK Ltd. (Bittan Market, Bhopal)', margin + 4, finalY + 14.5);
+  doc.text('Current A/C No: 069861900005221  |  IFSC: YESB0000698', margin + 4, finalY + 19);
   doc.setFont('helvetica', 'bold');
   doc.text('Official UPI / PhonePe / GPay: 9039583534 / 9229229323', margin + 4, finalY + 24);
   doc.setFont('helvetica', 'normal');

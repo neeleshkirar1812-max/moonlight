@@ -233,9 +233,11 @@ const initialData = {
     gstin: '23DHNPR9293D1ZT',
     udyam: 'UDYAM-MP-10-0119118',
     pan: 'DHNPR9293D',
-    bankName: 'State Bank of India (SBI)',
-    accountNumber: '63032503918',
-    ifscCode: 'SBIN0061083',
+    bankName: 'YES BANK Ltd.',
+    bankBranch: 'Bittan Market, Arera Colony, Bhopal - 462016',
+    accountType: 'Current Account',
+    accountNumber: '069861900005221',
+    ifscCode: 'YESB0000698',
   },
 };
 

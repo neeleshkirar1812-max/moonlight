@@ -160,13 +160,13 @@ const InvoiceModal = ({ invoice, onClose, onResend, onPay, isAdmin = false }) =>
           {/* Studio Bank & Payment Details Card */}
           <div className="p-4 rounded-2xl bg-stone-50 border border-neutral-200 space-y-1.5 font-mono">
             <span className="text-[11px] font-bold text-amber-800 uppercase tracking-wider block">
-              🏦 Studio Official Bank & UPI Transfer Details:
+              🏦 Studio Official Current Bank & UPI Transfer Details:
             </span>
             <p className="text-neutral-800">
-              Beneficiary: <strong>Raksha Rathore (Moonlight Production)</strong>
+              Beneficiary: <strong>MOONLIGHT PRODUCTION</strong>
             </p>
             <p className="text-neutral-600">
-              Bank: <strong>State Bank of India (SBI)</strong> | A/C: <strong>63032503918</strong> | IFSC: <strong>SBIN0061083</strong>
+              Bank: <strong>YES BANK Ltd. (Bittan Market Branch, Bhopal)</strong> | Current A/C: <strong>069861900005221</strong> | IFSC: <strong>YESB0000698</strong>
             </p>
             <p className="text-emerald-700 font-bold">
               Official UPI / PhonePe / GPay: <strong>9039583534 / 9229229323</strong>
