@@ -54,6 +54,31 @@ const budgetOptions = [
   { label: 'Flexible / Need Advice', desc: 'Custom tailored quote' },
 ];
 
+const getDetectedLeadSource = () => {
+  if (typeof window === 'undefined') return 'Website';
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const utmSource = params.get('utm_source') || params.get('source') || params.get('ref');
+    if (utmSource) {
+      const lower = utmSource.toLowerCase();
+      if (lower.includes('insta')) return 'Instagram Ads';
+      if (lower.includes('fb') || lower.includes('facebook')) return 'Facebook Ads';
+      if (lower.includes('google')) return 'Google Ads';
+      if (lower.includes('whatsapp')) return 'WhatsApp Direct';
+      return utmSource;
+    }
+    if (params.get('fbclid')) return 'Instagram / Meta Ads';
+    if (params.get('gclid')) return 'Google Ads';
+    if (document.referrer) {
+      if (document.referrer.includes('instagram.com')) return 'Instagram Direct';
+      if (document.referrer.includes('facebook.com')) return 'Facebook Direct';
+    }
+  } catch (e) {
+    // fallback
+  }
+  return 'Website Interactive Planner';
+};
+
 const EnquiryPlanner = () => {
   const [formData, setFormData] = useState({
     eventType: 'Royal Wedding',
@@ -136,7 +161,7 @@ const EnquiryPlanner = () => {
         requiredServices: formData.requiredServices,
         budgetRange: formData.budgetRange,
         storyDetails: formData.storyDetails,
-        leadSource: 'Website 1-Page Form',
+        leadSource: getDetectedLeadSource(),
         customerDetails: {
           fullName: formData.fullName.trim(),
           email: formData.email.trim() || `${formData.phone.replace(/[^\d]/g, '')}@moonlightclients.in`,

@@ -32,6 +32,12 @@ import {
   Check,
   Zap,
   X,
+  Plus,
+  Instagram,
+  MessageCircle,
+  Copy,
+  Layers,
+  Globe,
 } from 'lucide-react';
 
 const statuses = [
@@ -56,12 +62,13 @@ const kanbanColumns = [
 
 const leadSources = [
   'ALL SOURCES',
-  'Instagram Ads',
-  'Google Ads',
-  'Website',
-  'WhatsApp Direct',
+  'Instagram Ads / DM',
   'Facebook Ads',
-  'Referral',
+  'WhatsApp Direct',
+  'Google Ads',
+  'WeddingWire / WedMeGood',
+  'Website Form',
+  'Phone Call / Referral',
 ];
 
 const mockInitialEnquiries = [
@@ -139,13 +146,89 @@ const AdminEnquiries = () => {
   const [selectedEnquiry, setSelectedEnquiry] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [googleSyncModal, setGoogleSyncModal] = useState(false);
+  const [addLeadModalOpen, setAddLeadModalOpen] = useState(false);
+  const [pipelineGuideModalOpen, setPipelineGuideModalOpen] = useState(false);
+  const [pipelineTab, setPipelineTab] = useState('meta');
+  const [copiedWebhook, setCopiedWebhook] = useState(false);
   const [googleSheetUrl, setGoogleSheetUrl] = useState(() => localStorage.getItem('moonlight_gsheet_webhook') || '');
   const [isAutoSyncing, setIsAutoSyncing] = useState(true);
   const [lastSyncTime, setLastSyncTime] = useState('Just now');
   const [newNote, setNewNote] = useState('');
   const [quotationAmount, setQuotationAmount] = useState('');
   const [quotationNotes, setQuotationNotes] = useState('');
+  const [leadForm, setLeadForm] = useState({
+    fullName: '',
+    phone: '',
+    email: '',
+    leadSource: 'Instagram Ads / DM',
+    eventType: 'Royal Palace Destination Wedding',
+    eventDate: '',
+    city: 'Bhopal',
+    venue: '',
+    guestCount: 350,
+    budgetRange: '₹3L - ₹6L',
+    storyDetails: '',
+  });
   const { addToast } = useNotification();
+
+  const handleCreateLead = async (e) => {
+    e.preventDefault();
+    if (!leadForm.fullName.trim() || !leadForm.phone.trim()) {
+      addToast({ title: 'Fields Required', message: 'Please enter at least client name and phone number.', type: 'warning' });
+      return;
+    }
+
+    const newEnq = {
+      _id: `enq-${Date.now()}`,
+      enquiryId: `ENQ-${Math.floor(1000 + Math.random() * 9000)}`,
+      leadSource: leadForm.leadSource,
+      customerDetails: {
+        fullName: leadForm.fullName.trim(),
+        email: leadForm.email.trim() || `${leadForm.phone.replace(/\D/g, '')}@moonlightclients.in`,
+        phone: leadForm.phone.trim(),
+        whatsappNumber: leadForm.phone.trim(),
+      },
+      eventType: leadForm.eventType,
+      eventDate: leadForm.eventDate || new Date(Date.now() + 45 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+      location: {
+        city: leadForm.city.trim() || 'Bhopal',
+        venue: leadForm.venue.trim() || 'Grand Heritage Venue',
+      },
+      guestCount: Number(leadForm.guestCount) || 300,
+      budgetRange: leadForm.budgetRange,
+      requiredServices: ['4K Cinema Docu-Film', 'Candid Master Photography', 'Aerial 4K Drone'],
+      status: 'NEW',
+      createdAt: new Date().toISOString(),
+      storyDetails: leadForm.storyDetails || `Direct lead recorded via ${leadForm.leadSource}.`,
+    };
+
+    setEnquiries((prev) => [newEnq, ...prev]);
+
+    try {
+      await api.post('/enquiries', newEnq);
+    } catch (err) {}
+
+    addToast({
+      title: 'Lead Added to Pipeline 🎉',
+      message: `${leadForm.fullName} (${leadForm.leadSource}) logged into CRM pipeline.`,
+      type: 'success',
+    });
+
+    setAddLeadModalOpen(false);
+    setLeadForm({
+      fullName: '',
+      phone: '',
+      email: '',
+      leadSource: 'Instagram Ads / DM',
+      eventType: 'Royal Palace Destination Wedding',
+      eventDate: '',
+      city: 'Bhopal',
+      venue: '',
+      guestCount: 350,
+      budgetRange: '₹3L - ₹6L',
+      storyDetails: '',
+    });
+  };
 
   const fetchEnquiries = async () => {
     try {
@@ -312,8 +395,11 @@ const AdminEnquiries = () => {
   const getSourceBadge = (source = 'Website') => {
     const s = source.toLowerCase();
     if (s.includes('insta')) return 'bg-pink-50 text-pink-700 border border-pink-200';
-    if (s.includes('google') || s.includes('ad')) return 'bg-blue-50 text-blue-700 border border-blue-200';
+    if (s.includes('face') || s.includes('fb')) return 'bg-indigo-50 text-indigo-700 border border-indigo-200';
     if (s.includes('whats')) return 'bg-emerald-50 text-emerald-800 border border-emerald-200';
+    if (s.includes('google') || s.includes('ad')) return 'bg-blue-50 text-blue-700 border border-blue-200';
+    if (s.includes('wed') || s.includes('matri')) return 'bg-purple-50 text-purple-700 border border-purple-200';
+    if (s.includes('call') || s.includes('phone') || s.includes('refer')) return 'bg-teal-50 text-teal-800 border border-teal-200';
     return 'bg-amber-50 text-amber-800 border border-amber-200';
   };
 
@@ -324,7 +410,7 @@ const AdminEnquiries = () => {
         <div>
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs uppercase font-mono tracking-widest text-amber-700 font-bold block">
-              Real-Time Lead CRM & Cloud Stream
+              Real-Time Lead CRM & Social Inquiries
             </span>
             <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse mr-1.5" />
@@ -335,12 +421,42 @@ const AdminEnquiries = () => {
             Enquiries Live Pipeline
           </h1>
           <p className="text-xs text-neutral-600 mt-0.5">
-            Auto-synced with Website, Instagram Ads & Google Ads. Last synced: <span className="font-mono text-neutral-900 font-semibold">{lastSyncTime}</span>.
+            Auto-synced with Instagram, Facebook Ads, WhatsApp, Google Ads & Website. Last synced: <span className="font-mono text-neutral-900 font-semibold">{lastSyncTime}</span>.
           </p>
         </div>
 
-        {/* Top Controls: View Switcher, Google Sheet Webhook & Refresh */}
+        {/* Top Controls: Add Lead, Connect Pipeline, View Switcher, Excel & Refresh */}
         <div className="flex items-center space-x-2.5 shrink-0 flex-wrap gap-y-2">
+          {/* + Add Social / Direct Lead (Primary) */}
+          <button
+            onClick={() => setAddLeadModalOpen(true)}
+            className="px-4 py-2.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-sm hover:brightness-105 active:scale-95 transition-all flex items-center shrink-0 btn-shimmer"
+            title="Log Lead from Instagram, Facebook, WhatsApp, Google Ads or Call"
+          >
+            <Plus className="w-4 h-4 mr-1.5" />
+            + Add Social / Direct Lead
+          </button>
+
+          {/* Connect Social Pipeline & Webhooks */}
+          <button
+            onClick={() => setPipelineGuideModalOpen(true)}
+            className="px-3.5 py-2.5 rounded-full bg-white hover:bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-bold uppercase tracking-wider transition-all flex items-center shadow-sm"
+            title="Connect Meta Ads (Instagram/FB), Google Sheets & Webhooks"
+          >
+            <Zap className="w-3.5 h-3.5 mr-1 text-emerald-600" />
+            🔗 Connect Social Pipeline
+          </button>
+
+          {/* Export to Excel (.xlsx) */}
+          <button
+            onClick={handleExportToExcel}
+            className="px-3.5 py-2.5 rounded-full bg-white hover:bg-amber-50 border border-amber-900/20 text-neutral-800 text-xs font-bold uppercase tracking-wider transition-all flex items-center shadow-sm"
+            title="Download Full Pipeline to Excel (.xlsx)"
+          >
+            <Download className="w-3.5 h-3.5 mr-1 text-amber-700" />
+            Export Excel (.xlsx)
+          </button>
+
           {/* View Mode Switcher */}
           <div className="flex items-center p-1 rounded-full bg-white border border-amber-900/15 shadow-sm">
             <button
@@ -361,29 +477,9 @@ const AdminEnquiries = () => {
             </button>
           </div>
 
-          {/* Connect Google Sheets Auto-Sync Webhook */}
-          <button
-            onClick={() => setGoogleSyncModal(true)}
-            className="px-3.5 py-2 rounded-full bg-white hover:bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-bold uppercase tracking-wider transition-all flex items-center shadow-sm"
-            title="Configure Real-Time Google Sheets Webhook"
-          >
-            <Zap className="w-3.5 h-3.5 mr-1 text-emerald-600" />
-            {googleSheetUrl ? 'Google Sheet Synced' : 'Connect Google Sheet'}
-          </button>
-
-          {/* Export to Excel (.xlsx) */}
-          <button
-            onClick={handleExportToExcel}
-            className="px-3.5 py-2 rounded-full bg-white hover:bg-amber-50 border border-amber-900/20 text-neutral-800 text-xs font-bold uppercase tracking-wider transition-all flex items-center shadow-sm"
-            title="Download Full Pipeline to Excel (.xlsx)"
-          >
-            <Download className="w-3.5 h-3.5 mr-1 text-amber-700" />
-            Export Excel (.xlsx)
-          </button>
-
           <button
             onClick={fetchEnquiries}
-            className="p-2 rounded-full bg-white border border-amber-900/15 text-neutral-600 hover:text-neutral-900 hover:bg-stone-50 transition-colors shadow-sm"
+            className="p-2.5 rounded-full bg-white border border-amber-900/15 text-neutral-600 hover:text-neutral-900 hover:bg-stone-50 transition-colors shadow-sm"
             title="Instant Refresh"
           >
             <RefreshCw className="w-4 h-4" />
@@ -795,8 +891,461 @@ const AdminEnquiries = () => {
           </div>
         </div>
       )}
+
+      {/* 1. ADD SOCIAL MEDIA / DIRECT LEAD MODAL */}
+      {addLeadModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-white border border-amber-900/20 rounded-3xl p-6 sm:p-8 max-w-2xl w-full shadow-2xl space-y-6 text-neutral-900 my-8 animate-fade-in">
+            <div className="flex items-center justify-between border-b border-amber-900/10 pb-4">
+              <div>
+                <span className="text-[10px] uppercase font-mono tracking-widest text-amber-800 font-bold block">
+                  CRM Lead Entry
+                </span>
+                <h3 className="font-serif text-2xl font-bold text-neutral-900">+ Add Social Media / Direct Lead</h3>
+              </div>
+              <button
+                onClick={() => setAddLeadModalOpen(false)}
+                className="w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 flex items-center justify-center text-neutral-600 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateLead} className="space-y-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-neutral-800 font-bold uppercase text-[10.5px]">Lead Source *</label>
+                  <select
+                    value={leadForm.leadSource}
+                    onChange={(e) => setLeadForm({ ...leadForm, leadSource: e.target.value })}
+                    className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-3.5 py-2.5 text-neutral-900 font-semibold focus:border-amber-600 focus:outline-none"
+                  >
+                    <option value="Instagram Ads / DM">📸 Instagram Ads / DM</option>
+                    <option value="Facebook Ads">📘 Facebook Ads / Lead Form</option>
+                    <option value="WhatsApp Direct">💬 WhatsApp Direct Inquiry</option>
+                    <option value="Google Ads">🔍 Google Search Ads</option>
+                    <option value="WeddingWire / WedMeGood">💍 WeddingWire / WedMeGood</option>
+                    <option value="Phone Call / Referral">📞 Phone Call / Personal Referral</option>
+                    <option value="Website Form">🌐 Website Form</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-neutral-800 font-bold uppercase text-[10.5px]">Client / Couple Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Vikram & Radhika Singhania"
+                    value={leadForm.fullName}
+                    onChange={(e) => setLeadForm({ ...leadForm, fullName: e.target.value })}
+                    className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-3.5 py-2.5 text-neutral-900 placeholder:text-neutral-400 focus:border-amber-600 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-neutral-800 font-bold uppercase text-[10.5px]">Phone / WhatsApp Number *</label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="+91 98200 12345"
+                    value={leadForm.phone}
+                    onChange={(e) => setLeadForm({ ...leadForm, phone: e.target.value })}
+                    className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-3.5 py-2.5 text-neutral-900 placeholder:text-neutral-400 focus:border-amber-600 focus:outline-none font-mono"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-neutral-800 font-bold uppercase text-[10.5px]">Email Address</label>
+                  <input
+                    type="email"
+                    placeholder="couple@gmail.com"
+                    value={leadForm.email}
+                    onChange={(e) => setLeadForm({ ...leadForm, email: e.target.value })}
+                    className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-3.5 py-2.5 text-neutral-900 placeholder:text-neutral-400 focus:border-amber-600 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-neutral-800 font-bold uppercase text-[10.5px]">Event / Celebration Type *</label>
+                  <select
+                    value={leadForm.eventType}
+                    onChange={(e) => setLeadForm({ ...leadForm, eventType: e.target.value })}
+                    className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-3.5 py-2.5 text-neutral-900 focus:border-amber-600 focus:outline-none"
+                  >
+                    <option value="Royal Palace Destination Wedding">Royal Palace Destination Wedding</option>
+                    <option value="Cinematic Pre-Wedding Shoot">Cinematic Pre-Wedding Shoot</option>
+                    <option value="3-Day Complete Wedding Suite">3-Day Complete Wedding Suite</option>
+                    <option value="Sangeet & Cocktail Night">Sangeet & Cocktail Night</option>
+                    <option value="Intimate Wedding Ceremony">Intimate Wedding Ceremony</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-neutral-800 font-bold uppercase text-[10.5px]">Wedding Date</label>
+                  <input
+                    type="date"
+                    value={leadForm.eventDate}
+                    onChange={(e) => setLeadForm({ ...leadForm, eventDate: e.target.value })}
+                    className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-3.5 py-2.5 text-neutral-900 font-mono focus:border-amber-600 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-neutral-800 font-bold uppercase text-[10.5px]">Destination / City</label>
+                  <input
+                    type="text"
+                    placeholder="Bhopal / Udaipur / Goa"
+                    value={leadForm.city}
+                    onChange={(e) => setLeadForm({ ...leadForm, city: e.target.value })}
+                    className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-3.5 py-2.5 text-neutral-900 placeholder:text-neutral-400 focus:border-amber-600 focus:outline-none"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-neutral-800 font-bold uppercase text-[10.5px]">Venue Name</label>
+                  <input
+                    type="text"
+                    placeholder="Jehan Numa / Udaivilas"
+                    value={leadForm.venue}
+                    onChange={(e) => setLeadForm({ ...leadForm, venue: e.target.value })}
+                    className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-3.5 py-2.5 text-neutral-900 placeholder:text-neutral-400 focus:border-amber-600 focus:outline-none"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-neutral-800 font-bold uppercase text-[10.5px]">Budget Range</label>
+                  <select
+                    value={leadForm.budgetRange}
+                    onChange={(e) => setLeadForm({ ...leadForm, budgetRange: e.target.value })}
+                    className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-3.5 py-2.5 text-neutral-900 focus:border-amber-600 focus:outline-none"
+                  >
+                    <option value="₹1.5L - ₹3L">₹1.5L - ₹3L (Pre-Wedding / Intimate)</option>
+                    <option value="₹3L - ₹6L">₹3L - ₹6L (Signature Wedding)</option>
+                    <option value="₹6L - ₹12L">₹6L - ₹12L (Grand Destination)</option>
+                    <option value="₹12L - ₹25L">₹12L - ₹25L (Royal Palace Suite)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-neutral-800 font-bold uppercase text-[10.5px]">Initial Requirements & Notes</label>
+                <textarea
+                  rows={3}
+                  placeholder="Notes from Instagram DM, WhatsApp chat or phone consultation..."
+                  value={leadForm.storyDetails}
+                  onChange={(e) => setLeadForm({ ...leadForm, storyDetails: e.target.value })}
+                  className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl p-3 text-neutral-900 placeholder:text-neutral-400 focus:border-amber-600 focus:outline-none leading-relaxed"
+                />
+              </div>
+
+              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-stone-200">
+                <button
+                  type="button"
+                  onClick={() => setAddLeadModalOpen(false)}
+                  className="px-5 py-2.5 rounded-full border border-stone-300 text-neutral-700 hover:bg-stone-100 font-semibold text-xs transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-sm hover:brightness-105 active:scale-95 transition-all btn-shimmer"
+                >
+                  + Add to Live Pipeline
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* 2. CONNECT SOCIAL PIPELINE & WEBHOOKS GUIDE MODAL */}
+      {pipelineGuideModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-white border border-amber-900/20 rounded-3xl p-6 sm:p-8 max-w-3xl w-full shadow-2xl space-y-6 text-neutral-900 my-8 animate-fade-in">
+            <div className="flex items-center justify-between border-b border-amber-900/10 pb-4">
+              <div>
+                <span className="text-[10px] uppercase font-mono tracking-widest text-emerald-800 font-bold block">
+                  Automated Pipeline Sync
+                </span>
+                <h3 className="font-serif text-2xl font-bold text-neutral-900">🔗 Connect Social Media & Ad Pipelines</h3>
+              </div>
+              <button
+                onClick={() => setPipelineGuideModalOpen(false)}
+                className="w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 flex items-center justify-center text-neutral-600 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Tabs */}
+            <div className="flex items-center space-x-2 border-b border-stone-200 pb-2 flex-wrap gap-y-2">
+              <button
+                onClick={() => setPipelineTab('meta')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center ${
+                  pipelineTab === 'meta'
+                    ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
+                    : 'text-neutral-600 hover:text-neutral-900 hover:bg-stone-100'
+                }`}
+              >
+                <Instagram className="w-3.5 h-3.5 mr-1.5 text-pink-600" /> Instagram & FB Ads
+              </button>
+              <button
+                onClick={() => setPipelineTab('google')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center ${
+                  pipelineTab === 'google'
+                    ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
+                    : 'text-neutral-600 hover:text-neutral-900 hover:bg-stone-100'
+                }`}
+              >
+                <Globe className="w-3.5 h-3.5 mr-1.5 text-blue-600" /> Google Ads Forms
+              </button>
+              <button
+                onClick={() => setPipelineTab('whatsapp')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center ${
+                  pipelineTab === 'whatsapp'
+                    ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
+                    : 'text-neutral-600 hover:text-neutral-900 hover:bg-stone-100'
+                }`}
+              >
+                <MessageCircle className="w-3.5 h-3.5 mr-1.5 text-emerald-600" /> WhatsApp Ads
+              </button>
+              <button
+                onClick={() => setPipelineTab('weddingwire')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center ${
+                  pipelineTab === 'weddingwire'
+                    ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
+                    : 'text-neutral-600 hover:text-neutral-900 hover:bg-stone-100'
+                }`}
+              >
+                <Sparkles className="w-3.5 h-3.5 mr-1.5 text-purple-600" /> WeddingWire / WedMeGood
+              </button>
+              <button
+                onClick={() => setPipelineTab('universal')}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center ${
+                  pipelineTab === 'universal'
+                    ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
+                    : 'text-neutral-600 hover:text-neutral-900 hover:bg-stone-100'
+                }`}
+              >
+                <Zap className="w-3.5 h-3.5 mr-1.5 text-amber-600" /> Universal / Zapier / Sheet
+              </button>
+            </div>
+
+            {/* TAB CONTENT: META (INSTAGRAM & FB ADS) */}
+            {pipelineTab === 'meta' && (
+              <div className="space-y-4 text-xs">
+                <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-2">
+                  <h4 className="font-bold text-neutral-900 text-sm">Meta Instant Forms (Instagram & Facebook Lead Ads):</h4>
+                  <ol className="list-decimal pl-5 space-y-1.5 text-neutral-700 leading-relaxed">
+                    <li>Open <strong>Meta Ads Manager</strong> &rarr; Lead Form Settings (or Zapier / Make.com).</li>
+                    <li>Select Webhook Ingestion URL and paste the CRM endpoint below:</li>
+                  </ol>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-neutral-800 font-bold uppercase text-[10.5px]">Instagram & FB Ads Webhook URL</label>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="text"
+                      readOnly
+                      value="https://moonlight-pink-two.vercel.app/api/webhooks/meta-leads"
+                      className="flex-1 bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-2.5 text-neutral-900 font-mono text-xs font-bold select-all"
+                    />
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText('https://moonlight-pink-two.vercel.app/api/webhooks/meta-leads');
+                        setCopiedWebhook(true);
+                        setTimeout(() => setCopiedWebhook(false), 2000);
+                      }}
+                      className="px-4 py-2.5 rounded-xl bg-pink-600 hover:bg-pink-700 text-white font-bold text-xs flex items-center shadow-sm"
+                    >
+                      {copiedWebhook ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
+                      {copiedWebhook ? 'Copied!' : 'Copy URL'}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-stone-100 border border-stone-300 text-neutral-800 font-mono text-[11px] flex justify-between items-center">
+                  <span>Verify Token: <strong>moonlight_meta_lead_token_2026</strong></span>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText('moonlight_meta_lead_token_2026');
+                      alert('Verify Token Copied!');
+                    }}
+                    className="text-amber-800 hover:underline font-bold"
+                  >
+                    Copy Token
+                  </button>
+                </div>
+
+                <div className="p-3 rounded-xl bg-pink-50 border border-pink-200 text-pink-900 font-mono text-[11px]">
+                  💡 <strong>100% Zero-Touch:</strong> Client Instagram par hi form bharega aur 1 second ke andar CRM me <strong>"Instagram Ads"</strong> pink badge ke saath lead aa jayegi!
+                </div>
+              </div>
+            )}
+
+            {/* TAB CONTENT: GOOGLE ADS */}
+            {pipelineTab === 'google' && (
+              <div className="space-y-4 text-xs">
+                <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-2">
+                  <h4 className="font-bold text-neutral-900 text-sm">Google Ads Lead Form Extension Integration:</h4>
+                  <ol className="list-decimal pl-5 space-y-1.5 text-neutral-700 leading-relaxed">
+                    <li>In <strong>Google Ads</strong>, go to <strong>Ads & Assets &rarr; Assets &rarr; Lead Form</strong>.</li>
+                    <li>Scroll down to <strong>"Export leads from Google Ads" &rarr; Webhook Integration</strong>.</li>
+                    <li>Paste the Google Ads Webhook URL & Key below:</li>
+                  </ol>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-neutral-800 font-bold uppercase text-[10.5px]">Google Ads Webhook Endpoint</label>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="text"
+                      readOnly
+                      value="https://moonlight-pink-two.vercel.app/api/webhooks/google-leads"
+                      className="flex-1 bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-2.5 text-neutral-900 font-mono text-xs font-bold select-all"
+                    />
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText('https://moonlight-pink-two.vercel.app/api/webhooks/google-leads');
+                        setCopiedWebhook(true);
+                        setTimeout(() => setCopiedWebhook(false), 2000);
+                      }}
+                      className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center shadow-sm"
+                    >
+                      {copiedWebhook ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
+                      {copiedWebhook ? 'Copied!' : 'Copy URL'}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-blue-50 border border-blue-200 text-blue-900 font-mono text-[11px]">
+                  🔍 <strong>Google Search & YouTube Ads:</strong> Jab bhi koi Google Search ya YouTube ad par form bharega, woh instant CRM me <strong>"Google Ads"</strong> blue badge ke sath add ho jayega!
+                </div>
+              </div>
+            )}
+
+            {/* TAB CONTENT: WHATSAPP DIRECT ADS */}
+            {pipelineTab === 'whatsapp' && (
+              <div className="space-y-4 text-xs">
+                <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-2 leading-relaxed text-neutral-700">
+                  <h4 className="font-bold text-neutral-900 text-sm">WhatsApp Lead Ads & Cloud Webhook:</h4>
+                  <p>1. <strong>Click-to-WhatsApp Ads Redirect Link</strong> (Use this link inside your Meta / Instagram Ads):</p>
+                  <div className="p-3 rounded-xl bg-white border border-stone-300 font-mono text-[11px] text-neutral-900 break-all select-all">
+                    https://api.whatsapp.com/send?phone=919229229323&text=Hi%20Moonlight%20Production%2C%20I%20saw%20your%20ad%20and%20want%20to%20inquire%20for%20our%20upcoming%20wedding%20celebration.
+                  </div>
+                  <p>2. <strong>WhatsApp Cloud API Webhook URL:</strong></p>
+                  <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 font-mono text-[11px] text-emerald-950 font-bold select-all">
+                    https://moonlight-pink-two.vercel.app/api/webhooks/whatsapp-leads
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 font-mono text-[11px]">
+                  📲 <strong>WhatsApp Hotline:</strong> Naye chats aur incoming WhatsApp ad leads instant CRM me <strong>"WhatsApp Direct"</strong> emerald badge ke sath capture hote hain!
+                </div>
+              </div>
+            )}
+
+            {/* TAB CONTENT: WEDDINGWIRE & WEDMEGOOD */}
+            {pipelineTab === 'weddingwire' && (
+              <div className="space-y-4 text-xs">
+                <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-2">
+                  <h4 className="font-bold text-neutral-900 text-sm">WeddingWire & WedMeGood Lead Ingestion:</h4>
+                  <p className="text-neutral-700 leading-relaxed">
+                    WeddingWire, WedMeGood ya ShaadiSaga ke lead notifications ko automatically CRM me push karne ke liye ye webhook endpoint use karein:
+                  </p>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-neutral-800 font-bold uppercase text-[10.5px]">WeddingWire / WedMeGood Webhook URL</label>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="text"
+                      readOnly
+                      value="https://moonlight-pink-two.vercel.app/api/webhooks/weddingwire-leads"
+                      className="flex-1 bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-2.5 text-neutral-900 font-mono text-xs font-bold select-all"
+                    />
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText('https://moonlight-pink-two.vercel.app/api/webhooks/weddingwire-leads');
+                        setCopiedWebhook(true);
+                        setTimeout(() => setCopiedWebhook(false), 2000);
+                      }}
+                      className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs flex items-center shadow-sm"
+                    >
+                      {copiedWebhook ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
+                      {copiedWebhook ? 'Copied!' : 'Copy URL'}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-purple-50 border border-purple-200 text-purple-900 font-mono text-[11px]">
+                  💍 <strong>Wedding Portals:</strong> WeddingWire aur WedMeGood se aane wale couples automatic purple badges ke saath pipeline me place ho jate hain!
+                </div>
+              </div>
+            )}
+
+            {/* TAB CONTENT: UNIVERSAL WEBHOOK & GOOGLE SHEETS */}
+            {pipelineTab === 'universal' && (
+              <div className="space-y-4 text-xs">
+                <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-2">
+                  <h4 className="font-bold text-neutral-900 text-sm">Universal Webhook (Zapier, Make, Pabbly & Google Sheets):</h4>
+                  <p className="text-neutral-700 leading-relaxed">
+                    Kisi bhi third-party tool ya platform se direct leads inject karne ke liye universal endpoint:
+                  </p>
+                  <div className="p-2.5 rounded-xl bg-white border border-stone-300 font-mono text-[11px] font-bold text-neutral-900 select-all">
+                    https://moonlight-pink-two.vercel.app/api/webhooks/social-leads
+                  </div>
+                </div>
+
+                <form onSubmit={handleSaveGoogleSheetWebhook} className="space-y-3 pt-2">
+                  <label className="text-neutral-800 font-bold uppercase text-[10.5px]">2-Way Google Sheet Sync (Apps Script URL)</label>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="url"
+                      placeholder="https://script.google.com/macros/s/.../exec"
+                      value={googleSheetUrl}
+                      onChange={(e) => setGoogleSheetUrl(e.target.value)}
+                      className="flex-1 bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-2.5 text-neutral-900 font-mono text-xs focus:border-amber-600 focus:outline-none"
+                    />
+                    <button
+                      type="submit"
+                      className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center shadow-sm whitespace-nowrap"
+                    >
+                      <Check className="w-4 h-4 mr-1.5" /> Save Sheet
+                    </button>
+                  </div>
+                </form>
+
+                <div className="p-3.5 rounded-2xl bg-stone-50 border border-stone-200 space-y-1.5 text-neutral-700 leading-relaxed text-[11.5px]">
+                  <p><strong>Google Sheets Live Sync (30 Seconds):</strong></p>
+                  <p>1. Open your Google Sheet &rarr; <strong>Extensions</strong> &rarr; <strong>Apps Script</strong>.</p>
+                  <p>2. Paste your Webhook trigger function and Deploy as Web App.</p>
+                  <p>3. Paste the Deployment URL above to keep Google Sheet and Moonlight CRM 100% synchronized!</p>
+                </div>
+              </div>
+            )}
+
+            <div className="flex justify-end pt-2 border-t border-stone-200">
+              <button
+                onClick={() => setPipelineGuideModalOpen(false)}
+                className="px-6 py-2.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-sm"
+              >
+                Close Guide
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default AdminEnquiries;
+

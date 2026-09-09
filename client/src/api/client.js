@@ -597,7 +597,7 @@ const handleMockRequest = async (method, url, data) => {
   }
 
   // 13. Enquiries
-  if (cleanUrl === '/enquiries' || cleanUrl.startsWith('/enquiries/')) {
+  if (cleanUrl === '/enquiries' || cleanUrl.startsWith('/enquiries/') || cleanUrl.startsWith('/webhooks/')) {
     let items = getCollection('enquiries');
     if (!items || items.length === 0) {
       items = [

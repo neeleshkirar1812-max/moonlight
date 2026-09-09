@@ -28,6 +28,7 @@ import adminRoutes from './routes/adminRoutes.js';
 import superAdminRoutes from './routes/superAdminRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import salaryRoutes from './routes/salaryRoutes.js';
+import webhookRoutes from './routes/webhookRoutes.js';
 
 const app = express();
 
@@ -98,6 +99,7 @@ const routes = [
   ['super-admin', superAdminRoutes],
   ['upload', uploadRoutes],
   ['salary', salaryRoutes],
+  ['webhooks', webhookRoutes],
 ];
 
 routes.forEach(([path, router]) => {
