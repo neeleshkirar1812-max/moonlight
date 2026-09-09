@@ -427,6 +427,7 @@ const handleMockRequest = async (method, url, data) => {
     if (cleanUrl.includes('create-order')) {
       return {
         data: {
+          keyId: 'rzp_test_Ta47WTEJxJInTH',
           order: {
             id: `order_${Date.now()}`,
             amount: (data.amount || 50000) * 100,
