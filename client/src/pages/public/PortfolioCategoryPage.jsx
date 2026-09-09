@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../../api/client';
+import SEO from '../../components/common/SEO';
 import Lightbox from '../../components/common/Lightbox';
 import VideoModal from '../../components/common/VideoModal';
 import { CardSkeleton } from '../../components/common/SkeletonLoader';
@@ -67,6 +68,11 @@ const PortfolioCategoryPage = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-28 pb-20 px-4 sm:px-6 lg:px-8">
+      <SEO
+        title={categoryMeta.title}
+        description={categoryMeta.desc}
+        keywords={`${category} photography, Indian wedding films, Moonlight Production, ${categoryMeta.title}`}
+      />
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
         {/* Back navigation & Header */}
         <div className="space-y-4">

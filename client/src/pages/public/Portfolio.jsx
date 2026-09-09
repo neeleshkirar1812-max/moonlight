@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../../api/client';
+import SEO from '../../components/common/SEO';
 import Lightbox from '../../components/common/Lightbox';
 import { CardSkeleton } from '../../components/common/SkeletonLoader';
 import { Search, Filter, Sparkles, MapPin, ZoomIn, Heart, Play } from 'lucide-react';
@@ -125,6 +126,11 @@ const Portfolio = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-24 sm:pt-28 pb-16 sm:pb-20 px-3 sm:px-6 lg:px-8 w-full max-w-full overflow-x-hidden">
+      <SEO
+        title="Royal Wedding Photography & 4K Cinema Portfolio"
+        description="Explore Moonlight Production's curated portfolio of luxury Indian weddings, regal palace celebrations, pre-wedding shoots, and 4K cinema films across Bhopal, Maheshwar, Udaipur & Goa."
+        keywords="wedding photography portfolio, Indian wedding photos, pre-wedding album, destination wedding gallery, wedding cinema reels, Maheshwar photoshoot"
+      />
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
         {/* Header Title */}
         <div className="text-center max-w-3xl mx-auto space-y-2 sm:space-y-3">

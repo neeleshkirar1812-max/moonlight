@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../api/client';
+import SEO from '../../components/common/SEO';
 import { DEFAULT_BLOGS } from '../../data/defaultBlogs';
 import { CardSkeleton } from '../../components/common/SkeletonLoader';
 import { BookOpen, Clock, User, ArrowRight, Search, Tag, Sparkles } from 'lucide-react';
@@ -61,6 +62,11 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+      <SEO
+        title="Wedding Photography Blog, Tips & Royal Guides"
+        description="Read expert guides on Indian wedding planning, pre-wedding shoot location ideas in Maheshwar & Udaipur, photography poses, and cinematography tips by Moonlight Production."
+        keywords="wedding photography blog, Maheshwar pre wedding locations, Indian wedding tips, cinematography guide, bridal poses ideas"
+      />
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">

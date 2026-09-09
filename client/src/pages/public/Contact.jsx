@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../api/client';
+import SEO from '../../components/common/SEO';
 import { useNotification } from '../../context/NotificationContext';
 import { MapPin, Phone, Mail, MessageCircle, Clock, Send, CheckCircle2, Instagram, Youtube, ExternalLink } from 'lucide-react';
 
@@ -40,6 +41,11 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-24 sm:pt-28 pb-16 sm:pb-20 px-3 sm:px-6 lg:px-8 w-full max-w-full overflow-x-hidden">
+      <SEO
+        title="Contact Studio & Direct Bookings"
+        description="Get in touch with Moonlight Production for wedding inquiries, date availability, and direct WhatsApp consultations at +91 92292 29323."
+        keywords="contact Moonlight Production, wedding photographer phone number, Moonlight photography WhatsApp, Bhopal photography studio address"
+      />
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-16">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-2 sm:space-y-3">

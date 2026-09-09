@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, Sparkles, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SEO from '../../components/common/SEO';
 
 const faqs = [
   {
@@ -28,8 +29,27 @@ const faqs = [
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(0);
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.a,
+      },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+      <SEO
+        title="Wedding Photography FAQs & Questions Answered"
+        description="Frequently asked questions about Moonlight Production wedding photography packages, booking timeline, deliverable turnaround, and destination travel."
+        keywords="wedding photography FAQs, wedding shoot questions, photoshoot pricing FAQ, Moonlight Production questions"
+        schema={faqSchema}
+      />
       <div className="max-w-4xl mx-auto space-y-16">
         <div className="text-center space-y-4">
           <span className="text-xs uppercase tracking-[0.35em] text-amber-700 font-bold block">

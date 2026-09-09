@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../../components/common/SEO';
 import { Sparkles, Award, Camera, Film, ShieldCheck, Heart, ArrowRight, Phone, Instagram } from 'lucide-react';
 
 const teamMembers = [
@@ -32,6 +33,11 @@ const teamMembers = [
 const About = () => {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-28 pb-20 px-4 sm:px-6 lg:px-8">
+      <SEO
+        title="About Moonlight Production | Our Studio & Philosophy"
+        description="Learn about Moonlight Production, India's leading luxury wedding photography & 4K cinematography studio, our dedicated directors, and fine-art philosophy."
+        keywords="about Moonlight Production, best wedding photographers Bhopal, luxury wedding cinematographers India, wedding photography team"
+      />
       <div className="max-w-7xl mx-auto space-y-16 sm:space-y-24">
         {/* Hero Narrative */}
         <div className="text-center max-w-3xl mx-auto space-y-4">

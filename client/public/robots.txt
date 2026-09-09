@@ -6,4 +6,4 @@ Disallow: /admin/
 Disallow: /super-admin/
 Disallow: /api/
 
-Sitemap: https://lumierestudios.com/sitemap.xml
+Sitemap: https://moonlight-pink-two.vercel.app/sitemap.xml

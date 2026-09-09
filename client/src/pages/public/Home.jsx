@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../../api/client';
+import SEO from '../../components/common/SEO';
 import TeslaHeroSlider from '../../components/common/TeslaHeroSlider';
 import TeslaStickyBar from '../../components/common/TeslaStickyBar';
 import VideoModal from '../../components/common/VideoModal';
@@ -235,6 +236,11 @@ const Home = () => {
 
   return (
     <div className="relative bg-[#FAF8F5] text-neutral-900 overflow-x-hidden selection:bg-gold-500 selection:text-black">
+      <SEO
+        title="Royal Indian Wedding Photography & 4K Cinema Films"
+        description="India's premier luxury wedding photography and 4K cinema studio specializing in royal palace weddings, pre-weddings, and destination celebrations across Bhopal, Maheshwar, Udaipur & all-India."
+        keywords="wedding photography Bhopal, royal wedding photographer Udaipur, pre-wedding shoot Maheshwar, 4K wedding films, destination wedding cinematography India, Moonlight Production"
+      />
       {/* 1. TESLA-GRADE FULL-VIEWPORT HERO SLIDER */}
       <TeslaHeroSlider onPlayVideo={handleHeroVideoPlay} />
 

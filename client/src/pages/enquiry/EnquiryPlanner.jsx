@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../api/client';
+import SEO from '../../components/common/SEO';
 import { useNotification } from '../../context/NotificationContext';
 import {
   Calendar,
@@ -252,6 +253,11 @@ const EnquiryPlanner = () => {
   // UNIFIED 1-PAGE FORM (ALL 4 SECTIONS INSIDE ONE MASTER CARD)
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-24 sm:pt-28 pb-16 sm:pb-24 px-3 sm:px-6 lg:px-8 w-full max-w-full overflow-x-hidden">
+      <SEO
+        title="Book Wedding Shoot & Check Date Availability"
+        description="Book your royal Indian wedding photography and 4K cinema coverage with Moonlight Production. Fast 1-page form to check shoot dates and get custom quotation."
+        keywords="book wedding photographer, wedding date availability, wedding photography booking form, Moonlight Production shoot booking"
+      />
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Top Header */}
         <div className="text-center space-y-2">

@@ -1,8 +1,13 @@
 import React from 'react';
+import SEO from '../../components/common/SEO';
 
 const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+      <SEO
+        title="Privacy Charter & Confidentiality Policy"
+        description="Learn how Moonlight Production protects high-profile client privacy, non-disclosure agreements (NDAs), and secure digital galleries."
+      />
       <div className="max-w-4xl mx-auto space-y-8">
         <h1 className="font-serif text-4xl sm:text-5xl font-bold text-neutral-900">Privacy Charter & Client Protection</h1>
         <p className="text-xs text-amber-700 font-mono font-bold">Last Updated: January 2026</p>

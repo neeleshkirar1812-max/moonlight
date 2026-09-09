@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../../api/client';
+import SEO from '../../components/common/SEO';
 import { DEFAULT_BLOGS } from '../../data/defaultBlogs';
 import { CardSkeleton } from '../../components/common/SkeletonLoader';
 import { ArrowLeft, Clock, Calendar, Share2, Tag, ArrowRight, BookOpen } from 'lucide-react';
@@ -63,8 +64,37 @@ const BlogDetail = () => {
     );
   }
 
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: blog.title,
+    image: blog.coverImage || 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=85',
+    datePublished: blog.publishedAt || '2026-01-01',
+    author: {
+      '@type': 'Person',
+      name: blog.author?.name || 'Moonlight Creative Team',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Moonlight Production',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=85',
+      },
+    },
+    description: blog.excerpt || blog.title,
+  };
+
   return (
     <article className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+      <SEO
+        title={blog.title}
+        description={blog.excerpt || blog.title}
+        keywords={`${blog.category}, Indian wedding photography, Moonlight Production blog, ${blog.tags ? blog.tags.join(', ') : ''}`}
+        image={blog.coverImage}
+        type="article"
+        schema={articleSchema}
+      />
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Back Link */}
         <Link

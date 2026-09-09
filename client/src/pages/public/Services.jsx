@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../api/client';
+import SEO from '../../components/common/SEO';
 import { CardSkeleton } from '../../components/common/SkeletonLoader';
 import { Camera, Film, Compass, Plane, BookOpen, Tv, CheckCircle2, ArrowRight, Sparkles, Phone } from 'lucide-react';
 
@@ -117,6 +118,11 @@ const Services = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-28 pb-20 px-4 sm:px-6 lg:px-8">
+      <SEO
+        title="Wedding Photography & Cinema Packages & Pricing"
+        description="View pricing and comprehensive packages for royal Indian wedding photography, pre-wedding shoots, and 4K cinema films by Moonlight Production."
+        keywords="wedding photography packages, pre wedding shoot cost, destination wedding photography prices, Moonlight Production rates, Bhopal wedding photographer cost"
+      />
       <div className="max-w-7xl mx-auto space-y-12 sm:space-y-16">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">

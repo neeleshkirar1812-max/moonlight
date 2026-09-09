@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/client';
+import SEO from '../../components/common/SEO';
 import { DEFAULT_CAREERS } from '../../data/defaultCareers';
 import { useNotification } from '../../context/NotificationContext';
 import {
@@ -82,6 +83,11 @@ const Careers = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+      <SEO
+        title="Careers & Crew Recruitment | Join Moonlight Production"
+        description="Join Moonlight Production as a wedding cinematographer, candid photographer, drone pilot, or video editor. Explore current openings and apply today."
+        keywords="wedding photography jobs, cinematographer hiring Bhopal, wedding video editor career, drone pilot jobs India, Moonlight Production careers"
+      />
       <div className="max-w-7xl mx-auto space-y-16">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import SEO from '../../components/common/SEO';
 import { useNotification } from '../../context/NotificationContext';
 import {
   User,
@@ -117,6 +118,10 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-[#F4F1EA] text-neutral-950 pt-20 sm:pt-24 pb-12 px-3 sm:px-6 flex items-center justify-center relative">
+      <SEO
+        title="Client & Crew Portal Sign In"
+        description="Sign in to your Moonlight Production client portal to view 4K wedding films, proof wedding photo galleries, and access studio management tools."
+      />
       <div className="max-w-5xl w-full bg-white border-2 border-neutral-300 rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 relative z-10">
         
         {/* LEFT COLUMN: Modern Luxury Cinematic Showcase Panel (Market Standard for Luxury SaaS & Studios) */}

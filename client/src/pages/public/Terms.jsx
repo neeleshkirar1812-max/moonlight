@@ -1,8 +1,13 @@
 import React from 'react';
+import SEO from '../../components/common/SEO';
 
 const Terms = () => {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+      <SEO
+        title="Terms of Service & Commission Agreement"
+        description="Review the terms of service, date retention policy, and deliverable standards for Moonlight Production wedding photography commissions."
+      />
       <div className="max-w-4xl mx-auto space-y-8">
         <h1 className="font-serif text-4xl sm:text-5xl font-bold text-neutral-900">Terms of Commission & Service</h1>
         <p className="text-xs text-amber-700 font-mono font-bold">Last Updated: January 2026</p>
