@@ -31,6 +31,15 @@ const PrivacyPolicy = () => {
           <p>
             Online financial transactions are processed securely via Razorpay in compliance with PCI-DSS standards. We never store credit card numbers or raw bank details on our servers.
           </p>
+
+          <h3 className="font-serif text-xl font-bold text-neutral-900 pt-4">4. Legal Entity & Regulatory Compliance</h3>
+          <p>
+            <strong>Moonlight Production</strong> is a sole proprietorship enterprise registered under the Government of India Ministry of MSME and Goods and Services Tax (GST). 
+            <br />
+            <strong>Legal Proprietor:</strong> Raksha Rathore | <strong>GSTIN:</strong> 23DHNPR9293D1ZT | <strong>MSME Udyam:</strong> UDYAM-MP-10-0119118
+            <br />
+            <strong>Registered Office:</strong> C 37, Pallavi Nagar, Rohit Nagar, Bawaria Kalan, Bhopal, Madhya Pradesh - 462039.
+          </p>
         </div>
       </div>
     </div>

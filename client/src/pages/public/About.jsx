@@ -112,6 +112,50 @@ const About = () => {
           </div>
         </div>
 
+        {/* Govt Accreditation & Corporate Trust */}
+        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-amber-900/15 shadow-xl space-y-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-900/10 pb-4">
+            <div>
+              <span className="text-[11px] uppercase font-mono tracking-widest text-emerald-800 font-bold block">
+                Govt. of India Registered Enterprise
+              </span>
+              <h3 className="font-serif text-2xl font-bold text-neutral-900">
+                Official Legal Accreditations & Compliance
+              </h3>
+            </div>
+            <div className="flex items-center space-x-2 text-emerald-700 font-mono text-xs font-bold bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-300">
+              <ShieldCheck className="w-4 h-4" />
+              <span>Verified MSME Enterprise</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-mono">
+            <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-neutral-200 space-y-1">
+              <span className="text-neutral-500 uppercase text-[10px] block">GST Registration</span>
+              <p className="font-bold text-neutral-900 text-sm">23DHNPR9293D1ZT</p>
+              <p className="text-[10px] text-neutral-600 font-sans">Form GST REG-06 Regular</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-neutral-200 space-y-1">
+              <span className="text-neutral-500 uppercase text-[10px] block">MSME Udyam Number</span>
+              <p className="font-bold text-neutral-900 text-sm">UDYAM-MP-10-0119118</p>
+              <p className="text-[10px] text-neutral-600 font-sans">Ministry of MSME, Govt. of India</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-neutral-200 space-y-1">
+              <span className="text-neutral-500 uppercase text-[10px] block">Legal Trade Name</span>
+              <p className="font-bold text-neutral-900 text-sm">MOONLIGHT PRODUCTION</p>
+              <p className="text-[10px] text-neutral-600 font-sans">Prop. Raksha Rathore</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-neutral-200 space-y-1">
+              <span className="text-neutral-500 uppercase text-[10px] block">Principal Office</span>
+              <p className="font-bold text-neutral-900 text-xs font-sans">C 37, Pallavi Nagar, Bawaria Kalan</p>
+              <p className="text-[10px] text-neutral-600 font-sans">Bhopal, MP - 462039</p>
+            </div>
+          </div>
+        </div>
+
         {/* Bottom CTA */}
         <div className="text-center pt-6 space-y-4">
           <Link

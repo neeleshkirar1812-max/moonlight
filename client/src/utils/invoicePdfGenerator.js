@@ -39,19 +39,20 @@ export const generateLuxuryInvoicePDF = (inv) => {
 
   // Studio Name & Hierarchy
   doc.setFont('times', 'bold');
-  doc.setFontSize(18);
+  doc.setFontSize(17);
   doc.setTextColor(255, 255, 255);
-  doc.text('MOONLIGHT PRODUCTION', 32, 18);
+  doc.text('MOONLIGHT PRODUCTION', 32, 17);
 
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(7.5);
-  doc.setTextColor(212, 175, 55);
-  doc.text('STUDIO OF ROYAL WEDDING PHOTOGRAPHY & CINEMATIC WEDDING FILMS', 32, 23);
-
   doc.setFontSize(7);
-  doc.setTextColor(180, 180, 180);
-  doc.text('Moonlight Production Central Studio • GSTIN: 27AAAAA0000A1Z5 • PAN: AAACL1234F', 32, 28);
-  doc.text('WhatsApp: +91 92292 29323 • Instagram: @moonlight_production_bhopal • Phone: +91 77489 06015', 32, 33);
+  doc.setTextColor(212, 175, 55);
+  doc.text('ROYAL INDIAN WEDDING PHOTOGRAPHY & 4K CINEMATIC FILMS (PROP. RAKSHA RATHORE)', 32, 22);
+
+  doc.setFontSize(6.5);
+  doc.setTextColor(190, 190, 190);
+  doc.text('GSTIN: 23DHNPR9293D1ZT • MSME UDYAM: UDYAM-MP-10-0119118 • PAN: DHNPR9293D', 32, 27);
+  doc.text('Regd. Office: C 37, Pallavi Nagar, Rohit Nagar, Bawaria Kalan, Bhopal, MP - 462039', 32, 31.5);
+  doc.text('WhatsApp: +91 92292 29323 • Phone: +91 90395 83534 • Email: Tarunrathore3435@gmail.com', 32, 36);
 
   // Right Side Header Metadata (Aligned to 196mm)
   doc.setFont('helvetica', 'bold');
@@ -182,27 +183,28 @@ export const generateLuxuryInvoicePDF = (inv) => {
   doc.text(`Balance Remaining:`, 124, finalY + 29);
   doc.text(`INR ${remaining.toLocaleString('en-IN')}`, 192, finalY + 29, { align: 'right' });
 
-  // 5. Studio Bank Account & UPI Box (Left Side of Totals)
+  // 5. Official Studio Bank Account Box (SBI)
   doc.setFillColor(245, 245, 245);
   doc.roundedRect(margin, finalY, 102, 32, 1.5, 1.5, 'F');
   doc.setDrawColor(212, 175, 55);
+  doc.setLineWidth(0.3);
   doc.roundedRect(margin, finalY, 102, 32, 1.5, 1.5, 'D');
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.5);
   doc.setTextColor(212, 175, 55);
-  doc.text('OFFICIAL STUDIO PAYMENT DETAILS (NEFT / RTGS / UPI):', margin + 4, finalY + 5);
+  doc.text('OFFICIAL STUDIO PAYMENT DETAILS (NEFT / RTGS / IMPS / UPI):', margin + 4, finalY + 5);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7);
   doc.setTextColor(60, 60, 60);
-  doc.text('Beneficiary: Moonlight Production & Films', margin + 4, finalY + 10);
-  doc.text('Bank: HDFC Bank Ltd., Central Branch', margin + 4, finalY + 15);
-  doc.text('A/C No: 50200084920194  |  IFSC Code: HDFC0000043', margin + 4, finalY + 20);
+  doc.text('Beneficiary Name: Raksha Rathore (Moonlight Production)', margin + 4, finalY + 10);
+  doc.text('Bank Name: State Bank of India (SBI)', margin + 4, finalY + 14.5);
+  doc.text('A/C No: 63032503918  |  IFSC Code: SBIN0061083', margin + 4, finalY + 19);
   doc.setFont('helvetica', 'bold');
-  doc.text('Official UPI ID: moonlightproduction@hdfcbank', margin + 4, finalY + 25);
+  doc.text('Official UPI / PhonePe / GPay: 9039583534 / 9229229323', margin + 4, finalY + 24);
   doc.setFont('helvetica', 'normal');
-  doc.text('Note: Please share UTR / Transaction receipt to confirm allocation.', margin + 4, finalY + 29);
+  doc.text('MSME Udyam: UDYAM-MP-10-0119118 • Share UTR on WhatsApp', margin + 4, finalY + 28.5);
 
   // 6. Comprehensive Studio Terms & Conditions (T&C) Box
   const tncY = finalY + 36;

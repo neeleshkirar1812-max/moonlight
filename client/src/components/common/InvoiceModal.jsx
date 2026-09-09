@@ -32,10 +32,10 @@ const InvoiceModal = ({ invoice, onClose, onResend, onPay, isAdmin = false }) =>
             </div>
             <div className="min-w-0">
               <span className="font-serif text-base sm:text-lg font-bold tracking-wider text-neutral-900 block truncate">
-                Moonlight Production Studio
+                Moonlight Production
               </span>
               <p className="text-[9.5px] sm:text-[10px] text-amber-800 font-mono uppercase tracking-wider font-bold truncate">
-                Official Studio Tax Invoice & Production Agreement
+                GSTIN: 23DHNPR9293D1ZT • UDYAM-MP-10-0119118 (Prop. Raksha Rathore)
               </p>
             </div>
           </div>
@@ -163,13 +163,16 @@ const InvoiceModal = ({ invoice, onClose, onResend, onPay, isAdmin = false }) =>
               🏦 Studio Official Bank & UPI Transfer Details:
             </span>
             <p className="text-neutral-800">
-              Beneficiary: <strong>Moonlight Production Private Limited</strong>
+              Beneficiary: <strong>Raksha Rathore (Moonlight Production)</strong>
             </p>
             <p className="text-neutral-600">
-              Bank: <strong>HDFC Bank Ltd., Bandra West Branch</strong> | A/C: <strong>50200084920194</strong> | IFSC: <strong>HDFC0000043</strong>
+              Bank: <strong>State Bank of India (SBI)</strong> | A/C: <strong>63032503918</strong> | IFSC: <strong>SBIN0061083</strong>
             </p>
             <p className="text-emerald-700 font-bold">
-              Official Studio UPI: <strong>Moonlight Production@hdfcbank</strong>
+              Official UPI / PhonePe / GPay: <strong>9039583534 / 9229229323</strong>
+            </p>
+            <p className="text-[10px] text-neutral-500">
+              Regd. Office: C 37, Pallavi Nagar, Rohit Nagar, Bawaria Kalan, Bhopal, MP - 462039
             </p>
           </div>
 
@@ -199,7 +202,7 @@ const InvoiceModal = ({ invoice, onClose, onResend, onPay, isAdmin = false }) =>
                 <strong className="text-neutral-900">Copyright & Moral Rights:</strong> Moonlight Production retains moral creative copyright for portfolio and award entries, with unrestricted personal print/sharing rights for the couple.
               </li>
               <li>
-                <strong className="text-neutral-900">Jurisdiction:</strong> All legal disputes subject to Mumbai, India court jurisdiction.
+                <strong className="text-neutral-900">Jurisdiction:</strong> All legal disputes subject to Bhopal, Madhya Pradesh, India court jurisdiction.
               </li>
             </ul>
           </div>

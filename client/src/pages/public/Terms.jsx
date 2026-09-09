@@ -29,7 +29,14 @@ const Terms = () => {
 
           <h3 className="font-serif text-xl font-bold text-neutral-900 pt-4">3. Deliverable Timelines</h3>
           <p>
-            Social media sneak peek previews are delivered within 72 hours. Complete master high-resolution archives and 4K docu-films are delivered within 4 to 8 weeks of final event completion.
+            Social media sneak peek previews are delivered within 72 hours. Complete master high-resolution archives and 4K docu-films are delivered within 90 days (3 months) of wedding festivities completion.
+          </p>
+
+          <h3 className="font-serif text-xl font-bold text-neutral-900 pt-4">4. Governing Law & Legal Jurisdiction</h3>
+          <p>
+            All commercial transactions, service contracts, and commission agreements are governed by the laws of India. Any dispute arising out of or in connection with this agreement shall be subject to the exclusive jurisdiction of the competent courts in <strong>Bhopal, Madhya Pradesh, India</strong>.
+            <br />
+            <strong>Registered Enterprise:</strong> Moonlight Production (Prop. Raksha Rathore) | <strong>GSTIN:</strong> 23DHNPR9293D1ZT | <strong>MSME Udyam:</strong> UDYAM-MP-10-0119118
           </p>
         </div>
       </div>

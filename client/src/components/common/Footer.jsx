@@ -126,6 +126,19 @@ const Footer = () => {
                 <Phone className="w-4 h-4" />
               </a>
             </div>
+
+            {/* Official Legal & Tax Registration Badges */}
+            <div className="pt-2 p-3.5 rounded-2xl bg-white/80 border border-amber-900/15 space-y-1.5 text-[11px] font-mono text-neutral-700 shadow-sm">
+              <div className="flex items-center space-x-2 text-amber-900 font-bold">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Govt. of India Registered Enterprise</span>
+              </div>
+              <div className="text-neutral-600 space-y-0.5 pl-6 font-sans">
+                <p><strong>GSTIN:</strong> <span className="font-mono font-bold text-neutral-900">23DHNPR9293D1ZT</span></p>
+                <p><strong>MSME Udyam:</strong> <span className="font-mono font-bold text-neutral-900">UDYAM-MP-10-0119118</span></p>
+                <p><strong>Legal Entity:</strong> Proprietorship (Prop. Raksha Rathore)</p>
+              </div>
+            </div>
           </div>
 
           {/* Destination Wedding Circuits */}
@@ -158,36 +171,40 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact & Studio Hotline */}
-          <div className="space-y-3.5">
+          {/* Registered Office & Studio Hotline */}
+          <div className="space-y-3.5 lg:col-span-1">
             <h4 className="text-xs uppercase tracking-[0.2em] text-amber-800 font-bold font-mono">
-              Studio Hotline
+              Registered Studio
             </h4>
-            <div className="space-y-2 text-xs font-mono text-neutral-700">
-              <a
-                href="https://api.whatsapp.com/send?phone=919229229323"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center text-emerald-700 hover:text-emerald-800 font-bold"
-              >
-                <Phone className="w-3.5 h-3.5 mr-1.5" /> +91 92292 29323
-              </a>
-              <a
-                href="https://instagram.com/moonlight_production__"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center hover:text-pink-600 truncate font-semibold"
-              >
-                <Instagram className="w-3.5 h-3.5 mr-1.5 text-pink-600" /> @moonlight_production__
-              </a>
-              <a
-                href="https://www.youtube.com/@moonlightproductions_films"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center hover:text-red-600 truncate font-semibold"
-              >
-                <Youtube className="w-3.5 h-3.5 mr-1.5 text-red-600" /> @moonlightproductions_films
-              </a>
+            <div className="space-y-2 text-xs text-neutral-700">
+              <div className="flex items-start space-x-2">
+                <MapPin className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+                <p className="leading-snug text-neutral-600 font-medium">
+                  C 37, Pallavi Nagar, Rohit Nagar, Bawaria Kalan, Bhopal, MP - 462039
+                </p>
+              </div>
+              <div className="pt-1 space-y-1.5 font-mono text-[11px]">
+                <a
+                  href="https://api.whatsapp.com/send?phone=919229229323"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center text-emerald-700 hover:text-emerald-800 font-bold"
+                >
+                  <Phone className="w-3.5 h-3.5 mr-1.5" /> +91 92292 29323
+                </a>
+                <a
+                  href="tel:+919039583534"
+                  className="flex items-center text-neutral-700 hover:text-neutral-900"
+                >
+                  <Phone className="w-3.5 h-3.5 mr-1.5 text-amber-700" /> +91 90395 83534
+                </a>
+                <a
+                  href="mailto:Tarunrathore3435@gmail.com"
+                  className="flex items-center text-neutral-700 hover:text-neutral-900 truncate"
+                >
+                  <Mail className="w-3.5 h-3.5 mr-1.5 text-amber-700" /> Tarunrathore3435@gmail.com
+                </a>
+              </div>
             </div>
 
             <div className="pt-2 border-t border-neutral-300">
@@ -207,7 +224,7 @@ const Footer = () => {
 
         {/* Bottom Editorial Bar */}
         <div className="mt-14 pt-8 border-t border-neutral-300 flex flex-col md:flex-row items-center justify-between text-xs text-neutral-500 space-y-4 md:space-y-0">
-          <p>© {new Date().getFullYear()} Moonlight Production & Wedding Films. Proudly Crafted in India 🇮🇳</p>
+          <p>© {new Date().getFullYear()} Moonlight Production (Prop. Raksha Rathore). GSTIN: 23DHNPR9293D1ZT. All Rights Reserved.</p>
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             <Link to="/careers" className="text-amber-900 font-bold hover:underline flex items-center">
               Careers & Hiring <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 ml-1.5 inline-block animate-pulse" />

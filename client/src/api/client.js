@@ -222,13 +222,20 @@ const initialData = {
   auditLogs: [],
   settings: {
     studioName: 'Moonlight Production',
+    legalName: 'Raksha Rathore',
     tagline: 'Your Story. Our Vision. Forever.',
-    email: 'info@moonlightproduction.com',
+    email: 'Tarunrathore3435@gmail.com',
     phone: '+91 92292 29323',
+    secondaryPhone: '+91 90395 83534',
     instagram: '@moonlight_production__',
     youtube: '@moonlightproductions_films',
-    address: 'Moonlight Studio, VIP Road, Bhopal, MP 462001',
-    gstin: '23AABCM1234F1Z8',
+    address: 'C 37, Pallavi Nagar, Rohit Nagar, Bawaria Kalan, Bhopal, MP 462039',
+    gstin: '23DHNPR9293D1ZT',
+    udyam: 'UDYAM-MP-10-0119118',
+    pan: 'DHNPR9293D',
+    bankName: 'State Bank of India (SBI)',
+    accountNumber: '63032503918',
+    ifscCode: 'SBIN0061083',
   },
 };
 
