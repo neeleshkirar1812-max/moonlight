@@ -14,34 +14,43 @@ import {
   Crown,
   UserPlus,
   Phone,
+  Sliders,
 } from 'lucide-react';
 
 const Login = () => {
-  const [activeTab, setActiveTab] = useState('customer'); // 'customer' | 'admin' | 'crew'
-  const [adminRoleType, setAdminRoleType] = useState('superadmin'); // 'superadmin' | 'admin'
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const { addToast } = useNotification();
+
+  // Mode: 'couple' vs 'staff'
+  const params = new URLSearchParams(location.search);
+  const roleParam = params.get('role');
+  const isStaffMode = roleParam === 'admin' || roleParam === 'superadmin' || roleParam === 'crew' || roleParam === 'employee' || roleParam === 'staff';
+
+  // Staff sub-role: 'superadmin' | 'admin' | 'crew'
+  const [staffRole, setStaffRole] = useState(
+    roleParam === 'superadmin' ? 'superadmin' : roleParam === 'crew' || roleParam === 'employee' ? 'crew' : 'admin'
+  );
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
-  const { addToast } = useNotification();
-  const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const roleParam = params.get('role');
-    if (roleParam === 'superadmin') {
-      setActiveTab('admin');
-      setAdminRoleType('superadmin');
-    } else if (roleParam === 'admin' || roleParam === 'staff') {
-      setActiveTab('admin');
-      setAdminRoleType('admin');
-    } else if (roleParam === 'employee' || roleParam === 'crew') {
-      setActiveTab('crew');
-    } else {
-      setActiveTab('customer');
+    const currentParams = new URLSearchParams(location.search);
+    const r = currentParams.get('role');
+    if (r === 'superadmin') {
+      setStaffRole('superadmin');
+    } else if (r === 'crew' || r === 'employee') {
+      setStaffRole('crew');
+    } else if (r === 'admin' || r === 'staff') {
+      setStaffRole('admin');
     }
+    // Clear inputs on mode switch
+    setEmail('');
+    setPassword('');
   }, [location.search]);
 
   const handleLogin = async (e) => {
@@ -53,11 +62,11 @@ const Login = () => {
 
     setLoading(true);
     try {
-      const selectedRole = activeTab === 'admin' ? adminRoleType : activeTab === 'crew' ? 'employee' : 'customer';
-      const loggedUser = await login(email, password, selectedRole);
+      const targetRole = isStaffMode ? (staffRole === 'crew' ? 'employee' : staffRole) : 'customer';
+      const loggedUser = await login(email, password, targetRole);
       addToast({ title: 'Login Successful', message: `Welcome, ${loggedUser.name}!`, type: 'success' });
 
-      if (selectedRole === 'admin' && (loggedUser.role === 'admin' || loggedUser.role === 'superadmin')) {
+      if (targetRole === 'admin' && (loggedUser.role === 'admin' || loggedUser.role === 'superadmin')) {
         navigate('/admin/dashboard');
       } else if (loggedUser.role === 'superadmin') {
         navigate('/super-admin/dashboard');
@@ -87,111 +96,104 @@ const Login = () => {
               className="w-full h-full object-cover rounded-full"
             />
           </div>
-          <span className="text-xs font-mono uppercase tracking-widest text-amber-900 font-bold block">
-            MOONLIGHT PRODUCTION
-          </span>
-          <h1 className="text-2xl sm:text-3xl font-bold text-neutral-950 tracking-tight">
-            Portal Sign In
-          </h1>
-          <p className="text-neutral-700 text-xs sm:text-sm font-medium">
-            Select your account type and sign in to continue.
-          </p>
+
+          {!isStaffMode ? (
+            /* COUPLE SANCTUARY HEADER */
+            <>
+              <span className="text-xs font-mono uppercase tracking-widest text-amber-900 font-bold block">
+                COUPLE SANCTUARY • PRIVATE ACCESS
+              </span>
+              <h1 className="text-2xl sm:text-3xl font-bold text-neutral-950 tracking-tight">
+                Couple Sign In
+              </h1>
+              <p className="text-neutral-700 text-xs sm:text-sm font-medium">
+                Sign in to view your 4K wedding films, photo galleries, and shoot schedule.
+              </p>
+            </>
+          ) : (
+            /* ADMIN & STAFF PORTAL HEADER */
+            <>
+              <span className="text-xs font-mono uppercase tracking-widest text-amber-900 font-bold block">
+                MOONLIGHT STUDIO • STAFF PORTAL
+              </span>
+              <h1 className="text-2xl sm:text-3xl font-bold text-neutral-950 tracking-tight">
+                Staff & Admin Sign In
+              </h1>
+              <p className="text-neutral-700 text-xs sm:text-sm font-medium">
+                Choose your role to access your administrative workspace.
+              </p>
+            </>
+          )}
         </div>
 
-        {/* 3 Main Role Switcher Tabs */}
-        <div className="grid grid-cols-3 p-1.5 rounded-2xl bg-[#EBE5DA] border border-neutral-300 gap-1 text-xs">
-          <button
-            type="button"
-            onClick={() => setActiveTab('customer')}
-            className={`py-2.5 rounded-xl transition-all flex flex-col sm:flex-row items-center justify-center text-center gap-1.5 font-bold ${
-              activeTab === 'customer'
-                ? 'bg-amber-700 text-white shadow-md'
-                : 'text-neutral-800 hover:text-black hover:bg-white/60'
-            }`}
-          >
-            <Heart className="w-4 h-4 shrink-0" />
-            <span>Couple</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab('admin')}
-            className={`py-2.5 rounded-xl transition-all flex flex-col sm:flex-row items-center justify-center text-center gap-1.5 font-bold ${
-              activeTab === 'admin'
-                ? 'bg-amber-700 text-white shadow-md'
-                : 'text-neutral-800 hover:text-black hover:bg-white/60'
-            }`}
-          >
-            <Crown className="w-4 h-4 shrink-0" />
-            <span>Admin</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab('crew')}
-            className={`py-2.5 rounded-xl transition-all flex flex-col sm:flex-row items-center justify-center text-center gap-1.5 font-bold ${
-              activeTab === 'crew'
-                ? 'bg-amber-700 text-white shadow-md'
-                : 'text-neutral-800 hover:text-black hover:bg-white/60'
-            }`}
-          >
-            <Camera className="w-4 h-4 shrink-0" />
-            <span>Crew</span>
-          </button>
-        </div>
-
-        {/* Admin Sub-Role Selector */}
-        {activeTab === 'admin' && (
-          <div className="space-y-2">
-            <div className="grid grid-cols-2 p-1 rounded-xl bg-neutral-100 border border-neutral-300 text-xs font-bold gap-1">
+        {/* STAFF MODE: 3-WAY ROLE SWITCHER TABS (Super Admin / Studio Admin / Crew) */}
+        {isStaffMode && (
+          <div className="space-y-1.5">
+            <label className="text-[11px] font-bold text-neutral-900 uppercase tracking-wider block">
+              Select Studio Role:
+            </label>
+            <div className="grid grid-cols-3 p-1.5 rounded-2xl bg-[#EBE5DA] border border-neutral-300 gap-1 text-xs">
               <button
                 type="button"
-                onClick={() => setAdminRoleType('superadmin')}
-                className={`py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
-                  adminRoleType === 'superadmin'
-                    ? 'bg-neutral-900 text-white shadow-sm'
-                    : 'text-neutral-700 hover:text-black hover:bg-white'
+                onClick={() => setStaffRole('superadmin')}
+                className={`py-2 rounded-xl transition-all flex flex-col items-center justify-center text-center gap-1 font-bold ${
+                  staffRole === 'superadmin'
+                    ? 'bg-neutral-950 text-white shadow-md'
+                    : 'text-neutral-800 hover:text-black hover:bg-white/60'
                 }`}
               >
-                <Crown className="w-3.5 h-3.5 text-amber-400" />
-                <span>Super Admin</span>
+                <Crown className="w-4 h-4 text-amber-400" />
+                <span className="text-[11px]">Super Admin</span>
               </button>
 
               <button
                 type="button"
-                onClick={() => setAdminRoleType('admin')}
-                className={`py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
-                  adminRoleType === 'admin'
-                    ? 'bg-neutral-900 text-white shadow-sm'
-                    : 'text-neutral-700 hover:text-black hover:bg-white'
+                onClick={() => setStaffRole('admin')}
+                className={`py-2 rounded-xl transition-all flex flex-col items-center justify-center text-center gap-1 font-bold ${
+                  staffRole === 'admin'
+                    ? 'bg-amber-700 text-white shadow-md'
+                    : 'text-neutral-800 hover:text-black hover:bg-white/60'
                 }`}
               >
-                <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-                <span>Studio Admin</span>
+                <ShieldCheck className="w-4 h-4 text-white" />
+                <span className="text-[11px]">Studio Admin</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setStaffRole('crew')}
+                className={`py-2 rounded-xl transition-all flex flex-col items-center justify-center text-center gap-1 font-bold ${
+                  staffRole === 'crew'
+                    ? 'bg-amber-700 text-white shadow-md'
+                    : 'text-neutral-800 hover:text-black hover:bg-white/60'
+                }`}
+              >
+                <Camera className="w-4 h-4 text-white" />
+                <span className="text-[11px]">Crew Lead</span>
               </button>
             </div>
           </div>
         )}
 
-        {/* Simplified, High-Contrast Quick Auto-Fill Box */}
+        {/* SIMPLIFIED QUICK AUTO-FILL CARD */}
         <div className="p-3.5 rounded-2xl bg-amber-50 border-2 border-amber-300 flex items-center justify-between text-neutral-900">
-          <div className="space-y-1">
+          <div className="space-y-0.5">
             <span className="text-xs font-bold text-amber-950 block">
-              {activeTab === 'customer'
+              {!isStaffMode
                 ? 'Demo Couple Account'
-                : activeTab === 'crew'
-                ? 'Demo Crew Account'
-                : adminRoleType === 'superadmin'
-                ? 'Super Admin Account'
-                : 'Studio Admin Account'}
+                : staffRole === 'superadmin'
+                ? 'Super Admin Account (Director)'
+                : staffRole === 'crew'
+                ? 'Crew Lead Account'
+                : 'Studio Admin Account (HR)'}
             </span>
             <span className="text-xs font-mono font-semibold text-neutral-800 block">
-              {activeTab === 'customer'
+              {!isStaffMode
                 ? 'aarav.ananya@gmail.com'
-                : activeTab === 'crew'
-                ? 'amanpawar074@gmail.com'
-                : adminRoleType === 'superadmin'
+                : staffRole === 'superadmin'
                 ? 'nkneeleshkirar@gmail.com'
+                : staffRole === 'crew'
+                ? 'amanpawar074@gmail.com'
                 : 'admin@moonlightproduction.com'}
             </span>
           </div>
@@ -199,15 +201,15 @@ const Login = () => {
           <button
             type="button"
             onClick={() => {
-              if (activeTab === 'customer') {
+              if (!isStaffMode) {
                 setEmail('aarav.ananya@gmail.com');
                 setPassword('Client@2026');
-              } else if (activeTab === 'crew') {
-                setEmail('amanpawar074@gmail.com');
-                setPassword('Crew@2026');
-              } else if (adminRoleType === 'superadmin') {
+              } else if (staffRole === 'superadmin') {
                 setEmail('nkneeleshkirar@gmail.com');
                 setPassword('SuperAdmin@2026');
+              } else if (staffRole === 'crew') {
+                setEmail('amanpawar074@gmail.com');
+                setPassword('Crew@2026');
               } else {
                 setEmail('admin@moonlightproduction.com');
                 setPassword('Admin@2026');
@@ -219,8 +221,8 @@ const Login = () => {
           </button>
         </div>
 
-        {/* Couple Self-Registration Link */}
-        {activeTab === 'customer' && (
+        {/* COUPLE SELF-REGISTRATION LINK (Only in Couple Mode) */}
+        {!isStaffMode && (
           <div className="p-3 rounded-xl bg-neutral-50 border border-neutral-300 flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <UserPlus className="w-4 h-4 text-amber-800 shrink-0" />
@@ -235,15 +237,17 @@ const Login = () => {
           </div>
         )}
 
-        {/* Clean, High-Contrast Form */}
+        {/* REAL LOGIN FORM */}
         <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-1.5">
             <label className="text-neutral-950 font-bold text-xs uppercase tracking-wider block">
-              {activeTab === 'customer'
-                ? 'Email Address'
-                : activeTab === 'admin'
-                ? `${adminRoleType === 'superadmin' ? 'Super Admin' : 'Studio Admin'} Email`
-                : 'Crew Email Address'}
+              {!isStaffMode
+                ? 'Couple Email Address'
+                : staffRole === 'superadmin'
+                ? 'Super Admin Email'
+                : staffRole === 'crew'
+                ? 'Crew Email Address'
+                : 'Studio Admin Email'}
             </label>
             <div className="relative">
               <User className="w-5 h-5 text-neutral-600 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -293,37 +297,48 @@ const Login = () => {
             disabled={loading}
             className="w-full py-3.5 mt-2 rounded-xl bg-amber-700 hover:bg-amber-800 active:bg-amber-900 text-white font-bold text-sm tracking-wide shadow-md transition-all flex items-center justify-center disabled:opacity-50"
           >
-            {loading ? 'Verifying...' : 'Sign In'}
+            {loading
+              ? 'Verifying...'
+              : !isStaffMode
+              ? 'Sign In to Couple Sanctuary'
+              : `Sign In as ${staffRole === 'superadmin' ? 'Super Admin' : staffRole === 'crew' ? 'Crew Member' : 'Studio Admin'}`}
             <ArrowRight className="w-4 h-4 ml-2 stroke-[2.5]" />
           </button>
         </form>
 
-        {/* Footer Support Info */}
-        <div className="pt-4 border-t border-neutral-300 text-center space-y-2">
+        {/* SWITCH PORTAL MODE LINK (Couple vs Staff) */}
+        <div className="pt-4 border-t border-neutral-300 text-center space-y-3">
+          {!isStaffMode ? (
+            <div className="p-2.5 rounded-xl bg-neutral-100 border border-neutral-300">
+              <span className="text-xs text-neutral-700 block mb-1">Are you Moonlight Studio Staff or Admin?</span>
+              <Link
+                to="/login?role=admin"
+                className="inline-flex items-center text-xs text-amber-900 font-bold hover:underline"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 mr-1 text-amber-800" />
+                Go to Staff & Admin Portal (3 Roles) →
+              </Link>
+            </div>
+          ) : (
+            <div className="p-2.5 rounded-xl bg-neutral-100 border border-neutral-300">
+              <span className="text-xs text-neutral-700 block mb-1">Are you a Wedding Couple / Client?</span>
+              <Link
+                to="/login?role=customer"
+                className="inline-flex items-center text-xs text-amber-900 font-bold hover:underline"
+              >
+                <Heart className="w-3.5 h-3.5 mr-1 text-amber-800" />
+                Go to Couple Sanctuary Sign In →
+              </Link>
+            </div>
+          )}
+
+          {/* Support Helpline */}
           <div className="flex items-center justify-center space-x-1.5 text-xs text-neutral-700 font-medium">
             <Phone className="w-3.5 h-3.5 text-amber-800" />
-            <span>Need Help? Studio Helpline:</span>
+            <span>Helpline:</span>
             <a href="tel:+919229229323" className="text-amber-900 font-bold hover:underline font-mono">
               +91 92292 29323
             </a>
-          </div>
-
-          <div className="text-xs text-neutral-600">
-            {activeTab === 'customer' ? (
-              <p>
-                Want to book a wedding shoot?{' '}
-                <Link to="/enquiry" className="text-amber-900 font-bold hover:underline">
-                  Plan Shoot →
-                </Link>
-              </p>
-            ) : (
-              <p>
-                Looking for jobs?{' '}
-                <Link to="/careers" className="text-amber-900 font-bold hover:underline">
-                  View Job Openings →
-                </Link>
-              </p>
-            )}
           </div>
         </div>
       </div>
