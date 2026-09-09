@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
@@ -10,21 +10,15 @@ import {
   LogOut,
   LayoutDashboard,
   Calendar,
-  Sparkles,
   ChevronDown,
   User,
   LogIn,
-  Camera,
-  Film,
-  Heart,
 } from 'lucide-react';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
-  const [portfolioDropdownOpen, setPortfolioDropdownOpen] = useState(false);
-  const portfolioDropdownTimeout = useRef(null);
 
   const { user, isAuthenticated, logout, isCustomer, isEmployee, isAdmin, isSuperAdmin } = useAuth();
   const location = useLocation();
@@ -40,19 +34,7 @@ const Navbar = () => {
   useEffect(() => {
     setMobileMenuOpen(false);
     setUserDropdownOpen(false);
-    setPortfolioDropdownOpen(false);
   }, [location.pathname]);
-
-  const handlePortfolioMouseEnter = () => {
-    if (portfolioDropdownTimeout.current) clearTimeout(portfolioDropdownTimeout.current);
-    setPortfolioDropdownOpen(true);
-  };
-
-  const handlePortfolioMouseLeave = () => {
-    portfolioDropdownTimeout.current = setTimeout(() => {
-      setPortfolioDropdownOpen(false);
-    }, 150);
-  };
 
   const getDashboardPath = () => {
     if (isSuperAdmin) return '/super-admin/dashboard';
@@ -96,120 +78,69 @@ const Navbar = () => {
           </div>
         </Link>
 
-        {/* 2. Center: Streamlined, Closely-Spaced Nav Links (Desktop) */}
-        <nav className="hidden lg:flex items-center space-x-1">
-          {/* Home */}
+        {/* 2. Center: Ultra-Compact Luxury Capsule (Closely Packed) */}
+        <nav className="hidden lg:flex items-center bg-black/[0.04] border border-amber-900/10 rounded-full p-1 space-x-0.5 shadow-inner">
           <Link
             to="/"
-            className={`text-xs uppercase tracking-wider font-semibold transition-all py-1.5 px-3 rounded-lg ${
+            className={`text-[11px] uppercase tracking-wider font-semibold transition-all py-1 px-2.5 rounded-full ${
               location.pathname === '/'
-                ? 'text-amber-900 bg-amber-500/15 font-bold border border-amber-500/20'
-                : 'text-neutral-700 hover:text-amber-900 hover:bg-neutral-100'
+                ? 'text-amber-900 bg-white shadow-sm font-bold'
+                : 'text-neutral-600 hover:text-neutral-950 hover:bg-white/60'
             }`}
           >
             Home
           </Link>
 
-          {/* Portfolio with Dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={handlePortfolioMouseEnter}
-            onMouseLeave={handlePortfolioMouseLeave}
+          <Link
+            to="/portfolio"
+            className={`text-[11px] uppercase tracking-wider font-semibold transition-all py-1 px-2.5 rounded-full ${
+              isPortfolioActive
+                ? 'text-amber-900 bg-white shadow-sm font-bold'
+                : 'text-neutral-600 hover:text-neutral-950 hover:bg-white/60'
+            }`}
           >
-            <Link
-              to="/portfolio"
-              className={`text-xs uppercase tracking-wider font-semibold transition-all py-1.5 px-3 rounded-lg inline-flex items-center ${
-                isPortfolioActive
-                  ? 'text-amber-900 bg-amber-500/15 font-bold border border-amber-500/20'
-                  : 'text-neutral-700 hover:text-amber-900 hover:bg-neutral-100'
-              }`}
-            >
-              Portfolio
-              <ChevronDown className={`w-3.5 h-3.5 ml-1 transition-transform duration-200 ${portfolioDropdownOpen ? 'rotate-180 text-amber-700' : 'text-neutral-400'}`} />
-            </Link>
+            Portfolio
+          </Link>
 
-            {/* Dropdown Menu */}
-            {portfolioDropdownOpen && (
-              <div className="absolute left-0 mt-1 w-60 bg-white border border-neutral-200 rounded-2xl shadow-xl py-2 z-50 text-xs animate-fade-in font-sans">
-                <Link
-                  to="/portfolio"
-                  className="flex items-center px-4 py-2.5 text-neutral-800 hover:bg-amber-50 hover:text-amber-900 transition-colors"
-                >
-                  <Camera className="w-4 h-4 mr-2.5 text-amber-700 shrink-0" />
-                  <div>
-                    <strong className="block font-bold text-xs">Royal Weddings</strong>
-                    <span className="text-[10.5px] text-neutral-500 font-normal">Palace & Grand Ceremonies</span>
-                  </div>
-                </Link>
-
-                <Link
-                  to="/portfolio/pre-wedding"
-                  className="flex items-center px-4 py-2.5 text-neutral-800 hover:bg-amber-50 hover:text-amber-900 transition-colors border-t border-neutral-100"
-                >
-                  <Heart className="w-4 h-4 mr-2.5 text-pink-600 shrink-0" />
-                  <div>
-                    <strong className="block font-bold text-xs">Pre-Wedding Shoots</strong>
-                    <span className="text-[10.5px] text-neutral-500 font-normal">Maheshwar & Heritage Stories</span>
-                  </div>
-                </Link>
-
-                <Link
-                  to="/portfolio/films"
-                  className="flex items-center px-4 py-2.5 text-neutral-800 hover:bg-amber-50 hover:text-amber-900 transition-colors border-t border-neutral-100"
-                >
-                  <Film className="w-4 h-4 mr-2.5 text-amber-700 shrink-0" />
-                  <div>
-                    <strong className="block font-bold text-xs">4K Cinema Films</strong>
-                    <span className="text-[10.5px] text-neutral-500 font-normal">Sony FX6 Docu-Films & Teasers</span>
-                  </div>
-                </Link>
-              </div>
-            )}
-          </div>
-
-          {/* Services */}
           <Link
             to="/services"
-            className={`text-xs uppercase tracking-wider font-semibold transition-all py-1.5 px-3 rounded-lg ${
+            className={`text-[11px] uppercase tracking-wider font-semibold transition-all py-1 px-2.5 rounded-full ${
               location.pathname === '/services'
-                ? 'text-amber-900 bg-amber-500/15 font-bold border border-amber-500/20'
-                : 'text-neutral-700 hover:text-amber-900 hover:bg-neutral-100'
+                ? 'text-amber-900 bg-white shadow-sm font-bold'
+                : 'text-neutral-600 hover:text-neutral-950 hover:bg-white/60'
             }`}
           >
             Services
           </Link>
 
-          {/* Blog */}
           <Link
             to="/blog"
-            className={`text-xs uppercase tracking-wider font-semibold transition-all py-1.5 px-3 rounded-lg ${
+            className={`text-[11px] uppercase tracking-wider font-semibold transition-all py-1 px-2.5 rounded-full ${
               location.pathname === '/blog'
-                ? 'text-amber-900 bg-amber-500/15 font-bold border border-amber-500/20'
-                : 'text-neutral-700 hover:text-amber-900 hover:bg-neutral-100'
+                ? 'text-amber-900 bg-white shadow-sm font-bold'
+                : 'text-neutral-600 hover:text-neutral-950 hover:bg-white/60'
             }`}
           >
             Blog
           </Link>
 
-          {/* About */}
           <Link
             to="/about"
-            className={`text-xs uppercase tracking-wider font-semibold transition-all py-1.5 px-3 rounded-lg ${
+            className={`text-[11px] uppercase tracking-wider font-semibold transition-all py-1 px-2.5 rounded-full ${
               location.pathname === '/about'
-                ? 'text-amber-900 bg-amber-500/15 font-bold border border-amber-500/20'
-                : 'text-neutral-700 hover:text-amber-900 hover:bg-neutral-100'
+                ? 'text-amber-900 bg-white shadow-sm font-bold'
+                : 'text-neutral-600 hover:text-neutral-950 hover:bg-white/60'
             }`}
           >
             About
           </Link>
 
-          {/* Contact */}
           <Link
             to="/contact"
-            className={`text-xs uppercase tracking-wider font-semibold transition-all py-1.5 px-3 rounded-lg ${
+            className={`text-[11px] uppercase tracking-wider font-semibold transition-all py-1 px-2.5 rounded-full ${
               location.pathname === '/contact'
-                ? 'text-amber-900 bg-amber-500/15 font-bold border border-amber-500/20'
-                : 'text-neutral-700 hover:text-amber-900 hover:bg-neutral-100'
+                ? 'text-amber-900 bg-white shadow-sm font-bold'
+                : 'text-neutral-600 hover:text-neutral-950 hover:bg-white/60'
             }`}
           >
             Contact
