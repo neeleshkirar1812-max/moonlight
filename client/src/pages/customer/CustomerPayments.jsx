@@ -82,7 +82,7 @@ const CustomerPayments = () => {
           contact: user?.phone || '+919820012345',
         },
         theme: {
-          color: '#D4AF37', // Gold Theme
+          color: '#B48C32', // Gold Theme
         },
       };
 
@@ -108,45 +108,48 @@ const CustomerPayments = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in">
-      <div>
-        <span className="text-xs uppercase tracking-widest text-gold-400 font-semibold block">
+    <div className="space-y-8 animate-fade-in text-neutral-900">
+      <div className="border-b border-amber-900/10 pb-6">
+        <span className="text-xs uppercase tracking-widest text-amber-700 font-bold block">
           Secure Payment Gateway
         </span>
-        <h1 className="font-serif text-3xl font-bold text-white">Payments & Transactions</h1>
+        <h1 className="font-serif text-3xl font-bold text-neutral-900 mt-1">Payments & Transactions</h1>
+        <p className="text-neutral-600 text-xs font-light mt-1">
+          Settle advance retainers, stage balance clearances, and view Razorpay transaction IDs.
+        </p>
       </div>
 
       {/* Active Bookings Awaiting Payment */}
       <div className="space-y-4">
-        <h2 className="font-serif text-xl font-bold text-white">Bookings with Pending Balances</h2>
+        <h2 className="font-serif text-xl font-bold text-neutral-900">Bookings with Pending Balances</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {bookings.map((booking) => (
-            <div key={booking._id} className="luxury-card rounded-3xl p-6 sm:p-8 border border-white/10 space-y-6">
-              <div className="flex items-center justify-between pb-4 border-b border-white/10">
+            <div key={booking._id} className="bg-white rounded-3xl p-6 sm:p-8 border border-amber-900/15 shadow-sm space-y-6">
+              <div className="flex items-center justify-between pb-4 border-b border-amber-900/10">
                 <div>
-                  <h3 className="font-serif text-xl font-bold text-white">{booking.eventType}</h3>
-                  <span className="text-xs font-mono text-gold-400">Ref: {booking.bookingNumber}</span>
+                  <h3 className="font-serif text-xl font-bold text-neutral-900">{booking.eventType}</h3>
+                  <span className="text-xs font-mono text-amber-800 font-bold">Ref: {booking.bookingNumber}</span>
                 </div>
-                <span className={`px-3 py-1 rounded-full text-xs font-mono font-semibold uppercase ${
-                  booking.paymentStatus === 'PAID' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'
+                <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase ${
+                  booking.paymentStatus === 'PAID' ? 'bg-emerald-50 text-emerald-800 border border-emerald-300' : 'bg-amber-50 text-amber-900 border border-amber-300'
                 }`}>
                   {booking.paymentStatus}
                 </span>
               </div>
 
               <div className="space-y-2 text-xs">
-                <div className="flex justify-between text-neutral-300">
+                <div className="flex justify-between text-neutral-600">
                   <span>Total Amount:</span>
-                  <strong className="text-white">₹{booking.totalAmount?.toLocaleString('en-IN')}</strong>
+                  <strong className="text-neutral-900">₹{booking.totalAmount?.toLocaleString('en-IN')}</strong>
                 </div>
-                <div className="flex justify-between text-neutral-300">
+                <div className="flex justify-between text-neutral-600">
                   <span>Advance Paid:</span>
-                  <strong className="text-emerald-400">₹{booking.advanceAmount?.toLocaleString('en-IN')}</strong>
+                  <strong className="text-emerald-700">₹{booking.advanceAmount?.toLocaleString('en-IN')}</strong>
                 </div>
-                <div className="flex justify-between text-neutral-300 pt-2 border-t border-white/5">
+                <div className="flex justify-between text-neutral-600 pt-2 border-t border-stone-100">
                   <span>Remaining Balance:</span>
-                  <strong className="font-serif text-lg text-gold-300">₹{booking.remainingAmount?.toLocaleString('en-IN')}</strong>
+                  <strong className="font-serif text-lg text-amber-900">₹{booking.remainingAmount?.toLocaleString('en-IN')}</strong>
                 </div>
               </div>
 
@@ -154,14 +157,14 @@ const CustomerPayments = () => {
                 <button
                   onClick={() => handleRazorpayPayment(booking)}
                   disabled={processing}
-                  className="w-full py-3.5 rounded-full bg-gold-gradient text-black font-bold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 transition-all flex items-center justify-center disabled:opacity-50"
+                  className="w-full py-3.5 rounded-full bg-gold-gradient text-neutral-950 font-bold text-xs uppercase tracking-wider shadow-gold-subtle hover:scale-105 transition-all flex items-center justify-center disabled:opacity-50"
                 >
                   <CreditCard className="w-4 h-4 mr-2" />
                   {processing ? 'Processing Gateway...' : `Pay ₹${booking.remainingAmount?.toLocaleString('en-IN')} via Razorpay`}
                 </button>
               ) : (
-                <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center text-xs text-emerald-300 font-semibold flex items-center justify-center">
-                  <CheckCircle2 className="w-4 h-4 mr-2" />
+                <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-center text-xs text-emerald-800 font-bold flex items-center justify-center">
+                  <CheckCircle2 className="w-4 h-4 mr-2 text-emerald-600" />
                   Full Amount Settled
                 </div>
               )}
@@ -172,15 +175,15 @@ const CustomerPayments = () => {
 
       {/* Transaction History Log */}
       <div className="space-y-4 pt-6">
-        <h2 className="font-serif text-xl font-bold text-white">Payment Transaction History</h2>
+        <h2 className="font-serif text-xl font-bold text-neutral-900">Payment Transaction History</h2>
 
         {payments.length === 0 ? (
-          <p className="text-xs text-neutral-400">No transactions recorded yet.</p>
+          <p className="text-xs text-neutral-500">No transactions recorded yet.</p>
         ) : (
-          <div className="luxury-card rounded-2xl overflow-hidden border border-white/10">
+          <div className="bg-white rounded-2xl overflow-hidden border border-amber-900/15 shadow-sm">
             <div className="overflow-x-auto custom-scrollbar w-full">
               <table className="w-full min-w-[650px] text-left text-xs">
-                <thead className="bg-obsidian-400 border-b border-white/10 uppercase tracking-wider text-gold-400 font-mono">
+                <thead className="bg-stone-50 border-b border-amber-900/10 uppercase tracking-wider text-neutral-700 font-mono">
                   <tr>
                     <th className="p-4">Payment Ref</th>
                     <th className="p-4">Razorpay Order ID</th>
@@ -190,15 +193,15 @@ const CustomerPayments = () => {
                     <th className="p-4">Date</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5 text-neutral-300">
+                <tbody className="divide-y divide-stone-100 text-neutral-800">
                   {payments.map((payment) => (
-                    <tr key={payment._id} className="hover:bg-white/5 transition-colors">
-                      <td className="p-4 font-mono text-white font-bold">{payment.paymentNumber}</td>
-                      <td className="p-4 font-mono text-neutral-400">{payment.razorpayOrderId}</td>
-                      <td className="p-4 font-serif text-sm font-bold text-gold-300">₹{payment.amount?.toLocaleString('en-IN')}</td>
+                    <tr key={payment._id} className="hover:bg-amber-50/40 transition-colors">
+                      <td className="p-4 font-mono text-neutral-900 font-bold">{payment.paymentNumber}</td>
+                      <td className="p-4 font-mono text-neutral-500">{payment.razorpayOrderId}</td>
+                      <td className="p-4 font-serif text-sm font-bold text-amber-900">₹{payment.amount?.toLocaleString('en-IN')}</td>
                       <td className="p-4 uppercase">{payment.paymentType}</td>
                       <td className="p-4">
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-300">
                           {payment.status}
                         </span>
                       </td>

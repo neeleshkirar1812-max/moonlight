@@ -71,63 +71,63 @@ const EmployeeDashboard = () => {
   ];
 
   return (
-    <div className="space-y-8 animate-fade-in text-white">
+    <div className="space-y-8 animate-fade-in text-neutral-900">
       {/* Welcome Banner */}
-      <div className="relative rounded-3xl overflow-hidden p-6 sm:p-10 border border-gold-500/30 bg-[#141418] shadow-2xl">
+      <div className="relative rounded-3xl overflow-hidden p-6 sm:p-10 border border-amber-900/15 bg-white shadow-md">
         <div className="relative z-10 space-y-2">
-          <span className="text-xs uppercase font-mono tracking-widest text-gold-400 font-bold block">
+          <span className="text-xs uppercase font-mono tracking-widest text-amber-800 font-bold block">
             Production & Cinema Crew Portal
           </span>
-          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-white">
+          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-neutral-900">
             Hello, {user?.name || 'Aman Pawar'}
           </h1>
-          <p className="text-xs sm:text-sm text-neutral-300 font-light">
-            You have <strong className="text-gold-300 font-semibold">{defaultBookings.length} active wedding shoots</strong> assigned to your schedule.
+          <p className="text-xs sm:text-sm text-neutral-600 font-normal">
+            You have <strong className="text-amber-900 font-bold">{defaultBookings.length} active wedding shoots</strong> assigned to your schedule.
           </p>
         </div>
       </div>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div className="bg-[#141418] rounded-2xl p-6 border border-white/10 shadow-lg flex items-center justify-between">
+        <div className="bg-white rounded-2xl p-6 border border-amber-900/15 shadow-sm flex items-center justify-between">
           <div>
-            <span className="text-[10.5px] uppercase font-mono text-neutral-400">Assigned Shoots</span>
-            <p className="font-serif text-3xl font-bold text-white mt-1">{defaultBookings.length}</p>
+            <span className="text-[10.5px] uppercase font-mono text-neutral-500 font-bold">Assigned Shoots</span>
+            <p className="font-serif text-3xl font-bold text-neutral-900 mt-1">{defaultBookings.length}</p>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-gold-500/15 border border-gold-500/40 flex items-center justify-center text-gold-400">
+          <div className="w-12 h-12 rounded-xl bg-amber-50 border border-amber-300 flex items-center justify-center text-amber-800 shadow-sm">
             <Camera className="w-6 h-6" />
           </div>
         </div>
 
-        <div className="bg-[#141418] rounded-2xl p-6 border border-white/10 shadow-lg flex items-center justify-between">
+        <div className="bg-white rounded-2xl p-6 border border-amber-900/15 shadow-sm flex items-center justify-between">
           <div>
-            <span className="text-[10.5px] uppercase font-mono text-neutral-400">Assigned Enquiries</span>
-            <p className="font-serif text-3xl font-bold text-white mt-1">4</p>
+            <span className="text-[10.5px] uppercase font-mono text-neutral-500 font-bold">Assigned Enquiries</span>
+            <p className="font-serif text-3xl font-bold text-neutral-900 mt-1">4</p>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-gold-500/15 border border-gold-500/40 flex items-center justify-center text-gold-400">
+          <div className="w-12 h-12 rounded-xl bg-amber-50 border border-amber-300 flex items-center justify-center text-amber-800 shadow-sm">
             <Users className="w-6 h-6" />
           </div>
         </div>
 
-        <div className="bg-[#141418] rounded-2xl p-6 border border-white/10 shadow-lg flex items-center justify-between">
+        <div className="bg-white rounded-2xl p-6 border border-amber-900/15 shadow-sm flex items-center justify-between">
           <div>
-            <span className="text-[10.5px] uppercase font-mono text-neutral-400">Readiness Status</span>
-            <p className="font-serif text-2xl font-bold text-emerald-400 mt-1">Gear Ready</p>
+            <span className="text-[10.5px] uppercase font-mono text-neutral-500 font-bold">Readiness Status</span>
+            <p className="font-serif text-2xl font-bold text-emerald-700 mt-1">Gear Ready</p>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+          <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-300 flex items-center justify-center text-emerald-700 shadow-sm">
             <CheckSquare className="w-6 h-6" />
           </div>
         </div>
       </div>
 
       {/* Tab Navigation */}
-      <div className="flex items-center space-x-3 border-b border-white/10 pb-3">
+      <div className="flex items-center space-x-3 border-b border-neutral-200 pb-3">
         <button
           onClick={() => setActiveTab('shoots')}
           className={`px-5 py-2.5 rounded-full text-xs font-mono font-bold transition-all flex items-center ${
             activeTab === 'shoots'
-              ? 'bg-gold-gradient text-black shadow-gold-subtle'
-              : 'bg-[#18181e] text-neutral-400 hover:text-white border border-white/10'
+              ? 'bg-gold-gradient text-neutral-950 shadow-sm font-extrabold'
+              : 'bg-white text-neutral-700 hover:text-neutral-950 border border-neutral-300'
           }`}
         >
           <Camera className="w-3.5 h-3.5 mr-1.5" /> Assigned Shoots ({defaultBookings.length})
@@ -137,8 +137,8 @@ const EmployeeDashboard = () => {
           onClick={() => setActiveTab('slips')}
           className={`px-5 py-2.5 rounded-full text-xs font-mono font-bold transition-all flex items-center ${
             activeTab === 'slips'
-              ? 'bg-gold-gradient text-black shadow-gold-subtle'
-              : 'bg-[#18181e] text-neutral-400 hover:text-white border border-white/10'
+              ? 'bg-gold-gradient text-neutral-950 shadow-sm font-extrabold'
+              : 'bg-white text-neutral-700 hover:text-neutral-950 border border-neutral-300'
           }`}
         >
           <DollarSign className="w-3.5 h-3.5 mr-1.5" /> My Salary Slips ({salarySlips.length || 1})
@@ -149,8 +149,8 @@ const EmployeeDashboard = () => {
       {activeTab === 'shoots' && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="font-serif text-xl font-bold text-white">Upcoming Wedding Shoots</h2>
-            <Link to="/employee/projects" className="text-xs text-gold-400 font-bold hover:underline">
+            <h2 className="font-serif text-xl font-bold text-neutral-900">Upcoming Wedding Shoots</h2>
+            <Link to="/employee/projects" className="text-xs text-amber-800 font-bold hover:underline">
               View All Projects →
             </Link>
           </div>
@@ -159,41 +159,41 @@ const EmployeeDashboard = () => {
             {defaultBookings.map((bkg) => (
               <div
                 key={bkg._id}
-                className="bg-[#141418] rounded-2xl p-6 border border-white/10 shadow-lg space-y-4 hover:border-gold-500/30 transition-all flex flex-col justify-between"
+                className="bg-white rounded-2xl p-6 border border-amber-900/15 shadow-sm space-y-4 hover:border-amber-600/40 transition-all flex flex-col justify-between"
               >
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                    <span className="font-mono text-xs text-gold-400 font-bold">
+                  <div className="flex items-center justify-between pb-3 border-b border-neutral-200">
+                    <span className="font-mono text-xs text-amber-800 font-bold">
                       {bkg.bookingNumber}
                     </span>
-                    <span className="px-2.5 py-1 rounded-full text-[10.5px] font-mono font-bold bg-gold-500/20 text-gold-300 border border-gold-500/40">
+                    <span className="px-2.5 py-1 rounded-full text-[10.5px] font-mono font-bold bg-amber-50 text-amber-900 border border-amber-300">
                       Stage: {(bkg.orderStage || 'SHOOT_SCHEDULED').replace(/_/g, ' ')}
                     </span>
                   </div>
 
                   <div>
-                    <h3 className="font-serif text-xl font-bold text-white">{bkg.eventType}</h3>
-                    <div className="space-y-1.5 text-xs text-neutral-300 font-light mt-2">
+                    <h3 className="font-serif text-xl font-bold text-neutral-900">{bkg.eventType}</h3>
+                    <div className="space-y-1.5 text-xs text-neutral-600 font-normal mt-2">
                       <p className="flex items-center">
-                        <Calendar className="w-3.5 h-3.5 mr-1.5 text-gold-400" />
+                        <Calendar className="w-3.5 h-3.5 mr-1.5 text-amber-700" />
                         {new Date(bkg.eventDate).toLocaleDateString('en-US', { dateStyle: 'full' })}
                       </p>
                       <p className="flex items-center">
-                        <MapPin className="w-3.5 h-3.5 mr-1.5 text-gold-400" />
+                        <MapPin className="w-3.5 h-3.5 mr-1.5 text-amber-700" />
                         {bkg.location?.venue}, {bkg.location?.city}
                       </p>
                       <p className="flex items-center">
-                        <Users className="w-3.5 h-3.5 mr-1.5 text-gold-400" />
+                        <Users className="w-3.5 h-3.5 mr-1.5 text-amber-700" />
                         Client: {bkg.customer?.name} ({bkg.customer?.phone})
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-white/10 flex items-center justify-between">
+                <div className="pt-3 border-t border-neutral-200 flex items-center justify-between">
                   <Link
                     to="/employee/projects"
-                    className="inline-flex items-center text-xs font-bold text-gold-400 hover:text-white uppercase tracking-wider"
+                    className="inline-flex items-center text-xs font-bold text-amber-800 hover:text-amber-950 uppercase tracking-wider"
                   >
                     Shot Checklist <ArrowRight className="w-3.5 h-3.5 ml-1" />
                   </Link>
@@ -213,7 +213,7 @@ const EmployeeDashboard = () => {
                           alert(e.message);
                         }
                       }}
-                      className="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[11px] font-mono font-bold hover:bg-emerald-500 hover:text-black transition-all"
+                      className="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-300 text-[11px] font-mono font-bold hover:bg-emerald-600 hover:text-white transition-all shadow-sm"
                     >
                       ✓ Mark Shoot Done
                     </button>
@@ -230,17 +230,17 @@ const EmployeeDashboard = () => {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="font-serif text-xl font-bold text-white">My Monthly Pay Slips</h2>
-              <p className="text-neutral-400 text-xs font-light">
+              <h2 className="font-serif text-xl font-bold text-neutral-900">My Monthly Pay Slips</h2>
+              <p className="text-neutral-600 text-xs font-normal">
                 Official compensation slips disbursed by Moonlight Production HR atelier.
               </p>
             </div>
           </div>
 
-          <div className="bg-[#141418] rounded-2xl border border-white/10 overflow-hidden shadow-xl">
+          <div className="bg-white rounded-2xl border border-amber-900/15 overflow-hidden shadow-sm">
             <div className="overflow-x-auto custom-scrollbar w-full">
               <table className="w-full min-w-[700px] text-left text-xs">
-                <thead className="bg-[#181820] text-gold-400 uppercase font-mono text-[10.5px] border-b border-white/10">
+                <thead className="bg-amber-50/70 text-amber-900 uppercase font-mono text-[10.5px] border-b border-amber-900/15">
                   <tr>
                     <th className="py-3.5 px-4 font-bold">Month</th>
                     <th className="py-3.5 px-4 font-bold">Slip No</th>
@@ -251,7 +251,7 @@ const EmployeeDashboard = () => {
                     <th className="py-3.5 px-4 font-bold text-right">Download</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5 font-mono">
+                <tbody className="divide-y divide-neutral-200 font-mono">
                   {(salarySlips.length > 0
                     ? salarySlips
                     : [
@@ -279,17 +279,17 @@ const EmployeeDashboard = () => {
                         },
                       ]
                   ).map((slip) => (
-                    <tr key={slip._id} className="hover:bg-white/[0.02] transition-colors">
-                      <td className="py-3.5 px-4 font-bold text-white">{slip.month}</td>
-                      <td className="py-3.5 px-4 text-gold-400">{slip.slipNumber}</td>
-                      <td className="py-3.5 px-4 text-white">
+                    <tr key={slip._id} className="hover:bg-amber-50/30 transition-colors">
+                      <td className="py-3.5 px-4 font-bold text-neutral-900">{slip.month}</td>
+                      <td className="py-3.5 px-4 text-amber-800 font-bold">{slip.slipNumber}</td>
+                      <td className="py-3.5 px-4 text-neutral-800">
                         ₹{(Number(slip.basicPay) || 0).toLocaleString('en-IN')}
                       </td>
-                      <td className="py-3.5 px-4 text-emerald-400">
+                      <td className="py-3.5 px-4 text-emerald-700">
                         +₹{(Number(slip.hraAllowances || 0) + Number(slip.shootBonus || 0)).toLocaleString('en-IN')}
                       </td>
                       <td className="py-3.5 px-4">
-                        <strong className="text-gold-300 font-bold text-sm">
+                        <strong className="text-amber-900 font-bold text-sm">
                           ₹{(Number(slip.netPay) || 0).toLocaleString('en-IN')}
                         </strong>
                       </td>
@@ -297,8 +297,8 @@ const EmployeeDashboard = () => {
                         <span
                           className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase border ${
                             slip.paymentStatus === 'Paid'
-                              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                              : 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                              : 'bg-amber-50 text-amber-800 border-amber-300'
                           }`}
                         >
                           {slip.paymentStatus}
@@ -314,7 +314,7 @@ const EmployeeDashboard = () => {
                               designation: slip.designation || 'Production Specialist',
                             })
                           }
-                          className="px-3 py-1.5 rounded-lg bg-gold-500/15 hover:bg-gold-500/30 text-gold-300 border border-gold-500/30 font-bold text-[11px] inline-flex items-center transition-all"
+                          className="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold text-[11px] inline-flex items-center transition-all shadow-sm"
                         >
                           <Download className="w-3.5 h-3.5 mr-1" /> Pay Slip PDF
                         </button>

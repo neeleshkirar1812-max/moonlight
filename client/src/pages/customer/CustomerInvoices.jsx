@@ -105,68 +105,68 @@ const CustomerInvoices = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in">
-      <div>
-        <span className="text-xs uppercase tracking-widest text-gold-400 font-semibold block">
+    <div className="space-y-8 animate-fade-in text-neutral-900">
+      <div className="border-b border-amber-900/10 pb-6">
+        <span className="text-xs uppercase tracking-widest text-amber-700 font-bold block">
           Client Sanctuary Billing & Legal
         </span>
-        <h1 className="font-serif text-3xl font-bold text-white">Official Tax Invoices & Agreements</h1>
-        <p className="text-xs text-neutral-400 mt-1">
+        <h1 className="font-serif text-3xl font-bold text-neutral-900 mt-1">Official Tax Invoices & Agreements</h1>
+        <p className="text-neutral-600 text-xs font-light mt-1">
           Review itemized cinema inclusions, download signed tax PDFs, and pay your 30% booking advance or milestone dues online.
         </p>
       </div>
 
       {loading ? (
-        <div className="h-64 rounded-2xl bg-obsidian-400 animate-pulse" />
+        <div className="h-64 rounded-2xl bg-stone-100 animate-pulse border border-stone-200" />
       ) : invoices.length === 0 ? (
-        <div className="text-center py-20 bg-obsidian-400 rounded-3xl border border-white/10 space-y-3">
-          <FileText className="w-8 h-8 text-gold-400 mx-auto opacity-50" />
-          <h3 className="font-serif text-xl text-white">No Invoices Generated Yet</h3>
-          <p className="text-xs text-neutral-400">Invoices will appear here automatically as booking payments are scheduled.</p>
+        <div className="text-center py-20 bg-white rounded-3xl border border-amber-900/15 space-y-3 shadow-sm">
+          <FileText className="w-8 h-8 text-amber-600 mx-auto opacity-70" />
+          <h3 className="font-serif text-xl text-neutral-900 font-bold">No Invoices Generated Yet</h3>
+          <p className="text-xs text-neutral-500">Invoices will appear here automatically as booking payments are scheduled.</p>
         </div>
       ) : (
         <div className="space-y-4">
           {invoices.map((inv) => (
             <div
               key={inv._id}
-              className="luxury-card rounded-2xl p-6 border border-white/10 hover:border-gold-500/30 transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+              className="bg-white rounded-2xl p-6 border border-amber-900/15 hover:border-amber-500/40 shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
             >
               <div className="space-y-1">
                 <div className="flex items-center space-x-3">
-                  <span className="font-mono text-sm font-bold text-gold-300">{inv.invoiceNumber}</span>
+                  <span className="font-mono text-sm font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded border border-amber-200">{inv.invoiceNumber}</span>
                   <span
                     className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase font-bold ${
                       (inv.status || '').toUpperCase() === 'PAID'
-                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                        ? 'bg-emerald-50 text-emerald-800 border border-emerald-300'
                         : (inv.status || '').toUpperCase() === 'PARTIALLY_PAID'
-                        ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40'
-                        : 'bg-gold-500/20 text-gold-300 border border-gold-500/40'
+                        ? 'bg-blue-50 text-blue-800 border border-blue-300'
+                        : 'bg-amber-50 text-amber-900 border border-amber-300'
                     }`}
                   >
                     {inv.status || 'ISSUED'}
                   </span>
                 </div>
-                <p className="text-xs text-neutral-300 font-medium">
+                <p className="text-xs text-neutral-900 font-medium pt-1">
                   Issued on {new Date(inv.issueDate || Date.now()).toLocaleDateString()} • {inv.booking?.eventType || 'Royal Wedding Cinema & Photography'}
                 </p>
-                <p className="text-xs text-neutral-400 font-mono">
+                <p className="text-xs text-neutral-500 font-mono">
                   Subtotal: ₹{Number(inv.subtotal || 0).toLocaleString('en-IN')} + 18% GST: ₹{Number(inv.taxAmount || 0).toLocaleString('en-IN')}
                 </p>
                 <div className="flex items-center space-x-3 text-xs pt-1 font-mono">
-                  <span className="text-emerald-400 font-bold">
+                  <span className="text-emerald-700 font-bold">
                     Paid: ₹{Number(inv.paidAmount || 0).toLocaleString('en-IN')}
                   </span>
-                  <span className="text-neutral-500">|</span>
-                  <span className="text-amber-400 font-bold">
+                  <span className="text-neutral-300">|</span>
+                  <span className="text-amber-900 font-bold">
                     Remaining Balance: ₹{Number(inv.remainingBalance || 0).toLocaleString('en-IN')}
                   </span>
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-white/5">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-stone-100">
                 <div className="text-left sm:text-right">
-                  <span className="text-[10px] uppercase text-neutral-400 block font-mono">Grand Total</span>
-                  <span className="font-serif text-xl font-bold text-white">
+                  <span className="text-[10px] uppercase text-neutral-500 block font-mono font-bold">Grand Total</span>
+                  <span className="font-serif text-xl font-bold text-neutral-900">
                     ₹{Number(inv.totalAmount || 0).toLocaleString('en-IN')}
                   </span>
                 </div>
@@ -176,7 +176,7 @@ const CustomerInvoices = () => {
                   {Number(inv.remainingBalance || 0) > 0 && (
                     <button
                       onClick={() => openPayModal(inv)}
-                      className="px-3.5 sm:px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs uppercase tracking-wider shadow-lg transition-all flex items-center shrink-0 min-h-[44px]"
+                      className="px-3.5 sm:px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-md transition-all flex items-center shrink-0 min-h-[44px]"
                     >
                       <CreditCard className="w-3.5 h-3.5 mr-1.5" /> Pay Online
                     </button>
@@ -184,7 +184,7 @@ const CustomerInvoices = () => {
 
                   <button
                     onClick={() => setSelectedInvoice(inv)}
-                    className="p-2.5 rounded-full bg-obsidian-300 hover:bg-gold-500 hover:text-black border border-white/10 text-gold-300 transition-all min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0"
+                    className="p-2.5 rounded-full bg-stone-100 hover:bg-stone-200 border border-stone-300 text-neutral-700 transition-all min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0 shadow-sm"
                     title="View Bill Details & Terms"
                     aria-label="View invoice details"
                   >
@@ -193,7 +193,7 @@ const CustomerInvoices = () => {
 
                   <button
                     onClick={() => downloadPDF(inv)}
-                    className="px-3.5 sm:px-4 py-2 rounded-full bg-gold-gradient text-black font-bold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 transition-all flex items-center shrink-0 min-h-[44px]"
+                    className="px-3.5 sm:px-4 py-2 rounded-full bg-gold-gradient text-neutral-950 font-bold text-xs uppercase tracking-wider shadow-gold-subtle hover:scale-105 transition-all flex items-center shrink-0 min-h-[44px]"
                   >
                     <Download className="w-3.5 h-3.5 mr-1.5" /> PDF
                   </button>
@@ -206,35 +206,35 @@ const CustomerInvoices = () => {
 
       {/* Online Payment Modal */}
       {payModalOpen && payingInvoice && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-obsidian-400 border border-emerald-500/40 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-5 animate-fade-in">
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-amber-900/20 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-5 animate-fade-in text-neutral-900 text-xs">
+            <div className="flex items-center justify-between pb-3 border-b border-amber-900/10">
               <div className="flex items-center space-x-2">
-                <CreditCard className="w-5 h-5 text-emerald-400" />
-                <h3 className="font-serif text-xl font-bold text-white">Online Payment Gateway</h3>
+                <CreditCard className="w-5 h-5 text-emerald-600" />
+                <h3 className="font-serif text-xl font-bold text-neutral-900">Online Payment Gateway</h3>
               </div>
-              <button onClick={() => setPayModalOpen(false)} className="text-neutral-400 hover:text-white">
-                <X className="w-5 h-5" />
+              <button onClick={() => setPayModalOpen(false)} className="w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 flex items-center justify-center text-neutral-600 transition-colors">
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Bill Summary */}
-            <div className="p-4 rounded-2xl bg-obsidian-500/90 border border-white/10 space-y-1.5 font-mono text-xs">
+            <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-1.5 font-mono text-xs">
               <div className="flex justify-between">
-                <span className="text-neutral-400">Invoice Ref:</span>
-                <strong className="text-white">{payingInvoice.invoiceNumber}</strong>
+                <span className="text-neutral-500">Invoice Ref:</span>
+                <strong className="text-neutral-900">{payingInvoice.invoiceNumber}</strong>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-400">Total Invoice Amount:</span>
-                <span className="text-white">₹{Number(payingInvoice.totalAmount || 0).toLocaleString('en-IN')}</span>
+                <span className="text-neutral-500">Total Invoice Amount:</span>
+                <span className="text-neutral-900 font-bold">₹{Number(payingInvoice.totalAmount || 0).toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-400">Advance Already Paid:</span>
-                <span className="text-emerald-400 font-bold">₹{Number(payingInvoice.paidAmount || 0).toLocaleString('en-IN')}</span>
+                <span className="text-neutral-500">Advance Already Paid:</span>
+                <span className="text-emerald-700 font-bold">₹{Number(payingInvoice.paidAmount || 0).toLocaleString('en-IN')}</span>
               </div>
-              <div className="flex justify-between pt-1 border-t border-white/10">
-                <span className="text-amber-400 font-bold">Remaining Due:</span>
-                <strong className="text-amber-400 font-bold">₹{Number(payingInvoice.remainingBalance || 0).toLocaleString('en-IN')}</strong>
+              <div className="flex justify-between pt-1 border-t border-stone-200">
+                <span className="text-amber-900 font-bold">Remaining Due:</span>
+                <strong className="text-amber-900 font-bold">₹{Number(payingInvoice.remainingBalance || 0).toLocaleString('en-IN')}</strong>
               </div>
             </div>
 
@@ -242,19 +242,19 @@ const CustomerInvoices = () => {
               {/* Payment Amount Input */}
               <div className="space-y-1.5">
                 <div className="flex justify-between">
-                  <label className="text-neutral-300 font-bold uppercase text-[10.5px]">Amount to Pay (₹) *</label>
+                  <label className="text-neutral-700 font-bold uppercase text-[10.5px]">Amount to Pay (₹) *</label>
                   <div className="flex items-center gap-1">
                     <button
                       type="button"
                       onClick={() => setPaymentAmount(Math.round(Number(payingInvoice.totalAmount || 0) * 0.3))}
-                      className="px-2 py-0.5 bg-gold-500/20 text-gold-300 rounded text-[9.5px] font-mono"
+                      className="px-2 py-0.5 bg-amber-50 text-amber-800 border border-amber-300 rounded text-[9.5px] font-mono font-bold"
                     >
                       30% Retainer
                     </button>
                     <button
                       type="button"
                       onClick={() => setPaymentAmount(Number(payingInvoice.remainingBalance || 0))}
-                      className="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded text-[9.5px] font-mono"
+                      className="px-2 py-0.5 bg-emerald-50 text-emerald-800 border border-emerald-300 rounded text-[9.5px] font-mono font-bold"
                     >
                       Full Balance
                     </button>
@@ -267,21 +267,21 @@ const CustomerInvoices = () => {
                   max={payingInvoice.remainingBalance}
                   value={paymentAmount}
                   onChange={(e) => setPaymentAmount(e.target.value)}
-                  className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-3 py-2.5 text-emerald-400 font-mono text-base font-bold focus:outline-none focus:border-emerald-400"
+                  className="w-full bg-stone-50 border border-stone-300 rounded-xl px-3 py-2.5 text-emerald-700 font-mono text-base font-bold focus:outline-none focus:border-emerald-500"
                 />
               </div>
 
               {/* Payment Method Selector */}
               <div className="space-y-1.5">
-                <label className="text-neutral-300 font-bold uppercase text-[10.5px]">Select Payment Mode</label>
+                <label className="text-neutral-700 font-bold uppercase text-[10.5px]">Select Payment Mode</label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={() => setPaymentMethod('UPI')}
                     className={`py-2 rounded-xl border text-xs font-mono font-bold transition-all ${
                       paymentMethod === 'UPI'
-                        ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300'
-                        : 'bg-obsidian-500 border-white/10 text-neutral-400'
+                        ? 'bg-emerald-50 border-emerald-400 text-emerald-800'
+                        : 'bg-stone-50 border-stone-200 text-neutral-600'
                     }`}
                   >
                     UPI / QR Code
@@ -291,8 +291,8 @@ const CustomerInvoices = () => {
                     onClick={() => setPaymentMethod('RAZORPAY')}
                     className={`py-2 rounded-xl border text-xs font-mono font-bold transition-all ${
                       paymentMethod === 'RAZORPAY'
-                        ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300'
-                        : 'bg-obsidian-500 border-white/10 text-neutral-400'
+                        ? 'bg-emerald-50 border-emerald-400 text-emerald-800'
+                        : 'bg-stone-50 border-stone-200 text-neutral-600'
                     }`}
                   >
                     Cards / Netbanking
@@ -301,36 +301,36 @@ const CustomerInvoices = () => {
               </div>
 
               {/* Official UPI Details */}
-              <div className="p-3 rounded-xl bg-obsidian-600/80 border border-gold-500/30 text-[11px] font-mono space-y-1">
-                <span className="text-gold-400 font-bold block">Official Studio UPI ID:</span>
-                <p className="text-white font-bold select-all">moonlightproduction@hdfcbank</p>
-                <p className="text-neutral-400 text-[10px]">HDFC Bank Ltd. • Moonlight Production & Films</p>
+              <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-[11px] font-mono space-y-1 text-neutral-800">
+                <span className="text-amber-900 font-bold block">Official Studio UPI ID:</span>
+                <p className="text-neutral-900 font-bold select-all">moonlightproduction@hdfcbank</p>
+                <p className="text-neutral-500 text-[10px]">HDFC Bank Ltd. • Moonlight Production & Films</p>
               </div>
 
               <div className="space-y-1">
-                <label className="text-neutral-300 font-semibold uppercase text-[10.5px]">Transaction Ref / UTR Number</label>
+                <label className="text-neutral-700 font-semibold uppercase text-[10.5px]">Transaction Ref / UTR Number</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. UTR-982001923"
                   value={utrNumber}
                   onChange={(e) => setUtrNumber(e.target.value)}
-                  className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-3 py-2 text-white font-mono"
+                  className="w-full bg-stone-50 border border-stone-300 rounded-xl px-3 py-2 text-neutral-900 font-mono focus:border-amber-500 focus:outline-none"
                 />
               </div>
 
-              <div className="flex justify-end space-x-3 pt-3 border-t border-white/10">
+              <div className="flex justify-end space-x-3 pt-3 border-t border-stone-200">
                 <button
                   type="button"
                   onClick={() => setPayModalOpen(false)}
-                  className="px-4 py-2 rounded-full border border-white/15 text-neutral-300 hover:text-white"
+                  className="px-4 py-2 rounded-full border border-stone-300 text-neutral-600 hover:text-neutral-900 hover:bg-stone-50 font-semibold transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={processing}
-                  className="px-6 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-bold uppercase tracking-wider shadow-lg flex items-center disabled:opacity-50"
+                  className="px-6 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold uppercase tracking-wider shadow-md flex items-center disabled:opacity-50 transition-all"
                 >
                   <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
                   {processing ? 'Confirming...' : 'Authorize & Pay'}

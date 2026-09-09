@@ -42,46 +42,46 @@ const EmployeeProjects = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-fade-in text-neutral-900">
       <div>
-        <span className="text-xs uppercase tracking-widest text-gold-400 font-semibold block">
+        <span className="text-xs uppercase tracking-widest text-amber-800 font-bold block">
           Shoots & Post-Production
         </span>
-        <h1 className="font-serif text-3xl font-bold text-white">Assigned Projects & Briefs</h1>
+        <h1 className="font-serif text-3xl font-bold text-neutral-900">Assigned Projects & Briefs</h1>
       </div>
 
       <div className="space-y-8">
         {projects.map((proj) => (
-          <div key={proj._id} className="luxury-card rounded-3xl p-8 border border-white/10 space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
+          <div key={proj._id} className="bg-white rounded-3xl p-6 sm:p-8 border border-amber-900/15 shadow-sm space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-200">
               <div>
-                <span className="text-xs font-mono text-gold-400 font-bold">Booking #{proj.bookingNumber}</span>
-                <h2 className="font-serif text-2xl font-bold text-white mt-1">{proj.eventType}</h2>
-                <div className="flex items-center space-x-3 text-xs text-neutral-400 mt-1">
+                <span className="text-xs font-mono text-amber-800 font-bold">Booking #{proj.bookingNumber}</span>
+                <h2 className="font-serif text-2xl font-bold text-neutral-900 mt-1">{proj.eventType}</h2>
+                <div className="flex flex-wrap items-center gap-2 text-xs text-neutral-600 mt-1">
                   <span>{new Date(proj.eventDate).toLocaleDateString()}</span>
                   <span>•</span>
                   <span>{proj.location?.venue}, {proj.location?.city}</span>
                 </div>
               </div>
 
-              <div className="text-xs text-neutral-300">
-                <p>Client: <strong className="text-white">{proj.customer?.name}</strong></p>
-                <p>Contact: <strong className="text-gold-300">{proj.customer?.phone}</strong></p>
+              <div className="text-xs text-neutral-700 bg-amber-50/70 border border-amber-300/60 p-3 rounded-xl">
+                <p>Client: <strong className="text-neutral-900 font-bold">{proj.customer?.name}</strong></p>
+                <p>Contact: <strong className="text-amber-900 font-bold">{proj.customer?.phone}</strong></p>
               </div>
             </div>
 
             {/* Timeline Schedule */}
             {proj.scheduleTimeline?.length > 0 && (
               <div className="space-y-3">
-                <h4 className="text-xs uppercase tracking-wider text-gold-300 font-semibold">Shot Schedule Checklist</h4>
+                <h4 className="text-xs uppercase tracking-wider text-amber-900 font-bold">Shot Schedule Checklist</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                   {proj.scheduleTimeline.map((item, sIdx) => (
-                    <div key={sIdx} className="p-3 rounded-xl bg-obsidian-500 border border-white/5 flex items-center justify-between">
+                    <div key={sIdx} className="p-3 rounded-xl bg-stone-50 border border-neutral-200 flex items-center justify-between">
                       <div>
-                        <span className="font-mono text-gold-400 font-bold mr-2">{item.time}</span>
-                        <span className="text-white">{item.event}</span>
+                        <span className="font-mono text-amber-800 font-bold mr-2">{item.time}</span>
+                        <span className="text-neutral-900 font-medium">{item.event}</span>
                       </div>
-                      <span className="text-[10px] text-neutral-400">{item.notes}</span>
+                      <span className="text-[10.5px] text-neutral-500 font-mono">{item.notes}</span>
                     </div>
                   ))}
                 </div>
@@ -90,16 +90,16 @@ const EmployeeProjects = () => {
 
             {/* Deliverables Status Toggle */}
             {proj.deliverablesStatus?.length > 0 && (
-              <div className="space-y-3 pt-4 border-t border-white/10">
-                <h4 className="text-xs uppercase tracking-wider text-gold-300 font-semibold">Update Deliverable Progress</h4>
+              <div className="space-y-3 pt-4 border-t border-neutral-200">
+                <h4 className="text-xs uppercase tracking-wider text-amber-900 font-bold">Update Deliverable Progress</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   {proj.deliverablesStatus.map((del, dIdx) => (
-                    <div key={dIdx} className="p-4 rounded-xl bg-obsidian-500 border border-white/5 flex items-center justify-between">
-                      <span className="text-white font-medium">{del.item}</span>
+                    <div key={dIdx} className="p-4 rounded-xl bg-stone-50 border border-neutral-200 flex items-center justify-between gap-2">
+                      <span className="text-neutral-900 font-medium">{del.item}</span>
                       <select
                         value={del.status}
                         onChange={(e) => updateDeliverable(proj._id, dIdx, e.target.value)}
-                        className="bg-obsidian-300 border border-white/15 rounded-lg px-2.5 py-1 text-xs text-gold-300 font-mono focus:outline-none"
+                        className="bg-white border border-neutral-300 rounded-lg px-2.5 py-1 text-xs text-amber-900 font-mono font-bold focus:outline-none focus:border-amber-500 shadow-sm"
                       >
                         <option value="Pending">Pending</option>
                         <option value="In Progress">In Progress</option>

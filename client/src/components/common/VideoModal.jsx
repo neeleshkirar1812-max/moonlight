@@ -16,16 +16,16 @@ const VideoModal = ({ video, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex items-center justify-center p-2 sm:p-4 md:p-8 animate-fade-in w-full max-w-full overflow-y-auto">
-      <div className="relative w-full max-w-5xl bg-obsidian-400 border border-gold-500/30 rounded-2xl overflow-hidden shadow-2xl max-h-[92dvh] flex flex-col my-auto">
+      <div className="relative w-full max-w-5xl bg-neutral-900 border border-amber-500/30 rounded-2xl overflow-hidden shadow-2xl max-h-[92dvh] flex flex-col my-auto">
         {/* Header Bar */}
-        <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-white/10 bg-obsidian-600 shrink-0">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-white/10 bg-neutral-950 shrink-0">
           <div className="min-w-0 mr-3">
             <h3 className="font-serif text-base sm:text-lg text-white font-semibold truncate">{video.title}</h3>
-            <p className="text-xs text-gold-400 font-sans tracking-wider truncate">{video.clientNames} • {video.category}</p>
+            <p className="text-xs text-amber-400 font-sans tracking-wider truncate font-medium">{video.clientNames} • {video.category}</p>
           </div>
           <button
             onClick={onClose}
-            className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-obsidian-200 border border-white/15 text-neutral-300 hover:text-gold-400 hover:border-gold-400 transition-all shrink-0"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-neutral-800 border border-white/20 text-neutral-200 hover:text-amber-400 hover:border-amber-400 transition-all shrink-0"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
@@ -45,7 +45,7 @@ const VideoModal = ({ video, onClose }) => {
 
         {/* Description */}
         {video.description && (
-          <div className="p-4 sm:p-6 text-xs sm:text-sm text-neutral-300 leading-relaxed bg-obsidian-500 overflow-y-auto custom-scrollbar">
+          <div className="p-4 sm:p-6 text-xs sm:text-sm text-neutral-300 leading-relaxed bg-neutral-900 overflow-y-auto custom-scrollbar">
             <p>{video.description}</p>
           </div>
         )}

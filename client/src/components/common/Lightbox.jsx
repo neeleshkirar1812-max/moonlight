@@ -42,7 +42,7 @@ const Lightbox = ({
               className={`min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full border transition-all ${
                 isFavorite
                   ? 'bg-red-500/20 border-red-500 text-red-500'
-                  : 'bg-obsidian-200 border-white/20 hover:border-gold-400 hover:text-gold-400'
+                  : 'bg-neutral-800 border-white/20 hover:border-amber-400 hover:text-amber-400'
               }`}
               title="Add to Favorites"
             >
@@ -56,7 +56,7 @@ const Lightbox = ({
               target="_blank"
               rel="noreferrer"
               download
-              className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-obsidian-200 border border-white/20 hover:border-gold-400 hover:text-gold-400 transition-all text-neutral-300"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-neutral-800 border border-white/20 hover:border-amber-400 hover:text-amber-400 transition-all text-neutral-200"
               title="Download Master Image"
             >
               <Download className="w-4 h-4" />
@@ -65,7 +65,7 @@ const Lightbox = ({
 
           <button
             onClick={onClose}
-            className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-obsidian-200 border border-white/20 hover:border-gold-400 hover:text-gold-400 transition-all text-neutral-300"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-neutral-800 border border-white/20 hover:border-amber-400 hover:text-amber-400 transition-all text-neutral-200"
             title="Close Lightbox"
           >
             <X className="w-5 h-5" />
@@ -85,7 +85,7 @@ const Lightbox = ({
         {images.length > 1 && (
           <button
             onClick={onPrev}
-            className="absolute left-1 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-obsidian/70 border border-white/20 text-white hover:border-gold-400 hover:text-gold-400 transition-all backdrop-blur-md"
+            className="absolute left-1 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-black/70 border border-white/20 text-white hover:border-amber-400 hover:text-amber-400 transition-all backdrop-blur-md"
             aria-label="Previous image"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -96,7 +96,7 @@ const Lightbox = ({
         {images.length > 1 && (
           <button
             onClick={onNext}
-            className="absolute right-1 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-obsidian/70 border border-white/20 text-white hover:border-gold-400 hover:text-gold-400 transition-all backdrop-blur-md"
+            className="absolute right-1 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-black/70 border border-white/20 text-white hover:border-amber-400 hover:text-amber-400 transition-all backdrop-blur-md"
             aria-label="Next image"
           >
             <ChevronRight className="w-6 h-6" />
@@ -108,7 +108,7 @@ const Lightbox = ({
       <div className="text-center text-xs text-neutral-400 font-sans tracking-wide">
         {currentImage.caption && <p className="text-sm font-serif text-neutral-200 italic mb-1">"{currentImage.caption}"</p>}
         {currentImage.dimensions && <span>{currentImage.dimensions.width} × {currentImage.dimensions.height}px</span>}
-        {currentImage.section && <span className="ml-3 px-2 py-0.5 rounded bg-gold-500/20 text-gold-300 border border-gold-500/30 text-[10px]">{currentImage.section}</span>}
+        {currentImage.section && <span className="ml-3 px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px]">{currentImage.section}</span>}
       </div>
     </div>
   );

@@ -18,6 +18,7 @@ import {
   Receipt,
   Building,
   Sparkles,
+  X,
 } from 'lucide-react';
 
 const AdminPayments = () => {
@@ -261,17 +262,17 @@ const AdminPayments = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in text-white">
+    <div className="space-y-8 animate-fade-in text-neutral-900">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-900/10 pb-6">
         <div>
-          <span className="text-xs uppercase font-mono tracking-widest text-gold-400 font-bold block">
+          <span className="text-xs uppercase font-mono tracking-widest text-amber-700 font-bold block">
             Executive Financial Console
           </span>
-          <h1 className="font-serif text-3xl font-bold text-white">
+          <h1 className="font-serif text-3xl font-bold text-neutral-900 mt-1">
             Studio Accounting & Cash Flow Ledger
           </h1>
-          <p className="text-neutral-400 text-xs font-light mt-1">
+          <p className="text-neutral-600 text-xs font-light mt-1">
             Real-time tracking of studio Inflows (Client payments) vs Outflows (Crew payroll & shoot production expenses).
           </p>
         </div>
@@ -279,14 +280,14 @@ const AdminPayments = () => {
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <button
             onClick={handleExportLedgerExcel}
-            className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-white font-mono text-xs font-bold transition-all flex items-center justify-center min-h-[44px]"
+            className="px-4 py-2.5 rounded-xl bg-white hover:bg-stone-50 border border-amber-900/15 text-neutral-800 font-mono text-xs font-bold transition-all flex items-center justify-center min-h-[44px] shadow-sm"
           >
-            <Download className="w-4 h-4 mr-1.5 text-gold-400" /> Export Excel (.xlsx)
+            <Download className="w-4 h-4 mr-1.5 text-amber-700" /> Export Excel (.xlsx)
           </button>
 
           <button
             onClick={() => setExpenseModalOpen(true)}
-            className="px-4 sm:px-5 py-2.5 rounded-xl bg-gold-gradient text-black font-bold uppercase tracking-wider text-xs shadow-gold-subtle hover:brightness-110 transition-all flex items-center justify-center min-h-[44px]"
+            className="px-4 sm:px-5 py-2.5 rounded-xl bg-gold-gradient text-neutral-950 font-bold uppercase tracking-wider text-xs shadow-gold-subtle hover:scale-105 transition-all flex items-center justify-center min-h-[44px]"
           >
             <Plus className="w-4 h-4 mr-1.5" /> Record Expense (Outflow)
           </button>
@@ -296,55 +297,55 @@ const AdminPayments = () => {
       {/* KPI Overview Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         {/* Money IN */}
-        <div className="bg-[#141418] p-6 rounded-2xl border border-white/10 shadow-lg space-y-2 relative overflow-hidden">
-          <div className="flex items-center justify-between text-emerald-400 text-xs font-mono">
-            <span className="flex items-center">
-              <ArrowUpRight className="w-4 h-4 mr-1" /> MONEY IN (INFLOW)
+        <div className="bg-white p-6 rounded-2xl border border-emerald-200 shadow-sm space-y-2 relative overflow-hidden">
+          <div className="flex items-center justify-between text-emerald-800 text-xs font-mono">
+            <span className="flex items-center font-bold">
+              <ArrowUpRight className="w-4 h-4 mr-1 text-emerald-600" /> MONEY IN (INFLOW)
             </span>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30">
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 font-semibold">
               {inEntries.length} Inflows
             </span>
           </div>
-          <h3 className="font-serif text-3xl font-bold text-emerald-400">
+          <h3 className="font-serif text-3xl font-bold text-emerald-700">
             ₹{totalMoneyIn.toLocaleString('en-IN')}
           </h3>
-          <p className="text-[11px] text-neutral-400 font-mono">
+          <p className="text-[11px] text-neutral-500 font-mono">
             Client advances, booking retainers & final bill clearances
           </p>
         </div>
 
         {/* Money OUT */}
-        <div className="bg-[#141418] p-6 rounded-2xl border border-white/10 shadow-lg space-y-2 relative overflow-hidden">
-          <div className="flex items-center justify-between text-rose-400 text-xs font-mono">
-            <span className="flex items-center">
-              <ArrowDownRight className="w-4 h-4 mr-1" /> MONEY OUT (OUTFLOW)
+        <div className="bg-white p-6 rounded-2xl border border-rose-200 shadow-sm space-y-2 relative overflow-hidden">
+          <div className="flex items-center justify-between text-rose-800 text-xs font-mono">
+            <span className="flex items-center font-bold">
+              <ArrowDownRight className="w-4 h-4 mr-1 text-rose-600" /> MONEY OUT (OUTFLOW)
             </span>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-rose-500/15 border border-rose-500/30">
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-rose-50 border border-rose-200 font-semibold">
               {outPayrollEntries.length + outExpenseEntries.length} Outflows
             </span>
           </div>
-          <h3 className="font-serif text-3xl font-bold text-rose-400">
+          <h3 className="font-serif text-3xl font-bold text-rose-600">
             ₹{totalMoneyOut.toLocaleString('en-IN')}
           </h3>
-          <p className="text-[11px] text-neutral-400 font-mono">
+          <p className="text-[11px] text-neutral-500 font-mono">
             Crew salary payouts, gear rentals & shoot logistics
           </p>
         </div>
 
         {/* Net Studio Balance */}
-        <div className="bg-[#141418] p-6 rounded-2xl border border-gold-500/40 shadow-2xl space-y-2 relative overflow-hidden">
-          <div className="flex items-center justify-between text-gold-400 text-xs font-mono font-bold">
+        <div className="bg-white p-6 rounded-2xl border border-amber-900/20 shadow-sm space-y-2 relative overflow-hidden">
+          <div className="flex items-center justify-between text-amber-800 text-xs font-mono font-bold">
             <span className="flex items-center">
-              <TrendingUp className="w-4 h-4 mr-1" /> NET STUDIO PROFIT
+              <TrendingUp className="w-4 h-4 mr-1 text-amber-600" /> NET STUDIO PROFIT
             </span>
-            <span className="text-[10.5px] px-2.5 py-0.5 rounded-full bg-gold-500/20 text-gold-300 border border-gold-500/40 font-bold">
+            <span className="text-[10.5px] px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-900 border border-amber-300 font-bold">
               {profitMarginPercent}% Margin
             </span>
           </div>
-          <h3 className="font-serif text-3xl font-bold text-gold-300">
+          <h3 className="font-serif text-3xl font-bold text-amber-900">
             ₹{netStudioBalance.toLocaleString('en-IN')}
           </h3>
-          <p className="text-[11px] text-neutral-400 font-mono">
+          <p className="text-[11px] text-neutral-500 font-mono">
             Retained earnings after all crew payouts and studio operational overheads
           </p>
         </div>
@@ -363,8 +364,8 @@ const AdminPayments = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-2 rounded-full text-xs font-mono font-semibold transition-all ${
                 activeTab === tab.id
-                  ? 'bg-gold-gradient text-black font-bold shadow-gold-subtle'
-                  : 'bg-[#18181e] text-neutral-400 hover:text-white border border-white/10'
+                  ? 'bg-gold-gradient text-neutral-950 font-bold shadow-gold-subtle'
+                  : 'bg-white text-neutral-600 hover:text-neutral-900 border border-amber-900/15 shadow-sm'
               }`}
             >
               {tab.label}
@@ -379,27 +380,27 @@ const AdminPayments = () => {
             placeholder="Search reference, client, vendor..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-[#18181e] border border-white/15 rounded-full pl-10 pr-4 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-gold-400 font-mono"
+            className="w-full bg-white border border-amber-900/20 rounded-full pl-10 pr-4 py-2 text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 font-mono"
           />
         </div>
       </div>
 
       {/* Unified Master Ledger Table */}
       {loading ? (
-        <div className="h-64 rounded-2xl bg-[#141418] animate-pulse" />
+        <div className="h-64 rounded-2xl bg-stone-100 animate-pulse border border-stone-200" />
       ) : filteredLedger.length === 0 ? (
-        <div className="text-center py-20 bg-[#141418] rounded-3xl border border-white/10 space-y-3">
-          <Receipt className="w-8 h-8 text-gold-400 mx-auto opacity-50" />
-          <h3 className="font-serif text-xl text-white">No Ledger Transactions Found</h3>
-          <p className="text-xs text-neutral-400">
+        <div className="text-center py-20 bg-white rounded-3xl border border-amber-900/15 space-y-3 shadow-sm">
+          <Receipt className="w-8 h-8 text-amber-600 mx-auto opacity-70" />
+          <h3 className="font-serif text-xl text-neutral-900 font-bold">No Ledger Transactions Found</h3>
+          <p className="text-xs text-neutral-500">
             Switch filter tabs or record a new production expense.
           </p>
         </div>
       ) : (
-        <div className="bg-[#141418] rounded-2xl border border-white/10 overflow-hidden shadow-xl">
+        <div className="bg-white rounded-2xl border border-amber-900/15 overflow-hidden shadow-sm">
           <div className="overflow-x-auto custom-scrollbar w-full">
             <table className="w-full min-w-[750px] text-left text-xs">
-              <thead className="bg-[#181820] text-gold-400 uppercase font-mono text-[10.5px] border-b border-white/10">
+              <thead className="bg-stone-50 text-neutral-700 uppercase font-mono text-[10.5px] border-b border-amber-900/10">
                 <tr>
                   <th className="py-3.5 px-4 font-bold">Date</th>
                   <th className="py-3.5 px-4 font-bold">Ref No</th>
@@ -410,12 +411,12 @@ const AdminPayments = () => {
                   <th className="py-3.5 px-4 font-bold">Mode</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5 font-mono">
+              <tbody className="divide-y divide-stone-100 font-mono">
                 {filteredLedger.map((row) => {
                   const isIn = row.type === 'IN';
                   return (
-                    <tr key={row._id} className="hover:bg-white/[0.02] transition-colors">
-                      <td className="py-3.5 px-4 text-neutral-300">
+                    <tr key={row._id} className="hover:bg-amber-50/40 transition-colors">
+                      <td className="py-3.5 px-4 text-neutral-600">
                         {new Date(row.date).toLocaleDateString('en-IN', {
                           day: '2-digit',
                           month: 'short',
@@ -423,13 +424,13 @@ const AdminPayments = () => {
                         })}
                       </td>
 
-                      <td className="py-3.5 px-4 text-gold-400 font-bold">{row.ref}</td>
+                      <td className="py-3.5 px-4 text-amber-800 font-bold">{row.ref}</td>
 
-                      <td className="py-3.5 px-4 text-white font-sans font-medium">
+                      <td className="py-3.5 px-4 text-neutral-900 font-sans font-medium">
                         {row.title}
                       </td>
 
-                      <td className="py-3.5 px-4 text-neutral-400 text-[11px] font-sans">
+                      <td className="py-3.5 px-4 text-neutral-500 text-[11px] font-sans">
                         {row.category}
                       </td>
 
@@ -437,8 +438,8 @@ const AdminPayments = () => {
                         <span
                           className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase border ${
                             isIn
-                              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                              : 'bg-rose-500/20 text-rose-300 border-rose-500/40'
+                              ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                              : 'bg-rose-50 text-rose-800 border-rose-300'
                           }`}
                         >
                           {isIn ? 'MONEY IN' : 'MONEY OUT'}
@@ -448,14 +449,14 @@ const AdminPayments = () => {
                       <td className="py-3.5 px-4 text-right">
                         <span
                           className={`font-bold text-sm ${
-                            isIn ? 'text-emerald-400' : 'text-rose-400'
+                            isIn ? 'text-emerald-700' : 'text-rose-600'
                           }`}
                         >
                           {isIn ? '+' : '-'}₹{row.amount.toLocaleString('en-IN')}
                         </span>
                       </td>
 
-                      <td className="py-3.5 px-4 text-neutral-400">{row.mode}</td>
+                      <td className="py-3.5 px-4 text-neutral-600">{row.mode}</td>
                     </tr>
                   );
                 })}
@@ -467,43 +468,43 @@ const AdminPayments = () => {
 
       {/* Record Expense Modal */}
       {expenseModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-[#141418] border border-gold-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl space-y-5 animate-fade-in text-white">
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-amber-900/20 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl space-y-5 animate-fade-in text-neutral-900">
+            <div className="flex items-center justify-between border-b border-amber-900/10 pb-4">
               <div>
-                <span className="text-[10px] uppercase font-mono tracking-widest text-rose-400 font-bold block">
+                <span className="text-[10px] uppercase font-mono tracking-widest text-rose-600 font-bold block">
                   Studio Cash Outflow
                 </span>
-                <h3 className="font-serif text-xl font-bold text-white">Record Production Expense</h3>
+                <h3 className="font-serif text-xl font-bold text-neutral-900">Record Production Expense</h3>
               </div>
               <button
                 onClick={() => setExpenseModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-neutral-400 hover:text-white"
+                className="w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 flex items-center justify-center text-neutral-600 transition-colors"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             <form onSubmit={handleCreateExpense} className="space-y-4 text-xs">
               <div>
-                <label className="text-neutral-300 font-bold block mb-1 font-mono">Expense Purpose / Title:</label>
+                <label className="text-neutral-700 font-bold block mb-1 font-mono">Expense Purpose / Title:</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Arri Alexa Camera Rental / Hotel Stay for Crew"
                   value={expenseForm.title}
                   onChange={(e) => setExpenseForm({ ...expenseForm, title: e.target.value })}
-                  className="w-full p-3 rounded-xl bg-black/50 border border-white/15 text-white font-mono focus:border-gold-400 focus:outline-none"
+                  className="w-full p-3 rounded-xl bg-stone-50 border border-stone-300 text-neutral-900 font-mono focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/30"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-neutral-300 font-bold block mb-1 font-mono">Expense Category:</label>
+                  <label className="text-neutral-700 font-bold block mb-1 font-mono">Expense Category:</label>
                   <select
                     value={expenseForm.category}
                     onChange={(e) => setExpenseForm({ ...expenseForm, category: e.target.value })}
-                    className="w-full p-3 rounded-xl bg-black/50 border border-white/15 text-white font-mono focus:border-gold-400 focus:outline-none"
+                    className="w-full p-3 rounded-xl bg-stone-50 border border-stone-300 text-neutral-900 font-mono focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/30"
                   >
                     <option value="Equipment & Gear Rental">Equipment & Gear Rental</option>
                     <option value="Travel & Logistics">Travel & Logistics</option>
@@ -515,37 +516,37 @@ const AdminPayments = () => {
                 </div>
 
                 <div>
-                  <label className="text-neutral-300 font-bold block mb-1 font-mono">Amount (INR):</label>
+                  <label className="text-neutral-700 font-bold block mb-1 font-mono">Amount (INR):</label>
                   <input
                     type="number"
                     required
                     placeholder="e.g. 35000"
                     value={expenseForm.amount}
                     onChange={(e) => setExpenseForm({ ...expenseForm, amount: e.target.value })}
-                    className="w-full p-3 rounded-xl bg-black/50 border border-white/15 text-white font-mono focus:border-gold-400 focus:outline-none"
+                    className="w-full p-3 rounded-xl bg-stone-50 border border-stone-300 text-neutral-900 font-mono focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/30"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-neutral-300 font-bold block mb-1 font-mono">Vendor / Payee Name:</label>
+                  <label className="text-neutral-700 font-bold block mb-1 font-mono">Vendor / Payee Name:</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. CineEquip Indore"
                     value={expenseForm.recipient}
                     onChange={(e) => setExpenseForm({ ...expenseForm, recipient: e.target.value })}
-                    className="w-full p-3 rounded-xl bg-black/50 border border-white/15 text-white font-mono focus:border-gold-400 focus:outline-none"
+                    className="w-full p-3 rounded-xl bg-stone-50 border border-stone-300 text-neutral-900 font-mono focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/30"
                   />
                 </div>
 
                 <div>
-                  <label className="text-neutral-300 font-bold block mb-1 font-mono">Payment Mode:</label>
+                  <label className="text-neutral-700 font-bold block mb-1 font-mono">Payment Mode:</label>
                   <select
                     value={expenseForm.paymentMethod}
                     onChange={(e) => setExpenseForm({ ...expenseForm, paymentMethod: e.target.value })}
-                    className="w-full p-3 rounded-xl bg-black/50 border border-white/15 text-white font-mono focus:border-gold-400 focus:outline-none"
+                    className="w-full p-3 rounded-xl bg-stone-50 border border-stone-300 text-neutral-900 font-mono focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/30"
                   >
                     <option value="UPI">UPI Payment</option>
                     <option value="Bank Transfer">Direct Bank Transfer</option>
@@ -555,17 +556,17 @@ const AdminPayments = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-2 pt-4 border-t border-white/10">
+              <div className="flex justify-end space-x-2 pt-4 border-t border-stone-200">
                 <button
                   type="button"
                   onClick={() => setExpenseModalOpen(false)}
-                  className="px-4 py-2 rounded-full border border-white/10 text-neutral-300 hover:text-white"
+                  className="px-4 py-2 rounded-full border border-stone-300 text-neutral-600 hover:text-neutral-900 hover:bg-stone-50 transition-colors font-semibold"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-full bg-rose-500 hover:bg-rose-400 text-white font-bold uppercase tracking-wider text-xs shadow-lg"
+                  className="px-6 py-2.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-bold uppercase tracking-wider text-xs shadow-md transition-all"
                 >
                   Record Outflow
                 </button>

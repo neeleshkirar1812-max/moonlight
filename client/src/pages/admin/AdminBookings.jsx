@@ -14,6 +14,7 @@ import {
   Search,
   Clock,
   Sparkles,
+  X,
 } from 'lucide-react';
 
 const AdminBookings = () => {
@@ -151,15 +152,15 @@ const AdminBookings = () => {
   });
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-fade-in text-neutral-900">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="text-xs uppercase tracking-widest text-gold-400 font-semibold block">
+          <span className="text-xs uppercase tracking-widest text-amber-700 font-bold block">
             Shoot Operations & Financials
           </span>
-          <h1 className="font-serif text-3xl font-bold text-white">Confirmed Bookings & Auto-Excel</h1>
-          <p className="text-xs text-neutral-400 mt-1">
+          <h1 className="font-serif text-3xl font-bold text-neutral-900 mt-1">Confirmed Bookings & Auto-Excel</h1>
+          <p className="text-xs text-neutral-600 mt-1">
             Auto-compiles verified wedding productions, crew assignments, and payment statuses into Excel.
           </p>
         </div>
@@ -168,7 +169,7 @@ const AdminBookings = () => {
           {/* Export Bookings to Excel */}
           <button
             onClick={handleExportExcel}
-            className="px-5 py-2.5 rounded-full bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500 hover:text-black border border-emerald-500/40 font-bold text-xs uppercase tracking-wider transition-all flex items-center shadow-lg shrink-0"
+            className="px-5 py-2.5 rounded-full bg-emerald-50 text-emerald-800 hover:bg-emerald-600 hover:text-white border border-emerald-300 font-bold text-xs uppercase tracking-wider transition-all flex items-center shadow-sm shrink-0"
           >
             <Download className="w-4 h-4 mr-2" /> Export Bookings to Excel (.xlsx)
           </button>
@@ -176,7 +177,7 @@ const AdminBookings = () => {
       </div>
 
       {/* Filter & Search */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 pb-4 border-b border-white/10">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 pb-4 border-b border-amber-900/10">
         <div className="flex items-center space-x-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 custom-scrollbar">
           {['ALL', 'CONFIRMED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED'].map((st) => (
             <button
@@ -184,8 +185,8 @@ const AdminBookings = () => {
               onClick={() => setStatusFilter(st)}
               className={`px-3.5 py-1.5 rounded-full text-xs font-mono font-semibold transition-all whitespace-nowrap ${
                 statusFilter === st
-                  ? 'bg-gold-gradient text-black font-bold shadow-gold-subtle'
-                  : 'bg-obsidian-300 text-neutral-400 hover:text-white border border-white/10'
+                  ? 'bg-gold-gradient text-neutral-950 font-bold shadow-gold-subtle'
+                  : 'bg-white text-neutral-600 hover:text-neutral-900 border border-amber-900/15'
               }`}
             >
               {st}
@@ -200,7 +201,7 @@ const AdminBookings = () => {
             placeholder="Search bookings, couples, venue..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-obsidian-300 border border-white/15 rounded-full pl-9 pr-4 py-2 text-xs text-white focus:outline-none focus:border-gold-400"
+            className="w-full bg-white border border-amber-900/20 rounded-full pl-9 pr-4 py-2 text-xs text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30"
           />
         </div>
       </div>
@@ -209,74 +210,74 @@ const AdminBookings = () => {
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[1, 2, 3, 4].map((n) => (
-            <div key={n} className="h-64 rounded-2xl bg-obsidian-400 animate-pulse" />
+            <div key={n} className="h-64 rounded-2xl bg-stone-100 animate-pulse border border-stone-200" />
           ))}
         </div>
       ) : filteredBookings.length === 0 ? (
-        <div className="text-center py-20 bg-obsidian-400 rounded-3xl border border-white/10 space-y-3">
-          <Calendar className="w-8 h-8 text-gold-400 mx-auto opacity-50" />
-          <h3 className="font-serif text-xl text-white">No Confirmed Bookings Found</h3>
-          <p className="text-xs text-neutral-400">Convert enquiries from the pipeline to generate confirmed bookings.</p>
+        <div className="text-center py-20 bg-white rounded-3xl border border-amber-900/15 space-y-3 shadow-sm">
+          <Calendar className="w-8 h-8 text-amber-600 mx-auto opacity-70" />
+          <h3 className="font-serif text-xl text-neutral-900 font-bold">No Confirmed Bookings Found</h3>
+          <p className="text-xs text-neutral-500">Convert enquiries from the pipeline to generate confirmed bookings.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filteredBookings.map((booking) => (
             <div
               key={booking._id}
-              className="luxury-card rounded-2xl p-6 border border-white/10 hover:border-gold-500/30 transition-all space-y-5 flex flex-col justify-between"
+              className="bg-white rounded-2xl p-6 border border-amber-900/15 hover:border-amber-500/40 shadow-sm hover:shadow-md transition-all space-y-5 flex flex-col justify-between"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs font-bold text-gold-300">
+                  <span className="font-mono text-xs font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">
                     {booking.bookingNumber}
                   </span>
                   <div className="flex items-center space-x-1.5">
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase bg-gold-500/20 text-gold-300 border border-gold-500/40 font-bold">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase bg-amber-100 text-amber-900 border border-amber-300 font-bold">
                       {(booking.orderStage || 'CONFIRMED').replace(/_/g, ' ')}
                     </span>
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-mono uppercase bg-emerald-50 text-emerald-800 border border-emerald-300 font-semibold">
                       {booking.bookingStatus}
                     </span>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="font-serif text-xl font-bold text-white">
+                  <h3 className="font-serif text-xl font-bold text-neutral-900">
                     {booking.customer?.name || 'Private Client'}
                   </h3>
-                  <p className="text-xs text-gold-400 font-medium">{booking.eventType}</p>
+                  <p className="text-xs text-amber-700 font-medium">{booking.eventType}</p>
                 </div>
 
-                <div className="space-y-2 text-xs text-neutral-300 font-mono">
+                <div className="space-y-2 text-xs text-neutral-600 font-mono">
                   <div className="flex items-center">
-                    <Calendar className="w-3.5 h-3.5 mr-2 text-gold-400" />
+                    <Calendar className="w-3.5 h-3.5 mr-2 text-amber-600" />
                     <span>{new Date(booking.eventDate).toLocaleDateString('en-US', { dateStyle: 'long' })}</span>
                   </div>
                   <div className="flex items-center">
-                    <MapPin className="w-3.5 h-3.5 mr-2 text-gold-400" />
+                    <MapPin className="w-3.5 h-3.5 mr-2 text-amber-600" />
                     <span>{booking.location?.city} • {booking.location?.venue || 'Palace Venue'}</span>
                   </div>
                 </div>
 
                 {/* Financial Breakdown */}
-                <div className="p-3.5 bg-obsidian-500/80 rounded-xl border border-white/5 space-y-1.5 font-mono text-xs">
-                  <div className="flex justify-between text-neutral-400">
+                <div className="p-3.5 bg-stone-50 rounded-xl border border-amber-900/10 space-y-1.5 font-mono text-xs">
+                  <div className="flex justify-between text-neutral-600">
                     <span>Total Package:</span>
-                    <strong className="text-white">₹{booking.totalAmount?.toLocaleString('en-IN')}</strong>
+                    <strong className="text-neutral-900">₹{booking.totalAmount?.toLocaleString('en-IN')}</strong>
                   </div>
-                  <div className="flex justify-between text-emerald-400">
+                  <div className="flex justify-between text-emerald-700">
                     <span>Advance Received:</span>
                     <strong>₹{booking.advanceAmount?.toLocaleString('en-IN')}</strong>
                   </div>
-                  <div className="flex justify-between text-gold-300 pt-1 border-t border-white/5">
+                  <div className="flex justify-between text-amber-900 pt-1 border-t border-stone-200">
                     <span>Balance Remaining:</span>
-                    <strong className="font-bold">₹{booking.remainingAmount?.toLocaleString('en-IN')}</strong>
+                    <strong className="font-bold text-amber-900">₹{booking.remainingAmount?.toLocaleString('en-IN')}</strong>
                   </div>
                 </div>
 
                 {/* Assigned Crew List */}
                 <div className="space-y-1">
-                  <span className="text-[10px] uppercase font-bold text-neutral-400 block tracking-wider">
+                  <span className="text-[10px] uppercase font-bold text-neutral-500 block tracking-wider">
                     Assigned Production Crew
                   </span>
                   <div className="flex flex-wrap gap-1.5">
@@ -284,38 +285,38 @@ const AdminBookings = () => {
                       booking.assignedEmployees.map((emp) => (
                         <span
                           key={emp._id || emp}
-                          className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-[11px] text-neutral-200"
+                          className="px-2.5 py-1 rounded-lg bg-stone-100 border border-stone-200 text-[11px] text-neutral-800 font-medium"
                         >
                           👤 {emp.name || emp}
                         </span>
                       ))
                     ) : (
-                      <span className="text-xs text-neutral-500 italic">No crew assigned yet.</span>
+                      <span className="text-xs text-neutral-400 italic">No crew assigned yet.</span>
                     )}
                   </div>
                 </div>
               </div>
 
               {/* Action Buttons Row */}
-              <div className="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+              <div className="pt-3 border-t border-amber-900/10 flex items-center justify-between gap-2">
                 <button
                   onClick={() => {
                     setStageModalBooking(booking);
                     setSelectedStage(booking.orderStage || 'CONFIRMED');
                     setStageNote('');
                   }}
-                  className="px-3.5 py-2 rounded-xl bg-gold-500/15 hover:bg-gold-500 text-gold-300 hover:text-black border border-gold-500/40 font-bold text-xs uppercase tracking-wider transition-all flex items-center"
+                  className="px-3.5 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold text-xs uppercase tracking-wider transition-all flex items-center shadow-sm"
                 >
-                  <Clock className="w-3.5 h-3.5 mr-1.5" /> Update Stage
+                  <Clock className="w-3.5 h-3.5 mr-1.5 text-amber-700" /> Update Stage
                 </button>
                 <button
                   onClick={() => {
                     setAssignModalBooking(booking);
                     setSelectedEmployees(booking.assignedEmployees?.map((e) => e._id || e) || []);
                   }}
-                  className="px-3.5 py-2 rounded-xl bg-obsidian-300 hover:bg-white/10 border border-white/10 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center"
+                  className="px-3.5 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 border border-stone-300 text-neutral-800 font-bold text-xs uppercase tracking-wider transition-all flex items-center shadow-sm"
                 >
-                  <UserPlus className="w-3.5 h-3.5 mr-1.5" /> Assign Crew
+                  <UserPlus className="w-3.5 h-3.5 mr-1.5 text-neutral-600" /> Assign Crew
                 </button>
               </div>
             </div>
@@ -325,11 +326,19 @@ const AdminBookings = () => {
 
       {/* Crew Assignment Modal */}
       {assignModalBooking && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-obsidian-400 border border-gold-500/40 rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-5 animate-fade-in">
-            <h3 className="font-serif text-lg font-bold text-white">
-              Assign Crew: {assignModalBooking.bookingNumber}
-            </h3>
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-amber-900/20 rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-5 animate-fade-in">
+            <div className="flex items-center justify-between border-b border-amber-900/10 pb-3">
+              <h3 className="font-serif text-lg font-bold text-neutral-900">
+                Assign Crew: {assignModalBooking.bookingNumber}
+              </h3>
+              <button
+                onClick={() => setAssignModalBooking(null)}
+                className="w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 flex items-center justify-center text-neutral-600 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
 
             <form onSubmit={handleAssignCrew} className="space-y-4 text-xs">
               <div className="space-y-2 max-h-60 overflow-y-auto custom-scrollbar">
@@ -339,7 +348,7 @@ const AdminBookings = () => {
                   return (
                     <label
                       key={emp._id}
-                      className="flex items-center space-x-3 p-2.5 rounded-xl bg-obsidian-500 border border-white/5 cursor-pointer hover:bg-white/5"
+                      className="flex items-center space-x-3 p-2.5 rounded-xl bg-stone-50 border border-stone-200 cursor-pointer hover:bg-amber-50/50 transition-colors"
                     >
                       <input
                         type="checkbox"
@@ -351,28 +360,28 @@ const AdminBookings = () => {
                             setSelectedEmployees(selectedEmployees.filter((id) => id !== empUserId));
                           }
                         }}
-                        className="accent-gold-500 w-4 h-4"
+                        className="accent-amber-600 w-4 h-4 rounded"
                       />
                       <div>
-                        <strong className="text-white block">{emp.user?.name || emp.name}</strong>
-                        <span className="text-[10px] text-gold-400 font-mono">{emp.designation}</span>
+                        <strong className="text-neutral-900 block">{emp.user?.name || emp.name}</strong>
+                        <span className="text-[10px] text-amber-700 font-mono">{emp.designation}</span>
                       </div>
                     </label>
                   );
                 })}
               </div>
 
-              <div className="flex justify-end space-x-2 pt-3 border-t border-white/10">
+              <div className="flex justify-end space-x-2 pt-3 border-t border-amber-900/10">
                 <button
                   type="button"
                   onClick={() => setAssignModalBooking(null)}
-                  className="px-4 py-2 rounded-full border border-white/10 text-neutral-300"
+                  className="px-4 py-2 rounded-full border border-stone-300 text-neutral-600 hover:text-neutral-900 hover:bg-stone-50 transition-colors font-semibold"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-full bg-gold-gradient text-black font-bold uppercase tracking-wider text-xs shadow-gold-subtle"
+                  className="px-5 py-2 rounded-full bg-gold-gradient text-neutral-950 font-bold uppercase tracking-wider text-xs shadow-gold-subtle hover:scale-105 transition-all"
                 >
                   Save Crew
                 </button>
@@ -384,34 +393,34 @@ const AdminBookings = () => {
 
       {/* Order Stage Tracker & Update Modal */}
       {stageModalBooking && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-obsidian-400 border border-gold-500/40 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl space-y-5 animate-fade-in text-white max-h-[90vh] overflow-y-auto custom-scrollbar">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white border border-amber-900/20 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl space-y-5 animate-fade-in text-neutral-900 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div className="flex items-center justify-between border-b border-amber-900/10 pb-3">
               <div>
-                <span className="text-[10px] uppercase font-mono tracking-widest text-gold-400 font-bold block">
+                <span className="text-[10px] uppercase font-mono tracking-widest text-amber-700 font-bold block">
                   Order Tracking System
                 </span>
-                <h3 className="font-serif text-lg font-bold text-white">
+                <h3 className="font-serif text-lg font-bold text-neutral-900">
                   Update Stage: {stageModalBooking.bookingNumber}
                 </h3>
               </div>
               <button
                 onClick={() => setStageModalBooking(null)}
-                className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-neutral-400 hover:text-white"
+                className="w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 flex items-center justify-center text-neutral-600 transition-colors"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             <form onSubmit={handleUpdateStage} className="space-y-4 text-xs">
               <div>
-                <label className="text-neutral-300 font-bold block mb-1.5 font-mono">
+                <label className="text-neutral-700 font-bold block mb-1.5 font-mono">
                   Select Production Stage:
                 </label>
                 <select
                   value={selectedStage}
                   onChange={(e) => setSelectedStage(e.target.value)}
-                  className="w-full p-3 rounded-xl bg-obsidian-500 border border-white/15 text-white font-mono text-xs focus:border-gold-400 focus:outline-none"
+                  className="w-full p-3 rounded-xl bg-stone-50 border border-stone-300 text-neutral-900 font-mono text-xs focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/30"
                 >
                   <option value="ENQUIRY_RECEIVED">1. Enquiry Received (Reviewing Date)</option>
                   <option value="QUOTATION_SENT">2. Quotation Sent (Awaiting Client)</option>
@@ -426,7 +435,7 @@ const AdminBookings = () => {
               </div>
 
               <div>
-                <label className="text-neutral-300 font-bold block mb-1.5 font-mono">
+                <label className="text-neutral-700 font-bold block mb-1.5 font-mono">
                   Stage Update Note / Reason (Visible in Customer Timeline):
                 </label>
                 <textarea
@@ -434,14 +443,14 @@ const AdminBookings = () => {
                   value={stageNote}
                   onChange={(e) => setStageNote(e.target.value)}
                   placeholder="e.g. Master footage ingested to editing suite. Color grading begun on DaVinci Resolve."
-                  className="w-full p-3 rounded-xl bg-obsidian-500 border border-white/15 text-white text-xs focus:border-gold-400 focus:outline-none"
+                  className="w-full p-3 rounded-xl bg-stone-50 border border-stone-300 text-neutral-900 text-xs focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/30"
                 />
               </div>
 
               {/* Past Stage Audit History */}
               {stageModalBooking.stageHistory?.length > 0 && (
-                <div className="space-y-2 pt-2 border-t border-white/10">
-                  <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-400 font-bold block">
+                <div className="space-y-2 pt-2 border-t border-stone-200">
+                  <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-500 font-bold block">
                     Stage Audit Trail History:
                   </span>
                   <div className="space-y-2 max-h-40 overflow-y-auto custom-scrollbar pr-1">
@@ -449,20 +458,20 @@ const AdminBookings = () => {
                       .slice()
                       .reverse()
                       .map((h, i) => (
-                        <div key={i} className="p-2.5 rounded-xl bg-black/40 border border-white/5 space-y-1">
+                        <div key={i} className="p-2.5 rounded-xl bg-stone-50 border border-stone-200 space-y-1">
                           <div className="flex items-center justify-between text-[11px]">
-                            <strong className="text-gold-300 font-mono">
+                            <strong className="text-amber-800 font-mono">
                               {h.stage?.replace(/_/g, ' ')}
                             </strong>
-                            <span className="text-[10px] text-neutral-400 font-mono">
+                            <span className="text-[10px] text-neutral-500 font-mono">
                               {new Date(h.timestamp).toLocaleString('en-IN', {
                                 dateStyle: 'short',
                                 timeStyle: 'short',
                               })}
                             </span>
                           </div>
-                          <p className="text-[11px] text-neutral-300 font-light">{h.note || 'No notes'}</p>
-                          <span className="text-[9.5px] text-neutral-400 font-mono block">
+                          <p className="text-[11px] text-neutral-700 font-light">{h.note || 'No notes'}</p>
+                          <span className="text-[9.5px] text-neutral-500 font-mono block">
                             Updated by: {h.updaterName || 'Staff'}
                           </span>
                         </div>
@@ -471,17 +480,17 @@ const AdminBookings = () => {
                 </div>
               )}
 
-              <div className="flex justify-end space-x-2 pt-4 border-t border-white/10">
+              <div className="flex justify-end space-x-2 pt-4 border-t border-stone-200">
                 <button
                   type="button"
                   onClick={() => setStageModalBooking(null)}
-                  className="px-4 py-2 rounded-full border border-white/10 text-neutral-300 hover:text-white"
+                  className="px-4 py-2 rounded-full border border-stone-300 text-neutral-600 hover:text-neutral-900 hover:bg-stone-50 transition-colors font-semibold"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-full bg-gold-gradient text-black font-bold uppercase tracking-wider text-xs shadow-gold-subtle hover:scale-105 transition-all"
+                  className="px-6 py-2.5 rounded-full bg-gold-gradient text-neutral-950 font-bold uppercase tracking-wider text-xs shadow-gold-subtle hover:scale-105 transition-all"
                 >
                   Save Stage & Notify Client
                 </button>

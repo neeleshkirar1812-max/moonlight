@@ -7,7 +7,7 @@ import { ToastContainer } from '../components/common/Toast';
 
 const PublicLayout = () => {
   return (
-    <div className="min-h-screen bg-obsidian text-neutral-100 flex flex-col selection:bg-gold-500 selection:text-black w-full max-w-full overflow-x-hidden min-w-0">
+    <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 flex flex-col selection:bg-amber-300 selection:text-neutral-950 w-full max-w-full overflow-x-hidden min-w-0">
       <Navbar />
       <main className="flex-grow w-full max-w-full overflow-x-hidden min-w-0">
         <Outlet />

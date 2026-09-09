@@ -75,14 +75,14 @@ const CustomerGalleryDetail = () => {
   if (!pinAuthorized && !loading) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-obsidian-400 border border-gold-500/40 rounded-3xl p-8 shadow-2xl text-center space-y-6 animate-fade-in">
-          <div className="w-16 h-16 rounded-full bg-gold-500/10 border border-gold-500/40 flex items-center justify-center text-gold-400 mx-auto shadow-gold-subtle">
+        <div className="max-w-md w-full bg-white border border-amber-900/20 rounded-3xl p-8 shadow-2xl text-center space-y-6 animate-fade-in text-neutral-900">
+          <div className="w-16 h-16 rounded-full bg-amber-50 border border-amber-300 flex items-center justify-center text-amber-800 mx-auto shadow-sm">
             <Lock className="w-8 h-8" />
           </div>
 
           <div>
-            <h2 className="font-serif text-2xl font-bold text-white">Private Wedding Album</h2>
-            <p className="text-xs text-neutral-400 mt-1">Please enter your 4-digit security PIN to access this private client archive.</p>
+            <h2 className="font-serif text-2xl font-bold text-neutral-900">Private Wedding Album</h2>
+            <p className="text-xs text-neutral-600 mt-1 font-light">Please enter your 4-digit security PIN to access this private client archive.</p>
           </div>
 
           <form onSubmit={handlePinSubmit} className="space-y-4">
@@ -95,26 +95,26 @@ const CustomerGalleryDetail = () => {
                 value={pinEntered}
                 onChange={(e) => setPinEntered(e.target.value)}
                 placeholder="Enter PIN (Demo: 2026)"
-                className="w-full bg-obsidian-500 border border-white/20 rounded-2xl pl-11 pr-4 py-3.5 text-center text-lg tracking-widest text-white focus:border-gold-400 focus:outline-none"
+                className="w-full bg-stone-50 border border-stone-300 rounded-2xl pl-11 pr-4 py-3.5 text-center text-lg tracking-widest text-neutral-900 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500/30"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-3.5 rounded-full bg-gold-gradient text-black font-bold text-xs uppercase tracking-widest shadow-gold-subtle hover:brightness-110 transition-all"
+              className="w-full py-3.5 rounded-full bg-gold-gradient text-neutral-950 font-bold text-xs uppercase tracking-widest shadow-gold-subtle hover:scale-105 transition-all"
             >
               Unlock Private Archive
             </button>
           </form>
 
-          <p className="text-[11px] text-neutral-500">PIN was provided in your welcome email.</p>
+          <p className="text-[11px] text-neutral-500">PIN was provided in your welcome booking confirmation.</p>
         </div>
       </div>
     );
   }
 
   if (loading) {
-    return <div className="h-96 rounded-3xl bg-obsidian-400 animate-pulse" />;
+    return <div className="h-96 rounded-3xl bg-stone-100 animate-pulse border border-stone-200" />;
   }
 
   const sections = ['All', ...new Set(items.map((i) => i.section).filter(Boolean))];
@@ -128,24 +128,24 @@ const CustomerGalleryDetail = () => {
   const favoritesCount = items.filter((i) => i.isFavorite).length;
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-fade-in text-neutral-900">
       {/* Header & Controls */}
       <div className="space-y-4">
         <Link
           to="/customer/gallery"
-          className="inline-flex items-center text-xs uppercase tracking-widest text-gold-400 hover:text-white font-semibold group"
+          className="inline-flex items-center text-xs uppercase tracking-widest text-amber-800 hover:text-amber-950 font-bold group"
         >
           <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
           Back to Albums
         </Link>
 
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-900/10 pb-6">
           <div>
-            <span className="text-xs uppercase tracking-widest text-gold-400 font-semibold block">
+            <span className="text-xs uppercase tracking-widest text-amber-700 font-bold block">
               Private Client Archive
             </span>
-            <h1 className="font-serif text-3xl sm:text-4xl font-bold text-white">{gallery?.title}</h1>
-            <p className="text-xs text-neutral-400 mt-1 font-mono">
+            <h1 className="font-serif text-3xl sm:text-4xl font-bold text-neutral-900 mt-1">{gallery?.title}</h1>
+            <p className="text-xs text-neutral-600 mt-1 font-mono">
               {gallery?.eventDate ? new Date(gallery.eventDate).toLocaleDateString('en-US', { dateStyle: 'long' }) : ''} • {items.length} Master Photographs
             </p>
           </div>
@@ -153,13 +153,13 @@ const CustomerGalleryDetail = () => {
           <div className="flex items-center space-x-3">
             <button
               onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
-              className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider flex items-center transition-all ${
+              className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider flex items-center transition-all ${
                 showFavoritesOnly
-                  ? 'bg-red-500/20 text-red-300 border border-red-500'
-                  : 'bg-obsidian-300 border border-white/15 text-neutral-300 hover:text-white'
+                  ? 'bg-rose-50 text-rose-800 border border-rose-300 shadow-sm'
+                  : 'bg-white border border-amber-900/15 text-neutral-700 hover:text-neutral-900 shadow-sm'
               }`}
             >
-              <Heart className={`w-3.5 h-3.5 mr-1.5 ${showFavoritesOnly ? 'fill-red-400 text-red-400' : ''}`} />
+              <Heart className={`w-3.5 h-3.5 mr-1.5 ${showFavoritesOnly ? 'fill-rose-500 text-rose-500' : 'text-neutral-500'}`} />
               Favorites ({favoritesCount})
             </button>
           </div>
@@ -168,15 +168,15 @@ const CustomerGalleryDetail = () => {
 
       {/* Section Filter Tabs */}
       {sections.length > 1 && (
-        <div className="flex items-center space-x-2 overflow-x-auto pb-2 border-b border-white/10 custom-scrollbar">
+        <div className="flex items-center space-x-2 overflow-x-auto pb-2 border-b border-amber-900/10 custom-scrollbar">
           {sections.map((sec) => (
             <button
               key={sec}
               onClick={() => setActiveSection(sec)}
               className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap ${
                 activeSection === sec
-                  ? 'bg-gold-gradient text-black font-bold shadow-gold-subtle'
-                  : 'bg-obsidian-300 text-neutral-300 hover:text-white border border-white/10'
+                  ? 'bg-gold-gradient text-neutral-950 font-bold shadow-gold-subtle'
+                  : 'bg-white text-neutral-600 hover:text-neutral-900 border border-amber-900/15 shadow-sm'
               }`}
             >
               {sec}
@@ -187,16 +187,16 @@ const CustomerGalleryDetail = () => {
 
       {/* Photos Masonry / Grid */}
       {filteredItems.length === 0 ? (
-        <div className="text-center py-20 bg-obsidian-400 rounded-3xl border border-white/10 space-y-2">
-          <Sparkles className="w-8 h-8 text-gold-400 mx-auto opacity-50" />
-          <h3 className="font-serif text-xl text-white">No photos in this section.</h3>
+        <div className="text-center py-20 bg-white rounded-3xl border border-amber-900/15 space-y-2 shadow-sm">
+          <Sparkles className="w-8 h-8 text-amber-600 mx-auto opacity-70" />
+          <h3 className="font-serif text-xl text-neutral-900 font-bold">No photos in this section.</h3>
         </div>
       ) : (
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 sm:gap-6">
           {filteredItems.map((item, index) => (
             <div
               key={item._id || index}
-              className="break-inside-avoid mb-4 sm:mb-6 group relative rounded-2xl overflow-hidden bg-obsidian-400 border border-white/10 luxury-card cursor-pointer"
+              className="break-inside-avoid mb-4 sm:mb-6 group relative rounded-2xl overflow-hidden bg-stone-100 border border-amber-900/15 shadow-sm hover:shadow-md cursor-pointer"
             >
               <img
                 src={item.displayUrl || item.url}
@@ -208,7 +208,7 @@ const CustomerGalleryDetail = () => {
               {/* Hover Actions */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-between pointer-events-none">
                 <div className="flex justify-between items-center pointer-events-auto">
-                  <span className="px-2.5 py-1 rounded bg-black/80 text-[10px] text-gold-300 font-mono">
+                  <span className="px-2.5 py-1 rounded bg-black/80 text-[10px] text-amber-300 font-mono font-bold">
                     {item.section || 'Highlights'}
                   </span>
 
@@ -219,11 +219,11 @@ const CustomerGalleryDetail = () => {
                     }}
                     className={`p-2 rounded-full border transition-all ${
                       item.isFavorite
-                        ? 'bg-red-500/30 border-red-500 text-red-500'
-                        : 'bg-black/80 border-white/20 text-white hover:text-gold-400 hover:border-gold-500'
+                        ? 'bg-rose-500 text-white border-rose-500 shadow-md'
+                        : 'bg-black/80 border-white/20 text-white hover:text-amber-400 hover:border-amber-400'
                     }`}
                   >
-                    <Heart className={`w-4 h-4 ${item.isFavorite ? 'fill-red-500' : ''}`} />
+                    <Heart className={`w-4 h-4 ${item.isFavorite ? 'fill-white' : ''}`} />
                   </button>
                 </div>
 
@@ -236,7 +236,7 @@ const CustomerGalleryDetail = () => {
                       rel="noreferrer"
                       download
                       onClick={(e) => e.stopPropagation()}
-                      className="p-2 rounded-full bg-black/80 border border-white/20 text-white hover:text-gold-400"
+                      className="p-2 rounded-full bg-black/80 border border-white/20 text-white hover:text-amber-400"
                       title="Download"
                     >
                       <Download className="w-3.5 h-3.5" />

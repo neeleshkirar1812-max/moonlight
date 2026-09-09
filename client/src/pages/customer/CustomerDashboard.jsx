@@ -61,25 +61,25 @@ const CustomerDashboard = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in text-white">
+    <div className="space-y-8 animate-fade-in text-neutral-900">
       {/* Welcome Banner */}
-      <div className="relative rounded-3xl overflow-hidden p-6 sm:p-10 border border-gold-500/30 bg-[#141418] shadow-2xl">
+      <div className="relative rounded-3xl overflow-hidden p-6 sm:p-10 border border-amber-900/15 bg-white shadow-md">
         <div className="relative z-10 max-w-2xl space-y-3">
-          <span className="text-xs uppercase font-mono tracking-[0.25em] text-gold-400 font-bold block">
+          <span className="text-xs uppercase font-mono tracking-[0.25em] text-amber-800 font-bold block">
             Moonlight Client Concierge
           </span>
-          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-white">
+          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-neutral-900">
             Welcome, {user?.name || 'Aarav & Ananya'}
           </h1>
-          <p className="text-neutral-300 text-xs sm:text-sm font-light leading-relaxed">
+          <p className="text-neutral-600 text-xs sm:text-sm font-normal leading-relaxed">
             Your personalized sanctuary for tracking shoot preparations, accessing high-resolution private galleries, managing payments, and viewing 4K wedding films.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-3 text-xs font-mono">
-            <span className="px-3.5 py-1.5 rounded-full bg-gold-500/15 text-gold-300 border border-gold-500/40 font-bold">
+            <span className="px-3.5 py-1.5 rounded-full bg-amber-50 text-amber-900 border border-amber-300 font-bold shadow-sm">
               Booking Ref: {activeBooking.bookingNumber}
             </span>
-            <span className="px-3.5 py-1.5 rounded-full bg-black/60 border border-white/10 text-neutral-300">
+            <span className="px-3.5 py-1.5 rounded-full bg-[#FAF8F5] border border-neutral-300 text-neutral-700">
               {activeBooking.eventType}
             </span>
           </div>
@@ -89,27 +89,27 @@ const CustomerDashboard = () => {
       {/* Countdown Card & Active Status */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Days Left Card */}
-        <div className="bg-[#141418] rounded-2xl p-6 flex items-center justify-between border border-white/10 shadow-lg">
+        <div className="bg-white rounded-2xl p-6 flex items-center justify-between border border-amber-900/15 shadow-sm">
           <div>
-            <span className="text-[10.5px] uppercase tracking-wider text-gold-400 font-bold font-mono block">Wedding Countdown</span>
-            <h3 className="font-serif text-4xl font-bold text-white mt-1">
-              {getDaysLeft(activeBooking.eventDate)} <span className="text-sm font-sans font-normal text-neutral-400">Days</span>
+            <span className="text-[10.5px] uppercase tracking-wider text-amber-800 font-bold font-mono block">Wedding Countdown</span>
+            <h3 className="font-serif text-4xl font-bold text-neutral-900 mt-1">
+              {getDaysLeft(activeBooking.eventDate)} <span className="text-sm font-sans font-normal text-neutral-500">Days</span>
             </h3>
-            <p className="text-xs text-neutral-400 font-light mt-1 flex items-center">
-              <MapPin className="w-3.5 h-3.5 mr-1 text-gold-400" />
+            <p className="text-xs text-neutral-600 font-normal mt-1 flex items-center">
+              <MapPin className="w-3.5 h-3.5 mr-1 text-amber-700" />
               {activeBooking.venue}
             </p>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-gold-500/15 border border-gold-500/40 flex items-center justify-center text-gold-400">
+          <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-300 flex items-center justify-center text-amber-800 shadow-sm">
             <Clock className="w-6 h-6" />
           </div>
         </div>
 
         {/* Shoot Crew Card */}
-        <div className="bg-[#141418] rounded-2xl p-6 flex flex-col justify-between border border-white/10 shadow-lg">
+        <div className="bg-white rounded-2xl p-6 flex flex-col justify-between border border-amber-900/15 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-[10.5px] uppercase tracking-wider text-gold-400 font-bold font-mono">Assigned Shoot Crew</span>
-            <span className="text-xs bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded-full font-mono font-bold">
+            <span className="text-[10.5px] uppercase tracking-wider text-amber-800 font-bold font-mono">Assigned Shoot Crew</span>
+            <span className="text-xs bg-emerald-50 text-emerald-700 border border-emerald-300 px-2 py-0.5 rounded-full font-mono font-bold shadow-sm">
               3 Masters
             </span>
           </div>
@@ -120,26 +120,26 @@ const CustomerDashboard = () => {
                 src={emp.avatar}
                 alt={emp.name}
                 title={`${emp.name} (${emp.designation})`}
-                className="w-10 h-10 rounded-full object-cover border-2 border-gold-400"
+                className="w-10 h-10 rounded-full object-cover border-2 border-amber-400 shadow-sm"
               />
             ))}
           </div>
-          <p className="text-xs text-neutral-400 font-light">Lead Cinematographer, Candid Master & Drone Pilot</p>
+          <p className="text-xs text-neutral-600 font-normal">Lead Cinematographer, Candid Master & Drone Pilot</p>
         </div>
 
         {/* Payment & Invoices */}
-        <div className="bg-[#141418] rounded-2xl p-6 flex flex-col justify-between border border-white/10 shadow-lg">
+        <div className="bg-white rounded-2xl p-6 flex flex-col justify-between border border-amber-900/15 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-[10.5px] uppercase tracking-wider text-gold-400 font-bold font-mono">Payment Status</span>
-            <span className="text-xs text-emerald-400 font-mono font-bold">{activeBooking.paymentStatus}</span>
+            <span className="text-[10.5px] uppercase tracking-wider text-amber-800 font-bold font-mono">Payment Status</span>
+            <span className="text-xs text-emerald-700 bg-emerald-50 border border-emerald-300 px-2 py-0.5 rounded-full font-mono font-bold shadow-sm">{activeBooking.paymentStatus}</span>
           </div>
           <div className="my-2">
-            <span className="text-xs text-neutral-400 block font-mono">Total Commission Value</span>
-            <h4 className="font-serif text-2xl font-bold text-gold-300">₹5,00,000</h4>
+            <span className="text-xs text-neutral-500 block font-mono">Total Commission Value</span>
+            <h4 className="font-serif text-2xl font-bold text-amber-900">₹5,00,000</h4>
           </div>
           <Link
             to="/customer/invoices"
-            className="text-xs text-gold-300 hover:text-white font-bold flex items-center"
+            className="text-xs text-amber-800 hover:text-amber-950 font-bold flex items-center"
           >
             View GST Invoices & Receipts <ArrowRight className="w-3.5 h-3.5 ml-1" />
           </Link>
@@ -147,21 +147,21 @@ const CustomerDashboard = () => {
       </div>
 
       {/* Live Order & Wedding Shoot Tracking Bar */}
-      <div className="bg-[#141418] rounded-3xl p-4 sm:p-8 border border-gold-500/30 shadow-2xl space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+      <div className="bg-white rounded-3xl p-4 sm:p-8 border border-amber-900/15 shadow-md space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-neutral-200 pb-4">
           <div>
             <div className="flex items-center space-x-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span className="text-[10px] uppercase font-mono tracking-[0.2em] text-gold-400 font-bold block">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span className="text-[10px] uppercase font-mono tracking-[0.2em] text-amber-800 font-bold block">
                 Live Shoot & Film Tracker
               </span>
             </div>
-            <h2 className="font-serif text-lg sm:text-2xl font-bold text-white mt-1">
+            <h2 className="font-serif text-lg sm:text-2xl font-bold text-neutral-900 mt-1">
               Order Lifecycle & Production Status
             </h2>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-[11px] sm:text-xs px-3 py-1.5 rounded-full bg-gold-500/15 border border-gold-500/40 text-gold-300 font-bold">
+            <span className="text-[11px] sm:text-xs px-3 py-1.5 rounded-full bg-amber-50 border border-amber-300 text-amber-900 font-bold shadow-sm">
               Current Stage: {(activeBooking.orderStage || 'SHOOT_SCHEDULED').replace(/_/g, ' ')}
             </span>
           </div>
@@ -170,9 +170,9 @@ const CustomerDashboard = () => {
         {/* 9-Stage Progress Steps */}
         <div className="relative pt-2">
           {/* Connecting Track Line */}
-          <div className="hidden lg:block absolute top-[24px] left-[4%] right-[4%] h-[3px] bg-white/10 z-0">
+          <div className="hidden lg:block absolute top-[24px] left-[4%] right-[4%] h-[3px] bg-neutral-200 z-0">
             <div
-              className="h-full bg-gradient-to-r from-gold-500 to-amber-400 transition-all duration-700"
+              className="h-full bg-gold-gradient transition-all duration-700"
               style={{
                 width: `${
                   (([
@@ -224,31 +224,31 @@ const CustomerDashboard = () => {
               return (
                 <div key={step.key} className="flex flex-col items-center text-center space-y-1.5 sm:space-y-2">
                   <div
-                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300 shadow-md ${
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300 shadow-sm ${
                       isCurrent
-                        ? 'bg-gold-500 text-black ring-4 ring-gold-500/30 scale-105 sm:scale-110'
+                        ? 'bg-gold-gradient text-neutral-950 ring-4 ring-amber-400/30 scale-105 sm:scale-110'
                         : isPassed
-                        ? 'bg-emerald-500 text-white'
-                        : 'bg-[#1e1e24] text-neutral-400 border border-white/10'
+                        ? 'bg-emerald-600 text-white'
+                        : 'bg-[#FAF8F5] text-neutral-500 border border-neutral-300'
                     }`}
                   >
                     {isPassed ? (
                       <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
                     ) : isCurrent ? (
-                      <span className="font-mono text-xs sm:text-sm">{idx + 1}</span>
+                      <span className="font-mono text-xs sm:text-sm font-extrabold">{idx + 1}</span>
                     ) : (
-                      <span className="font-mono text-[11px] sm:text-xs text-neutral-400">{idx + 1}</span>
+                      <span className="font-mono text-[11px] sm:text-xs text-neutral-500">{idx + 1}</span>
                     )}
                   </div>
                   <div>
                     <h4
                       className={`text-[11px] sm:text-xs font-bold leading-tight ${
-                        isCurrent ? 'text-gold-300' : isPassed ? 'text-white' : 'text-neutral-400'
+                        isCurrent ? 'text-amber-900 font-extrabold' : isPassed ? 'text-neutral-900' : 'text-neutral-500'
                       }`}
                     >
                       {step.label}
                     </h4>
-                    <p className="text-[9px] sm:text-[10px] text-neutral-400 font-light mt-0.5">{step.desc}</p>
+                    <p className="text-[9px] sm:text-[10px] text-neutral-500 font-normal mt-0.5">{step.desc}</p>
                   </div>
                 </div>
               );
@@ -257,10 +257,10 @@ const CustomerDashboard = () => {
         </div>
 
         {/* Current Stage Explanation Note */}
-        <div className="p-4 rounded-2xl bg-black/40 border border-gold-500/20 flex items-start space-x-3">
-          <Sparkles className="w-5 h-5 text-gold-400 shrink-0 mt-0.5" />
-          <div className="text-xs text-neutral-300 leading-relaxed">
-            <strong className="text-gold-300 font-bold block mb-0.5">
+        <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-900/15 flex items-start space-x-3">
+          <Sparkles className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
+          <div className="text-xs text-neutral-700 leading-relaxed">
+            <strong className="text-amber-900 font-bold block mb-0.5">
               Production Update for {activeBooking.bookingNumber}:
             </strong>
             {activeBooking.orderStage === 'EDITING'
@@ -278,60 +278,60 @@ const CustomerDashboard = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <Link
           to="/customer/gallery"
-          className="p-6 rounded-2xl bg-[#141418] border border-white/10 hover:border-gold-500/50 shadow-lg hover:shadow-2xl transition-all space-y-3 group"
+          className="p-6 rounded-2xl bg-white border border-amber-900/15 hover:border-amber-600/50 shadow-sm hover:shadow-md transition-all space-y-3 group"
         >
-          <div className="w-10 h-10 rounded-xl bg-gold-500/15 border border-gold-500/40 flex items-center justify-center text-gold-400 group-hover:scale-110 transition-transform">
+          <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-300 flex items-center justify-center text-amber-800 group-hover:scale-110 transition-transform">
             <Sparkles className="w-5 h-5" />
           </div>
-          <h3 className="font-serif text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
+          <h3 className="font-serif text-lg font-bold text-neutral-900 group-hover:text-amber-800 transition-colors">
             Private 4K Galleries
           </h3>
-          <p className="text-xs text-neutral-400 font-light">
+          <p className="text-xs text-neutral-600 font-normal">
             View high-res wedding photos, approve album selections & download originals.
           </p>
         </Link>
 
         <Link
           to="/customer/videos"
-          className="p-6 rounded-2xl bg-[#141418] border border-white/10 hover:border-gold-500/50 shadow-lg hover:shadow-2xl transition-all space-y-3 group"
+          className="p-6 rounded-2xl bg-white border border-amber-900/15 hover:border-amber-600/50 shadow-sm hover:shadow-md transition-all space-y-3 group"
         >
-          <div className="w-10 h-10 rounded-xl bg-gold-500/15 border border-gold-500/40 flex items-center justify-center text-gold-400 group-hover:scale-110 transition-transform">
+          <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-300 flex items-center justify-center text-amber-800 group-hover:scale-110 transition-transform">
             <Video className="w-5 h-5" />
           </div>
-          <h3 className="font-serif text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
+          <h3 className="font-serif text-lg font-bold text-neutral-900 group-hover:text-amber-800 transition-colors">
             Wedding Cinema Films
           </h3>
-          <p className="text-xs text-neutral-400 font-light">
+          <p className="text-xs text-neutral-600 font-normal">
             Stream full 4K documentary wedding films, Instagram teasers, and trailers.
           </p>
         </Link>
 
         <Link
           to="/customer/invoices"
-          className="p-6 rounded-2xl bg-[#141418] border border-white/10 hover:border-gold-500/50 shadow-lg hover:shadow-2xl transition-all space-y-3 group"
+          className="p-6 rounded-2xl bg-white border border-amber-900/15 hover:border-amber-600/50 shadow-sm hover:shadow-md transition-all space-y-3 group"
         >
-          <div className="w-10 h-10 rounded-xl bg-gold-500/15 border border-gold-500/40 flex items-center justify-center text-gold-400 group-hover:scale-110 transition-transform">
+          <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-300 flex items-center justify-center text-amber-800 group-hover:scale-110 transition-transform">
             <FileText className="w-5 h-5" />
           </div>
-          <h3 className="font-serif text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
+          <h3 className="font-serif text-lg font-bold text-neutral-900 group-hover:text-amber-800 transition-colors">
             Invoices & GST Receipts
           </h3>
-          <p className="text-xs text-neutral-400 font-light">
+          <p className="text-xs text-neutral-600 font-normal">
             Download stamped tax invoices, payment schedule breakdowns, and agreements.
           </p>
         </Link>
 
         <Link
           to="/customer/bookings"
-          className="p-6 rounded-2xl bg-[#141418] border border-white/10 hover:border-gold-500/50 shadow-lg hover:shadow-2xl transition-all space-y-3 group"
+          className="p-6 rounded-2xl bg-white border border-amber-900/15 hover:border-amber-600/50 shadow-sm hover:shadow-md transition-all space-y-3 group"
         >
-          <div className="w-10 h-10 rounded-xl bg-gold-500/15 border border-gold-500/40 flex items-center justify-center text-gold-400 group-hover:scale-110 transition-transform">
+          <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-300 flex items-center justify-center text-amber-800 group-hover:scale-110 transition-transform">
             <Calendar className="w-5 h-5" />
           </div>
-          <h3 className="font-serif text-lg font-bold text-white group-hover:text-gold-300 transition-colors">
+          <h3 className="font-serif text-lg font-bold text-neutral-900 group-hover:text-amber-800 transition-colors">
             Ceremony Timeline
           </h3>
-          <p className="text-xs text-neutral-400 font-light">
+          <p className="text-xs text-neutral-600 font-normal">
             Review event dates, shoot timings, call sheets, and shot checklists.
           </p>
         </Link>

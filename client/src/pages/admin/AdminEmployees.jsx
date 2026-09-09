@@ -303,17 +303,17 @@ const AdminEmployees = () => {
   const pendingCount = employees.filter((e) => e.status === 'pending_approval' || e.status === 'pending').length;
 
   return (
-    <div className="space-y-6 sm:space-y-8 animate-fade-in text-white">
+    <div className="space-y-6 sm:space-y-8 animate-fade-in text-neutral-900">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-900/10 pb-4">
         <div>
-          <span className="text-[10px] sm:text-xs uppercase font-mono tracking-widest text-gold-400 font-bold block">
+          <span className="text-[10px] sm:text-xs uppercase font-mono tracking-widest text-amber-800 font-bold block">
             HR & Talent Operations
           </span>
-          <h1 className="font-serif text-2xl sm:text-3xl font-bold text-white">
+          <h1 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-neutral-900">
             Official Production Crew Directory
           </h1>
-          <p className="text-xs text-neutral-400 mt-1">
+          <p className="text-xs text-neutral-600 mt-1">
             Registered cinematographers, photographers, drone pilots, and editors with contact numbers and credentials.
           </p>
         </div>
@@ -322,7 +322,7 @@ const AdminEmployees = () => {
         <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <button
             onClick={() => setModalOpen(true)}
-            className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-gold-gradient text-black font-extrabold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-110 active:scale-95 transition-all flex items-center shrink-0 btn-shimmer"
+            className="px-4 sm:px-5 py-2.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-sm hover:brightness-105 active:scale-95 transition-all flex items-center shrink-0 btn-shimmer min-h-[44px]"
           >
             <UserPlus className="w-4 h-4 mr-1.5" />
             <span>+ Add New Crew</span>
@@ -331,19 +331,19 @@ const AdminEmployees = () => {
       </div>
 
       {/* Persistence Guarantee Notice */}
-      <div className="p-3 sm:p-4 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+      <div className="p-3 sm:p-4 rounded-2xl bg-amber-50 border border-amber-300 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs shadow-sm">
         <div className="flex items-center space-x-2.5">
-          <ShieldCheck className="w-5 h-5 text-gold-400 shrink-0" />
-          <p className="text-neutral-200">
+          <ShieldCheck className="w-5 h-5 text-amber-700 shrink-0" />
+          <p className="text-neutral-800">
             <strong>Full Manual Control:</strong> You can add, edit, or delete any crew member anytime. All changes are saved permanently in local storage and will never disappear on refresh.
           </p>
         </div>
         <div className="flex items-center space-x-2 shrink-0 font-mono text-[11px]">
-          <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+          <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300 font-bold">
             {activeCount} Active
           </span>
           {pendingCount > 0 && (
-            <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
+            <span className="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 font-bold">
               {pendingCount} Pending
             </span>
           )}
@@ -351,7 +351,7 @@ const AdminEmployees = () => {
       </div>
 
       {/* Filter Tabs & Search Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-white/10">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-amber-900/10">
         {/* Status Pills */}
         <div className="flex items-center space-x-2 overflow-x-auto pb-2 sm:pb-0 custom-scrollbar">
           {[
@@ -362,10 +362,10 @@ const AdminEmployees = () => {
             <button
               key={tab.id}
               onClick={() => setStatusFilter(tab.id)}
-              className={`px-3 py-1.5 rounded-full text-xs font-mono font-bold uppercase transition-all whitespace-nowrap ${
+              className={`px-3.5 py-2 rounded-full text-xs font-mono font-bold uppercase transition-all whitespace-nowrap min-h-[38px] ${
                 statusFilter === tab.id
-                  ? 'bg-gold-gradient text-black shadow-gold-subtle'
-                  : 'bg-[#181820] text-neutral-400 hover:text-white border border-white/10'
+                  ? 'bg-gold-gradient text-neutral-950 shadow-sm font-extrabold'
+                  : 'bg-white text-neutral-700 hover:text-neutral-950 border border-amber-900/15'
               }`}
             >
               {tab.label}
@@ -381,17 +381,17 @@ const AdminEmployees = () => {
             placeholder="Search crew by name, mobile, role..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-[#181820] border border-white/15 rounded-full pl-10 pr-4 py-2 text-xs text-white focus:outline-none focus:border-gold-400"
+            className="w-full bg-white border border-stone-300 rounded-full pl-10 pr-4 py-2 text-xs text-neutral-900 placeholder-neutral-500 focus:outline-none focus:border-amber-600 shadow-sm"
           />
         </div>
       </div>
 
       {/* Crew Cards Grid */}
       {filteredCrew.length === 0 ? (
-        <div className="text-center py-16 bg-[#141418] rounded-3xl border border-white/10 space-y-3">
-          <Camera className="w-10 h-10 text-gold-400 mx-auto opacity-40" />
-          <h3 className="font-serif text-lg text-white font-bold">No Crew Members Found</h3>
-          <p className="text-xs text-neutral-400">
+        <div className="text-center py-16 bg-white rounded-3xl border border-amber-900/15 space-y-3 shadow-sm">
+          <Camera className="w-10 h-10 text-amber-700 mx-auto opacity-60" />
+          <h3 className="font-serif text-lg text-neutral-900 font-bold">No Crew Members Found</h3>
+          <p className="text-xs text-neutral-600">
             {search ? 'Try clearing your search filters.' : 'Click "+ Add New Crew" to add your first crew member.'}
           </p>
         </div>
@@ -403,60 +403,60 @@ const AdminEmployees = () => {
             return (
               <div
                 key={emp._id}
-                className={`bg-[#141418] rounded-3xl p-5 sm:p-6 border transition-all flex flex-col justify-between space-y-4 ${
+                className={`bg-white rounded-3xl p-5 sm:p-6 border transition-all flex flex-col justify-between space-y-4 shadow-sm ${
                   isPending
-                    ? 'border-amber-500/40 shadow-amber-900/20'
-                    : 'border-white/10 hover:border-gold-500/40 shadow-xl'
+                    ? 'border-amber-400 bg-amber-50/20'
+                    : 'border-amber-900/15 hover:border-amber-400'
                 }`}
               >
                 <div className="space-y-3">
                   {/* Top Profile Header */}
-                  <div className="flex items-start justify-between pb-3 border-b border-white/10">
+                  <div className="flex items-start justify-between pb-3 border-b border-stone-200">
                     <div className="flex items-center space-x-3">
                       <img
                         src={emp.avatar || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80'}
                         alt={emp.name}
                         className={`w-12 h-12 rounded-full object-cover border-2 shrink-0 ${
-                          isPending ? 'border-amber-400' : 'border-gold-400'
+                          isPending ? 'border-amber-400' : 'border-amber-500'
                         }`}
                       />
                       <div className="min-w-0">
                         <div className="flex items-center space-x-1.5">
-                          <span className="text-[9.5px] px-2 py-0.5 rounded-full bg-gold-500/20 text-gold-300 font-mono font-bold border border-gold-500/40">
+                          <span className="text-[9.5px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-mono font-bold border border-amber-300">
                             {emp.employeeCode || 'EMP-MLP'}
                           </span>
                           <span
                             className={`px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase ${
                               !isPending
-                                ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/40'
-                                : 'bg-amber-500/15 text-amber-300 border border-amber-500/40 animate-pulse'
+                                ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                                : 'bg-amber-100 text-amber-900 border border-amber-300 animate-pulse'
                             }`}
                           >
                             {!isPending ? 'Active' : 'Pending'}
                           </span>
                         </div>
-                        <h3 className="font-serif text-base font-bold text-white mt-1 truncate">{emp.name}</h3>
-                        <p className="text-[11px] text-gold-400 font-mono font-semibold truncate">{emp.designation}</p>
+                        <h3 className="font-serif text-base font-bold text-neutral-900 mt-1 truncate">{emp.name}</h3>
+                        <p className="text-[11px] text-amber-900 font-mono font-bold truncate">{emp.designation}</p>
                       </div>
                     </div>
                   </div>
 
                   {/* Contact Info */}
-                  <div className="space-y-1.5 text-xs text-neutral-300 font-mono">
-                    <p className="flex items-center text-white truncate">
-                      <Phone className="w-3.5 h-3.5 mr-2 text-emerald-400 shrink-0" />
+                  <div className="space-y-1.5 text-xs font-mono">
+                    <p className="flex items-center text-neutral-900 truncate">
+                      <Phone className="w-3.5 h-3.5 mr-2 text-emerald-700 shrink-0" />
                       <strong>{emp.user?.phone || 'No phone'}</strong>
                     </p>
-                    <p className="flex items-center text-neutral-300 truncate">
-                      <Mail className="w-3.5 h-3.5 mr-2 text-gold-400 shrink-0" />
+                    <p className="flex items-center text-neutral-600 truncate">
+                      <Mail className="w-3.5 h-3.5 mr-2 text-amber-700 shrink-0" />
                       <span className="truncate">{emp.user?.email || 'No email'}</span>
                     </p>
                   </div>
 
                   {/* Speciality */}
                   {emp.speciality && (
-                    <div className="p-2.5 rounded-xl bg-black/50 border border-white/5 text-[11px] text-neutral-400">
-                      <span className="text-gold-400 font-bold block text-[10px] uppercase tracking-wider">
+                    <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-200 text-[11px] text-neutral-700">
+                      <span className="text-amber-900 font-bold block text-[10px] uppercase tracking-wider">
                         Speciality:
                       </span>
                       <p className="line-clamp-2">{emp.speciality}</p>
@@ -465,26 +465,26 @@ const AdminEmployees = () => {
                 </div>
 
                 {/* Bottom Action Footer */}
-                <div className="pt-3 border-t border-white/10 flex items-center justify-between gap-2">
+                <div className="pt-3 border-t border-stone-200 flex items-center justify-between gap-2">
                   <a
                     href={`https://wa.me/${cleanPhone.startsWith('91') ? cleanPhone : '91' + cleanPhone}?text=${encodeURIComponent(`Hello ${emp.name}, regarding upcoming shoot schedule with Moonlight Production.`)}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500 hover:text-black border border-emerald-500/40 text-emerald-300 font-bold text-[11px] flex items-center transition-all"
+                    className="px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-600 hover:text-white border border-emerald-300 text-emerald-900 font-bold text-[11px] flex items-center transition-all min-h-[36px]"
                   >
-                    <MessageSquare className="w-3 h-3 mr-1" /> WhatsApp
+                    <MessageSquare className="w-3 h-3 mr-1 text-emerald-700" /> WhatsApp
                   </a>
 
                   <div className="flex items-center space-x-1">
                     <button
                       onClick={() => handleOpenEdit(emp)}
-                      className="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-gold-500 hover:text-black border border-white/10 text-neutral-300 hover:border-gold-400 font-bold text-[11px] transition-all flex items-center"
+                      className="px-2.5 py-1.5 rounded-xl bg-stone-50 hover:bg-amber-500 hover:text-white border border-stone-300 text-neutral-700 font-bold text-[11px] transition-all flex items-center min-h-[36px]"
                     >
-                      <Edit2 className="w-3 h-3 mr-1" /> Edit
+                      <Edit2 className="w-3 h-3 mr-1 text-amber-700" /> Edit
                     </button>
                     <button
                       onClick={() => handleDeleteEmployee(emp)}
-                      className="px-2.5 py-1.5 rounded-xl bg-red-500/10 hover:bg-red-600 hover:text-white border border-red-500/30 text-red-400 font-bold text-[11px] transition-all flex items-center"
+                      className="px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-600 hover:text-white border border-rose-300 text-rose-700 font-bold text-[11px] transition-all flex items-center min-h-[36px]"
                     >
                       <Trash2 className="w-3 h-3 mr-1" /> Delete
                     </button>
@@ -498,72 +498,72 @@ const AdminEmployees = () => {
 
       {/* 1. ADD NEW CREW MODAL */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
-          <div className="bg-[#141418] border border-gold-500/40 rounded-3xl p-5 sm:p-7 max-w-md w-full shadow-2xl space-y-4 animate-fade-in text-xs text-white max-h-[90vh] overflow-y-auto custom-scrollbar">
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-white border border-amber-400 rounded-3xl p-5 sm:p-7 max-w-md w-full shadow-2xl space-y-4 animate-fade-in text-xs text-neutral-900 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div className="flex items-center justify-between pb-3 border-b border-stone-200">
               <div>
-                <h3 className="font-serif text-lg sm:text-xl font-bold text-white">+ Add Crew Member</h3>
-                <p className="text-[11px] text-neutral-400">Add cinematographer, photographer or editor to roster.</p>
+                <h3 className="font-serif text-lg sm:text-xl font-bold text-neutral-900">+ Add Crew Member</h3>
+                <p className="text-[11px] text-neutral-600">Add cinematographer, photographer or editor to roster.</p>
               </div>
-              <button onClick={() => setModalOpen(false)} className="text-neutral-400 hover:text-white">
+              <button onClick={() => setModalOpen(false)} className="text-neutral-500 hover:text-neutral-900">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handleCreateEmployee} className="space-y-3">
               <div>
-                <label className="text-neutral-300 block mb-1 font-bold">Full Name *</label>
+                <label className="text-neutral-800 block mb-1 font-bold">Full Name *</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Yash Vardhan"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-400"
+                  className="w-full bg-stone-50 border border-stone-300 rounded-xl px-3 py-2.5 text-neutral-900 focus:outline-none focus:border-amber-600"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-neutral-300 block mb-1 font-bold">Email Address *</label>
+                  <label className="text-neutral-800 block mb-1 font-bold">Email Address *</label>
                   <input
                     type="email"
                     required
                     placeholder="yash@gmail.com"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-400"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl px-3 py-2.5 text-neutral-900 focus:outline-none focus:border-amber-600"
                   />
                 </div>
                 <div>
-                  <label className="text-neutral-300 block mb-1 font-bold">Phone / WhatsApp *</label>
+                  <label className="text-neutral-800 block mb-1 font-bold">Phone / WhatsApp *</label>
                   <input
                     type="tel"
                     required
                     placeholder="+91 98200 12345"
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-400 font-mono"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl px-3 py-2.5 text-neutral-900 focus:outline-none focus:border-amber-600 font-mono"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-neutral-300 block mb-1 font-bold">Designation</label>
+                  <label className="text-neutral-800 block mb-1 font-bold">Designation</label>
                   <input
                     type="text"
                     value={form.designation}
                     onChange={(e) => setForm({ ...form, designation: e.target.value })}
-                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl px-3 py-2.5 text-neutral-900 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="text-neutral-300 block mb-1 font-bold">Department</label>
+                  <label className="text-neutral-800 block mb-1 font-bold">Department</label>
                   <select
                     value={form.department}
                     onChange={(e) => setForm({ ...form, department: e.target.value })}
-                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl px-3 py-2.5 text-neutral-900 focus:outline-none"
                   >
                     <option value="Cinematography">Cinematography</option>
                     <option value="Photography">Photography</option>
@@ -577,36 +577,36 @@ const AdminEmployees = () => {
               </div>
 
               <div>
-                <label className="text-neutral-300 block mb-1 font-bold">Camera / Cinema Speciality</label>
+                <label className="text-neutral-800 block mb-1 font-bold">Camera / Cinema Speciality</label>
                 <input
                   type="text"
                   placeholder="e.g. Sony FX6, Steadicam, Drone Sweeps"
                   value={form.speciality}
                   onChange={(e) => setForm({ ...form, speciality: e.target.value })}
-                  className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none"
+                  className="w-full bg-stone-50 border border-stone-300 rounded-xl px-3 py-2.5 text-neutral-900 focus:outline-none"
                 />
               </div>
 
-              <div className="p-3 bg-black/60 rounded-xl border border-amber-500/30 text-[11px] text-neutral-300 space-y-1">
-                <span className="text-amber-400 font-bold flex items-center">
-                  <Clock className="w-3.5 h-3.5 mr-1 text-amber-400" /> Super Admin Clearance Queue:
+              <div className="p-3 bg-amber-50 rounded-xl border border-amber-300 text-[11px] text-neutral-700 space-y-1">
+                <span className="text-amber-900 font-bold flex items-center">
+                  <Clock className="w-3.5 h-3.5 mr-1 text-amber-700" /> Super Admin Clearance Queue:
                 </span>
-                <p className="text-neutral-400">
+                <p className="text-neutral-600">
                   This profile will be queued for the Super Admin Director to review and approve. Upon clearance in the Approvals Console, credentials will become active.
                 </p>
               </div>
 
-              <div className="flex justify-end space-x-3 pt-3 border-t border-white/10">
+              <div className="flex justify-end space-x-3 pt-3 border-t border-stone-200">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 rounded-full border border-white/15 text-neutral-300 hover:text-white"
+                  className="px-4 py-2 rounded-full border border-stone-300 text-neutral-700 hover:bg-stone-100 min-h-[44px]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2 rounded-full bg-gold-gradient text-black font-extrabold uppercase btn-shimmer"
+                  className="px-6 py-2 rounded-full bg-gold-gradient text-neutral-950 font-extrabold uppercase btn-shimmer min-h-[44px]"
                 >
                   Save to Directory
                 </button>
@@ -618,94 +618,94 @@ const AdminEmployees = () => {
 
       {/* 2. EDIT CREW MODAL */}
       {editModalOpen && editingEmp && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
-          <div className="bg-[#141418] border border-gold-500/40 rounded-3xl p-5 sm:p-7 max-w-md w-full shadow-2xl space-y-4 animate-fade-in text-xs text-white max-h-[90vh] overflow-y-auto custom-scrollbar">
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-white border border-amber-400 rounded-3xl p-5 sm:p-7 max-w-md w-full shadow-2xl space-y-4 animate-fade-in text-xs text-neutral-900 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div className="flex items-center justify-between pb-3 border-b border-stone-200">
               <div>
-                <h3 className="font-serif text-lg sm:text-xl font-bold text-white">Edit Crew Profile</h3>
-                <span className="text-[10px] text-gold-400 font-mono">{editingEmp.employeeCode}</span>
+                <h3 className="font-serif text-lg sm:text-xl font-bold text-neutral-900">Edit Crew Profile</h3>
+                <span className="text-[10px] text-amber-900 font-mono font-bold">{editingEmp.employeeCode}</span>
               </div>
-              <button onClick={() => setEditModalOpen(false)} className="text-neutral-400 hover:text-white">
+              <button onClick={() => setEditModalOpen(false)} className="text-neutral-500 hover:text-neutral-900">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handleUpdateEmployee} className="space-y-3">
               <div>
-                <label className="text-neutral-300 block mb-1 font-bold">Full Name</label>
+                <label className="text-neutral-800 block mb-1 font-bold">Full Name</label>
                 <input
                   type="text"
                   required
                   value={editForm.name}
                   onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                  className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-400"
+                  className="w-full bg-stone-50 border border-stone-300 rounded-xl px-3 py-2.5 text-neutral-900 focus:outline-none focus:border-amber-600"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-neutral-300 block mb-1 font-bold">Email Address</label>
+                  <label className="text-neutral-800 block mb-1 font-bold">Email Address</label>
                   <input
                     type="email"
                     required
                     value={editForm.email}
                     onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
-                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-gold-400"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl px-3 py-2.5 text-neutral-900 focus:outline-none focus:border-amber-600"
                   />
                 </div>
                 <div>
-                  <label className="text-neutral-300 block mb-1 font-bold">Phone Number</label>
+                  <label className="text-neutral-800 block mb-1 font-bold">Phone Number</label>
                   <input
                     type="tel"
                     required
                     value={editForm.phone}
                     onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
-                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none font-mono"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl px-3 py-2.5 text-neutral-900 focus:outline-none font-mono"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-neutral-300 block mb-1 font-bold">Designation</label>
+                  <label className="text-neutral-800 block mb-1 font-bold">Designation</label>
                   <input
                     type="text"
                     value={editForm.designation}
                     onChange={(e) => setEditForm({ ...editForm, designation: e.target.value })}
-                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl px-3 py-2.5 text-neutral-900 focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="text-neutral-300 block mb-1 font-bold">Department</label>
+                  <label className="text-neutral-800 block mb-1 font-bold">Department</label>
                   <input
                     type="text"
                     value={editForm.department}
                     onChange={(e) => setEditForm({ ...editForm, department: e.target.value })}
-                    className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none"
+                    className="w-full bg-stone-50 border border-stone-300 rounded-xl px-3 py-2.5 text-neutral-900 focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="text-neutral-300 block mb-1 font-bold">Speciality</label>
+                <label className="text-neutral-800 block mb-1 font-bold">Speciality</label>
                 <input
                   type="text"
                   value={editForm.speciality}
                   onChange={(e) => setEditForm({ ...editForm, speciality: e.target.value })}
-                  className="w-full bg-black/70 border border-white/15 rounded-xl px-3 py-2.5 text-white focus:outline-none"
+                  className="w-full bg-stone-50 border border-stone-300 rounded-xl px-3 py-2.5 text-neutral-900 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="text-neutral-300 block mb-1 font-bold">Status</label>
+                <label className="text-neutral-800 block mb-1 font-bold">Status</label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={() => setEditForm({ ...editForm, status: 'active' })}
-                    className={`py-2 rounded-xl border font-bold text-center transition-all ${
+                    className={`py-2 rounded-xl border font-bold text-center transition-all min-h-[44px] ${
                       editForm.status === 'active'
-                        ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300'
-                        : 'bg-black/50 border-white/10 text-neutral-400'
+                        ? 'bg-emerald-100 border-emerald-400 text-emerald-900'
+                        : 'bg-stone-50 border-stone-300 text-neutral-600'
                     }`}
                   >
                     ✅ Active
@@ -713,10 +713,10 @@ const AdminEmployees = () => {
                   <button
                     type="button"
                     onClick={() => setEditForm({ ...editForm, status: 'pending_approval' })}
-                    className={`py-2 rounded-xl border font-bold text-center transition-all ${
+                    className={`py-2 rounded-xl border font-bold text-center transition-all min-h-[44px] ${
                       editForm.status === 'pending_approval'
-                        ? 'bg-amber-500/20 border-amber-500 text-amber-300'
-                        : 'bg-black/50 border-white/10 text-neutral-400'
+                        ? 'bg-amber-100 border-amber-400 text-amber-900'
+                        : 'bg-stone-50 border-stone-300 text-neutral-600'
                     }`}
                   >
                     ⏳ Pending
@@ -724,17 +724,17 @@ const AdminEmployees = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-3 pt-3 border-t border-white/10">
+              <div className="flex justify-end space-x-3 pt-3 border-t border-stone-200">
                 <button
                   type="button"
                   onClick={() => setEditModalOpen(false)}
-                  className="px-4 py-2 rounded-full border border-white/15 text-neutral-300 hover:text-white"
+                  className="px-4 py-2 rounded-full border border-stone-300 text-neutral-700 hover:bg-stone-100 min-h-[44px]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2 rounded-full bg-gold-gradient text-black font-extrabold uppercase btn-shimmer"
+                  className="px-6 py-2 rounded-full bg-gold-gradient text-neutral-950 font-extrabold uppercase btn-shimmer min-h-[44px]"
                 >
                   Save Changes
                 </button>

@@ -43,26 +43,26 @@ const EmployeeTasks = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in max-w-4xl">
+    <div className="space-y-8 animate-fade-in max-w-4xl text-neutral-900">
       <div>
-        <span className="text-xs uppercase tracking-widest text-gold-400 font-semibold block">
+        <span className="text-xs uppercase tracking-widest text-amber-800 font-bold block">
           Shoot Day Readiness
         </span>
-        <h1 className="font-serif text-3xl font-bold text-white">Gear & Task Checklist</h1>
+        <h1 className="font-serif text-3xl font-bold text-neutral-900">Gear & Task Checklist</h1>
       </div>
 
-      <div className="luxury-card rounded-3xl p-8 border border-white/10 space-y-6">
-        <form onSubmit={addTask} className="flex gap-3">
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-amber-900/15 shadow-sm space-y-6">
+        <form onSubmit={addTask} className="flex flex-col sm:flex-row gap-3">
           <input
             type="text"
             placeholder="Add new task or gear item..."
             value={newTaskText}
             onChange={(e) => setNewTaskText(e.target.value)}
-            className="flex-1 bg-obsidian-500 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white focus:border-gold-400 focus:outline-none"
+            className="flex-1 bg-stone-50 border border-neutral-300 rounded-xl px-4 py-2.5 text-xs text-neutral-900 placeholder:text-neutral-400 focus:border-amber-500 focus:bg-white focus:outline-none"
           />
           <button
             type="submit"
-            className="px-5 py-2.5 rounded-xl bg-gold-gradient text-black font-bold text-xs uppercase tracking-wider flex items-center shadow-gold-subtle"
+            className="px-5 py-2.5 rounded-xl bg-gold-gradient text-neutral-950 font-bold text-xs uppercase tracking-wider flex items-center justify-center shadow-gold-subtle hover:brightness-105"
           >
             <Plus className="w-4 h-4 mr-1" /> Add Task
           </button>
@@ -75,27 +75,29 @@ const EmployeeTasks = () => {
               onClick={() => toggleTask(task.id)}
               className={`p-4 rounded-xl border transition-all flex items-center justify-between cursor-pointer ${
                 task.completed
-                  ? 'bg-obsidian-500/40 border-white/5 text-neutral-500 line-through'
-                  : 'bg-obsidian-500 border-white/10 text-white'
+                  ? 'bg-stone-100/70 border-neutral-200 text-neutral-400 line-through'
+                  : 'bg-stone-50 hover:bg-amber-50/40 border-neutral-200 text-neutral-900 shadow-sm'
               }`}
             >
               <div className="flex items-center space-x-3 text-xs">
                 {task.completed ? (
-                  <CheckSquare className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <CheckSquare className="w-4 h-4 text-emerald-600 shrink-0" />
                 ) : (
                   <Square className="w-4 h-4 text-neutral-400 shrink-0" />
                 )}
-                <span>{task.text}</span>
+                <span className="font-medium">{task.text}</span>
               </div>
 
               <div className="flex items-center space-x-3">
-                <span className="text-[10px] text-gold-400/80 font-mono">{task.category}</span>
+                <span className="text-[10.5px] text-amber-900 font-mono font-bold bg-amber-100/60 px-2 py-0.5 rounded border border-amber-300/60">
+                  {task.category}
+                </span>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     deleteTask(task.id);
                   }}
-                  className="text-neutral-500 hover:text-red-400 p-1"
+                  className="text-neutral-400 hover:text-red-600 p-1 transition-colors"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
