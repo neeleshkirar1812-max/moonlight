@@ -1,10 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/client';
+import { DEFAULT_CAREERS } from '../../data/defaultCareers';
 import { useNotification } from '../../context/NotificationContext';
-import { Briefcase, MapPin, DollarSign, Clock, CheckCircle2, ArrowRight, X, Sparkles } from 'lucide-react';
+import {
+  Briefcase,
+  MapPin,
+  DollarSign,
+  Clock,
+  CheckCircle2,
+  ArrowRight,
+  X,
+  Sparkles,
+  Camera,
+  Award,
+  Phone,
+  Film,
+} from 'lucide-react';
 
 const Careers = () => {
-  const [careers, setCareers] = useState([]);
+  const [careers, setCareers] = useState(DEFAULT_CAREERS);
   const [loading, setLoading] = useState(true);
   const [selectedJob, setSelectedJob] = useState(null);
   const [applyModalOpen, setApplyModalOpen] = useState(false);
@@ -24,9 +38,14 @@ const Careers = () => {
     const fetchCareers = async () => {
       try {
         const res = await api.get('/careers');
-        setCareers(res.data || []);
+        if (res.data && Array.isArray(res.data) && res.data.length > 0) {
+          setCareers(res.data);
+        } else {
+          setCareers(DEFAULT_CAREERS);
+        }
       } catch (err) {
-        console.error('Error fetching careers', err);
+        console.warn('Using default careers fallback:', err);
+        setCareers(DEFAULT_CAREERS);
       } finally {
         setLoading(false);
       }
@@ -48,8 +67,8 @@ const Careers = () => {
         ...form,
       });
       addToast({
-        title: 'Application Received',
-        message: 'Thank you for applying. Our creative directors will review your portfolio.',
+        title: 'Application Received 🎉',
+        message: 'Thank you for applying. Our creative director will review your portfolio and reach out.',
         type: 'success',
       });
       setApplyModalOpen(false);
@@ -66,74 +85,129 @@ const Careers = () => {
       <div className="max-w-7xl mx-auto space-y-16">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <span className="text-xs uppercase tracking-[0.35em] text-amber-700 font-bold block">
-            Join Our Creative Team
-          </span>
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-800 text-xs font-mono font-bold uppercase tracking-widest">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>We're Hiring • 2026 Wedding Season</span>
+          </div>
           <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-900">
             Careers at Moonlight Production
           </h1>
-          <p className="text-neutral-600 text-sm sm:text-base font-normal max-w-xl mx-auto">
-            We are always seeking visionary photographers, cinematographers, drone pilots, and master editors who treat visual storytelling as high art.
+          <p className="text-neutral-600 text-sm sm:text-base font-normal max-w-2xl mx-auto leading-relaxed">
+            Are you a passionate wedding cinematographer, candid portraitist, FPV drone specialist, or DaVinci Resolve colorist? Step into Moonlight Production and capture breathtaking royal palace destinations with cinema-grade Sony FX6 rigs and master prime optics.
           </p>
+
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
+            <a
+              href="tel:+918817789498"
+              className="inline-flex items-center px-5 py-2.5 rounded-full bg-white hover:bg-neutral-50 border border-amber-900/15 text-neutral-800 text-xs font-bold uppercase tracking-wider shadow-sm transition-all"
+            >
+              <Phone className="w-3.5 h-3.5 mr-2 text-amber-700" />
+              Talent Hotline: +91 88177 89498
+            </a>
+            <a
+              href="https://api.whatsapp.com/send?phone=919229229323"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold uppercase tracking-wider shadow-sm transition-all"
+            >
+              <Sparkles className="w-3.5 h-3.5 mr-2" />
+              Direct WhatsApp Inquiry
+            </a>
+          </div>
         </div>
 
-        {/* Culture & Perks Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Culture & Perks Grid (The 4 Key Pillars) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-white rounded-2xl p-6 space-y-2 border border-amber-900/15 shadow-md">
-            <Sparkles className="w-6 h-6 text-amber-700" />
-            <h3 className="font-serif text-lg font-bold text-neutral-900">Global Destination Shoots</h3>
-            <p className="text-xs text-neutral-600 font-normal">Travel across royal palaces in India, Lake Pichola, Udaipur, the Goa Sunset Beach, Paris, and Switzerland on high-profile commissions.</p>
+            <Camera className="w-6 h-6 text-amber-700" />
+            <h3 className="font-serif text-lg font-bold text-neutral-900">Sony FX6 & FX3 Rigs</h3>
+            <p className="text-xs text-neutral-600 font-normal leading-relaxed">
+              Cinema optics, DJI Ronin 4D & Inspire 3 gear provided for all wedding projects.
+            </p>
           </div>
+
           <div className="bg-white rounded-2xl p-6 space-y-2 border border-amber-900/15 shadow-md">
-            <Briefcase className="w-6 h-6 text-amber-700" />
-            <h3 className="font-serif text-lg font-bold text-neutral-900">Flagship Cinema Systems</h3>
-            <p className="text-xs text-neutral-600 font-normal">Create on world-class Sony Alpha 1, RED Cinema, ARRI Mini LF, and DJI Inspire 3 aerial gear.</p>
+            <MapPin className="w-6 h-6 text-amber-700" />
+            <h3 className="font-serif text-lg font-bold text-neutral-900">Palace Destinations</h3>
+            <p className="text-xs text-neutral-600 font-normal leading-relaxed">
+              All-expenses-paid luxury shoots across Udaipur, Jaipur, Goa, Maheshwar, and abroad.
+            </p>
           </div>
+
           <div className="bg-white rounded-2xl p-6 space-y-2 border border-amber-900/15 shadow-md">
             <DollarSign className="w-6 h-6 text-amber-700" />
-            <h3 className="font-serif text-lg font-bold text-neutral-900">Industry-Leading Remuneration</h3>
-            <p className="text-xs text-neutral-600 font-normal">Competitive annual retainers, substantial per-shoot bonuses, health benefits, and continuous creative mentorship.</p>
+            <h3 className="font-serif text-lg font-bold text-neutral-900">Top-Tier Pay</h3>
+            <p className="text-xs text-neutral-600 font-normal leading-relaxed">
+              Industry-leading monthly CTC + handsome per-event bonus incentives and prompt payout.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-2xl p-6 space-y-2 border border-amber-900/15 shadow-md">
+            <Award className="w-6 h-6 text-amber-700" />
+            <h3 className="font-serif text-lg font-bold text-neutral-900">Vogue & Film Credits</h3>
+            <p className="text-xs text-neutral-600 font-normal leading-relaxed">
+              Get your name recognized on luxury wedding cinema covers and social media features.
+            </p>
           </div>
         </div>
 
         {/* Open Positions */}
-        <div className="space-y-6">
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900">Open Commissions & Positions</h2>
+        <div className="space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-900/10 pb-4">
+            <div>
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900">
+                Open Positions ({careers.length} Roles Active)
+              </h2>
+              <p className="text-xs text-neutral-600 font-normal mt-1">
+                Select a position to view detailed requirements and submit your portfolio directly.
+              </p>
+            </div>
+          </div>
 
           {loading ? (
             <div className="h-64 rounded-2xl bg-white animate-pulse border border-neutral-200" />
-          ) : careers.length === 0 ? (
-            <div className="p-12 text-center bg-white rounded-2xl border border-amber-900/15 shadow-sm">
-              <p className="text-sm text-neutral-600">No active vacancies currently open. Please check back soon or write to us directly.</p>
-            </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {careers.map((career) => (
                 <div
                   key={career._id}
-                  className="bg-white rounded-2xl p-8 flex flex-col justify-between space-y-6 border border-amber-900/15 hover:border-amber-600/50 shadow-md hover:shadow-xl transition-all group"
+                  className="bg-white rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-6 border border-amber-900/15 hover:border-amber-600/50 shadow-md hover:shadow-xl transition-all group"
                 >
                   <div className="space-y-4">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="px-3 py-1 bg-amber-500/15 text-amber-800 rounded-full text-[10px] font-bold uppercase tracking-wider border border-amber-600/30">
-                        {career.department}
-                      </span>
-                      <span className="px-3 py-1 bg-neutral-100 text-neutral-700 rounded-full text-[10px] uppercase font-mono font-medium">
-                        {career.jobType}
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex items-center space-x-2">
+                        <span className="px-3 py-1 bg-amber-500/15 text-amber-800 rounded-full text-[10px] font-bold uppercase tracking-wider border border-amber-600/30">
+                          {career.department}
+                        </span>
+                        <span className="px-3 py-1 bg-neutral-100 text-neutral-700 rounded-full text-[10px] uppercase font-mono font-medium">
+                          {career.jobType}
+                        </span>
+                      </div>
+                      <span className="text-[10.5px] font-mono text-amber-800 font-bold bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">
+                        {career.experienceRequired || '2+ Yrs'}
                       </span>
                     </div>
 
-                    <h3 className="font-serif text-2xl font-bold text-neutral-900 group-hover:text-amber-800 transition-colors">
-                      {career.title}
-                    </h3>
+                    <div>
+                      <h3 className="font-serif text-2xl font-bold text-neutral-900 group-hover:text-amber-800 transition-colors">
+                        {career.title}
+                      </h3>
+                      <p className="text-xs text-neutral-500 font-mono mt-1 flex items-center">
+                        <MapPin className="w-3 h-3 text-amber-700 mr-1 shrink-0" />
+                        {career.location}
+                      </p>
+                    </div>
+
                     <p className="text-xs text-neutral-600 leading-relaxed font-normal">{career.description}</p>
 
                     <div className="space-y-2 pt-2">
-                      <h4 className="text-xs font-bold text-amber-800 uppercase tracking-wider">Key Requirements:</h4>
-                      <ul className="space-y-1 text-xs text-neutral-600">
-                        {career.requirements?.slice(0, 3).map((r, rIdx) => (
+                      <h4 className="text-xs font-bold text-amber-800 uppercase tracking-wider font-mono">
+                        Key Requirements:
+                      </h4>
+                      <ul className="space-y-1.5 text-xs text-neutral-600">
+                        {career.requirements?.slice(0, 4).map((r, rIdx) => (
                           <li key={rIdx} className="flex items-start space-x-2">
-                            <span className="w-1 h-1 rounded-full bg-amber-700 mt-1.5 shrink-0" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-700 mt-1.5 shrink-0" />
                             <span>{r}</span>
                           </li>
                         ))}
@@ -141,16 +215,16 @@ const Careers = () => {
                     </div>
                   </div>
 
-                  <div className="pt-6 border-t border-amber-900/10 flex items-center justify-between">
+                  <div className="pt-6 border-t border-amber-900/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <span className="text-xs font-mono text-amber-800 font-bold">{career.salaryRange}</span>
                     <button
                       onClick={() => {
                         setSelectedJob(career);
                         setApplyModalOpen(true);
                       }}
-                      className="px-5 py-2.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-sm hover:brightness-105 transition-all flex items-center btn-shimmer"
+                      className="px-6 py-2.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-sm hover:brightness-105 transition-all flex items-center justify-center btn-shimmer"
                     >
-                      Apply Now <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+                      Apply for This Role <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
                     </button>
                   </div>
                 </div>
@@ -222,18 +296,18 @@ const Careers = () => {
                   required
                   value={form.portfolioUrl}
                   onChange={(e) => setForm({ ...form, portfolioUrl: e.target.value })}
-                  placeholder="https://instagram.com/mywork or Vimeo/Website"
+                  placeholder="https://instagram.com/mywork or Vimeo/Drive link"
                   className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-2.5 text-neutral-900 placeholder-neutral-400 focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-neutral-800 font-bold uppercase text-[10.5px]">Brief Introduction & Experience</label>
+                <label className="text-neutral-800 font-bold uppercase text-[10.5px]">Brief Introduction & Camera Experience</label>
                 <textarea
                   rows={3}
                   value={form.coverLetter}
                   onChange={(e) => setForm({ ...form, coverLetter: e.target.value })}
-                  placeholder="Tell us about your primary camera systems, weddings covered, and aesthetic philosophy..."
+                  placeholder="Tell us about your primary camera systems, weddings covered, and cinematic background..."
                   className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl p-3 text-neutral-900 placeholder-neutral-400 focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
                 />
               </div>
