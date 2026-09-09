@@ -250,6 +250,42 @@ const AdminEnquiries = () => {
     setDrawerOpen(false);
   };
 
+  const handleExportToExcel = () => {
+    try {
+      const rows = enquiries.map((enq) => ({
+        'Enquiry ID': enq.enquiryId || enq._id,
+        'Client Name': enq.customerDetails?.fullName || 'N/A',
+        'Email': enq.customerDetails?.email || 'N/A',
+        'Phone': enq.customerDetails?.phone || 'N/A',
+        'Event Type': enq.eventType || 'Wedding Shoot',
+        'Event Date': enq.eventDate ? new Date(enq.eventDate).toLocaleDateString('en-IN') : 'N/A',
+        'City': enq.location?.city || 'N/A',
+        'Venue': enq.location?.venue || 'N/A',
+        'Guest Count': enq.guestCount || 'N/A',
+        'Budget Range': enq.budgetRange || 'N/A',
+        'Status': enq.status || 'NEW',
+        'Quotation Total (INR)': enq.quotation?.totalAmount || 0,
+        'Advance Required (INR)': enq.quotation?.advanceRequired || 0,
+        'Lead Source': enq.leadSource || 'Website',
+        'Created Date': enq.createdAt ? new Date(enq.createdAt).toLocaleDateString('en-IN') : 'N/A',
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(rows);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Enquiries Pipeline');
+      XLSX.writeFile(workbook, `Moonlight_Enquiries_Pipeline_${new Date().toISOString().slice(0, 10)}.xlsx`);
+
+      addToast({
+        title: 'Export Successful',
+        message: `${rows.length} Enquiries exported to Excel (.xlsx) successfully!`,
+        type: 'success',
+      });
+    } catch (err) {
+      addToast({ title: 'Export Failed', message: err.message, type: 'error' });
+    }
+  };
+
+
   // Filtered Enquiries
   const filteredEnquiries = enquiries.filter((enq) => {
     if (sourceFilter !== 'ALL SOURCES') {
@@ -333,6 +369,16 @@ const AdminEnquiries = () => {
           >
             <Zap className="w-3.5 h-3.5 mr-1 text-emerald-600" />
             {googleSheetUrl ? 'Google Sheet Synced' : 'Connect Google Sheet'}
+          </button>
+
+          {/* Export to Excel (.xlsx) */}
+          <button
+            onClick={handleExportToExcel}
+            className="px-3.5 py-2 rounded-full bg-white hover:bg-amber-50 border border-amber-900/20 text-neutral-800 text-xs font-bold uppercase tracking-wider transition-all flex items-center shadow-sm"
+            title="Download Full Pipeline to Excel (.xlsx)"
+          >
+            <Download className="w-3.5 h-3.5 mr-1 text-amber-700" />
+            Export Excel (.xlsx)
           </button>
 
           <button

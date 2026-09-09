@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/client';
-import { Users, Mail, Phone, Calendar, Heart, Search } from 'lucide-react';
+import * as XLSX from 'xlsx';
+import { useNotification } from '../../context/NotificationContext';
+import { Users, Mail, Phone, Calendar, Heart, Search, Download } from 'lucide-react';
 
 const AdminCustomers = () => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const { addToast } = useNotification();
 
   const fetchCustomers = async () => {
     setLoading(true);
@@ -23,6 +26,35 @@ const AdminCustomers = () => {
     fetchCustomers();
   }, []);
 
+  const handleExportToExcel = () => {
+    try {
+      const rows = customers.map((c, i) => ({
+        'S.No': i + 1,
+        'Client / Couple Name': c.name || c.fullName || 'N/A',
+        'Partner Name': c.partnerName || 'N/A',
+        'Email Address': c.email || 'N/A',
+        'Phone Number': c.phone || 'N/A',
+        'Wedding / Shoot Date': c.weddingDate ? new Date(c.weddingDate).toLocaleDateString('en-IN') : 'N/A',
+        'City & Venue': c.venue || c.city || 'N/A',
+        'Role': c.role || 'customer',
+        'Joined Date': c.createdAt ? new Date(c.createdAt).toLocaleDateString('en-IN') : 'N/A',
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(rows);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Clients Directory');
+      XLSX.writeFile(workbook, `Moonlight_Client_Directory_${new Date().toISOString().slice(0, 10)}.xlsx`);
+
+      addToast({
+        title: 'Clients Exported',
+        message: `${rows.length} Clients exported to Excel (.xlsx) successfully!`,
+        type: 'success',
+      });
+    } catch (err) {
+      addToast({ title: 'Export Failed', message: err.message, type: 'error' });
+    }
+  };
+
   return (
     <div className="space-y-8 animate-fade-in text-neutral-900">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-900/10 pb-6">
@@ -36,16 +68,27 @@ const AdminCustomers = () => {
           </p>
         </div>
 
-        <div className="relative w-full sm:w-72">
-          <Search className="w-4 h-4 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            placeholder="Search clients..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && fetchCustomers()}
-            className="w-full bg-white border border-amber-900/20 rounded-full pl-9 pr-4 py-2 text-xs text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30"
-          />
+        <div className="flex items-center space-x-3 w-full sm:w-auto">
+          <div className="relative w-full sm:w-72">
+            <Search className="w-4 h-4 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              placeholder="Search clients..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && fetchCustomers()}
+              className="w-full bg-white border border-amber-900/20 rounded-full pl-9 pr-4 py-2 text-xs text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30"
+            />
+          </div>
+
+          <button
+            onClick={handleExportToExcel}
+            className="px-4 py-2 rounded-full bg-white hover:bg-amber-50 border border-amber-900/20 text-neutral-800 text-xs font-bold uppercase tracking-wider transition-all flex items-center shrink-0 shadow-sm"
+            title="Download Client Directory (.xlsx)"
+          >
+            <Download className="w-3.5 h-3.5 mr-1.5 text-amber-700" />
+            Export Excel
+          </button>
         </div>
       </div>
 

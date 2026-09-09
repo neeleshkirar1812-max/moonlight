@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/client';
+import * as XLSX from 'xlsx';
 import { useNotification } from '../../context/NotificationContext';
 import { generateSalarySlipPDF } from '../../utils/salarySlipPdfGenerator';
 import {
@@ -273,6 +274,41 @@ const AdminPayroll = () => {
     return matchesStatus && matchesSearch;
   });
 
+  const handleExportToExcel = () => {
+    try {
+      const rows = slips.map((slip, i) => ({
+        'S.No': i + 1,
+        'Slip Number': slip.slipNumber || `PAY-${slip._id?.slice(-4)}`,
+        'Employee Name': slip.employeeName || 'Crew Member',
+        'Employee Code': slip.employeeCode || 'EMP-001',
+        'Designation': slip.designation || 'Specialist',
+        'Salary Month': slip.month || selectedMonth,
+        'Basic Pay (INR)': slip.basicPay || 0,
+        'HRA Allowances (INR)': slip.hraAllowances || 0,
+        'Shoot Bonus (INR)': slip.shootBonus || 0,
+        'Gross Earnings (INR)': slip.grossSalary || (Number(slip.basicPay || 0) + Number(slip.hraAllowances || 0) + Number(slip.shootBonus || 0)),
+        'Total Deductions (INR)': slip.totalDeductions || (Number(slip.taxDeduction || 0) + Number(slip.providentFund || 0) + Number(slip.advanceDeduction || 0)),
+        'Net Take-Home Salary (INR)': slip.netSalary || 0,
+        'Payment Status': slip.status || 'DRAFT',
+        'Payment Method': slip.paymentMethod || 'BANK_TRANSFER',
+        'Disbursement Date': slip.disbursedAt ? new Date(slip.disbursedAt).toLocaleDateString('en-IN') : 'Pending',
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(rows);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, `Payroll ${selectedMonth}`);
+      XLSX.writeFile(workbook, `Moonlight_Payroll_Ledger_${selectedMonth.replace(/\s+/g, '_')}.xlsx`);
+
+      addToast({
+        title: 'Payroll Exported',
+        message: `${rows.length} Staff salary records exported to Excel (.xlsx) successfully!`,
+        type: 'success',
+      });
+    } catch (err) {
+      addToast({ title: 'Export Failed', message: err.message, type: 'error' });
+    }
+  };
+
   return (
     <div className="space-y-8 animate-fade-in text-white">
       {/* Header */}
@@ -289,7 +325,7 @@ const AdminPayroll = () => {
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full sm:w-auto">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full sm:w-auto flex-wrap">
           <select
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(e.target.value)}
@@ -300,6 +336,14 @@ const AdminPayroll = () => {
             <option value="June 2026">June 2026</option>
             <option value="May 2026">May 2026</option>
           </select>
+
+          <button
+            onClick={handleExportToExcel}
+            className="px-4 py-2.5 rounded-xl bg-white hover:bg-amber-50 border border-stone-300 text-neutral-900 font-bold text-xs font-mono transition-all flex items-center justify-center min-h-[44px] shadow-sm"
+            title="Download Full Payroll to Excel (.xlsx)"
+          >
+            <Download className="w-4 h-4 mr-1.5 text-amber-700" /> Export Excel (.xlsx)
+          </button>
 
           <button
             onClick={handleBulkGenerate}

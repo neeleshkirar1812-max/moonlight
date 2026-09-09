@@ -16,14 +16,14 @@ export const sendInvoiceEmailNotification = async (invoice, customerUser) => {
 
   return sendEmailNotification({
     to: email,
-    subject: `Official GST Tax Invoice ${invoice.invoiceNumber} | Lumière Studios Atelier`,
+    subject: `Official GST Tax Invoice ${invoice.invoiceNumber} | Moonlight Production`,
     template: 'invoice_dispatched',
     html: `
       <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: #0B0B0B; color: #FFFFFF; padding: 40px 30px; border-radius: 16px; border: 1px solid #D4AF37; max-width: 680px; margin: auto;">
         <div style="text-align: center; border-bottom: 1px solid rgba(212, 175, 55, 0.4); padding-bottom: 20px; margin-bottom: 24px;">
-          <h1 style="color: #D4AF37; margin: 0; font-size: 26px; letter-spacing: 3px; font-family: Georgia, serif;">LUMIÈRE STUDIOS</h1>
-          <p style="color: #F5E6BE; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-top: 5px;">Atelier of Royal Wedding Photography & Haute Cinema</p>
-          <p style="color: #888; font-size: 10px; margin-top: 4px;">GSTIN: 27AAAAA0000A1Z5 • Mumbai • Lake Como • Paris</p>
+          <h1 style="color: #D4AF37; margin: 0; font-size: 26px; letter-spacing: 3px; font-family: Georgia, serif;">MOONLIGHT PRODUCTION</h1>
+          <p style="color: #F5E6BE; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-top: 5px;">Royal Indian Wedding Photography & 4K Cinema Films</p>
+          <p style="color: #888; font-size: 10px; margin-top: 4px;">GSTIN: 23DHNPR9293D1ZT • MSME: UDYAM-MP-10-0119118 • Bhopal • Indore • All India</p>
         </div>
         
         <p style="font-size: 15px; color: #E5E5E5;">Dear <strong>${name}</strong>,</p>
@@ -46,11 +46,11 @@ export const sendInvoiceEmailNotification = async (invoice, customerUser) => {
 
         <!-- Studio Bank Transfer Card -->
         <div style="background: #161616; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 10px; padding: 16px; margin: 20px 0; font-size: 11px; line-height: 1.6;">
-          <strong style="color: #D4AF37; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; display: block; margin-bottom: 6px;">🏦 Official Studio Bank & UPI Details:</strong>
-          <span style="color: #DDD;">Beneficiary: <strong>Lumière Studios International Ltd.</strong></span><br/>
-          <span style="color: #AAA;">Bank: HDFC Bank Ltd., Bandra West Branch, Mumbai</span><br/>
-          <span style="color: #AAA;">A/C No: <strong style="color: #FFF;">50200084920194</strong> | IFSC: <strong style="color: #FFF;">HDFC0000043</strong></span><br/>
-          <span style="color: #34D399;">Official Studio UPI ID: <strong>lumierestudios@hdfcbank</strong></span>
+          <strong style="color: #D4AF37; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; display: block; margin-bottom: 6px;">🏦 Official Studio Bank Details (YES Bank):</strong>
+          <span style="color: #DDD;">Beneficiary: <strong>MOONLIGHT PRODUCTION</strong></span><br/>
+          <span style="color: #AAA;">Bank: YES BANK Ltd. (Branch: E-5/6 Arera Colony, Bittan Market, Bhopal - 462016)</span><br/>
+          <span style="color: #AAA;">Account Type: <strong>Current Account</strong> | A/C No: <strong style="color: #FFF;">069861900005221</strong></span><br/>
+          <span style="color: #34D399;">IFSC Code: <strong>YESB0000698</strong></span>
         </div>
 
         <!-- Official Studio Terms & Conditions -->
@@ -60,20 +60,21 @@ export const sendInvoiceEmailNotification = async (invoice, customerUser) => {
             <li><strong style="color: #EEE;">Payment Milestones:</strong> 30% advance retainer to confirm booking; 50% due prior to wedding/shoot date; 20% on final deliverables handover.</li>
             <li><strong style="color: #EEE;">Advance Policy:</strong> The 30% advance retainer is strictly non-refundable under all circumstances due to exclusive date locking and crew scheduling.</li>
             <li><strong style="color: #EEE;">Delivery SLA:</strong> Edited photographs and 4K cinema films delivered within <strong>90 days (3 months)</strong>.</li>
-            <li><strong style="color: #EEE;">Cloud Backup Retention:</strong> Master project data is preserved digitally on Lumière Cloud for <strong>6 months</strong> post-event, after which storage is cleared.</li>
+            <li><strong style="color: #EEE;">Cloud Backup Retention:</strong> Master project data is preserved digitally on Moonlight Cloud for <strong>6 months</strong> post-event, after which storage is cleared.</li>
             <li><strong style="color: #EEE;">Copyright:</strong> Studio retains moral rights for portfolio & awards; couples receive unrestricted personal print and social media rights.</li>
           </ul>
         </div>
 
         <div style="text-align: center; margin: 30px 0;">
-          <a href="${ENV.CLIENT_URL || 'http://localhost:5173'}/customer/invoices" style="background: linear-gradient(135deg, #D4AF37, #AA820A); color: #000000; padding: 14px 36px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; display: inline-block; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
+          <a href="${ENV.CLIENT_URL || 'https://moonlight-pink-two.vercel.app'}/customer/invoices" style="background: linear-gradient(135deg, #D4AF37, #AA820A); color: #000000; padding: 14px 36px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; display: inline-block; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
             VIEW INVOICE & DOWNLOAD SIGNED PDF →
           </a>
         </div>
 
         <p style="font-size: 10px; color: #666; text-align: center; margin-top: 30px; border-top: 1px solid #222; padding-top: 20px;">
-          Lumière Studios International Ltd. • GSTIN: 27AAAAA0000A1Z5<br/>
-          Lumière Penthouse, Bandra West, Mumbai 400050 • Concierge: +91 98200 12345
+          Moonlight Production • GSTIN: 23DHNPR9293D1ZT • UDYAM-MP-10-0119118<br/>
+          Principal Office: C 37, Pallavi Nagar, Rohit Nagar, Bawaria Kalan, Bhopal - 462039<br/>
+          Hotline: +91 92292 29323 / +91 90395 83534 • Email: Tarunrathore3435@gmail.com
         </p>
       </div>
     `,
@@ -89,14 +90,14 @@ export const sendInvoiceEmailNotification = async (invoice, customerUser) => {
 export const sendEnquiryConfirmationEmail = async (enquiry) => {
   return sendEmailNotification({
     to: enquiry.customerDetails.email,
-    subject: `Enquiry Received: ${enquiry.enquiryId} | Lumière Studios`,
+    subject: `Enquiry Received: ${enquiry.enquiryId} | Moonlight Production`,
     template: 'enquiry_confirmation',
     data: {
       name: enquiry.customerDetails.fullName,
       enquiryId: enquiry.enquiryId,
       eventType: enquiry.eventType,
       eventDate: enquiry.eventDate,
-      location: enquiry.location.city,
+      location: enquiry.location?.city,
     },
   });
 };
@@ -104,7 +105,7 @@ export const sendEnquiryConfirmationEmail = async (enquiry) => {
 export const sendBookingConfirmationEmail = async (booking, customerUser) => {
   return sendEmailNotification({
     to: customerUser.email,
-    subject: `Booking Confirmed: ${booking.bookingNumber} | Lumière Studios`,
+    subject: `Booking Confirmed: ${booking.bookingNumber} | Moonlight Production`,
     template: 'booking_confirmation',
     data: {
       name: customerUser.name,
@@ -119,7 +120,7 @@ export const sendBookingConfirmationEmail = async (booking, customerUser) => {
 export const sendPaymentReceiptEmail = async (payment, user) => {
   return sendEmailNotification({
     to: user.email,
-    subject: `Payment Receipt: ₹${payment.amount.toLocaleString('en-IN')} Received | Lumière Studios`,
+    subject: `Payment Receipt: ₹${payment.amount.toLocaleString('en-IN')} Received | Moonlight Production`,
     template: 'payment_receipt',
     data: {
       name: user.name,
@@ -129,3 +130,4 @@ export const sendPaymentReceiptEmail = async (payment, user) => {
     },
   });
 };
+

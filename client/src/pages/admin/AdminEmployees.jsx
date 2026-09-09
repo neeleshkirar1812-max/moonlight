@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/client';
+import * as XLSX from 'xlsx';
 import { useNotification } from '../../context/NotificationContext';
 import {
   ShieldCheck,
@@ -20,6 +21,7 @@ import {
   Edit2,
   Trash2,
   Filter,
+  Download,
 } from 'lucide-react';
 
 export const realProductionCrew = [];
@@ -274,6 +276,35 @@ const AdminEmployees = () => {
     });
   };
 
+  const handleExportToExcel = () => {
+    try {
+      const rows = employees.map((emp, idx) => ({
+        'S.No': idx + 1,
+        'Employee Code': emp.employeeCode || `EMP-MLP-${String(idx + 1).padStart(3, '0')}`,
+        'Full Name': emp.name || emp.user?.name || 'N/A',
+        'Designation': emp.designation || 'Cinematographer',
+        'Department': emp.department || 'Production',
+        'Email Address': emp.email || emp.user?.email || 'N/A',
+        'Phone Number': emp.phone || emp.user?.phone || 'N/A',
+        'Speciality': emp.speciality || 'Luxury Wedding Production',
+        'Status': emp.status === 'active' ? 'Active' : 'Pending Clearance',
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(rows);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Production Crew Roster');
+      XLSX.writeFile(workbook, `Moonlight_Production_Crew_${new Date().toISOString().slice(0, 10)}.xlsx`);
+
+      addToast({
+        title: 'Roster Exported',
+        message: `${rows.length} Crew members exported to Excel (.xlsx) successfully!`,
+        type: 'success',
+      });
+    } catch (err) {
+      addToast({ title: 'Export Failed', message: err.message, type: 'error' });
+    }
+  };
+
   // Filtering
   const filteredCrew = employees.filter((emp) => {
     if (statusFilter !== 'ALL') {
@@ -319,7 +350,16 @@ const AdminEmployees = () => {
         </div>
 
         {/* Action Buttons: Responsive Flex */}
-        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
+        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto flex-wrap">
+          <button
+            onClick={handleExportToExcel}
+            className="px-4 py-2.5 rounded-full bg-white hover:bg-amber-50 border border-amber-900/20 text-neutral-800 text-xs font-bold uppercase tracking-wider transition-all flex items-center shrink-0 shadow-sm min-h-[44px]"
+            title="Download Crew Directory (.xlsx)"
+          >
+            <Download className="w-3.5 h-3.5 mr-1.5 text-amber-700" />
+            Export Excel (.xlsx)
+          </button>
+
           <button
             onClick={() => setModalOpen(true)}
             className="px-4 sm:px-5 py-2.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-sm hover:brightness-105 active:scale-95 transition-all flex items-center shrink-0 btn-shimmer min-h-[44px]"

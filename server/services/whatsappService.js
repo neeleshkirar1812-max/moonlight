@@ -13,20 +13,20 @@ export const sendWhatsAppMessage = async ({ phone, message, templateName, compon
 export const generateWhatsAppClickUrl = (phone, text) => {
   const cleanPhone = (phone || '').replace(/[^\d]/g, '');
   const encodedText = encodeURIComponent(text);
-  return `https://wa.me/${cleanPhone}?text=${encodedText}`;
+  return `https://api.whatsapp.com/send?phone=${cleanPhone || '919229229323'}&text=${encodedText}`;
 };
 
-export const generateInvoiceWhatsAppUrl = (invoice, clientUrl = 'http://localhost:5173') => {
-  const phone = invoice.clientInfo?.phone || invoice.customer?.phone || '+919820012345';
+export const generateInvoiceWhatsAppUrl = (invoice, clientUrl = 'https://moonlight-pink-two.vercel.app') => {
+  const phone = invoice.clientInfo?.phone || invoice.customer?.phone || '+919229229323';
   const cleanPhone = (phone || '').replace(/[^\d]/g, '');
   const clientName = invoice.clientInfo?.name || invoice.customer?.name || 'Valued Client';
   const portalLink = `${clientUrl}/customer/invoices`;
 
-  const text = `⚜️ *LUMIÈRE STUDIOS — OFFICIAL TAX INVOICE & AGREEMENT* ⚜️
+  const text = `⚜️ *MOONLIGHT PRODUCTION — OFFICIAL TAX INVOICE & AGREEMENT* ⚜️
 
 Dear *${clientName}*,
 
-Your official invoice *${invoice.invoiceNumber}* for wedding photography and cinema deliverables has been generated.
+Your official tax invoice *${invoice.invoiceNumber}* for royal wedding photography and 4K cinema films has been generated.
 
 📋 *Invoice & Financial Summary:*
 • Subtotal: ₹${Number(invoice.subtotal).toLocaleString('en-IN')}
@@ -42,27 +42,34 @@ Your official invoice *${invoice.invoiceNumber}* for wedding photography and cin
 2. *50% Pre-Wedding Payment:* Due before wedding/shoot commencement.
 3. *20% Final Delivery Balance:* Payable upon handover of final media & albums.
 4. *Delivery SLA:* High-res photos & 4K films delivered within *90 Days (3 Months)*.
-5. *Digital Storage:* Project files preserved on Lumière Cloud for *6 Months* post-event.
+5. *Digital Storage:* Master files preserved on Moonlight Cloud for *6 Months* post-event.
 
-🏦 *Studio Bank Details:*
-• Bank: HDFC Bank Ltd. (Bandra West, Mumbai)
-• A/C No: 50200084920194 | IFSC: HDFC0000043
-• UPI: *lumierestudios@hdfcbank*
+🏦 *Official Bank Account Details (YES Bank):*
+• Account Name: *MOONLIGHT PRODUCTION*
+• Bank: *YES BANK Ltd.* (Branch: E-5/6 Arera Colony, Bittan Market, Bhopal - 462016)
+• Account Type: *Current Account*
+• Account Number: *069861900005221*
+• IFSC Code: *YESB0000698*
+• GSTIN: *23DHNPR9293D1ZT* | MSME Udyam: *UDYAM-MP-10-0119118*
 
 📥 *Click to View & Download Signed Studio PDF:*
 ${portalLink}
 
 With Warm Regards,
-*Lumière Studios Atelier Concierge*
-Bandra West Penthouse, Mumbai`;
+*Moonlight Production Studio Desk*
+Principal Office: C 37, Pallavi Nagar, Rohit Nagar, Bawaria Kalan, Bhopal - 462039
+Direct & WhatsApp: +91 92292 29323 / +91 90395 83534
+Email: Tarunrathore3435@gmail.com
+Instagram: @moonlight_production__`;
 
-  return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`;
+  return `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(text)}`;
 };
 
 export const sendEnquiryWhatsAppNotification = async (enquiry) => {
-  const message = `Hello ${enquiry.customerDetails.fullName}, thank you for contacting Lumière Studios. We have received your enquiry for ${enquiry.eventType} on ${new Date(enquiry.eventDate).toLocaleDateString('en-IN')}. Your reference ID is ${enquiry.enquiryId}. Our concierge team will connect with you shortly.`;
+  const message = `Namaste ${enquiry.customerDetails.fullName} ji! 🙏\nThank you for contacting Moonlight Production.\nWe have received your enquiry for ${enquiry.eventType} in ${enquiry.location?.city} on ${new Date(enquiry.eventDate).toLocaleDateString('en-IN')}.\nYour reference ID is ${enquiry.enquiryId}.\nOur Executive Director will connect with you on WhatsApp shortly at +91 92292 29323.`;
   return sendWhatsAppMessage({
     phone: enquiry.customerDetails.whatsappNumber || enquiry.customerDetails.phone,
     message,
   });
 };
+
