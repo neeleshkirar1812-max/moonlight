@@ -53,7 +53,7 @@ const Register = () => {
       role: 'customer',
       designation: `Couple (${formData.city || 'Royal Wedding'} • ${formData.weddingDate || '2026'})`,
       createdBy: 'Self-Registration Request',
-      department: 'Client Sanctuary',
+      department: 'Client Portal',
       requestedAt: new Date().toISOString(),
       status: 'pending',
     };

@@ -108,7 +108,7 @@ const CustomerInvoices = () => {
     <div className="space-y-8 animate-fade-in text-neutral-900">
       <div className="border-b border-amber-900/10 pb-6">
         <span className="text-xs uppercase tracking-widest text-amber-700 font-bold block">
-          Client Sanctuary Billing & Legal
+          Client Portal Billing & Legal
         </span>
         <h1 className="font-serif text-3xl font-bold text-neutral-900 mt-1">Official Tax Invoices & Agreements</h1>
         <p className="text-neutral-600 text-xs font-light mt-1">

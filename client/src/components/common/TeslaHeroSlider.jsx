@@ -41,7 +41,7 @@ const slides = [
     location: 'All-India Travel & Production Crew Included',
     image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=2000&q=90',
     primaryCta: { label: 'View Pricing Tiers', path: '/services' },
-    secondaryCta: { label: 'WhatsApp Concierge', external: 'https://api.whatsapp.com/send?phone=919229229323' },
+    secondaryCta: { label: 'Chat on WhatsApp', external: 'https://api.whatsapp.com/send?phone=919229229323' },
     videoModalId: 'fdPTAJ9MzyU',
   },
 ];

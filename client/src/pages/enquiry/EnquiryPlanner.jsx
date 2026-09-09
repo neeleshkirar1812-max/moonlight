@@ -44,7 +44,7 @@ const budgetTiers = [
   { label: '₹1L – ₹2L', desc: 'Single-day photography & cinema' },
   { label: '₹2L – ₹5L', desc: 'Multi-day bespoke wedding package' },
   { label: '₹5L+', desc: 'Grand royal palace / destination signature archive' },
-  { label: 'Not Sure', desc: 'Let concierge recommend custom proposal' },
+  { label: 'Not Sure', desc: 'Let our team recommend custom proposal' },
 ];
 
 const EnquiryPlanner = () => {
@@ -152,7 +152,7 @@ const EnquiryPlanner = () => {
       setSubmittedEnquiry(enq);
       addToast({
         title: 'Story Received ❤️',
-        message: `Your reference ID is ${enq?.enquiryId || 'ENQ-2026'}. Our concierge will connect with you shortly.`,
+        message: `Your reference ID is ${enq?.enquiryId || 'ENQ-2026'}. Our team will connect with you shortly.`,
         type: 'success',
       });
     } catch (err) {
@@ -187,7 +187,7 @@ const EnquiryPlanner = () => {
           </p>
 
           <p className="text-neutral-600 text-sm leading-relaxed mb-8 max-w-lg mx-auto font-normal">
-            Thank you, <strong className="text-neutral-900">{submittedEnquiry.customerDetails?.fullName}</strong>. Our senior director and concierge team are reviewing your celebration dates for <strong className="text-amber-800">{submittedEnquiry.location?.city}</strong>. We will formulate a tailored luxury proposal within 24 hours.
+            Thank you, <strong className="text-neutral-900">{submittedEnquiry.customerDetails?.fullName}</strong>. Our senior director and booking team are reviewing your celebration dates for <strong className="text-amber-800">{submittedEnquiry.location?.city}</strong>. We will formulate a tailored luxury proposal within 24 hours.
           </p>
 
           {/* Key Summary Pill */}
@@ -245,7 +245,7 @@ const EnquiryPlanner = () => {
         {/* Header Title */}
         <div className="text-center mb-8 sm:mb-10">
           <span className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-amber-700 font-bold mb-2 block font-mono">
-            Bespoke Wedding Concierge
+            Wedding Cost & Package Planner
           </span>
           <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-neutral-900 font-bold">
             Plan Your Perfect Story

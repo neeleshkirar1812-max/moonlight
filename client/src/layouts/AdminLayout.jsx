@@ -65,7 +65,7 @@ const AdminLayout = () => {
     { name: 'Client Private Galleries', href: '/admin/galleries', icon: FolderLock, permission: 'canManagePortfolioCMS' },
     { name: 'Wedding Cinema Films', href: '/admin/videos', icon: Film, permission: 'canManagePortfolioCMS' },
     { name: 'Packages & Services', href: '/admin/services', icon: FileCheck, permission: 'canManageSettings' },
-    { name: 'Journal & Stories', href: '/admin/blogs', icon: BookOpen, permission: 'canManageBlogsCMS' },
+    { name: 'Blog & Articles', href: '/admin/blogs', icon: BookOpen, permission: 'canManageBlogsCMS' },
     { name: 'Job Openings', href: '/admin/careers', icon: Briefcase, permission: 'canManageHR' },
     { name: 'Job Applications', href: '/admin/applications', icon: Inbox, permission: 'canManageHR' },
     { name: 'Client Reviews', href: '/admin/testimonials', icon: Star, permission: 'canManageBlogsCMS' },

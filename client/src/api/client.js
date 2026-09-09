@@ -227,7 +227,7 @@ const initialData = {
     phone: '+91 92292 29323',
     instagram: '@moonlight_production__',
     youtube: '@moonlightproductions_films',
-    address: 'Studio Atelier, VIP Road, Bhopal, MP 462001',
+    address: 'Moonlight Studio, VIP Road, Bhopal, MP 462001',
     gstin: '23AABCM1234F1Z8',
   },
 };
@@ -668,7 +668,7 @@ const handleMockRequest = async (method, url, data) => {
     return { data: items };
   }
 
-  // 14. Contact Concierge
+  // 14. Contact Form
   if (cleanUrl === '/contact' || cleanUrl.startsWith('/contact/')) {
     if (method === 'POST') {
       const contacts = JSON.parse(localStorage.getItem('ml_contacts') || '[]');
@@ -683,7 +683,7 @@ const handleMockRequest = async (method, url, data) => {
       return {
         data: {
           success: true,
-          message: 'Your inquiry has been received by Moonlight Concierge. We will contact you within 2 hours.',
+          message: 'Your inquiry has been received by Moonlight Production. We will contact you within 2 hours.',
         },
       };
     }

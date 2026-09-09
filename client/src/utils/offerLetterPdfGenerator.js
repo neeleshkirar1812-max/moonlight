@@ -46,7 +46,7 @@ export const generateOfferLetterPDF = (candidate) => {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(212, 175, 55);
-  doc.text('ROYAL WEDDING CINEMATOGRAPHY & PHOTOGRAPHY ATELIER', 32, 22);
+  doc.text('ROYAL WEDDING CINEMATOGRAPHY & PHOTOGRAPHY STUDIO', 32, 22);
 
   doc.setFontSize(7);
   doc.setTextColor(180, 180, 180);
@@ -95,15 +95,14 @@ export const generateOfferLetterPDF = (candidate) => {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8.5);
   doc.setTextColor(11, 11, 11);
-  const offeredRole = candidate.hiringDetails?.offeredRole || candidate.career?.title || 'Production Crew Specialist';
   doc.text(`SUBJECT: FORMAL OFFER OF EMPLOYMENT AS ${offeredRole.toUpperCase()}`, margin + 4, y + 6);
 
   // 4. Body Opening
   y = 88;
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8);
-  doc.setTextColor(40, 40, 40);
-  const introText = `Dear ${candidate.fullName || 'Candidate'},\n\nWe are delighted to extend this formal offer of employment with Moonlight Production. Following our evaluation of your portfolio and technical experience, we were deeply impressed by your passion, framing discipline, and commitment to visual excellence. We look forward to welcoming you to our royal wedding production atelier.`;
+  doc.setFontSize(9);
+  doc.setTextColor(30, 30, 30);
+  const introText = `Dear ${candidate.fullName || 'Candidate'},\n\nWe are delighted to extend this formal offer of employment with Moonlight Production. Following our evaluation of your portfolio and technical experience, we were deeply impressed by your passion, framing discipline, and commitment to visual excellence. We look forward to welcoming you to our royal wedding production team.`;
   const splitIntro = doc.splitTextToSize(introText, contentWidth);
   doc.text(splitIntro, margin, y);
 

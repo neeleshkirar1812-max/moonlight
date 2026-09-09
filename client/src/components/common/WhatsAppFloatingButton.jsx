@@ -18,7 +18,7 @@ const WhatsAppFloatingButton = ({
     >
       <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-white animate-pulse" />
       <span className="hidden sm:inline text-xs font-semibold tracking-wider uppercase font-sans">
-        WhatsApp Concierge
+        WhatsApp
       </span>
     </a>
   );

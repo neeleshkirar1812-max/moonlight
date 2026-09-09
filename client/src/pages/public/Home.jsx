@@ -303,13 +303,13 @@ const Home = () => {
             {/* Left Description */}
             <div className="lg:col-span-7 space-y-3 sm:space-y-4">
               <span className="px-3 py-1 rounded-full bg-amber-500/10 text-amber-800 text-[10px] sm:text-[10.5px] font-mono font-bold uppercase tracking-widest border border-amber-600/20 inline-block">
-                Interactive Concierge Wizard
+                Wedding Cost Calculator & Planner
               </span>
               <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-bold text-neutral-900 leading-tight">
                 Plan Your Indian Wedding Shoot in 8 Easy Steps
               </h2>
               <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">
-                Calculate estimated budgets, select your palace destination, configure 4K drone cinematography, and receive a bespoke proposal with direct WhatsApp concierge assistance.
+                Calculate estimated budgets, select your palace destination, configure 4K drone cinematography, and receive a bespoke proposal with direct WhatsApp assistance.
               </p>
 
               <div className="pt-2">
@@ -318,7 +318,7 @@ const Home = () => {
                   className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-7 py-3.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-md hover:brightness-105 active:scale-95 transition-all btn-shimmer"
                 >
                   <Calendar className="w-3.5 h-3.5 mr-2" />
-                  Launch Full 8-Step Wizard
+                  Launch 8-Step Wedding Planner
                 </Link>
               </div>
             </div>
@@ -403,7 +403,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 6. CAREERS & CREATIVE GUILD HIRING SPOTLIGHT */}
+      {/* 6. CAREERS & CREATIVE TEAM HIRING SPOTLIGHT */}
       <section className="py-12 sm:py-20 bg-gradient-to-b from-[#FAF8F5] via-[#F3ECE4] to-[#FAF8F5] border-t border-amber-900/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-3xl overflow-hidden bg-white border border-amber-900/15 p-6 sm:p-12 shadow-xl">
@@ -420,7 +420,7 @@ const Home = () => {
                 </div>
 
                 <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-bold text-neutral-900 leading-tight">
-                  Join India's Elite Wedding Cinema Guild
+                  Join India's Elite Wedding Cinema Team
                 </h2>
 
                 <p className="text-xs sm:text-base text-neutral-600 font-normal leading-relaxed">
@@ -503,7 +503,7 @@ const Home = () => {
                     { title: 'Master Candid Photographer', loc: 'Bhopal / Central India', exp: '2+ Yrs Exp', tag: 'Full Time' },
                     { title: 'FPV Drone & Aerial Specialist', loc: 'Pan-India Destination', exp: 'DGCA Certified', tag: 'Contract' },
                     { title: 'DaVinci Resolve Colorist & Editor', loc: 'Bhopal Studio / Hybrid', exp: '2+ Yrs Exp', tag: 'Full Time' },
-                    { title: 'Client Relationship & Concierge Lead', loc: 'Bhopal Studio', exp: '1+ Yrs Exp', tag: 'Full Time' },
+                    { title: 'Client Relationship & Booking Lead', loc: 'Bhopal Studio', exp: '1+ Yrs Exp', tag: 'Full Time' },
                   ].map((job, idx) => (
                     <Link
                       key={idx}

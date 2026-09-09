@@ -47,7 +47,7 @@ const Navbar = () => {
     { name: '4K Films', path: '/portfolio/films' },
     { name: 'Services', path: '/services' },
     { name: 'About', path: '/about' },
-    { name: 'Journal', path: '/blog' },
+    { name: 'Blog', path: '/blog' },
     { name: 'Careers', path: '/careers' },
     { name: 'Contact', path: '/contact' },
   ];
@@ -213,7 +213,7 @@ const Navbar = () => {
           {/* Quick Dual Login Action Box (Top of Mobile Menu) */}
           <div className="mb-4 p-3.5 rounded-2xl bg-white border border-amber-900/15 space-y-2 shadow-sm">
             <span className="text-[10px] uppercase font-mono font-bold text-amber-800 block tracking-wider">
-              🔐 Account & Client Sanctuary
+              🔐 Account & Client Portal
             </span>
             {isAuthenticated ? (
               <div className="space-y-2">

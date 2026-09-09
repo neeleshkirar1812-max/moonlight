@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../../api/client';
+import { DEFAULT_BLOGS } from '../../data/defaultBlogs';
 import { CardSkeleton } from '../../components/common/SkeletonLoader';
-import { ArrowLeft, Clock, Calendar, User, Share2, Tag, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Clock, Calendar, Share2, Tag, ArrowRight, BookOpen } from 'lucide-react';
 
 const BlogDetail = () => {
   const { slug } = useParams();
@@ -15,10 +16,20 @@ const BlogDetail = () => {
       setLoading(true);
       try {
         const res = await api.get(`/blogs/${slug}`);
-        setBlog(res.data);
-        setRelated(res.related || []);
+        if (res.data) {
+          setBlog(res.data);
+          setRelated(res.related || []);
+        } else {
+          // Fallback to default blogs
+          const fallback = DEFAULT_BLOGS.find((b) => b.slug === slug);
+          setBlog(fallback || null);
+          setRelated(DEFAULT_BLOGS.filter((b) => b.slug !== slug).slice(0, 2));
+        }
       } catch (err) {
-        console.error('Error fetching article', err);
+        console.warn('Article fetch failed, checking default articles:', err);
+        const fallback = DEFAULT_BLOGS.find((b) => b.slug === slug);
+        setBlog(fallback || null);
+        setRelated(DEFAULT_BLOGS.filter((b) => b.slug !== slug).slice(0, 2));
       } finally {
         setLoading(false);
       }
@@ -36,9 +47,18 @@ const BlogDetail = () => {
 
   if (!blog) {
     return (
-      <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-32 pb-24 text-center">
-        <h2 className="font-serif text-3xl text-neutral-900 font-bold">Article Not Found</h2>
-        <Link to="/blog" className="text-amber-700 font-bold mt-4 inline-block">Return to Blog</Link>
+      <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-32 pb-24 text-center px-4">
+        <div className="max-w-md mx-auto bg-white p-8 rounded-3xl border border-amber-900/15 shadow-sm space-y-4">
+          <BookOpen className="w-10 h-10 text-amber-700 mx-auto opacity-70" />
+          <h2 className="font-serif text-2xl text-neutral-900 font-bold">Article Not Found</h2>
+          <p className="text-xs text-neutral-600">The guide you are looking for might have been moved or updated.</p>
+          <Link
+            to="/blog"
+            className="px-6 py-2.5 rounded-full bg-gold-gradient text-neutral-950 font-bold text-xs uppercase tracking-wider inline-block shadow-sm"
+          >
+            Return to Blog
+          </Link>
+        </div>
       </div>
     );
   }
@@ -52,29 +72,38 @@ const BlogDetail = () => {
           className="inline-flex items-center text-xs uppercase tracking-widest text-amber-700 hover:text-neutral-900 font-bold group font-mono"
         >
           <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-          Back to Journal
+          Back to Blog
         </Link>
 
         {/* Header Metadata */}
         <div className="space-y-4">
-          <span className="px-3.5 py-1 rounded-full bg-amber-500/15 text-amber-800 border border-amber-600/30 text-xs font-bold uppercase tracking-widest font-mono">
+          <span className="px-3.5 py-1 rounded-full bg-amber-500/15 text-amber-800 border border-amber-600/30 text-xs font-bold uppercase tracking-widest font-mono inline-block">
             {blog.category}
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-neutral-900 leading-tight">
             {blog.title}
           </h1>
 
-          <div className="flex flex-wrap items-center gap-6 pt-4 border-y border-amber-900/10 text-xs text-neutral-600">
+          <div className="flex flex-wrap items-center gap-6 pt-4 border-y border-amber-900/10 text-xs text-neutral-600 font-mono">
             <div className="flex items-center space-x-2">
               <img
-                src={blog.author?.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80'}
+                src={
+                  blog.author?.avatar ||
+                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80'
+                }
                 alt={blog.author?.name}
                 className="w-8 h-8 rounded-full object-cover border border-amber-600/40"
               />
               <span className="text-neutral-900 font-bold">{blog.author?.name || 'Moonlight Editorial'}</span>
             </div>
-            <span className="flex items-center"><Calendar className="w-3.5 h-3.5 mr-1.5 text-amber-700" /> {new Date(blog.publishedAt).toLocaleDateString('en-US', { dateStyle: 'long' })}</span>
-            <span className="flex items-center"><Clock className="w-3.5 h-3.5 mr-1.5 text-amber-700" /> {blog.readingTime || '5 min read'}</span>
+            <span className="flex items-center">
+              <Calendar className="w-3.5 h-3.5 mr-1.5 text-amber-700" />
+              {new Date(blog.publishedAt).toLocaleDateString('en-US', { dateStyle: 'long' })}
+            </span>
+            <span className="flex items-center">
+              <Clock className="w-3.5 h-3.5 mr-1.5 text-amber-700" />
+              {blog.readingTime || '5 min read'}
+            </span>
           </div>
         </div>
 
@@ -84,7 +113,7 @@ const BlogDetail = () => {
         </div>
 
         {/* Body Content */}
-        <div className="prose max-w-none text-neutral-700 font-normal text-sm sm:text-base leading-relaxed space-y-6 pt-4 whitespace-pre-line">
+        <div className="prose max-w-none text-neutral-800 font-normal text-sm sm:text-base leading-relaxed space-y-6 pt-4 whitespace-pre-line bg-white p-6 sm:p-10 rounded-3xl border border-amber-900/15 shadow-sm">
           {blog.content}
         </div>
 
@@ -93,7 +122,10 @@ const BlogDetail = () => {
           <div className="pt-6 border-t border-amber-900/10 flex flex-wrap items-center gap-2">
             <Tag className="w-4 h-4 text-amber-700 mr-2" />
             {blog.tags.map((t, idx) => (
-              <span key={idx} className="px-3 py-1 bg-white border border-neutral-300 rounded-full text-xs text-neutral-600 font-medium shadow-sm">
+              <span
+                key={idx}
+                className="px-3 py-1 bg-white border border-neutral-300 rounded-full text-xs text-neutral-600 font-medium shadow-sm"
+              >
                 #{t}
               </span>
             ))}
@@ -102,19 +134,28 @@ const BlogDetail = () => {
 
         {/* Related Articles */}
         {related.length > 0 && (
-          <div className="pt-16 border-t border-amber-900/10 space-y-6">
-            <h3 className="font-serif text-2xl text-neutral-900 font-bold">Related Essays</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="pt-12 border-t border-amber-900/10 space-y-6">
+            <h3 className="font-serif text-2xl font-bold text-neutral-900">More Wedding Guides & Insights</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {related.map((rel) => (
                 <Link
-                  key={rel._id}
+                  key={rel._id || rel.slug}
                   to={`/blog/${rel.slug}`}
-                  className="bg-white rounded-xl p-4 group block space-y-3 border border-amber-900/15 hover:border-amber-600/50 shadow-md hover:shadow-xl transition-all"
+                  className="bg-white rounded-2xl p-4 border border-amber-900/15 hover:border-amber-600/50 transition-all flex items-center space-x-4 shadow-sm group"
                 >
-                  <div className="aspect-video rounded-lg overflow-hidden bg-neutral-100">
-                    <img src={rel.featuredImage} alt={rel.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                  <img
+                    src={rel.featuredImage}
+                    alt={rel.title}
+                    className="w-20 h-20 rounded-xl object-cover shrink-0"
+                  />
+                  <div>
+                    <span className="text-[10px] uppercase font-mono font-bold text-amber-700 block">
+                      {rel.category}
+                    </span>
+                    <h4 className="font-serif text-sm font-bold text-neutral-900 group-hover:text-amber-800 transition-colors line-clamp-2">
+                      {rel.title}
+                    </h4>
                   </div>
-                  <h4 className="font-serif text-sm font-bold text-neutral-900 group-hover:text-amber-800 transition-colors line-clamp-2">{rel.title}</h4>
                 </Link>
               ))}
             </div>

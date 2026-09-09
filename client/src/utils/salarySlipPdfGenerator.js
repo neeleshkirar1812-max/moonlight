@@ -83,7 +83,7 @@ export const generateSalarySlipPDF = (slip) => {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(212, 175, 55);
-  doc.text('HUMAN RESOURCES & PAYROLL ATELIER • CENTRAL STUDIO BHOPAL', 32, 22);
+  doc.text('HUMAN RESOURCES & PAYROLL DEPARTMENT • CENTRAL STUDIO BHOPAL', 32, 22);
 
   doc.setFontSize(7);
   doc.setTextColor(180, 180, 180);
@@ -247,7 +247,7 @@ export const generateSalarySlipPDF = (slip) => {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(80, 80, 80);
-  const noteText = slip.notes || 'This salary slip is an official record of monthly payroll by Moonlight Production HR atelier. For any queries or verification, contact studio accounts within 5 days of salary credit.';
+  const noteText = slip.notes || 'This salary slip is an official record of monthly payroll by Moonlight Production HR department. For any queries or verification, contact studio accounts within 5 days of salary credit.';
   const splitNote = doc.splitTextToSize(noteText, contentWidth);
   doc.text(splitNote, margin, finalY + 5);
 

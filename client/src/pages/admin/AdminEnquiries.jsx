@@ -243,8 +243,8 @@ const AdminEnquiries = () => {
   const handleConvertToBooking = (enquiryId) => {
     handleStatusChange(enquiryId, 'CONFIRMED');
     addToast({
-      title: 'Commission Confirmed',
-      message: `Lead converted to active wedding booking! Client sanctuary account initialized.`,
+      title: 'Booking Confirmed 🎉',
+      message: `Lead converted to active wedding booking! Client portal account initialized.`,
       type: 'success',
     });
     setDrawerOpen(false);

@@ -7,12 +7,12 @@ const AdminSettings = () => {
   const [settings, setSettings] = useState({
     siteName: 'Moonlight Production',
     tagline: 'Luxury Wedding Photography & Cinematic Heirlooms',
-    contactEmail: 'concierge@Moonlight Production.com',
-    contactPhone: '+91 98200 12345',
-    whatsappNumber: '+919820012345',
-    address: 'Moonlight Penthouse, 18th Floor, Hill Road, Bandra West, Mumbai 400050',
-    instagramUrl: 'https://instagram.com/Moonlight Production',
-    youtubeUrl: 'https://youtube.com/@Moonlight Production',
+    contactEmail: 'info@moonlightproduction.com',
+    contactPhone: '+91 92292 29323',
+    whatsappNumber: '+919229229323',
+    address: 'Moonlight Production, VIP Road, Bhopal, MP 462001',
+    instagramUrl: 'https://instagram.com/moonlight_production__',
+    youtubeUrl: 'https://youtube.com/@moonlightproductions_films',
     defaultCurrency: 'INR',
     enableWatermarkByDefault: false,
   });
@@ -52,7 +52,7 @@ const AdminSettings = () => {
         </span>
         <h1 className="font-serif text-3xl font-bold text-neutral-900 mt-1">Studio Brand & Global Settings</h1>
         <p className="text-neutral-600 text-xs font-light mt-1">
-          Customize contact details, concierge addresses, social handles, and default currencies.
+          Customize contact details, studio addresses, social handles, and default currencies.
         </p>
       </div>
 
@@ -82,7 +82,7 @@ const AdminSettings = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div className="space-y-1.5">
-              <label className="text-neutral-700 font-bold uppercase text-[11px]">Concierge Email</label>
+              <label className="text-neutral-700 font-bold uppercase text-[11px]">Studio Email</label>
               <input
                 type="email"
                 value={settings.contactEmail}

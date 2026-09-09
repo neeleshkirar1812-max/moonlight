@@ -13,7 +13,7 @@ const faqs = [
   },
   {
     q: 'How are our high-resolution private galleries delivered and protected?',
-    a: 'Every couple receives an exclusive client sanctuary portal featuring PIN-protected private galleries (Default PIN: 2026). You can view full-resolution photos, select favorites for luxury photo albums, and download without compression.',
+    a: 'Every couple receives an exclusive client portal featuring PIN-protected private galleries (Default PIN: 2026). You can view full-resolution photos, select favorites for luxury photo albums, and download without compression.',
   },
   {
     q: 'What is your turnaround time for wedding films and photo deliverables?',

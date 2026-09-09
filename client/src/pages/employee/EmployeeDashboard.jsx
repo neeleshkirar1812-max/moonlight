@@ -232,7 +232,7 @@ const EmployeeDashboard = () => {
             <div>
               <h2 className="font-serif text-xl font-bold text-neutral-900">My Monthly Pay Slips</h2>
               <p className="text-neutral-600 text-xs font-normal">
-                Official compensation slips disbursed by Moonlight Production HR atelier.
+                Official compensation slips disbursed by Moonlight Production HR department.
               </p>
             </div>
           </div>

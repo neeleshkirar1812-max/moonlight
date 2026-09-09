@@ -85,11 +85,11 @@ const CustomerProfile = () => {
     <div className="space-y-8 animate-fade-in max-w-4xl text-neutral-900">
       <div className="border-b border-amber-900/10 pb-6">
         <span className="text-xs uppercase tracking-widest text-amber-700 font-bold block">
-          Client Sanctuary
+          Client Portal
         </span>
         <h1 className="font-serif text-3xl font-bold text-neutral-900 mt-1">Profile & Account Settings</h1>
         <p className="text-neutral-600 text-xs font-light mt-1">
-          Manage partner names, wedding date details, phone contact, and sanctuary passwords.
+          Manage partner names, wedding date details, phone contact, and account passwords.
         </p>
       </div>
 

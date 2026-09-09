@@ -39,7 +39,7 @@ const AdminBlogs = () => {
     e.preventDefault();
     try {
       await api.post('/blogs', form);
-      addToast({ title: 'Article Published', message: 'Blog article is live on the journal.', type: 'success' });
+      addToast({ title: 'Article Published', message: 'Blog article is live on the website.', type: 'success' });
       setModalOpen(false);
       setForm({ title: '', excerpt: '', content: '', featuredImage: '', category: 'Cinematography Insights', tags: '', readingTime: '5 min read' });
       fetchBlogs();
@@ -64,11 +64,11 @@ const AdminBlogs = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-amber-900/10 pb-6">
         <div>
           <span className="text-xs uppercase tracking-widest text-amber-700 font-bold block">
-            Editorial CMS
+            Blog & Guides CMS
           </span>
-          <h1 className="font-serif text-3xl font-bold text-neutral-900 mt-1">Journal Essays & Articles</h1>
+          <h1 className="font-serif text-3xl font-bold text-neutral-900 mt-1">Blog Articles & Guides</h1>
           <p className="text-neutral-600 text-xs font-light mt-1">
-            Publish thought-leadership editorial pieces, wedding cinematography secrets, and palace guides.
+            Publish wedding cinematography guides, venue recommendations, and photography tips.
           </p>
         </div>
 
@@ -76,7 +76,7 @@ const AdminBlogs = () => {
           onClick={() => setModalOpen(true)}
           className="px-5 py-2.5 rounded-full bg-gold-gradient text-neutral-950 font-bold text-xs uppercase tracking-wider shadow-gold-subtle hover:scale-105 transition-all flex items-center self-start sm:self-auto"
         >
-          <Plus className="w-4 h-4 mr-1.5" /> Publish New Essay
+          <Plus className="w-4 h-4 mr-1.5" /> Publish New Article
         </button>
       </div>
 
@@ -89,8 +89,8 @@ const AdminBlogs = () => {
       ) : blogs.length === 0 ? (
         <div className="text-center py-20 bg-white rounded-3xl border border-amber-900/15 space-y-3 shadow-sm">
           <BookOpen className="w-8 h-8 text-amber-600 mx-auto opacity-70" />
-          <h3 className="font-serif text-xl text-neutral-900 font-bold">No Editorial Articles Found</h3>
-          <p className="text-xs text-neutral-500">Publish your first journal article above.</p>
+          <h3 className="font-serif text-xl text-neutral-900 font-bold">No Blog Articles Found</h3>
+          <p className="text-xs text-neutral-500">Publish your first blog article above.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

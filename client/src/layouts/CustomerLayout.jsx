@@ -65,7 +65,7 @@ const CustomerLayout = () => {
               </div>
               <div>
                 <span className="font-serif text-base font-bold tracking-wider text-neutral-900">MOONLIGHT</span>
-                <p className="text-[9px] text-amber-800 font-mono font-bold tracking-widest uppercase">Client Sanctuary</p>
+                <p className="text-[9px] text-amber-800 font-mono font-bold tracking-widest uppercase">Client Portal</p>
               </div>
             </Link>
             <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-neutral-700 hover:text-neutral-950">
@@ -144,7 +144,7 @@ const CustomerLayout = () => {
               <Menu className="w-5 h-5" />
             </button>
             <h2 className="text-xs sm:text-sm font-serif font-bold text-neutral-900 tracking-wide truncate max-w-[160px] sm:max-w-none">
-              {navigation.find((n) => n.href === location.pathname)?.name || 'Client Sanctuary'}
+              {navigation.find((n) => n.href === location.pathname)?.name || 'Client Portal'}
             </h2>
           </div>
 

@@ -47,7 +47,7 @@ export const generateQuotationPDF = (data = {}) => {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(212, 175, 55);
-  doc.text('ROYAL WEDDING CINEMATOGRAPHY & CANDID PHOTOGRAPHY ATELIER', 32, 23);
+  doc.text('ROYAL WEDDING CINEMATOGRAPHY & CANDID PHOTOGRAPHY STUDIO', 32, 23);
 
   doc.setFontSize(7);
   doc.setTextColor(180, 180, 180);
@@ -305,7 +305,7 @@ export const generateQuotationPDF = (data = {}) => {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.5);
   doc.setTextColor(120, 120, 120);
-  doc.text('Moonlight Production • Luxury Wedding Cinema & Candid Photography Atelier', margin, footerY);
+  doc.text('Moonlight Production • Luxury Wedding Cinema & Candid Photography Studio', margin, footerY);
 
   // Digital Signature Stamp
   doc.setFont('times', 'bolditalic');

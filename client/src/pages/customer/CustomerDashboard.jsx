@@ -66,13 +66,13 @@ const CustomerDashboard = () => {
       <div className="relative rounded-3xl overflow-hidden p-6 sm:p-10 border border-amber-900/15 bg-white shadow-md">
         <div className="relative z-10 max-w-2xl space-y-3">
           <span className="text-xs uppercase font-mono tracking-[0.25em] text-amber-800 font-bold block">
-            Moonlight Client Concierge
+            Moonlight Client Portal
           </span>
           <h1 className="font-serif text-3xl sm:text-4xl font-bold text-neutral-900">
             Welcome, {user?.name || 'Aarav & Ananya'}
           </h1>
           <p className="text-neutral-600 text-xs sm:text-sm font-normal leading-relaxed">
-            Your personalized sanctuary for tracking shoot preparations, accessing high-resolution private galleries, managing payments, and viewing 4K wedding films.
+            Your personalized portal for tracking shoot preparations, accessing high-resolution private galleries, managing payments, and viewing 4K wedding films.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-3 text-xs font-mono">

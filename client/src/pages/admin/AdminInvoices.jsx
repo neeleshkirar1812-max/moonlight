@@ -215,7 +215,7 @@ const AdminInvoices = () => {
           `📅 *Due Date:* ${new Date(createdInvoice.dueDate).toLocaleDateString('en-IN')}\n\n` +
           `*Payment Terms:* 30% Booking Advance + 50% Pre-Wedding + 20% on Final Deliverables.\n\n` +
           `*Online Portal:* https://moonlight-pink-two.vercel.app\n` +
-          `*Studio Concierge:* +91 92292 29323`
+          `*Studio WhatsApp:* +91 92292 29323`
         );
         window.open(`https://wa.me/${cleanPhone.startsWith('91') ? cleanPhone : '91' + cleanPhone}?text=${msg}`, '_blank');
       }

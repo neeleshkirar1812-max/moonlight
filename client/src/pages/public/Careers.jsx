@@ -67,7 +67,7 @@ const Careers = () => {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <span className="text-xs uppercase tracking-[0.35em] text-amber-700 font-bold block">
-            Join Our Creative Guild
+            Join Our Creative Team
           </span>
           <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-900">
             Careers at Moonlight Production

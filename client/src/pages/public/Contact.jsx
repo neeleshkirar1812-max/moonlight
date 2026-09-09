@@ -26,7 +26,7 @@ const Contact = () => {
       await api.post('/contact', form);
       addToast({
         title: 'Message Sent',
-        message: 'Thank you. Moonlight Production concierge will get back to you shortly.',
+        message: 'Thank you. Moonlight Production team will get back to you shortly.',
         type: 'success',
       });
       setForm({ name: '', email: '', phone: '', subject: 'Wedding Commission Inquiry', message: '' });
@@ -44,7 +44,7 @@ const Contact = () => {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-2 sm:space-y-3">
           <span className="text-[11px] sm:text-xs uppercase font-mono tracking-[0.25em] sm:tracking-[0.35em] text-amber-700 font-bold block">
-            Direct Concierge
+            Direct Studio Contact
           </span>
           <h1 className="font-serif text-2xl sm:text-4xl lg:text-6xl font-bold text-neutral-900">
             Connect With Moonlight Production

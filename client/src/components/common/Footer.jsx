@@ -121,7 +121,7 @@ const Footer = () => {
                 rel="noreferrer"
                 aria-label="WhatsApp"
                 className="w-9 h-9 rounded-full bg-white border border-amber-900/15 flex items-center justify-center hover:text-emerald-600 hover:border-emerald-500 transition-all shadow-sm"
-                title="WhatsApp Concierge: +91 92292 29323"
+                title="WhatsApp: +91 92292 29323"
               >
                 <Phone className="w-4 h-4" />
               </a>
@@ -158,7 +158,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact Concierge & Careers */}
+          {/* Contact & Studio Hotline */}
           <div className="space-y-3.5">
             <h4 className="text-xs uppercase tracking-[0.2em] text-amber-800 font-bold font-mono">
               Studio Hotline

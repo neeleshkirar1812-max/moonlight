@@ -23,7 +23,7 @@ import {
 const demoAccounts = [
   {
     role: 'customer',
-    label: 'Couple Sanctuary',
+    label: 'Couple Portal',
     icon: Heart,
     email: 'aarav.ananya@gmail.com',
     pass: 'Client@2026',
