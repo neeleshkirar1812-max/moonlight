@@ -8,6 +8,7 @@ import { createInvoiceForBooking } from '../services/invoiceService.js';
 import { sendPaymentReceiptEmail } from '../services/emailService.js';
 import { AppError } from '../middleware/error.js';
 import { logAuditEvent } from '../middleware/audit.js';
+import { ENV } from '../config/env.js';
 
 // @desc    Create Razorpay Order for Booking
 // @route   POST /api/payments/create-order
@@ -54,6 +55,7 @@ export const createOrder = async (req, res, next) => {
     res.status(200).json({
       success: true,
       order: razorpayOrder,
+      keyId: ENV.RAZORPAY_KEY_ID,
       paymentId: payment._id,
       amount: payAmount,
       currency: 'INR',

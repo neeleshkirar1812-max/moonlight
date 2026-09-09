@@ -48,7 +48,7 @@ const CustomerPayments = () => {
 
       // 2. Configure Razorpay client checkout
       const options = {
-        key: 'rzp_test_luxury_wedding_key', // Public Test Key
+        key: orderData.keyId || import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_luxury_wedding_key',
         amount: orderData.order.amount,
         currency: 'INR',
         name: 'Moonlight Production Pvt. Ltd.',

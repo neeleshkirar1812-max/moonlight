@@ -4,7 +4,7 @@ export const uploadMediaBuffer = async (buffer, options = {}) => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        folder: options.folder || 'lumiere/portfolio',
+        folder: options.folder || 'moonlight/portfolio',
         resource_type: options.resource_type || 'auto',
         transformation: options.transformation || [
           { quality: 'auto:best' },
@@ -44,7 +44,7 @@ export const deleteCloudinaryMedia = async (public_id, resource_type = 'image') 
   }
 };
 
-export const getWatermarkedUrl = (publicId, watermarkText = 'LUMIÈRE STUDIOS') => {
+export const getWatermarkedUrl = (publicId, watermarkText = 'MOONLIGHT PRODUCTION') => {
   return cloudinary.url(publicId, {
     transformation: [
       { quality: 'auto' },
