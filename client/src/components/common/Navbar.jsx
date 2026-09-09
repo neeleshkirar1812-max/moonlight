@@ -154,22 +154,13 @@ const Navbar = () => {
               )}
             </div>
           ) : (
-            <div className="flex items-center space-x-2">
-              <Link
-                to="/login?role=customer"
-                className="px-3.5 py-1.5 rounded-full border border-amber-500/40 hover:border-amber-600 bg-amber-500/10 text-amber-900 text-xs font-bold uppercase tracking-wider transition-all flex items-center shadow-sm"
-              >
-                <Heart className="w-3.5 h-3.5 mr-1 text-amber-600" />
-                Couple
-              </Link>
-              <Link
-                to="/login?role=admin"
-                className="px-3 py-1.5 rounded-full border border-neutral-300 hover:border-amber-600 bg-white text-neutral-800 hover:text-amber-900 text-xs font-bold uppercase tracking-wider transition-all flex items-center shadow-sm"
-              >
-                <Crown className="w-3.5 h-3.5 mr-1 text-amber-600" />
-                Admin
-              </Link>
-            </div>
+            <Link
+              to="/login"
+              className="px-4 py-1.5 rounded-full border border-neutral-300 hover:border-amber-700 bg-white hover:bg-neutral-50 text-neutral-900 text-xs font-bold uppercase tracking-wider transition-all flex items-center shadow-sm"
+            >
+              <LogIn className="w-3.5 h-3.5 mr-1.5 text-amber-700" />
+              Sign In
+            </Link>
           )}
 
           <Link
@@ -242,20 +233,12 @@ const Navbar = () => {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-2 gap-2">
-                <Link
-                  to="/login?role=customer"
-                  className="flex items-center justify-center py-2.5 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-900 font-bold text-[11px] uppercase tracking-wider text-center shadow-sm min-h-[44px]"
-                >
-                  <Heart className="w-3.5 h-3.5 mr-1 text-amber-600" /> Couple
-                </Link>
-                <Link
-                  to="/login?role=admin"
-                  className="flex items-center justify-center py-2.5 rounded-xl border border-neutral-300 bg-white text-neutral-800 font-bold text-[11px] uppercase tracking-wider text-center shadow-sm min-h-[44px]"
-                >
-                  <Crown className="w-3.5 h-3.5 mr-1 text-amber-600" /> Admin
-                </Link>
-              </div>
+              <Link
+                to="/login"
+                className="flex items-center justify-center py-2.5 rounded-xl border border-neutral-300 bg-white hover:bg-neutral-50 text-neutral-900 font-bold text-xs uppercase tracking-wider text-center shadow-sm min-h-[44px]"
+              >
+                <LogIn className="w-4 h-4 mr-1.5 text-amber-700" /> Sign In to Portal
+              </Link>
             )}
           </div>
 
