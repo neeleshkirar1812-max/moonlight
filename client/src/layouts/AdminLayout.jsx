@@ -88,26 +88,26 @@ const AdminLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0B0B0C] flex text-white w-full max-w-full overflow-x-hidden min-w-0">
+    <div className="min-h-screen bg-[#F5F2EB] flex text-neutral-900 w-full max-w-full overflow-x-hidden min-w-0">
       {/* Mobile Backdrop */}
       {sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}
-          className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
         />
       )}
 
       {/* Admin Sidebar */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 w-64 bg-[#121216] border-r border-gold-500/20 flex flex-col justify-between transition-transform duration-300 lg:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 z-50 w-64 bg-[#FAF8F5] border-r border-amber-900/10 flex flex-col justify-between transition-transform duration-300 shadow-xl lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="flex-1 flex flex-col min-h-0">
           {/* Brand Header */}
-          <div className="h-16 flex items-center justify-between px-5 border-b border-white/10 shrink-0 bg-black/40">
+          <div className="h-16 flex items-center justify-between px-5 border-b border-amber-900/10 shrink-0 bg-white/80">
             <Link to="/" className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-full border-2 border-gold-400 flex items-center justify-center bg-black shadow-gold-subtle overflow-hidden p-0.5">
+              <div className="w-8 h-8 rounded-full border-2 border-amber-500/60 flex items-center justify-center bg-amber-50 shadow-sm overflow-hidden p-0.5">
                 <img
                   src="https://ugc.production.linktr.ee/bbcf2874-0602-4cdb-b362-ad612f9fc135_zV3Uuw-tQraxE7KwMApwOHbWTg75v6W5ZJJOyWhXSJBR8O1GMQMZMOQ4CvB8uCMV4mM0SXMK-Q-s800-c-k-c0x00ffffff-no-r.jpeg?io=true&size=avatar-v3_0"
                   alt="Moonlight"
@@ -115,19 +115,19 @@ const AdminLayout = () => {
                 />
               </div>
               <div>
-                <span className="font-serif text-sm font-bold tracking-wider text-white">MOONLIGHT</span>
-                <p className="text-[8px] text-gold-400 font-mono font-bold tracking-widest uppercase">
+                <span className="font-serif text-sm font-bold tracking-wider text-neutral-900">MOONLIGHT</span>
+                <p className="text-[8px] text-amber-800 font-mono font-bold tracking-widest uppercase">
                   {isSuperAdmin ? '👑 Super Admin Control' : '👩‍💼 Studio Admin Console'}
                 </p>
               </div>
             </Link>
-            <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-white">
+            <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-neutral-700 hover:text-neutral-950">
               <X className="w-5 h-5" />
             </button>
           </div>
 
           {/* User Capsule & Accountability Identity */}
-          <div className="p-3.5 border-b border-white/10 bg-[#16161C] shrink-0">
+          <div className="p-3.5 border-b border-amber-900/10 bg-white shrink-0">
             <div className="flex items-center space-x-2.5">
               <img
                 src={
@@ -138,17 +138,17 @@ const AdminLayout = () => {
                 }
                 alt={user?.name}
                 className={`w-9 h-9 rounded-full object-cover border-2 ${
-                  isSuperAdmin ? 'border-amber-400 shadow-gold-subtle' : 'border-gold-400'
+                  isSuperAdmin ? 'border-amber-500 shadow-sm' : 'border-amber-400'
                 }`}
               />
               <div className="overflow-hidden flex-1">
-                <p className="text-xs font-bold text-white truncate">{user?.name || 'Studio Administrator'}</p>
+                <p className="text-xs font-bold text-neutral-900 truncate">{user?.name || 'Studio Administrator'}</p>
                 <div className="flex items-center space-x-1 mt-0.5">
                   <span
                     className={`text-[9px] px-2 py-0.2 rounded-full font-mono font-bold uppercase tracking-wider ${
                       isSuperAdmin
-                        ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                        : 'bg-gold-500/20 text-gold-300 border border-gold-500/40'
+                        ? 'bg-amber-100 text-amber-900 border border-amber-300'
+                        : 'bg-amber-50 text-amber-800 border border-amber-200'
                     }`}
                   >
                     {isSuperAdmin ? '👑 Super Admin' : '👩‍💼 Studio Admin'}
@@ -156,16 +156,16 @@ const AdminLayout = () => {
                 </div>
               </div>
             </div>
-            <p className="text-[10px] text-neutral-400 font-mono truncate mt-1.5 pl-0.5">{user?.email}</p>
+            <p className="text-[10px] text-neutral-500 font-mono truncate mt-1.5 pl-0.5">{user?.email}</p>
           </div>
 
           {/* Nav List */}
           <nav className="p-3 space-y-1 overflow-y-auto flex-1 custom-scrollbar">
             {/* Super Admin Privileged Section */}
             {isSuperAdmin && (
-              <div className="mb-3 p-2 rounded-xl bg-amber-500/10 border border-amber-500/30 space-y-1">
-                <p className="text-[9px] uppercase tracking-[0.2em] text-amber-400 font-bold px-1.5 py-0.5 flex items-center">
-                  <Crown className="w-3 h-3 mr-1 text-amber-400" /> Supreme Command
+              <div className="mb-3 p-2 rounded-xl bg-amber-50 border border-amber-300/80 space-y-1 shadow-sm">
+                <p className="text-[9px] uppercase tracking-[0.2em] text-amber-900 font-bold px-1.5 py-0.5 flex items-center">
+                  <Crown className="w-3 h-3 mr-1 text-amber-700" /> Supreme Command
                 </p>
                 {superAdminNav.map((item) => {
                   const isActive = location.pathname === item.href;
@@ -177,16 +177,16 @@ const AdminLayout = () => {
                       onClick={() => setSidebarOpen(false)}
                       className={`flex items-center justify-between px-2.5 py-2 rounded-lg text-xs font-semibold transition-all ${
                         isActive
-                          ? 'bg-amber-400 text-black font-extrabold shadow-sm'
-                          : 'text-amber-200 hover:text-white hover:bg-amber-500/20'
+                          ? 'bg-amber-400 text-neutral-950 font-extrabold shadow-sm'
+                          : 'text-amber-950 hover:bg-amber-200/60'
                       }`}
                     >
                       <div className="flex items-center space-x-2 truncate">
-                        <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-black' : 'text-amber-400'}`} />
+                        <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-neutral-950' : 'text-amber-700'}`} />
                         <span className="truncate">{item.name}</span>
                       </div>
                       {item.badge && (
-                        <span className="px-1.5 py-0.2 rounded-full bg-red-500 text-white font-mono text-[9.5px] font-bold">
+                        <span className="px-1.5 py-0.2 rounded-full bg-rose-500 text-white font-mono text-[9.5px] font-bold shadow-sm">
                           {item.badge}
                         </span>
                       )}
@@ -196,7 +196,7 @@ const AdminLayout = () => {
               </div>
             )}
 
-            <p className="text-[9px] uppercase tracking-[0.2em] text-neutral-400 font-bold px-2 py-1">
+            <p className="text-[9px] uppercase tracking-[0.2em] text-neutral-500 font-bold px-2 py-1">
               Studio Operations & CRM
             </p>
             {coreNav
@@ -218,11 +218,11 @@ const AdminLayout = () => {
                     onClick={() => setSidebarOpen(false)}
                     className={`flex items-center px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
                       isActive
-                        ? 'bg-gold-gradient text-black font-extrabold shadow-gold-subtle'
-                        : 'text-neutral-300 hover:text-white hover:bg-white/5'
+                        ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
+                        : 'text-neutral-700 hover:text-neutral-950 hover:bg-amber-500/10'
                     }`}
                   >
-                    <Icon className={`w-4 h-4 mr-2.5 shrink-0 ${isActive ? 'text-black' : 'text-gold-400'}`} />
+                    <Icon className={`w-4 h-4 mr-2.5 shrink-0 ${isActive ? 'text-neutral-950' : 'text-amber-700'}`} />
                     <span className="truncate">{item.name}</span>
                   </Link>
                 );
@@ -231,17 +231,17 @@ const AdminLayout = () => {
         </div>
 
         {/* Footer actions */}
-        <div className="p-3 border-t border-white/10 space-y-1 shrink-0 bg-[#16161C]">
+        <div className="p-3 border-t border-amber-900/10 space-y-1 shrink-0 bg-white/80">
           <Link
             to="/"
-            className="flex items-center px-3 py-1.5 rounded-lg text-xs text-neutral-300 hover:text-white hover:bg-white/5 transition-colors font-medium"
+            className="flex items-center px-3 py-1.5 rounded-lg text-xs text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100 transition-colors font-medium"
           >
-            <Home className="w-3.5 h-3.5 mr-2 text-gold-400" />
+            <Home className="w-3.5 h-3.5 mr-2 text-amber-700" />
             Website
           </Link>
           <button
             onClick={logout}
-            className="w-full flex items-center px-3 py-1.5 rounded-lg text-xs text-red-400 hover:bg-red-500/10 transition-colors font-semibold"
+            className="w-full flex items-center px-3 py-1.5 rounded-lg text-xs text-rose-700 hover:bg-rose-50 transition-colors font-semibold"
           >
             <LogOut className="w-3.5 h-3.5 mr-2" />
             Sign Out
@@ -252,17 +252,17 @@ const AdminLayout = () => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 w-full max-w-full overflow-x-hidden lg:pl-64">
         {/* Header with High-Visibility Role Accountability Banner */}
-        <header className="h-16 bg-[#0E0E12]/95 backdrop-blur-md border-b border-white/10 px-3 sm:px-6 flex items-center justify-between sticky top-0 z-30">
+        <header className="h-16 bg-white/95 backdrop-blur-md border-b border-amber-900/10 px-3 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm">
           <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="p-2 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 lg:hidden shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center"
+              className="p-2 rounded-lg text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100 lg:hidden shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center"
               aria-label="Open sidebar menu"
             >
               <Menu className="w-5 h-5" />
             </button>
             <div className="min-w-0">
-              <h2 className="text-xs sm:text-sm font-serif font-bold text-white tracking-wide truncate max-w-[130px] xs:max-w-[200px] sm:max-w-none">
+              <h2 className="text-xs sm:text-sm font-serif font-bold text-neutral-900 tracking-wide truncate max-w-[130px] xs:max-w-[200px] sm:max-w-none">
                 {coreNav.concat(superAdminNav).find((n) => n.href === location.pathname)?.name || 'Admin Console'}
               </h2>
             </div>
@@ -270,14 +270,14 @@ const AdminLayout = () => {
 
           <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
             {/* Role & Accountability Identity Badge */}
-            <div className="hidden sm:flex items-center space-x-2 px-3 py-1 rounded-full bg-black/60 border border-white/15 text-xs font-mono">
+            <div className="hidden sm:flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-300/80 text-xs font-mono shadow-sm">
               <span
                 className={`w-2 h-2 rounded-full ${
-                  isSuperAdmin ? 'bg-amber-400 animate-pulse' : 'bg-emerald-400'
+                  isSuperAdmin ? 'bg-amber-600 animate-pulse' : 'bg-emerald-600'
                 }`}
               />
-              <span className="text-neutral-300 font-bold">Logged In:</span>
-              <span className={isSuperAdmin ? 'text-amber-300 font-bold' : 'text-gold-300 font-bold'}>
+              <span className="text-neutral-700 font-bold">Logged In:</span>
+              <span className={isSuperAdmin ? 'text-amber-900 font-bold' : 'text-amber-800 font-bold'}>
                 {isSuperAdmin ? '👑 Super Admin' : '👩‍💼 Studio Admin'}
               </span>
             </div>
@@ -286,10 +286,10 @@ const AdminLayout = () => {
             {isSuperAdmin && pendingApprovalsCount > 0 && (
               <Link
                 to="/super-admin/approvals"
-                className="px-2.5 sm:px-3 py-1 rounded-full bg-amber-500/20 hover:bg-amber-500 hover:text-black border border-amber-500/40 text-amber-300 text-xs font-mono font-bold transition-all flex items-center space-x-1"
+                className="px-2.5 sm:px-3 py-1 rounded-full bg-amber-100 hover:bg-amber-200 border border-amber-400 text-amber-950 text-xs font-mono font-bold transition-all flex items-center space-x-1 shadow-sm"
                 title="Pending Approvals Awaiting Clearance"
               >
-                <KeyRound className="w-3 h-3 text-amber-400" />
+                <KeyRound className="w-3 h-3 text-amber-700" />
                 <span className="hidden sm:inline">{pendingApprovalsCount} Approvals Pending</span>
                 <span className="sm:hidden">{pendingApprovalsCount}</span>
               </Link>
@@ -297,7 +297,7 @@ const AdminLayout = () => {
 
             <button
               onClick={logout}
-              className="px-2.5 sm:px-3 py-1 rounded-full bg-red-950/40 hover:bg-red-900/60 border border-red-900/40 text-red-300 text-xs font-semibold transition-all flex items-center"
+              className="px-2.5 sm:px-3 py-1 rounded-full bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 text-xs font-semibold transition-all flex items-center shadow-sm"
               title="Sign Out"
             >
               <LogOut className="w-3 h-3 sm:mr-1" />

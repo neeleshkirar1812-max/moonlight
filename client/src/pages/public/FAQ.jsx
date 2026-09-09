@@ -29,14 +29,14 @@ const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <div className="min-h-screen bg-obsidian text-white pt-32 pb-24 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-32 pb-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto space-y-16">
         <div className="text-center space-y-4">
-          <span className="text-xs uppercase tracking-[0.35em] text-gold-400 font-semibold block">
+          <span className="text-xs uppercase tracking-[0.35em] text-amber-700 font-bold block">
             Frequently Inquired
           </span>
-          <h1 className="font-serif text-4xl sm:text-5xl font-bold text-white">Client Questions & Information</h1>
-          <p className="text-xs sm:text-sm text-neutral-400 font-light max-w-xl mx-auto">
+          <h1 className="font-serif text-4xl sm:text-5xl font-bold text-neutral-900">Client Questions & Information</h1>
+          <p className="text-xs sm:text-sm text-neutral-600 font-normal max-w-xl mx-auto">
             Everything you need to know about Moonlight Production, our Indian wedding shoot workflows, and deliverables.
           </p>
         </div>
@@ -45,17 +45,17 @@ const FAQ = () => {
           {faqs.map((faq, idx) => (
             <div
               key={idx}
-              className="luxury-card rounded-2xl border border-white/10 overflow-hidden transition-all"
+              className="bg-white rounded-2xl border border-amber-900/15 overflow-hidden transition-all shadow-sm"
             >
               <button
                 onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
                 className="w-full p-6 text-left flex items-center justify-between space-x-4"
               >
-                <h3 className="font-serif text-lg font-bold text-white">{faq.q}</h3>
-                <ChevronDown className={`w-5 h-5 text-gold-400 transition-transform ${openIndex === idx ? 'rotate-180' : ''}`} />
+                <h3 className="font-serif text-lg font-bold text-neutral-900">{faq.q}</h3>
+                <ChevronDown className={`w-5 h-5 text-amber-700 transition-transform ${openIndex === idx ? 'rotate-180' : ''}`} />
               </button>
               {openIndex === idx && (
-                <div className="px-6 pb-6 text-xs text-neutral-300 font-light leading-relaxed border-t border-white/5 pt-4">
+                <div className="px-6 pb-6 text-xs text-neutral-600 font-normal leading-relaxed border-t border-amber-900/10 pt-4">
                   {faq.a}
                 </div>
               )}
@@ -63,9 +63,9 @@ const FAQ = () => {
           ))}
         </div>
 
-        <div className="p-8 rounded-3xl bg-obsidian-400 border border-gold-500/30 text-center space-y-4">
-          <h3 className="font-serif text-2xl font-bold text-white">Have Questions About Your Wedding Dates?</h3>
-          <p className="text-xs text-neutral-300 font-light max-w-md mx-auto">
+        <div className="p-8 rounded-3xl bg-white border border-amber-900/15 text-center space-y-4 shadow-md">
+          <h3 className="font-serif text-2xl font-bold text-neutral-900">Have Questions About Your Wedding Dates?</h3>
+          <p className="text-xs text-neutral-600 font-normal max-w-md mx-auto">
             Our creative directors are available directly on WhatsApp and phone consultations.
           </p>
           <div className="flex justify-center gap-3 pt-2">
@@ -73,13 +73,13 @@ const FAQ = () => {
               href="https://api.whatsapp.com/send?phone=919229229323"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center px-6 py-3 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg"
+              className="inline-flex items-center px-6 py-3 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-sm"
             >
               <Phone className="w-3.5 h-3.5 mr-1.5" /> WhatsApp: +91 92292 29323
             </a>
             <Link
               to="/contact"
-              className="inline-flex items-center px-6 py-3 rounded-full bg-gold-gradient text-black font-bold text-xs uppercase tracking-wider shadow-gold-subtle"
+              className="inline-flex items-center px-6 py-3 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-sm hover:brightness-105 btn-shimmer"
             >
               Contact Studio
             </Link>

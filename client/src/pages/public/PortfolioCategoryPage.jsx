@@ -66,14 +66,14 @@ const PortfolioCategoryPage = () => {
   });
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-black pt-28 pb-20 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-28 pb-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
         {/* Back navigation & Header */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <Link
               to="/portfolio"
-              className="inline-flex items-center text-xs uppercase tracking-widest text-black hover:text-gold-800 font-black group font-mono"
+              className="inline-flex items-center text-xs uppercase tracking-widest text-neutral-800 hover:text-amber-700 font-bold group font-mono"
             >
               <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
               Back to All Archives
@@ -84,17 +84,17 @@ const PortfolioCategoryPage = () => {
                 href="https://www.youtube.com/@moonlightproductions_films"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center px-4 py-1.5 rounded-full bg-red-50 hover:bg-red-600 text-red-700 hover:text-white border-2 border-red-300 text-xs font-black uppercase tracking-wider transition-all font-mono shadow-sm"
+                className="inline-flex items-center px-4 py-1.5 rounded-full bg-red-50 hover:bg-red-600 text-red-700 hover:text-white border border-red-500/30 text-xs font-bold uppercase tracking-wider transition-all font-mono shadow-sm"
               >
                 <Youtube className="w-3.5 h-3.5 mr-1.5" /> Subscribe on YouTube
               </a>
             )}
           </div>
 
-          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-black text-black">
+          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-black text-neutral-900">
             {categoryMeta.title}
           </h1>
-          <p className="text-neutral-700 text-xs sm:text-base font-semibold max-w-2xl">
+          <p className="text-neutral-600 text-xs sm:text-base font-normal max-w-2xl">
             {categoryMeta.desc}
           </p>
 
@@ -105,8 +105,8 @@ const PortfolioCategoryPage = () => {
                 onClick={() => setFilmFilter('all')}
                 className={`px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all whitespace-nowrap ${
                   filmFilter === 'all'
-                    ? 'bg-black text-white font-black shadow-md'
-                    : 'bg-white text-black hover:bg-neutral-100 border-2 border-neutral-300 font-bold shadow-sm'
+                    ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
+                    : 'bg-white text-neutral-700 hover:text-neutral-900 border border-neutral-300 font-semibold shadow-sm'
                 }`}
               >
                 All 4K Films ({items.length})
@@ -115,8 +115,8 @@ const PortfolioCategoryPage = () => {
                 onClick={() => setFilmFilter('pre-wedding')}
                 className={`px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all whitespace-nowrap ${
                   filmFilter === 'pre-wedding'
-                    ? 'bg-black text-white font-black shadow-md'
-                    : 'bg-white text-black hover:bg-neutral-100 border-2 border-neutral-300 font-bold shadow-sm'
+                    ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
+                    : 'bg-white text-neutral-700 hover:text-neutral-900 border border-neutral-300 font-semibold shadow-sm'
                 }`}
               >
                 Pre-Wedding & Teasers
@@ -125,8 +125,8 @@ const PortfolioCategoryPage = () => {
                 onClick={() => setFilmFilter('wedding')}
                 className={`px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all whitespace-nowrap ${
                   filmFilter === 'wedding'
-                    ? 'bg-black text-white font-black shadow-md'
-                    : 'bg-white text-black hover:bg-neutral-100 border-2 border-neutral-300 font-bold shadow-sm'
+                    ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
+                    : 'bg-white text-neutral-700 hover:text-neutral-900 border border-neutral-300 font-semibold shadow-sm'
                 }`}
               >
                 Wedding Ceremonies & Highlights
@@ -154,7 +154,7 @@ const PortfolioCategoryPage = () => {
               return (
                 <div
                   key={video.id || video._id || vIdx}
-                  className="bg-white rounded-3xl overflow-hidden group cursor-pointer border-2 border-neutral-300 hover:border-black transition-all flex flex-col justify-between shadow-xl hover:shadow-2xl"
+                  className="bg-white rounded-3xl overflow-hidden group cursor-pointer border border-amber-900/15 hover:border-amber-600/50 transition-all flex flex-col justify-between shadow-md hover:shadow-2xl"
                   onClick={() => setActiveVideo(vidObj)}
                 >
                   <div className="relative aspect-video bg-black overflow-hidden">
@@ -168,41 +168,41 @@ const PortfolioCategoryPage = () => {
                       }}
                     />
                     <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                      <div className="w-14 h-14 rounded-full bg-white text-black flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
-                        <Play className="w-6 h-6 fill-current ml-0.5 text-gold-700" />
+                      <div className="w-14 h-14 rounded-full bg-gold-gradient text-neutral-950 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                        <Play className="w-6 h-6 fill-neutral-950 ml-0.5 text-neutral-950" />
                       </div>
                     </div>
 
                     {/* Duration Badge */}
                     {video.duration && (
-                      <span className="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-black text-[10px] font-mono text-white flex items-center border border-white/30 font-bold">
+                      <span className="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-black/80 text-[10px] font-mono text-white flex items-center border border-white/30 font-bold">
                         <Clock className="w-3 h-3 mr-1 text-gold-400" /> {video.duration}
                       </span>
                     )}
                   </div>
 
                   <div className="p-5 sm:p-6 space-y-2">
-                    <div className="flex items-center justify-between text-[10px] text-gold-800 font-mono font-black uppercase">
+                    <div className="flex items-center justify-between text-[10px] text-amber-700 font-mono font-bold uppercase">
                       <span>Moonlight Production • 4K</span>
                       {video.views && (
-                        <span className="text-black font-bold flex items-center">
-                          <Eye className="w-3 h-3 mr-1 text-gold-700" /> {video.views}
+                        <span className="text-neutral-500 font-medium flex items-center">
+                          <Eye className="w-3 h-3 mr-1 text-amber-600" /> {video.views}
                         </span>
                       )}
                     </div>
-                    <h3 className="font-serif text-base sm:text-lg font-black text-black group-hover:text-gold-800 transition-colors line-clamp-2">
+                    <h3 className="font-serif text-base sm:text-lg font-bold text-neutral-900 group-hover:text-amber-800 transition-colors line-clamp-2">
                       {video.title}
                     </h3>
-                    <div className="pt-2 flex items-center justify-between border-t border-neutral-200 text-xs text-black font-bold">
-                      <span className="flex items-center hover:text-gold-800">
-                        <Play className="w-3.5 h-3.5 mr-1 text-gold-700" /> Watch 4K Film
+                    <div className="pt-2 flex items-center justify-between border-t border-amber-900/10 text-xs text-neutral-800 font-medium">
+                      <span className="flex items-center hover:text-amber-700">
+                        <Play className="w-3.5 h-3.5 mr-1 text-amber-600" /> Watch 4K Film
                       </span>
                       <a
                         href={video.youtubeUrl || `https://www.youtube.com/watch?v=${video.id}`}
                         target="_blank"
                         rel="noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="text-neutral-500 hover:text-red-600 flex items-center"
+                        className="text-neutral-400 hover:text-red-600 flex items-center"
                         title="Open on YouTube"
                       >
                         <ExternalLink className="w-3.5 h-3.5" />
@@ -214,9 +214,9 @@ const PortfolioCategoryPage = () => {
             })}
           </div>
         ) : items.length === 0 ? (
-          <div className="text-center py-20 bg-white rounded-3xl border-2 border-neutral-300 shadow-md space-y-3">
-            <Sparkles className="w-8 h-8 text-gold-700 mx-auto opacity-50" />
-            <h3 className="font-serif text-xl font-black text-black">No entries found in this collection.</h3>
+          <div className="text-center py-20 bg-white rounded-3xl border border-amber-900/10 shadow-md space-y-3">
+            <Sparkles className="w-8 h-8 text-amber-600 mx-auto opacity-70" />
+            <h3 className="font-serif text-xl font-bold text-neutral-900">No entries found in this collection.</h3>
           </div>
         ) : (
           // Photo Masonry
@@ -224,7 +224,7 @@ const PortfolioCategoryPage = () => {
             {items.map((item, index) => (
               <div
                 key={item._id || index}
-                className="break-inside-avoid group relative rounded-2xl overflow-hidden bg-white border-2 border-neutral-300 shadow-lg hover:shadow-2xl cursor-pointer"
+                className="break-inside-avoid group relative rounded-2xl overflow-hidden bg-white border border-amber-900/15 shadow-md hover:shadow-2xl cursor-pointer"
                 onClick={() => setLightboxIndex(index)}
               >
                 <img

@@ -168,45 +168,45 @@ const EnquiryPlanner = () => {
 
   // SUCCESS CONFIRMATION SCREEN
   if (submittedEnquiry) {
-    const cleanPhone = (submittedEnquiry.customerDetails?.whatsappNumber || '919820012345').replace(/[^\d]/g, '');
+    const cleanPhone = (submittedEnquiry.customerDetails?.whatsappNumber || '919229229323').replace(/[^\d]/g, '');
     const waText = encodeURIComponent(`Hello Moonlight Production, I have just submitted my wedding enquiry (ID: ${submittedEnquiry.enquiryId}) for ${submittedEnquiry.eventType} on ${new Date(submittedEnquiry.eventDate).toLocaleDateString()}. Looking forward to speaking!`);
-    const waUrl = `https://wa.me/919820012345?text=${waText}`;
+    const waUrl = `https://wa.me/919229229323?text=${waText}`;
 
     return (
-      <div className="min-h-screen pt-28 pb-20 px-4 flex items-center justify-center relative">
-        <div className="max-w-2xl w-full bg-obsidian-400 border border-gold-500/50 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden text-center animate-fade-in">
-          <div className="w-20 h-20 mx-auto rounded-full bg-gold-500/20 border border-gold-400 flex items-center justify-center text-gold-400 mb-6 shadow-gold-glow">
+      <div className="min-h-screen bg-[#FAF8F5] pt-28 pb-20 px-4 flex items-center justify-center relative">
+        <div className="max-w-2xl w-full bg-white border border-amber-900/15 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden text-center animate-fade-in text-neutral-900">
+          <div className="w-20 h-20 mx-auto rounded-full bg-amber-500/15 border border-amber-600/30 flex items-center justify-center text-amber-700 mb-6 shadow-sm">
             <HeartHandshake className="w-10 h-10" />
           </div>
 
-          <h2 className="font-serif text-3xl md:text-4xl text-white font-bold mb-2">
+          <h2 className="font-serif text-3xl md:text-4xl text-neutral-900 font-bold mb-2">
             Your Story Has Been Received ❤️
           </h2>
-          <p className="text-gold-300 text-sm tracking-widest uppercase mb-6 font-sans">
-            Reference ID: <span className="font-mono font-bold text-white bg-gold-500/20 px-3 py-1 rounded-full border border-gold-500/40">{submittedEnquiry.enquiryId}</span>
+          <p className="text-amber-800 text-sm tracking-widest uppercase mb-6 font-sans font-bold">
+            Reference ID: <span className="font-mono font-bold text-neutral-900 bg-amber-500/15 px-3 py-1 rounded-full border border-amber-600/30">{submittedEnquiry.enquiryId}</span>
           </p>
 
-          <p className="text-neutral-300 text-sm leading-relaxed mb-8 max-w-lg mx-auto">
-            Thank you, <strong className="text-white">{submittedEnquiry.customerDetails?.fullName}</strong>. Our senior director and concierge team are reviewing your celebration dates for <strong className="text-gold-200">{submittedEnquiry.location?.city}</strong>. We will formulate a tailored luxury proposal within 24 hours.
+          <p className="text-neutral-600 text-sm leading-relaxed mb-8 max-w-lg mx-auto font-normal">
+            Thank you, <strong className="text-neutral-900">{submittedEnquiry.customerDetails?.fullName}</strong>. Our senior director and concierge team are reviewing your celebration dates for <strong className="text-amber-800">{submittedEnquiry.location?.city}</strong>. We will formulate a tailored luxury proposal within 24 hours.
           </p>
 
           {/* Key Summary Pill */}
-          <div className="bg-obsidian-500/80 rounded-2xl p-4 border border-white/10 text-left mb-8 grid grid-cols-2 gap-3 text-xs">
+          <div className="bg-[#FAF8F5] rounded-2xl p-4 border border-amber-900/15 text-left mb-8 grid grid-cols-2 gap-3 text-xs">
             <div>
-              <span className="text-neutral-400 block">Celebration:</span>
-              <strong className="text-white">{submittedEnquiry.eventType}</strong>
+              <span className="text-neutral-500 block">Celebration:</span>
+              <strong className="text-neutral-900 font-bold">{submittedEnquiry.eventType}</strong>
             </div>
             <div>
-              <span className="text-neutral-400 block">Date:</span>
-              <strong className="text-white">{new Date(submittedEnquiry.eventDate).toLocaleDateString('en-US', { dateStyle: 'medium' })}</strong>
+              <span className="text-neutral-500 block">Date:</span>
+              <strong className="text-neutral-900 font-bold">{new Date(submittedEnquiry.eventDate).toLocaleDateString('en-US', { dateStyle: 'medium' })}</strong>
             </div>
             <div>
-              <span className="text-neutral-400 block">Venue:</span>
-              <strong className="text-white">{submittedEnquiry.location?.venue}, {submittedEnquiry.location?.city}</strong>
+              <span className="text-neutral-500 block">Venue:</span>
+              <strong className="text-neutral-900 font-bold">{submittedEnquiry.location?.venue}, {submittedEnquiry.location?.city}</strong>
             </div>
             <div>
-              <span className="text-neutral-400 block">Services:</span>
-              <strong className="text-gold-300">{submittedEnquiry.requiredServices?.length} Selected</strong>
+              <span className="text-neutral-500 block">Services:</span>
+              <strong className="text-amber-700 font-bold">{submittedEnquiry.requiredServices?.length} Selected</strong>
             </div>
           </div>
 
@@ -216,20 +216,20 @@ const EnquiryPlanner = () => {
               href={waUrl}
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-gradient-to-r from-emerald-600 to-green-500 text-white font-semibold text-xs uppercase tracking-wider hover:brightness-110 transition-all shadow-lg"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-sm"
             >
               <MessageCircle className="w-4 h-4 mr-2" />
               Chat on WhatsApp Now
             </a>
             <Link
               to="/portfolio"
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-obsidian-200 border border-white/20 text-neutral-200 hover:text-gold-300 hover:border-gold-500 font-semibold text-xs uppercase tracking-wider transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-white border border-neutral-300 text-neutral-800 hover:text-amber-700 hover:border-amber-600 font-semibold text-xs uppercase tracking-wider transition-all shadow-sm"
             >
               Explore Portfolio
             </Link>
             <Link
               to="/login"
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-gold-500/20 text-gold-300 border border-gold-500/40 hover:bg-gold-500 hover:text-black font-semibold text-xs uppercase tracking-wider transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-sm hover:brightness-105 transition-all btn-shimmer"
             >
               Sign In to Portal
             </Link>
@@ -240,20 +240,17 @@ const EnquiryPlanner = () => {
   }
 
   return (
-    <div className="min-h-screen pt-24 sm:pt-28 pb-16 sm:pb-20 px-3 sm:px-6 relative w-full max-w-full overflow-x-hidden">
-      {/* Background Decorative */}
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-full max-w-[800px] h-[350px] bg-radial-gold pointer-events-none opacity-20 overflow-hidden" />
-
+    <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-24 sm:pt-28 pb-16 sm:pb-20 px-3 sm:px-6 relative w-full max-w-full overflow-x-hidden">
       <div className="max-w-3xl mx-auto relative z-10">
         {/* Header Title */}
         <div className="text-center mb-8 sm:mb-10">
-          <span className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-gold-400 font-semibold mb-2 block">
+          <span className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-amber-700 font-bold mb-2 block font-mono">
             Bespoke Wedding Concierge
           </span>
-          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-white font-bold">
+          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-neutral-900 font-bold">
             Plan Your Perfect Story
           </h1>
-          <p className="text-neutral-400 text-xs sm:text-sm mt-2 sm:mt-3 max-w-lg mx-auto">
+          <p className="text-neutral-600 text-xs sm:text-sm mt-2 sm:mt-3 max-w-lg mx-auto font-normal">
             Answer a few thoughtful questions so our directors can curate an unforgettable visual archive tailored to your vision.
           </p>
         </div>
@@ -261,10 +258,10 @@ const EnquiryPlanner = () => {
         {/* Progress Bar (Step X of 8) */}
         <div className="mb-6 sm:mb-8">
           <div className="flex items-center justify-between text-xs font-semibold tracking-wider uppercase mb-2">
-            <span className="text-gold-300">Step {step} of 8</span>
-            <span className="text-neutral-400">{Math.round((step / 8) * 100)}% Completed</span>
+            <span className="text-amber-800 font-mono font-bold">Step {step} of 8</span>
+            <span className="text-neutral-500 font-mono">{Math.round((step / 8) * 100)}% Completed</span>
           </div>
-          <div className="h-1.5 w-full bg-obsidian-200 rounded-full overflow-hidden border border-white/5">
+          <div className="h-2 w-full bg-neutral-200 rounded-full overflow-hidden border border-neutral-300">
             <motion.div
               className="h-full bg-gold-gradient rounded-full"
               initial={{ width: '12%' }}
@@ -275,7 +272,7 @@ const EnquiryPlanner = () => {
         </div>
 
         {/* Wizard Card Container */}
-        <div className="bg-obsidian-400/90 border border-gold-500/30 rounded-3xl p-4 sm:p-8 md:p-10 shadow-2xl backdrop-blur-xl relative">
+        <div className="bg-white border border-amber-900/15 rounded-3xl p-4 sm:p-8 md:p-10 shadow-xl relative text-neutral-900">
           <AnimatePresence mode="wait">
             {/* STEP 1: EVENT TYPE */}
             {step === 1 && (
@@ -288,8 +285,8 @@ const EnquiryPlanner = () => {
                 className="space-y-6"
               >
                 <div>
-                  <h3 className="font-serif text-2xl text-white font-semibold">What are you planning?</h3>
-                  <p className="text-xs text-neutral-400 mt-1">Select the primary celebration format</p>
+                  <h3 className="font-serif text-2xl text-neutral-900 font-bold">What are you planning?</h3>
+                  <p className="text-xs text-neutral-500 mt-1 font-medium">Select the primary celebration format</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -302,14 +299,14 @@ const EnquiryPlanner = () => {
                         onClick={() => setFormData({ ...formData, eventType: opt.id })}
                         className={`text-left p-5 rounded-2xl border transition-all duration-300 flex items-start space-x-3.5 ${
                           isSelected
-                            ? 'bg-gold-500/15 border-gold-400 text-white shadow-gold-subtle'
-                            : 'bg-obsidian-500/60 border-white/10 text-neutral-300 hover:border-gold-500/50 hover:bg-obsidian-500'
+                            ? 'bg-amber-100 border-amber-600 text-neutral-900 shadow-sm'
+                            : 'bg-[#FAF8F5] border-neutral-300 text-neutral-700 hover:border-amber-600/40 hover:bg-white'
                         }`}
                       >
                         <span className="text-2xl mt-0.5">{opt.icon}</span>
                         <div>
-                          <h4 className="text-sm font-bold text-white">{opt.title}</h4>
-                          <p className="text-xs text-neutral-400 mt-1 leading-relaxed">{opt.desc}</p>
+                          <h4 className="text-sm font-bold text-neutral-900">{opt.title}</h4>
+                          <p className="text-xs text-neutral-600 mt-1 leading-relaxed">{opt.desc}</p>
                         </div>
                       </button>
                     );
@@ -328,13 +325,13 @@ const EnquiryPlanner = () => {
                 className="space-y-6"
               >
                 <div>
-                  <h3 className="font-serif text-2xl text-white font-semibold">When is the celebration?</h3>
-                  <p className="text-xs text-neutral-400 mt-1">Select your auspicious wedding or shoot dates</p>
+                  <h3 className="font-serif text-2xl text-neutral-900 font-bold">When is the celebration?</h3>
+                  <p className="text-xs text-neutral-500 mt-1">Select your auspicious wedding or shoot dates</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-gold-300 uppercase tracking-wider">
+                    <label className="text-xs font-bold text-neutral-800 uppercase tracking-wider">
                       Event Start Date *
                     </label>
                     <div className="relative">
@@ -342,14 +339,14 @@ const EnquiryPlanner = () => {
                         type="date"
                         value={formData.eventDate}
                         onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
-                        className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-gold-400"
+                        className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3.5 text-neutral-900 text-sm focus:outline-none focus:border-amber-600 focus:bg-white shadow-sm"
                         min={new Date().toISOString().split('T')[0]}
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
+                    <label className="text-xs font-bold text-neutral-600 uppercase tracking-wider">
                       Event End Date (Optional for multi-day)
                     </label>
                     <div className="relative">
@@ -357,7 +354,7 @@ const EnquiryPlanner = () => {
                         type="date"
                         value={formData.eventEndDate}
                         onChange={(e) => setFormData({ ...formData, eventEndDate: e.target.value })}
-                        className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-4 py-3.5 text-white text-sm focus:outline-none focus:border-gold-400"
+                        className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3.5 text-neutral-900 text-sm focus:outline-none focus:border-amber-600 focus:bg-white shadow-sm"
                         min={formData.eventDate || new Date().toISOString().split('T')[0]}
                       />
                     </div>
@@ -376,41 +373,41 @@ const EnquiryPlanner = () => {
                 className="space-y-6"
               >
                 <div>
-                  <h3 className="font-serif text-2xl text-white font-semibold">Where will your story unfold?</h3>
-                  <p className="text-xs text-neutral-400 mt-1">Location & Venue information</p>
+                  <h3 className="font-serif text-2xl text-neutral-900 font-bold">Where will your story unfold?</h3>
+                  <p className="text-xs text-neutral-500 mt-1">Location & Venue information</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-neutral-300 uppercase">City *</label>
+                    <label className="text-xs font-bold text-neutral-800 uppercase">City *</label>
                     <input
                       type="text"
-                      placeholder="e.g. Udaipur, Mumbai, Lake Pichola, Udaipur"
+                      placeholder="e.g. Udaipur, Maheshwar, Bhopal, Mumbai"
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-4 py-3 text-white text-sm focus:border-gold-400 focus:outline-none"
+                      className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 text-sm focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-neutral-300 uppercase">State / Region</label>
+                    <label className="text-xs font-bold text-neutral-800 uppercase">State / Region</label>
                     <input
                       type="text"
-                      placeholder="e.g. Rajasthan, Lombardy"
+                      placeholder="e.g. Rajasthan, Madhya Pradesh, Goa"
                       value={formData.state}
                       onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                      className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-4 py-3 text-white text-sm focus:border-gold-400 focus:outline-none"
+                      className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 text-sm focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
                     />
                   </div>
 
                   <div className="space-y-2 sm:col-span-2">
-                    <label className="text-xs font-semibold text-neutral-300 uppercase">Venue / Property Name *</label>
+                    <label className="text-xs font-bold text-neutral-800 uppercase">Venue / Property Name *</label>
                     <input
                       type="text"
-                      placeholder="e.g. The Oberoi Udaivilas, Villa Balbiano, Taj Lake Palace"
+                      placeholder="e.g. The Oberoi Udaivilas, Ahilya Fort Maheshwar, Jehan Numa Palace"
                       value={formData.venue}
                       onChange={(e) => setFormData({ ...formData, venue: e.target.value })}
-                      className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-4 py-3 text-white text-sm focus:border-gold-400 focus:outline-none"
+                      className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 text-sm focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
                     />
                   </div>
                 </div>
@@ -427,13 +424,13 @@ const EnquiryPlanner = () => {
                 className="space-y-8 text-center"
               >
                 <div>
-                  <h3 className="font-serif text-2xl text-white font-semibold">Anticipated Guest Count</h3>
-                  <p className="text-xs text-neutral-400 mt-1">Helps us allocate the perfect number of camera operators</p>
+                  <h3 className="font-serif text-2xl text-neutral-900 font-bold">Anticipated Guest Count</h3>
+                  <p className="text-xs text-neutral-500 mt-1">Helps us allocate the perfect number of camera operators</p>
                 </div>
 
                 <div className="space-y-4 max-w-md mx-auto">
-                  <div className="font-serif text-5xl text-gold-300 font-bold tracking-tight">
-                    {formData.guestCount} <span className="text-sm font-sans text-neutral-400">Guests</span>
+                  <div className="font-serif text-5xl text-amber-700 font-bold tracking-tight">
+                    {formData.guestCount} <span className="text-sm font-sans text-neutral-600">Guests</span>
                   </div>
 
                   <input
@@ -443,7 +440,7 @@ const EnquiryPlanner = () => {
                     step="25"
                     value={formData.guestCount}
                     onChange={(e) => setFormData({ ...formData, guestCount: e.target.value })}
-                    className="w-full h-2 bg-obsidian-200 rounded-lg appearance-none cursor-pointer accent-gold-500"
+                    className="w-full h-2 bg-neutral-200 rounded-lg appearance-none cursor-pointer accent-amber-600"
                   />
 
                   <div className="flex justify-between text-xs text-neutral-500 font-mono">
@@ -465,8 +462,8 @@ const EnquiryPlanner = () => {
                 className="space-y-6"
               >
                 <div>
-                  <h3 className="font-serif text-2xl text-white font-semibold">Select Required Services</h3>
-                  <p className="text-xs text-neutral-400 mt-1">Multi-select all deliverables you desire</p>
+                  <h3 className="font-serif text-2xl text-neutral-900 font-bold">Select Required Services</h3>
+                  <p className="text-xs text-neutral-500 mt-1">Multi-select all deliverables you desire</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -479,12 +476,12 @@ const EnquiryPlanner = () => {
                         onClick={() => toggleService(srv)}
                         className={`text-left p-4 rounded-xl border transition-all flex items-center justify-between text-xs font-semibold ${
                           isSelected
-                            ? 'bg-gold-500/20 border-gold-400 text-gold-200 shadow-gold-subtle'
-                            : 'bg-obsidian-500/60 border-white/10 text-neutral-300 hover:border-white/25'
+                            ? 'bg-amber-100 border-amber-600 text-amber-950 font-bold shadow-sm'
+                            : 'bg-[#FAF8F5] border-neutral-300 text-neutral-700 hover:border-amber-600/40 hover:bg-white'
                         }`}
                       >
                         <span>{srv}</span>
-                        {isSelected && <CheckCircle2 className="w-4 h-4 text-gold-400 shrink-0 ml-2" />}
+                        {isSelected && <CheckCircle2 className="w-4 h-4 text-amber-700 shrink-0 ml-2" />}
                       </button>
                     );
                   })}
@@ -502,8 +499,8 @@ const EnquiryPlanner = () => {
                 className="space-y-6"
               >
                 <div>
-                  <h3 className="font-serif text-2xl text-white font-semibold">Expected Investment Range</h3>
-                  <p className="text-xs text-neutral-400 mt-1">Enables us to curate the highest value options</p>
+                  <h3 className="font-serif text-2xl text-neutral-900 font-bold">Expected Investment Range</h3>
+                  <p className="text-xs text-neutral-500 mt-1">Enables us to curate the highest value options</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -516,12 +513,12 @@ const EnquiryPlanner = () => {
                         onClick={() => setFormData({ ...formData, budgetRange: tier.label })}
                         className={`text-left p-4 rounded-xl border transition-all ${
                           isSelected
-                            ? 'bg-gold-500/20 border-gold-400 text-white shadow-gold-subtle'
-                            : 'bg-obsidian-500/60 border-white/10 text-neutral-300 hover:border-white/25'
+                            ? 'bg-amber-100 border-amber-600 text-neutral-900 font-bold shadow-sm'
+                            : 'bg-[#FAF8F5] border-neutral-300 text-neutral-700 hover:border-amber-600/40 hover:bg-white'
                         }`}
                       >
-                        <h4 className="text-sm font-bold text-gold-300">{tier.label}</h4>
-                        <p className="text-xs text-neutral-400 mt-0.5">{tier.desc}</p>
+                        <h4 className="text-sm font-bold text-amber-800">{tier.label}</h4>
+                        <p className="text-xs text-neutral-600 mt-0.5 font-normal">{tier.desc}</p>
                       </button>
                     );
                   })}
@@ -539,8 +536,8 @@ const EnquiryPlanner = () => {
                 className="space-y-6"
               >
                 <div>
-                  <h3 className="font-serif text-2xl text-white font-semibold">Tell us about your event</h3>
-                  <p className="text-xs text-neutral-400 mt-1">Any aesthetic preferences, special musical requests, or unique rituals?</p>
+                  <h3 className="font-serif text-2xl text-neutral-900 font-bold">Tell us about your event</h3>
+                  <p className="text-xs text-neutral-500 mt-1">Any aesthetic preferences, special musical requests, or unique rituals?</p>
                 </div>
 
                 <textarea
@@ -548,7 +545,7 @@ const EnquiryPlanner = () => {
                   placeholder="Share your wedding theme, how you met, special traditions, or mood inspirations..."
                   value={formData.storyDetails}
                   onChange={(e) => setFormData({ ...formData, storyDetails: e.target.value })}
-                  className="w-full bg-obsidian-500 border border-white/15 rounded-2xl p-4 text-white text-sm focus:border-gold-400 focus:outline-none leading-relaxed"
+                  className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-2xl p-4 text-neutral-900 text-sm focus:border-amber-600 focus:bg-white focus:outline-none leading-relaxed shadow-sm"
                 />
               </motion.div>
             )}
@@ -563,55 +560,55 @@ const EnquiryPlanner = () => {
                 className="space-y-6"
               >
                 <div>
-                  <h3 className="font-serif text-2xl text-white font-semibold">Where should we send your proposal?</h3>
-                  <p className="text-xs text-neutral-400 mt-1">Your details remain strictly confidential</p>
+                  <h3 className="font-serif text-2xl text-neutral-900 font-bold">Where should we send your proposal?</h3>
+                  <p className="text-xs text-neutral-500 mt-1">Your details remain strictly confidential</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-neutral-300 uppercase">Full Name *</label>
+                    <label className="text-xs font-bold text-neutral-800 uppercase">Full Name *</label>
                     <input
                       type="text"
                       placeholder="e.g. Aarav Singhania & Ananya"
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                       required
-                      className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-4 py-3 text-white text-sm focus:border-gold-400 focus:outline-none"
+                      className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 text-sm focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-neutral-300 uppercase">Email Address *</label>
+                    <label className="text-xs font-bold text-neutral-800 uppercase">Email Address *</label>
                     <input
                       type="email"
                       placeholder="aarav@gmail.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       required
-                      className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-4 py-3 text-white text-sm focus:border-gold-400 focus:outline-none"
+                      className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 text-sm focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-neutral-300 uppercase">Phone Number *</label>
+                    <label className="text-xs font-bold text-neutral-800 uppercase">Phone Number *</label>
                     <input
                       type="tel"
                       placeholder="+91 98200 12345"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       required
-                      className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-4 py-3 text-white text-sm focus:border-gold-400 focus:outline-none"
+                      className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 text-sm focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-neutral-300 uppercase">WhatsApp Number (Optional)</label>
+                    <label className="text-xs font-bold text-neutral-800 uppercase">WhatsApp Number (Optional)</label>
                     <input
                       type="tel"
                       placeholder="+91 98200 12345"
                       value={formData.whatsappNumber}
                       onChange={(e) => setFormData({ ...formData, whatsappNumber: e.target.value })}
-                      className="w-full bg-obsidian-500 border border-white/15 rounded-xl px-4 py-3 text-white text-sm focus:border-gold-400 focus:outline-none"
+                      className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 text-sm focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
                     />
                   </div>
                 </div>
@@ -620,12 +617,12 @@ const EnquiryPlanner = () => {
           </AnimatePresence>
 
           {/* Navigation Controls */}
-          <div className="mt-8 sm:mt-10 pt-6 border-t border-white/10 flex items-center justify-between gap-3">
+          <div className="mt-8 sm:mt-10 pt-6 border-t border-amber-900/10 flex items-center justify-between gap-3">
             {step > 1 ? (
               <button
                 type="button"
                 onClick={handleBack}
-                className="px-4 sm:px-5 py-2.5 rounded-full border border-white/20 text-neutral-300 hover:text-white hover:border-gold-500 text-xs uppercase tracking-wider font-semibold flex items-center transition-all min-h-[44px]"
+                className="px-4 sm:px-5 py-2.5 rounded-full border border-neutral-300 text-neutral-700 hover:text-neutral-900 hover:border-neutral-400 text-xs uppercase tracking-wider font-semibold flex items-center transition-all min-h-[44px] bg-white shadow-sm"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
@@ -638,7 +635,7 @@ const EnquiryPlanner = () => {
               <button
                 type="button"
                 onClick={handleNext}
-                className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-gold-gradient text-black text-xs uppercase tracking-wider font-bold shadow-gold-subtle hover:brightness-110 flex items-center transition-all min-h-[44px]"
+                className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-gold-gradient text-neutral-950 text-xs uppercase tracking-wider font-extrabold shadow-sm hover:brightness-105 flex items-center transition-all min-h-[44px] btn-shimmer"
               >
                 Next Step
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -648,7 +645,7 @@ const EnquiryPlanner = () => {
                 type="button"
                 disabled={loading}
                 onClick={handleSubmit}
-                className="px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-gold-500 via-gold-400 to-champagne text-black text-xs uppercase tracking-widest font-bold shadow-gold-glow hover:brightness-110 flex items-center transition-all disabled:opacity-50 min-h-[44px]"
+                className="px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-gold-gradient text-neutral-950 text-xs uppercase tracking-widest font-extrabold shadow-md hover:brightness-105 flex items-center transition-all disabled:opacity-50 min-h-[44px] btn-shimmer"
               >
                 {loading ? 'Submitting Story...' : 'Complete & Receive Proposal'}
                 <Sparkles className="w-4 h-4 ml-2" />

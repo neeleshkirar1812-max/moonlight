@@ -37,26 +37,26 @@ const CustomerLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0B0B0C] flex text-white w-full max-w-full overflow-x-hidden min-w-0">
+    <div className="min-h-screen bg-[#F5F2EB] flex text-neutral-900 w-full max-w-full overflow-x-hidden min-w-0">
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}
-          className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
         />
       )}
 
       {/* Sidebar Component */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 w-64 bg-[#121216] border-r border-gold-500/20 flex flex-col justify-between transition-transform duration-300 lg:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 z-50 w-64 bg-[#FAF8F5] border-r border-amber-900/10 flex flex-col justify-between transition-transform duration-300 shadow-xl lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div>
           {/* Brand Header */}
-          <div className="h-20 flex items-center justify-between px-6 border-b border-white/10">
+          <div className="h-20 flex items-center justify-between px-6 border-b border-amber-900/10 bg-white/80">
             <Link to="/" className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-full border-2 border-gold-400 flex items-center justify-center bg-black shadow-gold-subtle overflow-hidden p-0.5">
+              <div className="w-8 h-8 rounded-full border-2 border-amber-500/60 flex items-center justify-center bg-amber-50 shadow-sm overflow-hidden p-0.5">
                 <img
                   src="https://ugc.production.linktr.ee/bbcf2874-0602-4cdb-b362-ad612f9fc135_zV3Uuw-tQraxE7KwMApwOHbWTg75v6W5ZJJOyWhXSJBR8O1GMQMZMOQ4CvB8uCMV4mM0SXMK-Q-s800-c-k-c0x00ffffff-no-r.jpeg?io=true&size=avatar-v3_0"
                   alt="Moonlight"
@@ -64,26 +64,26 @@ const CustomerLayout = () => {
                 />
               </div>
               <div>
-                <span className="font-serif text-base font-bold tracking-wider text-white">MOONLIGHT</span>
-                <p className="text-[9px] text-gold-400 font-mono font-bold tracking-widest uppercase">Client Sanctuary</p>
+                <span className="font-serif text-base font-bold tracking-wider text-neutral-900">MOONLIGHT</span>
+                <p className="text-[9px] text-amber-800 font-mono font-bold tracking-widest uppercase">Client Sanctuary</p>
               </div>
             </Link>
-            <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-white">
+            <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-neutral-700 hover:text-neutral-950">
               <X className="w-5 h-5" />
             </button>
           </div>
 
           {/* User Capsule */}
-          <div className="p-4 border-b border-white/10 bg-[#16161C]">
+          <div className="p-4 border-b border-amber-900/10 bg-white">
             <div className="flex items-center space-x-3">
               <img
                 src={user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'}
                 alt={user?.name}
-                className="w-10 h-10 rounded-full object-cover border-2 border-gold-400"
+                className="w-10 h-10 rounded-full object-cover border-2 border-amber-400 shadow-sm"
               />
               <div className="overflow-hidden">
-                <h4 className="text-xs font-bold text-white truncate">{user?.name}</h4>
-                <p className="text-[11px] text-neutral-400 truncate font-mono">{user?.email}</p>
+                <h4 className="text-xs font-bold text-neutral-900 truncate">{user?.name}</h4>
+                <p className="text-[11px] text-neutral-500 truncate font-mono">{user?.email}</p>
               </div>
             </div>
           </div>
@@ -100,11 +100,11 @@ const CustomerLayout = () => {
                   onClick={() => setSidebarOpen(false)}
                   className={`flex items-center px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all ${
                     isActive
-                      ? 'bg-gold-gradient text-black font-extrabold shadow-gold-subtle'
-                      : 'text-neutral-300 hover:text-white hover:bg-white/5'
+                      ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
+                      : 'text-neutral-700 hover:text-neutral-950 hover:bg-amber-500/10'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 mr-3 ${isActive ? 'text-black' : 'text-gold-400'}`} />
+                  <Icon className={`w-4 h-4 mr-3 ${isActive ? 'text-neutral-950' : 'text-amber-700'}`} />
                   {item.name}
                 </Link>
               );
@@ -113,17 +113,17 @@ const CustomerLayout = () => {
         </div>
 
         {/* Bottom Actions */}
-        <div className="p-4 border-t border-white/10 space-y-2">
+        <div className="p-4 border-t border-amber-900/10 space-y-2 bg-white/80">
           <Link
             to="/"
-            className="flex items-center px-3.5 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-white/5 transition-colors font-medium"
+            className="flex items-center px-3.5 py-2 rounded-xl text-xs text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100 transition-colors font-medium"
           >
-            <Home className="w-4 h-4 mr-3 text-gold-400" />
+            <Home className="w-4 h-4 mr-3 text-amber-700" />
             Public Website
           </Link>
           <button
             onClick={logout}
-            className="w-full flex items-center px-3.5 py-2 rounded-xl text-xs text-red-400 hover:bg-red-500/10 transition-colors font-semibold"
+            className="w-full flex items-center px-3.5 py-2 rounded-xl text-xs text-rose-700 hover:bg-rose-50 transition-colors font-semibold"
           >
             <LogOut className="w-4 h-4 mr-3" />
             Sign Out
@@ -134,16 +134,16 @@ const CustomerLayout = () => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 w-full max-w-full overflow-x-hidden lg:pl-64">
         {/* Top bar for mobile trigger & quick actions */}
-        <header className="h-16 bg-[#0E0E12]/90 backdrop-blur-md border-b border-white/10 px-3 sm:px-6 flex items-center justify-between sticky top-0 z-30">
+        <header className="h-16 bg-white/95 backdrop-blur-md border-b border-amber-900/10 px-3 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm">
           <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="p-2 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0"
+              className="p-2 rounded-lg text-neutral-700 hover:text-neutral-950 hover:bg-neutral-100 lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0"
               aria-label="Open navigation menu"
             >
               <Menu className="w-5 h-5" />
             </button>
-            <h2 className="text-xs sm:text-sm font-serif font-bold text-white tracking-wide truncate max-w-[160px] sm:max-w-none">
+            <h2 className="text-xs sm:text-sm font-serif font-bold text-neutral-900 tracking-wide truncate max-w-[160px] sm:max-w-none">
               {navigation.find((n) => n.href === location.pathname)?.name || 'Client Sanctuary'}
             </h2>
           </div>
@@ -151,7 +151,7 @@ const CustomerLayout = () => {
           <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
             <Link
               to="/enquiry"
-              className="px-3 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-extrabold uppercase tracking-wider bg-gold-gradient text-black rounded-full shadow-gold-subtle hover:brightness-110 active:scale-95 transition-all btn-shimmer"
+              className="px-3 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-extrabold uppercase tracking-wider bg-gold-gradient text-neutral-950 rounded-full shadow-md hover:brightness-105 active:scale-95 transition-all btn-shimmer"
             >
               + New Enquiry
             </Link>

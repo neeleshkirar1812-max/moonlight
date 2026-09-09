@@ -115,24 +115,32 @@ const Portfolio = () => {
     return matchTitle || matchCouple || matchCity;
   });
 
+  const setActiveCategory = (id) => {
+    if (id === 'all') {
+      setSearchParams({});
+    } else {
+      setSearchParams({ category: id });
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#0B0B0C] text-white pt-24 sm:pt-28 pb-16 sm:pb-20 px-3 sm:px-6 lg:px-8 w-full max-w-full overflow-x-hidden">
+    <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-24 sm:pt-28 pb-16 sm:pb-20 px-3 sm:px-6 lg:px-8 w-full max-w-full overflow-x-hidden">
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
         {/* Header Title */}
         <div className="text-center max-w-3xl mx-auto space-y-2 sm:space-y-3">
-          <span className="text-[11px] sm:text-xs uppercase font-mono tracking-[0.25em] sm:tracking-[0.35em] text-gold-400 font-bold block">
+          <span className="text-[11px] sm:text-xs uppercase font-mono tracking-[0.25em] sm:tracking-[0.35em] text-amber-700 font-bold block">
             Moonlight Production Archives
           </span>
-          <h1 className="font-serif text-2xl sm:text-4xl lg:text-6xl font-bold text-white">
+          <h1 className="font-serif text-2xl sm:text-4xl lg:text-6xl font-bold text-neutral-900">
             Indian Royal Wedding Portfolio
           </h1>
-          <p className="text-neutral-300 text-xs sm:text-base font-light max-w-xl mx-auto">
+          <p className="text-neutral-600 text-xs sm:text-base font-normal max-w-xl mx-auto">
             A curated anthology of timeless Indian love stories, regal palace unions, sacred Vedic rituals, and pre-wedding shoots.
           </p>
         </div>
 
         {/* Category Filter Tabs & Search Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 pb-6 border-b border-white/10">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 pb-6 border-b border-amber-900/10">
           {/* Tabs */}
           <div className="flex items-center space-x-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 custom-scrollbar">
             {categories.map((cat) => {
@@ -143,11 +151,11 @@ const Portfolio = () => {
                   onClick={() => setActiveCategory(cat.id)}
                   className={`px-3.5 sm:px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap min-h-[44px] flex items-center ${
                     isActive
-                      ? 'bg-gold-gradient text-black font-extrabold shadow-gold-subtle'
-                      : 'bg-[#141418] text-neutral-300 hover:text-white border border-white/10'
+                      ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
+                      : 'bg-white text-neutral-700 hover:text-neutral-900 border border-neutral-300 shadow-sm'
                   }`}
                 >
-                  {cat.label}
+                  {cat.name || cat.label}
                 </button>
               );
             })}
@@ -161,7 +169,7 @@ const Portfolio = () => {
               placeholder="Search by city, couple or ritual..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#141418] border border-white/15 rounded-full pl-10 pr-4 py-2 text-xs text-white placeholder-neutral-500 focus:border-gold-400 focus:outline-none min-h-[44px]"
+              className="w-full bg-white border border-neutral-300 rounded-full pl-10 pr-4 py-2 text-xs text-neutral-900 placeholder-neutral-400 focus:border-amber-600 focus:outline-none min-h-[44px] shadow-sm"
             />
           </div>
         </div>
@@ -170,10 +178,10 @@ const Portfolio = () => {
         {loading ? (
           <CardSkeleton count={6} height="h-96" />
         ) : filteredItems.length === 0 ? (
-          <div className="text-center py-20 bg-[#121215] rounded-3xl border border-white/10 shadow-sm space-y-4">
-            <Sparkles className="w-10 h-10 text-gold-400 mx-auto opacity-50" />
-            <h3 className="font-serif text-2xl text-white font-bold">No Stories Found</h3>
-            <p className="text-xs text-neutral-400">Try selecting a different category or refining your search term.</p>
+          <div className="text-center py-20 bg-white rounded-3xl border border-amber-900/10 shadow-sm space-y-4">
+            <Sparkles className="w-10 h-10 text-amber-600 mx-auto opacity-70" />
+            <h3 className="font-serif text-2xl text-neutral-900 font-bold">No Stories Found</h3>
+            <p className="text-xs text-neutral-600">Try selecting a different category or refining your search term.</p>
           </div>
         ) : (
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 sm:gap-6">
@@ -185,7 +193,7 @@ const Portfolio = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
-                  className="break-inside-avoid mb-4 sm:mb-6 group relative rounded-2xl overflow-hidden bg-[#141418] border border-white/10 hover:border-gold-500/50 cursor-pointer shadow-xl hover:shadow-2xl transition-all"
+                  className="break-inside-avoid mb-4 sm:mb-6 group relative rounded-2xl overflow-hidden bg-white border border-amber-900/15 hover:border-amber-600/50 cursor-pointer shadow-md hover:shadow-2xl transition-all"
                   onClick={() => setLightboxIndex(index)}
                 >
                   <div className="relative overflow-hidden">
