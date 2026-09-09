@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import api from '../../api/client';
 import { useNotification } from '../../context/NotificationContext';
 import {
@@ -11,55 +10,67 @@ import {
   DollarSign,
   FileText,
   User,
-  ArrowRight,
-  ArrowLeft,
   CheckCircle2,
   Sparkles,
   MessageCircle,
+  Phone,
+  Mail,
   ShieldCheck,
   HeartHandshake,
+  Clock,
+  ArrowRight,
 } from 'lucide-react';
 
-const eventOptions = [
-  { id: 'Wedding', title: 'Royal / Heritage Wedding', desc: 'Comprehensive full-day or multi-day wedding celebration', icon: '👑' },
-  { id: 'Pre-Wedding', title: 'Pre-Wedding Rendezvous', desc: 'Editorial couple portraiture in stunning locations', icon: '✨' },
-  { id: 'Destination Wedding', title: 'Destination Wedding', desc: 'International or exotic destination celebration', icon: '✈️' },
-  { id: 'Wedding Film', title: 'Cinematic Wedding Film', desc: 'Poetic docu-film and 4K cinema trailer', icon: '🎬' },
-  { id: 'Couple Shoot', title: 'Intimate Couple Session', desc: 'Authentic chemistry and candid sunset moments', icon: '🥂' },
-  { id: 'Event', title: 'Private Royal Event / Sangeet', desc: 'Cocktail, Sangeet, or milestone celebration', icon: '🎆' },
+const eventTypeOptions = [
+  { id: 'Royal Wedding', title: 'Royal / Heritage Wedding', desc: 'Full wedding celebrations with grand ceremony', icon: '👑' },
+  { id: 'Pre-Wedding', title: 'Pre-Wedding Shoot', desc: 'Cinematic portraiture in heritage/exotic locations', icon: '✨' },
+  { id: 'Destination Wedding', title: 'Destination Wedding', desc: 'All-India / International palace celebration', icon: '✈️' },
+  { id: 'Wedding Film', title: 'Cinematic Wedding Film', desc: '4K docu-film and signature teaser trailer', icon: '🎬' },
+  { id: 'Couple Shoot', title: 'Intimate Couple Session', desc: 'Romantic chemistry and sunset moments', icon: '🥂' },
+  { id: 'Royal Event', title: 'Sangeet / Reception / Event', desc: 'Milestone ceremonies & gala celebrations', icon: '🎆' },
 ];
 
 const serviceOptions = [
-  'Royal Wedding Photography',
-  'Cinematic Wedding Films',
-  'Pre-Wedding Destination Shoot',
-  'Drone & Aerial Master Cinematography',
-  'Handcrafted Italian Leather Albums',
-  '4K Live Satellite Streaming',
-  'Same-Day Edit Video Reel',
+  { id: 'Royal Candid & Traditional Photography', label: 'Royal Candid & Traditional Photography', desc: 'Master Sony Alpha portraits & family candids' },
+  { id: '4K Cinematic Wedding Docu-Films', label: '4K Cinematic Wedding Films', desc: 'Sony FX6 cinema-grade wedding movie' },
+  { id: 'Pre-Wedding Destination Shoot', label: 'Pre-Wedding Destination Shoot', desc: 'Heritage locations, palace & ghat sessions' },
+  { id: '4K Drone & Aerial Cinematography', label: '4K Drone & Aerial Cinematography', desc: 'Cinematic FPV and palace drone coverage' },
+  { id: 'Handcrafted Italian Leather Albums', label: 'Handcrafted Italian Leather Albums', desc: 'Heirloom archival flush-mount photo books' },
+  { id: 'Same-Day Edit Instagram Reels', label: 'Same-Day Edit Instagram Reels', desc: 'Instant viral reels for social media on event night' },
+  { id: '4K Live YouTube / Satellite Streaming', label: '4K Live YouTube / Satellite Streaming', desc: 'Multi-cam broadcast for relatives worldwide' },
 ];
 
-const budgetTiers = [
-  { label: '₹50K – ₹1L', desc: 'Intimate ceremony coverage' },
-  { label: '₹1L – ₹2L', desc: 'Single-day photography & cinema' },
-  { label: '₹2L – ₹5L', desc: 'Multi-day bespoke wedding package' },
-  { label: '₹5L+', desc: 'Grand royal palace / destination signature archive' },
-  { label: 'Not Sure', desc: 'Let our team recommend custom proposal' },
+const guestTierOptions = [
+  { label: '50 - 150', desc: 'Intimate Ceremony' },
+  { label: '150 - 300', desc: 'Medium Gathering' },
+  { label: '300 - 600', desc: 'Grand Wedding' },
+  { label: '600+', desc: 'Royal Palace Scale' },
+];
+
+const budgetOptions = [
+  { label: '₹50K – ₹1 Lakh', desc: 'Single function / Pre-wedding session' },
+  { label: '₹1 Lakh – ₹2 Lakh', desc: 'Full-day Photography & Cinema' },
+  { label: '₹2 Lakh – ₹5 Lakh', desc: '2-3 Days Royal Wedding Package' },
+  { label: '₹5 Lakh+', desc: 'Grand Royal Palace / Destination Archive' },
+  { label: 'Flexible / Recommend Package', desc: 'Custom package based on discussion' },
 ];
 
 const EnquiryPlanner = () => {
-  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    eventType: 'Wedding',
+    eventType: 'Royal Wedding',
     eventDate: '',
     eventEndDate: '',
     city: '',
     state: '',
     country: 'India',
     venue: '',
+    guestTier: '150 - 300',
     guestCount: 250,
-    requiredServices: ['Royal Wedding Photography', 'Cinematic Wedding Films'],
-    budgetRange: '₹2L–₹5L',
+    requiredServices: [
+      'Royal Candid & Traditional Photography',
+      '4K Cinematic Wedding Docu-Films',
+    ],
+    budgetRange: '₹2 Lakh – ₹5 Lakh',
     storyDetails: '',
     fullName: '',
     email: '',
@@ -70,47 +81,43 @@ const EnquiryPlanner = () => {
   const [loading, setLoading] = useState(false);
   const [submittedEnquiry, setSubmittedEnquiry] = useState(null);
   const { addToast } = useNotification();
-  const navigate = useNavigate();
 
-  const handleNext = () => {
-    // Basic step validation
-    if (step === 2 && !formData.eventDate) {
-      addToast({ title: 'Date Required', message: 'Please select your tentative wedding date.', type: 'warning' });
-      return;
-    }
-    if (step === 3 && (!formData.city || !formData.venue)) {
-      addToast({ title: 'Location Required', message: 'Please provide at least city and venue name.', type: 'warning' });
-      return;
-    }
-    if (step === 5 && formData.requiredServices.length === 0) {
-      addToast({ title: 'Services Required', message: 'Please select at least one required service.', type: 'warning' });
-      return;
-    }
-    if (step < 8) setStep(step + 1);
-  };
-
-  const handleBack = () => {
-    if (step > 1) setStep(step - 1);
-  };
-
-  const toggleService = (srv) => {
-    if (formData.requiredServices.includes(srv)) {
+  const toggleService = (serviceId) => {
+    if (formData.requiredServices.includes(serviceId)) {
       setFormData({
         ...formData,
-        requiredServices: formData.requiredServices.filter((s) => s !== srv),
+        requiredServices: formData.requiredServices.filter((s) => s !== serviceId),
       });
     } else {
       setFormData({
         ...formData,
-        requiredServices: [...formData.requiredServices, srv],
+        requiredServices: [...formData.requiredServices, serviceId],
       });
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.fullName || !formData.email || !formData.phone) {
-      addToast({ title: 'Details Incomplete', message: 'Please provide name, email, and phone number.', type: 'warning' });
+
+    // Validation
+    if (!formData.fullName.trim()) {
+      addToast({ title: 'Full Name Required', message: 'Please enter bride/groom or contact person name.', type: 'warning' });
+      return;
+    }
+    if (!formData.phone.trim()) {
+      addToast({ title: 'Phone Number Required', message: 'Please enter your phone/WhatsApp number.', type: 'warning' });
+      return;
+    }
+    if (!formData.eventDate) {
+      addToast({ title: 'Event Date Required', message: 'Please select your tentative wedding/event date.', type: 'warning' });
+      return;
+    }
+    if (!formData.city.trim() || !formData.venue.trim()) {
+      addToast({ title: 'City & Venue Required', message: 'Please provide wedding city and venue name.', type: 'warning' });
+      return;
+    }
+    if (formData.requiredServices.length === 0) {
+      addToast({ title: 'Select Services', message: 'Please select at least one required service.', type: 'warning' });
       return;
     }
 
@@ -121,44 +128,45 @@ const EnquiryPlanner = () => {
         eventDate: formData.eventDate,
         eventEndDate: formData.eventEndDate || undefined,
         location: {
-          city: formData.city,
-          state: formData.state,
-          country: formData.country,
-          venue: formData.venue,
+          city: formData.city.trim(),
+          state: formData.state.trim() || undefined,
+          country: formData.country || 'India',
+          venue: formData.venue.trim(),
         },
-        guestCount: Number(formData.guestCount),
+        guestCount: formData.guestCount || 250,
+        guestTier: formData.guestTier,
         requiredServices: formData.requiredServices,
         budgetRange: formData.budgetRange,
         storyDetails: formData.storyDetails,
         leadSource: (() => {
           const params = new URLSearchParams(window.location.search);
-          const src = params.get('utm_source') || params.get('source') || 'Website';
+          const src = params.get('utm_source') || params.get('source') || 'Website 1-Page Form';
           if (src.toLowerCase().includes('insta')) return 'Instagram Ads';
           if (src.toLowerCase().includes('google') || src.toLowerCase().includes('ad')) return 'Google Ads';
           if (src.toLowerCase().includes('whats')) return 'WhatsApp Direct';
-          if (src.toLowerCase().includes('fb') || src.toLowerCase().includes('face')) return 'Facebook Ads';
-          return 'Website';
+          return 'Website Form';
         })(),
         customerDetails: {
-          fullName: formData.fullName,
-          email: formData.email,
-          phone: formData.phone,
-          whatsappNumber: formData.whatsappNumber || formData.phone,
+          fullName: formData.fullName.trim(),
+          email: formData.email.trim() || `${formData.phone.replace(/[^\d]/g, '')}@moonlightclients.in`,
+          phone: formData.phone.trim(),
+          whatsappNumber: formData.whatsappNumber.trim() || formData.phone.trim(),
         },
       };
 
       const res = await api.post('/enquiries', payload);
-      const enq = res?.data || res;
+      const enq = res?.data?.data || res?.data || res;
       setSubmittedEnquiry(enq);
       addToast({
-        title: 'Story Received ❤️',
-        message: `Your reference ID is ${enq?.enquiryId || 'ENQ-2026'}. Our team will connect with you shortly.`,
+        title: 'Enquiry Received ❤️',
+        message: `Your reference ID is ${enq?.enquiryId || 'ENQ-2026'}. We will connect with you shortly!`,
         type: 'success',
       });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       addToast({
         title: 'Submission Failed',
-        message: err.message || 'Unable to submit enquiry. Please try again.',
+        message: err.message || 'Unable to submit enquiry. Please try WhatsApp directly.',
         type: 'error',
       });
     } finally {
@@ -168,55 +176,69 @@ const EnquiryPlanner = () => {
 
   // SUCCESS CONFIRMATION SCREEN
   if (submittedEnquiry) {
-    const cleanPhone = (submittedEnquiry.customerDetails?.whatsappNumber || '919229229323').replace(/[^\d]/g, '');
-    const waText = encodeURIComponent(`Hello Moonlight Production, I have just submitted my wedding enquiry (ID: ${submittedEnquiry.enquiryId}) for ${submittedEnquiry.eventType} on ${new Date(submittedEnquiry.eventDate).toLocaleDateString()}. Looking forward to speaking!`);
+    const waText = encodeURIComponent(
+      `Hello Moonlight Production, I have just submitted my wedding enquiry (ID: ${submittedEnquiry.enquiryId || 'ENQ'}) for ${submittedEnquiry.eventType} on ${new Date(submittedEnquiry.eventDate).toLocaleDateString()}. Please share availability & custom quotation!`
+    );
     const waUrl = `https://wa.me/919229229323?text=${waText}`;
 
     return (
       <div className="min-h-screen bg-[#FAF8F5] pt-28 pb-20 px-4 flex items-center justify-center relative">
-        <div className="max-w-2xl w-full bg-white border border-amber-900/15 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden text-center animate-fade-in text-neutral-900">
-          <div className="w-20 h-20 mx-auto rounded-full bg-amber-500/15 border border-amber-600/30 flex items-center justify-center text-amber-700 mb-6 shadow-sm">
+        <div className="max-w-2xl w-full bg-white border border-amber-900/15 rounded-3xl p-6 sm:p-12 shadow-2xl relative overflow-hidden text-center animate-fade-in text-neutral-900">
+          <div className="w-20 h-20 mx-auto rounded-full bg-emerald-50 border border-emerald-300 flex items-center justify-center text-emerald-700 mb-6 shadow-sm">
             <HeartHandshake className="w-10 h-10" />
           </div>
 
-          <h2 className="font-serif text-3xl md:text-4xl text-neutral-900 font-bold mb-2">
-            Your Story Has Been Received ❤️
+          <span className="text-[11px] uppercase font-mono tracking-widest text-emerald-700 font-bold block mb-1">
+            Enquiry Successfully Submitted
+          </span>
+          <h2 className="font-serif text-3xl sm:text-4xl text-neutral-900 font-bold mb-2">
+            Your Wedding Dates Are Registered!
           </h2>
-          <p className="text-amber-800 text-sm tracking-widest uppercase mb-6 font-sans font-bold">
-            Reference ID: <span className="font-mono font-bold text-neutral-900 bg-amber-500/15 px-3 py-1 rounded-full border border-amber-600/30">{submittedEnquiry.enquiryId}</span>
+          <p className="text-amber-800 text-xs sm:text-sm tracking-widest uppercase mb-6 font-mono font-bold">
+            Reference ID:{' '}
+            <span className="font-mono font-bold text-neutral-900 bg-amber-100 px-3.5 py-1 rounded-full border border-amber-400">
+              {submittedEnquiry.enquiryId || 'ENQ-CONFIRMED'}
+            </span>
           </p>
 
-          <p className="text-neutral-600 text-sm leading-relaxed mb-8 max-w-lg mx-auto font-normal">
-            Thank you, <strong className="text-neutral-900">{submittedEnquiry.customerDetails?.fullName}</strong>. Our senior director and booking team are reviewing your celebration dates for <strong className="text-amber-800">{submittedEnquiry.location?.city}</strong>. We will formulate a tailored luxury proposal within 24 hours.
+          <p className="text-neutral-600 text-sm leading-relaxed mb-6 max-w-lg mx-auto font-normal">
+            Thank you, <strong className="text-neutral-900">{submittedEnquiry.customerDetails?.fullName}</strong>. Our senior director is reviewing your dates for{' '}
+            <strong className="text-amber-800">{submittedEnquiry.location?.city}</strong>. We will share your custom pricing and proposal within 24 hours.
           </p>
 
-          {/* Key Summary Pill */}
-          <div className="bg-[#FAF8F5] rounded-2xl p-4 border border-amber-900/15 text-left mb-8 grid grid-cols-2 gap-3 text-xs">
+          {/* Key Summary Box */}
+          <div className="bg-[#FAF8F5] rounded-2xl p-5 border border-amber-900/15 text-left mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div>
-              <span className="text-neutral-500 block">Celebration:</span>
-              <strong className="text-neutral-900 font-bold">{submittedEnquiry.eventType}</strong>
+              <span className="text-neutral-500 block">Event Type:</span>
+              <strong className="text-neutral-900 font-bold text-sm">{submittedEnquiry.eventType}</strong>
             </div>
             <div>
-              <span className="text-neutral-500 block">Date:</span>
-              <strong className="text-neutral-900 font-bold">{new Date(submittedEnquiry.eventDate).toLocaleDateString('en-US', { dateStyle: 'medium' })}</strong>
+              <span className="text-neutral-500 block">Wedding Date:</span>
+              <strong className="text-neutral-900 font-bold text-sm">
+                {submittedEnquiry.eventDate ? new Date(submittedEnquiry.eventDate).toLocaleDateString('en-IN', { dateStyle: 'medium' }) : 'As requested'}
+              </strong>
             </div>
             <div>
-              <span className="text-neutral-500 block">Venue:</span>
-              <strong className="text-neutral-900 font-bold">{submittedEnquiry.location?.venue}, {submittedEnquiry.location?.city}</strong>
+              <span className="text-neutral-500 block">Venue & City:</span>
+              <strong className="text-neutral-900 font-bold text-sm">
+                {submittedEnquiry.location?.venue}, {submittedEnquiry.location?.city}
+              </strong>
             </div>
             <div>
-              <span className="text-neutral-500 block">Services:</span>
-              <strong className="text-amber-700 font-bold">{submittedEnquiry.requiredServices?.length} Selected</strong>
+              <span className="text-neutral-500 block">Selected Services:</span>
+              <strong className="text-amber-800 font-bold text-sm">
+                {submittedEnquiry.requiredServices?.length || 2} Services Configured
+              </strong>
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
               href={waUrl}
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-sm"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md active:scale-95"
             >
               <MessageCircle className="w-4 h-4 mr-2" />
               Chat on WhatsApp Now
@@ -225,13 +247,13 @@ const EnquiryPlanner = () => {
               to="/portfolio"
               className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-white border border-neutral-300 text-neutral-800 hover:text-amber-700 hover:border-amber-600 font-semibold text-xs uppercase tracking-wider transition-all shadow-sm"
             >
-              Explore Portfolio
+              View Photo & Film Portfolio
             </Link>
             <Link
               to="/login"
               className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-sm hover:brightness-105 transition-all btn-shimmer"
             >
-              Sign In to Portal
+              Couple Portal Login
             </Link>
           </div>
         </div>
@@ -239,420 +261,386 @@ const EnquiryPlanner = () => {
     );
   }
 
+  // 1-PAGE WEDDING BOOKING & COST ENQUIRY FORM
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-24 sm:pt-28 pb-16 sm:pb-20 px-3 sm:px-6 relative w-full max-w-full overflow-x-hidden">
-      <div className="max-w-3xl mx-auto relative z-10">
-        {/* Header Title */}
-        <div className="text-center mb-8 sm:mb-10">
-          <span className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-amber-700 font-bold mb-2 block font-mono">
-            Wedding Cost & Package Planner
-          </span>
-          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-neutral-900 font-bold">
-            Plan Your Perfect Story
+    <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-24 sm:pt-28 pb-16 sm:pb-24 px-3 sm:px-6 lg:px-8 w-full max-w-full overflow-x-hidden">
+      <div className="max-w-4xl mx-auto space-y-8">
+        {/* Page Header */}
+        <div className="text-center space-y-3">
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-600/30 text-amber-800 text-[11px] font-mono font-bold uppercase tracking-widest">
+            <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+            <span>Direct Wedding Booking & Date Availability</span>
+          </div>
+          <h1 className="font-serif text-3xl sm:text-5xl font-bold text-neutral-900 leading-tight">
+            Book Your Wedding Shoot
           </h1>
-          <p className="text-neutral-600 text-xs sm:text-sm mt-2 sm:mt-3 max-w-lg mx-auto font-normal">
-            Answer a few thoughtful questions so our directors can curate an unforgettable visual archive tailored to your vision.
+          <p className="text-neutral-600 text-xs sm:text-base max-w-xl mx-auto font-normal">
+            Fill in your wedding details below in this fast 1-page form. Our directors will check calendar availability and formulate your custom luxury quotation.
           </p>
-        </div>
 
-        {/* Progress Bar (Step X of 8) */}
-        <div className="mb-6 sm:mb-8">
-          <div className="flex items-center justify-between text-xs font-semibold tracking-wider uppercase mb-2">
-            <span className="text-amber-800 font-mono font-bold">Step {step} of 8</span>
-            <span className="text-neutral-500 font-mono">{Math.round((step / 8) * 100)}% Completed</span>
-          </div>
-          <div className="h-2 w-full bg-neutral-200 rounded-full overflow-hidden border border-neutral-300">
-            <motion.div
-              className="h-full bg-gold-gradient rounded-full"
-              initial={{ width: '12%' }}
-              animate={{ width: `${(step / 8) * 100}%` }}
-              transition={{ duration: 0.4 }}
-            />
+          {/* Instant WhatsApp Banner */}
+          <div className="pt-2">
+            <a
+              href="https://api.whatsapp.com/send?phone=919229229323&text=Hello%20Moonlight%20Production,%20I%20want%20to%20inquire%20about%20wedding%20photography%20and%20cinema%20dates."
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center space-x-2 text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 px-4 py-2 rounded-full transition-all shadow-sm"
+            >
+              <MessageCircle className="w-4 h-4 text-emerald-600" />
+              <span>Need Urgent Booking? Chat Directly on WhatsApp: +91 92292 29323</span>
+            </a>
           </div>
         </div>
 
-        {/* Wizard Card Container */}
-        <div className="bg-white border border-amber-900/15 rounded-3xl p-4 sm:p-8 md:p-10 shadow-xl relative text-neutral-900">
-          <AnimatePresence mode="wait">
-            {/* STEP 1: EVENT TYPE */}
-            {step === 1 && (
-              <motion.div
-                key="step1"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-                className="space-y-6"
-              >
-                <div>
-                  <h3 className="font-serif text-2xl text-neutral-900 font-bold">What are you planning?</h3>
-                  <p className="text-xs text-neutral-500 mt-1 font-medium">Select the primary celebration format</p>
-                </div>
+        {/* The 1-Page Form Form */}
+        <form onSubmit={handleSubmit} className="space-y-8">
+          {/* SECTION 1: CONTACT DETAILS */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-amber-900/15 shadow-xl space-y-6">
+            <div className="flex items-center space-x-3 border-b border-amber-900/10 pb-4">
+              <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-mono font-bold text-xs flex items-center justify-center border border-amber-300">
+                1
+              </div>
+              <div>
+                <h3 className="font-serif text-xl font-bold text-neutral-900 flex items-center gap-2">
+                  <User className="w-4 h-4 text-amber-700" />
+                  Bride / Groom & Contact Details
+                </h3>
+                <p className="text-xs text-neutral-500">How should our team reach out to you?</p>
+              </div>
+            </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {eventOptions.map((opt) => {
-                    const isSelected = formData.eventType === opt.id;
-                    return (
-                      <button
-                        key={opt.id}
-                        type="button"
-                        onClick={() => setFormData({ ...formData, eventType: opt.id })}
-                        className={`text-left p-5 rounded-2xl border transition-all duration-300 flex items-start space-x-3.5 ${
-                          isSelected
-                            ? 'bg-amber-100 border-amber-600 text-neutral-900 shadow-sm'
-                            : 'bg-[#FAF8F5] border-neutral-300 text-neutral-700 hover:border-amber-600/40 hover:bg-white'
-                        }`}
-                      >
-                        <span className="text-2xl mt-0.5">{opt.icon}</span>
-                        <div>
-                          <h4 className="text-sm font-bold text-neutral-900">{opt.title}</h4>
-                          <p className="text-xs text-neutral-600 mt-1 leading-relaxed">{opt.desc}</p>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            )}
-
-            {/* STEP 2: EVENT DATE */}
-            {step === 2 && (
-              <motion.div
-                key="step2"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-6"
-              >
-                <div>
-                  <h3 className="font-serif text-2xl text-neutral-900 font-bold">When is the celebration?</h3>
-                  <p className="text-xs text-neutral-500 mt-1">Select your auspicious wedding or shoot dates</p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-neutral-800 uppercase tracking-wider">
-                      Event Start Date *
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="date"
-                        value={formData.eventDate}
-                        onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
-                        className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3.5 text-neutral-900 text-sm focus:outline-none focus:border-amber-600 focus:bg-white shadow-sm"
-                        min={new Date().toISOString().split('T')[0]}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-neutral-600 uppercase tracking-wider">
-                      Event End Date (Optional for multi-day)
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="date"
-                        value={formData.eventEndDate}
-                        onChange={(e) => setFormData({ ...formData, eventEndDate: e.target.value })}
-                        className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3.5 text-neutral-900 text-sm focus:outline-none focus:border-amber-600 focus:bg-white shadow-sm"
-                        min={formData.eventDate || new Date().toISOString().split('T')[0]}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
-            {/* STEP 3: LOCATION */}
-            {step === 3 && (
-              <motion.div
-                key="step3"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-6"
-              >
-                <div>
-                  <h3 className="font-serif text-2xl text-neutral-900 font-bold">Where will your story unfold?</h3>
-                  <p className="text-xs text-neutral-500 mt-1">Location & Venue information</p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-neutral-800 uppercase">City *</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. Udaipur, Maheshwar, Bhopal, Mumbai"
-                      value={formData.city}
-                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 text-sm focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-neutral-800 uppercase">State / Region</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. Rajasthan, Madhya Pradesh, Goa"
-                      value={formData.state}
-                      onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                      className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 text-sm focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
-                    />
-                  </div>
-
-                  <div className="space-y-2 sm:col-span-2">
-                    <label className="text-xs font-bold text-neutral-800 uppercase">Venue / Property Name *</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. The Oberoi Udaivilas, Ahilya Fort Maheshwar, Jehan Numa Palace"
-                      value={formData.venue}
-                      onChange={(e) => setFormData({ ...formData, venue: e.target.value })}
-                      className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 text-sm focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
-                    />
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
-            {/* STEP 4: GUEST COUNT */}
-            {step === 4 && (
-              <motion.div
-                key="step4"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-8 text-center"
-              >
-                <div>
-                  <h3 className="font-serif text-2xl text-neutral-900 font-bold">Anticipated Guest Count</h3>
-                  <p className="text-xs text-neutral-500 mt-1">Helps us allocate the perfect number of camera operators</p>
-                </div>
-
-                <div className="space-y-4 max-w-md mx-auto">
-                  <div className="font-serif text-5xl text-amber-700 font-bold tracking-tight">
-                    {formData.guestCount} <span className="text-sm font-sans text-neutral-600">Guests</span>
-                  </div>
-
-                  <input
-                    type="range"
-                    min="10"
-                    max="1500"
-                    step="25"
-                    value={formData.guestCount}
-                    onChange={(e) => setFormData({ ...formData, guestCount: e.target.value })}
-                    className="w-full h-2 bg-neutral-200 rounded-lg appearance-none cursor-pointer accent-amber-600"
-                  />
-
-                  <div className="flex justify-between text-xs text-neutral-500 font-mono">
-                    <span>10 (Intimate)</span>
-                    <span>500</span>
-                    <span>1,500+ (Grand Royal)</span>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
-            {/* STEP 5: REQUIRED SERVICES */}
-            {step === 5 && (
-              <motion.div
-                key="step5"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-6"
-              >
-                <div>
-                  <h3 className="font-serif text-2xl text-neutral-900 font-bold">Select Required Services</h3>
-                  <p className="text-xs text-neutral-500 mt-1">Multi-select all deliverables you desire</p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  {serviceOptions.map((srv) => {
-                    const isSelected = formData.requiredServices.includes(srv);
-                    return (
-                      <button
-                        key={srv}
-                        type="button"
-                        onClick={() => toggleService(srv)}
-                        className={`text-left p-4 rounded-xl border transition-all flex items-center justify-between text-xs font-semibold ${
-                          isSelected
-                            ? 'bg-amber-100 border-amber-600 text-amber-950 font-bold shadow-sm'
-                            : 'bg-[#FAF8F5] border-neutral-300 text-neutral-700 hover:border-amber-600/40 hover:bg-white'
-                        }`}
-                      >
-                        <span>{srv}</span>
-                        {isSelected && <CheckCircle2 className="w-4 h-4 text-amber-700 shrink-0 ml-2" />}
-                      </button>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            )}
-
-            {/* STEP 6: BUDGET */}
-            {step === 6 && (
-              <motion.div
-                key="step6"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-6"
-              >
-                <div>
-                  <h3 className="font-serif text-2xl text-neutral-900 font-bold">Expected Investment Range</h3>
-                  <p className="text-xs text-neutral-500 mt-1">Enables us to curate the highest value options</p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  {budgetTiers.map((tier) => {
-                    const isSelected = formData.budgetRange === tier.label;
-                    return (
-                      <button
-                        key={tier.label}
-                        type="button"
-                        onClick={() => setFormData({ ...formData, budgetRange: tier.label })}
-                        className={`text-left p-4 rounded-xl border transition-all ${
-                          isSelected
-                            ? 'bg-amber-100 border-amber-600 text-neutral-900 font-bold shadow-sm'
-                            : 'bg-[#FAF8F5] border-neutral-300 text-neutral-700 hover:border-amber-600/40 hover:bg-white'
-                        }`}
-                      >
-                        <h4 className="text-sm font-bold text-amber-800">{tier.label}</h4>
-                        <p className="text-xs text-neutral-600 mt-0.5 font-normal">{tier.desc}</p>
-                      </button>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            )}
-
-            {/* STEP 7: STORY DETAILS */}
-            {step === 7 && (
-              <motion.div
-                key="step7"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-6"
-              >
-                <div>
-                  <h3 className="font-serif text-2xl text-neutral-900 font-bold">Tell us about your event</h3>
-                  <p className="text-xs text-neutral-500 mt-1">Any aesthetic preferences, special musical requests, or unique rituals?</p>
-                </div>
-
-                <textarea
-                  rows={5}
-                  placeholder="Share your wedding theme, how you met, special traditions, or mood inspirations..."
-                  value={formData.storyDetails}
-                  onChange={(e) => setFormData({ ...formData, storyDetails: e.target.value })}
-                  className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-2xl p-4 text-neutral-900 text-sm focus:border-amber-600 focus:bg-white focus:outline-none leading-relaxed shadow-sm"
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+              <div className="space-y-1.5">
+                <label className="text-neutral-800 font-bold uppercase text-[10.5px]">
+                  Bride & Groom Name(s) *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Aarav Singhania & Ananya"
+                  value={formData.fullName}
+                  onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                  className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 placeholder-neutral-400 focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
                 />
-              </motion.div>
-            )}
+              </div>
 
-            {/* STEP 8: CUSTOMER DETAILS */}
-            {step === 8 && (
-              <motion.div
-                key="step8"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-6"
-              >
-                <div>
-                  <h3 className="font-serif text-2xl text-neutral-900 font-bold">Where should we send your proposal?</h3>
-                  <p className="text-xs text-neutral-500 mt-1">Your details remain strictly confidential</p>
-                </div>
+              <div className="space-y-1.5">
+                <label className="text-neutral-800 font-bold uppercase text-[10.5px]">
+                  Phone / Calling Number *
+                </label>
+                <input
+                  type="tel"
+                  required
+                  placeholder="+91 98200 12345"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 placeholder-neutral-400 focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
+                />
+              </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-neutral-800 uppercase">Full Name *</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. Aarav Singhania & Ananya"
-                      value={formData.fullName}
-                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      required
-                      className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 text-sm focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
-                    />
-                  </div>
+              <div className="space-y-1.5">
+                <label className="text-neutral-800 font-bold uppercase text-[10.5px]">
+                  WhatsApp Number (If Different)
+                </label>
+                <input
+                  type="tel"
+                  placeholder="+91 98200 12345"
+                  value={formData.whatsappNumber}
+                  onChange={(e) => setFormData({ ...formData, whatsappNumber: e.target.value })}
+                  className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 placeholder-neutral-400 focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
+                />
+              </div>
 
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-neutral-800 uppercase">Email Address *</label>
-                    <input
-                      type="email"
-                      placeholder="aarav@gmail.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      required
-                      className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 text-sm focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-neutral-800 uppercase">Phone Number *</label>
-                    <input
-                      type="tel"
-                      placeholder="+91 98200 12345"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      required
-                      className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 text-sm focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-neutral-800 uppercase">WhatsApp Number (Optional)</label>
-                    <input
-                      type="tel"
-                      placeholder="+91 98200 12345"
-                      value={formData.whatsappNumber}
-                      onChange={(e) => setFormData({ ...formData, whatsappNumber: e.target.value })}
-                      className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 text-sm focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
-                    />
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Navigation Controls */}
-          <div className="mt-8 sm:mt-10 pt-6 border-t border-amber-900/10 flex items-center justify-between gap-3">
-            {step > 1 ? (
-              <button
-                type="button"
-                onClick={handleBack}
-                className="px-4 sm:px-5 py-2.5 rounded-full border border-neutral-300 text-neutral-700 hover:text-neutral-900 hover:border-neutral-400 text-xs uppercase tracking-wider font-semibold flex items-center transition-all min-h-[44px] bg-white shadow-sm"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
-              </button>
-            ) : (
-              <div />
-            )}
-
-            {step < 8 ? (
-              <button
-                type="button"
-                onClick={handleNext}
-                className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-gold-gradient text-neutral-950 text-xs uppercase tracking-wider font-extrabold shadow-sm hover:brightness-105 flex items-center transition-all min-h-[44px] btn-shimmer"
-              >
-                Next Step
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </button>
-            ) : (
-              <button
-                type="button"
-                disabled={loading}
-                onClick={handleSubmit}
-                className="px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-gold-gradient text-neutral-950 text-xs uppercase tracking-widest font-extrabold shadow-md hover:brightness-105 flex items-center transition-all disabled:opacity-50 min-h-[44px] btn-shimmer"
-              >
-                {loading ? 'Submitting Story...' : 'Complete & Receive Proposal'}
-                <Sparkles className="w-4 h-4 ml-2" />
-              </button>
-            )}
+              <div className="space-y-1.5 sm:col-span-3">
+                <label className="text-neutral-800 font-bold uppercase text-[10.5px]">
+                  Email Address (For Official PDF Quotation)
+                </label>
+                <input
+                  type="email"
+                  placeholder="aarav.ananya@gmail.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 placeholder-neutral-400 focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
+                />
+              </div>
+            </div>
           </div>
-        </div>
+
+          {/* SECTION 2: CELEBRATION & WEDDING DETAILS */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-amber-900/15 shadow-xl space-y-6">
+            <div className="flex items-center space-x-3 border-b border-amber-900/10 pb-4">
+              <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-mono font-bold text-xs flex items-center justify-center border border-amber-300">
+                2
+              </div>
+              <div>
+                <h3 className="font-serif text-xl font-bold text-neutral-900 flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-amber-700" />
+                  Celebration Format & Wedding Dates
+                </h3>
+                <p className="text-xs text-neutral-500">Tell us where and when your wedding will happen</p>
+              </div>
+            </div>
+
+            {/* Event Format Selection Cards */}
+            <div className="space-y-2">
+              <label className="text-neutral-800 font-bold uppercase text-[10.5px] block">
+                Select Event Type *
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {eventTypeOptions.map((opt) => {
+                  const isSelected = formData.eventType === opt.id;
+                  return (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, eventType: opt.id })}
+                      className={`text-left p-3.5 rounded-2xl border transition-all flex items-start space-x-3 ${
+                        isSelected
+                          ? 'bg-amber-100/80 border-amber-600 text-neutral-900 shadow-sm ring-1 ring-amber-500'
+                          : 'bg-[#FAF8F5] border-neutral-200 text-neutral-700 hover:border-amber-400 hover:bg-white'
+                      }`}
+                    >
+                      <span className="text-2xl mt-0.5">{opt.icon}</span>
+                      <div>
+                        <h4 className="text-xs font-bold text-neutral-900">{opt.title}</h4>
+                        <p className="text-[11px] text-neutral-500 mt-0.5 leading-snug">{opt.desc}</p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Dates & Location Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs pt-2">
+              <div className="space-y-1.5">
+                <label className="text-neutral-800 font-bold uppercase text-[10.5px]">
+                  Event Start Date *
+                </label>
+                <input
+                  type="date"
+                  required
+                  value={formData.eventDate}
+                  onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
+                  min={new Date().toISOString().split('T')[0]}
+                  className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-neutral-800 font-bold uppercase text-[10.5px]">
+                  Event End Date (Optional)
+                </label>
+                <input
+                  type="date"
+                  value={formData.eventEndDate}
+                  onChange={(e) => setFormData({ ...formData, eventEndDate: e.target.value })}
+                  min={formData.eventDate || new Date().toISOString().split('T')[0]}
+                  className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-neutral-800 font-bold uppercase text-[10.5px]">
+                  City / Destination *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Udaipur, Maheshwar, Bhopal"
+                  value={formData.city}
+                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                  className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 placeholder-neutral-400 focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-neutral-800 font-bold uppercase text-[10.5px]">
+                  Venue / Palace / Resort *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Udaivilas, Ahilya Fort, Jehan Numa"
+                  value={formData.venue}
+                  onChange={(e) => setFormData({ ...formData, venue: e.target.value })}
+                  className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-4 py-3 text-neutral-900 placeholder-neutral-400 focus:border-amber-600 focus:bg-white focus:outline-none shadow-sm"
+                />
+              </div>
+            </div>
+
+            {/* Guest Scale */}
+            <div className="space-y-2 pt-2">
+              <label className="text-neutral-800 font-bold uppercase text-[10.5px] block">
+                Estimated Guest Count:
+              </label>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {guestTierOptions.map((tier) => {
+                  const isSelected = formData.guestTier === tier.label;
+                  return (
+                    <button
+                      key={tier.label}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, guestTier: tier.label })}
+                      className={`p-3 rounded-xl border text-center transition-all ${
+                        isSelected
+                          ? 'bg-amber-100 border-amber-600 text-neutral-900 font-bold shadow-sm ring-1 ring-amber-500'
+                          : 'bg-[#FAF8F5] border-neutral-200 text-neutral-700 hover:border-amber-300 hover:bg-white'
+                      }`}
+                    >
+                      <span className="font-mono font-bold text-xs text-neutral-900 block">{tier.label}</span>
+                      <span className="text-[10.5px] text-neutral-500 block">{tier.desc}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION 3: SERVICES DESIRED */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-amber-900/15 shadow-xl space-y-6">
+            <div className="flex items-center space-x-3 border-b border-amber-900/10 pb-4">
+              <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-mono font-bold text-xs flex items-center justify-center border border-amber-300">
+                3
+              </div>
+              <div>
+                <h3 className="font-serif text-xl font-bold text-neutral-900 flex items-center gap-2">
+                  <Camera className="w-4 h-4 text-amber-700" />
+                  Select Desired Services
+                </h3>
+                <p className="text-xs text-neutral-500">Multi-select all deliverables you desire for your wedding shoot</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              {serviceOptions.map((srv) => {
+                const isSelected = formData.requiredServices.includes(srv.id);
+                return (
+                  <button
+                    key={srv.id}
+                    type="button"
+                    onClick={() => toggleService(srv.id)}
+                    className={`text-left p-3.5 rounded-2xl border transition-all flex items-center justify-between ${
+                      isSelected
+                        ? 'bg-amber-100/90 border-amber-600 text-neutral-900 font-bold shadow-sm ring-1 ring-amber-500'
+                        : 'bg-[#FAF8F5] border-neutral-200 text-neutral-700 hover:border-amber-300 hover:bg-white'
+                    }`}
+                  >
+                    <div>
+                      <h4 className="text-xs font-bold text-neutral-900">{srv.label}</h4>
+                      <p className="text-[10.5px] text-neutral-500 mt-0.5">{srv.desc}</p>
+                    </div>
+                    {isSelected ? (
+                      <CheckCircle2 className="w-5 h-5 text-amber-700 shrink-0 ml-2" />
+                    ) : (
+                      <div className="w-5 h-5 rounded-full border border-neutral-300 shrink-0 ml-2" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* SECTION 4: BUDGET & SPECIAL NOTES */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-amber-900/15 shadow-xl space-y-6">
+            <div className="flex items-center space-x-3 border-b border-amber-900/10 pb-4">
+              <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-mono font-bold text-xs flex items-center justify-center border border-amber-300">
+                4
+              </div>
+              <div>
+                <h3 className="font-serif text-xl font-bold text-neutral-900 flex items-center gap-2">
+                  <DollarSign className="w-4 h-4 text-amber-700" />
+                  Budget Range & Vision
+                </h3>
+                <p className="text-xs text-neutral-500">Helps us curate the right crew size and camera gear package</p>
+              </div>
+            </div>
+
+            {/* Budget Options */}
+            <div className="space-y-2">
+              <label className="text-neutral-800 font-bold uppercase text-[10.5px] block">
+                Estimated Budget Range:
+              </label>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {budgetOptions.map((tier) => {
+                  const isSelected = formData.budgetRange === tier.label;
+                  return (
+                    <button
+                      key={tier.label}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, budgetRange: tier.label })}
+                      className={`text-left p-3.5 rounded-2xl border transition-all ${
+                        isSelected
+                          ? 'bg-amber-100/90 border-amber-600 text-neutral-900 font-bold shadow-sm ring-1 ring-amber-500'
+                          : 'bg-[#FAF8F5] border-neutral-200 text-neutral-700 hover:border-amber-300 hover:bg-white'
+                      }`}
+                    >
+                      <h4 className="text-xs font-bold text-amber-900 font-mono">{tier.label}</h4>
+                      <p className="text-[10.5px] text-neutral-500 mt-0.5 leading-snug">{tier.desc}</p>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Story / Special Notes */}
+            <div className="space-y-1.5 pt-2">
+              <label className="text-neutral-800 font-bold uppercase text-[10.5px] flex items-center justify-between">
+                <span>Special Requests / Wedding Theme (Optional)</span>
+                <span className="text-neutral-400 font-normal lowercase">e.g. theme, rituals, specific song inspirations</span>
+              </label>
+              <textarea
+                rows={3}
+                placeholder="Share any special vision, destination details, cultural ceremonies, or preferred visual aesthetic..."
+                value={formData.storyDetails}
+                onChange={(e) => setFormData({ ...formData, storyDetails: e.target.value })}
+                className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-2xl p-4 text-neutral-900 text-xs focus:border-amber-600 focus:bg-white focus:outline-none leading-relaxed shadow-sm"
+              />
+            </div>
+          </div>
+
+          {/* SUBMIT BUTTON & TRUST BADGES */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-amber-900/15 shadow-xl text-center space-y-5">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full sm:w-auto min-w-[280px] inline-flex items-center justify-center px-8 sm:px-12 py-4 rounded-full bg-gold-gradient text-neutral-950 text-sm uppercase tracking-widest font-extrabold shadow-lg hover:brightness-105 active:scale-95 transition-all disabled:opacity-50 btn-shimmer"
+            >
+              {loading ? (
+                <span>Submitting Your Enquiry...</span>
+              ) : (
+                <>
+                  <span>Submit Wedding Enquiry & Check Dates</span>
+                  <Sparkles className="w-4 h-4 ml-2 text-neutral-950" />
+                </>
+              )}
+            </button>
+
+            <p className="text-[11px] text-neutral-500 font-normal max-w-md mx-auto">
+              By submitting, your date inquiry will be logged with Moonlight Production. We respect your privacy and never spam.
+            </p>
+
+            {/* Trust Badges */}
+            <div className="pt-4 border-t border-amber-900/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+              <div className="flex items-center justify-center space-x-2 text-neutral-700">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span className="text-[11px] font-semibold">100% Confidential</span>
+              </div>
+              <div className="flex items-center justify-center space-x-2 text-neutral-700">
+                <Clock className="w-4 h-4 text-amber-700 shrink-0" />
+                <span className="text-[11px] font-semibold">24-Hour Quotation</span>
+              </div>
+              <div className="flex items-center justify-center space-x-2 text-neutral-700">
+                <Camera className="w-4 h-4 text-amber-700 shrink-0" />
+                <span className="text-[11px] font-semibold">Master Prime & FX6</span>
+              </div>
+              <div className="flex items-center justify-center space-x-2 text-neutral-700">
+                <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span className="text-[11px] font-semibold">All-India Destinations</span>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   );

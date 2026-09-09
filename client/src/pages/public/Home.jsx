@@ -516,7 +516,7 @@ const Home = () => {
         </section>
       )}
 
-      {/* 6. INTERACTIVE 8-STEP WEDDING PLANNER ESTIMATOR */}
+      {/* 6. INTERACTIVE WEDDING PLANNER & COST ESTIMATOR */}
       <section className="py-16 sm:py-24 bg-[#FAF8F5] border-t border-amber-900/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-3xl overflow-hidden border border-amber-900/15 bg-white p-6 sm:p-12 shadow-xl">
@@ -524,10 +524,10 @@ const Home = () => {
               {/* Left Description */}
               <div className="lg:col-span-7 space-y-4">
                 <span className="px-3.5 py-1 rounded-full bg-amber-500/10 text-amber-800 text-[10.5px] font-mono font-bold uppercase tracking-widest border border-amber-600/20 inline-block">
-                  Wedding Cost Calculator & Planner
+                  Instant Wedding Cost Calculator & Planner
                 </span>
                 <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-900 leading-tight">
-                  Plan Your Indian Wedding Shoot in 8 Easy Steps
+                  Calculate Instant Wedding Cost & Inquire Dates
                 </h2>
                 <p className="text-xs sm:text-base text-neutral-600 leading-relaxed font-normal">
                   Calculate estimated budgets, select your palace destination, configure 4K drone cinematography, and receive a bespoke proposal with direct WhatsApp assistance.
@@ -539,7 +539,7 @@ const Home = () => {
                     className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-md hover:brightness-105 active:scale-95 transition-all btn-shimmer"
                   >
                     <Calendar className="w-3.5 h-3.5 mr-2" />
-                    Launch 8-Step Wedding Planner
+                    Book Wedding Shoot / Check Availability
                   </Link>
                 </div>
               </div>
