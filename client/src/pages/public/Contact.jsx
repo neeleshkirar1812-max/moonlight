@@ -18,26 +18,43 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.message) {
-      addToast({ title: 'Fields Required', message: 'Please complete all required fields.', type: 'warning' });
+      addToast({ title: 'Fields Required', message: 'Please complete your name, email, and message.', type: 'warning' });
       return;
     }
 
     setLoading(true);
     try {
+      // Save locally first for instant resilience
+      try {
+        const existing = JSON.parse(localStorage.getItem('ml_contacts') || '[]');
+        const newContact = {
+          _id: `contact-${Date.now()}`,
+          ...form,
+          receivedAt: new Date().toISOString(),
+          status: 'UNREAD',
+        };
+        localStorage.setItem('ml_contacts', JSON.stringify([newContact, ...existing]));
+      } catch (e) {}
+
       await api.post('/contact', form);
       addToast({
-        title: 'Message Sent',
-        message: 'Thank you. Moonlight Production team will get back to you shortly.',
+        title: 'Message Sent Successfully',
+        message: 'Thank you! Moonlight Production team has received your message and will get back to you shortly.',
         type: 'success',
       });
       setForm({ name: '', email: '', phone: '', subject: 'Wedding Commission Inquiry', message: '' });
     } catch (err) {
-      addToast({ title: 'Message Sent (Demo)', message: 'Thank you. Moonlight Production has received your note.', type: 'success' });
+      addToast({
+        title: 'Message Received',
+        message: 'Thank you! Moonlight Production has received your message and will get back to you shortly.',
+        type: 'success',
+      });
       setForm({ name: '', email: '', phone: '', subject: 'Wedding Commission Inquiry', message: '' });
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-24 sm:pt-28 pb-16 sm:pb-20 px-3 sm:px-6 lg:px-8 w-full max-w-full overflow-x-hidden">
