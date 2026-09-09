@@ -160,7 +160,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact Concierge & Login */}
+          {/* Contact Concierge, Careers & Login */}
           <div className="space-y-3.5">
             <h4 className="text-xs uppercase tracking-[0.2em] text-amber-800 font-bold font-mono">
               Studio Hotline
@@ -194,6 +194,16 @@ const Footer = () => {
 
             <div className="pt-2 border-t border-neutral-300 space-y-2">
               <Link
+                to="/careers"
+                className="flex items-center text-xs text-amber-900 hover:text-amber-950 font-bold bg-amber-500/15 hover:bg-amber-500/25 px-2.5 py-1.5 rounded-lg border border-amber-500/30 transition-all group"
+              >
+                <Camera className="w-3.5 h-3.5 mr-1.5 text-amber-700" />
+                <span>Careers & Job Openings</span>
+                <span className="ml-auto px-1.5 py-0.2 rounded text-[9px] font-mono uppercase bg-emerald-600 text-white font-bold">
+                  We're Hiring
+                </span>
+              </Link>
+              <Link
                 to="/login?role=customer"
                 className="flex items-center text-xs text-amber-800 hover:text-amber-900 font-bold"
               >
@@ -212,7 +222,10 @@ const Footer = () => {
         {/* Bottom Editorial Bar */}
         <div className="mt-14 pt-8 border-t border-neutral-300 flex flex-col md:flex-row items-center justify-between text-xs text-neutral-500 space-y-4 md:space-y-0">
           <p>© {new Date().getFullYear()} Moonlight Production & Wedding Films. Proudly Crafted in India 🇮🇳</p>
-          <div className="flex space-x-6">
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            <Link to="/careers" className="text-amber-900 font-bold hover:underline flex items-center">
+              Careers & Hiring <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 ml-1.5 inline-block animate-pulse" />
+            </Link>
             <Link to="/privacy" className="hover:text-amber-900 transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-amber-900 transition-colors">Terms of Service</Link>
             <Link to="/faq" className="hover:text-amber-900 transition-colors">FAQ</Link>
