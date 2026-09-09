@@ -43,7 +43,8 @@ const Navbar = () => {
     return '/customer/dashboard';
   };
 
-  const isPortfolioActive = location.pathname.startsWith('/portfolio');
+  const isFilmsActive = location.pathname === '/portfolio/films';
+  const isPortfolioActive = (location.pathname === '/portfolio' || (location.pathname.startsWith('/portfolio/') && !isFilmsActive));
 
   return (
     <header
@@ -100,6 +101,17 @@ const Navbar = () => {
             }`}
           >
             Portfolio
+          </Link>
+
+          <Link
+            to="/portfolio/films"
+            className={`text-[11px] uppercase tracking-wider font-semibold transition-all py-1 px-2.5 rounded-full ${
+              isFilmsActive
+                ? 'text-amber-900 bg-white shadow-sm font-bold'
+                : 'text-neutral-600 hover:text-neutral-950 hover:bg-white/60'
+            }`}
+          >
+            4K Films
           </Link>
 
           <Link
