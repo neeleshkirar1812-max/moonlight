@@ -24,8 +24,8 @@ export const ENV = {
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET || 'mock_cloudinary_api_secret_key',
   
   RAZORPAY_KEY_ID: process.env.RAZORPAY_KEY_ID || 'rzp_test_Ta47WTEJxJInTH',
-  RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET || 'mock_razorpay_secret_key_2026',
-  RAZORPAY_WEBHOOK_SECRET: process.env.RAZORPAY_WEBHOOK_SECRET || 'mock_razorpay_webhook_secret',
+  RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET || 'yBTYvxXfmGE6E8hcVQE0fWdD',
+  RAZORPAY_WEBHOOK_SECRET: process.env.RAZORPAY_WEBHOOK_SECRET || 'yBTYvxXfmGE6E8hcVQE0fWdD',
   
   EMAILJS_SERVICE_ID: process.env.EMAILJS_SERVICE_ID || 'service_moonlight',
   EMAILJS_TEMPLATE_ID: process.env.EMAILJS_TEMPLATE_ID || 'template_moonlight',
