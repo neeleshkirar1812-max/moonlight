@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import api from '../../api/client';
 import SEO from '../../components/common/SEO';
 import { useNotification } from '../../context/NotificationContext';
-import { MapPin, Phone, Mail, MessageCircle, Clock, Send, CheckCircle2, Instagram, Youtube, ExternalLink } from 'lucide-react';
+import { MapPin, Phone, Mail, MessageCircle, Clock, Send, CheckCircle2, Instagram, Youtube, ExternalLink, Building, ShieldCheck } from 'lucide-react';
 
 const Contact = () => {
   const [form, setForm] = useState({
