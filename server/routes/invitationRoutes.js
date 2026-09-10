@@ -69,6 +69,7 @@ router.get('/admin/rsvps', getAdminAllRSVPs);
 router.get('/admin/activity-logs', getAdminActivityLogs);
 
 // 6. Public Guest Invitation & RSVP
+router.get('/public', getPublicInvitationBySlug);
 router.get('/public/:slug', getPublicInvitationBySlug);
 router.post('/rsvp', submitRSVP);
 router.get('/:invitationId/rsvps', getInvitationRSVPs);

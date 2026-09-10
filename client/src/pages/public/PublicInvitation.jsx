@@ -7,8 +7,9 @@ import { Heart, Sparkles, ArrowLeft, ShieldAlert } from 'lucide-react';
 
 import { getTemplateById, invitationTemplates } from '../../data/invitationTemplates';
 
-const PublicInvitation = () => {
-  const { slug } = useParams();
+const PublicInvitation = ({ defaultSlug = 'emerald-noir' }) => {
+  const { slug: rawSlug } = useParams();
+  const slug = rawSlug && rawSlug !== 'undefined' ? rawSlug : defaultSlug;
 
   const [invitation, setInvitation] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,10 +19,13 @@ const PublicInvitation = () => {
   useEffect(() => {
     const fetchInvitation = async () => {
       setLoading(true);
+      setError(null);
+      const activeSlug = slug || 'emerald-noir';
       try {
-        const res = await api.get(`/invitations/public/${slug}`);
+        const res = await api.get(`/invitations/public/${activeSlug}`);
         if (res.status === 'SUSPENDED' || res.data?.status === 'SUSPENDED') {
           setIsSuspended(true);
+          setLoading(false);
           return;
         }
         const data = res.data?.invitation || res.data?.data || res.data || res.invitation;
@@ -31,16 +35,17 @@ const PublicInvitation = () => {
           } else {
             setInvitation(data);
           }
+          setLoading(false);
           return;
         }
       } catch (err) {
         // If API fails or returns 404, check if slug is a template demo slug
       }
 
-      // Check if slug corresponds to a known template
-      const matchedTemplate = invitationTemplates.find(
-        (t) => t.slug === slug || t.id === slug
-      );
+      // Check if slug corresponds to a known template or fallback to featured
+      const matchedTemplate =
+        invitationTemplates.find((t) => t.slug === activeSlug || t.id === activeSlug) ||
+        invitationTemplates[0];
 
       if (matchedTemplate) {
         const cat = matchedTemplate.category;

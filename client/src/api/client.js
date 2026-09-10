@@ -1116,8 +1116,8 @@ const handleMockRequest = async (method, url, data) => {
     }
 
     // Public /i/:slug endpoint
-    if (cleanUrl.startsWith('/invitations/public/')) {
-      const slug = cleanUrl.replace('/invitations/public/', '');
+    if (cleanUrl.startsWith('/invitations/public')) {
+      const slug = cleanUrl.replace(/^\/invitations\/public\/?/, '') || 'emerald-noir';
       const found = invitations.find((i) => i.slug === slug || i._id === slug || i.id === slug);
       if (found) {
         if (found.status === 'SUSPENDED') {

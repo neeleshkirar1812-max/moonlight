@@ -1048,7 +1048,7 @@ export const updateInvitation = async (req, res, next) => {
 // 9. Public Invitation by Slug (Zero-Login for Guests)
 export const getPublicInvitationBySlug = async (req, res, next) => {
   try {
-    const { slug } = req.params;
+    const slug = req.params.slug || req.query.slug || 'emerald-noir';
     let invitation = await Invitation.findOne({ slug });
 
     if (!invitation) {

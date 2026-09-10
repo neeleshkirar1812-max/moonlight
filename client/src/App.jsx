@@ -238,6 +238,8 @@ const App = () => {
       </Route>
 
       {/* 6. Guest Digital Invitations (Immersive Mobile Card View on Same Domain) */}
+      <Route path="/i" element={<PublicInvitation />} />
+      <Route path="/i/" element={<PublicInvitation />} />
       <Route path="/i/:slug" element={<PublicInvitation />} />
 
       {/* Fallback */}
