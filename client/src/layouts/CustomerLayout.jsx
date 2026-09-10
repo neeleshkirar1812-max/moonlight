@@ -26,6 +26,7 @@ const CustomerLayout = () => {
 
   const navigation = [
     { name: 'Dashboard', href: '/customer/dashboard', icon: LayoutDashboard },
+    { name: 'Digital Invitations', href: '/invitations/dashboard', icon: Sparkles },
     { name: 'My Bookings', href: '/customer/bookings', icon: Calendar },
     { name: 'Private Galleries', href: '/customer/gallery', icon: Sparkles },
     { name: 'Wedding Films', href: '/customer/videos', icon: Video },

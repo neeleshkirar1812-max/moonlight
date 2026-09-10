@@ -56,6 +56,7 @@ const AdminLayout = () => {
 
   const coreNav = [
     { name: 'Studio Performance', href: '/admin/dashboard', icon: LayoutDashboard, permission: null },
+    { name: 'Digital Invitations', href: '/invitations/admin', icon: Sparkles, permission: null },
     { name: 'Wedding Enquiries', href: '/admin/enquiries', icon: MessageSquare, permission: 'canManageBookings' },
     { name: 'Bookings & Shoots', href: '/admin/bookings', icon: Calendar, permission: 'canManageBookings' },
     { name: 'Client GST Invoices', href: '/admin/invoices', icon: FileText, permission: 'canManageInvoices' },

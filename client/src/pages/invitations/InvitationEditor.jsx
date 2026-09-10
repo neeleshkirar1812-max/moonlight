@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useNotification } from '../../context/NotificationContext';
 import api from '../../api/client';
@@ -333,18 +333,89 @@ const InvitationEditor = () => {
                 />
               </div>
 
+              {/* Cover Photo Upload & Presets */}
               <div>
                 <label className="font-mono uppercase font-bold text-neutral-700 block mb-1 text-[11px]">
-                  Background Music Audio Stream URL (Optional)
+                  Couple Cover Photo
                 </label>
-                <input
-                  type="url"
-                  name="musicUrl"
-                  placeholder="https://example.com/soundtrack.mp3"
-                  value={form.musicUrl}
-                  onChange={handleChange}
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-4 py-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
-                />
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <label className="px-3.5 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold text-[11px] cursor-pointer flex items-center transition-colors">
+                      <span>📁 Upload From Device</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onload = () => {
+                              setForm((prev) => ({ ...prev, coverPhoto: reader.result }));
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      />
+                    </label>
+                    <input
+                      type="url"
+                      name="coverPhoto"
+                      placeholder="Or paste photo URL..."
+                      value={form.coverPhoto}
+                      onChange={handleChange}
+                      className="flex-1 bg-[#FAF8F5] border border-stone-300 rounded-xl px-3 py-2 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Background Music Soundtracks */}
+              <div>
+                <label className="font-mono uppercase font-bold text-neutral-700 block mb-1 text-[11px]">
+                  Background Music Soundtrack
+                </label>
+                <div className="space-y-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
+                    {[
+                      {
+                        name: '🎺 Royal Shehnai',
+                        url: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+                      },
+                      {
+                        name: '🎻 Romantic Guitar',
+                        url: 'https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=acoustic-guitars-ambient-uplifting-11244.mp3',
+                      },
+                      {
+                        name: '🎹 Gentle Piano',
+                        url: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3?filename=gentle-piano-love-story-8714.mp3',
+                      },
+                    ].map((track) => (
+                      <button
+                        key={track.name}
+                        type="button"
+                        onClick={() => setForm((prev) => ({ ...prev, musicUrl: track.url }))}
+                        className={`px-2.5 py-2 rounded-xl text-[11px] font-semibold border transition-all text-left flex items-center justify-between ${
+                          form.musicUrl === track.url
+                            ? 'bg-amber-100 border-amber-600 text-amber-950 font-bold'
+                            : 'bg-stone-50 border-stone-200 text-neutral-700 hover:bg-amber-50'
+                        }`}
+                      >
+                        <span>{track.name}</span>
+                        {form.musicUrl === track.url && <Check className="w-3 h-3 text-amber-700" />}
+                      </button>
+                    ))}
+                  </div>
+
+                  <input
+                    type="url"
+                    name="musicUrl"
+                    placeholder="Or paste custom MP3 soundtrack URL..."
+                    value={form.musicUrl}
+                    onChange={handleChange}
+                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-4 py-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
+                  />
+                </div>
               </div>
             </div>
           </div>
