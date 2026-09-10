@@ -279,6 +279,49 @@ const AdminEnquiries = () => {
     });
   };
 
+  const handleTestGoogleSheetSync = async () => {
+    if (!googleSheetUrl) {
+      addToast({
+        title: 'Paste Webhook URL First',
+        message: 'Please paste your Google Apps Script deployment URL before testing.',
+        type: 'error',
+      });
+      return;
+    }
+    try {
+      await fetch(googleSheetUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          enquiryId: 'TEST-ENQ-' + Math.floor(1000 + Math.random() * 9000),
+          timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+          fullName: 'Live Test Couple (Moonlight Auto-Sync)',
+          phone: '+91 92292 29323',
+          email: 'test.couple@moonlightclients.in',
+          eventType: 'Royal Palace Destination Wedding',
+          eventDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toLocaleDateString('en-IN'),
+          city: 'Bhopal',
+          budgetRange: '₹5L - ₹8L',
+          leadSource: 'Google Sheet Live Test',
+          status: 'NEW',
+          storyDetails: 'Test row generated from Moonlight Production Admin Panel.',
+        }),
+      });
+      addToast({
+        title: '✅ Live Test Row Dispatched!',
+        message: 'A sample lead has been sent to your Google Sheet! Check your Google Sheet tab now.',
+        type: 'success',
+      });
+    } catch (err) {
+      addToast({
+        title: 'Test Failed',
+        message: err.message || 'Unable to reach Google Sheet.',
+        type: 'error',
+      });
+    }
+  };
+
   const handleSendWhatsAppPitch = (enq) => {
     const phone = (enq.customerDetails?.phone || '').replace(/\D/g, '');
     const clientName = enq.customerDetails?.fullName || 'Valued Couple';
@@ -1294,18 +1337,71 @@ const AdminEnquiries = () => {
             {/* TAB CONTENT: UNIVERSAL WEBHOOK & GOOGLE SHEETS */}
             {pipelineTab === 'universal' && (
               <div className="space-y-4 text-xs">
-                <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-2">
-                  <h4 className="font-bold text-neutral-900 text-sm">Universal Webhook (Zapier, Make, Pabbly & Google Sheets):</h4>
-                  <p className="text-neutral-700 leading-relaxed">
-                    Kisi bhi third-party tool ya platform se direct leads inject karne ke liye universal endpoint:
+                <div className="p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200 space-y-2 text-emerald-950">
+                  <h4 className="font-bold text-sm flex items-center text-emerald-900">
+                    <Zap className="w-4 h-4 mr-1.5 text-emerald-600" />
+                    Google Sheets Live Auto-Sync (Har Enquiry Direct Sheet me Add Hogi):
+                  </h4>
+                  <p className="leading-relaxed">
+                    Aapko har baar Excel export karne ki zaroorat nahi hai. Is 30-second setup ke baad, <strong>Website, Instagram Ads, Facebook Ads, Google Ads aur WhatsApp</strong> se aane wali har enquiry <strong>real-time me direct aapki Google Sheet me new row ban kar add hoti rahegi!</strong>
                   </p>
-                  <div className="p-2.5 rounded-xl bg-white border border-stone-300 font-mono text-[11px] font-bold text-neutral-900 select-all">
-                    https://moonlight-pink-two.vercel.app/api/webhooks/social-leads
+                </div>
+
+                {/* STEP 1: Copy Code */}
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold text-neutral-900 text-xs">Step 1: Copy Apps Script Code for Google Sheet</span>
+                    <button
+                      onClick={() => {
+                        const code = `function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(["Enquiry ID", "Date & Time", "Client Name", "Phone Number", "Email", "Event Type", "Event Date", "City", "Budget", "Lead Source", "Status"]);
+      sheet.getRange("A1:K1").setFontWeight("bold").setBackground("#D4AF37").setFontColor("#000000");
+    }
+    var data = JSON.parse(e.postData.contents);
+    sheet.appendRow([
+      data.enquiryId || "ENQ-2026",
+      data.timestamp || new Date().toLocaleString(),
+      data.fullName || "New Lead",
+      data.phone || "",
+      data.email || "",
+      data.eventType || "Wedding",
+      data.eventDate || "",
+      data.city || "Bhopal",
+      data.budgetRange || "₹2L-₹5L",
+      data.leadSource || "Website",
+      data.status || "NEW"
+    ]);
+    return ContentService.createTextOutput(JSON.stringify({status: "success"})).setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService.createTextOutput(JSON.stringify({status: "error", message: err.toString()})).setMimeType(ContentService.MimeType.JSON);
+  }
+}`;
+                        navigator.clipboard.writeText(code);
+                        addToast({ title: 'Code Copied!', message: 'Google Apps Script code copied to clipboard.', type: 'success' });
+                      }}
+                      className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] flex items-center shadow-sm"
+                    >
+                      <Copy className="w-3.5 h-3.5 mr-1" /> Copy Apps Script Code
+                    </button>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-neutral-900 text-amber-300 font-mono text-[10.5px] max-h-32 overflow-y-auto leading-relaxed border border-neutral-800 select-all">
+                    {`function doPost(e) {\n  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();\n  var data = JSON.parse(e.postData.contents);\n  sheet.appendRow([data.enquiryId, data.timestamp, data.fullName, data.phone, data.email, data.eventType, data.eventDate, data.city, data.budgetRange, data.leadSource, data.status]);\n}`}
                   </div>
                 </div>
 
-                <form onSubmit={handleSaveGoogleSheetWebhook} className="space-y-3 pt-2">
-                  <label className="text-neutral-800 font-bold uppercase text-[10.5px]">2-Way Google Sheet Sync (Apps Script URL)</label>
+                {/* STEP 2: Instructions */}
+                <div className="p-3 rounded-xl bg-stone-50 border border-stone-200 text-neutral-700 space-y-1 text-[11.5px] leading-relaxed">
+                  <p><strong>Step 2:</strong> Apni Google Sheet kholiye &rarr; <strong>Extensions</strong> &rarr; <strong>Apps Script</strong> me jakar ye code paste kijiye.</p>
+                  <p><strong>Step 3:</strong> Top right me <strong>Deploy &rarr; New Deployment &rarr; Web App</strong> select karein (Access: <em>Anyone</em>) aur URL copy karein.</p>
+                </div>
+
+                {/* STEP 4: Paste & Test */}
+                <form onSubmit={handleSaveGoogleSheetWebhook} className="space-y-3 pt-1">
+                  <label className="text-neutral-800 font-bold uppercase text-[10.5px]">Step 4: Paste Your Google Web App Deployment URL Here</label>
                   <div className="flex items-center space-x-2">
                     <input
                       type="url"
@@ -1318,16 +1414,21 @@ const AdminEnquiries = () => {
                       type="submit"
                       className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center shadow-sm whitespace-nowrap"
                     >
-                      <Check className="w-4 h-4 mr-1.5" /> Save Sheet
+                      <Check className="w-4 h-4 mr-1.5" /> Save Auto-Sync
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleTestGoogleSheetSync}
+                      className="px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs flex items-center shadow-sm whitespace-nowrap"
+                    >
+                      <Send className="w-3.5 h-3.5 mr-1" /> Test Live Row
                     </button>
                   </div>
                 </form>
 
-                <div className="p-3.5 rounded-2xl bg-stone-50 border border-stone-200 space-y-1.5 text-neutral-700 leading-relaxed text-[11.5px]">
-                  <p><strong>Google Sheets Live Sync (30 Seconds):</strong></p>
-                  <p>1. Open your Google Sheet &rarr; <strong>Extensions</strong> &rarr; <strong>Apps Script</strong>.</p>
-                  <p>2. Paste your Webhook trigger function and Deploy as Web App.</p>
-                  <p>3. Paste the Deployment URL above to keep Google Sheet and Moonlight CRM 100% synchronized!</p>
+                <div className="p-3 rounded-xl bg-stone-100 border border-stone-300 text-neutral-800 space-y-1 text-[11px]">
+                  <p className="font-bold">⚡ Universal Webhook for Zapier / Make / Pabbly:</p>
+                  <p className="font-mono text-[10.5px] text-neutral-900 select-all">https://moonlight-pink-two.vercel.app/api/webhooks/social-leads</p>
                 </div>
               </div>
             )}

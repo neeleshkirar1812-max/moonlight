@@ -660,6 +660,33 @@ const handleMockRequest = async (method, url, data) => {
       };
       items = [newEnq, ...items];
       setCollection('enquiries', items);
+
+      // Auto-sync to Google Sheet if configured
+      try {
+        const gsheetUrl = localStorage.getItem('moonlight_gsheet_webhook');
+        if (gsheetUrl && typeof fetch !== 'undefined') {
+          fetch(gsheetUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              enquiryId: newEnq.enquiryId,
+              timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+              fullName: newEnq.customerDetails?.fullName || newEnq.fullName || 'New Prospect',
+              phone: newEnq.customerDetails?.phone || newEnq.phone || '',
+              email: newEnq.customerDetails?.email || newEnq.email || '',
+              eventType: newEnq.eventType || 'Wedding',
+              eventDate: newEnq.eventDate || 'TBD',
+              city: newEnq.location?.city || newEnq.city || 'Bhopal',
+              budgetRange: newEnq.budgetRange || '₹2L–₹5L',
+              leadSource: newEnq.leadSource || 'Website',
+              status: 'NEW',
+            }),
+          }).catch((e) => console.warn('[Client GSheet Sync]', e));
+        }
+      } catch (err) {
+        // silent
+      }
       return {
         data: {
           success: true,

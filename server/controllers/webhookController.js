@@ -1,8 +1,9 @@
-﻿import Enquiry from '../models/Enquiry.js';
+import Enquiry from '../models/Enquiry.js';
 import Notification from '../models/Notification.js';
 import User from '../models/User.js';
 import { sendEnquiryConfirmationEmail } from '../services/emailService.js';
 import { sendEnquiryWhatsAppNotification } from '../services/whatsappService.js';
+import { syncEnquiryToGoogleSheet } from '../services/googleSheetService.js';
 
 const generateEnquiryId = () => {
   const year = new Date().getFullYear();
@@ -62,9 +63,10 @@ const saveAndBroadcastEnquiry = async ({
     });
   }
 
-  // Trigger Notifications
+  // Trigger Notifications & Google Sheet Auto-Sync
   sendEnquiryConfirmationEmail(newEnquiry).catch(err => console.error(`[${leadSource} Email Error]`, err));
   sendEnquiryWhatsAppNotification(newEnquiry).catch(err => console.error(`[${leadSource} WhatsApp Error]`, err));
+  syncEnquiryToGoogleSheet(newEnquiry).catch(err => console.error(`[${leadSource} Google Sheet Sync Error]`, err));
 
   return newEnquiry;
 };

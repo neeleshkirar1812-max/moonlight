@@ -6,6 +6,7 @@ import { AppError } from '../middleware/error.js';
 import { sendEnquiryConfirmationEmail } from '../services/emailService.js';
 import { sendEnquiryWhatsAppNotification } from '../services/whatsappService.js';
 import { generateEnquiriesExcelBuffer } from '../services/excelService.js';
+import { syncEnquiryToGoogleSheet } from '../services/googleSheetService.js';
 import { logAuditEvent } from '../middleware/audit.js';
 
 // Generate unique luxury enquiry reference ID
@@ -72,9 +73,10 @@ export const createEnquiry = async (req, res, next) => {
       });
     }
 
-    // Trigger Email & WhatsApp notifications
+    // Trigger Email & WhatsApp notifications & Real-Time Google Sheet Sync
     sendEnquiryConfirmationEmail(enquiry).catch(err => console.error('[Enquiry Email Error]', err));
     sendEnquiryWhatsAppNotification(enquiry).catch(err => console.error('[Enquiry WhatsApp Error]', err));
+    syncEnquiryToGoogleSheet(enquiry).catch(err => console.error('[Enquiry Google Sheet Sync Error]', err));
 
     res.status(201).json({
       success: true,
