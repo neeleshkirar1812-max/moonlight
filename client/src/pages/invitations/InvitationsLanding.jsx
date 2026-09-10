@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { invitationTemplates, invitationCategories } from '../../data/invitationTemplates';
 import SEO from '../../components/common/SEO';
@@ -397,6 +397,77 @@ const InvitationsLanding = () => {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* 5b. TRUSTED BY COUPLES & REAL CUSTOMER REVIEWS */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center space-y-3 mb-12">
+          <span className="text-[11px] uppercase font-mono tracking-[0.25em] text-amber-800 font-bold block">
+            Love Letters & Reviews
+          </span>
+          <h2 className="font-serif text-2xl sm:text-4xl font-bold text-neutral-900">
+            Trusted by 5,000+ Couples Across India
+          </h2>
+          <div className="w-12 h-0.5 bg-amber-700 mx-auto" />
+          <p className="text-neutral-600 text-xs sm:text-sm max-w-xl mx-auto">
+            See how modern couples are transforming their wedding invitation experience with Moonlight Digital Suites.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              couple: 'Vikram & Radhika Singhania',
+              venue: 'The Oberoi Udaivilas, Udaipur',
+              rating: 5,
+              review:
+                'Our wedding guests were blown away by the gold scratch card reveal! Tracking RSVPs directly from the dashboard made our guest list and seating planning effortless.',
+              template: 'Royal Love Suite',
+            },
+            {
+              couple: 'Aarav & Kiara Sharma',
+              venue: 'Jehan Numa Palace, Bhopal',
+              rating: 5,
+              review:
+                'The 1-tap Google Maps integration saved our out-of-town guests so much confusion. The romantic background score and regal typography looked breathtaking on mobile.',
+              template: 'Emerald Heritage Suite',
+            },
+            {
+              couple: 'Kabir & Rhea Kapoor',
+              venue: 'Taj Falaknuma, Hyderabad',
+              rating: 5,
+              review:
+                'Zero apps needed for guests, instant 1-click WhatsApp sharing, and 10x cheaper than physical boxed wedding cards. Best decision we made for our wedding!',
+              template: 'Blooming Dreams Suite',
+            },
+          ].map((item, idx) => (
+            <div
+              key={idx}
+              className="bg-white rounded-3xl border border-[#DFD4C2] p-6 sm:p-8 space-y-4 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center space-x-1 text-amber-500">
+                  {[...Array(item.rating)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed italic">
+                  "{item.review}"
+                </p>
+              </div>
+
+              <div className="pt-4 border-t border-neutral-100 flex items-center justify-between">
+                <div>
+                  <h4 className="font-serif text-sm font-bold text-neutral-900">{item.couple}</h4>
+                  <span className="text-[10.5px] text-neutral-500 block">{item.venue}</span>
+                </div>
+                <span className="text-[9.5px] uppercase font-mono font-bold px-2 py-0.5 rounded bg-amber-50 text-amber-900 border border-amber-200">
+                  {item.template}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 

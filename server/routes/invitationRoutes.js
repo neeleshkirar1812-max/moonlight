@@ -1,4 +1,4 @@
-﻿import express from 'express';
+import express from 'express';
 import {
   templates,
   createPaymentOrder,
@@ -10,6 +10,7 @@ import {
   submitRSVP,
   getInvitationRSVPs,
   getAdminStats,
+  paymentWebhook,
 } from '../controllers/invitationController.js';
 
 const router = express.Router();
@@ -22,6 +23,7 @@ router.get('/templates', (req, res) => {
 // Payments
 router.post('/payments/create-order', createPaymentOrder);
 router.post('/payments/verify', verifyPayment);
+router.post('/payments/webhook', paymentWebhook);
 
 // Dashboard & Invitations CRUD
 router.get('/dashboard', getCustomerDashboard);

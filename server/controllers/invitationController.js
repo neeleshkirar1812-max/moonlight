@@ -1,4 +1,4 @@
-﻿import crypto from 'crypto';
+import crypto from 'crypto';
 import Razorpay from 'razorpay';
 import Invitation from '../models/Invitation.js';
 import RSVP from '../models/RSVP.js';
@@ -322,10 +322,39 @@ export const getAdminStats = async (req, res, next) => {
         publishedInvitations,
         totalRSVPs,
       },
-      purchases,
-      invitations,
-    });
+// 10. Razorpay Webhook Handler
+export const paymentWebhook = async (req, res) => {
+  try {
+    const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET || 'moonlight_webhook_secret_key';
+    const signature = req.headers['x-razorpay-signature'];
+
+    if (signature) {
+      const expectedSignature = crypto
+        .createHmac('sha256', webhookSecret)
+        .update(JSON.stringify(req.body))
+        .digest('hex');
+
+      if (expectedSignature !== signature) {
+        return res.status(400).json({ status: 'invalid_signature' });
+      }
+    }
+
+    const event = req.body?.event;
+    if (event === 'payment.captured' || event === 'order.paid') {
+      const paymentEntity = req.body.payload?.payment?.entity;
+      const orderId = paymentEntity?.order_id;
+      if (orderId) {
+        await InvitationPurchase.findOneAndUpdate(
+          { razorpayOrderId: orderId },
+          { status: 'paid', razorpayPaymentId: paymentEntity?.id }
+        );
+      }
+    }
+
+    res.status(200).json({ status: 'ok' });
   } catch (error) {
-    next(error);
+    console.error('[Razorpay Webhook Error]:', error);
+    res.status(500).json({ status: 'error', message: error.message });
   }
 };
+
