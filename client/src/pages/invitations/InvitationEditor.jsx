@@ -15,7 +15,6 @@ import {
   Clock,
   MapPin,
   Gift,
-  Music,
   Share2,
   Copy,
   Check,
@@ -24,10 +23,6 @@ import {
   Trash2,
   Heart,
   Image as ImageIcon,
-  Shirt,
-  Building,
-  Car,
-  CloudSun,
   Palette,
   Send,
   Upload,
@@ -35,16 +30,13 @@ import {
 } from 'lucide-react';
 
 const sectionsNav = [
-  { id: 'sec-basic', label: '1. Essentials', icon: Calendar },
+  { id: 'sec-basic', label: '1. Essentials & Doors', icon: Calendar },
   { id: 'sec-couple', label: '2. Couple & Host', icon: Heart },
   { id: 'sec-events', label: '3. Events Schedule', icon: Clock },
-  { id: 'sec-story', label: '4. Our Story', icon: Sparkles },
-  { id: 'sec-gallery', label: '5. Gallery', icon: ImageIcon },
-  { id: 'sec-things', label: '6. Info & Stay', icon: Shirt },
-  { id: 'sec-scratch', label: '7. Scratch Card', icon: Gift },
-  { id: 'sec-rsvp', label: '8. RSVP', icon: Send },
-  { id: 'sec-music', label: '9. Music', icon: Music },
-  { id: 'sec-theme', label: '10. Theme Suite', icon: Palette },
+  { id: 'sec-gallery', label: '4. Photo Gallery', icon: ImageIcon },
+  { id: 'sec-scratch', label: '5. Scratch Card', icon: Gift },
+  { id: 'sec-rsvp', label: '6. Guest RSVP', icon: Send },
+  { id: 'sec-theme', label: '7. Theme Suite', icon: Palette },
 ];
 
 const InvitationEditor = () => {
@@ -75,14 +67,6 @@ const InvitationEditor = () => {
     welcome_text: 'With joyous hearts, we request the honor of your presence to celebrate our special day.',
     message: 'With joyous hearts, we request the honor of your presence to celebrate our special day.',
     coverPhoto: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
-
-    // Story
-    story_title: 'How Our Journey Began',
-    story_text:
-      'From a chance encounter that turned into endless midnight conversations, our bond grew with every shared laughter and quiet sunrise. Today, we stand ready to embark on our forever journey.',
-    story_quote:
-      'In all the world, there is no heart for me like yours. In all the world, there is no love for you like mine.',
-    hashtags: '#AaravWedsKiara',
 
     // Events List
     events: [
@@ -126,31 +110,6 @@ const InvitationEditor = () => {
       'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=1200&q=80',
     ],
 
-    // Things to know
-    dress_code: {
-      title: 'Royal Ethnic & Pastel Glamour',
-      description: 'We encourage our guests to dress in celebratory traditional Indian attire.',
-      palette: [
-        { event: 'Haldi', colors: 'Turmeric Yellow, Mustard & Floral White' },
-        { event: 'Mehendi & Sangeet', colors: 'Emerald Green, Teal & Rose Gold' },
-        { event: 'Wedding', colors: 'Regal Ivory, Crimson Velvet & Gold' },
-      ],
-    },
-    accommodation_info: {
-      hotel: 'Jehan Numa Palace & Retreat',
-      address: '152 Shamla Hills, Bhopal',
-      details:
-        'Complimentary luxury room arrangements available for all out-of-town guests from Nov 19 to Nov 22.',
-    },
-    parking_info: {
-      valet: 'Complimentary Valet Parking Available',
-      instructions: 'Please pull up to the main Palace Portico where our attendants will assist you.',
-    },
-    weather_info: {
-      summary: 'Pleasant & Cool (16°C – 26°C)',
-      note: 'Evenings in late November are delightfully crisp. Light evening shawls or jackets are recommended.',
-    },
-
     // Scratch card
     scratch_enabled: true,
     scratch_reveal_text: "YOU’RE INVITED ♡\nWe can't wait to celebrate with you.",
@@ -159,11 +118,6 @@ const InvitationEditor = () => {
     rsvp_enabled: true,
     rsvp_heading: 'Guest RSVP',
     rsvp_message: 'Kindly confirm your attendance by submitting your details below:',
-
-    // Music
-    music_enabled: true,
-    music_url:
-      'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
 
     published: false,
     slug: '',
@@ -208,16 +162,6 @@ const InvitationEditor = () => {
     setForm((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
-
-  const handleNestedChange = (parent, field, value) => {
-    setForm((prev) => ({
-      ...prev,
-      [parent]: {
-        ...prev[parent],
-        [field]: value,
-      },
     }));
   };
 
@@ -334,7 +278,7 @@ const InvitationEditor = () => {
       <div className="max-w-7xl mx-auto space-y-6">
         
         {/* ========================================================================= */}
-        {/* TOP BAR: Navigation & Quick Actions */}
+        {/* TOP BAR: Navigation & Actions */}
         {/* ========================================================================= */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-[#DDD2C0] pb-4">
           <div>
@@ -406,7 +350,7 @@ const InvitationEditor = () => {
         )}
 
         {/* ========================================================================= */}
-        {/* QUICK JUMP ANCHOR PILLS (Navigate anywhere in 1 click) */}
+        {/* QUICK JUMP ANCHOR PILLS (Navigate in 1 click) */}
         {/* ========================================================================= */}
         <div className="bg-white/80 backdrop-blur-md p-2 rounded-2xl border border-stone-300 shadow-sm overflow-x-auto scrollbar-none sticky top-20 z-30">
           <div className="flex items-center space-x-1.5 min-w-max">
@@ -431,12 +375,12 @@ const InvitationEditor = () => {
         </div>
 
         {/* ========================================================================= */}
-        {/* MAIN LAYOUT: Left Single Unified Form, Right Sticky Live 390px Viewport */}
+        {/* MAIN LAYOUT: Left Clean Form, Right Sticky Live 390px Viewport */}
         {/* ========================================================================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* ------------------------------------------------------------- */}
-          {/* LEFT: COMPLETE UNIFIED SINGLE-PAGE FORM */}
+          {/* LEFT: FOCUSED UNIFIED SINGLE-PAGE FORM */}
           {/* ------------------------------------------------------------- */}
           <div className="lg:col-span-6 space-y-6">
 
@@ -809,78 +753,7 @@ const InvitationEditor = () => {
               </div>
             </div>
 
-            {/* SECTION 4: OUR STORY */}
-            <div
-              id="sec-story"
-              className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E0D7C7] shadow-sm space-y-4 scroll-mt-36 text-xs"
-            >
-              <div className="flex items-center space-x-2 border-b border-stone-200 pb-3">
-                <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center font-mono text-xs">
-                  04
-                </div>
-                <div>
-                  <h3 className="font-serif text-lg font-bold text-neutral-900">Our Story & Love Quote</h3>
-                  <p className="text-[11px] text-neutral-500 font-sans">
-                    Couple's romantic journey, quote, and wedding hashtags.
-                  </p>
-                </div>
-              </div>
-
-              <div>
-                <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                  Story Section Title
-                </label>
-                <input
-                  type="text"
-                  name="story_title"
-                  value={form.story_title}
-                  onChange={handleChange}
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                  Our Story Text
-                </label>
-                <textarea
-                  rows={4}
-                  name="story_text"
-                  value={form.story_text}
-                  onChange={handleChange}
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl p-3 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                  Romantic Quote
-                </label>
-                <input
-                  type="text"
-                  name="story_quote"
-                  value={form.story_quote}
-                  onChange={handleChange}
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                  Wedding Hashtag
-                </label>
-                <input
-                  type="text"
-                  name="hashtags"
-                  value={form.hashtags}
-                  onChange={handleChange}
-                  placeholder="#AaravWedsKiara"
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none font-mono"
-                />
-              </div>
-            </div>
-
-            {/* SECTION 5: PHOTO GALLERY */}
+            {/* SECTION 4: PHOTO GALLERY */}
             <div
               id="sec-gallery"
               className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E0D7C7] shadow-sm space-y-4 scroll-mt-36 text-xs"
@@ -888,7 +761,7 @@ const InvitationEditor = () => {
               <div className="flex items-center justify-between border-b border-stone-200 pb-3">
                 <div className="flex items-center space-x-2">
                   <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center font-mono text-xs">
-                    05
+                    04
                   </div>
                   <div>
                     <h3 className="font-serif text-lg font-bold text-neutral-900">Photo Gallery</h3>
@@ -937,92 +810,19 @@ const InvitationEditor = () => {
               </div>
             </div>
 
-            {/* SECTION 6: THINGS TO KNOW */}
-            <div
-              id="sec-things"
-              className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E0D7C7] shadow-sm space-y-4 scroll-mt-36 text-xs"
-            >
-              <div className="flex items-center space-x-2 border-b border-stone-200 pb-3">
-                <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center font-mono text-xs">
-                  06
-                </div>
-                <div>
-                  <h3 className="font-serif text-lg font-bold text-neutral-900">
-                    Dress Code, Stay & Hospitality
-                  </h3>
-                  <p className="text-[11px] text-neutral-500 font-sans">
-                    Dress palettes, hotel stay arrangements, valet parking, and weather info.
-                  </p>
-                </div>
-              </div>
-
-              <div>
-                <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                  Dress Code Title & Guidance
-                </label>
-                <input
-                  type="text"
-                  value={form.dress_code?.title || ''}
-                  onChange={(e) => handleNestedChange('dress_code', 'title', e.target.value)}
-                  placeholder="Royal Ethnic & Pastel Glamour"
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2 text-xs text-neutral-900 mb-1.5"
-                />
-                <textarea
-                  rows={2}
-                  value={form.dress_code?.description || ''}
-                  onChange={(e) => handleNestedChange('dress_code', 'description', e.target.value)}
-                  placeholder="We encourage our guests to dress in celebratory traditional Indian attire..."
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl p-2 text-xs text-neutral-900"
-                />
-              </div>
-
-              <div>
-                <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                  Accommodation & Hospitality
-                </label>
-                <input
-                  type="text"
-                  value={form.accommodation_info?.hotel || ''}
-                  onChange={(e) => handleNestedChange('accommodation_info', 'hotel', e.target.value)}
-                  placeholder="Hotel Name (e.g. Jehan Numa Palace)"
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2 text-xs text-neutral-900 mb-1.5"
-                />
-                <textarea
-                  rows={2}
-                  value={form.accommodation_info?.details || ''}
-                  onChange={(e) => handleNestedChange('accommodation_info', 'details', e.target.value)}
-                  placeholder="Complimentary luxury room arrangements available for all guests..."
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl p-2 text-xs text-neutral-900"
-                />
-              </div>
-
-              <div>
-                <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                  Valet & Parking Instructions
-                </label>
-                <input
-                  type="text"
-                  value={form.parking_info?.valet || ''}
-                  onChange={(e) => handleNestedChange('parking_info', 'valet', e.target.value)}
-                  placeholder="Complimentary Valet Parking Available"
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2 text-xs text-neutral-900"
-                />
-              </div>
-            </div>
-
-            {/* SECTION 7: SCRATCH CARD */}
+            {/* SECTION 5: SCRATCH CARD */}
             <div
               id="sec-scratch"
               className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E0D7C7] shadow-sm space-y-4 scroll-mt-36 text-xs"
             >
               <div className="flex items-center space-x-2 border-b border-stone-200 pb-3">
                 <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center font-mono text-xs">
-                  07
+                  05
                 </div>
                 <div>
                   <h3 className="font-serif text-lg font-bold text-neutral-900">Interactive Scratch Card</h3>
                   <p className="text-[11px] text-neutral-500 font-sans">
-                    Touch foil scratch card with secret message.
+                    Touch foil scratch card with secret reveal message.
                   </p>
                 </div>
               </div>
@@ -1056,14 +856,14 @@ const InvitationEditor = () => {
               </div>
             </div>
 
-            {/* SECTION 8: RSVP SETTINGS */}
+            {/* SECTION 6: RSVP SETTINGS */}
             <div
               id="sec-rsvp"
               className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E0D7C7] shadow-sm space-y-4 scroll-mt-36 text-xs"
             >
               <div className="flex items-center space-x-2 border-b border-stone-200 pb-3">
                 <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center font-mono text-xs">
-                  08
+                  06
                 </div>
                 <div>
                   <h3 className="font-serif text-lg font-bold text-neutral-900">Guest RSVP Settings</h3>
@@ -1101,90 +901,19 @@ const InvitationEditor = () => {
               </div>
             </div>
 
-            {/* SECTION 9: BACKGROUND MUSIC */}
-            <div
-              id="sec-music"
-              className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E0D7C7] shadow-sm space-y-4 scroll-mt-36 text-xs"
-            >
-              <div className="flex items-center space-x-2 border-b border-stone-200 pb-3">
-                <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center font-mono text-xs">
-                  09
-                </div>
-                <div>
-                  <h3 className="font-serif text-lg font-bold text-neutral-900">Background Soundtrack</h3>
-                  <p className="text-[11px] text-neutral-500 font-sans">
-                    Harmonic royal shehnai, sitar, or romantic instrumentals.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="music_enabled"
-                  name="music_enabled"
-                  checked={form.music_enabled}
-                  onChange={handleChange}
-                  className="rounded border-stone-300 text-amber-600 focus:ring-amber-500 w-4 h-4"
-                />
-                <label htmlFor="music_enabled" className="font-bold text-neutral-800">
-                  Enable Continuous Background Music Player
-                </label>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                {[
-                  {
-                    name: '🎺 Royal Shehnai',
-                    url: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
-                  },
-                  {
-                    name: '🎻 Romantic Guitar',
-                    url: 'https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=acoustic-guitars-ambient-uplifting-11244.mp3',
-                  },
-                  {
-                    name: '🎹 Gentle Piano',
-                    url: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3?filename=gentle-piano-love-story-8714.mp3',
-                  },
-                ].map((track) => (
-                  <button
-                    key={track.name}
-                    type="button"
-                    onClick={() => setForm((prev) => ({ ...prev, music_url: track.url }))}
-                    className={`p-2.5 rounded-xl border text-xs font-semibold text-left transition-all ${
-                      form.music_url === track.url
-                        ? 'bg-amber-100 border-amber-600 text-amber-950 font-bold shadow-sm'
-                        : 'bg-stone-50 border-stone-200 text-neutral-700 hover:bg-amber-50'
-                    }`}
-                  >
-                    {track.name}
-                  </button>
-                ))}
-              </div>
-
-              <input
-                type="url"
-                name="music_url"
-                placeholder="Or paste custom MP3 stream URL..."
-                value={form.music_url}
-                onChange={handleChange}
-                className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900"
-              />
-            </div>
-
-            {/* SECTION 10: TEMPLATE SUITE */}
+            {/* SECTION 7: TEMPLATE SUITE */}
             <div
               id="sec-theme"
               className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E0D7C7] shadow-sm space-y-4 scroll-mt-36 text-xs"
             >
               <div className="flex items-center space-x-2 border-b border-stone-200 pb-3">
                 <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center font-mono text-xs">
-                  10
+                  07
                 </div>
                 <div>
                   <h3 className="font-serif text-lg font-bold text-neutral-900">Switch Template Suite</h3>
                   <p className="text-[11px] text-neutral-500 font-sans">
-                    Choose from the 6 authentic video-inspired luxury suites.
+                    Choose from the 6 authentic video-inspired luxury suites. Music and styling are automatically preset by Moonlight Production.
                   </p>
                 </div>
               </div>
@@ -1212,7 +941,7 @@ const InvitationEditor = () => {
               </div>
             </div>
 
-            {/* BOTTOM UNIFIED ACTION BAR */}
+            {/* BOTTOM ACTION BAR */}
             <div className="p-6 rounded-3xl bg-white border border-[#E0D7C7] shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="text-xs text-neutral-500 font-sans">
                 Ready to share with family and friends?

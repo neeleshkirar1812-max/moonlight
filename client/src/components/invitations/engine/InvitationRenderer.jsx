@@ -69,8 +69,8 @@ const InvitationRenderer = ({
       {/* 2. Hero Section & Live Countdown */}
       <HeroSection invitation={invitation} theme={theme} />
 
-      {/* 3. Story Section */}
-      <StorySection invitation={invitation} theme={theme} />
+      {/* 3. Story Section (Optional) */}
+      {Boolean(invitation.story_text) && <StorySection invitation={invitation} theme={theme} />}
 
       {/* 4. Multi-Event Schedule Timeline & Google Maps Navigation */}
       <EventsTimeline
@@ -85,8 +85,10 @@ const InvitationRenderer = ({
         theme={theme}
       />
 
-      {/* 6. Things To Know (Dress code, Stay, Valet, Weather, Gifts) */}
-      <ThingsToKnow invitation={invitation} theme={theme} />
+      {/* 6. Things To Know (Optional) */}
+      {Boolean(invitation.dress_code?.title || invitation.accommodation_info?.hotel) && (
+        <ThingsToKnow invitation={invitation} theme={theme} />
+      )}
 
       {/* 7. Interactive HTML5 Touch Scratch Card */}
       {invitation.scratch_enabled !== false && invitation.scratchEnabled !== false && (
@@ -98,10 +100,10 @@ const InvitationRenderer = ({
         <RsvpSection invitation={invitation} theme={theme} onRsvpSuccess={onRsvpSuccess} />
       )}
 
-      {/* 9. Background Music Player (Auto-triggered when doors open) */}
+      {/* 9. Background Music Player (Always fixed & preset by Admin/Template) */}
       {invitation.music_enabled !== false && invitation.musicEnabled !== false && (
         <MusicPlayer
-          musicUrl={invitation.music_url || invitation.musicUrl}
+          musicUrl={invitation.music_url || invitation.musicUrl || config.musicPreset}
           theme={theme}
           autoPlayTrigger={doorsOpenCount}
         />
