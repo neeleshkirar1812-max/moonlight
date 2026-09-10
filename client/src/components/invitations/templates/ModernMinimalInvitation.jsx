@@ -22,23 +22,26 @@ const ModernMinimalInvitation = ({ invitation = {}, isPreview = false, onRsvpSuc
   // Derive Couple Names & Initials
   const coupleNames =
     invitation.names ||
-    (invitation.bride_name && invitation.groom_name
-      ? `${invitation.bride_name} & ${invitation.groom_name}`
+    ((invitation.bride_name || invitation.brideName) && (invitation.groom_name || invitation.groomName)
+      ? `${invitation.bride_name || invitation.brideName} & ${invitation.groom_name || invitation.groomName}`
       : 'Aisha Khan & Rohan Mehra');
 
   const nameParts = coupleNames.split('&');
-  const brideDisplay = nameParts[0]?.trim() || invitation.bride_name || 'Aisha Khan';
-  const groomDisplay = nameParts[1]?.trim() || invitation.groom_name || 'Rohan Mehra';
+  const brideDisplay = invitation.bride_name || invitation.brideName || nameParts[0]?.trim() || 'Aisha Khan';
+  const groomDisplay = invitation.groom_name || invitation.groomName || nameParts[1]?.trim() || 'Rohan Mehra';
   const initials = `${brideDisplay.charAt(0)} & ${groomDisplay.charAt(0)}`;
 
   const hostSubtitle =
     invitation.host_names ||
+    invitation.hostNames ||
     invitation.opening_heading ||
     'Together with their families';
 
   const welcomeMessage =
     invitation.welcome_text ||
     invitation.message ||
+    invitation.story ||
+    invitation.story_text ||
     'Invite you to share in the joy of the beginning of their new life together.';
 
   const targetDateStr = invitation.event_date || invitation.date || '2026-11-20';
