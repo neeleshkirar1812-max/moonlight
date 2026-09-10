@@ -25,7 +25,7 @@ const InvitationRenderer = ({
   const [copied, setCopied] = useState(false);
   const [doorsOpenCount, setDoorsOpenCount] = useState(0);
   const [openingKey, setOpeningKey] = useState(0);
-  const [showOpeningScreen, setShowOpeningScreen] = useState(!isPreview || showOpeningInPreview);
+  const [showOpeningScreen, setShowOpeningScreen] = useState(true);
 
   const handleDoorEnter = () => {
     setDoorsOpenCount((prev) => prev + 1);

@@ -173,9 +173,9 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
         </div>
       ) : (
         /* ========================================================================= */
-        /* 2. RESPONSIVE 3D ROYAL PALACE DOUBLE DOORS (Perfect Mobile & Desktop Proportions) */
+        /* 2. RESPONSIVE 3D ROYAL PALACE DOUBLE DOORS (Guaranteed Render & Perfect Proportions) */
         /* ========================================================================= */
-        <div className="relative w-full max-w-[340px] xs:max-w-[370px] sm:max-w-md h-full max-h-[580px] xs:max-h-[620px] sm:max-h-[680px] my-auto mx-auto flex items-center justify-center overflow-hidden rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-amber-500/70 shadow-[0_0_40px_rgba(217,119,6,0.3)] bg-[#140b05]">
+        <div className="w-full max-w-[360px] sm:max-w-md h-[90dvh] max-h-[680px] relative flex flex-col justify-between overflow-hidden rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-amber-500/70 shadow-[0_0_50px_rgba(217,119,6,0.35)] bg-[#140b05] select-none">
           
           {/* Inner Palace Radiant Glow Backdrop (Revealed when doors swing open) */}
           <div className="absolute inset-0 z-0 flex flex-col items-center justify-center bg-gradient-to-b from-[#2B1B10] via-[#1A0E08] to-[#0A0503] text-center p-4">
@@ -208,13 +208,13 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
           {/* ========================================================================= */}
           {/* THE 3D DOUBLE DOORS CONTAINER */}
           {/* ========================================================================= */}
-          <div className="relative w-full h-full flex z-20 overflow-hidden">
+          <div className="absolute inset-0 z-20 flex w-full h-full overflow-hidden">
             
             {/* ------------------------------------------------------------- */}
             {/* LEFT PALACE DOOR */}
             {/* ------------------------------------------------------------- */}
             <div
-              className="w-1/2 h-full relative flex flex-col justify-between p-1.5 sm:p-3 border-r border-amber-500/50 shadow-2xl transition-all duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)]"
+              className="w-1/2 h-full relative flex flex-col justify-between p-2 sm:p-3 border-r border-amber-500/50 shadow-2xl transition-all duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)]"
               style={{
                 background: 'linear-gradient(135deg, #1a0e06 0%, #29170b 45%, #140b04 100%)',
                 transformOrigin: 'left center',
@@ -226,7 +226,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
               <div className="absolute inset-1 sm:inset-2 border border-amber-500/30 rounded-lg pointer-events-none" />
 
               {/* Top Jaali Arch Carved Panel (Left) */}
-              <div className="relative z-10 w-full h-[15vh] min-h-[50px] max-h-[85px] rounded-t-lg sm:rounded-t-xl border border-amber-500/40 bg-[#100803]/90 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
+              <div className="relative z-10 w-full h-[16vh] min-h-[55px] max-h-[95px] rounded-t-lg sm:rounded-t-xl border border-amber-500/40 bg-[#100803]/90 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
                 <svg className="w-full h-full text-amber-500/25 fill-current" viewBox="0 0 100 100">
                   <path d="M50 5 C30 5 15 25 15 50 C15 75 30 95 50 95 C70 95 85 75 85 50 C85 25 70 5 50 5 Z M50 15 C65 15 75 30 75 50 C75 70 65 85 50 85 C35 85 25 70 25 50 C25 30 35 15 50 15 Z" />
                   <circle cx="50" cy="50" r="10" />
@@ -238,7 +238,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
               </div>
 
               {/* Rows of 24K Brass Studs (Rivets) */}
-              <div className="flex items-center justify-around py-0.5 sm:py-1">
+              <div className="flex items-center justify-around py-1 sm:py-2">
                 {Array.from({ length: 3 }).map((_, idx) => (
                   <div
                     key={idx}
@@ -260,7 +260,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
               </div>
 
               {/* Bottom Carved Lotus Panel (Left) */}
-              <div className="relative z-10 w-full h-[15vh] min-h-[50px] max-h-[85px] rounded-b-lg sm:rounded-b-xl border border-amber-500/40 bg-[#100803]/90 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
+              <div className="relative z-10 w-full h-[16vh] min-h-[55px] max-h-[95px] rounded-b-lg sm:rounded-b-xl border border-amber-500/40 bg-[#100803]/90 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
                 <svg className="w-full h-full text-amber-500/20 fill-current" viewBox="0 0 100 100">
                   <polygon points="50,10 62,38 92,38 68,56 77,85 50,68 23,85 32,56 8,38 38,38" />
                 </svg>
@@ -274,7 +274,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
             {/* RIGHT PALACE DOOR */}
             {/* ------------------------------------------------------------- */}
             <div
-              className="w-1/2 h-full relative flex flex-col justify-between p-1.5 sm:p-3 border-l border-amber-500/50 shadow-2xl transition-all duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)]"
+              className="w-1/2 h-full relative flex flex-col justify-between p-2 sm:p-3 border-l border-amber-500/50 shadow-2xl transition-all duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)]"
               style={{
                 background: 'linear-gradient(225deg, #1a0e06 0%, #29170b 45%, #140b04 100%)',
                 transformOrigin: 'right center',
@@ -286,7 +286,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
               <div className="absolute inset-1 sm:inset-2 border border-amber-500/30 rounded-lg pointer-events-none" />
 
               {/* Top Jaali Arch Carved Panel (Right) */}
-              <div className="relative z-10 w-full h-[15vh] min-h-[50px] max-h-[85px] rounded-t-lg sm:rounded-t-xl border border-amber-500/40 bg-[#100803]/90 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
+              <div className="relative z-10 w-full h-[16vh] min-h-[55px] max-h-[95px] rounded-t-lg sm:rounded-t-xl border border-amber-500/40 bg-[#100803]/90 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
                 <svg className="w-full h-full text-amber-500/25 fill-current" viewBox="0 0 100 100">
                   <path d="M50 5 C30 5 15 25 15 50 C15 75 30 95 50 95 C70 95 85 75 85 50 C85 25 70 5 50 5 Z M50 15 C65 15 75 30 75 50 C75 70 65 85 50 85 C35 85 25 70 25 50 C25 30 35 15 50 15 Z" />
                   <circle cx="50" cy="50" r="10" />
@@ -298,7 +298,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
               </div>
 
               {/* Rows of 24K Brass Studs (Rivets) */}
-              <div className="flex items-center justify-around py-0.5 sm:py-1">
+              <div className="flex items-center justify-around py-1 sm:py-2">
                 {Array.from({ length: 3 }).map((_, idx) => (
                   <div
                     key={idx}
@@ -320,7 +320,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
               </div>
 
               {/* Bottom Carved Lotus Panel (Right) */}
-              <div className="relative z-10 w-full h-[15vh] min-h-[50px] max-h-[85px] rounded-b-lg sm:rounded-b-xl border border-amber-500/40 bg-[#100803]/90 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
+              <div className="relative z-10 w-full h-[16vh] min-h-[55px] max-h-[95px] rounded-b-lg sm:rounded-b-xl border border-amber-500/40 bg-[#100803]/90 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
                 <svg className="w-full h-full text-amber-500/20 fill-current" viewBox="0 0 100 100">
                   <polygon points="50,10 62,38 92,38 68,56 77,85 50,68 23,85 32,56 8,38 38,38" />
                 </svg>
