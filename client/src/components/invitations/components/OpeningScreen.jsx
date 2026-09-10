@@ -28,7 +28,6 @@ const playRoyalDoorChime = () => {
       const osc = ctx.createOscillator();
       const gainNode = ctx.createGain();
       
-      // Warm sine + harmonic warmth
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(freq, ctx.currentTime + time);
       
@@ -76,12 +75,12 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
     playRoyalDoorChime();
 
     // 2. Generate falling floral petal shower
-    const newPetals = Array.from({ length: 32 }).map((_, i) => ({
+    const newPetals = Array.from({ length: 26 }).map((_, i) => ({
       id: i,
       left: Math.random() * 100,
-      size: Math.random() * 14 + 10,
-      delay: Math.random() * 0.8,
-      duration: Math.random() * 2 + 2,
+      size: Math.random() * 12 + 8,
+      delay: Math.random() * 0.6,
+      duration: Math.random() * 1.8 + 1.8,
       rotation: Math.random() * 360,
       color: i % 2 === 0 ? 'rose' : 'marigold',
     }));
@@ -98,10 +97,10 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
     // 5. Unmount opening screen after animation finishes
     setTimeout(() => {
       setIsRendered(false);
-    }, 1800);
+    }, 1600);
   };
 
-  const handleWheelOrTouch = (e) => {
+  const handleWheelOrTouch = () => {
     if (!isOpen) {
       handleOpenDoors();
     }
@@ -113,11 +112,13 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
     <div
       onWheel={handleWheelOrTouch}
       onTouchMove={handleWheelOrTouch}
-      className={`fixed inset-0 z-50 flex items-center justify-center overflow-hidden font-sans select-none transition-opacity duration-700 ${
-        isOpen ? 'pointer-events-none opacity-0 delay-1000' : 'opacity-100'
+      className={`${
+        isPreview ? 'absolute' : 'fixed'
+      } inset-0 z-50 flex items-center justify-center overflow-hidden font-sans select-none transition-opacity duration-700 ${
+        isOpen ? 'pointer-events-none opacity-0 delay-700' : 'opacity-100'
       }`}
       style={{
-        perspective: '1500px',
+        perspective: '1400px',
         backgroundColor: '#0c0704',
       }}
     >
@@ -125,26 +126,31 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
       {/* 1. CUSTOM VIDEO OPENING MODE (If video URL is provided) */}
       {/* ========================================================================= */}
       {isVideoMode ? (
-        <div className="relative w-full h-full flex flex-col items-center justify-center bg-black">
+        <div className="relative w-full h-full flex flex-col items-center justify-center bg-black overflow-hidden">
           <video
             ref={videoRef}
             src={videoUrl}
             playsInline
-            onEnded={handleVideoEnd}
-            className="w-full h-full object-cover"
+            muted={false}
+            onEnded={() => {
+              setIsOpen(true);
+              if (onEnter) onEnter();
+              setTimeout(() => setIsRendered(false), 600);
+            }}
+            className="w-full h-full object-cover object-center"
           />
           {!videoPlaying && (
-            <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center p-6 text-center space-y-6">
-              <div className="w-20 h-20 rounded-full border-2 border-amber-400 flex items-center justify-center shadow-2xl bg-black/60 backdrop-blur-md animate-pulse">
-                <span className="font-serif text-2xl font-bold text-amber-300">
+            <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center p-4 text-center space-y-4">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-amber-400 flex items-center justify-center shadow-2xl bg-black/70 backdrop-blur-md animate-pulse">
+                <span className="font-serif text-xl sm:text-2xl font-bold text-amber-300">
                   {getMonogram()}
                 </span>
               </div>
-              <div className="space-y-2 max-w-sm">
-                <span className="text-[10px] uppercase font-mono tracking-[0.3em] text-amber-300">
+              <div className="space-y-1 max-w-xs">
+                <span className="text-[9px] uppercase font-mono tracking-[0.3em] text-amber-300">
                   Moonlight Production
                 </span>
-                <h2 className="font-serif text-3xl font-bold text-white">
+                <h2 className="font-serif text-xl sm:text-2xl font-bold text-white leading-tight">
                   {invitation.names || 'Royal Wedding Invitation'}
                 </h2>
               </div>
@@ -157,9 +163,9 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
                   }
                   if (onEnter) onEnter();
                 }}
-                className="px-8 py-3.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-neutral-950 font-bold text-xs uppercase tracking-widest shadow-2xl hover:scale-105 transition-all flex items-center space-x-2"
+                className="px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-neutral-950 font-bold text-xs uppercase tracking-wider shadow-2xl hover:scale-105 transition-all flex items-center space-x-2"
               >
-                <Play className="w-4 h-4 fill-current" />
+                <Play className="w-3.5 h-3.5 fill-current" />
                 <span>Watch Grand Door Opening</span>
               </button>
             </div>
@@ -167,19 +173,19 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
         </div>
       ) : (
         /* ========================================================================= */
-        /* 2. OPULENT 3D ROYAL PALACE DOUBLE DOORS (Default Majestic Experience) */
+        /* 2. RESPONSIVE 3D ROYAL PALACE DOUBLE DOORS (Fitted for Mobile & Desktop) */
         /* ========================================================================= */
-        <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+        <div className="relative w-full h-full max-w-lg mx-auto flex items-center justify-center overflow-hidden shadow-2xl">
           
           {/* Inner Palace Radiant Glow Backdrop (Revealed when doors swing open) */}
-          <div className="absolute inset-0 z-0 flex flex-col items-center justify-center bg-gradient-to-b from-[#2B1B10] via-[#1A0E08] to-[#0A0503] text-center p-6">
-            <div className="w-96 h-96 rounded-full bg-amber-500/20 blur-3xl animate-pulse" />
-            <div className="space-y-3 z-10 animate-fade-in">
-              <Sparkles className="w-8 h-8 text-amber-400 mx-auto animate-spin-slow" />
-              <h3 className="font-serif text-3xl sm:text-5xl font-bold text-amber-200 tracking-tight">
+          <div className="absolute inset-0 z-0 flex flex-col items-center justify-center bg-gradient-to-b from-[#2B1B10] via-[#1A0E08] to-[#0A0503] text-center p-4">
+            <div className="w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-amber-500/20 blur-3xl animate-pulse" />
+            <div className="space-y-2 z-10 animate-fade-in max-w-xs">
+              <Sparkles className="w-6 h-6 text-amber-400 mx-auto animate-spin-slow" />
+              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-amber-200 tracking-tight leading-tight">
                 {invitation.names || 'Aarav & Kiara'}
               </h3>
-              <p className="text-xs uppercase font-mono tracking-[0.3em] text-amber-400/80">
+              <p className="text-[10px] uppercase font-mono tracking-[0.25em] text-amber-400/80">
                 Welcome To Our Celebration
               </p>
             </div>
@@ -187,98 +193,78 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
 
           {/* Top Hanging Royal Palace Toran / Garland */}
           <div className="absolute top-0 inset-x-0 z-40 flex justify-center pointer-events-none">
-            <div className="relative w-full max-w-2xl px-4">
-              {/* Mughal Scalloped Arch Frame */}
-              <div className="h-10 sm:h-12 w-full bg-gradient-to-b from-amber-950 via-[#2E180A] to-transparent border-b-2 border-amber-500/40 flex items-center justify-around px-2 shadow-2xl">
-                {Array.from({ length: 11 }).map((_, idx) => (
+            <div className="w-full px-2">
+              <div className="h-8 sm:h-10 w-full bg-gradient-to-b from-amber-950 via-[#2E180A] to-transparent border-b border-amber-500/40 flex items-center justify-around px-1 shadow-lg">
+                {Array.from({ length: 9 }).map((_, idx) => (
                   <div key={idx} className="flex flex-col items-center -space-y-1">
-                    <span className="text-xs sm:text-sm text-amber-400 drop-shadow">🌼</span>
-                    <div className="w-0.5 h-3 bg-amber-600/60" />
+                    <span className="text-[10px] sm:text-xs text-amber-400 drop-shadow">🌼</span>
+                    <div className="w-0.5 h-2 bg-amber-600/50" />
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-
-          {/* Left Palace Wall Column / Lantern */}
-          <div className="absolute left-2 sm:left-6 top-16 z-40 hidden sm:flex flex-col items-center space-y-2 pointer-events-none">
-            <div className="w-0.5 h-12 bg-amber-600/40" />
-            <div className="w-8 h-10 rounded-b-xl border border-amber-500/60 bg-amber-950/80 backdrop-blur-md flex items-center justify-center shadow-lg shadow-amber-500/20">
-              <span className="text-sm animate-pulse">🪔</span>
-            </div>
-          </div>
-
-          {/* Right Palace Wall Column / Lantern */}
-          <div className="absolute right-2 sm:right-6 top-16 z-40 hidden sm:flex flex-col items-center space-y-2 pointer-events-none">
-            <div className="w-0.5 h-12 bg-amber-600/40" />
-            <div className="w-8 h-10 rounded-b-xl border border-amber-500/60 bg-amber-950/80 backdrop-blur-md flex items-center justify-center shadow-lg shadow-amber-500/20">
-              <span className="text-sm animate-pulse">🪔</span>
             </div>
           </div>
 
           {/* ========================================================================= */}
           {/* THE 3D DOUBLE DOORS CONTAINER */}
           {/* ========================================================================= */}
-          <div className="relative w-full h-full flex z-20">
+          <div className="relative w-full h-full flex z-20 overflow-hidden">
             
             {/* ------------------------------------------------------------- */}
             {/* LEFT PALACE DOOR */}
             {/* ------------------------------------------------------------- */}
             <div
-              className="w-1/2 h-full relative flex flex-col justify-between p-3 sm:p-6 border-r border-amber-500/50 shadow-2xl transition-all duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)]"
+              className="w-1/2 h-full relative flex flex-col justify-between p-2 sm:p-4 border-r border-amber-500/50 shadow-2xl transition-all duration-[1400ms] ease-[cubic-bezier(0.25,1,0.5,1)]"
               style={{
                 background: 'linear-gradient(135deg, #1f1208 0%, #2e1a0d 45%, #190e06 100%)',
                 transformOrigin: 'left center',
-                transform: isOpen ? 'rotateY(-112deg) scale(1.02)' : 'rotateY(0deg)',
-                boxShadow: 'inset -8px 0 25px rgba(0,0,0,0.85), inset 0 0 15px rgba(217, 119, 6, 0.25)',
+                transform: isOpen ? 'rotateY(-112deg)' : 'rotateY(0deg)',
+                boxShadow: 'inset -6px 0 20px rgba(0,0,0,0.85), inset 0 0 12px rgba(217, 119, 6, 0.25)',
               }}
             >
               {/* Outer Golden Border Filigree */}
-              <div className="absolute inset-2 sm:inset-4 border border-amber-500/30 rounded-lg pointer-events-none" />
-              <div className="absolute inset-3 sm:inset-5 border border-amber-400/15 rounded-md pointer-events-none" />
+              <div className="absolute inset-1.5 sm:inset-3 border border-amber-500/30 rounded-lg pointer-events-none" />
 
               {/* Top Jaali Arch Carved Panel (Left) */}
-              <div className="relative z-10 w-full h-40 sm:h-56 rounded-t-2xl border-2 border-amber-500/40 bg-[#140b05]/90 p-3 flex flex-col items-center justify-center shadow-inner overflow-hidden">
-                {/* SVG Mughal Jaali Lattice Motif */}
+              <div className="relative z-10 w-full h-[22vh] min-h-[80px] max-h-[160px] rounded-t-xl border border-amber-500/40 bg-[#140b05]/90 p-2 flex flex-col items-center justify-center shadow-inner overflow-hidden">
                 <svg className="w-full h-full text-amber-500/25 fill-current" viewBox="0 0 100 100">
                   <path d="M50 5 C30 5 15 25 15 50 C15 75 30 95 50 95 C70 95 85 75 85 50 C85 25 70 5 50 5 Z M50 15 C65 15 75 30 75 50 C75 70 65 85 50 85 C35 85 25 70 25 50 C25 30 35 15 50 15 Z" />
                   <circle cx="50" cy="50" r="10" />
                   <line x1="0" y1="50" x2="100" y2="50" stroke="currentColor" strokeWidth="2" />
                   <line x1="50" y1="0" x2="50" y2="100" stroke="currentColor" strokeWidth="2" />
                 </svg>
-                <div className="absolute top-2 left-2 text-[10px] text-amber-400/70">✦</div>
-                <div className="absolute top-2 right-2 text-[10px] text-amber-400/70">✦</div>
+                <div className="absolute top-1 left-1 text-[8px] text-amber-400/70">✦</div>
+                <div className="absolute top-1 right-1 text-[8px] text-amber-400/70">✦</div>
               </div>
 
               {/* Rows of 24K Brass Studs (Rivets) */}
-              <div className="flex items-center justify-around py-3">
-                {Array.from({ length: 4 }).map((_, idx) => (
+              <div className="flex items-center justify-around py-1 sm:py-2">
+                {Array.from({ length: 3 }).map((_, idx) => (
                   <div
                     key={idx}
-                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-gradient-to-br from-amber-200 via-amber-400 to-amber-700 shadow-md border border-amber-300/80 flex items-center justify-center"
+                    className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-gradient-to-br from-amber-200 via-amber-400 to-amber-700 shadow-md border border-amber-300/80 flex items-center justify-center"
                   >
-                    <div className="w-1.5 h-1.5 rounded-full bg-amber-900/50" />
+                    <div className="w-1 h-1 rounded-full bg-amber-900/50" />
                   </div>
                 ))}
               </div>
 
               {/* Left Door Center Knocker / Brass Lion Ring */}
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-amber-300 via-amber-500 to-amber-800 p-0.5 shadow-2xl border border-amber-200/80 flex items-center justify-center">
+              <div className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center pointer-events-none">
+                <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-amber-300 via-amber-500 to-amber-800 p-0.5 shadow-xl border border-amber-200/80 flex items-center justify-center">
                   <div className="w-full h-full rounded-full bg-neutral-900 flex items-center justify-center">
-                    <span className="text-base sm:text-lg">🦁</span>
+                    <span className="text-xs sm:text-sm">🦁</span>
                   </div>
                 </div>
-                {/* Brass Ring Hanging */}
-                <div className="w-6 h-8 sm:w-7 sm:h-9 -mt-2 rounded-b-full border-4 border-amber-400 shadow-lg" />
+                <div className="w-4 h-5 sm:w-5 sm:h-6 -mt-1 rounded-b-full border-2 border-amber-400 shadow-md" />
               </div>
 
               {/* Bottom Carved Lotus Panel (Left) */}
-              <div className="relative z-10 w-full h-40 sm:h-56 rounded-b-2xl border-2 border-amber-500/40 bg-[#140b05]/90 p-3 flex flex-col items-center justify-center shadow-inner overflow-hidden">
+              <div className="relative z-10 w-full h-[22vh] min-h-[80px] max-h-[160px] rounded-b-xl border border-amber-500/40 bg-[#140b05]/90 p-2 flex flex-col items-center justify-center shadow-inner overflow-hidden">
                 <svg className="w-full h-full text-amber-500/20 fill-current" viewBox="0 0 100 100">
                   <polygon points="50,10 62,38 92,38 68,56 77,85 50,68 23,85 32,56 8,38 38,38" />
                 </svg>
-                <span className="text-[10px] uppercase font-mono tracking-widest text-amber-400/40 mt-1">
+                <span className="text-[8px] uppercase font-mono tracking-widest text-amber-400/40 mt-0.5">
                   Moonlight
                 </span>
               </div>
@@ -288,58 +274,57 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
             {/* RIGHT PALACE DOOR */}
             {/* ------------------------------------------------------------- */}
             <div
-              className="w-1/2 h-full relative flex flex-col justify-between p-3 sm:p-6 border-l border-amber-500/50 shadow-2xl transition-all duration-[1500ms] ease-[cubic-bezier(0.25,1,0.5,1)]"
+              className="w-1/2 h-full relative flex flex-col justify-between p-2 sm:p-4 border-l border-amber-500/50 shadow-2xl transition-all duration-[1400ms] ease-[cubic-bezier(0.25,1,0.5,1)]"
               style={{
                 background: 'linear-gradient(225deg, #1f1208 0%, #2e1a0d 45%, #190e06 100%)',
                 transformOrigin: 'right center',
-                transform: isOpen ? 'rotateY(112deg) scale(1.02)' : 'rotateY(0deg)',
-                boxShadow: 'inset 8px 0 25px rgba(0,0,0,0.85), inset 0 0 15px rgba(217, 119, 6, 0.25)',
+                transform: isOpen ? 'rotateY(112deg)' : 'rotateY(0deg)',
+                boxShadow: 'inset 6px 0 20px rgba(0,0,0,0.85), inset 0 0 12px rgba(217, 119, 6, 0.25)',
               }}
             >
               {/* Outer Golden Border Filigree */}
-              <div className="absolute inset-2 sm:inset-4 border border-amber-500/30 rounded-lg pointer-events-none" />
-              <div className="absolute inset-3 sm:inset-5 border border-amber-400/15 rounded-md pointer-events-none" />
+              <div className="absolute inset-1.5 sm:inset-3 border border-amber-500/30 rounded-lg pointer-events-none" />
 
               {/* Top Jaali Arch Carved Panel (Right) */}
-              <div className="relative z-10 w-full h-40 sm:h-56 rounded-t-2xl border-2 border-amber-500/40 bg-[#140b05]/90 p-3 flex flex-col items-center justify-center shadow-inner overflow-hidden">
+              <div className="relative z-10 w-full h-[22vh] min-h-[80px] max-h-[160px] rounded-t-xl border border-amber-500/40 bg-[#140b05]/90 p-2 flex flex-col items-center justify-center shadow-inner overflow-hidden">
                 <svg className="w-full h-full text-amber-500/25 fill-current" viewBox="0 0 100 100">
                   <path d="M50 5 C30 5 15 25 15 50 C15 75 30 95 50 95 C70 95 85 75 85 50 C85 25 70 5 50 5 Z M50 15 C65 15 75 30 75 50 C75 70 65 85 50 85 C35 85 25 70 25 50 C25 30 35 15 50 15 Z" />
                   <circle cx="50" cy="50" r="10" />
                   <line x1="0" y1="50" x2="100" y2="50" stroke="currentColor" strokeWidth="2" />
                   <line x1="50" y1="0" x2="50" y2="100" stroke="currentColor" strokeWidth="2" />
                 </svg>
-                <div className="absolute top-2 left-2 text-[10px] text-amber-400/70">✦</div>
-                <div className="absolute top-2 right-2 text-[10px] text-amber-400/70">✦</div>
+                <div className="absolute top-1 left-1 text-[8px] text-amber-400/70">✦</div>
+                <div className="absolute top-1 right-1 text-[8px] text-amber-400/70">✦</div>
               </div>
 
               {/* Rows of 24K Brass Studs (Rivets) */}
-              <div className="flex items-center justify-around py-3">
-                {Array.from({ length: 4 }).map((_, idx) => (
+              <div className="flex items-center justify-around py-1 sm:py-2">
+                {Array.from({ length: 3 }).map((_, idx) => (
                   <div
                     key={idx}
-                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-gradient-to-br from-amber-200 via-amber-400 to-amber-700 shadow-md border border-amber-300/80 flex items-center justify-center"
+                    className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 rounded-full bg-gradient-to-br from-amber-200 via-amber-400 to-amber-700 shadow-md border border-amber-300/80 flex items-center justify-center"
                   >
-                    <div className="w-1.5 h-1.5 rounded-full bg-amber-900/50" />
+                    <div className="w-1 h-1 rounded-full bg-amber-900/50" />
                   </div>
                 ))}
               </div>
 
               {/* Right Door Center Knocker / Brass Lion Ring */}
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-amber-300 via-amber-500 to-amber-800 p-0.5 shadow-2xl border border-amber-200/80 flex items-center justify-center">
+              <div className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center pointer-events-none">
+                <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-amber-300 via-amber-500 to-amber-800 p-0.5 shadow-xl border border-amber-200/80 flex items-center justify-center">
                   <div className="w-full h-full rounded-full bg-neutral-900 flex items-center justify-center">
-                    <span className="text-base sm:text-lg">🦁</span>
+                    <span className="text-xs sm:text-sm">🦁</span>
                   </div>
                 </div>
-                <div className="w-6 h-8 sm:w-7 sm:h-9 -mt-2 rounded-b-full border-4 border-amber-400 shadow-lg" />
+                <div className="w-4 h-5 sm:w-5 sm:h-6 -mt-1 rounded-b-full border-2 border-amber-400 shadow-md" />
               </div>
 
               {/* Bottom Carved Lotus Panel (Right) */}
-              <div className="relative z-10 w-full h-40 sm:h-56 rounded-b-2xl border-2 border-amber-500/40 bg-[#140b05]/90 p-3 flex flex-col items-center justify-center shadow-inner overflow-hidden">
+              <div className="relative z-10 w-full h-[22vh] min-h-[80px] max-h-[160px] rounded-b-xl border border-amber-500/40 bg-[#140b05]/90 p-2 flex flex-col items-center justify-center shadow-inner overflow-hidden">
                 <svg className="w-full h-full text-amber-500/20 fill-current" viewBox="0 0 100 100">
                   <polygon points="50,10 62,38 92,38 68,56 77,85 50,68 23,85 32,56 8,38 38,38" />
                 </svg>
-                <span className="text-[10px] uppercase font-mono tracking-widest text-amber-400/40 mt-1">
+                <span className="text-[8px] uppercase font-mono tracking-widest text-amber-400/40 mt-0.5">
                   Heritage
                 </span>
               </div>
@@ -350,7 +335,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
           {/* CENTER ROYAL WAX SEAL & UNLOCK CTA (Bridging the seam between the doors) */}
           {/* ========================================================================= */}
           <div
-            className={`absolute z-40 inset-0 flex flex-col items-center justify-center pointer-events-auto p-4 transition-all duration-700 ${
+            className={`absolute z-40 inset-0 flex flex-col items-center justify-center pointer-events-auto p-3 transition-all duration-700 ${
               isOpen ? 'scale-125 opacity-0' : 'scale-100 opacity-100'
             }`}
           >
@@ -360,75 +345,72 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
               className="cursor-pointer group relative flex flex-col items-center justify-center transition-transform duration-300 hover:scale-105"
             >
               {/* Pulsating Radiance Rings */}
-              <div className="absolute -inset-4 rounded-full bg-amber-500/20 blur-xl animate-ping duration-1000" />
-              <div className="absolute -inset-2 rounded-full bg-amber-400/30 blur-md animate-pulse" />
+              <div className="absolute -inset-3 rounded-full bg-amber-500/20 blur-lg animate-ping duration-1000" />
+              <div className="absolute -inset-1.5 rounded-full bg-amber-400/30 blur-sm animate-pulse" />
 
               {/* The Wax Seal Outer Ring */}
-              <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-gradient-to-br from-[#851919] via-[#5C1010] to-[#380909] p-1.5 shadow-2xl border-2 border-amber-400/80 relative flex items-center justify-center">
-                {/* Scalloped Wax Border Details */}
-                <div className="w-full h-full rounded-full border-2 border-dashed border-amber-300/40 flex flex-col items-center justify-center bg-gradient-to-b from-amber-500/15 to-black/50 text-center p-2">
-                  <span className="text-sm sm:text-base">{theme.crestIcon || '👑'}</span>
+              <div className="w-20 h-20 sm:w-26 sm:h-26 rounded-full bg-gradient-to-br from-[#851919] via-[#5C1010] to-[#380909] p-1 shadow-2xl border-2 border-amber-400/80 relative flex items-center justify-center">
+                <div className="w-full h-full rounded-full border border-dashed border-amber-300/40 flex flex-col items-center justify-center bg-gradient-to-b from-amber-500/15 to-black/50 text-center p-1">
+                  <span className="text-xs">{theme.crestIcon || '👑'}</span>
                   
                   {/* Couple Monogram Initials */}
-                  <span className="font-serif text-2xl sm:text-3xl font-bold tracking-widest bg-gradient-to-r from-amber-200 via-amber-400 to-amber-100 bg-clip-text text-transparent drop-shadow-md">
+                  <span className="font-serif text-lg sm:text-2xl font-bold tracking-widest bg-gradient-to-r from-amber-200 via-amber-400 to-amber-100 bg-clip-text text-transparent drop-shadow">
                     {getMonogram()}
                   </span>
 
-                  <span className="text-[9px] uppercase font-mono tracking-[0.2em] text-amber-200/70 mt-0.5">
-                    Royal Seal
+                  <span className="text-[8px] uppercase font-mono tracking-widest text-amber-200/70">
+                    Seal
                   </span>
                 </div>
 
-                {/* Subtle Gold Wax Stamp Notch */}
-                <div className="absolute -top-1.5 px-2 py-0.5 rounded-full bg-amber-500 text-[8px] font-mono font-bold text-neutral-950 uppercase tracking-widest border border-amber-300 shadow">
-                  Moonlight
+                <div className="absolute -top-1 px-1.5 py-0.2 rounded-full bg-amber-500 text-[7px] font-mono font-bold text-neutral-950 uppercase tracking-widest border border-amber-300 shadow">
+                  Royal
                 </div>
               </div>
             </div>
 
             {/* Couple Heading Details */}
-            <div className="mt-6 text-center space-y-2 max-w-sm px-4">
-              <span className="text-[10px] uppercase font-mono tracking-[0.3em] text-amber-300/90 font-bold block drop-shadow">
+            <div className="mt-3 text-center space-y-1 max-w-xs px-2">
+              <span className="text-[9px] uppercase font-mono tracking-[0.25em] text-amber-300/90 font-bold block drop-shadow">
                 {invitation.opening_heading || 'Cordially Invites You To Celebrate'}
               </span>
 
-              <h2 className="font-serif text-2xl sm:text-4xl font-bold text-white tracking-tight drop-shadow-lg">
+              <h2 className="font-serif text-lg sm:text-2xl font-bold text-white tracking-tight drop-shadow-md leading-tight">
                 {invitation.names || 'Aarav & Kiara'}
               </h2>
 
-              <p className="text-xs text-amber-200/80 font-mono tracking-widest">
+              <p className="text-[10px] text-amber-200/80 font-mono tracking-wider">
                 {invitation.event_date || invitation.date
                   ? new Date(invitation.event_date || invitation.date).toLocaleDateString('en-IN', {
-                      month: 'long',
+                      month: 'short',
                       day: 'numeric',
                       year: 'numeric',
                     })
-                  : 'November 20, 2026'}
+                  : 'Nov 20, 2026'}
               </p>
             </div>
 
             {/* Tap To Open Call-To-Action Button */}
-            <div className="mt-6">
+            <div className="mt-3">
               <button
                 type="button"
                 onClick={handleOpenDoors}
-                className="group relative px-8 py-3.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-bold text-xs uppercase tracking-[0.2em] shadow-2xl transform hover:scale-105 active:scale-95 transition-all flex items-center justify-center space-x-2.5 border border-amber-200"
+                className="group relative px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-bold text-[11px] uppercase tracking-[0.15em] shadow-xl transform hover:scale-105 active:scale-95 transition-all flex items-center justify-center space-x-1.5 border border-amber-200"
               >
-                <Sparkles className="w-4 h-4 text-neutral-950 animate-spin-slow" />
+                <Sparkles className="w-3.5 h-3.5 text-neutral-950 animate-spin-slow" />
                 <span>Open Royal Palace Doors</span>
-                <Sparkles className="w-4 h-4 text-neutral-950 animate-spin-slow" />
               </button>
             </div>
 
-            {/* Bottom Hint */}
-            <div className="mt-4 flex flex-col items-center space-y-1 text-[10px] text-amber-300/60 uppercase font-mono tracking-widest">
-              <span>Tap Medallion or Button to Enter</span>
+            {/* Bottom Scroll / Tap Hint */}
+            <div className="mt-2.5 flex flex-col items-center space-y-0.5 text-[9px] text-amber-300/80 uppercase font-mono tracking-widest animate-pulse">
+              <span>Scroll Down or Tap to Enter</span>
               <ChevronDown className="w-3.5 h-3.5 animate-bounce text-amber-400" />
             </div>
           </div>
 
           {/* ========================================================================= */}
-          {/* FALLING FLORAL PETAL CONFETTI SHOWER (During Opening Animation) */}
+          {/* FALLING FLORAL PETAL CONFETTI SHOWER */}
           {/* ========================================================================= */}
           {isOpen && (
             <div className="absolute inset-0 z-50 pointer-events-none overflow-hidden">
@@ -438,7 +420,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
                   className="absolute"
                   style={{
                     left: `${petal.left}%`,
-                    top: '-30px',
+                    top: '-20px',
                     animation: `fall-petal ${petal.duration}s linear ${petal.delay}s forwards`,
                     transform: `rotate(${petal.rotation}deg)`,
                   }}
