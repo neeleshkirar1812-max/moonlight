@@ -197,15 +197,27 @@ const InvitationAdmin = ({ initialTab }) => {
   };
 
   // Handle Manual Free Invitation Assignment
-  const handleCreateManualInvitation = async (e) => {
-    e.preventDefault();
+  const handleCreateManualInvitation = async (e, openEditorImmediately = false) => {
+    if (e) e.preventDefault();
+    if (!manualForm.customerEmail) {
+      addToast({ title: 'Email required', message: 'Please provide client email.', type: 'error' });
+      return;
+    }
     try {
       const res = await api.post('/invitations/admin/manual-invitation', manualForm);
+      const createdInv = res.data?.invitation || res.data?.data || res.data;
+
       addToast({
-        title: 'Invitation Assigned',
-        message: `Free invitation assigned to ${manualForm.customerEmail} successfully.`,
+        title: 'Free Invitation Created! 👑',
+        message: `Template ${manualForm.templateId} assigned to ${manualForm.customerEmail} (₹0).`,
         type: 'success',
       });
+
+      if (openEditorImmediately && (createdInv?._id || createdInv?.id)) {
+        navigate(`/invitations/create/${createdInv._id || createdInv.id}`);
+        return;
+      }
+
       setManualForm({
         customerEmail: '',
         customerName: '',
@@ -226,6 +238,25 @@ const InvitationAdmin = ({ initialTab }) => {
         type: 'error',
       });
     }
+  };
+
+  const handleAutoFillSampleClient = () => {
+    setManualForm({
+      customerEmail: 'priya.rahul@gmail.com',
+      customerName: 'Rahul Sharma & Priya Verma',
+      customerPhone: '+91 98260 12345',
+      templateId: 'royal-love',
+      title: 'Rahul & Priya Royal Wedding',
+      names: 'Rahul & Priya',
+      date: '2026-12-15',
+      venue: 'Jehan Numa Palace, Bhopal',
+      publishImmediately: true,
+    });
+    addToast({
+      title: 'Sample Client Loaded ✨',
+      message: 'Demo couple details populated for 1-click free assignment.',
+      type: 'info',
+    });
   };
 
   // Handle Add Customer
@@ -655,6 +686,46 @@ const InvitationAdmin = ({ initialTab }) => {
                   </div>
                 </button>
               </div>
+
+              {/* Group 8: LIVE SHORTCUTS */}
+              <div className="pt-3 border-t border-amber-900/10 space-y-1">
+                <span className="px-3 text-[10px] font-mono uppercase font-bold text-neutral-400 tracking-wider">
+                  Live Previews
+                </span>
+                <Link
+                  to="/invitations/templates"
+                  target="_blank"
+                  className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-neutral-600 hover:bg-amber-50 hover:text-amber-900 font-medium transition-all"
+                >
+                  <div className="flex items-center space-x-2">
+                    <LayoutTemplate className="w-3.5 h-3.5 text-amber-700" />
+                    <span>Marketplace View</span>
+                  </div>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400" />
+                </Link>
+                <Link
+                  to="/i/royal-wedding-aarav-kiara"
+                  target="_blank"
+                  className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-neutral-600 hover:bg-amber-50 hover:text-amber-900 font-medium transition-all"
+                >
+                  <div className="flex items-center space-x-2">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+                    <span>Live Guest Demo</span>
+                  </div>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400" />
+                </Link>
+                <Link
+                  to="/invitations/dashboard"
+                  target="_blank"
+                  className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-neutral-600 hover:bg-amber-50 hover:text-amber-900 font-medium transition-all"
+                >
+                  <div className="flex items-center space-x-2">
+                    <Users className="w-3.5 h-3.5 text-amber-700" />
+                    <span>Client Dashboard</span>
+                  </div>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400" />
+                </Link>
+              </div>
             </nav>
           </aside>
 
@@ -905,14 +976,24 @@ const InvitationAdmin = ({ initialTab }) => {
                 </div>
 
                 <form onSubmit={handleCreateManualInvitation} className="space-y-6">
-                  {/* Step 1: Customer Details */}
+                  {/* Step 1: Customer Info */}
                   <div className="space-y-4">
-                    <h3 className="font-serif text-sm font-bold text-neutral-900 flex items-center space-x-2">
-                      <span className="w-5 h-5 rounded-full bg-amber-900 text-amber-50 text-[10px] flex items-center justify-center font-bold">
-                        1
-                      </span>
-                      <span>Client Account Details</span>
-                    </h3>
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-serif text-sm font-bold text-neutral-900 flex items-center space-x-2">
+                        <span className="w-5 h-5 rounded-full bg-amber-900 text-amber-50 text-[10px] flex items-center justify-center font-bold">
+                          1
+                        </span>
+                        <span>Client Account Details</span>
+                      </h3>
+                      <button
+                        type="button"
+                        onClick={handleAutoFillSampleClient}
+                        className="px-3 py-1 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-900 text-[11px] font-bold flex items-center space-x-1 transition-all"
+                      >
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>✨ Auto-Fill Sample Client</span>
+                      </button>
+                    </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div>
@@ -1059,14 +1140,25 @@ const InvitationAdmin = ({ initialTab }) => {
                     />
                   </div>
 
-                  {/* Submit Button */}
-                  <button
-                    type="submit"
-                    className="w-full py-3.5 rounded-xl bg-amber-900 hover:bg-amber-950 text-amber-50 font-bold text-xs uppercase tracking-widest transition-colors shadow-md flex items-center justify-center space-x-2"
-                  >
-                    <Gift className="w-4 h-4" />
-                    <span>Create & Assign to Client (₹0)</span>
-                  </button>
+                  {/* Dual Submit Buttons */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={(e) => handleCreateManualInvitation(e, true)}
+                      className="py-3.5 rounded-xl bg-amber-900 hover:bg-amber-950 text-amber-50 font-bold text-xs uppercase tracking-widest transition-colors shadow-md flex items-center justify-center space-x-2"
+                    >
+                      <Sparkles className="w-4 h-4 text-amber-300" />
+                      <span>⚡ Create & Open Live Editor (₹0)</span>
+                    </button>
+                    <button
+                      type="submit"
+                      onClick={(e) => handleCreateManualInvitation(e, false)}
+                      className="py-3.5 rounded-xl bg-white border border-amber-800 text-amber-900 hover:bg-amber-50 font-bold text-xs uppercase tracking-widest transition-colors shadow-sm flex items-center justify-center space-x-2"
+                    >
+                      <Gift className="w-4 h-4" />
+                      <span>Create & Assign to Client</span>
+                    </button>
+                  </div>
                 </form>
               </div>
             )}

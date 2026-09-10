@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import { invitationCategories, invitationTemplates } from '../../data/invitationTemplates';
 import SEO from '../../components/common/SEO';
 import {
@@ -16,6 +17,7 @@ import {
 } from 'lucide-react';
 
 const TemplateMarketplace = () => {
+  const { user } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('popular');
@@ -44,7 +46,24 @@ const TemplateMarketplace = () => {
       />
 
       {/* Header Banner */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 space-y-6">
+        {/* Admin Bar if Admin is browsing */}
+        {(user?.role === 'admin' || user?.role === 'superadmin') && (
+          <div className="p-4 rounded-2xl bg-amber-900 text-amber-50 flex items-center justify-between shadow-md">
+            <div className="flex items-center space-x-2.5 text-xs">
+              <Sparkles className="w-4 h-4 text-amber-300" />
+              <span>
+                <strong>Administrator Access:</strong> You can assign any of these templates for ₹0 in the Control Center.
+              </span>
+            </div>
+            <Link
+              to="/invitations/admin/manual"
+              className="px-3.5 py-1.5 rounded-xl bg-white text-amber-950 font-bold text-xs uppercase tracking-wider hover:bg-amber-100 transition-all shadow-sm"
+            >
+              + Create Free Invitation →
+            </Link>
+          </div>
+        )}
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-amber-100/80 border border-amber-300 text-amber-900 text-xs uppercase tracking-widest font-bold">
             <Sparkles className="w-3.5 h-3.5 text-amber-700" />

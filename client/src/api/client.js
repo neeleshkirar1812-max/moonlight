@@ -1340,8 +1340,42 @@ const handleMockRequest = async (method, url, data) => {
     ) {
       const id = cleanUrl.replace('/invitations/', '');
       if (method === 'GET') {
-        const found = invitations.find((i) => i._id === id || i.id === id || i.slug === id);
-        return { data: { success: true, invitation: found || invitations[0] } };
+        let found = invitations.find((i) => i._id === id || i.id === id || i.slug === id);
+        if (!found) {
+          const matchingTemplate =
+            invitationTemplates.find((t) => t.id === id || t.slug === id) || invitationTemplates[0];
+          found = {
+            _id: id.startsWith('inv-') ? id : `inv-${Date.now()}`,
+            id: id.startsWith('inv-') ? id : `inv-${Date.now()}`,
+            templateId: matchingTemplate.id,
+            template_id: matchingTemplate.id,
+            title: `Royal Wedding Celebration`,
+            names: 'Aarav & Kiara',
+            customerEmail: 'couple@moonlight.com',
+            userEmail: 'couple@moonlight.com',
+            eventType: matchingTemplate.category || 'Wedding',
+            date: '2026-11-20',
+            time: '19:00',
+            venue: 'Jehan Numa Palace',
+            venueAddress: '152 Shamla Hills, Bhopal, Madhya Pradesh',
+            message: 'With joyous hearts, we request the honor of your presence.',
+            scratchMessage: 'YOU’RE INVITED ♡',
+            coverPhoto: matchingTemplate.coverImage,
+            galleryUrls: [
+              'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+              'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+            ],
+            events: [],
+            status: 'DRAFT',
+            published: false,
+            slug: `invitation-${Math.floor(1000 + Math.random() * 9000)}`,
+            createdAt: new Date().toISOString(),
+            rsvpCount: 0,
+          };
+          invitations.unshift(found);
+          setCollection('invitations', invitations);
+        }
+        return { data: { success: true, invitation: found } };
       }
       if (method === 'PUT' || method === 'PATCH') {
         let slug = data.slug;
@@ -1352,21 +1386,37 @@ const handleMockRequest = async (method, url, data) => {
             .replace(/(^-|-$)/g, '');
           slug = `${rawNames}-${Math.floor(1000 + Math.random() * 9000)}`;
         }
-        invitations = invitations.map((inv) => {
-          if (inv._id === id || inv.id === id) {
-            return {
-              ...inv,
-              ...data,
-              slug: slug || inv.slug,
-              status: data.status !== undefined ? data.status : data.published ? 'PUBLISHED' : inv.status || 'DRAFT',
-              published: data.published !== undefined ? data.published : inv.published,
-              updatedAt: new Date().toISOString(),
-            };
-          }
-          return inv;
-        });
+
+        let existing = invitations.find((i) => i._id === id || i.id === id);
+        if (existing) {
+          invitations = invitations.map((inv) => {
+            if (inv._id === id || inv.id === id) {
+              return {
+                ...inv,
+                ...data,
+                slug: slug || inv.slug,
+                status: data.status !== undefined ? data.status : data.published ? 'PUBLISHED' : inv.status || 'DRAFT',
+                published: data.published !== undefined ? data.published : inv.published,
+                updatedAt: new Date().toISOString(),
+              };
+            }
+            return inv;
+          });
+        } else {
+          const newEntry = {
+            _id: id,
+            id: id,
+            ...data,
+            slug: slug || `invitation-${Math.floor(1000 + Math.random() * 9000)}`,
+            status: data.status !== undefined ? data.status : data.published ? 'PUBLISHED' : 'DRAFT',
+            published: !!data.published,
+            updatedAt: new Date().toISOString(),
+          };
+          invitations.unshift(newEntry);
+        }
+
         setCollection('invitations', invitations);
-        const updated = invitations.find((i) => i._id === id || i.id === id);
+        const updated = invitations.find((i) => i._id === id || i.id === id) || invitations[0];
         return { data: { success: true, invitation: updated } };
       }
     }

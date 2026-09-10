@@ -43,6 +43,43 @@ const InvitationLogin = () => {
     }
   };
 
+  const handleQuickLogin = async (roleType) => {
+    setLoading(true);
+    try {
+      if (roleType === 'admin') {
+        localStorage.setItem('moonlight_customer_email', 'admin@moonlightproduction.com');
+        if (login) {
+          await login('nkneeleshkirar@gmail.com', 'SuperAdmin@2026');
+        }
+        addToast({
+          title: 'Admin Session Active 👑',
+          message: 'Opening Moonlight Invitations Control System...',
+          type: 'success',
+        });
+        navigate('/invitations/admin');
+      } else {
+        localStorage.setItem('moonlight_customer_email', 'aarav.ananya@gmail.com');
+        if (login) {
+          await login('aarav.ananya@gmail.com', 'Client@2026');
+        }
+        addToast({
+          title: 'Welcome Couple! ✨',
+          message: 'Opening your Invitation Dashboard...',
+          type: 'success',
+        });
+        navigate('/invitations/dashboard');
+      }
+    } catch (err) {
+      if (roleType === 'admin') {
+        navigate('/invitations/admin');
+      } else {
+        navigate('/invitations/dashboard');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-28 pb-16 flex items-center justify-center px-4 font-sans">
       <SEO
@@ -61,6 +98,29 @@ const InvitationLogin = () => {
           <p className="text-xs sm:text-sm text-neutral-500 font-sans">
             Sign in to manage your digital invitation suite & live RSVPs
           </p>
+        </div>
+
+        {/* 1-Click Quick Demo Switchers */}
+        <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-amber-900/15 space-y-2">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-amber-900 font-bold block text-center">
+            ⚡ 1-Click Instant Login
+          </span>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => handleQuickLogin('admin')}
+              className="py-2.5 px-2 rounded-xl bg-amber-900 hover:bg-amber-950 text-amber-50 text-xs font-bold transition-all shadow-sm flex items-center justify-center space-x-1"
+            >
+              <span>👑 As Admin</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleQuickLogin('customer')}
+              className="py-2.5 px-2 rounded-xl bg-white border border-amber-800/30 hover:bg-amber-50 text-amber-900 text-xs font-bold transition-all shadow-sm flex items-center justify-center space-x-1"
+            >
+              <span>💑 As Couple</span>
+            </button>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">

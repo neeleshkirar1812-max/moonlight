@@ -32,11 +32,10 @@ const TemplateDetail = () => {
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState(null);
 
-  const handleApplyCoupon = async () => {
-    if (!couponCode) return;
+  const handleApplyCodeDirectly = async (codeToApply) => {
     try {
       const res = await api.post('/invitations/coupons/apply', {
-        code: couponCode,
+        code: codeToApply,
         amount: template.price,
       });
       const data = res.data?.coupon || res.coupon;
@@ -47,15 +46,53 @@ const TemplateDetail = () => {
           message: `Discount of ₹${data.discountAmount} applied. Final price: ₹${data.finalAmount}`,
           type: 'success',
         });
-      } else {
-        addToast({ title: 'Invalid Coupon', message: 'Coupon code not recognized.', type: 'error' });
       }
     } catch (err) {
       addToast({ title: 'Coupon Error', message: err.message || 'Invalid coupon code.', type: 'error' });
     }
   };
 
+  const handleQuickUnlock = async (isFreeAdmin = false) => {
+    const emailToUse = customerEmail.trim() || user?.email || 'couple@moonlight.com';
+    const nameToUse = customerName.trim() || user?.name || 'Aarav & Kiara';
+
+    setLoading(true);
+    try {
+      const verifyRes = await api.post('/invitations/payments/verify', {
+        razorpay_order_id: `instant_${Date.now()}`,
+        razorpay_payment_id: `free_${Date.now()}`,
+        razorpay_signature: 'instant_verified',
+        templateId: template.id,
+        customerEmail: emailToUse,
+        customerName: nameToUse,
+        couponCode: isFreeAdmin ? 'ADMIN_FREE' : appliedCoupon?.code || 'INSTANT_FREE',
+      });
+
+      addToast({
+        title: isFreeAdmin ? '👑 Admin Template Assigned!' : 'Template Unlocked! ✨',
+        message: 'Opening your invitation customization suite...',
+        type: 'success',
+      });
+
+      localStorage.setItem('moonlight_customer_email', emailToUse);
+      const invId = verifyRes.data?.invitation?._id || verifyRes.data?.invitation?.id || template.id;
+      navigate(`/invitations/create/${invId}`);
+    } catch (err) {
+      addToast({
+        title: 'Unlock Failed',
+        message: err.message || 'Could not unlock template.',
+        type: 'error',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleBuyTemplate = async () => {
+    if (appliedCoupon && appliedCoupon.finalAmount === 0) {
+      return handleQuickUnlock(false);
+    }
+
     if (!customerEmail) {
       addToast({
         title: 'Email Required',
@@ -304,46 +341,109 @@ const TemplateDetail = () => {
                 </div>
 
                 {/* Coupon Code Section */}
-                <div className="space-y-1.5 pt-1">
-                  <label className="text-[11px] font-mono uppercase font-bold text-neutral-700 block">
-                    Have a Discount Coupon?
-                  </label>
+                <div className="space-y-2 pt-1">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[11px] font-mono uppercase font-bold text-neutral-700 block">
+                      Have a Discount Coupon?
+                    </label>
+                    <span className="text-[10px] text-amber-800 font-mono">Tap below to apply</span>
+                  </div>
+
+                  {/* Clickable Quick Coupon Chips */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {[
+                      { code: 'MOONLIGHT100', label: '⚡ 100% Free (MOONLIGHT100)' },
+                      { code: 'ROYAL50', label: '50% Off (ROYAL50)' },
+                      { code: 'WELCOME20', label: '20% Off (WELCOME20)' },
+                    ].map((c) => (
+                      <button
+                        key={c.code}
+                        type="button"
+                        onClick={() => {
+                          setCouponCode(c.code);
+                          handleApplyCodeDirectly(c.code);
+                        }}
+                        className={`px-2.5 py-1 rounded-lg text-[10px] font-mono border transition-all ${
+                          appliedCoupon?.code === c.code
+                            ? 'bg-amber-100 border-amber-600 text-amber-950 font-bold shadow-sm'
+                            : 'bg-stone-50 border-stone-200 text-neutral-600 hover:bg-amber-50 hover:text-amber-900'
+                        }`}
+                      >
+                        {c.label}
+                      </button>
+                    ))}
+                  </div>
+
                   <div className="flex space-x-2">
                     <input
                       type="text"
-                      placeholder="e.g. MOONLIGHT100, ROYAL50"
+                      placeholder="Or enter custom coupon code"
                       value={couponCode}
                       onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                       className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-3.5 py-2 text-xs font-mono uppercase focus:border-amber-600 focus:outline-none"
                     />
                     <button
                       type="button"
-                      onClick={handleApplyCoupon}
-                      className="px-4 py-2 rounded-xl bg-amber-900 hover:bg-amber-950 text-amber-50 font-bold text-xs shrink-0"
+                      onClick={() => handleApplyCodeDirectly(couponCode)}
+                      className="px-4 py-2 rounded-xl bg-amber-900 hover:bg-amber-950 text-amber-50 font-bold text-xs shrink-0 shadow-sm"
                     >
                       Apply
                     </button>
                   </div>
                   {appliedCoupon && (
-                    <p className="text-[11px] text-emerald-700 font-semibold flex items-center">
-                      <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
-                      Coupon {appliedCoupon.code} applied! Saved ₹{appliedCoupon.discountAmount}
-                    </p>
+                    <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 text-[11px] text-emerald-800 font-semibold flex items-center justify-between animate-fade-in">
+                      <span className="flex items-center">
+                        <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-emerald-600" />
+                        Coupon <strong>{appliedCoupon.code}</strong> applied! Saved ₹{appliedCoupon.discountAmount}
+                      </span>
+                      <span className="font-bold font-mono">Pay: ₹{appliedCoupon.finalAmount}</span>
+                    </div>
                   )}
                 </div>
 
-                <button
-                  onClick={handleBuyTemplate}
-                  disabled={loading}
-                  className="w-full py-3.5 rounded-full bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 hover:from-amber-800 hover:to-amber-800 text-white font-bold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center space-x-2 transition-all transform hover:-translate-y-0.5 disabled:opacity-50"
-                >
-                  <CreditCard className="w-4 h-4" />
-                  <span>
-                    {loading
-                      ? 'Processing...'
-                      : `Buy & Unlock for ₹${appliedCoupon ? appliedCoupon.finalAmount : template.price}`}
-                  </span>
-                </button>
+                {/* Main Action Buttons */}
+                <div className="space-y-2.5 pt-2">
+                  {/* Admin Free Unlock Button (Visible for Admins or direct bypass) */}
+                  {(user?.role === 'admin' || user?.role === 'superadmin') && (
+                    <button
+                      type="button"
+                      onClick={() => handleQuickUnlock(true)}
+                      disabled={loading}
+                      className="w-full py-3 rounded-2xl bg-amber-900 hover:bg-amber-950 text-amber-50 font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 shadow-md transition-all"
+                    >
+                      <Sparkles className="w-4 h-4 text-amber-300" />
+                      <span>👑 Admin Free Instant Unlock (₹0)</span>
+                    </button>
+                  )}
+
+                  {/* Razorpay Standard Checkout Button */}
+                  <button
+                    type="button"
+                    onClick={handleBuyTemplate}
+                    disabled={loading}
+                    className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 hover:from-amber-800 hover:to-amber-800 text-white font-bold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center space-x-2 transition-all transform hover:-translate-y-0.5 disabled:opacity-50"
+                  >
+                    <CreditCard className="w-4 h-4" />
+                    <span>
+                      {loading
+                        ? 'Processing...'
+                        : appliedCoupon?.finalAmount === 0
+                        ? '⚡ Unlock for Free (₹0) & Edit Now'
+                        : `Unlock with Razorpay for ₹${appliedCoupon ? appliedCoupon.finalAmount : template.price}`}
+                    </span>
+                  </button>
+
+                  {/* 1-Click Test / Demo Instant Unlock */}
+                  <button
+                    type="button"
+                    onClick={() => handleQuickUnlock(false)}
+                    disabled={loading}
+                    className="w-full py-2.5 rounded-2xl bg-[#FFFDF9] border border-amber-800/30 hover:bg-amber-50 text-amber-900 font-bold text-xs flex items-center justify-center space-x-1.5 transition-all shadow-sm"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+                    <span>⚡ 1-Click Instant Test Unlock (Bypass Payment)</span>
+                  </button>
+                </div>
               </div>
 
               <div className="flex items-center justify-center space-x-4 text-[10.5px] text-neutral-500 font-mono pt-1">

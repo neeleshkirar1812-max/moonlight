@@ -55,6 +55,7 @@ const InvitationEditor = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [showPublishModal, setShowPublishModal] = useState(false);
 
   const [form, setForm] = useState({
     template_id: 'royal-love',
@@ -276,8 +277,12 @@ const InvitationEditor = () => {
         setForm((prev) => ({
           ...prev,
           published: updated.published,
-          slug: updated.slug,
+          slug: updated.slug || prev.slug,
         }));
+      }
+
+      if (shouldPublish) {
+        setShowPublishModal(true);
       }
 
       addToast({
@@ -993,6 +998,85 @@ const InvitationEditor = () => {
             </div>
           </div>
         </div>
+
+        {/* Live Publication Modal */}
+        {showPublishModal && (
+          <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in font-sans">
+            <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 border-2 border-amber-500/30 shadow-2xl relative">
+              <div className="text-center space-y-2">
+                <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto shadow-inner">
+                  <CheckCircle2 className="w-8 h-8 text-emerald-600" />
+                </div>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-amber-800 font-bold block">
+                  Moonlight Live Distribution
+                </span>
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900">
+                  Your Invitation is Live! ✨
+                </h3>
+                <p className="text-xs text-neutral-600 font-sans">
+                  Guests can now open your invitation, scratch the card, view the map directions, and submit RSVPs online.
+                </p>
+              </div>
+
+              {/* Public Link Box */}
+              <div className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200/80 space-y-2">
+                <span className="text-[10px] uppercase font-mono font-bold text-amber-900 block">
+                  Unique Live URL:
+                </span>
+                <div className="flex items-center justify-between bg-white px-3 py-2 rounded-xl border border-amber-300 text-xs font-mono text-neutral-900 break-all select-all">
+                  <span className="truncate mr-2">{`${window.location.origin}/i/${form.slug}`}</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigator.clipboard.writeText(`${window.location.origin}/i/${form.slug}`);
+                      setCopiedLink(true);
+                      setTimeout(() => setCopiedLink(false), 2000);
+                    }}
+                    className="p-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 text-neutral-800 shrink-0"
+                    title="Copy Link"
+                  >
+                    {copiedLink ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Quick Actions Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <a
+                  href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
+                    `Namaste! ✨\nYou are cordially invited to celebrate ${form.title} on ${form.date}.\n\nTap the live link to view the itinerary, scratch card & RSVP:\n${window.location.origin}/i/${form.slug}\n\nWith love,\n${form.names}`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 shadow-md transition-all"
+                >
+                  <Share2 className="w-4 h-4" />
+                  <span>Broadcast WhatsApp</span>
+                </a>
+
+                <a
+                  href={`/i/${form.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-3 rounded-2xl bg-amber-900 hover:bg-amber-950 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 shadow-md transition-all"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  <span>Open Live Page</span>
+                </a>
+              </div>
+
+              <div className="pt-2 text-center">
+                <button
+                  type="button"
+                  onClick={() => setShowPublishModal(false)}
+                  className="text-xs font-semibold text-neutral-500 hover:text-neutral-900"
+                >
+                  Close & Keep Editing
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

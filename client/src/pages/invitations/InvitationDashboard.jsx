@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
@@ -82,6 +82,24 @@ const InvitationDashboard = () => {
       />
 
       <div className="max-w-6xl mx-auto space-y-8">
+        {/* Admin Switcher Banner if Admin is logged in */}
+        {(user?.role === 'admin' || user?.role === 'superadmin') && (
+          <div className="p-4 rounded-2xl bg-amber-900 text-amber-50 flex items-center justify-between shadow-md">
+            <div className="flex items-center space-x-3 text-xs">
+              <Sparkles className="w-4 h-4 text-amber-300" />
+              <span>
+                <strong>Administrator Mode:</strong> You are viewing customer invitations as an Admin.
+              </span>
+            </div>
+            <Link
+              to="/invitations/admin"
+              className="px-3.5 py-1.5 rounded-xl bg-white text-amber-950 font-bold text-xs uppercase tracking-wider hover:bg-amber-100 transition-all shadow-sm"
+            >
+              Open Admin Control Center →
+            </Link>
+          </div>
+        )}
+
         {/* Payment confirmation alert if just paid */}
         {searchParams.get('paid') && (
           <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 flex items-center space-x-3 shadow-sm animate-fade-in">
@@ -115,7 +133,7 @@ const InvitationDashboard = () => {
               <RefreshCw className="w-4 h-4" />
             </button>
             <Link
-              to="/invitations"
+              to="/invitations/templates"
               className="px-5 py-2.5 rounded-full bg-amber-900 hover:bg-amber-800 text-white font-bold text-xs uppercase tracking-wider flex items-center shadow-sm"
             >
               <Plus className="w-3.5 h-3.5 mr-1.5" /> Buy New Template
@@ -138,15 +156,15 @@ const InvitationDashboard = () => {
               Live & Published
             </span>
             <div className="font-serif text-3xl font-bold text-emerald-700">{publishedCount}</div>
-            <span className="text-[11px] text-neutral-500">Accessible by wedding guests</span>
+            <span className="text-[11px] text-neutral-500">Accessible by guests</span>
           </div>
 
           <div className="bg-white rounded-2xl p-5 border border-[#E0D7C7] shadow-sm space-y-1">
             <span className="text-[10px] uppercase font-mono tracking-wider text-neutral-500 font-bold block">
-              Confirmed RSVPs
+              Total RSVPs Received
             </span>
-            <div className="font-serif text-3xl font-bold text-amber-800">{totalRsvps}</div>
-            <span className="text-[11px] text-neutral-500">Total guest responses</span>
+            <div className="font-serif text-3xl font-bold text-indigo-900">{totalRsvps}</div>
+            <span className="text-[11px] text-neutral-500">Guests responded</span>
           </div>
         </div>
 
@@ -173,7 +191,7 @@ const InvitationDashboard = () => {
                 </p>
               </div>
               <Link
-                to="/invitations"
+                to="/invitations/templates"
                 className="inline-flex items-center px-6 py-3 rounded-full bg-amber-900 text-white font-bold text-xs uppercase tracking-wider shadow-sm"
               >
                 Browse Templates
