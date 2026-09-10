@@ -161,13 +161,15 @@ const Navbar = () => {
 
           <Link
             to="/invitations"
+            target="_blank"
+            rel="noopener noreferrer"
             className={`text-[11px] uppercase tracking-wider font-semibold transition-all py-1 px-2.5 rounded-full flex items-center ${
               location.pathname.startsWith('/invitations')
                 ? 'text-amber-950 bg-gradient-to-r from-amber-200 to-amber-300 shadow-sm font-extrabold'
                 : 'text-amber-900 font-bold hover:text-amber-950 hover:bg-amber-100/60'
             }`}
           >
-            <Sparkles className="w-3 h-3 mr-1 text-amber-700" /> Digital Invitation
+            <Sparkles className="w-3 h-3 mr-1 text-amber-700" /> Digital Invitation ↗
           </Link>
         </nav>
 
@@ -302,9 +304,12 @@ const Navbar = () => {
             <div className="space-y-1 pt-1">
               <Link
                 to="/invitations"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center text-sm font-extrabold text-amber-950 bg-gradient-to-r from-amber-100 to-amber-200/90 border border-amber-300 px-3 py-2.5 rounded-xl my-1 shadow-sm"
               >
-                <Sparkles className="w-4 h-4 mr-2 text-amber-700" /> Digital Invitation (Marketplace) ✦
+                <Sparkles className="w-4 h-4 mr-2 text-amber-700" /> Digital Invitation (Marketplace) ✦ ↗
               </Link>
               <Link
                 to="/"
