@@ -145,6 +145,8 @@ const App = () => {
         <Route path="/invitations/login" element={<InvitationLogin />} />
         <Route path="/invitations/signup" element={<InvitationSignup />} />
         <Route path="/invitations/admin" element={<InvitationAdmin />} />
+        <Route path="/invitations/admin/:tab" element={<InvitationAdmin />} />
+        <Route path="/invitations/admin/manual" element={<InvitationAdmin initialTab="manual" />} />
       </Route>
 
       {/* 2. Customer Portal */}

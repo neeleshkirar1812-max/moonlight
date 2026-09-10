@@ -1,4 +1,4 @@
-﻿import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 
 const invitationPurchaseSchema = new mongoose.Schema(
   {
@@ -11,8 +11,14 @@ const invitationPurchaseSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      lowercase: true,
     },
     customerName: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    customerPhone: {
       type: String,
       default: '',
       trim: true,
@@ -25,10 +31,19 @@ const invitationPurchaseSchema = new mongoose.Schema(
       type: String,
       default: 'Royal Love',
     },
+    purchaseType: {
+      type: String,
+      enum: ['PAID', 'FREE', 'ADMIN_ASSIGNED', 'COUPON', 'DISCOUNT'],
+      default: 'PAID',
+    },
+    couponCode: {
+      type: String,
+      default: '',
+    },
     razorpayOrderId: {
       type: String,
-      unique: true,
-      required: true,
+      required: false,
+      default: '',
     },
     razorpayPaymentId: {
       type: String,
@@ -37,6 +52,7 @@ const invitationPurchaseSchema = new mongoose.Schema(
     amount: {
       type: Number,
       required: true,
+      default: 0,
     },
     currency: {
       type: String,
@@ -44,7 +60,7 @@ const invitationPurchaseSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['created', 'paid', 'failed'],
+      enum: ['created', 'paid', 'active', 'failed', 'refunded'],
       default: 'created',
     },
     invitationId: {
@@ -57,5 +73,8 @@ const invitationPurchaseSchema = new mongoose.Schema(
   }
 );
 
-const InvitationPurchase = mongoose.models.InvitationPurchase || mongoose.model('InvitationPurchase', invitationPurchaseSchema);
+const InvitationPurchase =
+  mongoose.models.InvitationPurchase ||
+  mongoose.model('InvitationPurchase', invitationPurchaseSchema);
+
 export default InvitationPurchase;

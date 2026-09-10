@@ -3,19 +3,196 @@ import Razorpay from 'razorpay';
 import Invitation from '../models/Invitation.js';
 import RSVP from '../models/RSVP.js';
 import InvitationPurchase from '../models/InvitationPurchase.js';
+import Template from '../models/Template.js';
+import Coupon from '../models/Coupon.js';
+import AdminActivityLog from '../models/AdminActivityLog.js';
+import User from '../models/User.js';
 import { AppError } from '../middleware/error.js';
 
-// Pre-defined template list with pricing
-export const templates = [
-  { id: 'royal-love', name: 'Royal Love', category: 'Wedding', price: 699, image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80', description: 'Regal gold & velvet heritage wedding suite with countdown and royal crest.' },
-  { id: 'blooming-dreams', name: 'Blooming Dreams', category: 'Engagement', price: 499, image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80', description: 'Pastel floral luxury invitation with interactive scratch card and gentle animations.' },
-  { id: 'little-sunshine', name: 'A Little Sunshine', category: 'Birthday', price: 399, image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1200&q=80', description: 'Joyful celebration layout with balloons, timeline, and instant guest RSVP.' },
-  { id: 'together-forever', name: 'Together Forever', category: 'Anniversary', price: 599, image: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1200&q=80', description: 'Timeless anniversary design with couple memories gallery and music player.' },
-  { id: 'golden-vows', name: 'Golden Vows', category: 'Reception', price: 649, image: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=1200&q=80', description: 'Opulent gold foil accents and cinematic countdown for gala receptions.' },
-  { id: 'ethereal-bloom', name: 'Ethereal Bloom', category: 'Haldi', price: 449, image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80', description: 'Vibrant marigold & turmeric aesthetics designed for joyous Haldi & Mehendi festivities.' },
+// Default Master Template Registry
+export const defaultTemplates = [
+  {
+    id: 'royal-love',
+    name: 'Royal Love',
+    slug: 'royal-love',
+    category: 'Wedding',
+    price: 699,
+    previewImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+    description: 'Regal gold & velvet heritage wedding suite with countdown, royal crest, and interactive scratch card.',
+    theme: {
+      primary: '#B88935',
+      secondary: '#2C1A1D',
+      background: '#FAF8F5',
+      accent: '#D4AF37',
+      text: '#2C1A1D',
+    },
+    fonts: {
+      heading: 'Cinzel, serif',
+      body: 'Montserrat, sans-serif',
+      script: 'Great Vibes, cursive',
+    },
+    variants: {
+      hero: 'cinematic',
+      gallery: 'carousel',
+      event: 'timeline',
+      rsvp: 'classic',
+      scratch: 'gold',
+      animation: 'smooth',
+    },
+    status: 'active',
+    isFeatured: true,
+  },
+  {
+    id: 'blooming-dreams',
+    name: 'Blooming Dreams',
+    slug: 'blooming-dreams',
+    category: 'Engagement',
+    price: 499,
+    previewImage: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80',
+    description: 'Pastel floral luxury invitation with interactive scratch card and gentle animations.',
+    theme: {
+      primary: '#8A5D6A',
+      secondary: '#36242B',
+      background: '#FDF9F8',
+      accent: '#D99B9B',
+      text: '#36242B',
+    },
+    fonts: {
+      heading: 'Cormorant Garamond, serif',
+      body: 'Montserrat, sans-serif',
+      script: 'Great Vibes, cursive',
+    },
+    variants: {
+      hero: 'floral',
+      gallery: 'grid',
+      event: 'cards',
+      rsvp: 'modern',
+      scratch: 'floral',
+      animation: 'gentle',
+    },
+    status: 'active',
+  },
+  {
+    id: 'little-sunshine',
+    name: 'A Little Sunshine',
+    slug: 'little-sunshine',
+    category: 'Birthday',
+    price: 399,
+    previewImage: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1200&q=80',
+    description: 'Joyful celebration layout with balloons, timeline, and instant guest RSVP.',
+    theme: {
+      primary: '#D9822B',
+      secondary: '#2C2B2A',
+      background: '#FFFDF9',
+      accent: '#F3BE42',
+      text: '#2C2B2A',
+    },
+    fonts: {
+      heading: 'Playfair Display, serif',
+      body: 'Montserrat, sans-serif',
+      script: 'Great Vibes, cursive',
+    },
+    variants: {
+      hero: 'playful',
+      gallery: 'carousel',
+      event: 'timeline',
+      rsvp: 'compact',
+      scratch: 'gold',
+      animation: 'bounce',
+    },
+    status: 'active',
+  },
+  {
+    id: 'together-forever',
+    name: 'Together Forever',
+    slug: 'together-forever',
+    category: 'Anniversary',
+    price: 599,
+    previewImage: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1200&q=80',
+    description: 'Timeless anniversary design with couple memories gallery and music player.',
+    theme: {
+      primary: '#7A3B4D',
+      secondary: '#1F1A1B',
+      background: '#FAF6F7',
+      accent: '#C47B89',
+      text: '#1F1A1B',
+    },
+    fonts: {
+      heading: 'Cinzel, serif',
+      body: 'Montserrat, sans-serif',
+      script: 'Great Vibes, cursive',
+    },
+    variants: {
+      hero: 'cinematic',
+      gallery: 'masonry',
+      event: 'timeline',
+      rsvp: 'classic',
+      scratch: 'ruby',
+      animation: 'fade',
+    },
+    status: 'active',
+  },
+  {
+    id: 'emerald-heritage',
+    name: 'Emerald Heritage',
+    slug: 'emerald-heritage',
+    category: 'Reception',
+    price: 649,
+    previewImage: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=1200&q=80',
+    description: 'Opulent gold foil accents and cinematic countdown for gala receptions.',
+    theme: {
+      primary: '#1D4D38',
+      secondary: '#0C1F16',
+      background: '#F6FAF8',
+      accent: '#C5A059',
+      text: '#0C1F16',
+    },
+    fonts: {
+      heading: 'Cinzel, serif',
+      body: 'Montserrat, sans-serif',
+      script: 'Great Vibes, cursive',
+    },
+    variants: {
+      hero: 'heritage',
+      gallery: 'carousel',
+      event: 'cards',
+      rsvp: 'classic',
+      scratch: 'emerald',
+      animation: 'smooth',
+    },
+    status: 'active',
+  },
+  {
+    id: 'mehendi-magic',
+    name: 'Mehendi Magic',
+    slug: 'mehendi-magic',
+    category: 'Mehendi',
+    price: 449,
+    previewImage: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80',
+    description: 'Vibrant marigold aesthetics designed for joyous Haldi & Mehendi festivities.',
+    theme: {
+      primary: '#B8731F',
+      secondary: '#2E1A05',
+      background: '#FDFBF7',
+      accent: '#E5A93C',
+      text: '#2E1A05',
+    },
+    fonts: {
+      heading: 'Playfair Display, serif',
+      body: 'Montserrat, sans-serif',
+      script: 'Great Vibes, cursive',
+    },
+    variants: {
+      hero: 'vibrant',
+      gallery: 'grid',
+      event: 'timeline',
+      rsvp: 'compact',
+      scratch: 'gold',
+      animation: 'smooth',
+    },
+    status: 'active',
+  },
 ];
-
-export const getTemplateById = (id) => templates.find((t) => t.id === id) || templates[0];
 
 const getRazorpayInstance = () => {
   const key_id = process.env.RAZORPAY_KEY_ID || 'rzp_test_Ta47WTEJxJInTH';
@@ -23,24 +200,168 @@ const getRazorpayInstance = () => {
   return new Razorpay({ key_id, key_secret });
 };
 
-// 1. Create Razorpay Order
+// Log Admin Action Helper
+const logAdminAction = async (req, action, targetType, targetId, details = {}) => {
+  try {
+    const adminEmail = req.user?.email || process.env.ADMIN_EMAIL || 'admin@moonlight.com';
+    const adminUserId = req.user?._id || req.user?.id;
+    await AdminActivityLog.create({
+      adminUserId,
+      adminEmail,
+      action,
+      targetType,
+      targetId: String(targetId || ''),
+      details,
+      ipAddress: req.ip || '',
+    });
+  } catch (err) {
+    console.warn('[Activity Log Warning]:', err.message);
+  }
+};
+
+// 1. Get All Templates (Public active or Admin all)
+export const getTemplates = async (req, res, next) => {
+  try {
+    let templatesFromDb = [];
+    try {
+      templatesFromDb = await Template.find({ status: 'active' }).sort({ isFeatured: -1, createdAt: -1 });
+    } catch (e) {
+      // Fallback
+    }
+
+    const templates = templatesFromDb && templatesFromDb.length > 0 ? templatesFromDb : defaultTemplates;
+    res.status(200).json({ success: true, templates });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// 2. Get Single Template by Slug
+export const getTemplateBySlug = async (req, res, next) => {
+  try {
+    const { slug } = req.params;
+    let template = null;
+    try {
+      template = await Template.findOne({ slug });
+    } catch (e) {}
+
+    if (!template) {
+      template = defaultTemplates.find((t) => t.slug === slug || t.id === slug) || defaultTemplates[0];
+    }
+
+    res.status(200).json({ success: true, template });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// 3. Apply Coupon Code
+export const applyCoupon = async (req, res, next) => {
+  try {
+    const { code, amount } = req.body;
+    if (!code) {
+      return next(new AppError('Please provide a coupon code', 400));
+    }
+
+    const uppercaseCode = code.trim().toUpperCase();
+    let coupon = null;
+    try {
+      coupon = await Coupon.findOne({ code: uppercaseCode, isActive: true });
+    } catch (e) {}
+
+    // Mock fallback coupons if DB is empty
+    if (!coupon) {
+      const fallbackCoupons = {
+        MOONLIGHT100: { discountType: 'fixed', discountValue: 100, minOrderAmount: 499 },
+        ROYAL50: { discountType: 'percentage', discountValue: 50, minOrderAmount: 0 },
+        WELCOME20: { discountType: 'percentage', discountValue: 20, minOrderAmount: 0 },
+      };
+      const fb = fallbackCoupons[uppercaseCode];
+      if (fb) {
+        coupon = { code: uppercaseCode, ...fb };
+      }
+    }
+
+    if (!coupon) {
+      return next(new AppError('Invalid or expired coupon code', 400));
+    }
+
+    const originalAmount = Number(amount) || 699;
+    if (coupon.minOrderAmount && originalAmount < coupon.minOrderAmount) {
+      return next(
+        new AppError(`Coupon requires a minimum order value of ₹${coupon.minOrderAmount}`, 400)
+      );
+    }
+
+    let discount = 0;
+    if (coupon.discountType === 'percentage') {
+      discount = Math.round((originalAmount * coupon.discountValue) / 100);
+    } else {
+      discount = coupon.discountValue;
+    }
+
+    const finalAmount = Math.max(0, originalAmount - discount);
+
+    res.status(200).json({
+      success: true,
+      coupon: {
+        code: coupon.code,
+        discountType: coupon.discountType,
+        discountValue: coupon.discountValue,
+        discountAmount: discount,
+        originalAmount,
+        finalAmount,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// 4. Create Razorpay Payment Order
 export const createPaymentOrder = async (req, res, next) => {
   try {
-    const { templateId, customerEmail, customerName } = req.body;
-    const template = getTemplateById(templateId);
+    const { templateId, customerEmail, customerName, customerPhone, couponCode } = req.body;
+
+    let template = defaultTemplates.find((t) => t.id === templateId || t.slug === templateId);
+    try {
+      const dbTpl = await Template.findOne({ slug: templateId });
+      if (dbTpl) template = dbTpl;
+    } catch (e) {}
+
+    if (!template) template = defaultTemplates[0];
+
+    let finalPrice = template.price;
+
+    // Apply Coupon if present
+    if (couponCode) {
+      const uppercaseCode = couponCode.trim().toUpperCase();
+      try {
+        const coupon = await Coupon.findOne({ code: uppercaseCode, isActive: true });
+        if (coupon) {
+          const discount =
+            coupon.discountType === 'percentage'
+              ? Math.round((finalPrice * coupon.discountValue) / 100)
+              : coupon.discountValue;
+          finalPrice = Math.max(0, finalPrice - discount);
+        }
+      } catch (e) {}
+    }
 
     const razorpay = getRazorpayInstance();
-    const amountInPaise = template.price * 100;
+    const amountInPaise = Math.max(100, Math.round(finalPrice * 100)); // Minimum ₹1 for test gateway
 
     const order = await razorpay.orders.create({
       amount: amountInPaise,
       currency: 'INR',
-      receipt: `moonlight_inv_${Date.now()}`,
+      receipt: `ml_inv_${Date.now()}`,
       notes: {
-        templateId: template.id,
+        templateId: template.id || template.slug,
         templateName: template.name,
         customerEmail: customerEmail || req.user?.email || 'customer@moonlight.com',
         customerName: customerName || req.user?.name || 'Customer',
+        customerPhone: customerPhone || '',
+        couponCode: couponCode || '',
       },
     });
 
@@ -51,6 +372,7 @@ export const createPaymentOrder = async (req, res, next) => {
       currency: order.currency,
       key: process.env.RAZORPAY_KEY_ID || 'rzp_test_Ta47WTEJxJInTH',
       template,
+      finalPrice,
     });
   } catch (error) {
     console.error('[Create Order Error]:', error);
@@ -58,10 +380,20 @@ export const createPaymentOrder = async (req, res, next) => {
   }
 };
 
-// 2. Verify Razorpay Payment & Create Draft Invitation
+// 5. Verify Payment & Create Customer Invitation Draft
 export const verifyPayment = async (req, res, next) => {
   try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, templateId, customerEmail, customerName } = req.body;
+    const {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+      templateId,
+      customerEmail,
+      customerName,
+      customerPhone,
+      couponCode,
+    } = req.body;
+
     const secret = process.env.RAZORPAY_KEY_SECRET || 'yBTYvxXfmGE6E8hcVQE0fWdD';
 
     // Signature verification
@@ -74,19 +406,29 @@ export const verifyPayment = async (req, res, next) => {
       return next(new AppError('Invalid payment signature', 400));
     }
 
-    const template = getTemplateById(templateId);
-    const email = customerEmail || req.user?.email || 'customer@moonlight.com';
+    let template = defaultTemplates.find((t) => t.id === templateId || t.slug === templateId);
+    try {
+      const dbTpl = await Template.findOne({ slug: templateId });
+      if (dbTpl) template = dbTpl;
+    } catch (e) {}
+    if (!template) template = defaultTemplates[0];
+
+    const email = (customerEmail || req.user?.email || 'customer@moonlight.com').toLowerCase().trim();
     const name = customerName || req.user?.name || 'Valued Couple';
+    const phone = customerPhone || '';
 
     // Record purchase
     let purchase = await InvitationPurchase.findOne({ razorpayOrderId: razorpay_order_id });
     if (!purchase) {
       purchase = await InvitationPurchase.create({
-        userId: req.user?._id,
+        userId: req.user?._id || req.user?.id,
         customerEmail: email,
         customerName: name,
-        templateId: template.id,
+        customerPhone: phone,
+        templateId: template.id || template.slug,
         templateName: template.name,
+        purchaseType: couponCode ? 'COUPON' : 'PAID',
+        couponCode: couponCode || '',
         razorpayOrderId: razorpay_order_id,
         razorpayPaymentId: razorpay_payment_id,
         amount: template.price,
@@ -94,26 +436,91 @@ export const verifyPayment = async (req, res, next) => {
       });
     }
 
+    // Increment coupon count if used
+    if (couponCode) {
+      try {
+        await Coupon.findOneAndUpdate({ code: couponCode.toUpperCase() }, { $inc: { usageCount: 1 } });
+      } catch (e) {}
+    }
+
     // Create Draft Invitation
     const rand = Math.random().toString(36).substring(2, 6);
     const cleanNames = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
     const initialSlug = `${cleanNames || 'wedding'}-${rand}`;
 
+    const defaultEvents = [
+      {
+        id: `ev-${Date.now()}-1`,
+        title: 'Haldi & Phoolon Ki Holi',
+        eventType: 'Haldi',
+        date: '2026-11-19',
+        time: '10:30 AM',
+        venue: 'Gulmohar Bagh, Jehan Numa Palace',
+        address: 'Shamla Hills, Bhopal',
+        description: 'A morning filled with sunshine yellow, marigold petals, dhol beats, and turmeric rituals.',
+        image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+        mapUrl: 'https://www.google.com/maps/search/?api=1&query=Jehan+Numa+Palace+Bhopal',
+        calendarEnabled: true,
+      },
+      {
+        id: `ev-${Date.now()}-2`,
+        title: 'Mehendi & Sangeet Gala',
+        eventType: 'Sangeet',
+        date: '2026-11-19',
+        time: '07:00 PM',
+        venue: 'The Royal Courtyard Ballroom',
+        address: 'Shamla Hills, Bhopal',
+        description: 'An evening of henna artistry, high-energy family choreography, and acoustic live band performances.',
+        image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+        mapUrl: 'https://www.google.com/maps/search/?api=1&query=Jehan+Numa+Palace+Bhopal',
+        calendarEnabled: true,
+      },
+      {
+        id: `ev-${Date.now()}-3`,
+        title: 'The Royal Wedding & Pheras',
+        eventType: 'Wedding',
+        date: '2026-11-20',
+        time: '06:00 PM',
+        venue: 'Royal Poolside Lawn',
+        address: 'Shamla Hills, Bhopal',
+        description: 'The sacred union of two souls under the royal mandap, followed by dinner and royal fireworks.',
+        image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+        mapUrl: 'https://www.google.com/maps/search/?api=1&query=Jehan+Numa+Palace+Bhopal',
+        calendarEnabled: true,
+      },
+    ];
+
     const invitation = await Invitation.create({
-      userId: req.user?._id,
+      userId: req.user?._id || req.user?.id,
       userEmail: email,
-      templateId: template.id,
+      templateId: template.id || template.slug,
       purchaseId: purchase._id,
       title: `${name}'s ${template.name}`,
       names: name,
-      eventType: template.category,
-      date: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      time: '19:00',
+      brideName: 'Kiara Advani',
+      groomName: 'Aarav Singhania',
+      hostNames: 'Singhania & Advani Families',
+      eventType: template.category || 'Wedding',
+      date: '2026-11-20',
+      time: '18:00',
       venue: 'Jehan Numa Palace',
       venueAddress: '152 Shamla Hills, Bhopal, Madhya Pradesh',
-      message: 'With joyous hearts, we request the honor of your presence to celebrate our special day.',
+      message: 'With joyous hearts and the blessings of our elders, we invite you to celebrate our union.',
+      quote: 'Two souls, one sacred path. A lifetime of laughter, honor, and love begins under the stars.',
+      story: 'What began as a chance meeting under the golden sunset of the lakes turned into a lifetime promise of love.',
+      hashtag: '#AaravWedsKiara',
       scratchMessage: 'YOU’RE INVITED ♡',
+      musicUrl: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+      coverPhoto: template.previewImage || 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+      galleryUrls: [
+        'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=800&q=80',
+      ],
+      events: defaultEvents,
       slug: initialSlug,
+      status: 'DRAFT',
       published: false,
     });
 
@@ -124,6 +531,7 @@ export const verifyPayment = async (req, res, next) => {
       success: true,
       message: 'Payment verified and draft invitation created successfully.',
       invitation,
+      purchase,
     });
   } catch (error) {
     console.error('[Verify Payment Error]:', error);
@@ -131,23 +539,36 @@ export const verifyPayment = async (req, res, next) => {
   }
 };
 
-// 3. Get Customer Dashboard & Invitations
+// 6. Get Customer Dashboard Data (Customer only sees own records)
 export const getCustomerDashboard = async (req, res, next) => {
   try {
-    const userEmail = req.query.email || req.user?.email;
-    const query = userEmail ? { userEmail } : {};
+    const userEmail = (req.query.email || req.user?.email || '').toLowerCase().trim();
+    const userId = req.user?._id || req.user?.id;
+
+    const query = {};
+    if (userId) {
+      query.$or = [{ userId }, { userEmail }];
+    } else if (userEmail) {
+      query.userEmail = userEmail;
+    }
 
     const invitations = await Invitation.find(query).sort({ createdAt: -1 });
+    const purchases = await InvitationPurchase.find(
+      userId ? { $or: [{ userId }, { customerEmail: userEmail }] } : { customerEmail: userEmail }
+    ).sort({ createdAt: -1 });
 
-    // Attach RSVP counts
     const invWithRsvp = await Promise.all(
       invitations.map(async (inv) => {
         const rsvpCount = await RSVP.countDocuments({ invitationId: inv._id });
         const acceptedCount = await RSVP.countDocuments({ invitationId: inv._id, response: 'Yes' });
+        const declinedCount = await RSVP.countDocuments({ invitationId: inv._id, response: 'No' });
+        const maybeCount = await RSVP.countDocuments({ invitationId: inv._id, response: 'Maybe' });
         return {
           ...inv.toObject(),
           rsvpCount,
           acceptedCount,
+          declinedCount,
+          maybeCount,
         };
       })
     );
@@ -155,25 +576,44 @@ export const getCustomerDashboard = async (req, res, next) => {
     res.status(200).json({
       success: true,
       invitations: invWithRsvp,
+      purchases,
     });
   } catch (error) {
     next(error);
   }
 };
 
-// 4. Get Invitation by ID
+// 7. Get Single Invitation by ID (Authenticated / authorized)
 export const getInvitationById = async (req, res, next) => {
   try {
     const invitation = await Invitation.findById(req.params.id);
     if (!invitation) {
       return next(new AppError('Invitation not found', 404));
     }
-    const rsvpCount = await RSVP.countDocuments({ invitationId: invitation._id });
+
+    // Check ownership if not admin
+    const isAdmin =
+      req.user?.role === 'admin' ||
+      req.user?.role === 'superadmin' ||
+      req.user?.email === (process.env.ADMIN_EMAIL || 'admin@moonlight.com');
+
+    if (!isAdmin && req.user && invitation.userEmail && invitation.userEmail !== req.user.email) {
+      return next(new AppError('You are not authorized to access this invitation', 403));
+    }
+
+    const rsvps = await RSVP.find({ invitationId: invitation._id }).sort({ createdAt: -1 });
+    const rsvpCount = rsvps.reduce((sum, r) => sum + (r.guests || 1), 0);
+    const acceptedGuests = rsvps
+      .filter((r) => r.response === 'Yes')
+      .reduce((sum, r) => sum + (r.guests || 1), 0);
+
     res.status(200).json({
       success: true,
       invitation: {
         ...invitation.toObject(),
         rsvpCount,
+        acceptedGuests,
+        rsvps,
       },
     });
   } catch (error) {
@@ -181,45 +621,96 @@ export const getInvitationById = async (req, res, next) => {
   }
 };
 
-// 5. Update / Publish Invitation
+// 8. Update Invitation (Customer or Admin)
 export const updateInvitation = async (req, res, next) => {
   try {
-    const { title, names, eventType, date, time, venue, venueAddress, message, scratchMessage, musicUrl, coverPhoto, galleryUrls, published, rsvpEnabled, scratchEnabled } = req.body;
-
     const invitation = await Invitation.findById(req.params.id);
     if (!invitation) {
       return next(new AppError('Invitation not found', 404));
     }
 
-    if (title !== undefined) invitation.title = title;
-    if (names !== undefined) invitation.names = names;
-    if (eventType !== undefined) invitation.eventType = eventType;
-    if (date !== undefined) invitation.date = date;
-    if (time !== undefined) invitation.time = time;
-    if (venue !== undefined) invitation.venue = venue;
-    if (venueAddress !== undefined) invitation.venueAddress = venueAddress;
-    if (message !== undefined) invitation.message = message;
-    if (scratchMessage !== undefined) invitation.scratchMessage = scratchMessage;
-    if (musicUrl !== undefined) invitation.musicUrl = musicUrl;
-    if (coverPhoto !== undefined) invitation.coverPhoto = coverPhoto;
-    if (galleryUrls !== undefined) invitation.galleryUrls = galleryUrls;
-    if (rsvpEnabled !== undefined) invitation.rsvpEnabled = rsvpEnabled;
-    if (scratchEnabled !== undefined) invitation.scratchEnabled = scratchEnabled;
+    // Authorization
+    const isAdmin =
+      req.user?.role === 'admin' ||
+      req.user?.role === 'superadmin' ||
+      req.user?.email === (process.env.ADMIN_EMAIL || 'admin@moonlight.com');
 
-    if (published !== undefined) {
-      invitation.published = published;
-      if (published && !invitation.slug) {
-        const cleanNames = (invitation.names || 'event').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-        const rand = Math.random().toString(36).substring(2, 6);
-        invitation.slug = `${cleanNames}-${rand}`;
+    if (!isAdmin && req.user && invitation.userEmail && invitation.userEmail !== req.user.email) {
+      return next(new AppError('You are only allowed to modify your own invitations', 403));
+    }
+
+    const fields = [
+      'title',
+      'names',
+      'brideName',
+      'groomName',
+      'hostNames',
+      'eventType',
+      'date',
+      'time',
+      'venue',
+      'venueAddress',
+      'message',
+      'quote',
+      'story',
+      'hashtag',
+      'scratchMessage',
+      'musicUrl',
+      'coverPhoto',
+      'galleryUrls',
+      'events',
+      'dressCode',
+      'accommodation',
+      'parking',
+      'weatherGuide',
+      'giftBlessing',
+      'themeConfig',
+      'componentVariants',
+      'rsvpEnabled',
+      'scratchEnabled',
+      'templateId',
+    ];
+
+    fields.forEach((field) => {
+      if (req.body[field] !== undefined) {
+        invitation[field] = req.body[field];
       }
+    });
+
+    // Handle Publish / Unpublish / Status
+    if (req.body.status !== undefined) {
+      invitation.status = req.body.status;
+      invitation.published = req.body.status === 'PUBLISHED';
+    } else if (req.body.published !== undefined) {
+      invitation.published = req.body.published;
+      invitation.status = req.body.published ? 'PUBLISHED' : 'DRAFT';
+    }
+
+    // Ensure collision-resistant slug
+    if (invitation.published && !invitation.slug) {
+      const cleanNames = (invitation.names || 'wedding')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+      const rand = Math.random().toString(36).substring(2, 6);
+      invitation.slug = `${cleanNames || 'event'}-${rand}`;
     }
 
     await invitation.save();
 
+    if (isAdmin) {
+      await logAdminAction(req, 'invitation_updated', 'invitation', invitation._id, {
+        status: invitation.status,
+        slug: invitation.slug,
+      });
+    }
+
     res.status(200).json({
       success: true,
-      message: invitation.published ? 'Live invitation published successfully!' : 'Saved as draft.',
+      message:
+        invitation.status === 'PUBLISHED'
+          ? 'Live invitation published successfully!'
+          : 'Saved successfully.',
       invitation,
     });
   } catch (error) {
@@ -227,17 +718,37 @@ export const updateInvitation = async (req, res, next) => {
   }
 };
 
-// 6. Public Invitation by Slug (No login required)
+// 9. Public Invitation by Slug (Zero-Login for Guests)
 export const getPublicInvitationBySlug = async (req, res, next) => {
   try {
     const { slug } = req.params;
-    const invitation = await Invitation.findOne({ slug, published: true });
+    const invitation = await Invitation.findOne({ slug });
 
     if (!invitation) {
-      return next(new AppError('Invitation not found or not published yet.', 404));
+      return next(new AppError('Invitation not found.', 404));
     }
 
-    const template = getTemplateById(invitation.templateId);
+    if (invitation.status === 'SUSPENDED') {
+      return res.status(403).json({
+        success: false,
+        status: 'SUSPENDED',
+        message: 'This digital invitation is temporarily suspended or unavailable.',
+      });
+    }
+
+    if (invitation.status !== 'PUBLISHED' && !invitation.published) {
+      return next(new AppError('This invitation is currently in draft mode.', 404));
+    }
+
+    let template = defaultTemplates.find(
+      (t) => t.id === invitation.templateId || t.slug === invitation.templateId
+    );
+    try {
+      const dbTpl = await Template.findOne({ slug: invitation.templateId });
+      if (dbTpl) template = dbTpl;
+    } catch (e) {}
+    if (!template) template = defaultTemplates[0];
+
     const rsvpCount = await RSVP.countDocuments({ invitationId: invitation._id });
 
     res.status(200).json({
@@ -253,7 +764,7 @@ export const getPublicInvitationBySlug = async (req, res, next) => {
   }
 };
 
-// 7. Submit RSVP (Public for published invitations)
+// 10. Submit RSVP (Public submission for published invitations)
 export const submitRSVP = async (req, res, next) => {
   try {
     const { invitationId, name, phone, email, guests, response, message } = req.body;
@@ -263,23 +774,23 @@ export const submitRSVP = async (req, res, next) => {
     }
 
     const invitation = await Invitation.findById(invitationId);
-    if (!invitation || !invitation.published) {
-      return next(new AppError('This invitation is not accepting RSVPs currently.', 400));
+    if (!invitation || invitation.status !== 'PUBLISHED') {
+      return next(new AppError('This invitation is not accepting RSVPs at this moment.', 400));
     }
 
     const rsvp = await RSVP.create({
-      invitationId,
+      invitationId: invitation._id,
       name,
       phone: phone || '',
       email: email || '',
-      guests: Number(guests) || 1,
+      guests: Math.max(1, Number(guests) || 1),
       response: response || 'Yes',
       message: message || '',
     });
 
     res.status(201).json({
       success: true,
-      message: 'RSVP received with joy! Thank you.',
+      message: 'Your RSVP response has been recorded with warmth and gratitude!',
       rsvp,
     });
   } catch (error) {
@@ -287,7 +798,7 @@ export const submitRSVP = async (req, res, next) => {
   }
 };
 
-// 8. Get RSVPs for an invitation
+// 11. Get RSVPs for specific invitation
 export const getInvitationRSVPs = async (req, res, next) => {
   try {
     const rsvps = await RSVP.find({ invitationId: req.params.invitationId }).sort({ createdAt: -1 });
@@ -300,29 +811,466 @@ export const getInvitationRSVPs = async (req, res, next) => {
   }
 };
 
-// 9. Admin Overview Stats
-export const getAdminStats = async (req, res, next) => {
+// 12. ADMIN: Overview Metrics & Stats
+export const getAdminOverview = async (req, res, next) => {
   try {
-    const totalPurchases = await InvitationPurchase.countDocuments({ status: 'paid' });
-    const purchases = await InvitationPurchase.find().sort({ createdAt: -1 }).limit(100);
-    const totalRevenue = purchases.reduce((sum, p) => sum + (p.status === 'paid' ? p.amount : 0), 0);
+    const totalPurchases = await InvitationPurchase.countDocuments({
+      status: { $in: ['paid', 'active'] },
+    });
+    const purchases = await InvitationPurchase.find().sort({ createdAt: -1 }).limit(50);
+    const totalRevenue = purchases.reduce(
+      (sum, p) => sum + (['paid', 'active'].includes(p.status) ? p.amount || 0 : 0),
+      0
+    );
 
     const totalInvitations = await Invitation.countDocuments();
-    const publishedInvitations = await Invitation.countDocuments({ published: true });
-    const invitations = await Invitation.find().sort({ createdAt: -1 }).limit(100);
+    const publishedInvitations = await Invitation.countDocuments({ status: 'PUBLISHED' });
+    const draftInvitations = await Invitation.countDocuments({ status: 'DRAFT' });
+    const suspendedInvitations = await Invitation.countDocuments({ status: 'SUSPENDED' });
+
+    // Distinct customer count
+    const distinctEmails = await InvitationPurchase.distinct('customerEmail');
+    const userCount = await User.countDocuments({ role: 'customer' }).catch(() => 0);
+    const totalCustomers = Math.max(distinctEmails.length, userCount || 0);
 
     const totalRSVPs = await RSVP.countDocuments();
+    const rsvpAccepted = await RSVP.countDocuments({ response: 'Yes' });
+    const rsvpDeclined = await RSVP.countDocuments({ response: 'No' });
+    const rsvpMaybe = await RSVP.countDocuments({ response: 'Maybe' });
+
+    // Today's stats
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+    const todayPurchases = await InvitationPurchase.find({
+      createdAt: { $gte: startOfToday },
+      status: { $in: ['paid', 'active'] },
+    });
+    const todayOrders = todayPurchases.length;
+    const todayRevenue = todayPurchases.reduce((sum, p) => sum + (p.amount || 0), 0);
+
+    const recentInvitations = await Invitation.find().sort({ createdAt: -1 }).limit(10);
+    const recentOrders = await InvitationPurchase.find().sort({ createdAt: -1 }).limit(10);
 
     res.status(200).json({
       success: true,
       stats: {
-        totalPurchases,
-        totalRevenue,
+        totalCustomers,
         totalInvitations,
         publishedInvitations,
+        draftInvitations,
+        suspendedInvitations,
+        totalPurchases,
+        totalRevenue,
+        todayOrders,
+        todayRevenue,
         totalRSVPs,
+        rsvpBreakdown: {
+          accepted: rsvpAccepted,
+          declined: rsvpDeclined,
+          maybe: rsvpMaybe,
+        },
       },
-// 10. Razorpay Webhook Handler
+      recentInvitations,
+      recentOrders,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// 13. ADMIN: Get All Customers
+export const getAdminCustomers = async (req, res, next) => {
+  try {
+    // Combine registered users with purchase customer emails
+    const purchases = await InvitationPurchase.find().sort({ createdAt: -1 });
+    const invitations = await Invitation.find();
+    const rsvps = await RSVP.find();
+
+    const customerMap = {};
+
+    purchases.forEach((p) => {
+      const email = (p.customerEmail || '').toLowerCase().trim();
+      if (!email) return;
+      if (!customerMap[email]) {
+        customerMap[email] = {
+          email,
+          name: p.customerName || 'Customer',
+          phone: p.customerPhone || '',
+          registeredAt: p.createdAt,
+          purchases: [],
+          invitations: [],
+          totalSpent: 0,
+          rsvpCount: 0,
+        };
+      }
+      customerMap[email].purchases.push(p);
+      if (['paid', 'active'].includes(p.status)) {
+        customerMap[email].totalSpent += p.amount || 0;
+      }
+    });
+
+    invitations.forEach((inv) => {
+      const email = (inv.userEmail || '').toLowerCase().trim();
+      if (!email) return;
+      if (!customerMap[email]) {
+        customerMap[email] = {
+          email,
+          name: inv.names || 'Customer',
+          phone: '',
+          registeredAt: inv.createdAt,
+          purchases: [],
+          invitations: [],
+          totalSpent: 0,
+          rsvpCount: 0,
+        };
+      }
+      customerMap[email].invitations.push(inv);
+    });
+
+    const customers = Object.values(customerMap);
+    res.status(200).json({ success: true, customers });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// 14. ADMIN: Create Customer Manually
+export const createAdminCustomer = async (req, res, next) => {
+  try {
+    const { name, email, phone } = req.body;
+    if (!email) {
+      return next(new AppError('Customer email is required', 400));
+    }
+
+    const cleanEmail = email.toLowerCase().trim();
+
+    // Check if User model exists
+    let user = await User.findOne({ email: cleanEmail });
+    if (!user) {
+      const randomPassword = crypto.randomBytes(16).toString('hex');
+      user = await User.create({
+        name: name || 'Customer',
+        email: cleanEmail,
+        phone: phone || '',
+        password: randomPassword,
+        role: 'customer',
+      });
+    }
+
+    await logAdminAction(req, 'customer_created', 'customer', user._id, { email: cleanEmail, name });
+
+    res.status(201).json({
+      success: true,
+      message: 'Customer account created successfully.',
+      customer: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        createdAt: user.createdAt,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// 15. ADMIN: Manual / Free Invitation Assignment
+export const createAdminManualInvitation = async (req, res, next) => {
+  try {
+    const { customerEmail, customerName, customerPhone, templateId, title, names, date, venue, publishImmediately } = req.body;
+
+    if (!customerEmail || !templateId) {
+      return next(new AppError('Customer email and template are required', 400));
+    }
+
+    const cleanEmail = customerEmail.toLowerCase().trim();
+    let template = defaultTemplates.find((t) => t.id === templateId || t.slug === templateId);
+    try {
+      const dbTpl = await Template.findOne({ slug: templateId });
+      if (dbTpl) template = dbTpl;
+    } catch (e) {}
+    if (!template) template = defaultTemplates[0];
+
+    // 1. Create ADMIN_ASSIGNED purchase record with ₹0
+    const purchase = await InvitationPurchase.create({
+      customerEmail: cleanEmail,
+      customerName: customerName || 'Valued Client',
+      customerPhone: customerPhone || '',
+      templateId: template.id || template.slug,
+      templateName: template.name,
+      purchaseType: 'ADMIN_ASSIGNED',
+      amount: 0,
+      currency: 'INR',
+      status: 'active',
+      razorpayOrderId: `admin_assigned_${Date.now()}`,
+    });
+
+    // 2. Generate slug
+    const cleanNames = (names || customerName || 'invitation')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    const rand = Math.random().toString(36).substring(2, 6);
+    const slug = `${cleanNames}-${rand}`;
+
+    // 3. Create Invitation
+    const invitation = await Invitation.create({
+      userEmail: cleanEmail,
+      templateId: template.id || template.slug,
+      purchaseId: purchase._id,
+      title: title || `${customerName || 'Couple'}'s ${template.name}`,
+      names: names || customerName || 'Aarav & Kiara',
+      brideName: 'Kiara',
+      groomName: 'Aarav',
+      hostNames: 'Moonlight Royal Guests',
+      eventType: template.category || 'Wedding',
+      date: date || '2026-11-20',
+      time: '18:00',
+      venue: venue || 'Jehan Numa Palace',
+      venueAddress: 'Shamla Hills, Bhopal, Madhya Pradesh',
+      message: 'With immense joy and happiness, we invite you to join us in celebrating our special moments.',
+      quote: 'Two souls, one sacred path. A lifetime of laughter, honor, and love begins under the stars.',
+      story: 'What began as a chance meeting under the golden sunset of the lakes turned into a lifetime promise of love.',
+      hashtag: '#MoonlightCelebration',
+      scratchMessage: 'YOU’RE INVITED ♡',
+      musicUrl: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+      coverPhoto: template.previewImage,
+      galleryUrls: [
+        'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+      ],
+      slug,
+      status: publishImmediately ? 'PUBLISHED' : 'DRAFT',
+      published: !!publishImmediately,
+    });
+
+    purchase.invitationId = invitation._id;
+    await purchase.save();
+
+    await logAdminAction(req, 'invitation_created', 'invitation', invitation._id, {
+      customerEmail: cleanEmail,
+      templateId: template.id || template.slug,
+      purchaseType: 'ADMIN_ASSIGNED',
+      published: !!publishImmediately,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Free invitation assigned and created for client successfully.',
+      invitation,
+      purchase,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// 16. ADMIN: Update Invitation Status (Publish, Suspend, Unpublish, Archive)
+export const updateAdminInvitationStatus = async (req, res, next) => {
+  try {
+    const { status } = req.body;
+    if (!['DRAFT', 'PUBLISHED', 'SUSPENDED', 'ARCHIVED'].includes(status)) {
+      return next(new AppError('Invalid status value', 400));
+    }
+
+    const invitation = await Invitation.findById(req.params.id);
+    if (!invitation) {
+      return next(new AppError('Invitation not found', 404));
+    }
+
+    invitation.status = status;
+    invitation.published = status === 'PUBLISHED';
+    await invitation.save();
+
+    await logAdminAction(req, `invitation_${status.toLowerCase()}`, 'invitation', invitation._id, {
+      status,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `Invitation status updated to ${status}.`,
+      invitation,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// 17. ADMIN: Delete Invitation
+export const deleteAdminInvitation = async (req, res, next) => {
+  try {
+    const invitation = await Invitation.findByIdAndDelete(req.params.id);
+    if (!invitation) {
+      return next(new AppError('Invitation not found', 404));
+    }
+
+    await RSVP.deleteMany({ invitationId: invitation._id });
+    await logAdminAction(req, 'invitation_deleted', 'invitation', invitation._id, {
+      names: invitation.names,
+      slug: invitation.slug,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Invitation and associated RSVPs deleted successfully.',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// 18. ADMIN: Template CRUD
+export const getAdminTemplates = async (req, res, next) => {
+  try {
+    let templates = await Template.find().sort({ createdAt: -1 });
+    if (!templates || templates.length === 0) {
+      templates = defaultTemplates;
+    }
+    res.status(200).json({ success: true, templates });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const createAdminTemplate = async (req, res, next) => {
+  try {
+    const { name, slug, category, price, previewImage, description, theme, fonts, variants, isFeatured } = req.body;
+    if (!name || !slug) {
+      return next(new AppError('Name and slug are required', 400));
+    }
+
+    const cleanSlug = slug.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-');
+    const template = await Template.create({
+      name,
+      slug: cleanSlug,
+      category: category || 'Wedding',
+      price: Number(price) || 699,
+      previewImage: previewImage || 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+      description: description || '',
+      theme: theme || { primary: '#B88935', secondary: '#2C1A1D', background: '#FAF8F5' },
+      fonts: fonts || { heading: 'Cinzel, serif', body: 'Montserrat, sans-serif' },
+      variants: variants || { hero: 'cinematic', gallery: 'carousel', scratch: 'gold' },
+      isFeatured: !!isFeatured,
+      status: 'active',
+    });
+
+    await logAdminAction(req, 'template_created', 'template', template._id, { name, slug: cleanSlug });
+
+    res.status(201).json({ success: true, template });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateAdminTemplate = async (req, res, next) => {
+  try {
+    const template = await Template.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!template) {
+      return next(new AppError('Template not found', 404));
+    }
+    await logAdminAction(req, 'template_updated', 'template', template._id, { name: template.name });
+    res.status(200).json({ success: true, template });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const duplicateAdminTemplate = async (req, res, next) => {
+  try {
+    const orig = await Template.findById(req.params.id);
+    if (!orig) {
+      return next(new AppError('Template not found', 404));
+    }
+
+    const copy = await Template.create({
+      name: `${orig.name} (Copy)`,
+      slug: `${orig.slug}-copy-${Date.now()}`,
+      category: orig.category,
+      price: orig.price,
+      previewImage: orig.previewImage,
+      description: orig.description,
+      theme: orig.theme,
+      fonts: orig.fonts,
+      variants: orig.variants,
+      status: 'active',
+    });
+
+    await logAdminAction(req, 'template_duplicated', 'template', copy._id, { original: orig.name });
+    res.status(201).json({ success: true, template: copy });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// 19. ADMIN: Coupons CRUD
+export const getAdminCoupons = async (req, res, next) => {
+  try {
+    const coupons = await Coupon.find().sort({ createdAt: -1 });
+    res.status(200).json({ success: true, coupons });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const createAdminCoupon = async (req, res, next) => {
+  try {
+    const { code, discountType, discountValue, minOrderAmount, usageLimit, expiryDate } = req.body;
+    if (!code || !discountValue) {
+      return next(new AppError('Coupon code and discount value are required', 400));
+    }
+
+    const coupon = await Coupon.create({
+      code: code.trim().toUpperCase(),
+      discountType: discountType || 'percentage',
+      discountValue: Number(discountValue),
+      minOrderAmount: Number(minOrderAmount) || 0,
+      usageLimit: Number(usageLimit) || 100,
+      expiryDate: expiryDate ? new Date(expiryDate) : undefined,
+      isActive: true,
+    });
+
+    await logAdminAction(req, 'coupon_created', 'coupon', coupon._id, { code: coupon.code });
+    res.status(201).json({ success: true, coupon });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateAdminCoupon = async (req, res, next) => {
+  try {
+    const coupon = await Coupon.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!coupon) {
+      return next(new AppError('Coupon not found', 404));
+    }
+    await logAdminAction(req, 'coupon_updated', 'coupon', coupon._id, { code: coupon.code });
+    res.status(200).json({ success: true, coupon });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// 20. ADMIN: All RSVPs
+export const getAdminAllRSVPs = async (req, res, next) => {
+  try {
+    const rsvps = await RSVP.find().populate('invitationId', 'names title slug').sort({ createdAt: -1 });
+    res.status(200).json({ success: true, rsvps });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// 21. ADMIN: Activity Logs
+export const getAdminActivityLogs = async (req, res, next) => {
+  try {
+    const logs = await AdminActivityLog.find().sort({ createdAt: -1 }).limit(100);
+    res.status(200).json({ success: true, logs });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// 22. Razorpay Webhook Handler
 export const paymentWebhook = async (req, res) => {
   try {
     const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET || 'moonlight_webhook_secret_key';
@@ -357,4 +1305,3 @@ export const paymentWebhook = async (req, res) => {
     res.status(500).json({ status: 'error', message: error.message });
   }
 };
-

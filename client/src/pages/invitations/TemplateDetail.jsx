@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getTemplateById } from '../../data/invitationTemplates';
 import { useAuth } from '../../context/AuthContext';
@@ -29,6 +29,31 @@ const TemplateDetail = () => {
   const [customerName, setCustomerName] = useState(user?.name || '');
   const [customerEmail, setCustomerEmail] = useState(user?.email || '');
   const [scratchRevealed, setScratchRevealed] = useState(false);
+  const [couponCode, setCouponCode] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+
+  const handleApplyCoupon = async () => {
+    if (!couponCode) return;
+    try {
+      const res = await api.post('/invitations/coupons/apply', {
+        code: couponCode,
+        amount: template.price,
+      });
+      const data = res.data?.coupon || res.coupon;
+      if (data) {
+        setAppliedCoupon(data);
+        addToast({
+          title: 'Coupon Applied!',
+          message: `Discount of ₹${data.discountAmount} applied. Final price: ₹${data.finalAmount}`,
+          type: 'success',
+        });
+      } else {
+        addToast({ title: 'Invalid Coupon', message: 'Coupon code not recognized.', type: 'error' });
+      }
+    } catch (err) {
+      addToast({ title: 'Coupon Error', message: err.message || 'Invalid coupon code.', type: 'error' });
+    }
+  };
 
   const handleBuyTemplate = async () => {
     if (!customerEmail) {
@@ -47,6 +72,8 @@ const TemplateDetail = () => {
         templateId: template.id,
         customerEmail: customerEmail.trim(),
         customerName: customerName.trim() || 'Valued Couple',
+        couponCode: appliedCoupon?.code || '',
+        price: appliedCoupon ? appliedCoupon.finalAmount : template.price,
       });
 
       const orderData = res.data;
@@ -70,6 +97,7 @@ const TemplateDetail = () => {
               templateId: template.id,
               customerEmail: customerEmail.trim(),
               customerName: customerName.trim() || 'Valued Couple',
+              couponCode: appliedCoupon?.code || '',
             });
 
             addToast({
@@ -275,13 +303,46 @@ const TemplateDetail = () => {
                   />
                 </div>
 
+                {/* Coupon Code Section */}
+                <div className="space-y-1.5 pt-1">
+                  <label className="text-[11px] font-mono uppercase font-bold text-neutral-700 block">
+                    Have a Discount Coupon?
+                  </label>
+                  <div className="flex space-x-2">
+                    <input
+                      type="text"
+                      placeholder="e.g. MOONLIGHT100, ROYAL50"
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                      className="w-full bg-[#FAF8F5] border border-neutral-300 rounded-xl px-3.5 py-2 text-xs font-mono uppercase focus:border-amber-600 focus:outline-none"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleApplyCoupon}
+                      className="px-4 py-2 rounded-xl bg-amber-900 hover:bg-amber-950 text-amber-50 font-bold text-xs shrink-0"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                  {appliedCoupon && (
+                    <p className="text-[11px] text-emerald-700 font-semibold flex items-center">
+                      <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
+                      Coupon {appliedCoupon.code} applied! Saved ₹{appliedCoupon.discountAmount}
+                    </p>
+                  )}
+                </div>
+
                 <button
                   onClick={handleBuyTemplate}
                   disabled={loading}
                   className="w-full py-3.5 rounded-full bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 hover:from-amber-800 hover:to-amber-800 text-white font-bold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center space-x-2 transition-all transform hover:-translate-y-0.5 disabled:opacity-50"
                 >
                   <CreditCard className="w-4 h-4" />
-                  <span>{loading ? 'Processing...' : `Buy & Unlock for ₹${template.price}`}</span>
+                  <span>
+                    {loading
+                      ? 'Processing...'
+                      : `Buy & Unlock for ₹${appliedCoupon ? appliedCoupon.finalAmount : template.price}`}
+                  </span>
                 </button>
               </div>
 

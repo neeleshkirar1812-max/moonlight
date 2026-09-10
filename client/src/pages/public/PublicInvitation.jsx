@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import api from '../../api/client';
 import SEO from '../../components/common/SEO';
 import InvitationRenderer from '../../components/invitations/engine/InvitationRenderer';
-import { Heart, Sparkles, ArrowLeft } from 'lucide-react';
+import { Heart, Sparkles, ArrowLeft, ShieldAlert } from 'lucide-react';
 
 const PublicInvitation = () => {
   const { slug } = useParams();
@@ -11,20 +11,33 @@ const PublicInvitation = () => {
   const [invitation, setInvitation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isSuspended, setIsSuspended] = useState(false);
 
   useEffect(() => {
     const fetchInvitation = async () => {
       setLoading(true);
       try {
         const res = await api.get(`/invitations/public/${slug}`);
-        const data = res.data?.invitation || res.data?.data || res.data;
+        if (res.status === 'SUSPENDED' || res.data?.status === 'SUSPENDED') {
+          setIsSuspended(true);
+          return;
+        }
+        const data = res.data?.invitation || res.data?.data || res.data || res.invitation;
         if (data) {
-          setInvitation(data);
+          if (data.status === 'SUSPENDED') {
+            setIsSuspended(true);
+          } else {
+            setInvitation(data);
+          }
         } else {
           setError('Invitation not found or has not been published yet.');
         }
       } catch (err) {
-        setError(err.message || 'Unable to load invitation.');
+        if (err.response?.status === 403 || err.response?.data?.status === 'SUSPENDED') {
+          setIsSuspended(true);
+        } else {
+          setError(err.message || 'Unable to load invitation.');
+        }
       } finally {
         setLoading(false);
       }
@@ -43,6 +56,27 @@ const PublicInvitation = () => {
           </span>
           <p className="text-[11px] text-neutral-400">Opening Digital Invitation Suite...</p>
         </div>
+      </div>
+    );
+  }
+
+  if (isSuspended) {
+    return (
+      <div className="min-h-screen bg-[#FAF8F5] flex flex-col items-center justify-center p-6 text-center space-y-4 font-sans">
+        <div className="w-16 h-16 rounded-full bg-amber-100 text-amber-900 flex items-center justify-center">
+          <ShieldAlert className="w-8 h-8" />
+        </div>
+        <h1 className="font-serif text-2xl font-bold text-neutral-900">Invitation Temporarily Unavailable</h1>
+        <p className="text-xs text-neutral-600 max-w-sm">
+          This digital invitation has been paused by the host or Moonlight Production administrator. Please check back later.
+        </p>
+        <Link
+          to="/invitations"
+          className="px-6 py-2.5 rounded-full bg-amber-900 hover:bg-amber-800 text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-all flex items-center space-x-2"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Explore Moonlight Invitations</span>
+        </Link>
       </div>
     );
   }

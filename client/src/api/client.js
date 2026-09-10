@@ -801,6 +801,9 @@ const handleMockRequest = async (method, url, data) => {
     let invitations = getCollection('invitations') || [];
     let purchases = getCollection('invitationPurchases') || [];
     let rsvps = getCollection('rsvps') || [];
+    let templates = getCollection('invitationTemplates') || [];
+    let coupons = getCollection('invitationCoupons') || [];
+    let activityLogs = getCollection('adminActivityLogs') || [];
 
     // Seed default sample invitation if empty so /i/royal-wedding-aarav-kiara opens out of the box
     if (invitations.length === 0) {
@@ -811,6 +814,9 @@ const handleMockRequest = async (method, url, data) => {
           templateId: 'royal-love',
           customerEmail: 'aarav.ananya@gmail.com',
           customerName: 'Aarav Sharma & Kiara Sen',
+          brideName: 'Kiara Sen',
+          groomName: 'Aarav Sharma',
+          hostNames: 'Sharma & Sen Families',
           title: 'Royal Wedding Celebration',
           names: 'Aarav & Kiara',
           eventType: 'Wedding',
@@ -819,9 +825,90 @@ const handleMockRequest = async (method, url, data) => {
           venue: 'Jehan Numa Palace',
           venueAddress: '152 Shamla Hills, Bhopal, Madhya Pradesh 462013',
           message: 'With the blessings of our parents, we invite you to celebrate our union in royal grace.',
+          quote: 'Two souls, one sacred path. A lifetime of laughter, honor, and love begins under the stars.',
+          story: 'What began as a chance meeting under the golden sunset of the lakes turned into a lifetime promise of love.',
+          hashtag: '#AaravWedsKiara',
           scratchMessage: 'YOU’RE INVITED ♡',
           musicUrl: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
           coverPhoto: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+          galleryUrls: [
+            'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+          ],
+          events: [
+            {
+              id: 'ev-1',
+              title: 'Haldi & Phoolon Ki Holi',
+              eventType: 'Haldi',
+              date: '2026-11-19',
+              time: '10:30 AM',
+              venue: 'Gulmohar Bagh, Jehan Numa Palace',
+              address: 'Shamla Hills, Bhopal',
+              description: 'A morning filled with sunshine yellow, marigold petals, and festive rituals.',
+              image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+              mapUrl: 'https://www.google.com/maps/search/?api=1&query=Jehan+Numa+Palace+Bhopal',
+              calendarEnabled: true,
+            },
+            {
+              id: 'ev-2',
+              title: 'Mehendi & Sangeet Gala',
+              eventType: 'Sangeet',
+              date: '2026-11-19',
+              time: '07:00 PM',
+              venue: 'The Royal Courtyard Ballroom',
+              address: 'Shamla Hills, Bhopal',
+              description: 'An evening of henna artistry, high-energy family choreography, and acoustic live band.',
+              image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+              mapUrl: 'https://www.google.com/maps/search/?api=1&query=Jehan+Numa+Palace+Bhopal',
+              calendarEnabled: true,
+            },
+            {
+              id: 'ev-3',
+              title: 'The Royal Wedding & Pheras',
+              eventType: 'Wedding',
+              date: '2026-11-20',
+              time: '06:00 PM',
+              venue: 'Royal Poolside Lawn',
+              address: 'Shamla Hills, Bhopal',
+              description: 'The sacred union of two souls under the royal mandap, followed by dinner and fireworks.',
+              image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+              mapUrl: 'https://www.google.com/maps/search/?api=1&query=Jehan+Numa+Palace+Bhopal',
+              calendarEnabled: true,
+            },
+          ],
+          dressCode: {
+            enabled: true,
+            title: 'Royal Indian Formal',
+            description: 'We would love to see our guests adorned in traditional royal palettes.',
+            palettes: [
+              { ceremony: 'Haldi', color: 'Mustard Gold & Turmeric', hex: '#E5A93C' },
+              { ceremony: 'Mehendi', color: 'Emerald & Sage Green', hex: '#2D5A27' },
+              { ceremony: 'Wedding', color: 'Crimson, Ivory & Champagne', hex: '#8B1E2D' },
+            ],
+          },
+          accommodation: {
+            enabled: true,
+            hotelName: 'Jehan Numa Palace & Heritage Suites',
+            address: 'Shamla Hills, Bhopal',
+            checkIn: 'Nov 20, 2026 at 12:00 PM',
+            checkOut: 'Nov 22, 2026 at 11:00 AM',
+            conciergeContact: '+91 755 266 1100',
+          },
+          parking: {
+            enabled: true,
+            valetAvailable: true,
+            instructions: 'Complimentary valet parking available at Gate 1 (Royal Portico).',
+          },
+          weatherGuide: {
+            enabled: true,
+            forecast: 'Pleasant evening with light breeze (21°C - 24°C). Light pashmina recommended for open-air lawn ceremonies.',
+          },
+          giftBlessing: {
+            enabled: true,
+            note: 'Your warm presence and blessings are our greatest gift.',
+          },
+          status: 'PUBLISHED',
           published: true,
           slug: 'royal-wedding-aarav-kiara',
           createdAt: new Date().toISOString(),
@@ -831,13 +918,66 @@ const handleMockRequest = async (method, url, data) => {
       setCollection('invitations', invitations);
     }
 
-    // Dashboard
+    if (purchases.length === 0) {
+      purchases = [
+        {
+          _id: 'pur-1',
+          templateId: 'royal-love',
+          templateName: 'Royal Love',
+          customerEmail: 'aarav.ananya@gmail.com',
+          customerName: 'Aarav Sharma & Kiara Sen',
+          amount: 699,
+          purchaseType: 'PAID',
+          status: 'paid',
+          razorpayOrderId: 'order_sample_101',
+          razorpayPaymentId: 'pay_sample_101',
+          createdAt: new Date().toISOString(),
+          invitationId: 'inv-sample-1',
+        },
+      ];
+      setCollection('invitationPurchases', purchases);
+    }
+
+    // Coupons Endpoint
+    if (cleanUrl.includes('/coupons/apply')) {
+      const { code, amount = 699 } = data;
+      const upper = (code || '').toUpperCase().trim();
+      let discount = 0;
+      if (upper === 'MOONLIGHT100') discount = 100;
+      else if (upper === 'ROYAL50') discount = Math.round(amount * 0.5);
+      else if (upper === 'WELCOME20') discount = Math.round(amount * 0.2);
+      else {
+        return { data: { success: false, message: 'Invalid coupon code' } };
+      }
+      return {
+        data: {
+          success: true,
+          coupon: {
+            code: upper,
+            discountAmount: discount,
+            originalAmount: amount,
+            finalAmount: Math.max(0, amount - discount),
+          },
+        },
+      };
+    }
+
+    // Customer Dashboard
     if (cleanUrl === '/invitations/dashboard' || cleanUrl === '/invitations/my') {
       const email = (params.get('email') || '').toLowerCase().trim();
       const userInvs = email
-        ? invitations.filter((i) => (i.customerEmail || '').toLowerCase().trim() === email)
+        ? invitations.filter((i) => (i.customerEmail || i.userEmail || '').toLowerCase().trim() === email)
         : invitations;
-      return { data: { success: true, invitations: userInvs.length > 0 ? userInvs : invitations } };
+      const userPurchases = email
+        ? purchases.filter((p) => (p.customerEmail || '').toLowerCase().trim() === email)
+        : purchases;
+      return {
+        data: {
+          success: true,
+          invitations: userInvs.length > 0 ? userInvs : invitations,
+          purchases: userPurchases.length > 0 ? userPurchases : purchases,
+        },
+      };
     }
 
     // Razorpay Create Order
@@ -858,12 +998,195 @@ const handleMockRequest = async (method, url, data) => {
       const newPurchase = {
         _id: `pur-${Date.now()}`,
         templateId: data.templateId || 'royal-love',
+        templateName: 'Royal Love',
         customerEmail: data.customerEmail || 'couple@moonlight.com',
         customerName: data.customerName || 'Valued Couple',
-        razorpayOrderId: data.razorpay_order_id,
-        razorpayPaymentId: data.razorpay_payment_id,
+        customerPhone: data.customerPhone || '',
+        purchaseType: data.couponCode ? 'COUPON' : 'PAID',
+        couponCode: data.couponCode || '',
+        razorpayOrderId: data.razorpay_order_id || `ord_${Date.now()}`,
+        razorpayPaymentId: data.razorpay_payment_id || `pay_${Date.now()}`,
         amount: 699,
-        status: 'PAID',
+        status: 'paid',
+        createdAt: new Date().toISOString(),
+      };
+      purchases.unshift(newPurchase);
+      setCollection('invitationPurchases', purchases);
+
+      const cleanNames = (data.customerName || 'wedding')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+      const initialSlug = `${cleanNames}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+      const newInv = {
+        _id: `inv-${Date.now()}`,
+        id: `inv-${Date.now()}`,
+        templateId: data.templateId || 'royal-love',
+        customerEmail: data.customerEmail || 'couple@moonlight.com',
+        userEmail: data.customerEmail || 'couple@moonlight.com',
+        customerName: data.customerName || 'Valued Couple',
+        title: `${data.customerName || 'Couple'}'s Royal Celebration`,
+        names: data.customerName || 'Aarav & Kiara',
+        brideName: 'Kiara',
+        groomName: 'Aarav',
+        hostNames: 'Singhania & Advani Families',
+        eventType: 'Wedding',
+        date: '2026-11-20',
+        time: '19:00',
+        venue: 'Jehan Numa Palace',
+        venueAddress: '152 Shamla Hills, Bhopal, Madhya Pradesh',
+        message: 'With joyous hearts, we request the honor of your presence to celebrate our special day.',
+        quote: 'Two souls, one sacred path. A lifetime of laughter, honor, and love begins under the stars.',
+        story: 'What began as a chance meeting under the golden sunset of the lakes turned into a lifetime promise of love.',
+        hashtag: '#AaravWedsKiara',
+        scratchMessage: 'YOU’RE INVITED ♡',
+        musicUrl: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+        coverPhoto: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+        galleryUrls: [
+          'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+        ],
+        events: [],
+        status: 'DRAFT',
+        published: false,
+        slug: initialSlug,
+        createdAt: new Date().toISOString(),
+        rsvpCount: 0,
+      };
+      invitations.unshift(newInv);
+      setCollection('invitations', invitations);
+
+      newPurchase.invitationId = newInv._id;
+      setCollection('invitationPurchases', purchases);
+
+      return { data: { success: true, invitation: newInv, purchase: newPurchase } };
+    }
+
+    // Public /i/:slug endpoint
+    if (cleanUrl.startsWith('/invitations/public/')) {
+      const slug = cleanUrl.replace('/invitations/public/', '');
+      const found = invitations.find((i) => i.slug === slug || i._id === slug || i.id === slug);
+      if (found) {
+        if (found.status === 'SUSPENDED') {
+          return { data: { success: false, status: 'SUSPENDED', message: 'This digital invitation is temporarily suspended.' } };
+        }
+        return { data: { success: true, invitation: found } };
+      }
+      return { data: { success: true, invitation: invitations[0] } };
+    }
+
+    // Admin overview & stats
+    if (cleanUrl === '/invitations/admin/overview' || cleanUrl.startsWith('/invitations/admin/stats')) {
+      const totalRevenue = purchases.reduce((sum, p) => sum + (['paid', 'active'].includes(p.status) ? p.amount || 0 : 0), 0) || 699;
+      const totalPurchases = purchases.length || 1;
+      const totalPublished = invitations.filter((i) => i.published || i.status === 'PUBLISHED').length;
+      const draftInvitations = invitations.filter((i) => i.status === 'DRAFT' || !i.published).length;
+      const suspendedInvitations = invitations.filter((i) => i.status === 'SUSPENDED').length;
+      const totalRSVPs = rsvps.reduce((sum, r) => sum + (Number(r.guests) || 1), 0) || 14;
+
+      return {
+        data: {
+          success: true,
+          stats: {
+            totalCustomers: Math.max(purchases.length, invitations.length),
+            totalInvitations: invitations.length,
+            publishedInvitations: totalPublished,
+            draftInvitations,
+            suspendedInvitations,
+            totalPurchases,
+            totalRevenue,
+            todayOrders: purchases.length,
+            todayRevenue: totalRevenue,
+            totalRSVPs,
+            rsvpBreakdown: {
+              accepted: Math.round(totalRSVPs * 0.75),
+              declined: Math.round(totalRSVPs * 0.1),
+              maybe: Math.round(totalRSVPs * 0.15),
+            },
+          },
+          recentInvitations: invitations.slice(0, 10),
+          recentOrders: purchases.slice(0, 10),
+          invitations,
+        },
+      };
+    }
+
+    // Admin Customers (GET, POST)
+    if (cleanUrl === '/invitations/admin/customers') {
+      if (method === 'POST') {
+        const newCustomer = {
+          email: (data.email || '').toLowerCase().trim(),
+          name: data.name || 'Customer',
+          phone: data.phone || '',
+          registeredAt: new Date().toISOString(),
+          purchases: [],
+          invitations: [],
+          totalSpent: 0,
+          rsvpCount: 0,
+        };
+        return { data: { success: true, customer: newCustomer, message: 'Customer created successfully.' } };
+      }
+      // Group customers from purchases and invitations
+      const customerMap = {};
+      purchases.forEach((p) => {
+        const email = (p.customerEmail || '').toLowerCase().trim();
+        if (!email) return;
+        if (!customerMap[email]) {
+          customerMap[email] = {
+            email,
+            name: p.customerName || 'Client',
+            phone: p.customerPhone || '',
+            registeredAt: p.createdAt,
+            purchases: [],
+            invitations: [],
+            totalSpent: 0,
+            rsvpCount: 0,
+          };
+        }
+        customerMap[email].purchases.push(p);
+        customerMap[email].totalSpent += p.amount || 0;
+      });
+
+      invitations.forEach((inv) => {
+        const email = (inv.customerEmail || inv.userEmail || '').toLowerCase().trim();
+        if (!email) return;
+        if (!customerMap[email]) {
+          customerMap[email] = {
+            email,
+            name: inv.names || 'Client',
+            phone: '',
+            registeredAt: inv.createdAt,
+            purchases: [],
+            invitations: [],
+            totalSpent: 0,
+            rsvpCount: inv.rsvpCount || 0,
+          };
+        }
+        customerMap[email].invitations.push(inv);
+      });
+
+      return { data: { success: true, customers: Object.values(customerMap) } };
+    }
+
+    // Admin Manual Free Invitation Assignment (POST)
+    if (cleanUrl === '/invitations/admin/manual-invitation') {
+      const email = (data.customerEmail || 'client@moonlight.com').toLowerCase().trim();
+      const name = data.customerName || 'Valued Client';
+      const cleanNames = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      const initialSlug = `${cleanNames}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+      const newPurchase = {
+        _id: `pur-${Date.now()}`,
+        templateId: data.templateId || 'royal-love',
+        templateName: 'Royal Love',
+        customerEmail: email,
+        customerName: name,
+        customerPhone: data.customerPhone || '',
+        purchaseType: 'ADMIN_ASSIGNED',
+        amount: 0,
+        currency: 'INR',
+        status: 'active',
         createdAt: new Date().toISOString(),
       };
       purchases.unshift(newPurchase);
@@ -873,53 +1196,80 @@ const handleMockRequest = async (method, url, data) => {
         _id: `inv-${Date.now()}`,
         id: `inv-${Date.now()}`,
         templateId: data.templateId || 'royal-love',
-        customerEmail: data.customerEmail || 'couple@moonlight.com',
-        customerName: data.customerName || 'Valued Couple',
-        title: 'A Royal Celebration',
-        names: data.customerName || 'Aarav & Kiara',
+        customerEmail: email,
+        userEmail: email,
+        customerName: name,
+        title: data.title || `${name}'s Invitation`,
+        names: data.names || name,
         eventType: 'Wedding',
-        date: '2026-11-20',
-        time: '19:00',
-        venue: 'Jehan Numa Palace',
-        venueAddress: '152 Shamla Hills, Bhopal, Madhya Pradesh',
-        message: 'With joyous hearts, we request the honor of your presence to celebrate our special day.',
+        date: data.date || '2026-11-20',
+        time: '18:00',
+        venue: data.venue || 'Jehan Numa Palace',
+        venueAddress: 'Shamla Hills, Bhopal, Madhya Pradesh',
+        message: 'With immense joy and happiness, we invite you to join us in celebrating our special moments.',
         scratchMessage: 'YOU’RE INVITED ♡',
-        musicUrl: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
         coverPhoto: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
-        published: false,
-        slug: '',
+        galleryUrls: [],
+        events: [],
+        status: data.publishImmediately ? 'PUBLISHED' : 'DRAFT',
+        published: !!data.publishImmediately,
+        slug: initialSlug,
         createdAt: new Date().toISOString(),
         rsvpCount: 0,
       };
       invitations.unshift(newInv);
       setCollection('invitations', invitations);
 
-      return { data: { success: true, invitation: newInv } };
+      newPurchase.invitationId = newInv._id;
+      setCollection('invitationPurchases', purchases);
+
+      return { data: { success: true, invitation: newInv, purchase: newPurchase } };
     }
 
-    // Public /i/:slug endpoint
-    if (cleanUrl.startsWith('/invitations/public/')) {
-      const slug = cleanUrl.replace('/invitations/public/', '');
-      const found = invitations.find((i) => i.slug === slug || i._id === slug || i.id === slug);
-      if (found) {
-        return { data: { success: true, invitation: found } };
+    // Admin Invitation Status Update (PUT /invitations/admin/invitations/:id/status)
+    if (cleanUrl.startsWith('/invitations/admin/invitations/') && cleanUrl.endsWith('/status')) {
+      const id = cleanUrl.replace('/invitations/admin/invitations/', '').replace('/status', '');
+      invitations = invitations.map((inv) => {
+        if (inv._id === id || inv.id === id) {
+          return {
+            ...inv,
+            status: data.status,
+            published: data.status === 'PUBLISHED',
+            updatedAt: new Date().toISOString(),
+          };
+        }
+        return inv;
+      });
+      setCollection('invitations', invitations);
+      const updated = invitations.find((i) => i._id === id || i.id === id);
+      return { data: { success: true, invitation: updated } };
+    }
+
+    // Admin Activity Logs (GET)
+    if (cleanUrl === '/invitations/admin/activity-logs') {
+      return { data: { success: true, logs: activityLogs } };
+    }
+
+    // Admin Coupons (GET, POST, PUT)
+    if (cleanUrl === '/invitations/admin/coupons') {
+      if (method === 'POST') {
+        const newCoupon = {
+          _id: `coup-${Date.now()}`,
+          ...data,
+          createdAt: new Date().toISOString(),
+        };
+        coupons.unshift(newCoupon);
+        setCollection('invitationCoupons', coupons);
+        return { data: { success: true, coupon: newCoupon } };
       }
-      return { data: { success: true, invitation: invitations[0] } };
-    }
-
-    // Admin stats
-    if (cleanUrl.startsWith('/invitations/admin/stats')) {
-      const totalRevenue = (purchases.length || 1) * 699;
-      const totalPurchases = purchases.length || invitations.length;
-      const totalPublished = invitations.filter((i) => i.published).length;
-      const totalRSVPs = rsvps.length || 14;
       return {
         data: {
-          totalRevenue,
-          totalPurchases,
-          totalPublished,
-          totalRSVPs,
-          invitations,
+          success: true,
+          coupons: coupons.length > 0 ? coupons : [
+            { code: 'MOONLIGHT100', discountType: 'fixed', discountValue: 100, minOrderAmount: 499, isActive: true, usageCount: 12 },
+            { code: 'ROYAL50', discountType: 'percentage', discountValue: 50, minOrderAmount: 0, isActive: true, usageCount: 4 },
+            { code: 'WELCOME20', discountType: 'percentage', discountValue: 20, minOrderAmount: 0, isActive: true, usageCount: 28 },
+          ],
         },
       };
     }
@@ -951,6 +1301,7 @@ const handleMockRequest = async (method, url, data) => {
               ...inv,
               ...data,
               slug: slug || inv.slug,
+              status: data.status !== undefined ? data.status : data.published ? 'PUBLISHED' : inv.status || 'DRAFT',
               published: data.published !== undefined ? data.published : inv.published,
               updatedAt: new Date().toISOString(),
             };
@@ -964,7 +1315,7 @@ const handleMockRequest = async (method, url, data) => {
     }
 
     // RSVP endpoints
-    if (cleanUrl === '/rsvp' || cleanUrl.startsWith('/rsvp/')) {
+    if (cleanUrl === '/rsvp' || cleanUrl.startsWith('/rsvp/') || cleanUrl === '/invitations/rsvp') {
       if (method === 'POST') {
         const newRsvp = {
           _id: `rsvp-${Date.now()}`,
