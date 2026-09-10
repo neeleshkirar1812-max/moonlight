@@ -16,6 +16,7 @@ import {
   Share2,
   ArrowLeft,
   Lock,
+  Eye,
 } from 'lucide-react';
 
 const TemplateDetail = () => {
@@ -224,6 +225,17 @@ const TemplateDetail = () => {
                 <span className="px-3 py-1 rounded-full bg-amber-900/90 text-amber-200 text-xs font-mono font-bold uppercase tracking-wider border border-amber-500/30">
                   {template.badge}
                 </span>
+              </div>
+
+              <div className="absolute top-4 right-4">
+                <Link
+                  to={`/i/${template.slug}`}
+                  target="_blank"
+                  className="px-3.5 py-1.5 rounded-full bg-black/70 hover:bg-black/90 backdrop-blur-md border border-amber-400/60 text-amber-300 font-bold text-xs uppercase tracking-wider flex items-center space-x-1.5 shadow-xl transition-all"
+                >
+                  <Eye className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Live Preview ↗</span>
+                </Link>
               </div>
 
               <div className="absolute bottom-6 left-6 right-6 text-white space-y-2">

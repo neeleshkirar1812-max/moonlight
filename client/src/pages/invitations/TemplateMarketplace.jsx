@@ -220,13 +220,24 @@ const TemplateMarketplace = () => {
                     </span>
                   </div>
 
-                  <Link
-                    to={`/invitations/templates/${tpl.slug}`}
-                    className="inline-flex items-center px-3.5 py-2 rounded-xl bg-amber-900 hover:bg-amber-950 text-amber-50 text-xs font-bold tracking-wider transition-colors shadow-sm"
-                  >
-                    <span>View & Buy</span>
-                    <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                  </Link>
+                  <div className="flex items-center space-x-1.5">
+                    <Link
+                      to={`/i/${tpl.slug}`}
+                      target="_blank"
+                      className="inline-flex items-center px-2.5 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-neutral-800 text-xs font-bold tracking-wider transition-colors shadow-sm"
+                      title="Experience Royal Doors & Full Live Preview"
+                    >
+                      <Eye className="w-3.5 h-3.5 mr-1 text-amber-800" />
+                      <span>Preview</span>
+                    </Link>
+                    <Link
+                      to={`/invitations/templates/${tpl.slug}`}
+                      className="inline-flex items-center px-3.5 py-2 rounded-xl bg-amber-900 hover:bg-amber-950 text-amber-50 text-xs font-bold tracking-wider transition-colors shadow-sm"
+                    >
+                      <span>Buy & Customize</span>
+                      <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}

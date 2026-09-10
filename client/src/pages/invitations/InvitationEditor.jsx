@@ -48,6 +48,8 @@ const InvitationEditor = () => {
   const [saving, setSaving] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
   const [showPublishModal, setShowPublishModal] = useState(false);
+  const [showFullscreenPreview, setShowFullscreenPreview] = useState(false);
+  const [previewDevice, setPreviewDevice] = useState('mobile');
   const [previewDoorKey, setPreviewDoorKey] = useState(0);
 
   const [form, setForm] = useState({
@@ -294,6 +296,14 @@ const InvitationEditor = () => {
           </div>
 
           <div className="flex items-center space-x-3 w-full sm:w-auto justify-end">
+            <button
+              type="button"
+              onClick={() => setShowFullscreenPreview(true)}
+              className="px-4 py-2.5 rounded-full bg-amber-100 hover:bg-amber-200 border border-amber-300 text-amber-950 font-bold text-xs uppercase tracking-wider shadow-sm flex items-center space-x-1.5 transition-all"
+            >
+              <Eye className="w-3.5 h-3.5 text-amber-800" />
+              <span>Live Preview</span>
+            </button>
             <button
               type="button"
               onClick={() => handleSave(false)}
@@ -980,12 +990,21 @@ const InvitationEditor = () => {
               <div className="flex items-center space-x-2">
                 <button
                   type="button"
-                  onClick={() => setPreviewDoorKey((prev) => prev + 1)}
-                  className="px-3 py-1.5 rounded-full bg-amber-900 hover:bg-amber-950 text-amber-100 text-[10px] font-mono font-bold flex items-center space-x-1.5 shadow"
-                  title="Preview 3D Palace Doors Entrance"
+                  onClick={() => setShowFullscreenPreview(true)}
+                  className="px-2.5 py-1 rounded-full bg-amber-900 hover:bg-amber-950 text-amber-100 text-[10px] font-mono font-bold flex items-center space-x-1 shadow transition-all"
+                  title="Open Fullscreen Interactive Preview"
                 >
-                  <DoorClosed className="w-3 h-3 text-amber-400" />
-                  <span>Test Door Opening</span>
+                  <Eye className="w-3 h-3 text-amber-400" />
+                  <span>Fullscreen Live Preview</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPreviewDoorKey((prev) => prev + 1)}
+                  className="px-2.5 py-1 rounded-full bg-stone-200 hover:bg-stone-300 text-neutral-800 text-[10px] font-mono font-bold flex items-center space-x-1 shadow transition-all"
+                  title="Re-test Palace Door Entrance"
+                >
+                  <DoorClosed className="w-3 h-3 text-neutral-700" />
+                  <span>Test Doors</span>
                 </button>
                 <span className="text-[10px] text-neutral-500 font-mono hidden sm:inline">390px Mobile</span>
               </div>
@@ -1081,6 +1100,95 @@ const InvitationEditor = () => {
                   Close & Keep Editing
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* FULLSCREEN LIVE GUEST PREVIEW SIMULATOR MODAL */}
+        {/* ========================================================================= */}
+        {showFullscreenPreview && (
+          <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-between p-3 sm:p-6 animate-fade-in font-sans">
+            {/* Top Toolbar */}
+            <div className="w-full max-w-5xl flex flex-col sm:flex-row items-center justify-between py-2 border-b border-white/10 text-white gap-3 z-10">
+              <div className="flex items-center space-x-3">
+                <span className="font-serif text-base sm:text-lg font-bold text-amber-300 flex items-center space-x-2">
+                  <Sparkles className="w-4 h-4 text-amber-400" />
+                  <span>Live Guest Experience Preview</span>
+                </span>
+                <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full bg-white/10 text-[10px] font-mono uppercase text-neutral-300">
+                  Palace Doors Opening + Full Scroll
+                </span>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                {/* Device Mode Toggle */}
+                <div className="bg-white/10 rounded-xl p-1 flex items-center space-x-1 text-xs font-mono">
+                  <button
+                    type="button"
+                    onClick={() => setPreviewDevice('mobile')}
+                    className={`px-3 py-1 rounded-lg transition-all ${
+                      previewDevice === 'mobile'
+                        ? 'bg-amber-500 text-black font-bold shadow'
+                        : 'text-neutral-300 hover:text-white'
+                    }`}
+                  >
+                    📱 Mobile (390px)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPreviewDevice('desktop')}
+                    className={`px-3 py-1 rounded-lg transition-all ${
+                      previewDevice === 'desktop'
+                        ? 'bg-amber-500 text-black font-bold shadow'
+                        : 'text-neutral-300 hover:text-white'
+                    }`}
+                  >
+                    💻 Desktop View
+                  </button>
+                </div>
+
+                {/* Replay Doors */}
+                <button
+                  type="button"
+                  onClick={() => setPreviewDoorKey((prev) => prev + 1)}
+                  className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-amber-300 text-xs font-bold flex items-center space-x-1"
+                  title="Replay Entrance"
+                >
+                  <DoorClosed className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Replay Doors</span>
+                </button>
+
+                {/* Close Button */}
+                <button
+                  type="button"
+                  onClick={() => setShowFullscreenPreview(false)}
+                  className="px-4 py-1.5 rounded-xl bg-white text-black font-bold text-xs uppercase hover:bg-neutral-200 transition-all"
+                >
+                  ✕ Close
+                </button>
+              </div>
+            </div>
+
+            {/* Simulator Screen Container */}
+            <div className="w-full flex-1 flex items-center justify-center my-3 overflow-hidden">
+              <div
+                className={`h-full max-h-[82vh] overflow-y-auto scrollbar-thin transition-all duration-300 ${
+                  previewDevice === 'mobile'
+                    ? 'w-[390px] border-4 border-neutral-800 shadow-2xl bg-black rounded-[40px]'
+                    : 'w-full max-w-5xl border border-white/20 shadow-2xl bg-neutral-950 rounded-2xl'
+                }`}
+              >
+                <InvitationRenderer
+                  key={`modal-preview-${previewDoorKey}`}
+                  invitation={form}
+                  isPreview={false}
+                />
+              </div>
+            </div>
+
+            <div className="text-[11px] text-neutral-400 font-mono text-center">
+              <span>✨ Tap or scroll down the royal doors to open and explore the full live invitation.</span>
             </div>
           </div>
         )}

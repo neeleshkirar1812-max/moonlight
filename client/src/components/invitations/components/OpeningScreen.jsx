@@ -101,16 +101,18 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
     }, 1800);
   };
 
-  const handleVideoEnd = () => {
-    setIsOpen(true);
-    if (onEnter) onEnter();
-    setTimeout(() => setIsRendered(false), 800);
+  const handleWheelOrTouch = (e) => {
+    if (!isOpen) {
+      handleOpenDoors();
+    }
   };
 
   if (!isRendered) return null;
 
   return (
     <div
+      onWheel={handleWheelOrTouch}
+      onTouchMove={handleWheelOrTouch}
       className={`fixed inset-0 z-50 flex items-center justify-center overflow-hidden font-sans select-none transition-opacity duration-700 ${
         isOpen ? 'pointer-events-none opacity-0 delay-1000' : 'opacity-100'
       }`}
