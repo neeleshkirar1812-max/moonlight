@@ -13,65 +13,52 @@ import {
   Edit3,
   Share2,
   ArrowRight,
-  Star,
   ChevronDown,
   ShieldCheck,
-  Zap,
-  Smartphone,
   Eye,
-  ShoppingBag,
+  Crown,
+  Heart,
+  Calendar,
+  Check,
 } from 'lucide-react';
 
-const featuresList = [
+const occasionsList = [
   {
-    icon: <Share2 className="w-5 h-5 text-amber-700" />,
-    title: 'Shareable Live Link',
-    desc: 'Instant personalized URL (e.g., yoursite.com/i/aarav-kiara) for WhatsApp & social sharing.',
+    title: 'Wedding Invitation',
+    desc: 'Elegant templates with luxury animations like 3D double door reveals, chime music, and falling rose petals.',
+    icon: '👑',
+    category: 'Wedding',
   },
   {
-    icon: <CheckCircle2 className="w-5 h-5 text-emerald-600" />,
-    title: 'Guest RSVP Management',
-    desc: 'Collect confirmed attendance (Yes / No / Maybe), guest counts, and personal wishes in real-time.',
+    title: 'Engagement Invitation',
+    desc: 'Beautiful cinematic styles with photo carousels to announce your special ring ceremony.',
+    icon: '💍',
+    category: 'Engagement',
   },
   {
-    icon: <Clock className="w-5 h-5 text-amber-700" />,
-    title: 'Live Event Countdown',
-    desc: 'Dynamic countdown clock building anticipation and excitement for the celebration.',
+    title: 'Birthday Invitation',
+    desc: 'Interactive countdown timers, dynamic scratch-to-reveal dates, and celebratory themes.',
+    icon: '🎂',
+    category: 'Birthday',
   },
   {
-    icon: <Gift className="w-5 h-5 text-purple-600" />,
-    title: 'Interactive Scratch Card',
-    desc: 'Guests scratch the gold card on their phone screen to reveal "YOU’RE INVITED ♡" or custom text.',
+    title: 'Housewarming / Griha Pravesh',
+    desc: 'Embedded 1-tap Google Maps directions and venue itinerary for seamless guest arrival.',
+    icon: '🏡',
+    category: 'Celebration',
   },
   {
-    icon: <ImageIcon className="w-5 h-5 text-rose-600" />,
-    title: 'Couple Photo Gallery',
-    desc: 'Showcase your pre-wedding story and favorite moments in a fluid, high-resolution carousel.',
+    title: 'Baby Shower / Naming Ceremony',
+    desc: 'Soft pastel palettes, warm blessings, and beautiful photo slideshow integrations.',
+    icon: '🍼',
+    category: 'Celebration',
   },
   {
-    icon: <MapPin className="w-5 h-5 text-blue-600" />,
-    title: '1-Tap Google Maps',
-    desc: 'Guests tap the venue card to open instant turn-by-turn navigation in Google Maps.',
+    title: 'Custom Event & Reception',
+    desc: 'Full customization: Toggle sections, upload custom background music, and manage live RSVPs.',
+    icon: '✨',
+    category: 'Anniversary',
   },
-  {
-    icon: <Music className="w-5 h-5 text-amber-600" />,
-    title: 'Background Music',
-    desc: 'Include your favorite romantic song or celebratory tune that plays as guests open your invite.',
-  },
-  {
-    icon: <Edit3 className="w-5 h-5 text-amber-800" />,
-    title: 'Instant Customization',
-    desc: 'Update venue, timings, or ceremony details anytime directly from your customer dashboard.',
-  },
-];
-
-const comparisonData = [
-  { feature: 'Distribution Speed', digital: 'Instant (1-Click WhatsApp)', paper: '2–3 Weeks Printing & Courier' },
-  { feature: 'Cost per 500 Guests', digital: '₹499 – ₹699 Total', paper: '₹25,000 – ₹75,000+' },
-  { feature: 'RSVP Tracking', digital: 'Live Dashboard & Real-Time Count', paper: 'Manual Phone Calls' },
-  { feature: 'Interactive Elements', digital: 'Scratch Card, Music & Countdown', paper: 'Static Print' },
-  { feature: 'Venue Navigation', digital: 'Direct Google Maps Directions', paper: 'Guests Get Lost' },
-  { feature: 'Last-Minute Edits', digital: 'Instant Free Updates Anytime', paper: 'Impossible (Reprint Required)' },
 ];
 
 const faqs = [
@@ -84,8 +71,12 @@ const faqs = [
     a: 'Yes, absolutely! You can log in to your dashboard anytime and update names, dates, venue addresses, or photos. The changes will reflect immediately on your live invitation link.',
   },
   {
+    q: 'How does the 3D door opening animation work?',
+    a: 'When your guests open your invitation link on mobile or desktop, they see the royal palace double doors with your custom wax seal. Tapping or scrolling opens the doors with realistic 3D perspective and harmonic chime music, smoothly unlocking the full invitation.',
+  },
+  {
     q: 'How does the interactive scratch card work?',
-    a: 'When your guests open your invitation link on mobile or desktop, they see a sparkling gold scratch card saying "SCRATCH HERE ✦". As they scratch or tap on it, it smoothly reveals your custom message like "YOU’RE INVITED ♡"!',
+    a: 'Guests see a sparkling gold scratch card saying "SCRATCH HERE ✦". As they scratch or tap on it, it smoothly reveals your custom message like "YOU’RE INVITED ♡"!',
   },
   {
     q: 'Will my guests need to download an app or log in to see the invite?',
@@ -99,7 +90,6 @@ const faqs = [
 
 const InvitationsLanding = () => {
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
-  const [demoScratchRevealed, setDemoScratchRevealed] = useState(false);
   const [activeFaq, setActiveFaq] = useState(null);
 
   const filteredTemplates =
@@ -108,91 +98,129 @@ const InvitationsLanding = () => {
       : invitationTemplates.filter((t) => t.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] text-neutral-900 selection:bg-amber-700 selection:text-white font-sans">
+    <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-[#d4af37] selection:text-black font-sans">
       <SEO
-        title="Digital Wedding & Event Invitations — WhatsApp Ready in Minutes"
-        description="Create luxurious, interactive digital wedding and event invitations with live RSVP, Google Maps directions, background music, and interactive scratch cards. By Moonlight Production."
-        keywords="digital wedding invitation, luxury e-invites, WhatsApp wedding card, interactive wedding invite, digital invitation marketplace India"
+        title="Moonlight Invitations | Premium Digital Event Invitations & RSVP Suite"
+        description="Create animated digital wedding and event invitation webpages in minutes. Featuring 3D palace door reveals, touch scratch cards, Google Maps, background music, and live RSVP tracking."
       />
 
+      {/* ========================================================================= */}
       {/* 1. HERO SECTION */}
-      <section className="relative pt-28 sm:pt-36 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-[#EFE8DB] via-[#FAF8F5] to-[#F5F1E8] border-b border-[#DDD2C0]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(212,175,55,0.18),transparent_25%),radial-gradient(circle_at_85%_15%,rgba(212,175,55,0.18),transparent_25%)] pointer-events-none" />
+      {/* ========================================================================= */}
+      <section className="relative max-w-5xl mx-auto pt-20 sm:pt-28 pb-16 sm:pb-24 px-4 sm:px-6 text-center">
+        {/* Glowing Background Radial */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#d4af37]/10 blur-[120px] rounded-full pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto text-center space-y-5 sm:space-y-7 relative z-10">
-          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/80 border border-amber-900/15 shadow-sm text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] text-amber-800 uppercase">
-            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            <span>Moonlight Production • Digital Invitations</span>
-          </div>
+        <span className="text-[#d4af37] text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] mb-4 inline-block font-mono">
+          ✦ Premium Digital Invitations
+        </span>
 
-          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-neutral-900 tracking-tight leading-[1.12]">
-            Create Every Event Invitation
-            <br />
-            <span className="text-amber-800 italic">WhatsApp Ready in Minutes</span>
-          </h1>
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.15] mb-6 bg-gradient-to-r from-white via-neutral-100 to-[#a1a1aa] bg-clip-text text-transparent">
+          Create All Events Invitation Webpage Online in Minutes
+        </h1>
 
-          <p className="text-neutral-600 text-xs sm:text-base max-w-2xl mx-auto leading-relaxed">
-            Elegant, personalized digital invitations for royal weddings, engagements, anniversaries, and celebratory milestones with interactive scratch cards, music, and instant guest RSVP.
-          </p>
+        <p className="text-[#a1a1aa] text-sm sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+          Fill a simple form, get a stunning animated invitation webpage — share it with your guests instantly via WhatsApp or Email.
+        </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-2">
-            <a
-              href="#templates"
-              className="px-7 py-3.5 rounded-full bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 hover:from-amber-800 hover:to-amber-800 text-white font-bold text-xs uppercase tracking-wider shadow-lg transition-all transform hover:-translate-y-0.5"
-            >
-              Explore Templates
-            </a>
-            <Link
-              to="/invitations/templates/royal-love"
-              className="px-6 py-3.5 rounded-full bg-white hover:bg-stone-50 border border-neutral-300 text-neutral-900 font-bold text-xs uppercase tracking-wider shadow-sm transition-all"
-            >
-              View Live Demo
-            </Link>
-          </div>
+        {/* Hero CTAs */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-10">
+          <Link
+            to="/invitations/templates"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-md bg-[#d4af37] hover:bg-[#f3cf5b] text-black font-semibold text-sm transition-all shadow-lg hover:shadow-[#d4af37]/20 hover:scale-105 active:scale-95 text-center"
+          >
+            Create My Invitation
+          </Link>
+          <Link
+            to="/i/royal-wedding-aarav-kiara"
+            target="_blank"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-md bg-transparent hover:bg-white/10 text-white border border-[#27272a] hover:border-white/40 font-semibold text-sm transition-all text-center flex items-center justify-center space-x-2"
+          >
+            <Eye className="w-4 h-4 text-[#d4af37]" />
+            <span>View Live Demo</span>
+          </Link>
+        </div>
 
-          {/* Social Proof Stats */}
-          <div className="pt-8 sm:pt-10 grid grid-cols-3 gap-4 max-w-lg mx-auto border-t border-amber-900/10 text-center">
-            <div>
-              <div className="font-serif text-2xl sm:text-3xl font-bold text-amber-900">5,000+</div>
-              <div className="text-[10px] sm:text-xs text-neutral-500 uppercase font-mono tracking-wider">Happy Couples</div>
-            </div>
-            <div>
-              <div className="font-serif text-2xl sm:text-3xl font-bold text-amber-900">100%</div>
-              <div className="text-[10px] sm:text-xs text-neutral-500 uppercase font-mono tracking-wider">Mobile Ready</div>
-            </div>
-            <div>
-              <div className="font-serif text-2xl sm:text-3xl font-bold text-amber-900">4.9 ★</div>
-              <div className="text-[10px] sm:text-xs text-neutral-500 uppercase font-mono tracking-wider">Client Rating</div>
-            </div>
-          </div>
+        {/* Trust Metrics */}
+        <div className="text-xs sm:text-sm text-[#a1a1aa] flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 border-t border-[#27272a] pt-8">
+          <span className="flex items-center space-x-1.5">
+            <CheckCircle2 className="w-4 h-4 text-[#d4af37]" />
+            <span>Trusted by hundreds of hosts & couples</span>
+          </span>
+          <span className="flex items-center space-x-1.5">
+            <CheckCircle2 className="w-4 h-4 text-[#d4af37]" />
+            <span>One-time payment</span>
+          </span>
+          <span className="flex items-center space-x-1.5">
+            <CheckCircle2 className="w-4 h-4 text-[#d4af37]" />
+            <span>No recurring subscriptions</span>
+          </span>
         </div>
       </section>
 
-      {/* 2. TEMPLATE MARKETPLACE SECTION */}
-      <section id="templates" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center space-y-3 mb-10 sm:mb-14">
-          <span className="text-[11px] uppercase font-mono tracking-[0.25em] text-amber-800 font-bold block">
-            Curated Luxury Catalog
-          </span>
-          <h2 className="font-serif text-2xl sm:text-4xl font-bold text-neutral-900">
-            Choose Your Invitation Design
+      {/* ========================================================================= */}
+      {/* 2. OCCASIONS GRID SECTION (#features) */}
+      {/* ========================================================================= */}
+      <section className="max-w-7xl mx-auto py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-[#27272a]" id="features">
+        <div className="text-center mb-12 sm:mb-16 space-y-3">
+          <h2 className="text-2xl sm:text-4xl font-bold text-white">
+            Invitations for every occasion
           </h2>
-          <div className="w-12 h-0.5 bg-amber-700 mx-auto" />
-          <p className="text-neutral-600 text-xs sm:text-sm max-w-xl mx-auto">
-            Select an invitation template, pay once securely, and personalize all names, venue, and photos from your dashboard.
+          <p className="text-[#a1a1aa] text-sm sm:text-base max-w-2xl mx-auto">
+            Access to Premium Luxury Invitation Templates for Every Event in just One Time Payment
           </p>
         </div>
 
-        {/* Category Pills */}
-        <div className="flex items-center justify-start sm:justify-center overflow-x-auto pb-4 mb-8 gap-2 no-scrollbar">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {occasionsList.map((occ, idx) => (
+            <div
+              key={idx}
+              className="bg-[#141414] border border-[#27272a] p-6 sm:p-8 rounded-xl hover:-translate-y-1 hover:border-[#d4af37]/40 transition-all duration-300 space-y-3 group"
+            >
+              <div className="text-2xl mb-2">{occ.icon}</div>
+              <h3 className="text-lg font-bold text-[#d4af37] group-hover:text-[#f3cf5b] transition-colors">
+                {occ.title}
+              </h3>
+              <p className="text-[#a1a1aa] text-xs sm:text-sm leading-relaxed">
+                {occ.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 3. TEMPLATE SHOWCASE CATALOG */}
+      {/* ========================================================================= */}
+      <section className="max-w-7xl mx-auto py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-[#27272a]" id="templates">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-10 gap-4">
+          <div className="space-y-2">
+            <span className="text-[#d4af37] text-xs font-mono uppercase tracking-widest font-bold">
+              ✦ Handcrafted Designs
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-bold text-white">
+              Choose Your Luxury Template
+            </h2>
+          </div>
+          <Link
+            to="/invitations/templates"
+            className="text-xs sm:text-sm text-[#d4af37] hover:text-[#f3cf5b] font-semibold flex items-center space-x-1"
+          >
+            <span>View all designs</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+
+        {/* Category Filter Pills */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
           {invitationCategories.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+              className={`px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
                 selectedCategory === cat
-                  ? 'bg-amber-900 text-white shadow-sm font-bold'
-                  : 'bg-white border border-stone-200 text-neutral-600 hover:text-neutral-950 hover:bg-stone-50'
+                  ? 'bg-[#d4af37] text-black font-bold shadow'
+                  : 'bg-[#141414] border border-[#27272a] text-[#a1a1aa] hover:text-white hover:border-[#a1a1aa]'
               }`}
             >
               {cat}
@@ -201,56 +229,54 @@ const InvitationsLanding = () => {
         </div>
 
         {/* Templates Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTemplates.map((template) => (
             <div
               key={template.id}
-              className="group bg-white rounded-2xl border border-[#E0D6C6] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+              className="bg-[#141414] border border-[#27272a] rounded-xl overflow-hidden hover:border-[#d4af37]/50 transition-all duration-300 flex flex-col justify-between group"
             >
-              {/* Card Art / Preview */}
-              <div className="relative h-64 overflow-hidden bg-neutral-900">
+              {/* Cover Image */}
+              <div className="relative h-60 overflow-hidden bg-black">
                 <img
                   src={template.coverImage}
                   alt={template.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                <div className="absolute top-3 left-3">
-                  <span className="px-2.5 py-1 rounded-full bg-amber-900/90 text-amber-200 text-[10px] font-mono font-bold tracking-wider uppercase border border-amber-500/30 shadow">
-                    {template.badge}
-                  </span>
-                </div>
-                <div className="absolute bottom-4 left-4 right-4 text-white space-y-1">
-                  <span className="text-[10px] uppercase font-mono tracking-widest text-amber-300 font-bold block">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-transparent" />
+                <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-[#0a0a0a]/90 text-[#d4af37] text-[10px] font-mono font-bold uppercase border border-[#d4af37]/40 shadow">
+                  {template.badge}
+                </span>
+                <div className="absolute bottom-3 left-4 right-4">
+                  <span className="text-[10px] uppercase font-mono tracking-wider text-[#d4af37] font-bold block">
                     {template.category} Suite
                   </span>
-                  <h3 className="font-serif text-xl font-bold">{template.name}</h3>
+                  <h3 className="font-serif text-lg font-bold text-white">{template.name}</h3>
                 </div>
               </div>
 
-              {/* Info & CTA */}
-              <div className="p-4 sm:p-5 space-y-3 flex-1 flex flex-col justify-between bg-[#FFFDF9]">
-                <p className="text-neutral-600 text-xs line-clamp-2 leading-relaxed">
+              {/* Body Info & CTA */}
+              <div className="p-5 space-y-4 flex-1 flex flex-col justify-between">
+                <p className="text-[#a1a1aa] text-xs leading-relaxed line-clamp-2">
                   {template.description}
                 </p>
 
-                <div className="pt-2 border-t border-stone-200 flex items-center justify-between">
+                <div className="pt-3 border-t border-[#27272a] flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] text-neutral-400 line-through mr-1.5 font-mono">
+                    <span className="text-xs text-[#a1a1aa] line-through mr-1 font-mono">
                       ₹{template.originalPrice}
                     </span>
-                    <span className="font-serif text-lg font-bold text-amber-900">
+                    <span className="font-serif text-xl font-bold text-[#d4af37]">
                       ₹{template.price}
                     </span>
-                    <span className="text-[9.5px] text-neutral-500 block">One-time payment</span>
+                    <span className="text-[10px] text-[#a1a1aa] block font-mono">One-time payment</span>
                   </div>
 
                   <div className="flex space-x-2">
                     <Link
                       to={`/invitations/templates/${template.slug}`}
-                      className="px-3.5 py-2 rounded-xl bg-amber-900 hover:bg-amber-800 text-white font-bold text-xs flex items-center shadow-sm"
+                      className="px-4 py-2 rounded-md bg-[#d4af37] hover:bg-[#f3cf5b] text-black font-semibold text-xs transition-all shadow"
                     >
-                      <span>Preview & Buy</span>
+                      Select & Edit
                     </Link>
                   </div>
                 </div>
@@ -260,158 +286,95 @@ const InvitationsLanding = () => {
         </div>
       </section>
 
-      {/* 3. HOW IT WORKS */}
-      <section className="py-16 sm:py-20 bg-[#FAF8F2] border-y border-[#E0D7C7]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-2 mb-12">
-            <span className="text-[11px] uppercase font-mono tracking-[0.25em] text-amber-800 font-bold block">
-              Simple 5-Step Process
-            </span>
-            <h2 className="font-serif text-2xl sm:text-4xl font-bold text-neutral-900">
-              How Moonlight Invitations Work
-            </h2>
-            <div className="w-12 h-0.5 bg-amber-700 mx-auto" />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {[
-              { num: '01', title: 'Choose Template', desc: 'Browse our royal collection and pick your favorite aesthetic.' },
-              { num: '02', title: 'Quick Signup', desc: 'Create your secure account in 10 seconds.' },
-              { num: '03', title: 'Secure Payment', desc: 'Instant Razorpay checkout via UPI, Cards, or NetBanking.' },
-              { num: '04', title: 'Add Event Info', desc: 'Enter couple names, ceremony dates, timings, venue, and photos.' },
-              { num: '05', title: 'Publish & Share', desc: 'Receive your unique live URL ready for 1-click WhatsApp broadcast!' },
-            ].map((step) => (
-              <div
-                key={step.num}
-                className="bg-white rounded-2xl p-5 border border-stone-200 text-center space-y-2.5 shadow-sm"
-              >
-                <div className="w-10 h-10 rounded-full bg-amber-100 text-amber-900 font-serif font-bold text-base flex items-center justify-center mx-auto border border-amber-300">
-                  {step.num}
-                </div>
-                <h3 className="font-serif text-base font-bold text-neutral-900">{step.title}</h3>
-                <p className="text-neutral-600 text-xs leading-relaxed">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4. INTERACTIVE FEATURES & LIVE SCRATCH CARD DEMO */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center space-y-3 mb-12">
-          <span className="text-[11px] uppercase font-mono tracking-[0.25em] text-amber-800 font-bold block">
-            Next-Gen Technology
+      {/* ========================================================================= */}
+      {/* 4. PRICING SECTION (#pricing) */}
+      {/* ========================================================================= */}
+      <section className="max-w-7xl mx-auto py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-[#27272a]" id="pricing">
+        <div className="text-center mb-12 sm:mb-16 space-y-3">
+          <span className="text-[#d4af37] text-xs font-mono uppercase tracking-widest font-bold block">
+            ✦ Simple & Transparent
           </span>
-          <h2 className="font-serif text-2xl sm:text-4xl font-bold text-neutral-900">
-            Everything Your Wedding Guests Need
+          <h2 className="text-2xl sm:text-4xl font-bold text-white">
+            Choose Your Experience
           </h2>
-          <div className="w-12 h-0.5 bg-amber-700 mx-auto" />
+          <p className="text-[#a1a1aa] text-sm sm:text-base max-w-xl mx-auto">
+            Pay once per event with zero subscription or hidden fees. Full lifetime access to your live invitation link.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Features Grid */}
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {featuresList.map((f, i) => (
-              <div key={i} className="p-4 rounded-2xl bg-white border border-[#E0D7C7] space-y-2 shadow-sm">
-                <div className="w-9 h-9 rounded-full bg-stone-100 flex items-center justify-center">
-                  {f.icon}
-                </div>
-                <h3 className="font-serif text-sm font-bold text-neutral-900">{f.title}</h3>
-                <p className="text-neutral-600 text-[11.5px] leading-relaxed">{f.desc}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Classic Plan */}
+          <div className="bg-[#141414] rounded-2xl border border-[#27272a] p-6 sm:p-8 space-y-6 flex flex-col justify-between hover:border-[#d4af37]/40 transition-all">
+            <div className="space-y-4">
+              <span className="text-xs uppercase font-mono font-bold text-[#a1a1aa] tracking-wider">
+                Moonlight Classic
+              </span>
+              <div className="flex items-baseline space-x-2">
+                <span className="font-serif text-4xl font-bold text-white">₹399</span>
+                <span className="text-xs text-[#a1a1aa] font-mono">/ one-time</span>
               </div>
-            ))}
-          </div>
-
-          {/* Live Interactive Scratch Demo Card */}
-          <div className="lg:col-span-5 bg-[#FFFDF8] rounded-3xl border-2 border-amber-700/30 p-6 shadow-xl space-y-4 text-center">
-            <span className="text-[10.5px] uppercase font-mono tracking-[0.2em] text-amber-800 font-bold block">
-              Try Interactive Scratch Card
-            </span>
-            <h3 className="font-serif text-xl font-bold text-neutral-900">Tap or Scratch to Reveal</h3>
-            <p className="text-neutral-600 text-xs">
-              Every guest gets this memorable delight when they open your invitation on their phone:
-            </p>
-
-            <div
-              onClick={() => setDemoScratchRevealed(!demoScratchRevealed)}
-              className={`h-36 rounded-2xl flex items-center justify-center p-4 cursor-pointer transition-all duration-500 shadow-md ${
-                demoScratchRevealed
-                  ? 'bg-gradient-to-br from-amber-50 to-amber-100 border-2 border-amber-600 text-amber-950 scale-[1.02]'
-                  : 'bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 border-2 border-amber-400 text-white hover:opacity-95'
-              }`}
+              <ul className="space-y-3 text-xs text-[#a1a1aa] pt-4 border-t border-[#27272a]">
+                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-[#d4af37] mr-2.5 shrink-0" /> Premium Birthday / Event Template</li>
+                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-[#d4af37] mr-2.5 shrink-0" /> Instant Customer Dashboard & Editor</li>
+                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-[#d4af37] mr-2.5 shrink-0" /> Unique Live Invitation URL</li>
+                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-[#d4af37] mr-2.5 shrink-0" /> Live Guest RSVP Counter & List</li>
+                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-[#d4af37] mr-2.5 shrink-0" /> 1-Tap Google Maps Venue Directions</li>
+              </ul>
+            </div>
+            <Link
+              to="/invitations/templates/little-sunshine"
+              className="w-full py-3.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-white font-semibold text-xs uppercase tracking-wider text-center block transition-all"
             >
-              {demoScratchRevealed ? (
-                <div className="space-y-1 animate-fade-in">
-                  <div className="font-serif text-2xl font-bold text-amber-900">YOU’RE INVITED ♡</div>
-                  <div className="text-[11px] text-amber-800 font-medium">We can't wait to celebrate with you!</div>
-                </div>
-              ) : (
-                <div className="space-y-1 font-mono">
-                  <div className="text-sm font-extrabold tracking-widest flex items-center justify-center">
-                    <Sparkles className="w-4 h-4 mr-1.5" /> SCRATCH HERE ✦
-                  </div>
-                  <div className="text-[10px] uppercase opacity-85">Click to Reveal</div>
-                </div>
-              )}
-            </div>
-
-            <div className="text-[11px] text-neutral-500 italic">
-              ✦ Completely customizable reveal text inside your creator dashboard.
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. PAPER VS DIGITAL COMPARISON TABLE */}
-      <section className="py-16 sm:py-20 bg-[#FAF8F2] border-t border-[#E0D7C7]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-2 mb-10">
-            <span className="text-[11px] uppercase font-mono tracking-[0.25em] text-amber-800 font-bold block">
-              Why Couples Choose Moonlight
-            </span>
-            <h2 className="font-serif text-2xl sm:text-4xl font-bold text-neutral-900">
-              Traditional Paper vs. Moonlight Digital
-            </h2>
-            <div className="w-12 h-0.5 bg-amber-700 mx-auto" />
+              Choose Classic
+            </Link>
           </div>
 
-          <div className="bg-white rounded-3xl border border-[#DFD4C2] overflow-hidden shadow-sm">
-            <div className="grid grid-cols-3 bg-neutral-900 text-white p-4 font-mono text-xs font-bold uppercase tracking-wider">
-              <div>Feature</div>
-              <div className="text-amber-400">Moonlight Digital</div>
-              <div className="text-neutral-400">Physical Paper</div>
+          {/* Royal Plan */}
+          <div className="bg-gradient-to-b from-[#1c1708] to-[#141414] text-white rounded-2xl border-2 border-[#d4af37]/60 p-6 sm:p-8 space-y-6 shadow-2xl flex flex-col justify-between relative overflow-hidden">
+            <div className="absolute top-4 right-4 bg-[#d4af37] text-black text-[10px] font-mono font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
+              Most Popular
             </div>
-            {comparisonData.map((row, i) => (
-              <div
-                key={i}
-                className={`grid grid-cols-3 p-4 text-xs border-t border-stone-200 ${
-                  i % 2 === 0 ? 'bg-stone-50/50' : 'bg-white'
-                }`}
-              >
-                <div className="font-bold text-neutral-800">{row.feature}</div>
-                <div className="font-semibold text-emerald-700 flex items-center">
-                  <CheckCircle2 className="w-3.5 h-3.5 mr-1.5 shrink-0 text-emerald-600" />
-                  {row.digital}
-                </div>
-                <div className="text-neutral-500">{row.paper}</div>
+            <div className="space-y-4">
+              <span className="text-xs uppercase font-mono font-bold text-[#d4af37] tracking-wider">
+                Moonlight Royal Suite
+              </span>
+              <div className="flex items-baseline space-x-2">
+                <span className="font-serif text-4xl font-bold text-[#d4af37]">₹699</span>
+                <span className="text-xs text-[#a1a1aa] font-mono">/ one-time</span>
               </div>
-            ))}
+              <ul className="space-y-3 text-xs text-neutral-200 pt-4 border-t border-[#27272a]">
+                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-[#d4af37] mr-2.5 shrink-0" /> Royal 3D Palace Double Door Entrance Reveal</li>
+                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-[#d4af37] mr-2.5 shrink-0" /> Interactive Touch Scratch Card ("YOU’RE INVITED ♡")</li>
+                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-[#d4af37] mr-2.5 shrink-0" /> Real-time Guest RSVP Management & Export</li>
+                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-[#d4af37] mr-2.5 shrink-0" /> Couple Memories Photo Gallery & Slideshow</li>
+                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-[#d4af37] mr-2.5 shrink-0" /> Romantic Background Music Soundtrack</li>
+                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-[#d4af37] mr-2.5 shrink-0" /> Live Event Countdown Timer</li>
+                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-[#d4af37] mr-2.5 shrink-0" /> 1-Tap Google Maps Turn-by-Turn Navigation</li>
+              </ul>
+            </div>
+            <Link
+              to="/invitations/templates/royal-love"
+              className="w-full py-3.5 rounded-lg bg-[#d4af37] hover:bg-[#f3cf5b] text-black font-bold text-xs uppercase tracking-wider text-center block shadow-lg transition-all"
+            >
+              Choose Royal Suite
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* 5b. TRUSTED BY COUPLES & REAL CUSTOMER REVIEWS */}
-      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      {/* ========================================================================= */}
+      {/* 5. TRUSTED BY HOSTS & COUPLE REVIEWS */}
+      {/* ========================================================================= */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-[#27272a]">
         <div className="text-center space-y-3 mb-12">
-          <span className="text-[11px] uppercase font-mono tracking-[0.25em] text-amber-800 font-bold block">
-            Love Letters & Reviews
+          <span className="text-[#d4af37] text-xs font-mono uppercase tracking-widest font-bold block">
+            ✦ Client Stories
           </span>
-          <h2 className="font-serif text-2xl sm:text-4xl font-bold text-neutral-900">
-            Trusted by 5,000+ Couples Across India
+          <h2 className="text-2xl sm:text-4xl font-bold text-white">
+            Loved by 5,000+ Couples & Hosts Across India
           </h2>
-          <div className="w-12 h-0.5 bg-amber-700 mx-auto" />
-          <p className="text-neutral-600 text-xs sm:text-sm max-w-xl mx-auto">
-            See how modern couples are transforming their wedding invitation experience with Moonlight Digital Suites.
+          <p className="text-[#a1a1aa] text-xs sm:text-sm max-w-xl mx-auto">
+            See how modern hosts are transforming their event invitations with Moonlight Digital Suites.
           </p>
         </div>
 
@@ -422,7 +385,7 @@ const InvitationsLanding = () => {
               venue: 'The Oberoi Udaivilas, Udaipur',
               rating: 5,
               review:
-                'Our wedding guests were blown away by the gold scratch card reveal! Tracking RSVPs directly from the dashboard made our guest list and seating planning effortless.',
+                'Our wedding guests were blown away by the royal palace 3D door opening animation! Tracking RSVPs directly from the dashboard made seating planning effortless.',
               template: 'Royal Love Suite',
             },
             {
@@ -438,31 +401,31 @@ const InvitationsLanding = () => {
               venue: 'Taj Falaknuma, Hyderabad',
               rating: 5,
               review:
-                'Zero apps needed for guests, instant 1-click WhatsApp sharing, and 10x cheaper than physical boxed wedding cards. Best decision we made for our wedding!',
+                'Zero apps needed for guests, instant 1-click WhatsApp sharing, and 10x cheaper than physical boxed cards. Best decision we made for our celebration!',
               template: 'Blooming Dreams Suite',
             },
           ].map((item, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-3xl border border-[#DFD4C2] p-6 sm:p-8 space-y-4 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow"
+              className="bg-[#141414] rounded-xl border border-[#27272a] p-6 sm:p-8 space-y-4 flex flex-col justify-between hover:border-[#d4af37]/40 transition-all"
             >
               <div className="space-y-3">
-                <div className="flex items-center space-x-1 text-amber-500">
+                <div className="flex items-center space-x-1 text-[#d4af37]">
                   {[...Array(item.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    <span key={i} className="text-[#d4af37] text-sm">★</span>
                   ))}
                 </div>
-                <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed italic">
+                <p className="text-xs sm:text-sm text-[#a1a1aa] leading-relaxed italic">
                   "{item.review}"
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-neutral-100 flex items-center justify-between">
+              <div className="pt-4 border-t border-[#27272a] flex items-center justify-between">
                 <div>
-                  <h4 className="font-serif text-sm font-bold text-neutral-900">{item.couple}</h4>
-                  <span className="text-[10.5px] text-neutral-500 block">{item.venue}</span>
+                  <h4 className="text-sm font-bold text-white">{item.couple}</h4>
+                  <span className="text-[11px] text-[#a1a1aa] block">{item.venue}</span>
                 </div>
-                <span className="text-[9.5px] uppercase font-mono font-bold px-2 py-0.5 rounded bg-amber-50 text-amber-900 border border-amber-200">
+                <span className="text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded bg-[#0a0a0a] text-[#d4af37] border border-[#d4af37]/30">
                   {item.template}
                 </span>
               </div>
@@ -471,141 +434,76 @@ const InvitationsLanding = () => {
         </div>
       </section>
 
-      {/* 6. PRICING PLANS */}
-      <section id="pricing" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+      {/* ========================================================================= */}
+      {/* 6. FAQ SECTION */}
+      {/* ========================================================================= */}
+      <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-[#27272a] max-w-4xl mx-auto">
         <div className="text-center space-y-3 mb-12">
-          <span className="text-[11px] uppercase font-mono tracking-[0.25em] text-amber-800 font-bold block">
-            Transparent Pricing
+          <span className="text-[#d4af37] text-xs font-mono uppercase tracking-widest font-bold block">
+            ✦ Got Questions?
           </span>
-          <h2 className="font-serif text-2xl sm:text-4xl font-bold text-neutral-900">
-            Choose Your Experience
+          <h2 className="text-2xl sm:text-4xl font-bold text-white">
+            Frequently Asked Questions
           </h2>
-          <div className="w-12 h-0.5 bg-amber-700 mx-auto" />
-          <p className="text-neutral-600 text-xs sm:text-sm">Pay once per event with zero subscription or hidden fees.</p>
+          <p className="text-[#a1a1aa] text-xs sm:text-sm">
+            Everything you need to know about creating, editing, and sharing your digital invitation.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-          {/* Classic Plan */}
-          <div className="bg-white rounded-3xl border border-[#DFD4C2] p-6 sm:p-8 space-y-6 shadow-sm flex flex-col justify-between">
-            <div className="space-y-4">
-              <span className="text-xs uppercase font-mono font-bold text-neutral-500 tracking-wider">
-                Moonlight Classic
-              </span>
-              <div className="flex items-baseline space-x-2">
-                <span className="font-serif text-4xl font-bold text-neutral-900">₹399</span>
-                <span className="text-xs text-neutral-500 font-mono">/ one-time</span>
-              </div>
-              <ul className="space-y-2.5 text-xs text-neutral-600 pt-2 border-t border-stone-200">
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-700 mr-2 shrink-0" /> Premium Birthday / Event Template</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-700 mr-2 shrink-0" /> Instant Customer Dashboard</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-700 mr-2 shrink-0" /> Unique Live Invitation URL</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-700 mr-2 shrink-0" /> Guest RSVP Counter</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-700 mr-2 shrink-0" /> 1-Tap Google Maps Venue Directions</li>
-              </ul>
-            </div>
-            <Link
-              to="/invitations/templates/little-sunshine"
-              className="w-full py-3 rounded-full bg-stone-100 hover:bg-stone-200 text-neutral-900 font-bold text-xs uppercase tracking-wider text-center block"
+        <div className="space-y-3">
+          {faqs.map((faq, i) => (
+            <div
+              key={i}
+              className="bg-[#141414] rounded-xl border border-[#27272a] overflow-hidden transition-all"
             >
-              Choose Classic
-            </Link>
-          </div>
-
-          {/* Royal Plan */}
-          <div className="bg-gradient-to-b from-[#241B12] to-[#3B2816] text-white rounded-3xl border-2 border-amber-600/50 p-6 sm:p-8 space-y-6 shadow-xl flex flex-col justify-between relative overflow-hidden">
-            <div className="absolute top-4 right-4 bg-amber-500 text-neutral-950 text-[10px] font-mono font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
-              Most Popular
-            </div>
-            <div className="space-y-4">
-              <span className="text-xs uppercase font-mono font-bold text-amber-400 tracking-wider">
-                Moonlight Royal Suite
-              </span>
-              <div className="flex items-baseline space-x-2">
-                <span className="font-serif text-4xl font-bold text-amber-300">₹699</span>
-                <span className="text-xs text-amber-200/70 font-mono">/ one-time</span>
-              </div>
-              <ul className="space-y-2.5 text-xs text-amber-100/90 pt-2 border-t border-amber-900/50">
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-400 mr-2 shrink-0" /> Royal Heritage Wedding / Engagement Suite</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-400 mr-2 shrink-0" /> Interactive Scratch Card ("YOU’RE INVITED ♡")</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-400 mr-2 shrink-0" /> Real-time Guest RSVP Management</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-400 mr-2 shrink-0" /> Couple Memories Photo Gallery</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-400 mr-2 shrink-0" /> Romantic Background Music Soundtrack</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-400 mr-2 shrink-0" /> Live Event Countdown Timer</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-400 mr-2 shrink-0" /> 1-Tap Google Maps Turn-by-Turn Navigation</li>
-              </ul>
-            </div>
-            <Link
-              to="/invitations/templates/royal-love"
-              className="w-full py-3 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-neutral-950 font-bold text-xs uppercase tracking-wider text-center block shadow-lg"
-            >
-              Choose Royal Suite
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. FAQ SECTION */}
-      <section className="py-16 sm:py-20 bg-[#FAF8F2] border-t border-[#E0D7C7]">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-2 mb-10">
-            <span className="text-[11px] uppercase font-mono tracking-[0.25em] text-amber-800 font-bold block">
-              Got Questions?
-            </span>
-            <h2 className="font-serif text-2xl sm:text-4xl font-bold text-neutral-900">
-              Frequently Asked Questions
-            </h2>
-            <div className="w-12 h-0.5 bg-amber-700 mx-auto" />
-          </div>
-
-          <div className="space-y-3">
-            {faqs.map((faq, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-2xl border border-[#E0D6C6] overflow-hidden shadow-sm transition-all"
+              <button
+                onClick={() => setActiveFaq(activeFaq === i ? null : i)}
+                className="w-full p-4 sm:p-5 text-left flex justify-between items-center text-sm sm:text-base font-semibold text-white hover:text-[#d4af37] transition-colors"
               >
-                <button
-                  onClick={() => setActiveFaq(activeFaq === i ? null : i)}
-                  className="w-full p-4 sm:p-5 text-left flex justify-between items-center font-serif text-sm sm:text-base font-bold text-neutral-900 hover:text-amber-800 transition-colors"
-                >
-                  <span>{faq.q}</span>
-                  <ChevronDown
-                    className={`w-4 h-4 text-amber-700 transition-transform duration-300 ${
-                      activeFaq === i ? 'rotate-180' : ''
-                    }`}
-                  />
-                </button>
-                {activeFaq === i && (
-                  <div className="px-4 sm:px-5 pb-5 text-xs text-neutral-600 leading-relaxed border-t border-stone-100 pt-3">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+                <span>{faq.q}</span>
+                <ChevronDown
+                  className={`w-4 h-4 text-[#d4af37] transition-transform duration-300 ${
+                    activeFaq === i ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+              {activeFaq === i && (
+                <div className="px-4 sm:px-5 pb-5 text-xs text-[#a1a1aa] leading-relaxed border-t border-[#27272a] pt-3">
+                  {faq.a}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* 8. FOOTER CTA */}
-      <footer className="py-12 border-t border-[#DED4C3] bg-[#F5F1E8] text-center space-y-4 px-4">
-        <div className="flex flex-col items-center space-y-1">
-          <span className="font-serif text-xl font-bold tracking-[0.14em] text-neutral-900">
-            MOONLIGHT
-          </span>
-          <span className="text-[9px] tracking-[0.25em] text-amber-800 font-mono uppercase font-bold">
-            Production • Digital Invitations
-          </span>
+      {/* ========================================================================= */}
+      {/* 7. BOTTOM CTA BANNER */}
+      {/* ========================================================================= */}
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto border-t border-[#27272a] text-center">
+        <div className="bg-gradient-to-r from-[#1c1708] via-[#141414] to-[#1c1708] border border-[#d4af37]/40 rounded-2xl p-8 sm:p-14 space-y-6">
+          <h2 className="text-2xl sm:text-4xl font-bold text-white">
+            Ready to Impress Your Guests?
+          </h2>
+          <p className="text-[#a1a1aa] text-sm sm:text-base max-w-xl mx-auto">
+            Choose your luxury template, customize your celebration details in 2 minutes, and share directly with your loved ones.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              to="/invitations/templates"
+              className="px-8 py-3.5 rounded-md bg-[#d4af37] hover:bg-[#f3cf5b] text-black font-bold text-sm transition-all shadow-lg hover:scale-105"
+            >
+              Explore Templates
+            </Link>
+            <Link
+              to="/invitations/dashboard"
+              className="px-8 py-3.5 rounded-md bg-transparent hover:bg-white/10 text-white border border-[#27272a] font-semibold text-sm transition-all"
+            >
+              Go to Dashboard
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-wrap justify-center gap-5 text-xs text-neutral-600 font-medium">
-          <a href="#templates" className="hover:text-amber-800">Templates</a>
-          <a href="#pricing" className="hover:text-amber-800">Pricing</a>
-          <Link to="/invitations/login" className="hover:text-amber-800">Customer Login</Link>
-          <Link to="/invitations/dashboard" className="hover:text-amber-800">My Invitations</Link>
-          <Link to="/invitations/admin" className="hover:text-amber-800">Admin Portal</Link>
-        </div>
-        <p className="text-[11px] text-neutral-500">
-          © 2026 Moonlight Production • Crafted with love for weddings & grand celebrations.
-        </p>
-      </footer>
+      </section>
     </div>
   );
 };

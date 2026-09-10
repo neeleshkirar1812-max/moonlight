@@ -6,8 +6,6 @@ import { ToastContainer } from '../components/common/Toast';
 import {
   Sparkles,
   LayoutDashboard,
-  Layers,
-  PlusCircle,
   ShieldCheck,
   ArrowLeft,
   LogIn,
@@ -15,7 +13,6 @@ import {
   ChevronDown,
   Menu,
   X,
-  Heart,
   ExternalLink,
   Crown,
 } from 'lucide-react';
@@ -26,15 +23,6 @@ const InvitationsLayout = () => {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -42,129 +30,100 @@ const InvitationsLayout = () => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
-  const navLinks = [
-    { label: 'Overview', path: '/invitations' },
-    { label: 'Templates Catalog', path: '/invitations/templates' },
-    { label: 'My Invitations', path: '/invitations/dashboard' },
-  ];
-
-  if (isAdmin || isSuperAdmin) {
-    navLinks.push({ label: 'Admin Control Center', path: '/invitations/admin', highlight: true });
-  }
-
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 flex flex-col selection:bg-amber-400 selection:text-neutral-950 font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col selection:bg-[#d4af37] selection:text-black font-sans overflow-x-hidden">
       {/* ========================================================================= */}
-      {/* 1. DEDICATED MOONLIGHT DIGITAL INVITATIONS TOP NAVIGATION */}
+      {/* 1. SLEEK DARK & GOLD INVITATIONS HEADER */}
       {/* ========================================================================= */}
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? 'bg-[#150D08]/95 backdrop-blur-xl border-b border-amber-500/20 py-2.5 shadow-xl text-white'
-            : 'bg-[#1A100A]/90 backdrop-blur-md border-b border-amber-500/20 py-3 text-white'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between">
-          {/* Brand Logo & Tag */}
+      <header className="sticky top-0 z-50 bg-[#0a0a0a]/90 backdrop-blur-md border-b border-[#27272a]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+          
+          {/* Logo */}
           <div className="flex items-center space-x-3">
             <Link to="/invitations" className="flex items-center space-x-2.5 group shrink-0">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-amber-400 via-amber-600 to-amber-700 p-0.5 shadow-md flex items-center justify-center">
-                <div className="w-full h-full rounded-full bg-[#120904] flex items-center justify-center">
-                  <Crown className="w-4 h-4 text-amber-400" />
-                </div>
+              <div className="w-8 h-8 rounded-lg bg-[#141414] border border-[#d4af37]/60 flex items-center justify-center text-[#d4af37] shadow-sm group-hover:border-[#d4af37] transition-all">
+                <Crown className="w-4 h-4" />
               </div>
               <div className="flex flex-col">
-                <span className="font-serif text-sm sm:text-base font-bold tracking-[0.14em] text-white group-hover:text-amber-300 transition-colors flex items-center space-x-1.5">
+                <span className="font-serif text-base sm:text-lg font-bold tracking-wider text-white group-hover:text-[#d4af37] transition-colors flex items-center space-x-1">
                   <span>MOONLIGHT</span>
-                  <span className="text-amber-400 font-normal">INVITATIONS</span>
                 </span>
-                <span className="text-[7px] sm:text-[7.5px] tracking-[0.2em] text-amber-300/80 font-mono uppercase font-bold">
-                  Royal Digital Suites • RSVP Engine
+                <span className="text-[8px] tracking-[0.2em] text-[#a1a1aa] font-mono uppercase">
+                  Digital Invitations
                 </span>
               </div>
             </Link>
           </div>
 
-          {/* Desktop Navigation Links Capsule */}
-          <nav className="hidden lg:flex items-center bg-white/5 border border-white/10 rounded-full p-1 space-x-1 shadow-inner">
-            {navLinks.map((item) => {
-              const active =
-                item.path === '/invitations'
-                  ? location.pathname === '/invitations'
-                  : location.pathname.startsWith(item.path);
-
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`text-[11px] uppercase tracking-wider font-semibold transition-all py-1.5 px-3.5 rounded-full flex items-center space-x-1.5 ${
-                    active
-                      ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-neutral-950 font-extrabold shadow'
-                      : item.highlight
-                      ? 'text-amber-300 hover:text-white hover:bg-white/10 font-bold'
-                      : 'text-neutral-300 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  {item.highlight && <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />}
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
+          {/* Center Nav Links */}
+          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium text-[#a1a1aa]">
+            <Link to="/invitations" className={`hover:text-white transition-colors ${location.pathname === '/invitations' ? 'text-white font-semibold' : ''}`}>
+              Home
+            </Link>
+            <Link to="/invitations/templates" className={`hover:text-white transition-colors ${location.pathname.startsWith('/invitations/templates') ? 'text-[#d4af37] font-semibold' : ''}`}>
+              Templates
+            </Link>
+            <a href="/invitations#features" className="hover:text-white transition-colors">
+              Features
+            </a>
+            <a href="/invitations#pricing" className="hover:text-white transition-colors">
+              Pricing
+            </a>
+            <Link to="/invitations/dashboard" className={`hover:text-white transition-colors ${location.pathname.startsWith('/invitations/dashboard') ? 'text-[#d4af37] font-semibold' : ''}`}>
+              My Invitations
+            </Link>
+            {(isAdmin || isSuperAdmin) && (
+              <Link to="/invitations/admin" className="text-[#d4af37] hover:text-[#f3cf5b] font-semibold flex items-center space-x-1">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Admin</span>
+              </Link>
+            )}
           </nav>
 
           {/* Right Action Buttons */}
-          <div className="hidden lg:flex items-center space-x-3 shrink-0">
-            {/* Back to Photography Studio */}
+          <div className="hidden md:flex items-center space-x-3 shrink-0">
+            {/* Main Studio Website Link */}
             <Link
               to="/"
-              className="text-[11px] text-amber-200/70 hover:text-amber-300 flex items-center space-x-1 transition-all font-mono"
+              className="text-xs text-[#a1a1aa] hover:text-white px-2.5 py-1.5 rounded-md hover:bg-[#141414] transition-all font-mono flex items-center space-x-1"
               title="Return to Moonlight Photography Studio"
             >
               <ArrowLeft className="w-3 h-3" />
-              <span>Photography Studio</span>
+              <span>Studio</span>
             </Link>
 
-            {/* Create Invitation CTA */}
-            <Link
-              to="/invitations/templates"
-              className="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-bold text-xs uppercase tracking-wider shadow-md hover:scale-105 active:scale-95 transition-all flex items-center space-x-1.5 border border-amber-200"
-            >
-              <Sparkles className="w-3 h-3" />
-              <span>Browse Designs</span>
-            </Link>
-
-            {/* User Account / Profile */}
+            {/* Auth / Account */}
             {isAuthenticated ? (
               <div className="relative">
                 <button
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                  className="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/15 text-white hover:bg-white/20 transition-all text-xs"
+                  className="flex items-center space-x-2 px-3 py-1.5 rounded-md bg-[#141414] border border-[#27272a] text-white hover:border-[#d4af37] transition-all text-xs"
                 >
-                  <div className="w-5 h-5 rounded-full bg-amber-500 text-black flex items-center justify-center font-bold text-[10px]">
+                  <div className="w-5 h-5 rounded-full bg-[#d4af37] text-black flex items-center justify-center font-bold text-[10px]">
                     {user?.name?.charAt(0) || 'U'}
                   </div>
-                  <span className="font-semibold max-w-[100px] truncate">{user?.name}</span>
-                  <ChevronDown className="w-3 h-3 text-amber-400" />
+                  <span className="font-semibold max-w-[90px] truncate">{user?.name}</span>
+                  <ChevronDown className="w-3 h-3 text-[#a1a1aa]" />
                 </button>
 
                 {userDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-52 bg-[#1A100A] border border-amber-500/30 rounded-2xl shadow-2xl py-2 z-50 text-xs animate-fade-in font-sans text-neutral-200">
-                    <div className="px-3.5 py-2 border-b border-white/10 text-[11px] text-neutral-400 font-mono">
-                      Signed in as: <strong className="text-amber-300 block">{user?.email}</strong>
+                  <div className="absolute right-0 mt-2 w-52 bg-[#141414] border border-[#27272a] rounded-xl shadow-2xl py-2 z-50 text-xs animate-fade-in font-sans text-neutral-200">
+                    <div className="px-3.5 py-2 border-b border-[#27272a] text-[11px] text-[#a1a1aa] font-mono">
+                      Signed in as: <strong className="text-[#d4af37] block truncate">{user?.email}</strong>
                     </div>
                     <Link
                       to="/invitations/dashboard"
-                      className="flex items-center px-3.5 py-2 hover:bg-white/10 hover:text-amber-300 font-medium"
+                      className="flex items-center px-3.5 py-2 hover:bg-[#27272a] hover:text-[#d4af37] font-medium"
                     >
-                      <LayoutDashboard className="w-3.5 h-3.5 mr-2 text-amber-400" />
-                      My Invitations Portal
+                      <LayoutDashboard className="w-3.5 h-3.5 mr-2 text-[#d4af37]" />
+                      My Invitations
                     </Link>
                     {(isAdmin || isSuperAdmin) && (
                       <Link
                         to="/invitations/admin"
-                        className="flex items-center px-3.5 py-2 hover:bg-white/10 hover:text-amber-300 font-medium"
+                        className="flex items-center px-3.5 py-2 hover:bg-[#27272a] hover:text-[#d4af37] font-medium"
                       >
-                        <ShieldCheck className="w-3.5 h-3.5 mr-2 text-amber-400" />
+                        <ShieldCheck className="w-3.5 h-3.5 mr-2 text-[#d4af37]" />
                         Admin Control Center
                       </Link>
                     )}
@@ -181,87 +140,83 @@ const InvitationsLayout = () => {
             ) : (
               <Link
                 to="/invitations/login"
-                className="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center"
+                className="px-3.5 py-1.5 rounded-md text-xs font-medium text-white hover:bg-white/10 transition-all"
               >
-                <LogIn className="w-3.5 h-3.5 mr-1.5 text-amber-400" />
-                <span>Client Login</span>
+                Login
               </Link>
             )}
-          </div>
 
-          {/* Mobile Menu Toggle Button */}
-          <div className="flex items-center space-x-2 lg:hidden">
+            {/* Primary Get Started Button */}
             <Link
               to="/invitations/templates"
-              className="px-3 py-1 rounded-full bg-amber-500 text-neutral-950 font-bold text-[11px] uppercase tracking-wider shadow flex items-center space-x-1"
+              className="px-4 py-2 rounded-md bg-[#d4af37] hover:bg-[#f3cf5b] text-black font-semibold text-xs transition-all shadow-md flex items-center space-x-1.5"
             >
-              <Sparkles className="w-3 h-3" />
-              <span>Explore</span>
+              <span>Get Started</span>
+            </Link>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="flex items-center space-x-2 md:hidden">
+            <Link
+              to="/invitations/templates"
+              className="px-3 py-1.5 rounded-md bg-[#d4af37] text-black font-semibold text-xs"
+            >
+              Get Started
             </Link>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl bg-white/10 text-white hover:bg-white/20"
-              aria-label="Toggle Navigation Menu"
+              className="p-2 rounded-lg bg-[#141414] text-white border border-[#27272a]"
+              aria-label="Toggle Menu"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5 text-amber-400" /> : <Menu className="w-5 h-5 text-amber-400" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 text-[#d4af37]" /> : <Menu className="w-5 h-5 text-[#d4af37]" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer */}
+        {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-[#140B06] border-b border-amber-500/20 px-4 py-4 space-y-3 animate-fade-in text-neutral-200">
-            <div className="space-y-1">
-              <Link
-                to="/invitations"
-                className="flex items-center text-sm font-semibold hover:text-amber-300 py-2 border-b border-white/5"
-              >
-                ✨ Overview & Features
+          <div className="md:hidden bg-[#0a0a0a] border-b border-[#27272a] px-4 py-4 space-y-3 animate-fade-in text-neutral-300">
+            <div className="space-y-2">
+              <Link to="/invitations" className="block text-sm py-1 hover:text-white">
+                Home
               </Link>
-              <Link
-                to="/invitations/templates"
-                className="flex items-center text-sm font-semibold hover:text-amber-300 py-2 border-b border-white/5"
-              >
-                💎 Template Catalog & Designs
+              <Link to="/invitations/templates" className="block text-sm py-1 hover:text-[#d4af37] text-[#d4af37] font-semibold">
+                Templates Catalog
               </Link>
-              <Link
-                to="/invitations/dashboard"
-                className="flex items-center text-sm font-semibold hover:text-amber-300 py-2 border-b border-white/5"
-              >
-                💌 My Invitations Dashboard
+              <a href="/invitations#features" className="block text-sm py-1 hover:text-white">
+                Features
+              </a>
+              <a href="/invitations#pricing" className="block text-sm py-1 hover:text-white">
+                Pricing
+              </a>
+              <Link to="/invitations/dashboard" className="block text-sm py-1 hover:text-white">
+                My Invitations
               </Link>
               {(isAdmin || isSuperAdmin) && (
-                <Link
-                  to="/invitations/admin"
-                  className="flex items-center text-sm font-bold text-amber-400 py-2 border-b border-white/5"
-                >
-                  🛡️ Admin Control Center
+                <Link to="/invitations/admin" className="block text-sm py-1 text-[#d4af37] font-semibold">
+                  Admin Control Center
                 </Link>
               )}
             </div>
 
-            <div className="pt-2 flex flex-col space-y-2">
-              <Link
-                to="/"
-                className="text-xs text-neutral-400 hover:text-white flex items-center space-x-1 py-1"
-              >
+            <div className="pt-3 border-t border-[#27272a] flex flex-col space-y-2">
+              <Link to="/" className="text-xs text-[#a1a1aa] hover:text-white flex items-center space-x-1 py-1">
                 <ArrowLeft className="w-3.5 h-3.5" />
-                <span>Return to Main Photography Studio Website</span>
+                <span>Return to Photography Studio</span>
               </Link>
               {isAuthenticated ? (
                 <button
                   onClick={logout}
-                  className="w-full py-2 text-xs font-bold text-red-400 bg-red-950/30 rounded-xl flex items-center justify-center space-x-1"
+                  className="w-full py-2 text-xs font-semibold text-red-400 bg-red-950/20 rounded-md border border-red-900/30 text-center"
                 >
-                  <LogOut className="w-3.5 h-3.5" />
-                  <span>Sign Out ({user?.name})</span>
+                  Sign Out ({user?.name})
                 </button>
               ) : (
                 <Link
                   to="/invitations/login"
-                  className="w-full py-2.5 text-xs font-bold text-center uppercase tracking-wider bg-white/10 text-white rounded-xl border border-white/20"
+                  className="w-full py-2 text-xs font-semibold text-center bg-[#141414] text-white rounded-md border border-[#27272a]"
                 >
-                  Client Sign In
+                  Login
                 </Link>
               )}
             </div>
@@ -270,111 +225,71 @@ const InvitationsLayout = () => {
       </header>
 
       {/* ========================================================================= */}
-      {/* 2. DEDICATED MAIN CONTENT AREA */}
+      {/* 2. MAIN CONTENT */}
       {/* ========================================================================= */}
-      <main className="flex-grow w-full max-w-full overflow-x-hidden min-w-0">
+      <main className="flex-grow w-full max-w-full overflow-x-hidden min-w-0 bg-[#0a0a0a]">
         <Outlet />
       </main>
 
       {/* ========================================================================= */}
-      {/* 3. DEDICATED MOONLIGHT DIGITAL INVITATIONS FOOTER */}
+      {/* 3. SLEEK FOOTER */}
       {/* ========================================================================= */}
-      <footer className="bg-[#120803] border-t border-amber-500/20 text-neutral-400 text-xs font-sans py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <footer className="bg-[#0a0a0a] border-t border-[#27272a] text-[#a1a1aa] text-xs py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {/* Col 1: Brand */}
             <div className="space-y-3">
-              <div className="flex items-center space-x-2">
-                <div className="w-7 h-7 rounded-full bg-amber-500 flex items-center justify-center text-black font-bold font-serif text-xs">
-                  M
-                </div>
-                <span className="font-serif text-base font-bold text-white tracking-wider">
-                  MOONLIGHT <span className="text-amber-400">INVITATIONS</span>
-                </span>
-              </div>
-              <p className="text-neutral-400 leading-relaxed text-[11px]">
-                India's premier digital wedding invitation studio. Bespoke 3D palace door opening suites, live RSVP tracking, and instant WhatsApp distribution.
+              <span className="font-serif text-base font-bold text-white tracking-wider block">
+                MOONLIGHT <span className="text-[#d4af37]">INVITATIONS</span>
+              </span>
+              <p className="text-[#a1a1aa] text-xs leading-relaxed">
+                Premium digital invitations for all events. 3D animated reveals, interactive scratch cards, instant WhatsApp sharing, and live RSVP tracking.
               </p>
-              <div className="text-[10px] text-amber-300 font-mono">
-                A Division of Moonlight Production
-              </div>
             </div>
 
-            {/* Col 2: Invitation Suites */}
             <div className="space-y-2">
-              <span className="font-serif text-xs font-bold text-white uppercase tracking-widest block">
-                Invitation Suites
-              </span>
-              <ul className="space-y-1.5 text-[11px]">
-                <li>
-                  <Link to="/invitations/templates" className="hover:text-amber-300 transition-colors">
-                    Royal Rajwada Palace Suite
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/invitations/templates" className="hover:text-amber-300 transition-colors">
-                    Pastel Floral Symphony
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/invitations/templates" className="hover:text-amber-300 transition-colors">
-                    Golden Udaipur Elegance
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/invitations/templates" className="hover:text-amber-300 transition-colors">
-                    South Indian Temple Serenade
-                  </Link>
-                </li>
+              <span className="text-white font-semibold block">Occasions</span>
+              <ul className="space-y-1.5 text-xs">
+                <li><Link to="/invitations/templates" className="hover:text-[#d4af37]">Wedding Invitations</Link></li>
+                <li><Link to="/invitations/templates" className="hover:text-[#d4af37]">Engagement & Ring Ceremony</Link></li>
+                <li><Link to="/invitations/templates" className="hover:text-[#d4af37]">Birthday Celebrations</Link></li>
+                <li><Link to="/invitations/templates" className="hover:text-[#d4af37]">Anniversaries & Parties</Link></li>
               </ul>
             </div>
 
-            {/* Col 3: Features */}
             <div className="space-y-2">
-              <span className="font-serif text-xs font-bold text-white uppercase tracking-widest block">
-                Key Features
-              </span>
-              <ul className="space-y-1.5 text-[11px]">
-                <li>✦ 3D Palace Doors Entrance</li>
+              <span className="text-white font-semibold block">Features</span>
+              <ul className="space-y-1.5 text-xs">
+                <li>✦ 3D Palace Door Opening Animation</li>
                 <li>✦ Interactive Touch Scratch Card</li>
-                <li>✦ Live Online RSVP & WhatsApp Sync</li>
-                <li>✦ 1-Tap Google Maps Navigation</li>
-                <li>✦ Background Shehnai & Sitar Music</li>
+                <li>✦ Live RSVP & WhatsApp Confirmation</li>
+                <li>✦ Embedded Google Maps Navigation</li>
               </ul>
             </div>
 
-            {/* Col 4: Studio Hub */}
             <div className="space-y-2">
-              <span className="font-serif text-xs font-bold text-white uppercase tracking-widest block">
-                Moonlight Studio
-              </span>
-              <p className="text-[11px] text-neutral-400 leading-relaxed">
+              <span className="text-white font-semibold block">Studio Hub</span>
+              <p className="text-xs leading-relaxed text-[#a1a1aa]">
                 152 Shamla Hills, Bhopal, MP<br />
-                WhatsApp: +91 92292 29323<br />
-                Instagram: @moonlight_production__
+                WhatsApp: +91 92292 29323
               </p>
-              <Link
-                to="/"
-                className="inline-flex items-center space-x-1 text-amber-400 hover:text-amber-300 text-[11px] font-bold"
-              >
-                <span>Visit Main Photography Website</span>
+              <Link to="/" className="inline-flex items-center space-x-1 text-[#d4af37] hover:text-[#f3cf5b] font-semibold text-xs pt-1">
+                <span>Moonlight Photography Studio</span>
                 <ExternalLink className="w-3 h-3" />
               </Link>
             </div>
           </div>
 
-          <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-neutral-500 gap-3">
+          <div className="pt-6 border-t border-[#27272a] flex flex-col sm:flex-row items-center justify-between text-xs text-[#a1a1aa] gap-2">
             <span>© {new Date().getFullYear()} Moonlight Production. All rights reserved.</span>
             <div className="flex space-x-4">
-              <Link to="/privacy" className="hover:text-neutral-300">Privacy Policy</Link>
-              <Link to="/terms" className="hover:text-neutral-300">Terms of Service</Link>
-              <Link to="/invitations/admin" className="hover:text-amber-400">Admin Control</Link>
+              <Link to="/privacy" className="hover:text-white">Privacy Policy</Link>
+              <Link to="/terms" className="hover:text-white">Terms of Service</Link>
+              <Link to="/invitations/admin" className="hover:text-[#d4af37]">Admin</Link>
             </div>
           </div>
         </div>
       </footer>
 
-      {/* Floating Buttons & Toasts */}
       <WhatsAppFloatingButton />
       <ToastContainer />
     </div>
