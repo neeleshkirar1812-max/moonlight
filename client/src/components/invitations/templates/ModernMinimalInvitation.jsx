@@ -162,8 +162,11 @@ const ModernMinimalInvitation = ({ invitation = {}, isPreview = false, onRsvpSuc
     'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3';
 
   return (
-    <div className="relative min-h-screen bg-[#0B132B] text-[#f8f9fa] font-sans selection:bg-[#d4af37] selection:text-black overflow-x-hidden">
-      
+    <div
+      className={`relative ${
+        showDoors && isPreview ? 'h-full min-h-[500px] overflow-hidden' : 'min-h-screen'
+      } bg-[#0B132B] text-[#f8f9fa] font-sans selection:bg-[#d4af37] selection:text-black overflow-x-hidden`}
+    >
       {/* Audio Element */}
       <audio ref={audioRef} src={musicUrl} loop preload="auto" />
 
@@ -241,6 +244,9 @@ const ModernMinimalInvitation = ({ invitation = {}, isPreview = false, onRsvpSuc
               audioRef.current.play().catch(() => {});
               setIsPlaying(true);
             }
+            setTimeout(() => {
+              setShowDoors(false);
+            }, 1000);
           }}
           isPreview={isPreview}
         />

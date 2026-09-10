@@ -68,64 +68,63 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
     return names.slice(0, 2).toUpperCase();
   };
 
-  const handleOpenDoors = () => {
+  const handleOpenDoors = (e) => {
+    if (e) {
+      e.stopPropagation();
+    }
     if (isOpen) return;
 
     // 1. Play Royal Chime sound effect
     playRoyalDoorChime();
 
     // 2. Generate falling floral petal shower
-    const newPetals = Array.from({ length: 22 }).map((_, i) => ({
+    const newPetals = Array.from({ length: 26 }).map((_, i) => ({
       id: i,
-      left: Math.random() * 100,
-      size: Math.random() * 10 + 7,
-      delay: Math.random() * 0.5,
-      duration: Math.random() * 1.5 + 1.5,
+      left: Math.random() * 96 + 2,
+      size: Math.random() * 12 + 8,
+      delay: Math.random() * 0.4,
+      duration: Math.random() * 1.4 + 1.2,
       rotation: Math.random() * 360,
-      color: i % 2 === 0 ? 'rose' : 'marigold',
+      type: i % 3 === 0 ? '🌹' : i % 3 === 1 ? '🌼' : '✨',
     }));
     setPetals(newPetals);
 
-    // 3. Trigger door 3D opening animation
+    // 3. Trigger door opening animation
     setIsOpen(true);
 
-    // 4. Notify parent to start music & unlock main view
+    // 4. Notify parent to start background music
     if (onEnter) {
       onEnter();
     }
 
-    // 5. Unmount opening screen after animation finishes
+    // 5. Unmount opening screen after smooth animation
     setTimeout(() => {
       setIsRendered(false);
-    }, 1400);
-  };
-
-  const handleWheelOrTouch = () => {
-    if (!isOpen) {
-      handleOpenDoors();
-    }
+    }, 950);
   };
 
   if (!isRendered) return null;
 
   return (
     <div
-      onWheel={handleWheelOrTouch}
-      onTouchMove={handleWheelOrTouch}
+      onClick={handleOpenDoors}
       className={`${
         isPreview ? 'absolute' : 'fixed'
-      } inset-0 z-50 flex items-center justify-center overflow-hidden font-sans select-none transition-all duration-700 p-2 sm:p-4 ${
-        isOpen ? 'pointer-events-none opacity-0 delay-700 bg-transparent' : 'opacity-100 bg-black/90'
+      } inset-0 z-50 flex items-center justify-center font-sans select-none transition-opacity duration-700 w-full h-full cursor-pointer ${
+        isOpen ? 'pointer-events-none opacity-0 bg-transparent' : 'opacity-100 bg-black/95'
       }`}
       style={{
-        perspective: '1400px',
+        perspective: '1200px',
       }}
     >
       {/* ========================================================================= */}
       {/* 1. CUSTOM VIDEO OPENING MODE (If video URL is provided) */}
       {/* ========================================================================= */}
       {isVideoMode ? (
-        <div className="relative w-full h-full max-w-[360px] sm:max-w-md max-h-[640px] sm:max-h-[720px] mx-auto rounded-2xl sm:rounded-3xl border-2 border-amber-400 shadow-2xl flex flex-col items-center justify-center bg-black overflow-hidden">
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="relative w-full h-full max-w-[360px] sm:max-w-md max-h-[640px] mx-auto rounded-2xl sm:rounded-3xl border-2 border-amber-400 shadow-2xl flex flex-col items-center justify-center bg-black overflow-hidden"
+        >
           <video
             ref={videoRef}
             src={videoUrl}
@@ -155,7 +154,8 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
               </div>
               <button
                 type="button"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   setVideoPlaying(true);
                   if (videoRef.current) {
                     videoRef.current.play().catch(() => {});
@@ -172,18 +172,17 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
         </div>
       ) : (
         /* ========================================================================= */
-        /* 2. RESPONSIVE 3D ROYAL PALACE DOUBLE DOORS (Guaranteed Render & Perfect Proportions) */
+        /* 2. RESPONSIVE 3D ROYAL PALACE DOUBLE DOORS */
         /* ========================================================================= */
         <div
           onClick={handleOpenDoors}
-          className="w-full max-w-[360px] sm:max-w-md h-full max-h-[640px] relative flex flex-col justify-between overflow-hidden rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-amber-400 shadow-[0_0_50px_rgba(245,158,11,0.5)] bg-[#1e0e05] select-none cursor-pointer"
+          className="w-full h-full max-w-[420px] max-h-[720px] relative flex flex-col justify-between overflow-hidden sm:rounded-3xl border-2 sm:border-4 border-amber-400/80 shadow-[0_0_60px_rgba(245,158,11,0.6)] bg-[#1a0c04] select-none cursor-pointer"
         >
-          
           {/* Inner Palace Radiant Glow Backdrop (Revealed when doors swing open) */}
-          <div className="absolute inset-0 z-0 flex flex-col items-center justify-center bg-gradient-to-b from-amber-500/20 via-amber-900/40 to-black/80 text-center p-4">
-            <div className="w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-amber-400/30 blur-2xl animate-pulse" />
+          <div className="absolute inset-0 z-0 flex flex-col items-center justify-center bg-gradient-to-b from-amber-500/30 via-amber-900/60 to-black/90 text-center p-4">
+            <div className="w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-amber-400/40 blur-3xl animate-pulse" />
             <div className="space-y-1.5 z-10 animate-fade-in max-w-xs">
-              <Sparkles className="w-6 h-6 text-amber-300 mx-auto animate-spin-slow" />
+              <Sparkles className="w-7 h-7 text-amber-300 mx-auto animate-spin-slow" />
               <h3 className="font-serif text-2xl sm:text-3xl font-bold text-amber-100 tracking-tight leading-tight drop-shadow-md">
                 {invitation.names || 'Aarav & Kiara'}
               </h3>
@@ -208,19 +207,24 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
           </div>
 
           {/* ========================================================================= */}
-          {/* THE 3D DOUBLE DOORS CONTAINER */}
+          {/* THE DOUBLE DOORS CONTAINER */}
           {/* ========================================================================= */}
-          <div className="absolute inset-0 z-20 flex w-full h-full overflow-hidden pointer-events-none">
-            
+          <div
+            className="absolute inset-0 z-20 flex w-full h-full pointer-events-none"
+            style={{
+              transformStyle: 'preserve-3d',
+            }}
+          >
             {/* ------------------------------------------------------------- */}
             {/* LEFT PALACE DOOR */}
             {/* ------------------------------------------------------------- */}
             <div
-              className="w-1/2 h-full relative flex flex-col justify-between p-2 sm:p-3 border-r-2 border-amber-400 shadow-2xl transition-all duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)]"
+              className="w-1/2 h-full relative flex flex-col justify-between p-2 sm:p-3 border-r-2 border-amber-400/80 shadow-2xl transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]"
               style={{
                 background: 'linear-gradient(135deg, #451d08 0%, #78350f 45%, #2e1003 100%)',
                 transformOrigin: 'left center',
-                transform: isOpen ? 'rotateY(-105deg) scale(0.95)' : 'rotateY(0deg) scale(1)',
+                transform: isOpen ? 'translateX(-100%) rotateY(-90deg) scale(0.95)' : 'translateX(0%) rotateY(0deg) scale(1)',
+                opacity: isOpen ? 0 : 1,
                 boxShadow: 'inset -6px 0 20px rgba(0,0,0,0.9), inset 0 0 15px rgba(245, 158, 11, 0.3)',
               }}
             >
@@ -228,7 +232,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
               <div className="absolute inset-1 sm:inset-2 border-2 border-amber-400/60 rounded-lg pointer-events-none" />
 
               {/* Top Jaali Arch Carved Panel (Left) */}
-              <div className="relative z-10 w-full h-[16vh] min-h-[60px] max-h-[100px] rounded-t-lg sm:rounded-t-xl border-2 border-amber-400/70 bg-[#250d03]/95 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
+              <div className="relative z-10 w-full h-[15vh] min-h-[55px] max-h-[95px] rounded-t-lg sm:rounded-t-xl border-2 border-amber-400/70 bg-[#250d03]/95 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
                 <svg className="w-full h-full text-amber-400/40 fill-current" viewBox="0 0 100 100">
                   <path d="M50 5 C30 5 15 25 15 50 C15 75 30 95 50 95 C70 95 85 75 85 50 C85 25 70 5 50 5 Z M50 15 C65 15 75 30 75 50 C75 70 65 85 50 85 C35 85 25 70 25 50 C25 30 35 15 50 15 Z" />
                   <circle cx="50" cy="50" r="10" />
@@ -262,7 +266,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
               </div>
 
               {/* Bottom Carved Lotus Panel (Left) */}
-              <div className="relative z-10 w-full h-[16vh] min-h-[55px] max-h-[95px] rounded-b-lg sm:rounded-b-xl border border-amber-500/40 bg-[#100803]/90 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
+              <div className="relative z-10 w-full h-[15vh] min-h-[50px] max-h-[90px] rounded-b-lg sm:rounded-b-xl border border-amber-500/40 bg-[#100803]/90 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
                 <svg className="w-full h-full text-amber-500/20 fill-current" viewBox="0 0 100 100">
                   <polygon points="50,10 62,38 92,38 68,56 77,85 50,68 23,85 32,56 8,38 38,38" />
                 </svg>
@@ -276,11 +280,12 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
             {/* RIGHT PALACE DOOR */}
             {/* ------------------------------------------------------------- */}
             <div
-              className="w-1/2 h-full relative flex flex-col justify-between p-2 sm:p-3 border-l-2 border-amber-400 shadow-2xl transition-all duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)]"
+              className="w-1/2 h-full relative flex flex-col justify-between p-2 sm:p-3 border-l-2 border-amber-400/80 shadow-2xl transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]"
               style={{
                 background: 'linear-gradient(225deg, #451d08 0%, #78350f 45%, #2e1003 100%)',
                 transformOrigin: 'right center',
-                transform: isOpen ? 'rotateY(105deg) scale(0.95)' : 'rotateY(0deg) scale(1)',
+                transform: isOpen ? 'translateX(100%) rotateY(90deg) scale(0.95)' : 'translateX(0%) rotateY(0deg) scale(1)',
+                opacity: isOpen ? 0 : 1,
                 boxShadow: 'inset 6px 0 20px rgba(0,0,0,0.9), inset 0 0 15px rgba(245, 158, 11, 0.3)',
               }}
             >
@@ -288,7 +293,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
               <div className="absolute inset-1 sm:inset-2 border-2 border-amber-400/60 rounded-lg pointer-events-none" />
 
               {/* Top Jaali Arch Carved Panel (Right) */}
-              <div className="relative z-10 w-full h-[16vh] min-h-[60px] max-h-[100px] rounded-t-lg sm:rounded-t-xl border-2 border-amber-400/70 bg-[#250d03]/95 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
+              <div className="relative z-10 w-full h-[15vh] min-h-[55px] max-h-[95px] rounded-t-lg sm:rounded-t-xl border-2 border-amber-400/70 bg-[#250d03]/95 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
                 <svg className="w-full h-full text-amber-400/40 fill-current" viewBox="0 0 100 100">
                   <path d="M50 5 C30 5 15 25 15 50 C15 75 30 95 50 95 C70 95 85 75 85 50 C85 25 70 5 50 5 Z M50 15 C65 15 75 30 75 50 C75 70 65 85 50 85 C35 85 25 70 25 50 C25 30 35 15 50 15 Z" />
                   <circle cx="50" cy="50" r="10" />
@@ -322,7 +327,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
               </div>
 
               {/* Bottom Carved Lotus Panel (Right) */}
-              <div className="relative z-10 w-full h-[16vh] min-h-[60px] max-h-[100px] rounded-b-lg sm:rounded-b-xl border-2 border-amber-400/70 bg-[#250d03]/95 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
+              <div className="relative z-10 w-full h-[15vh] min-h-[55px] max-h-[95px] rounded-b-lg sm:rounded-b-xl border-2 border-amber-400/70 bg-[#250d03]/95 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
                 <svg className="w-full h-full text-amber-400/35 fill-current" viewBox="0 0 100 100">
                   <polygon points="50,10 62,38 92,38 68,56 77,85 50,68 23,85 32,56 8,38 38,38" />
                 </svg>
@@ -334,7 +339,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
           </div>
 
           {/* ========================================================================= */}
-          {/* CENTER ROYAL WAX SEAL & UNLOCK CTA (Bridging the seam between the doors) */}
+          {/* CENTER ROYAL WAX SEAL & UNLOCK CTA */}
           {/* ========================================================================= */}
           <div
             className={`absolute z-40 inset-0 flex flex-col items-center justify-center pointer-events-auto p-2 sm:p-3 transition-all duration-700 ${
@@ -351,37 +356,37 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
               <div className="absolute -inset-1 rounded-full bg-amber-300/40 blur-sm animate-pulse" />
 
               {/* The Wax Seal Outer Ring */}
-              <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-full bg-gradient-to-br from-[#990000] via-[#660000] to-[#330000] p-1.5 shadow-2xl border-2 border-amber-300 relative flex items-center justify-center">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-[#990000] via-[#660000] to-[#330000] p-1.5 shadow-2xl border-2 border-amber-300 relative flex items-center justify-center">
                 <div className="w-full h-full rounded-full border border-dashed border-amber-300/70 flex flex-col items-center justify-center bg-gradient-to-b from-amber-500/25 to-black/60 text-center p-0.5">
-                  <span className="text-xs sm:text-sm">{theme.crestIcon || '👑'}</span>
+                  <span className="text-xs">{theme.crestIcon || '👑'}</span>
                   
                   {/* Couple Monogram Initials */}
-                  <span className="font-serif text-lg sm:text-xl font-bold tracking-widest bg-gradient-to-r from-amber-200 via-yellow-200 to-amber-100 bg-clip-text text-transparent drop-shadow-md">
+                  <span className="font-serif text-base sm:text-lg font-bold tracking-widest bg-gradient-to-r from-amber-200 via-yellow-200 to-amber-100 bg-clip-text text-transparent drop-shadow-md">
                     {getMonogram()}
                   </span>
 
-                  <span className="text-[7px] uppercase font-mono tracking-widest text-amber-200 font-bold">
+                  <span className="text-[6.5px] uppercase font-mono tracking-widest text-amber-200 font-bold">
                     Royal Seal
                   </span>
                 </div>
 
-                <div className="absolute -top-1.5 px-2 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-[7px] sm:text-[8px] font-mono font-bold text-neutral-950 uppercase tracking-widest border border-amber-200 shadow-md">
+                <div className="absolute -top-1.5 px-2 py-0.2 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-[7px] font-mono font-bold text-neutral-950 uppercase tracking-widest border border-amber-200 shadow-md">
                   Royal
                 </div>
               </div>
             </div>
 
             {/* Couple Heading Details */}
-            <div className="mt-2.5 text-center space-y-0.5 max-w-[280px] px-1">
+            <div className="mt-2 text-center space-y-0.5 max-w-[280px] px-1">
               <span className="text-[8px] sm:text-[9px] uppercase font-mono tracking-[0.2em] text-amber-300/90 font-bold block drop-shadow">
                 {invitation.opening_heading || 'Cordially Invites You To Celebrate'}
               </span>
 
-              <h2 className="font-serif text-base sm:text-xl font-bold text-white tracking-tight drop-shadow-md leading-tight">
+              <h2 className="font-serif text-base sm:text-lg font-bold text-white tracking-tight drop-shadow-md leading-tight">
                 {invitation.names || 'Aarav & Kiara'}
               </h2>
 
-              <p className="text-[9px] text-amber-200/80 font-mono tracking-wider">
+              <p className="text-[8.5px] text-amber-200/80 font-mono tracking-wider">
                 {invitation.event_date || invitation.date
                   ? new Date(invitation.event_date || invitation.date).toLocaleDateString('en-IN', {
                       month: 'short',
@@ -393,20 +398,20 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
             </div>
 
             {/* Tap To Open Call-To-Action Button */}
-            <div className="mt-2.5">
+            <div className="mt-2">
               <button
                 type="button"
                 onClick={handleOpenDoors}
-                className="group relative px-4 sm:px-5 py-2 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-bold text-[10px] sm:text-[11px] uppercase tracking-wider shadow-lg transform hover:scale-105 active:scale-95 transition-all flex items-center justify-center space-x-1 border border-amber-200"
+                className="group relative px-4 sm:px-5 py-2 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-bold text-[10px] sm:text-[11px] uppercase tracking-wider shadow-lg transform hover:scale-105 active:scale-95 transition-all flex items-center justify-center space-x-1.5 border border-amber-200 cursor-pointer"
               >
-                <Sparkles className="w-3 h-3 text-neutral-950 animate-spin-slow" />
+                <Sparkles className="w-3.5 h-3.5 text-neutral-950 animate-spin-slow" />
                 <span>Open Royal Palace Doors</span>
               </button>
             </div>
 
             {/* Bottom Scroll / Tap Hint */}
-            <div className="mt-2 flex flex-col items-center space-y-0.5 text-[8px] sm:text-[9px] text-amber-300/80 uppercase font-mono tracking-widest animate-pulse">
-              <span>Scroll Down or Tap to Enter</span>
+            <div className="mt-1.5 flex flex-col items-center space-y-0.5 text-[8px] text-amber-300/80 uppercase font-mono tracking-widest animate-pulse">
+              <span>Tap to Enter Palace</span>
               <ChevronDown className="w-3 h-3 animate-bounce text-amber-400" />
             </div>
           </div>
@@ -431,13 +436,12 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
                     style={{ fontSize: `${petal.size}px` }}
                     className="drop-shadow-md select-none"
                   >
-                    {petal.color === 'rose' ? '🌹' : '🌼'}
+                    {petal.type}
                   </span>
                 </div>
               ))}
             </div>
           )}
-
         </div>
       )}
 
@@ -449,11 +453,11 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
             opacity: 1;
           }
           50% {
-            transform: translateY(50vh) rotate(180deg) scale(1.1);
+            transform: translateY(40vh) rotate(180deg) scale(1.1);
             opacity: 0.9;
           }
           100% {
-            transform: translateY(105vh) rotate(360deg) scale(0.6);
+            transform: translateY(85vh) rotate(360deg) scale(0.6);
             opacity: 0;
           }
         }

@@ -42,6 +42,9 @@ const InvitationRenderer = ({
 
   const handleDoorEnter = () => {
     setDoorsOpenCount((prev) => prev + 1);
+    setTimeout(() => {
+      setShowOpeningScreen(false);
+    }, 1000);
   };
 
   const handleReplayDoors = () => {
@@ -66,7 +69,9 @@ const InvitationRenderer = ({
 
   return (
     <div
-      className={`min-h-screen ${theme.pageBg} ${theme.textPrimary} relative selection:bg-amber-600 selection:text-white font-sans`}
+      className={`${
+        showOpeningScreen && isPreview ? 'h-full min-h-[500px] overflow-hidden' : 'min-h-screen'
+      } ${theme.pageBg} ${theme.textPrimary} relative selection:bg-amber-600 selection:text-white font-sans`}
     >
       {/* 1. Cinematic 3D Royal Palace Double Doors & Video Curtain */}
       {showOpeningScreen && (
