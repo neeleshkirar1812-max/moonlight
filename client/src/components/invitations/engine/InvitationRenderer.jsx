@@ -9,6 +9,7 @@ import ThingsToKnow from '../components/ThingsToKnow';
 import ScratchCard from '../components/ScratchCard';
 import RsvpSection from '../components/RsvpSection';
 import MusicPlayer from '../components/MusicPlayer';
+import ModernMinimalInvitation from '../templates/ModernMinimalInvitation';
 import { Share2, QrCode, Copy, Check, X, Sparkles, RefreshCw, DoorClosed } from 'lucide-react';
 
 const InvitationRenderer = ({
@@ -18,6 +19,18 @@ const InvitationRenderer = ({
   showOpeningInPreview = false,
 }) => {
   const templateId = invitation.template_id || invitation.templateId || 'royal-love';
+
+  // Dedicated Modern Minimal Design Suite
+  if (templateId === 'modern-minimal') {
+    return (
+      <ModernMinimalInvitation
+        invitation={invitation}
+        isPreview={isPreview}
+        onRsvpSuccess={onRsvpSuccess}
+      />
+    );
+  }
+
   const config = getTemplateConfig(templateId);
   const theme = config.theme;
 
