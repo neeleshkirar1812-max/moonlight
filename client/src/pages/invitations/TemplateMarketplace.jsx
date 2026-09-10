@@ -313,45 +313,93 @@ const TemplateMarketplace = () => {
       {/* 5. INTERACTIVE LIVE DEMO SIMULATOR MODAL */}
       {/* ========================================================================= */}
       {demoTemplate && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in font-sans">
-          <div className="relative w-full max-w-sm sm:max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] border border-[#E0D7C7]">
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-fade-in font-sans">
+          <div className="relative w-full max-w-sm sm:max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] border border-[#E0D7C7]">
             {/* Modal Header */}
             <div className="px-5 py-3.5 bg-[#FAF8F5] border-b border-[#E8DFD1] flex items-center justify-between">
               <div>
-                <span className="text-[9px] uppercase font-mono font-bold text-amber-800 tracking-wider">
+                <span className="text-[9px] uppercase font-mono font-bold text-[#b88c3a] tracking-wider">
                   Live Preview Simulator
                 </span>
                 <h3 className="font-serif text-sm font-bold text-neutral-900">{demoTemplate.name}</h3>
               </div>
-              <button
-                onClick={() => setDemoTemplate(null)}
-                className="p-1.5 rounded-full hover:bg-neutral-200 text-neutral-700 transition-colors cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center space-x-2">
+                <a
+                  href={`/i/${demoTemplate.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1 rounded-full bg-amber-100 hover:bg-amber-200 text-[#8a6521] text-[11px] font-serif font-semibold border border-amber-300 flex items-center space-x-1 transition-all"
+                  title="Open full page demo in new tab"
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>Full Screen ↗</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setDemoTemplate(null)}
+                  className="p-1.5 rounded-full hover:bg-neutral-200 text-neutral-700 transition-colors cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
-            {/* Modal Body Simulator */}
-            <div className="flex-1 overflow-y-auto p-4 bg-neutral-100 flex justify-center items-center">
-              <div className="w-[320px] h-[520px] rounded-[36px] border-[6px] border-neutral-900 bg-black shadow-2xl overflow-hidden relative">
-                <InvitationRenderer
-                  invitation={{
-                    template_id: demoTemplate.id,
-                    names: 'Aarav & Kiara',
-                    title: `${demoTemplate.name} Demo`,
-                    eventType: demoTemplate.category,
-                    date: '2026-11-20',
-                    time: '19:00',
-                    venue: 'Jehan Numa Palace, Bhopal',
-                    venueAddress: '152 Shamla Hills, Bhopal',
-                    story_text: 'Two hearts, one lifelong promise under royal starry skies.',
-                    scratch_reveal_text: 'YOU’RE INVITED ♡',
-                    scratch_enabled: true,
-                    rsvp_enabled: true,
-                    music_enabled: true,
-                  }}
-                  isPreview={true}
-                />
+            {/* Modal Body Simulator with Realistic Phone Frame & Scroll */}
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-neutral-900/60 backdrop-blur-xs flex justify-center items-center">
+              <div className="w-[320px] sm:w-[335px] h-[540px] max-h-[75vh] rounded-[40px] border-[8px] border-neutral-950 bg-[#0B132B] shadow-2xl relative flex flex-col overflow-hidden">
+                {/* iPhone Dynamic Notch */}
+                <div className="absolute top-2 inset-x-0 mx-auto w-24 h-4 bg-neutral-950 rounded-full z-50 pointer-events-none flex items-center justify-center">
+                  <div className="w-2.5 h-2.5 rounded-full bg-neutral-800 mr-2" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-neutral-800" />
+                </div>
+
+                {/* Inner Scrollable Screen */}
+                <div className="flex-1 w-full h-full overflow-y-auto relative scrollbar-thin scrollbar-thumb-amber-500/40">
+                  <InvitationRenderer
+                    invitation={{
+                      template_id: demoTemplate.id,
+                      templateId: demoTemplate.id,
+                      names: demoTemplate.id === 'modern-minimal' ? 'Aisha Khan & Rohan Mehra' : 'Aarav & Kiara',
+                      bride_name: demoTemplate.id === 'modern-minimal' ? 'Aisha Khan' : 'Aarav Singhania',
+                      groom_name: demoTemplate.id === 'modern-minimal' ? 'Rohan Mehra' : 'Kiara Advani',
+                      title: `${demoTemplate.name} Demo`,
+                      eventType: demoTemplate.category,
+                      date: '2026-11-20',
+                      time: '19:00',
+                      venue: demoTemplate.id === 'modern-minimal' ? 'The Leela Palace, Udaipur' : 'Jehan Numa Palace, Bhopal',
+                      venueAddress: demoTemplate.id === 'modern-minimal' ? 'Lake Pichola, Udaipur, Rajasthan' : '152 Shamla Hills, Bhopal',
+                      story_text: 'Two hearts, one lifelong promise under royal starry skies.',
+                      scratch_reveal_text: 'YOU’RE INVITED ♡',
+                      scratch_enabled: true,
+                      rsvp_enabled: true,
+                      music_enabled: true,
+                      events: [
+                        {
+                          title: 'Mehendi & Sangeet Gala',
+                          date: '2026-11-19',
+                          time: '06:00 PM',
+                          venue: 'The Leela Palace Courtyard',
+                          address: 'Udaipur, Rajasthan',
+                        },
+                        {
+                          title: 'The Royal Wedding & Pheras',
+                          date: '2026-11-20',
+                          time: '07:30 PM',
+                          venue: 'Grand Lawn, The Leela Palace',
+                          address: 'Udaipur, Rajasthan',
+                        },
+                        {
+                          title: 'Royal Grand Reception',
+                          date: '2026-11-21',
+                          time: '08:00 PM',
+                          venue: 'The Royal Ballroom',
+                          address: 'Udaipur, Rajasthan',
+                        },
+                      ],
+                    }}
+                    isPreview={true}
+                  />
+                </div>
               </div>
             </div>
 
@@ -361,13 +409,14 @@ const TemplateMarketplace = () => {
                 <span className="text-[10px] text-neutral-400 line-through font-mono">
                   ₹{demoTemplate.originalPrice}
                 </span>
-                <span className="font-serif text-lg font-bold text-amber-900 ml-1">
+                <span className="font-serif text-lg font-bold text-[#8a6521] ml-1">
                   ₹{demoTemplate.price}
                 </span>
               </div>
 
               <div className="flex space-x-2">
                 <button
+                  type="button"
                   onClick={() => setDemoTemplate(null)}
                   className="px-4 py-2 rounded-full border border-neutral-300 text-xs font-semibold text-neutral-700 hover:bg-neutral-100 cursor-pointer"
                 >
@@ -375,7 +424,7 @@ const TemplateMarketplace = () => {
                 </button>
                 <Link
                   to={`/invitations/templates/${demoTemplate.slug}`}
-                  className="px-5 py-2 rounded-full bg-[#b88c3a] hover:bg-[#9e752b] text-white font-bold text-xs shadow-xs"
+                  className="px-5 py-2 rounded-full bg-[#b88c3a] hover:bg-[#9e752b] text-white font-serif font-semibold text-xs shadow-xs"
                 >
                   Use This Template
                 </Link>

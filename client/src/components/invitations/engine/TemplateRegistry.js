@@ -301,5 +301,14 @@ export const templateRegistry = {
 };
 
 export const getTemplateConfig = (templateId) => {
-  return templateRegistry[templateId] || templateRegistry['royal-love'];
+  const aliases = {
+    'emerald-noir': 'emerald-heritage',
+    'crimson-royale': 'royal-love',
+    'rose-gold-blush': 'blooming-dreams',
+    'majestic-love': 'royal-love',
+    'griha-pravesh': 'mehendi-magic',
+    'modern-minimal': 'celestial-night',
+  };
+  const resolvedId = aliases[templateId] || templateId;
+  return templateRegistry[resolvedId] || templateRegistry['royal-love'];
 };

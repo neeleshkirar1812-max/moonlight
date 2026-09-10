@@ -192,6 +192,156 @@ export const defaultTemplates = [
     },
     status: 'active',
   },
+  {
+    id: 'modern-minimal',
+    name: 'Modern Minimal',
+    slug: 'modern-minimal',
+    category: 'Wedding',
+    price: 399,
+    previewImage: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1200&q=80',
+    description: 'Deep navy and gold with geometric patterns, monogram reveal, live countdown, Google Maps, and RSVP.',
+    theme: {
+      primary: '#D4AF37',
+      secondary: '#0B132B',
+      background: '#0B132B',
+      accent: '#F3CF5B',
+      text: '#F8F9FA',
+    },
+    fonts: {
+      heading: 'Cormorant Garamond, serif',
+      body: 'Montserrat, sans-serif',
+      script: 'Cormorant Garamond, serif',
+    },
+    variants: {
+      hero: 'modern-minimal',
+      gallery: 'grid',
+      event: 'timeline',
+      rsvp: 'modern',
+      scratch: 'gold',
+      animation: 'geometric',
+    },
+    status: 'active',
+  },
+  {
+    id: 'emerald-noir',
+    name: 'Emerald Noir',
+    slug: 'emerald-noir',
+    category: 'Wedding',
+    price: 699,
+    previewImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+    description: 'Deep green and gold with ornate corner accents, luxury door reveal, and 3D entrance animation.',
+    theme: {
+      primary: '#D4AF37',
+      secondary: '#0D3B25',
+      background: '#0D3B25',
+      accent: '#D4AF37',
+      text: '#D4AF37',
+    },
+    fonts: {
+      heading: 'Cinzel, serif',
+      body: 'Montserrat, sans-serif',
+      script: 'Great Vibes, cursive',
+    },
+    variants: {
+      hero: 'cinematic',
+      gallery: 'carousel',
+      event: 'timeline',
+      rsvp: 'classic',
+      scratch: 'gold',
+      animation: 'smooth',
+    },
+    status: 'active',
+  },
+  {
+    id: 'crimson-royale',
+    name: 'Crimson Royale',
+    slug: 'crimson-royale',
+    category: 'Wedding',
+    price: 699,
+    previewImage: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80',
+    description: 'Dark charcoal and crimson base with gold accents, luxury card reveal, and royal palace gates.',
+    theme: {
+      primary: '#D4AF37',
+      secondary: '#4A151B',
+      background: '#2D0B10',
+      accent: '#D4AF37',
+      text: '#D4AF37',
+    },
+    fonts: {
+      heading: 'Cinzel, serif',
+      body: 'Montserrat, sans-serif',
+      script: 'Great Vibes, cursive',
+    },
+    variants: {
+      hero: 'cinematic',
+      gallery: 'carousel',
+      event: 'timeline',
+      rsvp: 'classic',
+      scratch: 'gold',
+      animation: 'smooth',
+    },
+    status: 'active',
+  },
+  {
+    id: 'rose-gold-blush',
+    name: 'Rose Gold Blush',
+    slug: 'rose-gold-blush',
+    category: 'Engagement',
+    price: 399,
+    previewImage: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80',
+    description: 'Blush pink and rose gold with ornate floral door animation and romantic couple story.',
+    theme: {
+      primary: '#C2185B',
+      secondary: '#FDE2E8',
+      background: '#FDE2E8',
+      accent: '#E0A899',
+      text: '#C2185B',
+    },
+    fonts: {
+      heading: 'Cormorant Garamond, serif',
+      body: 'Montserrat, sans-serif',
+      script: 'Great Vibes, cursive',
+    },
+    variants: {
+      hero: 'floral',
+      gallery: 'grid',
+      event: 'timeline',
+      rsvp: 'modern',
+      scratch: 'rose-gold',
+      animation: 'gentle',
+    },
+    status: 'active',
+  },
+  {
+    id: 'majestic-love',
+    name: 'Majestic Love',
+    slug: 'majestic-love',
+    category: 'Wedding',
+    price: 699,
+    previewImage: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80',
+    description: 'Classic ivory and gold with palace motifs, velvet curtain reveal, and Google Maps directions.',
+    theme: {
+      primary: '#B45309',
+      secondary: '#FEF9E7',
+      background: '#FEF9E7',
+      accent: '#B45309',
+      text: '#854D0E',
+    },
+    fonts: {
+      heading: 'Cinzel, serif',
+      body: 'Montserrat, sans-serif',
+      script: 'Great Vibes, cursive',
+    },
+    variants: {
+      hero: 'cinematic',
+      gallery: 'carousel',
+      event: 'timeline',
+      rsvp: 'classic',
+      scratch: 'gold',
+      animation: 'smooth',
+    },
+    status: 'active',
+  },
 ];
 
 const getRazorpayInstance = () => {
@@ -722,9 +872,84 @@ export const updateInvitation = async (req, res, next) => {
 export const getPublicInvitationBySlug = async (req, res, next) => {
   try {
     const { slug } = req.params;
-    const invitation = await Invitation.findOne({ slug });
+    let invitation = await Invitation.findOne({ slug });
 
     if (!invitation) {
+      // Check if this slug is a template demo
+      let template = defaultTemplates.find(
+        (t) => t.slug === slug || t.id === slug
+      );
+      if (!template) {
+        try {
+          template = await Template.findOne({ slug });
+        } catch (e) {}
+      }
+
+      if (template) {
+        const isModern = template.slug === 'modern-minimal' || template.id === 'modern-minimal';
+        const demoData = {
+          _id: `demo-${template.slug || template.id}`,
+          id: `demo-${template.slug || template.id}`,
+          templateId: template.id || template.slug,
+          template_id: template.id || template.slug,
+          title: `${template.name} Demo`,
+          names: isModern ? 'Aisha Khan & Rohan Mehra' : 'Aarav & Kiara',
+          brideName: isModern ? 'Aisha Khan' : 'Aarav Singhania',
+          groomName: isModern ? 'Rohan Mehra' : 'Kiara Advani',
+          hostNames: 'Together with their families',
+          eventType: template.category || 'Wedding',
+          date: '2026-11-20',
+          time: '19:00',
+          venue: isModern ? 'The Leela Palace, Udaipur' : 'Jehan Numa Palace, Bhopal',
+          venueAddress: isModern ? 'Lake Pichola, Udaipur, Rajasthan' : '152 Shamla Hills, Bhopal, Madhya Pradesh',
+          message: 'With joyous hearts and the blessings of our elders, we invite you to celebrate our union.',
+          quote: 'Two souls, one sacred path. A lifetime of laughter, honor, and love begins under the stars.',
+          story: 'Two hearts, one lifelong promise under royal starry skies.',
+          hashtag: '#AishaWedsRohan',
+          scratchMessage: 'YOU’RE INVITED ♡',
+          scratch_enabled: true,
+          rsvp_enabled: true,
+          music_enabled: true,
+          status: 'PUBLISHED',
+          published: true,
+          events: [
+            {
+              title: 'Mehendi Ceremony',
+              date: '2026-11-19',
+              time: '06:00 PM',
+              venue: 'The Leela Palace, Courtyard',
+              address: 'Udaipur, Rajasthan',
+            },
+            {
+              title: 'Sangeet Night',
+              date: '2026-11-19',
+              time: '07:30 PM',
+              venue: 'The Royal Ballroom',
+              address: 'Udaipur, Rajasthan',
+            },
+            {
+              title: 'Wedding Reception',
+              date: '2026-11-20',
+              time: '08:00 PM',
+              venue: 'Grand Lawn, The Leela Palace',
+              address: 'Udaipur, Rajasthan',
+            },
+          ],
+          galleryUrls: [
+            'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+          ],
+          template,
+          rsvpCount: 24,
+        };
+
+        return res.status(200).json({
+          success: true,
+          invitation: demoData,
+        });
+      }
+
       return next(new AppError('Invitation not found.', 404));
     }
 

@@ -227,19 +227,41 @@ const ModernMinimalInvitation = ({ invitation = {}, isPreview = false, onRsvpSuc
 
       {/* 1. Opening Animation Overlay */}
       {overlayActive && (
-        <div className="fixed inset-0 bg-[#0B132B] z-[9999] flex flex-col justify-center items-center cover-overlay-anim border-2 border-[#d4af37] outline-8 outline-[#0B132B]">
-          <h2 className="font-serif text-4xl sm:text-5xl text-[#d4af37] tracking-[6px] font-semibold animate-pulse">
+        <div
+          onClick={() => setOverlayActive(false)}
+          className={`${
+            isPreview ? 'absolute' : 'fixed'
+          } inset-0 bg-[#0B132B] z-40 flex flex-col justify-center items-center cover-overlay-anim border-2 border-[#d4af37] outline-4 outline-[#0B132B] cursor-pointer text-center p-6`}
+          title="Tap to open invitation"
+        >
+          <span className="text-[10px] uppercase font-mono tracking-[0.25em] text-[#d4af37]/80 mb-3">
+            Wedding Invitation
+          </span>
+          <h2 className="font-serif text-3xl sm:text-5xl text-[#d4af37] tracking-[6px] font-semibold animate-pulse">
             {initials}
           </h2>
-          <div className="w-11 h-11 border border-[#d4af37] rotate-45 mt-8 geometric-accent-spin" />
+          <div className="w-10 h-10 sm:w-11 sm:h-11 border border-[#d4af37] rotate-45 my-6 geometric-accent-spin" />
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setOverlayActive(false);
+            }}
+            className="px-4 py-1.5 rounded-full bg-[#d4af37]/20 border border-[#d4af37] text-[#d4af37] text-[11px] font-serif uppercase tracking-wider hover:bg-[#d4af37] hover:text-[#0B132B] transition-all"
+          >
+            Tap to Enter ✦
+          </button>
         </div>
       )}
 
       {/* 2. Floating Music Toggle */}
       {invitation.music_enabled !== false && (
         <button
+          type="button"
           onClick={toggleMusic}
-          className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-[#d4af37]/15 hover:bg-[#d4af37] hover:text-[#0B132B] text-[#d4af37] border border-[#d4af37] flex items-center justify-center cursor-pointer z-50 backdrop-blur-md shadow-lg transition-all duration-300"
+          className={`${
+            isPreview ? 'absolute bottom-4 right-4 z-30' : 'fixed bottom-6 right-6 z-50'
+          } w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#d4af37]/20 hover:bg-[#d4af37] hover:text-[#0B132B] text-[#d4af37] border border-[#d4af37] flex items-center justify-center cursor-pointer backdrop-blur-md shadow-lg transition-all duration-300`}
           title={isPlaying ? 'Pause Music' : 'Play Music'}
         >
           {isPlaying ? <span className="font-mono text-sm tracking-tighter">ılılı</span> : <span>♪</span>}
