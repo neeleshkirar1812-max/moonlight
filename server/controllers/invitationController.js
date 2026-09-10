@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import mongoose from 'mongoose';
 import Razorpay from 'razorpay';
 import Invitation from '../models/Invitation.js';
 import RSVP from '../models/RSVP.js';
@@ -733,22 +734,114 @@ export const getCustomerDashboard = async (req, res, next) => {
   }
 };
 
-// 7. Get Single Invitation by ID (Authenticated / authorized)
+// 7. Get Single Invitation by ID or Slug (Authenticated / Authorized / Template Draft)
 export const getInvitationById = async (req, res, next) => {
   try {
-    const invitation = await Invitation.findById(req.params.id);
+    const { id } = req.params;
+    let invitation = null;
+
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      invitation = await Invitation.findById(id);
+    }
     if (!invitation) {
-      return next(new AppError('Invitation not found', 404));
+      invitation = await Invitation.findOne({ slug: id });
     }
 
-    // Check ownership if not admin
-    const isAdmin =
-      req.user?.role === 'admin' ||
-      req.user?.role === 'superadmin' ||
-      req.user?.email === (process.env.ADMIN_EMAIL || 'admin@moonlight.com');
+    if (!invitation) {
+      // Check if it's a template identifier (e.g. emerald-noir, royal-love, velvet-night)
+      const tpl = defaultTemplates.find((t) => t.id === id || t.slug === id);
+      if (tpl) {
+        const demoEvents = [
+          {
+            id: 'ev-1',
+            title: 'Haldi & Chooda Ceremony',
+            eventType: 'Haldi',
+            date: '2026-11-19',
+            time: '10:00 AM',
+            venue: 'Palace Courtyard',
+            address: '152 Shamla Hills, Bhopal',
+            description: 'Vibrant yellow florals, turmeric blessings, and traditional marigold festivities.',
+            image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+          },
+          {
+            id: 'ev-2',
+            title: 'Royal Sangeet & Musical Night',
+            eventType: 'Sangeet',
+            date: '2026-11-19',
+            time: '07:00 PM',
+            venue: 'Grand Ballroom, Jehan Numa Palace',
+            address: '152 Shamla Hills, Bhopal',
+            description: 'An evening of dance performances, celebratory beats, and royal banquet dinner.',
+            image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+          },
+          {
+            id: 'ev-3',
+            title: 'The Wedding Ceremony (Pheras)',
+            eventType: 'Wedding',
+            date: '2026-11-20',
+            time: '07:00 PM',
+            venue: 'Lakeside Palace Gardens',
+            address: '152 Shamla Hills, Bhopal',
+            description: 'Baraat procession followed by sacred Vedic vows under the royal mandap.',
+            image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+          },
+        ];
 
-    if (!isAdmin && req.user && invitation.userEmail && invitation.userEmail !== req.user.email) {
-      return next(new AppError('You are not authorized to access this invitation', 403));
+        return res.status(200).json({
+          success: true,
+          invitation: {
+            _id: `draft-${tpl.id}`,
+            id: `draft-${tpl.id}`,
+            templateId: tpl.id,
+            template_id: tpl.id,
+            title: `${tpl.name} Celebration`,
+            names: 'Aarav & Kiara',
+            brideName: 'Kiara Sen',
+            groomName: 'Aarav Sharma',
+            bride_name: 'Kiara Sen',
+            groom_name: 'Aarav Sharma',
+            hostNames: 'Singhania & Sen Families',
+            host_names: 'Singhania & Sen Families',
+            eventType: tpl.category || 'Wedding',
+            date: '2026-11-20',
+            time: '19:00',
+            venue: 'Jehan Numa Palace',
+            venueAddress: '152 Shamla Hills, Bhopal, Madhya Pradesh',
+            message: 'With joyous hearts, we request the honor of your presence to celebrate our special day.',
+            welcome_text: 'With joyous hearts, we request the honor of your presence to celebrate our special day.',
+            quote: 'Two souls, one sacred path. A lifetime of laughter, honor, and love begins under the stars.',
+            story: 'What began as a chance meeting under the golden sunset of the lakes turned into a lifetime promise of love, laughter, and endless conversations.',
+            story_text: 'What began as a chance meeting under the golden sunset of the lakes turned into a lifetime promise of love, laughter, and endless conversations.',
+            hashtag: '#AaravWedsKiara',
+            scratchMessage: 'YOU’RE INVITED ♡',
+            scratch_reveal_text: 'YOU’RE INVITED ♡',
+            events: demoEvents,
+            galleryUrls: [
+              'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+              'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80',
+              'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80',
+              'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=1200&q=80',
+            ],
+            gallery_images: [
+              'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+              'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80',
+              'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80',
+              'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=1200&q=80',
+            ],
+            status: 'DRAFT',
+            published: false,
+            rsvpEnabled: true,
+            rsvp_enabled: true,
+            scratchEnabled: true,
+            scratch_enabled: true,
+            music_enabled: true,
+            rsvpCount: 0,
+            acceptedGuests: 0,
+            rsvps: [],
+          },
+        });
+      }
+      return next(new AppError('Invitation not found', 404));
     }
 
     const rsvps = await RSVP.find({ invitationId: invitation._id }).sort({ createdAt: -1 });
@@ -757,10 +850,25 @@ export const getInvitationById = async (req, res, next) => {
       .filter((r) => r.response === 'Yes')
       .reduce((sum, r) => sum + (r.guests || 1), 0);
 
+    const invObj = invitation.toObject();
+
     res.status(200).json({
       success: true,
       invitation: {
-        ...invitation.toObject(),
+        ...invObj,
+        _id: invObj._id.toString(),
+        id: invObj._id.toString(),
+        template_id: invObj.templateId,
+        bride_name: invObj.brideName,
+        groom_name: invObj.groomName,
+        host_names: invObj.hostNames,
+        gallery_images: invObj.galleryUrls && invObj.galleryUrls.length > 0 ? invObj.galleryUrls : [],
+        scratch_reveal_text: invObj.scratchMessage,
+        story_text: invObj.story,
+        welcome_text: invObj.message,
+        scratch_enabled: invObj.scratchEnabled,
+        rsvp_enabled: invObj.rsvpEnabled,
+        music_enabled: true,
         rsvpCount,
         acceptedGuests,
         rsvps,
@@ -771,97 +879,166 @@ export const getInvitationById = async (req, res, next) => {
   }
 };
 
-// 8. Update Invitation (Customer or Admin)
+// 8. Update / Upsert Invitation & Publish Live URL (Customer or Admin)
 export const updateInvitation = async (req, res, next) => {
   try {
-    const invitation = await Invitation.findById(req.params.id);
+    const { id } = req.params;
+    let invitation = null;
+
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      invitation = await Invitation.findById(id);
+    }
     if (!invitation) {
-      return next(new AppError('Invitation not found', 404));
+      invitation = await Invitation.findOne({ slug: id });
     }
 
-    // Authorization
-    const isAdmin =
-      req.user?.role === 'admin' ||
-      req.user?.role === 'superadmin' ||
-      req.user?.email === (process.env.ADMIN_EMAIL || 'admin@moonlight.com');
-
-    if (!isAdmin && req.user && invitation.userEmail && invitation.userEmail !== req.user.email) {
-      return next(new AppError('You are only allowed to modify your own invitations', 403));
+    // If not found, create new Invitation document
+    if (!invitation) {
+      invitation = new Invitation({
+        userId: req.user?._id || req.user?.id || null,
+        userEmail: (req.user?.email || req.body.userEmail || req.body.email || 'customer@moonlight.com').toLowerCase().trim(),
+        templateId: req.body.templateId || req.body.template_id || id || 'royal-love',
+        title: req.body.title || 'A Royal Celebration',
+        names: req.body.names || (req.body.bride_name && req.body.groom_name ? `${req.body.bride_name} & ${req.body.groom_name}` : 'Aarav & Kiara'),
+        brideName: req.body.brideName || req.body.bride_name || 'Kiara Sen',
+        groomName: req.body.groomName || req.body.groom_name || 'Aarav Sharma',
+      });
     }
 
-    const fields = [
-      'title',
-      'names',
-      'brideName',
-      'groomName',
-      'hostNames',
-      'eventType',
-      'date',
-      'time',
-      'venue',
-      'venueAddress',
-      'message',
-      'quote',
-      'story',
-      'hashtag',
-      'scratchMessage',
-      'musicUrl',
-      'coverPhoto',
-      'galleryUrls',
-      'events',
-      'dressCode',
-      'accommodation',
-      'parking',
-      'weatherGuide',
-      'giftBlessing',
-      'themeConfig',
-      'componentVariants',
-      'rsvpEnabled',
-      'scratchEnabled',
-      'templateId',
-    ];
+    // Map all fields supporting camelCase and snake_case
+    if (req.body.title !== undefined) invitation.title = req.body.title;
+    if (req.body.brideName !== undefined || req.body.bride_name !== undefined) {
+      invitation.brideName = req.body.brideName || req.body.bride_name;
+    }
+    if (req.body.groomName !== undefined || req.body.groom_name !== undefined) {
+      invitation.groomName = req.body.groomName || req.body.groom_name;
+    }
+    if (req.body.names !== undefined) {
+      invitation.names = req.body.names;
+    } else if (invitation.brideName && invitation.groomName) {
+      invitation.names = `${invitation.brideName} & ${invitation.groomName}`;
+    }
+    if (req.body.hostNames !== undefined || req.body.host_names !== undefined) {
+      invitation.hostNames = req.body.hostNames || req.body.host_names;
+    }
+    if (req.body.eventType !== undefined || req.body.event_type !== undefined) {
+      invitation.eventType = req.body.eventType || req.body.event_type;
+    }
+    if (req.body.date !== undefined || req.body.event_date !== undefined) {
+      invitation.date = req.body.date || req.body.event_date;
+    }
+    if (req.body.time !== undefined || req.body.event_time !== undefined) {
+      invitation.time = req.body.time || req.body.event_time;
+    }
+    if (req.body.venue !== undefined || req.body.venue_name !== undefined) {
+      invitation.venue = req.body.venue || req.body.venue_name;
+    }
+    if (req.body.venueAddress !== undefined || req.body.venue_address !== undefined) {
+      invitation.venueAddress = req.body.venueAddress || req.body.venue_address;
+    }
+    if (req.body.message !== undefined || req.body.welcome_text !== undefined) {
+      invitation.message = req.body.message || req.body.welcome_text;
+    }
+    if (req.body.quote !== undefined) invitation.quote = req.body.quote;
+    if (req.body.story !== undefined || req.body.story_text !== undefined) {
+      invitation.story = req.body.story || req.body.story_text;
+    }
+    if (req.body.hashtag !== undefined) invitation.hashtag = req.body.hashtag;
+    if (req.body.scratchMessage !== undefined || req.body.scratch_reveal_text !== undefined) {
+      invitation.scratchMessage = req.body.scratchMessage || req.body.scratch_reveal_text;
+    }
+    if (req.body.musicUrl !== undefined || req.body.music_url !== undefined) {
+      invitation.musicUrl = req.body.musicUrl || req.body.music_url;
+    }
+    if (req.body.coverPhoto !== undefined || req.body.cover_photo !== undefined) {
+      invitation.coverPhoto = req.body.coverPhoto || req.body.cover_photo;
+    }
+    if (req.body.galleryUrls !== undefined || req.body.gallery_images !== undefined) {
+      invitation.galleryUrls = req.body.galleryUrls || req.body.gallery_images;
+    }
+    if (req.body.events !== undefined || req.body.event_schedule !== undefined) {
+      invitation.events = req.body.events || req.body.event_schedule;
+    }
+    if (req.body.dressCode !== undefined || req.body.dress_code !== undefined) {
+      invitation.dressCode = req.body.dressCode || req.body.dress_code;
+    }
+    if (req.body.accommodation !== undefined || req.body.accommodation_info !== undefined) {
+      invitation.accommodation = req.body.accommodation || req.body.accommodation_info;
+    }
+    if (req.body.parking !== undefined) invitation.parking = req.body.parking;
+    if (req.body.weatherGuide !== undefined || req.body.weather_guide !== undefined) {
+      invitation.weatherGuide = req.body.weatherGuide || req.body.weather_guide;
+    }
+    if (req.body.giftBlessing !== undefined || req.body.gift_blessing !== undefined) {
+      invitation.giftBlessing = req.body.giftBlessing || req.body.gift_blessing;
+    }
+    if (req.body.themeConfig !== undefined || req.body.theme_config !== undefined) {
+      invitation.themeConfig = req.body.themeConfig || req.body.theme_config;
+    }
+    if (req.body.componentVariants !== undefined) invitation.componentVariants = req.body.componentVariants;
+    if (req.body.rsvpEnabled !== undefined || req.body.rsvp_enabled !== undefined) {
+      invitation.rsvpEnabled = req.body.rsvpEnabled !== undefined ? req.body.rsvpEnabled : req.body.rsvp_enabled;
+    }
+    if (req.body.scratchEnabled !== undefined || req.body.scratch_enabled !== undefined) {
+      invitation.scratchEnabled = req.body.scratchEnabled !== undefined ? req.body.scratchEnabled : req.body.scratch_enabled;
+    }
+    if (req.body.templateId !== undefined || req.body.template_id !== undefined) {
+      invitation.templateId = req.body.templateId || req.body.template_id;
+    }
 
-    fields.forEach((field) => {
-      if (req.body[field] !== undefined) {
-        invitation[field] = req.body[field];
+    // Handle Publish Status
+    const shouldPublish = req.body.published === true || req.body.status === 'PUBLISHED';
+    const shouldDraft = req.body.published === false || req.body.status === 'DRAFT';
+
+    if (shouldPublish) {
+      invitation.published = true;
+      invitation.status = 'PUBLISHED';
+    } else if (shouldDraft) {
+      invitation.published = false;
+      invitation.status = 'DRAFT';
+    }
+
+    // Collision-resistant clean slug generation
+    if (!invitation.slug || shouldPublish) {
+      if (!invitation.slug) {
+        const rawName = (invitation.brideName && invitation.groomName)
+          ? `${invitation.brideName}-${invitation.groomName}`
+          : (invitation.names || 'royal-celebration');
+        const cleanSlug = rawName
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+        const rand = Math.random().toString(36).substring(2, 6);
+        invitation.slug = `${cleanSlug || 'royal-invite'}-${rand}`;
       }
-    });
-
-    // Handle Publish / Unpublish / Status
-    if (req.body.status !== undefined) {
-      invitation.status = req.body.status;
-      invitation.published = req.body.status === 'PUBLISHED';
-    } else if (req.body.published !== undefined) {
-      invitation.published = req.body.published;
-      invitation.status = req.body.published ? 'PUBLISHED' : 'DRAFT';
-    }
-
-    // Ensure collision-resistant slug
-    if (invitation.published && !invitation.slug) {
-      const cleanNames = (invitation.names || 'wedding')
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-      const rand = Math.random().toString(36).substring(2, 6);
-      invitation.slug = `${cleanNames || 'event'}-${rand}`;
     }
 
     await invitation.save();
 
-    if (isAdmin) {
-      await logAdminAction(req, 'invitation_updated', 'invitation', invitation._id, {
-        status: invitation.status,
-        slug: invitation.slug,
-      });
-    }
+    const invObj = invitation.toObject();
 
     res.status(200).json({
       success: true,
       message:
         invitation.status === 'PUBLISHED'
           ? 'Live invitation published successfully!'
-          : 'Saved successfully.',
-      invitation,
+          : 'Saved draft successfully.',
+      invitation: {
+        ...invObj,
+        _id: invObj._id.toString(),
+        id: invObj._id.toString(),
+        template_id: invObj.templateId,
+        bride_name: invObj.brideName,
+        groom_name: invObj.groomName,
+        host_names: invObj.hostNames,
+        gallery_images: invObj.galleryUrls && invObj.galleryUrls.length > 0 ? invObj.galleryUrls : [],
+        scratch_reveal_text: invObj.scratchMessage,
+        story_text: invObj.story,
+        welcome_text: invObj.message,
+        scratch_enabled: invObj.scratchEnabled,
+        rsvp_enabled: invObj.rsvpEnabled,
+        music_enabled: true,
+      },
     });
   } catch (error) {
     next(error);
@@ -894,26 +1071,36 @@ export const getPublicInvitationBySlug = async (req, res, next) => {
           template_id: template.id || template.slug,
           title: `${template.name} Demo`,
           names: isModern ? 'Aisha Khan & Rohan Mehra' : 'Aarav & Kiara',
-          brideName: isModern ? 'Aisha Khan' : 'Aarav Singhania',
-          groomName: isModern ? 'Rohan Mehra' : 'Kiara Advani',
+          brideName: isModern ? 'Aisha Khan' : 'Kiara Advani',
+          groomName: isModern ? 'Rohan Mehra' : 'Aarav Singhania',
+          bride_name: isModern ? 'Aisha Khan' : 'Kiara Advani',
+          groom_name: isModern ? 'Rohan Mehra' : 'Aarav Singhania',
           hostNames: 'Together with their families',
+          host_names: 'Together with their families',
           eventType: template.category || 'Wedding',
           date: '2026-11-20',
           time: '19:00',
           venue: isModern ? 'The Leela Palace, Udaipur' : 'Jehan Numa Palace, Bhopal',
           venueAddress: isModern ? 'Lake Pichola, Udaipur, Rajasthan' : '152 Shamla Hills, Bhopal, Madhya Pradesh',
           message: 'With joyous hearts and the blessings of our elders, we invite you to celebrate our union.',
+          welcome_text: 'With joyous hearts and the blessings of our elders, we invite you to celebrate our union.',
           quote: 'Two souls, one sacred path. A lifetime of laughter, honor, and love begins under the stars.',
           story: 'Two hearts, one lifelong promise under royal starry skies.',
+          story_text: 'Two hearts, one lifelong promise under royal starry skies.',
           hashtag: '#AishaWedsRohan',
           scratchMessage: 'YOU’RE INVITED ♡',
+          scratch_reveal_text: 'YOU’RE INVITED ♡',
           scratch_enabled: true,
+          scratchEnabled: true,
           rsvp_enabled: true,
+          rsvpEnabled: true,
           music_enabled: true,
+          musicEnabled: true,
           status: 'PUBLISHED',
           published: true,
           events: [
             {
+              id: 'ev-1',
               title: 'Mehendi Ceremony',
               date: '2026-11-19',
               time: '06:00 PM',
@@ -921,6 +1108,7 @@ export const getPublicInvitationBySlug = async (req, res, next) => {
               address: 'Udaipur, Rajasthan',
             },
             {
+              id: 'ev-2',
               title: 'Sangeet Night',
               date: '2026-11-19',
               time: '07:30 PM',
@@ -928,6 +1116,7 @@ export const getPublicInvitationBySlug = async (req, res, next) => {
               address: 'Udaipur, Rajasthan',
             },
             {
+              id: 'ev-3',
               title: 'Wedding Reception',
               date: '2026-11-20',
               time: '08:00 PM',
@@ -936,6 +1125,11 @@ export const getPublicInvitationBySlug = async (req, res, next) => {
             },
           ],
           galleryUrls: [
+            'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+          ],
+          gallery_images: [
             'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
             'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
             'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
@@ -975,11 +1169,25 @@ export const getPublicInvitationBySlug = async (req, res, next) => {
     if (!template) template = defaultTemplates[0];
 
     const rsvpCount = await RSVP.countDocuments({ invitationId: invitation._id });
+    const invObj = invitation.toObject();
 
     res.status(200).json({
       success: true,
       invitation: {
-        ...invitation.toObject(),
+        ...invObj,
+        _id: invObj._id.toString(),
+        id: invObj._id.toString(),
+        template_id: invObj.templateId,
+        bride_name: invObj.brideName,
+        groom_name: invObj.groomName,
+        host_names: invObj.hostNames,
+        gallery_images: invObj.galleryUrls && invObj.galleryUrls.length > 0 ? invObj.galleryUrls : [],
+        scratch_reveal_text: invObj.scratchMessage,
+        story_text: invObj.story,
+        welcome_text: invObj.message,
+        scratch_enabled: invObj.scratchEnabled,
+        rsvp_enabled: invObj.rsvpEnabled,
+        music_enabled: true,
         template,
         rsvpCount,
       },
@@ -998,8 +1206,15 @@ export const submitRSVP = async (req, res, next) => {
       return next(new AppError('Please provide your name and invitation reference.', 400));
     }
 
-    const invitation = await Invitation.findById(invitationId);
-    if (!invitation || invitation.status !== 'PUBLISHED') {
+    let invitation = null;
+    if (mongoose.Types.ObjectId.isValid(invitationId)) {
+      invitation = await Invitation.findById(invitationId);
+    }
+    if (!invitation) {
+      invitation = await Invitation.findOne({ slug: invitationId });
+    }
+
+    if (!invitation || (invitation.status !== 'PUBLISHED' && !invitation.published)) {
       return next(new AppError('This invitation is not accepting RSVPs at this moment.', 400));
     }
 

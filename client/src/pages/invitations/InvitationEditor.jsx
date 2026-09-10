@@ -135,11 +135,23 @@ const InvitationEditor = () => {
           setForm((prev) => ({
             ...prev,
             ...inv,
+            _id: inv._id || inv.id || prev._id,
             template_id: inv.template_id || inv.templateId || prev.template_id,
+            bride_name: inv.bride_name || inv.brideName || prev.bride_name,
+            groom_name: inv.groom_name || inv.groomName || prev.groom_name,
+            host_names: inv.host_names || inv.hostNames || prev.host_names,
+            names: inv.names || (inv.bride_name && inv.groom_name ? `${inv.bride_name} & ${inv.groom_name}` : prev.names),
+            title: inv.title || prev.title,
+            eventType: inv.eventType || inv.event_type || prev.eventType,
             date: inv.date || inv.event_date || prev.date,
             time: inv.time || inv.event_time || prev.time,
             venue: inv.venue || inv.venue_name || prev.venue,
             venueAddress: inv.venueAddress || inv.venue_address || prev.venueAddress,
+            message: inv.message || inv.welcome_text || prev.message,
+            story_text: inv.story_text || inv.story || prev.story_text,
+            scratch_reveal_text: inv.scratch_reveal_text || inv.scratchMessage || prev.scratch_reveal_text,
+            scratch_enabled: inv.scratch_enabled !== undefined ? inv.scratch_enabled : (inv.scratchEnabled !== undefined ? inv.scratchEnabled : prev.scratch_enabled),
+            rsvp_enabled: inv.rsvp_enabled !== undefined ? inv.rsvp_enabled : (inv.rsvpEnabled !== undefined ? inv.rsvpEnabled : prev.rsvp_enabled),
             events: inv.events && inv.events.length > 0 ? inv.events : prev.events,
             gallery_images:
               inv.gallery_images && inv.gallery_images.length > 0
@@ -147,6 +159,8 @@ const InvitationEditor = () => {
                 : inv.galleryUrls && inv.galleryUrls.length > 0
                 ? inv.galleryUrls
                 : prev.gallery_images,
+            published: inv.published !== undefined ? inv.published : inv.status === 'PUBLISHED',
+            slug: inv.slug || prev.slug,
           }));
         }
       } catch (err) {
@@ -224,32 +238,42 @@ const InvitationEditor = () => {
   const handleSave = async (shouldPublish = false) => {
     setSaving(true);
     try {
+      const isPublishing = shouldPublish || form.published;
       const payload = {
         ...form,
-        published: shouldPublish ? true : form.published,
+        published: isPublishing,
+        status: isPublishing ? 'PUBLISHED' : 'DRAFT',
       };
 
-      const res = await api.put(`/invitations/${id}`, payload);
+      const targetId = form._id || id;
+      const res = await api.put(`/invitations/${targetId}`, payload);
       const updated = res.data?.invitation || res.data?.data || res.data;
 
       if (updated) {
         setForm((prev) => ({
           ...prev,
-          published: updated.published,
+          ...updated,
+          _id: updated._id,
+          id: updated._id,
+          published: updated.published !== undefined ? updated.published : isPublishing,
           slug: updated.slug || prev.slug,
         }));
+
+        if (updated._id && updated._id !== id && !id.startsWith('draft-')) {
+          window.history.replaceState(null, '', `/invitations/edit/${updated._id}`);
+        }
       }
 
       if (shouldPublish) {
         setShowPublishModal(true);
       }
 
+      const activeSlug = updated?.slug || form.slug;
       addToast({
-        title: shouldPublish || form.published ? 'Live Invitation Published! ✦' : 'Draft Saved',
-        message:
-          shouldPublish || form.published
-            ? `Your invitation is live at /i/${updated?.slug || form.slug}`
-            : 'All your changes have been saved.',
+        title: isPublishing ? 'Live Invitation Published! ✦' : 'Draft Saved',
+        message: isPublishing
+          ? `Your invitation is live online at /i/${activeSlug}`
+          : 'All your changes have been saved.',
         type: 'success',
       });
     } catch (err) {
