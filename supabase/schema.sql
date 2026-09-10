@@ -136,14 +136,14 @@ create table if not exists public.admin_activity_logs (
   created_at timestamptz default now()
 );
 
--- Template Seed Data
+-- Template Seed Data (6 Video-Inspired Luxury Suites)
 insert into public.templates (id, name, slug, category, price, preview_image, description) values
-('royal-love', 'Royal Love', 'royal-love', 'Wedding', 699, 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80', 'Regal gold & velvet heritage wedding suite with countdown and royal crest.'),
-('blooming-dreams', 'Blooming Dreams', 'blooming-dreams', 'Engagement', 499, 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80', 'Pastel floral luxury invitation with interactive scratch card and gentle animations.'),
-('little-sunshine', 'A Little Sunshine', 'little-sunshine', 'Birthday', 399, 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1200&q=80', 'Joyful celebration layout with balloons, timeline, and instant guest RSVP.'),
-('together-forever', 'Together Forever', 'together-forever', 'Anniversary', 599, 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1200&q=80', 'Timeless anniversary design with couple memories gallery and music player.'),
-('emerald-heritage', 'Emerald Heritage', 'emerald-heritage', 'Reception', 649, 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=1200&q=80', 'Opulent gold foil accents and cinematic countdown for gala receptions.'),
-('mehendi-magic', 'Mehendi Magic', 'mehendi-magic', 'Mehendi', 449, 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80', 'Vibrant marigold aesthetics designed for joyous Haldi & Mehendi festivities.')
+('royal-love', 'The Rajwada Palace Suite', 'royal-love', 'Wedding', 699, 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80', 'Regal crimson & 24K antique gold heritage wedding suite with royal crest, shehnai audio, multi-ceremony timeline, and gold foil touch scratch reveal.'),
+('blooming-dreams', 'Pastel Floral Symphony', 'blooming-dreams', 'Engagement', 499, 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80', 'Soft rose quartz & blush champagne botanical layout with gentle floating petals, romantic couple story, and rose gold scratch card.'),
+('mehendi-magic', 'Marigold Utsav & Henna Night', 'mehendi-magic', 'Mehendi', 449, 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80', 'Vibrant turmeric yellow & festive marigold aesthetics tailored for energetic Haldi, Phoolon Ki Holi, and Mehendi Sangeet galas.'),
+('celestial-night', 'Celestial Starlight Gala', 'celestial-night', 'Save the Date', 499, 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1200&q=80', 'Midnight sapphire & shimmering starlight modern layout with constellation monogram, countdown clock, and cocktail gala agenda.'),
+('emerald-heritage', 'Emerald Mughal Heritage', 'emerald-heritage', 'Reception', 649, 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80', 'Imperial emerald green with Mughal jaali filigree borders, destination hotel accommodation guide, and royal palace flute music.'),
+('little-sunshine', 'Golden Sunshine Milestones', 'little-sunshine', 'Birthday', 399, 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1200&q=80', 'Sunlit ochre & warm amber celebration layout with confetti animations, milestone memories gallery, and instant guest RSVP.')
 on conflict (id) do update set 
   price = excluded.price, 
   name = excluded.name, 
