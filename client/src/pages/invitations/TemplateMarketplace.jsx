@@ -5,15 +5,14 @@ import { invitationCategories, invitationTemplates } from '../../data/invitation
 import SEO from '../../components/common/SEO';
 import InvitationRenderer from '../../components/invitations/engine/InvitationRenderer';
 import {
-  Sparkles,
   ChevronDown,
   Eye,
   Crown,
   Check,
   X,
-  ArrowRight,
-  ShieldCheck,
-  Plus,
+  Instagram,
+  Mail,
+  Sparkles,
 } from 'lucide-react';
 
 const TemplateMarketplace = () => {
@@ -30,7 +29,6 @@ const TemplateMarketplace = () => {
     const matchesCategory =
       selectedCategory === 'All Categories' || template.category === selectedCategory;
     
-    // If royal tier is selected, show royal + classic (as indicated by "Royal plan includes both royal + classic templates.")
     const matchesTier =
       selectedTier === 'royal' ? true : template.tier === 'classic' || template.tier === undefined;
 
@@ -38,148 +36,147 @@ const TemplateMarketplace = () => {
   });
 
   return (
-    <div className="min-h-screen bg-[#FBF9F5] text-neutral-900 font-sans selection:bg-amber-200 selection:text-amber-900">
+    <div className="min-h-screen bg-[#F9F7F2] text-neutral-800 font-serif flex flex-col justify-between selection:bg-amber-200 selection:text-amber-900">
       <SEO
-        title="Luxury Digital Invitation Templates | Moonlight Production"
-        description="Browse luxury digital invitation suites for Weddings, Engagements, Birthdays, and Griha Pravesh with 3D door reveals and live RSVP."
+        title="Templates | Moonlight Digital Invitations"
+        description="Select your digital invitation template with 3D royal doors, scratch cards, Google Maps, and RSVP tracking."
       />
 
       {/* ========================================================================= */}
-      {/* 1. TOP MINIMAL NAVIGATION BAR */}
+      {/* 1. TOP HEADER (Exact match to reference) */}
       {/* ========================================================================= */}
-      <nav className="border-b border-amber-900/10 bg-[#FBF9F5]/90 backdrop-blur-md sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link to="/invitations" className="flex items-center space-x-2">
-            <span className="font-serif text-2xl sm:text-3xl font-bold tracking-wide text-[#b48638] hover:text-[#916724] transition-colors">
-              Moonlight
-            </span>
+      <header className="border-b border-neutral-200/70 bg-[#F9F7F2]/95 sticky top-0 z-40 backdrop-blur-xs">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 h-20 flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/invitations" className="text-2xl sm:text-3xl font-serif tracking-wide text-[#b88c3a] hover:opacity-90 transition-opacity">
+            Moonlight
           </Link>
 
-          <div className="flex items-center space-x-5">
+          {/* Right link */}
+          <div>
             {isAuthenticated ? (
               <Link
                 to="/invitations/dashboard"
-                className="font-serif text-xs sm:text-sm font-semibold text-neutral-800 hover:text-amber-800 transition-colors"
+                className="text-sm font-serif text-neutral-800 hover:text-[#b88c3a] transition-colors"
               >
-                Dashboard ({user?.name || 'Account'})
+                Dashboard
               </Link>
             ) : (
               <Link
                 to="/invitations/login"
-                className="font-serif text-xs sm:text-sm font-semibold text-neutral-800 hover:text-amber-800 transition-colors"
+                className="text-sm font-serif text-neutral-800 hover:text-[#b88c3a] transition-colors"
               >
                 Login
               </Link>
             )}
           </div>
         </div>
-      </nav>
+      </header>
 
       {/* ========================================================================= */}
-      {/* 2. INVITATION TYPE & TIER SELECTOR */}
+      {/* 2. MAIN SECTION */}
       {/* ========================================================================= */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-8 text-center space-y-5">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-16 w-full">
+        
         {/* Admin Bar if Admin is browsing */}
         {(user?.role === 'admin' || user?.role === 'superadmin') && (
-          <div className="p-3.5 rounded-2xl bg-amber-900 text-amber-50 flex items-center justify-between shadow-xs mb-4 max-w-2xl mx-auto">
+          <div className="p-3.5 rounded-2xl bg-amber-900 text-amber-50 flex items-center justify-between shadow-xs mb-8 max-w-2xl mx-auto font-sans">
             <div className="flex items-center space-x-2.5 text-xs">
               <Sparkles className="w-4 h-4 text-amber-300 shrink-0" />
               <span>
-                <strong>Administrator Access:</strong> You can assign templates for ₹0.
+                <strong>Administrator Access:</strong> Assign any template for ₹0 in Admin Console.
               </span>
             </div>
             <Link
               to="/invitations/admin"
-              className="px-3 py-1 rounded-xl bg-white text-amber-950 font-bold text-xs uppercase hover:bg-amber-100 transition-all shadow-xs"
+              className="px-3 py-1 rounded-xl bg-white text-amber-950 font-bold text-xs uppercase hover:bg-amber-100 transition-all"
             >
               Admin Portal →
             </Link>
           </div>
         )}
 
-        {/* Small Tracked Header */}
-        <span className="text-[11px] uppercase font-serif tracking-[0.25em] text-neutral-500 font-semibold block">
-          INVITATION TYPE
-        </span>
+        {/* Invitation Type Selector Header */}
+        <div className="text-center space-y-4 max-w-xl mx-auto mb-10 sm:mb-12">
+          <span className="text-[11px] uppercase font-serif tracking-[0.25em] text-neutral-500 font-semibold block">
+            INVITATION TYPE
+          </span>
 
-        {/* Dropdown Select Capsule */}
-        <div className="relative inline-block text-left">
-          <button
-            type="button"
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="inline-flex items-center justify-between w-72 sm:w-80 px-6 py-3 bg-white border border-[#E2D8C7] rounded-full shadow-xs text-sm font-serif text-neutral-900 hover:border-amber-400 focus:outline-none transition-all"
-          >
-            <span>{selectedCategory}</span>
-            <ChevronDown
-              className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${
-                dropdownOpen ? 'rotate-180' : ''
-              }`}
-            />
-          </button>
+          {/* Dropdown Capsule Button */}
+          <div className="relative inline-block text-left">
+            <button
+              type="button"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="inline-flex items-center justify-between w-72 sm:w-84 px-6 py-3 bg-white border border-[#E3D9CA] rounded-full shadow-xs text-sm font-serif text-neutral-800 hover:border-[#b88c3a] focus:outline-none transition-all cursor-pointer"
+            >
+              <span>{selectedCategory}</span>
+              <ChevronDown
+                className={`w-4 h-4 text-neutral-500 transition-transform duration-200 ${
+                  dropdownOpen ? 'rotate-180' : ''
+                }`}
+              />
+            </button>
 
-          {/* Dropdown Menu */}
-          {dropdownOpen && (
-            <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-72 sm:w-80 rounded-2xl bg-white border border-[#E2D8C7] shadow-xl py-2 z-50 animate-fade-in font-serif text-sm">
-              {invitationCategories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => {
-                    setSelectedCategory(cat);
-                    setDropdownOpen(false);
-                  }}
-                  className={`w-full text-left px-5 py-2.5 hover:bg-amber-50 transition-colors flex items-center justify-between ${
-                    selectedCategory === cat ? 'text-amber-900 font-bold bg-amber-50/60' : 'text-neutral-800'
-                  }`}
-                >
-                  <span>{cat}</span>
-                  {selectedCategory === cat && <Check className="w-4 h-4 text-amber-700" />}
-                </button>
-              ))}
+            {/* Dropdown Menu */}
+            {dropdownOpen && (
+              <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-72 sm:w-84 rounded-2xl bg-white border border-[#E3D9CA] shadow-xl py-2 z-50 animate-fade-in font-serif text-sm">
+                {invitationCategories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => {
+                      setSelectedCategory(cat);
+                      setDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-5 py-2.5 hover:bg-amber-50/80 transition-colors flex items-center justify-between ${
+                      selectedCategory === cat ? 'text-[#b88c3a] font-bold bg-amber-50/60' : 'text-neutral-800'
+                    }`}
+                  >
+                    <span>{cat}</span>
+                    {selectedCategory === cat && <Check className="w-4 h-4 text-[#b88c3a]" />}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <p className="text-xs text-neutral-500 italic font-serif">
+            Royal plan includes both royal + classic templates.
+          </p>
+
+          {/* Segmented Pill Selector (Moonlight Classics vs Moonlight Royal) */}
+          <div className="pt-2 flex justify-center">
+            <div className="inline-flex items-center p-1.5 rounded-full bg-[#EBE4D8] border border-[#E0D5C3] shadow-inner">
+              <button
+                onClick={() => setSelectedTier('classic')}
+                className={`px-6 py-2.5 rounded-full text-xs sm:text-sm font-serif transition-all cursor-pointer ${
+                  selectedTier === 'classic'
+                    ? 'bg-white text-neutral-900 shadow-sm font-semibold'
+                    : 'text-neutral-600 hover:text-neutral-950 font-normal'
+                }`}
+              >
+                Moonlight Classics
+              </button>
+              <button
+                onClick={() => setSelectedTier('royal')}
+                className={`px-6 py-2.5 rounded-full text-xs sm:text-sm font-serif transition-all flex items-center space-x-1.5 cursor-pointer ${
+                  selectedTier === 'royal'
+                    ? 'bg-white text-neutral-900 shadow-sm font-semibold'
+                    : 'text-neutral-600 hover:text-neutral-950 font-normal'
+                }`}
+              >
+                <Crown className="w-3.5 h-3.5 text-neutral-700" />
+                <span>Moonlight Royal</span>
+              </button>
             </div>
-          )}
-        </div>
-
-        {/* Subtext info */}
-        <p className="text-xs text-neutral-500 italic font-serif">
-          Royal plan includes both royal + classic templates.
-        </p>
-
-        {/* Segmented Plan / Tier Switcher Pills */}
-        <div className="pt-3 flex justify-center">
-          <div className="inline-flex items-center p-1.5 rounded-full bg-[#EFE9DD] border border-[#E3D8C8] shadow-inner space-x-1">
-            <button
-              onClick={() => setSelectedTier('classic')}
-              className={`px-6 py-2 rounded-full text-xs sm:text-sm font-serif font-semibold transition-all ${
-                selectedTier === 'classic'
-                  ? 'bg-white text-neutral-900 shadow-md font-bold'
-                  : 'text-neutral-600 hover:text-neutral-900'
-              }`}
-            >
-              Moonlight Classics
-            </button>
-            <button
-              onClick={() => setSelectedTier('royal')}
-              className={`px-6 py-2 rounded-full text-xs sm:text-sm font-serif font-semibold transition-all flex items-center space-x-1.5 ${
-                selectedTier === 'royal'
-                  ? 'bg-white text-neutral-900 shadow-md font-bold'
-                  : 'text-neutral-600 hover:text-neutral-900'
-              }`}
-            >
-              <Crown className="w-3.5 h-3.5 text-amber-700" />
-              <span>Moonlight Royal</span>
-            </button>
           </div>
         </div>
-      </div>
 
-      {/* ========================================================================= */}
-      {/* 3. TEMPLATE CARDS GRID */}
-      {/* ========================================================================= */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+        {/* ========================================================================= */}
+        {/* 3. TEMPLATE CARDS ROW (Exact match to reference) */}
+        {/* ========================================================================= */}
         {filteredTemplates.length === 0 ? (
           <div className="text-center py-16 space-y-3 bg-white rounded-3xl border border-[#E2D8C7] max-w-lg mx-auto p-8 shadow-xs">
-            <Sparkles className="w-8 h-8 text-amber-700 mx-auto" />
-            <h3 className="font-serif text-lg font-bold text-neutral-900">No templates found</h3>
+            <h3 className="font-serif text-lg font-bold text-neutral-900">No templates found in this category</h3>
             <p className="text-xs text-neutral-500 font-serif">
               Try switching the invitation type or tier above.
             </p>
@@ -188,99 +185,135 @@ const TemplateMarketplace = () => {
                 setSelectedCategory('All Categories');
                 setSelectedTier('royal');
               }}
-              className="px-4 py-2 rounded-full bg-amber-100 text-amber-900 text-xs font-bold font-serif hover:bg-amber-200"
+              className="px-5 py-2 rounded-full bg-[#b88c3a] text-white text-xs font-serif hover:bg-[#9e752b] transition-all"
             >
-              Reset Filters
+              Show All Templates
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-            {filteredTemplates.map((template) => {
-              return (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
+            {filteredTemplates.map((template) => (
+              <div
+                key={template.id}
+                className="bg-white rounded-xl border border-[#E5DAC8] overflow-hidden shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between"
+              >
+                {/* Top Visual Poster Box */}
                 <div
-                  key={template.id}
-                  className="bg-white rounded-2xl border border-[#E5DAC8] overflow-hidden shadow-xs hover:shadow-lg hover:border-amber-400 transition-all duration-300 flex flex-col justify-between group"
+                  className={`relative h-48 sm:h-52 ${template.cardBg || 'bg-[#0d3b25]'} p-3.5 flex flex-col justify-between items-center text-center`}
                 >
-                  {/* Top Colored Box Presentation */}
-                  <div
-                    className={`relative h-48 sm:h-52 ${template.cardBg || 'bg-[#0d3b25]'} p-4 flex flex-col justify-between items-center text-center overflow-hidden transition-all`}
-                  >
-                    {/* Top Left Badge */}
-                    <div className="w-full flex justify-start">
-                      {template.badge && (
-                        <span
-                          className={`text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded shadow-xs ${
-                            template.badgeColor || 'bg-amber-500 text-neutral-950'
-                          }`}
-                        >
-                          {template.badge}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Template Center Title */}
-                    <div className="my-auto px-2">
-                      <h3
-                        className={`font-serif text-lg sm:text-xl font-bold tracking-wide ${
-                          template.cardTextColor || 'text-[#d4af37]'
+                  {/* Top Left Badge */}
+                  <div className="w-full flex justify-start">
+                    {template.badge && (
+                      <span
+                        className={`text-[9px] font-sans font-bold px-2 py-0.5 rounded shadow-xs ${
+                          template.badgeColor || 'bg-amber-500 text-neutral-950'
                         }`}
                       >
-                        {template.name}
-                      </h3>
-                    </div>
-
-                    {/* Center Bottom: View Demo Button */}
-                    <button
-                      onClick={() => setDemoTemplate(template)}
-                      className="px-4 py-1.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur text-white text-xs font-serif font-medium border border-white/20 flex items-center space-x-1.5 shadow-sm transition-all hover:scale-105 active:scale-95"
-                    >
-                      <Eye className="w-3.5 h-3.5 text-white/90" />
-                      <span>View Demo</span>
-                    </button>
+                        {template.badge}
+                      </span>
+                    )}
                   </div>
 
-                  {/* Bottom Info Section */}
-                  <div className="p-4 space-y-3 flex-1 flex flex-col justify-between bg-white">
-                    <div className="space-y-1.5">
-                      <h4 className="font-serif text-sm font-bold text-neutral-900 leading-snug">
-                        {template.name}
-                      </h4>
-                      <p className="text-[11px] text-neutral-600 leading-relaxed font-sans line-clamp-2">
-                        {template.description}
-                      </p>
-                    </div>
+                  {/* Centered Golden Title */}
+                  <div className="my-auto px-1">
+                    <h3
+                      className={`font-serif text-base sm:text-lg tracking-wide ${
+                        template.cardTextColor || 'text-[#d4af37]'
+                      }`}
+                    >
+                      {template.name}
+                    </h3>
+                  </div>
 
-                    {/* Price & Select Action */}
-                    <div className="pt-3 border-t border-neutral-100 flex items-center justify-between">
-                      <div>
-                        <span className="text-[10px] text-neutral-400 line-through mr-1 font-mono">
-                          ₹{template.originalPrice}
-                        </span>
-                        <span className="font-serif text-base font-bold text-amber-900">
-                          ₹{template.price}
-                        </span>
-                      </div>
+                  {/* Center-Bottom View Demo Button */}
+                  <button
+                    onClick={() => setDemoTemplate(template)}
+                    className="px-3.5 py-1.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-xs text-white text-[11px] font-serif border border-white/20 flex items-center space-x-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+                  >
+                    <Eye className="w-3.5 h-3.5 text-white/90" />
+                    <span>View Demo</span>
+                  </button>
+                </div>
 
-                      <Link
-                        to={`/invitations/templates/${template.slug}`}
-                        className="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-neutral-950 font-bold text-xs font-sans tracking-wide transition-all shadow-xs hover:scale-105"
-                      >
-                        Select & Edit
-                      </Link>
-                    </div>
+                {/* Bottom Content Area */}
+                <div className="p-4 space-y-3 flex-1 flex flex-col justify-between bg-white">
+                  <div className="space-y-1">
+                    <h4 className="font-serif text-sm font-bold text-neutral-900 leading-tight">
+                      {template.name}
+                    </h4>
+                    <p className="text-[11px] text-neutral-500 leading-snug font-sans line-clamp-2">
+                      {template.description}
+                    </p>
+                  </div>
+
+                  {/* "Use This Design" Solid Gold-Brown Action Button */}
+                  <div className="pt-2">
+                    <Link
+                      to={`/invitations/templates/${template.slug}`}
+                      className="w-full py-2.5 rounded-md bg-[#b88c3a] hover:bg-[#9e752b] text-white font-serif font-semibold text-xs tracking-wide text-center block transition-colors shadow-xs"
+                    >
+                      Use This Design
+                    </Link>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         )}
-      </div>
+      </main>
 
       {/* ========================================================================= */}
-      {/* 4. INTERACTIVE LIVE DEMO SIMULATOR MODAL */}
+      {/* 4. FOOTER (Exact match to reference) */}
+      {/* ========================================================================= */}
+      <footer className="border-t border-neutral-200/80 bg-[#F9F7F2] py-12 text-center text-xs text-neutral-600 font-serif space-y-4">
+        {/* Brand Name */}
+        <div className="text-xl font-serif text-[#b88c3a] font-normal">
+          Moonlight
+        </div>
+
+        {/* Footer Navigation Links */}
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[12.5px] text-neutral-600">
+          <Link to="/invitations" className="hover:text-neutral-900">About</Link>
+          <a href="https://api.whatsapp.com/send?phone=919229229323" target="_blank" rel="noreferrer" className="hover:text-neutral-900">Contact</a>
+          <Link to="/terms" className="hover:text-neutral-900">Terms & Conditions</Link>
+          <Link to="/privacy" className="hover:text-neutral-900">Privacy Policy</Link>
+          <Link to="/refund" className="hover:text-neutral-900">Refund Policy</Link>
+          <Link to="/shipping" className="hover:text-neutral-900">Shipping & Delivery</Link>
+          <Link to="/invitations/dashboard" className="hover:text-neutral-900">My Invitations</Link>
+        </div>
+
+        {/* Social Icons */}
+        <div className="flex justify-center space-x-3 pt-1">
+          <a
+            href="https://instagram.com/moonlight_production__"
+            target="_blank"
+            rel="noreferrer"
+            className="w-7 h-7 rounded-full border border-neutral-400/80 flex items-center justify-center text-neutral-600 hover:text-neutral-900 hover:border-neutral-900 transition-colors"
+            title="Instagram"
+          >
+            <Instagram className="w-3.5 h-3.5" />
+          </a>
+          <a
+            href="mailto:Tarunrathore3435@gmail.com"
+            className="w-7 h-7 rounded-full border border-neutral-400/80 flex items-center justify-center text-neutral-600 hover:text-neutral-900 hover:border-neutral-900 transition-colors"
+            title="Email"
+          >
+            <Mail className="w-3.5 h-3.5" />
+          </a>
+        </div>
+
+        {/* Copyright & Subtext */}
+        <div className="space-y-1 pt-1 text-neutral-500 text-[11.5px]">
+          <p>© {new Date().getFullYear()} Moonlight. Crafted with love</p>
+          <p className="text-[10.5px] text-neutral-400 font-sans">Digital invitation service • No physical products shipped</p>
+        </div>
+      </footer>
+
+      {/* ========================================================================= */}
+      {/* 5. INTERACTIVE LIVE DEMO SIMULATOR MODAL */}
       {/* ========================================================================= */}
       {demoTemplate && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in font-sans">
           <div className="relative w-full max-w-sm sm:max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] border border-[#E0D7C7]">
             {/* Modal Header */}
             <div className="px-5 py-3.5 bg-[#FAF8F5] border-b border-[#E8DFD1] flex items-center justify-between">
@@ -292,7 +325,7 @@ const TemplateMarketplace = () => {
               </div>
               <button
                 onClick={() => setDemoTemplate(null)}
-                className="p-1.5 rounded-full hover:bg-neutral-200 text-neutral-700 transition-colors"
+                className="p-1.5 rounded-full hover:bg-neutral-200 text-neutral-700 transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -336,13 +369,13 @@ const TemplateMarketplace = () => {
               <div className="flex space-x-2">
                 <button
                   onClick={() => setDemoTemplate(null)}
-                  className="px-4 py-2 rounded-full border border-neutral-300 text-xs font-semibold text-neutral-700 hover:bg-neutral-100"
+                  className="px-4 py-2 rounded-full border border-neutral-300 text-xs font-semibold text-neutral-700 hover:bg-neutral-100 cursor-pointer"
                 >
                   Close
                 </button>
                 <Link
                   to={`/invitations/templates/${demoTemplate.slug}`}
-                  className="px-5 py-2 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-neutral-950 font-bold text-xs shadow-xs"
+                  className="px-5 py-2 rounded-full bg-[#b88c3a] hover:bg-[#9e752b] text-white font-bold text-xs shadow-xs"
                 >
                   Use This Template
                 </Link>
