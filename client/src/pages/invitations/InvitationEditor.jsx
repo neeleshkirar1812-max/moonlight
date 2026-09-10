@@ -1015,7 +1015,7 @@ const InvitationEditor = () => {
               <InvitationRenderer
                 key={`preview-${previewDoorKey}`}
                 invitation={form}
-                isPreview={previewDoorKey === 0}
+                isPreview={true}
                 showOpeningInPreview={previewDoorKey > 0}
               />
             </div>
@@ -1182,7 +1182,8 @@ const InvitationEditor = () => {
                 <InvitationRenderer
                   key={`modal-preview-${previewDoorKey}`}
                   invitation={form}
-                  isPreview={false}
+                  isPreview={true}
+                  showOpeningInPreview={true}
                 />
               </div>
             </div>
