@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { invitationTemplates, invitationCategories } from '../../data/invitationTemplates';
 import SEO from '../../components/common/SEO';
+import InvitationRenderer from '../../components/invitations/engine/InvitationRenderer';
 import {
   Sparkles,
   CheckCircle2,
@@ -21,6 +22,7 @@ import {
   Calendar,
   Check,
   Star,
+  X,
 } from 'lucide-react';
 
 const occasionsList = [
@@ -92,6 +94,7 @@ const faqs = [
 const InvitationsLanding = () => {
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [activeFaq, setActiveFaq] = useState(null);
+  const [demoTemplate, setDemoTemplate] = useState(null);
 
   const filteredTemplates =
     selectedCategory === 'All Categories'
@@ -222,75 +225,226 @@ const InvitationsLanding = () => {
 
         {/* Category Filter Pills */}
         <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
-          {invitationCategories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
-                selectedCategory === cat
-                  ? 'bg-amber-500 text-neutral-950 font-bold shadow-xs'
-                  : 'bg-white border border-[#E0D6C6] text-neutral-700 hover:border-amber-500 hover:text-neutral-900'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+          {invitationCategories.map((cat) => {
+            const count =
+              cat === 'All Categories'
+                ? invitationTemplates.length
+                : invitationTemplates.filter((t) => t.category === cat).length;
 
-        {/* Templates Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTemplates.map((template) => (
-            <div
-              key={template.id}
-              className="bg-white border border-[#E8DFD1] rounded-2xl overflow-hidden hover:border-amber-500 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group shadow-xs"
-            >
-              {/* Cover Image */}
-              <div className="relative h-60 overflow-hidden bg-neutral-100">
-                <img
-                  src={template.coverImage}
-                  alt={template.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 text-neutral-900 text-[10px] font-mono font-bold uppercase border border-amber-300 shadow-xs">
-                  {template.badge}
+            return (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center space-x-1.5 cursor-pointer ${
+                  selectedCategory === cat
+                    ? 'bg-amber-500 text-neutral-950 font-bold shadow-xs'
+                    : 'bg-white border border-[#E0D6C6] text-neutral-700 hover:border-amber-500 hover:text-neutral-900'
+                }`}
+              >
+                <span>{cat}</span>
+                <span
+                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                    selectedCategory === cat ? 'bg-black/20 text-neutral-950' : 'bg-neutral-100 text-neutral-600'
+                  }`}
+                >
+                  {count}
                 </span>
-                <div className="absolute bottom-3 left-4 right-4">
-                  <span className="text-[10px] uppercase font-mono tracking-wider text-amber-300 font-bold block drop-shadow">
-                    {template.category} Suite
-                  </span>
-                  <h3 className="font-serif text-lg font-bold text-white drop-shadow">{template.name}</h3>
-                </div>
-              </div>
-
-              {/* Body Info & CTA */}
-              <div className="p-5 space-y-4 flex-1 flex flex-col justify-between">
-                <p className="text-neutral-600 text-xs leading-relaxed line-clamp-2">
-                  {template.description}
-                </p>
-
-                <div className="pt-3 border-t border-neutral-100 flex items-center justify-between">
-                  <div>
-                    <span className="text-xs text-neutral-400 line-through mr-1 font-mono">
-                      ₹{template.originalPrice}
-                    </span>
-                    <span className="font-serif text-xl font-bold text-amber-900">
-                      ₹{template.price}
-                    </span>
-                    <span className="text-[10px] text-neutral-500 block font-mono">One-time payment</span>
-                  </div>
-
-                  <Link
-                    to={`/invitations/templates/${template.slug}`}
-                    className="px-4 py-2 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-neutral-950 font-bold text-xs transition-all shadow-xs"
-                  >
-                    Select & Edit
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
+              </button>
+            );
+          })}
         </div>
+
+        {/* Templates Display: Category-Wise when "All Categories" is selected */}
+        {selectedCategory === 'All Categories' ? (
+          <div className="space-y-14">
+            {invitationCategories
+              .filter((c) => c !== 'All Categories')
+              .map((categoryName) => {
+                const categoryTemplates = invitationTemplates.filter((t) => t.category === categoryName);
+                if (categoryTemplates.length === 0) return null;
+
+                const getCatIcon = (cat) => {
+                  if (cat.includes('Wedding')) return '👑';
+                  if (cat.includes('Engagement')) return '💍';
+                  if (cat.includes('Birthday')) return '🎂';
+                  if (cat.includes('Housewarming') || cat.includes('Griha')) return '🏡';
+                  if (cat.includes('Baby Shower') || cat.includes('Naming')) return '🍼';
+                  if (cat.includes('Anniversary')) return '✨';
+                  return '✦';
+                };
+
+                return (
+                  <div key={categoryName} className="space-y-6">
+                    {/* Category Header */}
+                    <div className="flex items-center justify-between border-b border-amber-900/10 pb-3">
+                      <div className="flex items-center space-x-2.5">
+                        <span className="text-xl">{getCatIcon(categoryName)}</span>
+                        <h3 className="font-serif text-xl sm:text-2xl font-bold text-neutral-900">
+                          {categoryName}
+                        </h3>
+                        <span className="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 text-xs font-mono font-bold">
+                          {categoryTemplates.length} Designs
+                        </span>
+                      </div>
+                      <button
+                        onClick={() => setSelectedCategory(categoryName)}
+                        className="text-xs text-amber-800 hover:text-amber-950 font-bold flex items-center space-x-1 cursor-pointer"
+                      >
+                        <span>View only {categoryName}</span>
+                        <span>→</span>
+                      </button>
+                    </div>
+
+                    {/* Category Cards Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {categoryTemplates.map((template) => (
+                        <div
+                          key={template.id}
+                          className="bg-white border border-[#E8DFD1] rounded-2xl overflow-hidden hover:border-amber-500 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group shadow-xs"
+                        >
+                          {/* Cover Image Box */}
+                          <div className="relative h-60 overflow-hidden bg-neutral-100">
+                            <img
+                              src={template.coverImage}
+                              alt={template.name}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                            <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 text-neutral-900 text-[10px] font-mono font-bold uppercase border border-amber-300 shadow-xs">
+                              {template.badge}
+                            </span>
+
+                            {/* View Demo Button on hover */}
+                            <button
+                              onClick={() => setDemoTemplate(template)}
+                              className="absolute top-3 right-3 px-3 py-1.5 rounded-full bg-black/70 hover:bg-black/90 backdrop-blur-xs text-white text-[11px] font-medium border border-white/30 flex items-center space-x-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-md"
+                            >
+                              <Eye className="w-3.5 h-3.5 text-amber-300" />
+                              <span>View Demo</span>
+                            </button>
+
+                            <div className="absolute bottom-3 left-4 right-4">
+                              <span className="text-[10px] uppercase font-mono tracking-wider text-amber-300 font-bold block drop-shadow">
+                                {template.category}
+                              </span>
+                              <h4 className="font-serif text-lg font-bold text-white drop-shadow">{template.name}</h4>
+                            </div>
+                          </div>
+
+                          {/* Body Info & CTA */}
+                          <div className="p-5 space-y-4 flex-1 flex flex-col justify-between">
+                            <p className="text-neutral-600 text-xs leading-relaxed line-clamp-2">
+                              {template.description}
+                            </p>
+
+                            <div className="pt-3 border-t border-neutral-100 flex items-center justify-between">
+                              <div>
+                                <span className="text-xs text-neutral-400 line-through mr-1 font-mono">
+                                  ₹{template.originalPrice}
+                                </span>
+                                <span className="font-serif text-xl font-bold text-amber-900">
+                                  ₹{template.price}
+                                </span>
+                                <span className="text-[10px] text-neutral-500 block font-mono">One-time payment</span>
+                              </div>
+
+                              <div className="flex items-center space-x-2">
+                                <button
+                                  onClick={() => setDemoTemplate(template)}
+                                  className="px-3 py-2 rounded-full border border-neutral-300 hover:border-amber-600 text-neutral-800 text-xs font-semibold transition-all cursor-pointer"
+                                >
+                                  Demo
+                                </button>
+                                <Link
+                                  to={`/invitations/templates/${template.slug}`}
+                                  className="px-4 py-2 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-neutral-950 font-bold text-xs transition-all shadow-xs"
+                                >
+                                  Select
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+        ) : (
+          /* Single Category Filtered Grid */
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredTemplates.map((template) => (
+              <div
+                key={template.id}
+                className="bg-white border border-[#E8DFD1] rounded-2xl overflow-hidden hover:border-amber-500 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group shadow-xs"
+              >
+                {/* Cover Image */}
+                <div className="relative h-60 overflow-hidden bg-neutral-100">
+                  <img
+                    src={template.coverImage}
+                    alt={template.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 text-neutral-900 text-[10px] font-mono font-bold uppercase border border-amber-300 shadow-xs">
+                    {template.badge}
+                  </span>
+
+                  {/* View Demo Button on top */}
+                  <button
+                    onClick={() => setDemoTemplate(template)}
+                    className="absolute top-3 right-3 px-3 py-1.5 rounded-full bg-black/70 hover:bg-black/90 backdrop-blur-xs text-white text-[11px] font-medium border border-white/30 flex items-center space-x-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-md"
+                  >
+                    <Eye className="w-3.5 h-3.5 text-amber-300" />
+                    <span>View Demo</span>
+                  </button>
+
+                  <div className="absolute bottom-3 left-4 right-4">
+                    <span className="text-[10px] uppercase font-mono tracking-wider text-amber-300 font-bold block drop-shadow">
+                      {template.category}
+                    </span>
+                    <h4 className="font-serif text-lg font-bold text-white drop-shadow">{template.name}</h4>
+                  </div>
+                </div>
+
+                {/* Body Info & CTA */}
+                <div className="p-5 space-y-4 flex-1 flex flex-col justify-between">
+                  <p className="text-neutral-600 text-xs leading-relaxed line-clamp-2">
+                    {template.description}
+                  </p>
+
+                  <div className="pt-3 border-t border-neutral-100 flex items-center justify-between">
+                    <div>
+                      <span className="text-xs text-neutral-400 line-through mr-1 font-mono">
+                        ₹{template.originalPrice}
+                      </span>
+                      <span className="font-serif text-xl font-bold text-amber-900">
+                        ₹{template.price}
+                      </span>
+                      <span className="text-[10px] text-neutral-500 block font-mono">One-time payment</span>
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => setDemoTemplate(template)}
+                        className="px-3 py-2 rounded-full border border-neutral-300 hover:border-amber-600 text-neutral-800 text-xs font-semibold transition-all cursor-pointer"
+                      >
+                        Demo
+                      </button>
+                      <Link
+                        to={`/invitations/templates/${template.slug}`}
+                        className="px-4 py-2 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-neutral-950 font-bold text-xs transition-all shadow-xs"
+                      >
+                        Select
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* ========================================================================= */}
@@ -514,6 +668,122 @@ const InvitationsLanding = () => {
           </div>
         </div>
       </section>
+
+      {/* ========================================================================= */}
+      {/* 8. INTERACTIVE DEMO SIMULATOR MODAL */}
+      {/* ========================================================================= */}
+      {demoTemplate && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 overflow-y-auto animate-fadeIn">
+          <div className="relative w-full max-w-md bg-neutral-900 rounded-3xl overflow-hidden shadow-2xl border border-amber-500/40 flex flex-col max-h-[95vh]">
+            {/* Modal Header */}
+            <div className="p-3.5 bg-neutral-950/90 border-b border-amber-500/20 flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-xs font-mono uppercase text-amber-300 font-bold tracking-wider">
+                  Live Interactive Demo: {demoTemplate.name}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setDemoTemplate(null)}
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-neutral-300 flex items-center justify-center transition-colors cursor-pointer"
+                aria-label="Close demo"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Instruction Banner */}
+            <div className="bg-gradient-to-r from-amber-950/80 via-neutral-900 to-amber-950/80 py-2 px-3 text-center border-b border-amber-500/20">
+              <p className="text-[11px] text-amber-200 font-serif">
+                ✨ Tap the seal below to experience 3D gates, music & full invitation!
+              </p>
+            </div>
+
+            {/* Mobile Phone Mockup Viewport */}
+            <div className="flex-1 overflow-y-auto bg-neutral-950 p-2 sm:p-3 flex justify-center items-center">
+              <div className="w-full max-w-[360px] h-[640px] rounded-2xl overflow-hidden shadow-2xl border-4 border-neutral-800 relative bg-neutral-900">
+                <div className="w-full h-full overflow-y-auto custom-scrollbar">
+                  <InvitationRenderer
+                    invitation={{
+                      template_id: demoTemplate.id,
+                      opening_screen_enabled: true,
+                      opening_style: demoTemplate.features?.gateStyle || 'royal-curtain',
+                      opening_title: 'The Royal Celebration',
+                      opening_seal_text: demoTemplate.tier === 'royal' ? 'ROYAL SEAL' : 'VIP',
+                      bride_name: demoTemplate.id === 'modern-minimal' ? 'Ananya Sharma' : 'Siddharth Malhotra',
+                      groom_name: demoTemplate.id === 'modern-minimal' ? 'Rohan Mehra' : 'Kiara Advani',
+                      title: `${demoTemplate.name} Demo`,
+                      eventType: demoTemplate.category,
+                      date: '2026-11-20',
+                      time: '19:00',
+                      venue: demoTemplate.id === 'modern-minimal' ? 'The Leela Palace, Udaipur' : 'Jehan Numa Palace, Bhopal',
+                      venueAddress: demoTemplate.id === 'modern-minimal' ? 'Lake Pichola, Udaipur, Rajasthan' : '152 Shamla Hills, Bhopal',
+                      story_text: 'Two hearts, one lifelong promise under royal starry skies.',
+                      scratch_reveal_text: 'YOU’RE INVITED ♡',
+                      scratch_enabled: true,
+                      rsvp_enabled: true,
+                      music_enabled: true,
+                      events: [
+                        {
+                          title: 'Mehendi & Sangeet Gala',
+                          date: '2026-11-19',
+                          time: '06:00 PM',
+                          venue: 'The Leela Palace Courtyard',
+                          address: 'Udaipur, Rajasthan',
+                        },
+                        {
+                          title: 'The Royal Wedding & Pheras',
+                          date: '2026-11-20',
+                          time: '07:30 PM',
+                          venue: 'Grand Lawn, The Leela Palace',
+                          address: 'Udaipur, Rajasthan',
+                        },
+                        {
+                          title: 'Royal Grand Reception',
+                          date: '2026-11-21',
+                          time: '08:00 PM',
+                          venue: 'The Royal Ballroom',
+                          address: 'Udaipur, Rajasthan',
+                        },
+                      ],
+                    }}
+                    isPreview={true}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer Actions */}
+            <div className="p-4 bg-white border-t border-[#E8DFD1] flex items-center justify-between gap-3">
+              <div>
+                <span className="text-[10px] text-neutral-400 line-through font-mono">
+                  ₹{demoTemplate.originalPrice}
+                </span>
+                <span className="font-serif text-lg font-bold text-amber-900 ml-1">
+                  ₹{demoTemplate.price}
+                </span>
+              </div>
+
+              <div className="flex space-x-2">
+                <button
+                  type="button"
+                  onClick={() => setDemoTemplate(null)}
+                  className="px-4 py-2 rounded-full border border-neutral-300 text-xs font-semibold text-neutral-700 hover:bg-neutral-100 cursor-pointer"
+                >
+                  Close
+                </button>
+                <Link
+                  to={`/invitations/templates/${demoTemplate.slug}`}
+                  className="px-5 py-2 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-neutral-950 font-bold text-xs shadow-xs"
+                >
+                  Select Template
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

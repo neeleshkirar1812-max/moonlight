@@ -171,8 +171,47 @@ const TemplateMarketplace = () => {
           </div>
         </div>
 
+        {/* Quick Category Filter Pills */}
+        <div className="flex items-center justify-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar max-w-5xl mx-auto">
+          {invitationCategories.map((cat) => {
+            const count =
+              cat === 'All Categories'
+                ? invitationTemplates.filter((t) =>
+                    selectedTier === 'royal' ? true : t.tier === 'classic' || t.tier === undefined
+                  ).length
+                : invitationTemplates.filter(
+                    (t) =>
+                      t.category === cat &&
+                      (selectedTier === 'royal' ? true : t.tier === 'classic' || t.tier === undefined)
+                  ).length;
+
+            return (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-2 rounded-full text-xs font-serif whitespace-nowrap transition-all flex items-center space-x-1.5 cursor-pointer ${
+                  selectedCategory === cat
+                    ? 'bg-[#b88c3a] text-white font-semibold shadow-xs'
+                    : 'bg-white border border-[#E0D5C3] text-neutral-700 hover:border-[#b88c3a] hover:text-neutral-950'
+                }`}
+              >
+                <span>{cat}</span>
+                <span
+                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                    selectedCategory === cat
+                      ? 'bg-black/20 text-white'
+                      : 'bg-neutral-100 text-neutral-600'
+                  }`}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
         {/* ========================================================================= */}
-        {/* 3. TEMPLATE CARDS ROW (Exact match to reference) */}
+        {/* 3. TEMPLATE CARDS (CATEGORY-WISE DISPLAY) */}
         {/* ========================================================================= */}
         {filteredTemplates.length === 0 ? (
           <div className="text-center py-16 space-y-3 bg-white rounded-3xl border border-[#E2D8C7] max-w-lg mx-auto p-8 shadow-xs">
@@ -185,79 +224,226 @@ const TemplateMarketplace = () => {
                 setSelectedCategory('All Categories');
                 setSelectedTier('royal');
               }}
-              className="px-5 py-2 rounded-full bg-[#b88c3a] text-white text-xs font-serif hover:bg-[#9e752b] transition-all"
+              className="px-5 py-2 rounded-full bg-[#b88c3a] text-white text-xs font-serif hover:bg-[#9e752b] transition-all cursor-pointer"
             >
               Show All Templates
             </button>
           </div>
+        ) : selectedCategory === 'All Categories' ? (
+          /* Grouped Category-Wise Sections */
+          <div className="space-y-14">
+            {invitationCategories
+              .filter((cat) => cat !== 'All Categories')
+              .map((categoryName) => {
+                const categoryTemplates = invitationTemplates.filter(
+                  (t) =>
+                    t.category === categoryName &&
+                    (selectedTier === 'royal' ? true : t.tier === 'classic' || t.tier === undefined)
+                );
+
+                if (categoryTemplates.length === 0) return null;
+
+                const getCategoryMeta = (cat) => {
+                  if (cat.includes('Wedding')) return { icon: '👑', desc: 'Opulent 3D Palace Gates, Shehnai & 24K Gold Suites' };
+                  if (cat.includes('Engagement')) return { icon: '💍', desc: 'Romantic Rose Gold, Velvet & Ring Ceremony Suites' };
+                  if (cat.includes('Birthday')) return { icon: '🎂', desc: 'Confetti Animations, Cake Smash & Milestone Galleries' };
+                  if (cat.includes('Housewarming') || cat.includes('Griha')) return { icon: '🏡', desc: 'Sacred Toran Doors, Vastu Havan & Google Maps' };
+                  if (cat.includes('Baby Shower') || cat.includes('Naming')) return { icon: '🍼', desc: 'Pastel Blossoms, Godh Bharai & Family Blessings' };
+                  if (cat.includes('Anniversary')) return { icon: '✨', desc: 'Silver & Swarna Golden Jubilee Milestones' };
+                  return { icon: '✦', desc: 'Luxury Digital Invitation Cards' };
+                };
+
+                const meta = getCategoryMeta(categoryName);
+
+                return (
+                  <section key={categoryName} className="space-y-5">
+                    {/* Category Header Banner */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#E3D9CA] pb-3 gap-2">
+                      <div className="flex items-center space-x-2.5">
+                        <span className="text-xl">{meta.icon}</span>
+                        <div>
+                          <div className="flex items-center space-x-2">
+                            <h3 className="font-serif text-lg sm:text-xl font-bold text-neutral-900">
+                              {categoryName}
+                            </h3>
+                            <span className="px-2 py-0.5 rounded-full bg-amber-100 text-[#8a6521] text-[10px] font-mono font-bold border border-amber-300">
+                              {categoryTemplates.length} Designs
+                            </span>
+                          </div>
+                          <p className="text-xs text-neutral-500 font-serif">{meta.desc}</p>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => setSelectedCategory(categoryName)}
+                        className="text-xs font-serif text-[#b88c3a] hover:text-[#8a6521] font-semibold flex items-center space-x-1 cursor-pointer"
+                      >
+                        <span>Filter only {categoryName}</span>
+                        <span>→</span>
+                      </button>
+                    </div>
+
+                    {/* 5-Column Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
+                      {categoryTemplates.map((template) => (
+                        <div
+                          key={template.id}
+                          className="bg-white rounded-xl border border-[#E5DAC8] overflow-hidden shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between group"
+                        >
+                          {/* Top Visual Poster Box */}
+                          <div
+                            className={`relative h-48 sm:h-52 ${template.cardBg || 'bg-[#0d3b25]'} p-3.5 flex flex-col justify-between items-center text-center`}
+                          >
+                            {/* Top Left Badge */}
+                            <div className="w-full flex justify-start">
+                              {template.badge && (
+                                <span
+                                  className={`text-[9px] font-sans font-bold px-2 py-0.5 rounded shadow-xs ${
+                                    template.badgeColor || 'bg-amber-500 text-neutral-950'
+                                  }`}
+                                >
+                                  {template.badge}
+                                </span>
+                              )}
+                            </div>
+
+                            {/* Centered Golden Title */}
+                            <div className="my-auto px-1">
+                              <h4
+                                className={`font-serif text-base sm:text-lg tracking-wide ${
+                                  template.cardTextColor || 'text-[#d4af37]'
+                                }`}
+                              >
+                                {template.name}
+                              </h4>
+                            </div>
+
+                            {/* Center-Bottom View Demo Button */}
+                            <button
+                              onClick={() => setDemoTemplate(template)}
+                              className="px-3.5 py-1.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-xs text-white text-[11px] font-serif border border-white/20 flex items-center space-x-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+                            >
+                              <Eye className="w-3.5 h-3.5 text-white/90" />
+                              <span>View Demo</span>
+                            </button>
+                          </div>
+
+                          {/* Bottom Content Area */}
+                          <div className="p-4 space-y-3 flex-1 flex flex-col justify-between bg-white">
+                            <div className="space-y-1">
+                              <h5 className="font-serif text-sm font-bold text-neutral-900 leading-tight">
+                                {template.name}
+                              </h5>
+                              <p className="text-[11px] text-neutral-500 leading-snug font-sans line-clamp-2">
+                                {template.description}
+                              </p>
+                            </div>
+
+                            {/* "Use This Design" Solid Gold-Brown Action Button */}
+                            <div className="pt-2">
+                              <Link
+                                to={`/invitations/templates/${template.slug}`}
+                                className="w-full py-2.5 rounded-md bg-[#b88c3a] hover:bg-[#9e752b] text-white font-serif font-semibold text-xs tracking-wide text-center block transition-colors shadow-xs"
+                              >
+                                Use This Design
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                );
+              })}
+          </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
-            {filteredTemplates.map((template) => (
-              <div
-                key={template.id}
-                className="bg-white rounded-xl border border-[#E5DAC8] overflow-hidden shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between"
+          /* Single Category Filtered View */
+          <div className="space-y-5">
+            <div className="flex items-center justify-between border-b border-[#E3D9CA] pb-3">
+              <div className="flex items-center space-x-2">
+                <h3 className="font-serif text-lg sm:text-xl font-bold text-neutral-900">
+                  {selectedCategory}
+                </h3>
+                <span className="px-2 py-0.5 rounded-full bg-amber-100 text-[#8a6521] text-[10px] font-mono font-bold border border-amber-300">
+                  {filteredTemplates.length} Designs
+                </span>
+              </div>
+              <button
+                onClick={() => setSelectedCategory('All Categories')}
+                className="text-xs font-serif text-[#b88c3a] hover:text-[#8a6521] font-semibold cursor-pointer"
               >
-                {/* Top Visual Poster Box */}
+                ← View All Categories
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
+              {filteredTemplates.map((template) => (
                 <div
-                  className={`relative h-48 sm:h-52 ${template.cardBg || 'bg-[#0d3b25]'} p-3.5 flex flex-col justify-between items-center text-center`}
+                  key={template.id}
+                  className="bg-white rounded-xl border border-[#E5DAC8] overflow-hidden shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between group"
                 >
-                  {/* Top Left Badge */}
-                  <div className="w-full flex justify-start">
-                    {template.badge && (
-                      <span
-                        className={`text-[9px] font-sans font-bold px-2 py-0.5 rounded shadow-xs ${
-                          template.badgeColor || 'bg-amber-500 text-neutral-950'
+                  {/* Top Visual Poster Box */}
+                  <div
+                    className={`relative h-48 sm:h-52 ${template.cardBg || 'bg-[#0d3b25]'} p-3.5 flex flex-col justify-between items-center text-center`}
+                  >
+                    {/* Top Left Badge */}
+                    <div className="w-full flex justify-start">
+                      {template.badge && (
+                        <span
+                          className={`text-[9px] font-sans font-bold px-2 py-0.5 rounded shadow-xs ${
+                            template.badgeColor || 'bg-amber-500 text-neutral-950'
+                          }`}
+                        >
+                          {template.badge}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Centered Golden Title */}
+                    <div className="my-auto px-1">
+                      <h4
+                        className={`font-serif text-base sm:text-lg tracking-wide ${
+                          template.cardTextColor || 'text-[#d4af37]'
                         }`}
                       >
-                        {template.badge}
-                      </span>
-                    )}
-                  </div>
+                        {template.name}
+                      </h4>
+                    </div>
 
-                  {/* Centered Golden Title */}
-                  <div className="my-auto px-1">
-                    <h3
-                      className={`font-serif text-base sm:text-lg tracking-wide ${
-                        template.cardTextColor || 'text-[#d4af37]'
-                      }`}
+                    {/* Center-Bottom View Demo Button */}
+                    <button
+                      onClick={() => setDemoTemplate(template)}
+                      className="px-3.5 py-1.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-xs text-white text-[11px] font-serif border border-white/20 flex items-center space-x-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
                     >
-                      {template.name}
-                    </h3>
+                      <Eye className="w-3.5 h-3.5 text-white/90" />
+                      <span>View Demo</span>
+                    </button>
                   </div>
 
-                  {/* Center-Bottom View Demo Button */}
-                  <button
-                    onClick={() => setDemoTemplate(template)}
-                    className="px-3.5 py-1.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-xs text-white text-[11px] font-serif border border-white/20 flex items-center space-x-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
-                  >
-                    <Eye className="w-3.5 h-3.5 text-white/90" />
-                    <span>View Demo</span>
-                  </button>
-                </div>
+                  {/* Bottom Content Area */}
+                  <div className="p-4 space-y-3 flex-1 flex flex-col justify-between bg-white">
+                    <div className="space-y-1">
+                      <h5 className="font-serif text-sm font-bold text-neutral-900 leading-tight">
+                        {template.name}
+                      </h5>
+                      <p className="text-[11px] text-neutral-500 leading-snug font-sans line-clamp-2">
+                        {template.description}
+                      </p>
+                    </div>
 
-                {/* Bottom Content Area */}
-                <div className="p-4 space-y-3 flex-1 flex flex-col justify-between bg-white">
-                  <div className="space-y-1">
-                    <h4 className="font-serif text-sm font-bold text-neutral-900 leading-tight">
-                      {template.name}
-                    </h4>
-                    <p className="text-[11px] text-neutral-500 leading-snug font-sans line-clamp-2">
-                      {template.description}
-                    </p>
-                  </div>
-
-                  {/* "Use This Design" Solid Gold-Brown Action Button */}
-                  <div className="pt-2">
-                    <Link
-                      to={`/invitations/templates/${template.slug}`}
-                      className="w-full py-2.5 rounded-md bg-[#b88c3a] hover:bg-[#9e752b] text-white font-serif font-semibold text-xs tracking-wide text-center block transition-colors shadow-xs"
-                    >
-                      Use This Design
-                    </Link>
+                    {/* "Use This Design" Solid Gold-Brown Action Button */}
+                    <div className="pt-2">
+                      <Link
+                        to={`/invitations/templates/${template.slug}`}
+                        className="w-full py-2.5 rounded-md bg-[#b88c3a] hover:bg-[#9e752b] text-white font-serif font-semibold text-xs tracking-wide text-center block transition-colors shadow-xs"
+                      >
+                        Use This Design
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )}
       </main>
