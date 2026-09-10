@@ -4,6 +4,7 @@ import { useAuth } from './context/AuthContext';
 
 // Layouts
 import PublicLayout from './layouts/PublicLayout';
+import InvitationsLayout from './layouts/InvitationsLayout';
 import CustomerLayout from './layouts/CustomerLayout';
 import EmployeeLayout from './layouts/EmployeeLayout';
 import AdminLayout from './layouts/AdminLayout';
@@ -134,22 +135,24 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-
-        {/* Digital Invitations Marketplace & Suites */}
-        <Route path="/invitations" element={<InvitationsLanding />} />
-        <Route path="/invitations/templates" element={<TemplateMarketplace />} />
-        <Route path="/invitations/templates/:slug" element={<TemplateDetail />} />
-        <Route path="/invitations/dashboard" element={<InvitationDashboard />} />
-        <Route path="/invitations/create/:id" element={<InvitationEditor />} />
-        <Route path="/invitations/edit/:id" element={<InvitationEditor />} />
-        <Route path="/invitations/login" element={<InvitationLogin />} />
-        <Route path="/invitations/signup" element={<InvitationSignup />} />
-        <Route path="/invitations/admin" element={<InvitationAdmin />} />
-        <Route path="/invitations/admin/:tab" element={<InvitationAdmin />} />
-        <Route path="/invitations/admin/manual" element={<InvitationAdmin initialTab="manual" />} />
       </Route>
 
-      {/* 2. Customer Portal */}
+      {/* 2. Standalone Dedicated Moonlight Digital Invitations Universe */}
+      <Route path="/invitations" element={<InvitationsLayout />}>
+        <Route index element={<InvitationsLanding />} />
+        <Route path="templates" element={<TemplateMarketplace />} />
+        <Route path="templates/:slug" element={<TemplateDetail />} />
+        <Route path="dashboard" element={<InvitationDashboard />} />
+        <Route path="create/:id" element={<InvitationEditor />} />
+        <Route path="edit/:id" element={<InvitationEditor />} />
+        <Route path="login" element={<InvitationLogin />} />
+        <Route path="signup" element={<InvitationSignup />} />
+        <Route path="admin" element={<InvitationAdmin />} />
+        <Route path="admin/:tab" element={<InvitationAdmin />} />
+        <Route path="admin/manual" element={<InvitationAdmin initialTab="manual" />} />
+      </Route>
+
+      {/* 3. Customer Portal */}
       <Route
         path="/customer"
         element={
