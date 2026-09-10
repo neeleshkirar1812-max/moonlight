@@ -28,6 +28,17 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import ForgotPassword from './pages/auth/ForgotPassword';
 
+// Digital Invitation Suite Pages (Moonlight Production)
+import InvitationsLanding from './pages/invitations/InvitationsLanding';
+import TemplateMarketplace from './pages/invitations/TemplateMarketplace';
+import TemplateDetail from './pages/invitations/TemplateDetail';
+import InvitationDashboard from './pages/invitations/InvitationDashboard';
+import InvitationEditor from './pages/invitations/InvitationEditor';
+import InvitationLogin from './pages/invitations/InvitationLogin';
+import InvitationSignup from './pages/invitations/InvitationSignup';
+import InvitationAdmin from './pages/invitations/InvitationAdmin';
+import PublicInvitation from './pages/public/PublicInvitation';
+
 // Customer Portal Pages
 import CustomerDashboard from './pages/customer/CustomerDashboard';
 import CustomerBookings from './pages/customer/CustomerBookings';
@@ -123,6 +134,17 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+
+        {/* Digital Invitations Marketplace & Suites */}
+        <Route path="/invitations" element={<InvitationsLanding />} />
+        <Route path="/invitations/templates" element={<TemplateMarketplace />} />
+        <Route path="/invitations/templates/:slug" element={<TemplateDetail />} />
+        <Route path="/invitations/dashboard" element={<InvitationDashboard />} />
+        <Route path="/invitations/create/:id" element={<InvitationEditor />} />
+        <Route path="/invitations/edit/:id" element={<InvitationEditor />} />
+        <Route path="/invitations/login" element={<InvitationLogin />} />
+        <Route path="/invitations/signup" element={<InvitationSignup />} />
+        <Route path="/invitations/admin" element={<InvitationAdmin />} />
       </Route>
 
       {/* 2. Customer Portal */}
@@ -209,6 +231,9 @@ const App = () => {
         <Route path="audit-logs" element={<SuperAdminAuditLogs />} />
         <Route path="config" element={<SuperAdminConfig />} />
       </Route>
+
+      {/* 6. Guest Digital Invitations (Immersive Mobile Card View on Same Domain) */}
+      <Route path="/i/:slug" element={<PublicInvitation />} />
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />

@@ -796,6 +796,206 @@ const handleMockRequest = async (method, url, data) => {
     }
   }
 
+  // 16. Digital Invitations & RSVP
+  if (cleanUrl.startsWith('/invitations') || cleanUrl.startsWith('/rsvp')) {
+    let invitations = getCollection('invitations') || [];
+    let purchases = getCollection('invitationPurchases') || [];
+    let rsvps = getCollection('rsvps') || [];
+
+    // Seed default sample invitation if empty so /i/royal-wedding-aarav-kiara opens out of the box
+    if (invitations.length === 0) {
+      invitations = [
+        {
+          _id: 'inv-sample-1',
+          id: 'inv-sample-1',
+          templateId: 'royal-love',
+          customerEmail: 'aarav.ananya@gmail.com',
+          customerName: 'Aarav Sharma & Kiara Sen',
+          title: 'Royal Wedding Celebration',
+          names: 'Aarav & Kiara',
+          eventType: 'Wedding',
+          date: '2026-11-20',
+          time: '19:00',
+          venue: 'Jehan Numa Palace',
+          venueAddress: '152 Shamla Hills, Bhopal, Madhya Pradesh 462013',
+          message: 'With the blessings of our parents, we invite you to celebrate our union in royal grace.',
+          scratchMessage: 'YOU’RE INVITED ♡',
+          musicUrl: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+          coverPhoto: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+          published: true,
+          slug: 'royal-wedding-aarav-kiara',
+          createdAt: new Date().toISOString(),
+          rsvpCount: 14,
+        },
+      ];
+      setCollection('invitations', invitations);
+    }
+
+    // Dashboard
+    if (cleanUrl === '/invitations/dashboard' || cleanUrl === '/invitations/my') {
+      const email = (params.get('email') || '').toLowerCase().trim();
+      const userInvs = email
+        ? invitations.filter((i) => (i.customerEmail || '').toLowerCase().trim() === email)
+        : invitations;
+      return { data: { success: true, invitations: userInvs.length > 0 ? userInvs : invitations } };
+    }
+
+    // Razorpay Create Order
+    if (cleanUrl.includes('/payments/create-order')) {
+      const tplPrice = data.price || 699;
+      return {
+        data: {
+          key: 'rzp_test_Ta47WTEJxJInTH',
+          id: `order_inv_${Date.now()}`,
+          amount: tplPrice * 100,
+          currency: 'INR',
+        },
+      };
+    }
+
+    // Razorpay Verify & Draft Generation
+    if (cleanUrl.includes('/payments/verify')) {
+      const newPurchase = {
+        _id: `pur-${Date.now()}`,
+        templateId: data.templateId || 'royal-love',
+        customerEmail: data.customerEmail || 'couple@moonlight.com',
+        customerName: data.customerName || 'Valued Couple',
+        razorpayOrderId: data.razorpay_order_id,
+        razorpayPaymentId: data.razorpay_payment_id,
+        amount: 699,
+        status: 'PAID',
+        createdAt: new Date().toISOString(),
+      };
+      purchases.unshift(newPurchase);
+      setCollection('invitationPurchases', purchases);
+
+      const newInv = {
+        _id: `inv-${Date.now()}`,
+        id: `inv-${Date.now()}`,
+        templateId: data.templateId || 'royal-love',
+        customerEmail: data.customerEmail || 'couple@moonlight.com',
+        customerName: data.customerName || 'Valued Couple',
+        title: 'A Royal Celebration',
+        names: data.customerName || 'Aarav & Kiara',
+        eventType: 'Wedding',
+        date: '2026-11-20',
+        time: '19:00',
+        venue: 'Jehan Numa Palace',
+        venueAddress: '152 Shamla Hills, Bhopal, Madhya Pradesh',
+        message: 'With joyous hearts, we request the honor of your presence to celebrate our special day.',
+        scratchMessage: 'YOU’RE INVITED ♡',
+        musicUrl: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+        coverPhoto: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+        published: false,
+        slug: '',
+        createdAt: new Date().toISOString(),
+        rsvpCount: 0,
+      };
+      invitations.unshift(newInv);
+      setCollection('invitations', invitations);
+
+      return { data: { success: true, invitation: newInv } };
+    }
+
+    // Public /i/:slug endpoint
+    if (cleanUrl.startsWith('/invitations/public/')) {
+      const slug = cleanUrl.replace('/invitations/public/', '');
+      const found = invitations.find((i) => i.slug === slug || i._id === slug || i.id === slug);
+      if (found) {
+        return { data: { success: true, invitation: found } };
+      }
+      return { data: { success: true, invitation: invitations[0] } };
+    }
+
+    // Admin stats
+    if (cleanUrl.startsWith('/invitations/admin/stats')) {
+      const totalRevenue = (purchases.length || 1) * 699;
+      const totalPurchases = purchases.length || invitations.length;
+      const totalPublished = invitations.filter((i) => i.published).length;
+      const totalRSVPs = rsvps.length || 14;
+      return {
+        data: {
+          totalRevenue,
+          totalPurchases,
+          totalPublished,
+          totalRSVPs,
+          invitations,
+        },
+      };
+    }
+
+    // Specific invitation by ID
+    if (
+      cleanUrl.startsWith('/invitations/') &&
+      !cleanUrl.includes('dashboard') &&
+      !cleanUrl.includes('admin') &&
+      !cleanUrl.includes('payments')
+    ) {
+      const id = cleanUrl.replace('/invitations/', '');
+      if (method === 'GET') {
+        const found = invitations.find((i) => i._id === id || i.id === id || i.slug === id);
+        return { data: { success: true, invitation: found || invitations[0] } };
+      }
+      if (method === 'PUT' || method === 'PATCH') {
+        let slug = data.slug;
+        if (data.published && !slug) {
+          const rawNames = (data.names || 'wedding')
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, '');
+          slug = `${rawNames}-${Math.floor(1000 + Math.random() * 9000)}`;
+        }
+        invitations = invitations.map((inv) => {
+          if (inv._id === id || inv.id === id) {
+            return {
+              ...inv,
+              ...data,
+              slug: slug || inv.slug,
+              published: data.published !== undefined ? data.published : inv.published,
+              updatedAt: new Date().toISOString(),
+            };
+          }
+          return inv;
+        });
+        setCollection('invitations', invitations);
+        const updated = invitations.find((i) => i._id === id || i.id === id);
+        return { data: { success: true, invitation: updated } };
+      }
+    }
+
+    // RSVP endpoints
+    if (cleanUrl === '/rsvp' || cleanUrl.startsWith('/rsvp/')) {
+      if (method === 'POST') {
+        const newRsvp = {
+          _id: `rsvp-${Date.now()}`,
+          ...data,
+          createdAt: new Date().toISOString(),
+        };
+        rsvps.unshift(newRsvp);
+        setCollection('rsvps', rsvps);
+
+        // Increment count on invitation
+        if (data.invitationId) {
+          invitations = invitations.map((inv) => {
+            if (
+              inv._id === data.invitationId ||
+              inv.id === data.invitationId ||
+              inv.slug === data.invitationId
+            ) {
+              return { ...inv, rsvpCount: (inv.rsvpCount || 0) + (Number(data.guests) || 1) };
+            }
+            return inv;
+          });
+          setCollection('invitations', invitations);
+        }
+        return { data: { success: true, rsvp: newRsvp } };
+      }
+      if (method === 'GET') {
+        return { data: { success: true, rsvps } };
+      }
+    }
+  }
+
   // Generic fallback
   return { data: { success: true, message: 'Operation completed in offline resilient storage.' } };
 };
