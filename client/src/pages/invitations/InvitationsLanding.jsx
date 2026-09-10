@@ -23,7 +23,195 @@ import {
   Check,
   Star,
   X,
+  RotateCcw,
 } from 'lucide-react';
+
+/**
+ * Individual Landing Showcase Card Component with Inline 3D Gate Demo Simulator
+ */
+const LandingCardItem = ({ template, isActiveDemo, onOpenDemo, onCloseDemo }) => {
+  const [demoKey, setDemoKey] = useState(0);
+
+  const demoInvitationData = {
+    template_id: template.id,
+    templateId: template.id,
+    opening_screen_enabled: true,
+    opening_style: template.features?.gateStyle || 'royal-curtain',
+    opening_title: 'The Royal Celebration',
+    opening_seal_text: template.tier === 'royal' ? 'ROYAL SEAL' : 'VIP',
+    bride_name: template.id === 'modern-minimal' ? 'Ananya Sharma' : 'Aarav Singhania',
+    groom_name: template.id === 'modern-minimal' ? 'Rohan Mehra' : 'Kiara Advani',
+    names: template.id === 'modern-minimal' ? 'Ananya & Rohan' : 'Aarav & Kiara',
+    title: `${template.name} Demo`,
+    eventType: template.category,
+    date: '2026-11-20',
+    time: '19:00',
+    venue: template.id === 'modern-minimal' ? 'The Leela Palace, Udaipur' : 'Jehan Numa Palace, Bhopal',
+    venueAddress: template.id === 'modern-minimal' ? 'Lake Pichola, Udaipur, Rajasthan' : '152 Shamla Hills, Bhopal',
+    story_text: 'Two hearts, one lifelong promise under royal starry skies.',
+    scratch_reveal_text: 'YOU’RE INVITED ♡',
+    scratch_enabled: true,
+    rsvp_enabled: true,
+    music_enabled: true,
+    events: [
+      {
+        title: 'Mehendi & Sangeet Gala',
+        date: '2026-11-19',
+        time: '06:00 PM',
+        venue: 'The Leela Palace Courtyard',
+        address: 'Udaipur, Rajasthan',
+      },
+      {
+        title: 'The Royal Wedding & Pheras',
+        date: '2026-11-20',
+        time: '07:30 PM',
+        venue: 'Grand Lawn, The Leela Palace',
+        address: 'Udaipur, Rajasthan',
+      },
+      {
+        title: 'Royal Grand Reception',
+        date: '2026-11-21',
+        time: '08:00 PM',
+        venue: 'The Royal Ballroom',
+        address: 'Udaipur, Rajasthan',
+      },
+    ],
+  };
+
+  return (
+    <div
+      className={`bg-white border rounded-2xl overflow-hidden transition-all duration-300 flex flex-col justify-between group ${
+        isActiveDemo
+          ? 'border-amber-500 ring-2 ring-amber-400/50 shadow-xl'
+          : 'border-[#E8DFD1] hover:border-amber-500 hover:shadow-lg shadow-xs'
+      }`}
+    >
+      {/* Live In-Card Demo Viewport vs Normal Cover */}
+      {isActiveDemo ? (
+        <div className="relative h-80 sm:h-96 w-full bg-neutral-950 flex flex-col overflow-hidden border-b border-amber-500/30">
+          {/* Top Demo Bar Controls inside the card */}
+          <div className="absolute top-2.5 inset-x-2.5 z-60 flex items-center justify-between pointer-events-auto">
+            <span className="px-2.5 py-1 rounded-full bg-black/85 backdrop-blur-xs text-amber-300 text-[9px] font-mono font-bold uppercase border border-amber-400/40 shadow-xs flex items-center space-x-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Live 3D Gate Demo</span>
+            </span>
+
+            <div className="flex items-center space-x-1.5">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDemoKey((k) => k + 1);
+                }}
+                className="px-2.5 py-1 rounded-full bg-black/85 hover:bg-neutral-800 text-amber-200 text-[10px] font-sans border border-amber-400/40 flex items-center space-x-1 cursor-pointer transition-transform active:scale-95 shadow"
+                title="Replay Gate Opening"
+              >
+                <RotateCcw className="w-3 h-3 text-amber-300" />
+                <span>Replay</span>
+              </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onCloseDemo();
+                }}
+                className="w-6 h-6 rounded-full bg-black/85 hover:bg-rose-900/90 text-white text-[11px] font-bold border border-white/30 flex items-center justify-center cursor-pointer transition-colors shadow"
+                title="Close Demo"
+                aria-label="Close Demo"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Invitation Renderer embedded inside this specific card */}
+          <div className="w-full h-full overflow-y-auto custom-scrollbar relative">
+            <InvitationRenderer
+              key={demoKey}
+              invitation={demoInvitationData}
+              isPreview={true}
+            />
+          </div>
+        </div>
+      ) : (
+        /* Normal Cover Image Box */
+        <div className="relative h-60 overflow-hidden bg-neutral-100">
+          <img
+            src={template.coverImage}
+            alt={template.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 text-neutral-900 text-[10px] font-mono font-bold uppercase border border-amber-300 shadow-xs">
+            {template.badge}
+          </span>
+
+          {/* View Demo Button on card */}
+          <button
+            type="button"
+            onClick={() => onOpenDemo(template.id)}
+            className="absolute top-3 right-3 px-3 py-1.5 rounded-full bg-black/70 hover:bg-black/90 backdrop-blur-xs text-white text-[11px] font-medium border border-white/30 flex items-center space-x-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-md"
+          >
+            <Eye className="w-3.5 h-3.5 text-amber-300" />
+            <span>Open 3D Demo</span>
+          </button>
+
+          <div className="absolute bottom-3 left-4 right-4">
+            <span className="text-[10px] uppercase font-mono tracking-wider text-amber-300 font-bold block drop-shadow">
+              {template.category}
+            </span>
+            <h4 className="font-serif text-lg font-bold text-white drop-shadow">{template.name}</h4>
+          </div>
+        </div>
+      )}
+
+      {/* Body Info & CTA */}
+      <div className="p-5 space-y-4 flex-1 flex flex-col justify-between">
+        <p className="text-neutral-600 text-xs leading-relaxed line-clamp-2">
+          {template.description}
+        </p>
+
+        <div className="pt-3 border-t border-neutral-100 flex items-center justify-between">
+          <div>
+            <span className="text-xs text-neutral-400 line-through mr-1 font-mono">
+              ₹{template.originalPrice}
+            </span>
+            <span className="font-serif text-xl font-bold text-amber-900">
+              ₹{template.price}
+            </span>
+            <span className="text-[10px] text-neutral-500 block font-mono">One-time payment</span>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            {isActiveDemo ? (
+              <button
+                type="button"
+                onClick={onCloseDemo}
+                className="px-3 py-2 rounded-full border border-neutral-300 hover:bg-neutral-100 text-neutral-700 text-xs font-semibold transition-all cursor-pointer"
+              >
+                Close
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => onOpenDemo(template.id)}
+                className="px-3 py-2 rounded-full border border-neutral-300 hover:border-amber-600 text-neutral-800 text-xs font-semibold transition-all cursor-pointer"
+              >
+                Demo
+              </button>
+            )}
+            <Link
+              to={`/invitations/templates/${template.slug}`}
+              className="px-4 py-2 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-neutral-950 font-bold text-xs transition-all shadow-xs"
+            >
+              Select
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const occasionsList = [
   {
@@ -94,7 +282,7 @@ const faqs = [
 const InvitationsLanding = () => {
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [activeFaq, setActiveFaq] = useState(null);
-  const [demoTemplate, setDemoTemplate] = useState(null);
+  const [activeDemoId, setActiveDemoId] = useState(null);
 
   const filteredTemplates =
     selectedCategory === 'All Categories'
@@ -298,73 +486,13 @@ const InvitationsLanding = () => {
                     {/* Category Cards Grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                       {categoryTemplates.map((template) => (
-                        <div
+                        <LandingCardItem
                           key={template.id}
-                          className="bg-white border border-[#E8DFD1] rounded-2xl overflow-hidden hover:border-amber-500 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group shadow-xs"
-                        >
-                          {/* Cover Image Box */}
-                          <div className="relative h-60 overflow-hidden bg-neutral-100">
-                            <img
-                              src={template.coverImage}
-                              alt={template.name}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                            <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 text-neutral-900 text-[10px] font-mono font-bold uppercase border border-amber-300 shadow-xs">
-                              {template.badge}
-                            </span>
-
-                            {/* View Demo Button on hover */}
-                            <button
-                              onClick={() => setDemoTemplate(template)}
-                              className="absolute top-3 right-3 px-3 py-1.5 rounded-full bg-black/70 hover:bg-black/90 backdrop-blur-xs text-white text-[11px] font-medium border border-white/30 flex items-center space-x-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-md"
-                            >
-                              <Eye className="w-3.5 h-3.5 text-amber-300" />
-                              <span>View Demo</span>
-                            </button>
-
-                            <div className="absolute bottom-3 left-4 right-4">
-                              <span className="text-[10px] uppercase font-mono tracking-wider text-amber-300 font-bold block drop-shadow">
-                                {template.category}
-                              </span>
-                              <h4 className="font-serif text-lg font-bold text-white drop-shadow">{template.name}</h4>
-                            </div>
-                          </div>
-
-                          {/* Body Info & CTA */}
-                          <div className="p-5 space-y-4 flex-1 flex flex-col justify-between">
-                            <p className="text-neutral-600 text-xs leading-relaxed line-clamp-2">
-                              {template.description}
-                            </p>
-
-                            <div className="pt-3 border-t border-neutral-100 flex items-center justify-between">
-                              <div>
-                                <span className="text-xs text-neutral-400 line-through mr-1 font-mono">
-                                  ₹{template.originalPrice}
-                                </span>
-                                <span className="font-serif text-xl font-bold text-amber-900">
-                                  ₹{template.price}
-                                </span>
-                                <span className="text-[10px] text-neutral-500 block font-mono">One-time payment</span>
-                              </div>
-
-                              <div className="flex items-center space-x-2">
-                                <button
-                                  onClick={() => setDemoTemplate(template)}
-                                  className="px-3 py-2 rounded-full border border-neutral-300 hover:border-amber-600 text-neutral-800 text-xs font-semibold transition-all cursor-pointer"
-                                >
-                                  Demo
-                                </button>
-                                <Link
-                                  to={`/invitations/templates/${template.slug}`}
-                                  className="px-4 py-2 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-neutral-950 font-bold text-xs transition-all shadow-xs"
-                                >
-                                  Select
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                          template={template}
+                          isActiveDemo={activeDemoId === template.id}
+                          onOpenDemo={(id) => setActiveDemoId(id)}
+                          onCloseDemo={() => setActiveDemoId(null)}
+                        />
                       ))}
                     </div>
                   </div>
@@ -375,73 +503,13 @@ const InvitationsLanding = () => {
           /* Single Category Filtered Grid */
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredTemplates.map((template) => (
-              <div
+              <LandingCardItem
                 key={template.id}
-                className="bg-white border border-[#E8DFD1] rounded-2xl overflow-hidden hover:border-amber-500 hover:shadow-lg transition-all duration-300 flex flex-col justify-between group shadow-xs"
-              >
-                {/* Cover Image */}
-                <div className="relative h-60 overflow-hidden bg-neutral-100">
-                  <img
-                    src={template.coverImage}
-                    alt={template.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                  <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 text-neutral-900 text-[10px] font-mono font-bold uppercase border border-amber-300 shadow-xs">
-                    {template.badge}
-                  </span>
-
-                  {/* View Demo Button on top */}
-                  <button
-                    onClick={() => setDemoTemplate(template)}
-                    className="absolute top-3 right-3 px-3 py-1.5 rounded-full bg-black/70 hover:bg-black/90 backdrop-blur-xs text-white text-[11px] font-medium border border-white/30 flex items-center space-x-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-md"
-                  >
-                    <Eye className="w-3.5 h-3.5 text-amber-300" />
-                    <span>View Demo</span>
-                  </button>
-
-                  <div className="absolute bottom-3 left-4 right-4">
-                    <span className="text-[10px] uppercase font-mono tracking-wider text-amber-300 font-bold block drop-shadow">
-                      {template.category}
-                    </span>
-                    <h4 className="font-serif text-lg font-bold text-white drop-shadow">{template.name}</h4>
-                  </div>
-                </div>
-
-                {/* Body Info & CTA */}
-                <div className="p-5 space-y-4 flex-1 flex flex-col justify-between">
-                  <p className="text-neutral-600 text-xs leading-relaxed line-clamp-2">
-                    {template.description}
-                  </p>
-
-                  <div className="pt-3 border-t border-neutral-100 flex items-center justify-between">
-                    <div>
-                      <span className="text-xs text-neutral-400 line-through mr-1 font-mono">
-                        ₹{template.originalPrice}
-                      </span>
-                      <span className="font-serif text-xl font-bold text-amber-900">
-                        ₹{template.price}
-                      </span>
-                      <span className="text-[10px] text-neutral-500 block font-mono">One-time payment</span>
-                    </div>
-
-                    <div className="flex items-center space-x-2">
-                      <button
-                        onClick={() => setDemoTemplate(template)}
-                        className="px-3 py-2 rounded-full border border-neutral-300 hover:border-amber-600 text-neutral-800 text-xs font-semibold transition-all cursor-pointer"
-                      >
-                        Demo
-                      </button>
-                      <Link
-                        to={`/invitations/templates/${template.slug}`}
-                        className="px-4 py-2 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-neutral-950 font-bold text-xs transition-all shadow-xs"
-                      >
-                        Select
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                template={template}
+                isActiveDemo={activeDemoId === template.id}
+                onOpenDemo={(id) => setActiveDemoId(id)}
+                onCloseDemo={() => setActiveDemoId(null)}
+              />
             ))}
           </div>
         )}
@@ -668,122 +736,6 @@ const InvitationsLanding = () => {
           </div>
         </div>
       </section>
-
-      {/* ========================================================================= */}
-      {/* 8. INTERACTIVE DEMO SIMULATOR MODAL */}
-      {/* ========================================================================= */}
-      {demoTemplate && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 overflow-y-auto animate-fadeIn">
-          <div className="relative w-full max-w-md bg-neutral-900 rounded-3xl overflow-hidden shadow-2xl border border-amber-500/40 flex flex-col max-h-[95vh]">
-            {/* Modal Header */}
-            <div className="p-3.5 bg-neutral-950/90 border-b border-amber-500/20 flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-xs font-mono uppercase text-amber-300 font-bold tracking-wider">
-                  Live Interactive Demo: {demoTemplate.name}
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setDemoTemplate(null)}
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-neutral-300 flex items-center justify-center transition-colors cursor-pointer"
-                aria-label="Close demo"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Instruction Banner */}
-            <div className="bg-gradient-to-r from-amber-950/80 via-neutral-900 to-amber-950/80 py-2 px-3 text-center border-b border-amber-500/20">
-              <p className="text-[11px] text-amber-200 font-serif">
-                ✨ Tap the seal below to experience 3D gates, music & full invitation!
-              </p>
-            </div>
-
-            {/* Mobile Phone Mockup Viewport */}
-            <div className="flex-1 overflow-y-auto bg-neutral-950 p-2 sm:p-3 flex justify-center items-center">
-              <div className="w-full max-w-[360px] h-[640px] rounded-2xl overflow-hidden shadow-2xl border-4 border-neutral-800 relative bg-neutral-900">
-                <div className="w-full h-full overflow-y-auto custom-scrollbar">
-                  <InvitationRenderer
-                    invitation={{
-                      template_id: demoTemplate.id,
-                      opening_screen_enabled: true,
-                      opening_style: demoTemplate.features?.gateStyle || 'royal-curtain',
-                      opening_title: 'The Royal Celebration',
-                      opening_seal_text: demoTemplate.tier === 'royal' ? 'ROYAL SEAL' : 'VIP',
-                      bride_name: demoTemplate.id === 'modern-minimal' ? 'Ananya Sharma' : 'Siddharth Malhotra',
-                      groom_name: demoTemplate.id === 'modern-minimal' ? 'Rohan Mehra' : 'Kiara Advani',
-                      title: `${demoTemplate.name} Demo`,
-                      eventType: demoTemplate.category,
-                      date: '2026-11-20',
-                      time: '19:00',
-                      venue: demoTemplate.id === 'modern-minimal' ? 'The Leela Palace, Udaipur' : 'Jehan Numa Palace, Bhopal',
-                      venueAddress: demoTemplate.id === 'modern-minimal' ? 'Lake Pichola, Udaipur, Rajasthan' : '152 Shamla Hills, Bhopal',
-                      story_text: 'Two hearts, one lifelong promise under royal starry skies.',
-                      scratch_reveal_text: 'YOU’RE INVITED ♡',
-                      scratch_enabled: true,
-                      rsvp_enabled: true,
-                      music_enabled: true,
-                      events: [
-                        {
-                          title: 'Mehendi & Sangeet Gala',
-                          date: '2026-11-19',
-                          time: '06:00 PM',
-                          venue: 'The Leela Palace Courtyard',
-                          address: 'Udaipur, Rajasthan',
-                        },
-                        {
-                          title: 'The Royal Wedding & Pheras',
-                          date: '2026-11-20',
-                          time: '07:30 PM',
-                          venue: 'Grand Lawn, The Leela Palace',
-                          address: 'Udaipur, Rajasthan',
-                        },
-                        {
-                          title: 'Royal Grand Reception',
-                          date: '2026-11-21',
-                          time: '08:00 PM',
-                          venue: 'The Royal Ballroom',
-                          address: 'Udaipur, Rajasthan',
-                        },
-                      ],
-                    }}
-                    isPreview={true}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Modal Footer Actions */}
-            <div className="p-4 bg-white border-t border-[#E8DFD1] flex items-center justify-between gap-3">
-              <div>
-                <span className="text-[10px] text-neutral-400 line-through font-mono">
-                  ₹{demoTemplate.originalPrice}
-                </span>
-                <span className="font-serif text-lg font-bold text-amber-900 ml-1">
-                  ₹{demoTemplate.price}
-                </span>
-              </div>
-
-              <div className="flex space-x-2">
-                <button
-                  type="button"
-                  onClick={() => setDemoTemplate(null)}
-                  className="px-4 py-2 rounded-full border border-neutral-300 text-xs font-semibold text-neutral-700 hover:bg-neutral-100 cursor-pointer"
-                >
-                  Close
-                </button>
-                <Link
-                  to={`/invitations/templates/${demoTemplate.slug}`}
-                  className="px-5 py-2 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-neutral-950 font-bold text-xs shadow-xs"
-                >
-                  Select Template
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

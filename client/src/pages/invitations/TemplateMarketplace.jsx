@@ -13,7 +13,203 @@ import {
   Instagram,
   Mail,
   Sparkles,
+  RotateCcw,
 } from 'lucide-react';
+
+/**
+ * Individual Marketplace Card Component with Inline 3D Gate Demo Simulator
+ */
+const MarketplaceCard = ({ template, isActiveDemo, onOpenDemo, onCloseDemo }) => {
+  const [demoKey, setDemoKey] = useState(0);
+
+  const demoInvitationData = {
+    template_id: template.id,
+    templateId: template.id,
+    opening_screen_enabled: true,
+    opening_style: template.features?.gateStyle || 'royal-curtain',
+    opening_title: 'The Royal Celebration',
+    opening_seal_text: template.tier === 'royal' ? 'ROYAL SEAL' : 'VIP',
+    bride_name: template.id === 'modern-minimal' ? 'Ananya Sharma' : 'Aarav Singhania',
+    groom_name: template.id === 'modern-minimal' ? 'Rohan Mehra' : 'Kiara Advani',
+    names: template.id === 'modern-minimal' ? 'Ananya & Rohan' : 'Aarav & Kiara',
+    title: `${template.name} Demo`,
+    eventType: template.category,
+    date: '2026-11-20',
+    time: '19:00',
+    venue: template.id === 'modern-minimal' ? 'The Leela Palace, Udaipur' : 'Jehan Numa Palace, Bhopal',
+    venueAddress: template.id === 'modern-minimal' ? 'Lake Pichola, Udaipur, Rajasthan' : '152 Shamla Hills, Bhopal',
+    story_text: 'Two hearts, one lifelong promise under royal starry skies.',
+    scratch_reveal_text: 'YOU’RE INVITED ♡',
+    scratch_enabled: true,
+    rsvp_enabled: true,
+    music_enabled: true,
+    events: [
+      {
+        title: 'Mehendi & Sangeet Gala',
+        date: '2026-11-19',
+        time: '06:00 PM',
+        venue: 'The Leela Palace Courtyard',
+        address: 'Udaipur, Rajasthan',
+      },
+      {
+        title: 'The Royal Wedding & Pheras',
+        date: '2026-11-20',
+        time: '07:30 PM',
+        venue: 'Grand Lawn, The Leela Palace',
+        address: 'Udaipur, Rajasthan',
+      },
+      {
+        title: 'Royal Grand Reception',
+        date: '2026-11-21',
+        time: '08:00 PM',
+        venue: 'The Royal Ballroom',
+        address: 'Udaipur, Rajasthan',
+      },
+    ],
+  };
+
+  return (
+    <div
+      className={`bg-white rounded-xl border overflow-hidden transition-all duration-300 flex flex-col justify-between group ${
+        isActiveDemo
+          ? 'border-amber-500 ring-2 ring-amber-400/50 shadow-xl'
+          : 'border-[#E5DAC8] hover:border-[#b88c3a] shadow-xs hover:shadow-md'
+      }`}
+    >
+      {/* Visual / Live In-Card Demo Area */}
+      {isActiveDemo ? (
+        <div className="relative h-80 sm:h-96 w-full bg-neutral-950 flex flex-col overflow-hidden border-b border-amber-500/30">
+          {/* Top Demo Bar Controls inside the card */}
+          <div className="absolute top-2 inset-x-2 z-60 flex items-center justify-between pointer-events-auto">
+            <span className="px-2 py-0.5 rounded-full bg-black/80 backdrop-blur-xs text-amber-300 text-[9px] font-mono font-bold uppercase border border-amber-400/40 shadow-xs flex items-center space-x-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Live 3D Gate Demo</span>
+            </span>
+
+            <div className="flex items-center space-x-1.5">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDemoKey((k) => k + 1);
+                }}
+                className="px-2 py-0.5 rounded-full bg-black/80 hover:bg-neutral-800 text-amber-200 text-[10px] font-sans border border-amber-400/40 flex items-center space-x-1 cursor-pointer transition-transform active:scale-95 shadow"
+                title="Replay 3D Gate Opening"
+              >
+                <RotateCcw className="w-3 h-3 text-amber-300" />
+                <span>Replay</span>
+              </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onCloseDemo();
+                }}
+                className="w-6 h-6 rounded-full bg-black/80 hover:bg-rose-900/90 text-white text-[11px] font-bold border border-white/30 flex items-center justify-center cursor-pointer transition-colors shadow"
+                title="Close Demo"
+                aria-label="Close Demo"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Invitation Renderer embedded inside this specific card */}
+          <div className="w-full h-full overflow-y-auto custom-scrollbar relative">
+            <InvitationRenderer
+              key={demoKey}
+              invitation={demoInvitationData}
+              isPreview={true}
+            />
+          </div>
+        </div>
+      ) : (
+        /* Top Visual Poster Box */
+        <div
+          className={`relative h-48 sm:h-52 ${template.cardBg || 'bg-[#0d3b25]'} p-3.5 flex flex-col justify-between items-center text-center`}
+        >
+          {/* Top Left Badge */}
+          <div className="w-full flex justify-start">
+            {template.badge && (
+              <span
+                className={`text-[9px] font-sans font-bold px-2 py-0.5 rounded shadow-xs ${
+                  template.badgeColor || 'bg-amber-500 text-neutral-950'
+                }`}
+              >
+                {template.badge}
+              </span>
+            )}
+          </div>
+
+          {/* Centered Golden Title */}
+          <div className="my-auto px-1">
+            <h4
+              className={`font-serif text-base sm:text-lg tracking-wide ${
+                template.cardTextColor || 'text-[#d4af37]'
+              }`}
+            >
+              {template.name}
+            </h4>
+          </div>
+
+          {/* Center-Bottom Open 3D Demo Button */}
+          <button
+            type="button"
+            onClick={() => onOpenDemo(template.id)}
+            className="px-3.5 py-1.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-xs text-white text-[11px] font-serif border border-white/20 flex items-center space-x-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-sm"
+          >
+            <Eye className="w-3.5 h-3.5 text-amber-300" />
+            <span>Open 3D Demo</span>
+          </button>
+        </div>
+      )}
+
+      {/* Bottom Content Area */}
+      <div className="p-4 space-y-3 flex-1 flex flex-col justify-between bg-white">
+        <div className="space-y-1">
+          <div className="flex items-center justify-between">
+            <h5 className="font-serif text-sm font-bold text-neutral-900 leading-tight">
+              {template.name}
+            </h5>
+            <span className="font-serif text-xs font-bold text-[#8a6521]">
+              ₹{template.price}
+            </span>
+          </div>
+          <p className="text-[11px] text-neutral-500 leading-snug font-sans line-clamp-2">
+            {template.description}
+          </p>
+        </div>
+
+        {/* Action Button */}
+        <div className="pt-2 flex items-center space-x-2">
+          {isActiveDemo ? (
+            <button
+              type="button"
+              onClick={onCloseDemo}
+              className="w-1/3 py-2 rounded-md border border-neutral-300 hover:bg-neutral-100 text-neutral-700 text-xs font-serif text-center transition-colors cursor-pointer"
+            >
+              Close
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => onOpenDemo(template.id)}
+              className="w-1/3 py-2 rounded-md border border-[#E0D5C3] hover:border-[#b88c3a] text-[#8a6521] text-xs font-serif text-center transition-colors cursor-pointer"
+            >
+              Demo
+            </button>
+          )}
+          <Link
+            to={`/invitations/templates/${template.slug}`}
+            className="flex-1 py-2 rounded-md bg-[#b88c3a] hover:bg-[#9e752b] text-white font-serif font-semibold text-xs tracking-wide text-center block transition-colors shadow-xs"
+          >
+            Use Design
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const TemplateMarketplace = () => {
   const { user, isAuthenticated } = useAuth();
@@ -21,7 +217,7 @@ const TemplateMarketplace = () => {
 
   const [selectedCategory, setSelectedCategory] = useState('Wedding Invitation');
   const [selectedTier, setSelectedTier] = useState('classic'); // 'classic' | 'royal'
-  const [demoTemplate, setDemoTemplate] = useState(null);
+  const [activeDemoId, setActiveDemoId] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   // Filter templates based on Category and Tier
@@ -286,70 +482,13 @@ const TemplateMarketplace = () => {
                     {/* 5-Column Grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
                       {categoryTemplates.map((template) => (
-                        <div
+                        <MarketplaceCard
                           key={template.id}
-                          className="bg-white rounded-xl border border-[#E5DAC8] overflow-hidden shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between group"
-                        >
-                          {/* Top Visual Poster Box */}
-                          <div
-                            className={`relative h-48 sm:h-52 ${template.cardBg || 'bg-[#0d3b25]'} p-3.5 flex flex-col justify-between items-center text-center`}
-                          >
-                            {/* Top Left Badge */}
-                            <div className="w-full flex justify-start">
-                              {template.badge && (
-                                <span
-                                  className={`text-[9px] font-sans font-bold px-2 py-0.5 rounded shadow-xs ${
-                                    template.badgeColor || 'bg-amber-500 text-neutral-950'
-                                  }`}
-                                >
-                                  {template.badge}
-                                </span>
-                              )}
-                            </div>
-
-                            {/* Centered Golden Title */}
-                            <div className="my-auto px-1">
-                              <h4
-                                className={`font-serif text-base sm:text-lg tracking-wide ${
-                                  template.cardTextColor || 'text-[#d4af37]'
-                                }`}
-                              >
-                                {template.name}
-                              </h4>
-                            </div>
-
-                            {/* Center-Bottom View Demo Button */}
-                            <button
-                              onClick={() => setDemoTemplate(template)}
-                              className="px-3.5 py-1.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-xs text-white text-[11px] font-serif border border-white/20 flex items-center space-x-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
-                            >
-                              <Eye className="w-3.5 h-3.5 text-white/90" />
-                              <span>View Demo</span>
-                            </button>
-                          </div>
-
-                          {/* Bottom Content Area */}
-                          <div className="p-4 space-y-3 flex-1 flex flex-col justify-between bg-white">
-                            <div className="space-y-1">
-                              <h5 className="font-serif text-sm font-bold text-neutral-900 leading-tight">
-                                {template.name}
-                              </h5>
-                              <p className="text-[11px] text-neutral-500 leading-snug font-sans line-clamp-2">
-                                {template.description}
-                              </p>
-                            </div>
-
-                            {/* "Use This Design" Solid Gold-Brown Action Button */}
-                            <div className="pt-2">
-                              <Link
-                                to={`/invitations/templates/${template.slug}`}
-                                className="w-full py-2.5 rounded-md bg-[#b88c3a] hover:bg-[#9e752b] text-white font-serif font-semibold text-xs tracking-wide text-center block transition-colors shadow-xs"
-                              >
-                                Use This Design
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
+                          template={template}
+                          isActiveDemo={activeDemoId === template.id}
+                          onOpenDemo={(id) => setActiveDemoId(id)}
+                          onCloseDemo={() => setActiveDemoId(null)}
+                        />
                       ))}
                     </div>
                   </section>
@@ -378,70 +517,13 @@ const TemplateMarketplace = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
               {filteredTemplates.map((template) => (
-                <div
+                <MarketplaceCard
                   key={template.id}
-                  className="bg-white rounded-xl border border-[#E5DAC8] overflow-hidden shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between group"
-                >
-                  {/* Top Visual Poster Box */}
-                  <div
-                    className={`relative h-48 sm:h-52 ${template.cardBg || 'bg-[#0d3b25]'} p-3.5 flex flex-col justify-between items-center text-center`}
-                  >
-                    {/* Top Left Badge */}
-                    <div className="w-full flex justify-start">
-                      {template.badge && (
-                        <span
-                          className={`text-[9px] font-sans font-bold px-2 py-0.5 rounded shadow-xs ${
-                            template.badgeColor || 'bg-amber-500 text-neutral-950'
-                          }`}
-                        >
-                          {template.badge}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Centered Golden Title */}
-                    <div className="my-auto px-1">
-                      <h4
-                        className={`font-serif text-base sm:text-lg tracking-wide ${
-                          template.cardTextColor || 'text-[#d4af37]'
-                        }`}
-                      >
-                        {template.name}
-                      </h4>
-                    </div>
-
-                    {/* Center-Bottom View Demo Button */}
-                    <button
-                      onClick={() => setDemoTemplate(template)}
-                      className="px-3.5 py-1.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-xs text-white text-[11px] font-serif border border-white/20 flex items-center space-x-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
-                    >
-                      <Eye className="w-3.5 h-3.5 text-white/90" />
-                      <span>View Demo</span>
-                    </button>
-                  </div>
-
-                  {/* Bottom Content Area */}
-                  <div className="p-4 space-y-3 flex-1 flex flex-col justify-between bg-white">
-                    <div className="space-y-1">
-                      <h5 className="font-serif text-sm font-bold text-neutral-900 leading-tight">
-                        {template.name}
-                      </h5>
-                      <p className="text-[11px] text-neutral-500 leading-snug font-sans line-clamp-2">
-                        {template.description}
-                      </p>
-                    </div>
-
-                    {/* "Use This Design" Solid Gold-Brown Action Button */}
-                    <div className="pt-2">
-                      <Link
-                        to={`/invitations/templates/${template.slug}`}
-                        className="w-full py-2.5 rounded-md bg-[#b88c3a] hover:bg-[#9e752b] text-white font-serif font-semibold text-xs tracking-wide text-center block transition-colors shadow-xs"
-                      >
-                        Use This Design
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+                  template={template}
+                  isActiveDemo={activeDemoId === template.id}
+                  onOpenDemo={(id) => setActiveDemoId(id)}
+                  onCloseDemo={() => setActiveDemoId(null)}
+                />
               ))}
             </div>
           </div>
@@ -494,131 +576,6 @@ const TemplateMarketplace = () => {
           <p className="text-[10.5px] text-neutral-400 font-sans">Digital invitation service • No physical products shipped</p>
         </div>
       </footer>
-
-      {/* ========================================================================= */}
-      {/* 5. INTERACTIVE LIVE DEMO SIMULATOR MODAL */}
-      {/* ========================================================================= */}
-      {demoTemplate && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-fade-in font-sans">
-          <div className="relative w-full max-w-sm sm:max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] border border-[#E0D7C7]">
-            {/* Modal Header */}
-            <div className="px-5 py-3.5 bg-[#FAF8F5] border-b border-[#E8DFD1] flex items-center justify-between">
-              <div>
-                <span className="text-[9px] uppercase font-mono font-bold text-[#b88c3a] tracking-wider">
-                  Live Preview Simulator
-                </span>
-                <h3 className="font-serif text-sm font-bold text-neutral-900">{demoTemplate.name}</h3>
-              </div>
-              <div className="flex items-center space-x-2">
-                <a
-                  href={`/i/${demoTemplate.slug}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-1 rounded-full bg-amber-100 hover:bg-amber-200 text-[#8a6521] text-[11px] font-serif font-semibold border border-amber-300 flex items-center space-x-1 transition-all"
-                  title="Open full page demo in new tab"
-                >
-                  <Eye className="w-3.5 h-3.5" />
-                  <span>Full Screen ↗</span>
-                </a>
-                <button
-                  type="button"
-                  onClick={() => setDemoTemplate(null)}
-                  className="p-1.5 rounded-full hover:bg-neutral-200 text-neutral-700 transition-colors cursor-pointer"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-
-            {/* Modal Body Simulator with Realistic Phone Frame & Scroll */}
-            <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-neutral-900/60 backdrop-blur-xs flex justify-center items-center">
-              <div className="w-[320px] sm:w-[335px] h-[540px] max-h-[75vh] rounded-[40px] border-[8px] border-neutral-950 bg-[#0B132B] shadow-2xl relative flex flex-col overflow-hidden">
-                {/* iPhone Dynamic Notch */}
-                <div className="absolute top-2 inset-x-0 mx-auto w-24 h-4 bg-neutral-950 rounded-full z-50 pointer-events-none flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 rounded-full bg-neutral-800 mr-2" />
-                  <div className="w-1.5 h-1.5 rounded-full bg-neutral-800" />
-                </div>
-
-                {/* Inner Scrollable Screen */}
-                <div className="flex-1 w-full h-full overflow-y-auto relative scrollbar-thin scrollbar-thumb-amber-500/40">
-                  <InvitationRenderer
-                    invitation={{
-                      template_id: demoTemplate.id,
-                      templateId: demoTemplate.id,
-                      names: demoTemplate.id === 'modern-minimal' ? 'Aisha Khan & Rohan Mehra' : 'Aarav & Kiara',
-                      bride_name: demoTemplate.id === 'modern-minimal' ? 'Aisha Khan' : 'Aarav Singhania',
-                      groom_name: demoTemplate.id === 'modern-minimal' ? 'Rohan Mehra' : 'Kiara Advani',
-                      title: `${demoTemplate.name} Demo`,
-                      eventType: demoTemplate.category,
-                      date: '2026-11-20',
-                      time: '19:00',
-                      venue: demoTemplate.id === 'modern-minimal' ? 'The Leela Palace, Udaipur' : 'Jehan Numa Palace, Bhopal',
-                      venueAddress: demoTemplate.id === 'modern-minimal' ? 'Lake Pichola, Udaipur, Rajasthan' : '152 Shamla Hills, Bhopal',
-                      story_text: 'Two hearts, one lifelong promise under royal starry skies.',
-                      scratch_reveal_text: 'YOU’RE INVITED ♡',
-                      scratch_enabled: true,
-                      rsvp_enabled: true,
-                      music_enabled: true,
-                      events: [
-                        {
-                          title: 'Mehendi & Sangeet Gala',
-                          date: '2026-11-19',
-                          time: '06:00 PM',
-                          venue: 'The Leela Palace Courtyard',
-                          address: 'Udaipur, Rajasthan',
-                        },
-                        {
-                          title: 'The Royal Wedding & Pheras',
-                          date: '2026-11-20',
-                          time: '07:30 PM',
-                          venue: 'Grand Lawn, The Leela Palace',
-                          address: 'Udaipur, Rajasthan',
-                        },
-                        {
-                          title: 'Royal Grand Reception',
-                          date: '2026-11-21',
-                          time: '08:00 PM',
-                          venue: 'The Royal Ballroom',
-                          address: 'Udaipur, Rajasthan',
-                        },
-                      ],
-                    }}
-                    isPreview={true}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Modal Footer Actions */}
-            <div className="p-4 bg-white border-t border-[#E8DFD1] flex items-center justify-between gap-3">
-              <div>
-                <span className="text-[10px] text-neutral-400 line-through font-mono">
-                  ₹{demoTemplate.originalPrice}
-                </span>
-                <span className="font-serif text-lg font-bold text-[#8a6521] ml-1">
-                  ₹{demoTemplate.price}
-                </span>
-              </div>
-
-              <div className="flex space-x-2">
-                <button
-                  type="button"
-                  onClick={() => setDemoTemplate(null)}
-                  className="px-4 py-2 rounded-full border border-neutral-300 text-xs font-semibold text-neutral-700 hover:bg-neutral-100 cursor-pointer"
-                >
-                  Close
-                </button>
-                <Link
-                  to={`/invitations/templates/${demoTemplate.slug}`}
-                  className="px-5 py-2 rounded-full bg-[#b88c3a] hover:bg-[#9e752b] text-white font-serif font-semibold text-xs shadow-xs"
-                >
-                  Use This Template
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
