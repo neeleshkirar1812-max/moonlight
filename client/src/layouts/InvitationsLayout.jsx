@@ -7,15 +7,16 @@ import {
   Sparkles,
   LayoutDashboard,
   ShieldCheck,
-  ArrowLeft,
   LogIn,
   LogOut,
   ChevronDown,
   Menu,
   X,
-  ExternalLink,
   Crown,
   Heart,
+  Mail,
+  Phone,
+  MapPin,
 } from 'lucide-react';
 
 const InvitationsLayout = () => {
@@ -101,16 +102,6 @@ const InvitationsLayout = () => {
 
           {/* Right Action Buttons */}
           <div className="hidden md:flex items-center space-x-3 shrink-0">
-            {/* Main Studio Website Link */}
-            <Link
-              to="/"
-              className="text-xs text-neutral-600 hover:text-neutral-900 px-2.5 py-1.5 rounded-lg hover:bg-neutral-100 transition-all font-mono flex items-center space-x-1"
-              title="Return to Moonlight Photography Studio"
-            >
-              <ArrowLeft className="w-3 h-3 text-amber-700" />
-              <span>Studio</span>
-            </Link>
-
             {/* Auth / Account */}
             {isAuthenticated ? (
               <div className="relative">
@@ -219,10 +210,6 @@ const InvitationsLayout = () => {
             </div>
 
             <div className="pt-3 border-t border-neutral-200 flex flex-col space-y-2">
-              <Link to="/" className="text-xs text-neutral-600 hover:text-neutral-900 flex items-center space-x-1 py-1">
-                <ArrowLeft className="w-3.5 h-3.5 text-amber-700" />
-                <span>Return to Photography Studio</span>
-              </Link>
               {isAuthenticated ? (
                 <button
                   onClick={logout}
@@ -291,24 +278,29 @@ const InvitationsLayout = () => {
 
             <div className="space-y-2">
               <span className="text-neutral-900 font-bold uppercase tracking-wider text-[11px] font-mono block text-amber-900">
-                Studio Hub
+                Support & Contact
               </span>
-              <p className="text-xs leading-relaxed text-neutral-600">
-                152 Shamla Hills, Bhopal, MP<br />
-                WhatsApp: +91 92292 29323
-              </p>
-              <Link to="/" className="inline-flex items-center space-x-1 text-amber-800 hover:text-amber-950 font-bold text-xs pt-1">
-                <span>Moonlight Photography Studio</span>
-                <ExternalLink className="w-3 h-3" />
-              </Link>
+              <div className="space-y-1.5 text-xs text-neutral-600">
+                <p className="flex items-center space-x-1.5">
+                  <MapPin className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+                  <span>Shamla Hills, Bhopal, MP</span>
+                </p>
+                <p className="flex items-center space-x-1.5 font-mono">
+                  <Phone className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+                  <a href="https://api.whatsapp.com/send?phone=919229229323" target="_blank" rel="noreferrer" className="text-emerald-700 hover:underline font-bold">
+                    +91 92292 29323
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
 
           <div className="pt-6 border-t border-amber-900/10 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-500 gap-2">
-            <span>© {new Date().getFullYear()} Moonlight Production • Crafted with luxury for grand celebrations.</span>
+            <span>© {new Date().getFullYear()} Moonlight Digital Invitations. Crafted with luxury for grand celebrations.</span>
             <div className="flex space-x-4">
-              <Link to="/privacy" className="hover:text-neutral-900">Privacy Policy</Link>
-              <Link to="/terms" className="hover:text-neutral-900">Terms of Service</Link>
+              <Link to="/invitations" className="hover:text-neutral-900">Home</Link>
+              <Link to="/invitations/templates" className="hover:text-neutral-900">Templates</Link>
+              <Link to="/invitations/dashboard" className="hover:text-neutral-900">My Invitations</Link>
               <Link to="/invitations/admin" className="text-amber-800 font-semibold hover:underline">Admin</Link>
             </div>
           </div>

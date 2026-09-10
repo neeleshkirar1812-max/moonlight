@@ -56,7 +56,6 @@ const AdminLayout = () => {
 
   const coreNav = [
     { name: 'Studio Performance', href: '/admin/dashboard', icon: LayoutDashboard, permission: null },
-    { name: 'Digital Invitations', href: '/invitations/admin', icon: Sparkles, permission: null },
     { name: 'Wedding Enquiries', href: '/admin/enquiries', icon: MessageSquare, permission: 'canManageBookings' },
     { name: 'Bookings & Shoots', href: '/admin/bookings', icon: Calendar, permission: 'canManageBookings' },
     { name: 'Client GST Invoices', href: '/admin/invoices', icon: FileText, permission: 'canManageInvoices' },
@@ -216,8 +215,6 @@ const AdminLayout = () => {
                   <Link
                     key={item.name}
                     to={item.href}
-                    target={item.href.startsWith('/invitations') ? '_blank' : undefined}
-                    rel={item.href.startsWith('/invitations') ? 'noopener noreferrer' : undefined}
                     onClick={() => setSidebarOpen(false)}
                     className={`flex items-center px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
                       isActive
@@ -227,7 +224,6 @@ const AdminLayout = () => {
                   >
                     <Icon className={`w-4 h-4 mr-2.5 shrink-0 ${isActive ? 'text-neutral-950' : 'text-amber-700'}`} />
                     <span className="truncate">{item.name}</span>
-                    {item.href.startsWith('/invitations') && <span className="ml-auto text-[10px] text-amber-800 font-mono">↗</span>}
                   </Link>
                 );
               })}
