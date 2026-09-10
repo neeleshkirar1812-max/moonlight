@@ -46,10 +46,82 @@ const playRoyalDoorChime = () => {
   }
 };
 
+const getThemeStyles = (templateId) => {
+  switch (templateId) {
+    case 'emerald-noir':
+    case 'emerald-heritage':
+      return {
+        doorBgLeft: 'linear-gradient(135deg, #052317 0%, #0c4630 45%, #02140c 100%)',
+        doorBgRight: 'linear-gradient(225deg, #052317 0%, #0c4630 45%, #02140c 100%)',
+        doorBorder: 'border-emerald-400/80',
+        innerGlow: 'from-emerald-500/30 via-emerald-950/70 to-black',
+        goldAccent: '#d4af37',
+        sealBg: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)',
+        sealBorder: 'border-emerald-300',
+        accentText: 'text-emerald-300',
+        frameBorder: 'border-emerald-500/50',
+      };
+    case 'crimson-royale':
+    case 'royal-love':
+      return {
+        doorBgLeft: 'linear-gradient(135deg, #380710 0%, #5e0d1f 45%, #200308 100%)',
+        doorBgRight: 'linear-gradient(225deg, #380710 0%, #5e0d1f 45%, #200308 100%)',
+        doorBorder: 'border-amber-400/80',
+        innerGlow: 'from-rose-500/25 via-amber-950/60 to-black',
+        goldAccent: '#d4af37',
+        sealBg: 'linear-gradient(135deg, #881337 0%, #4c0519 100%)',
+        sealBorder: 'border-amber-300',
+        accentText: 'text-rose-300',
+        frameBorder: 'border-amber-400/50',
+      };
+    case 'rose-gold-blush':
+    case 'blooming-dreams':
+      return {
+        doorBgLeft: 'linear-gradient(135deg, #2d131f 0%, #4a1d32 45%, #190911 100%)',
+        doorBgRight: 'linear-gradient(225deg, #2d131f 0%, #4a1d32 45%, #190911 100%)',
+        doorBorder: 'border-rose-400/80',
+        innerGlow: 'from-rose-400/30 via-pink-950/60 to-black',
+        goldAccent: '#e0a899',
+        sealBg: 'linear-gradient(135deg, #9d174d 0%, #700b34 100%)',
+        sealBorder: 'border-rose-300',
+        accentText: 'text-rose-300',
+        frameBorder: 'border-rose-400/50',
+      };
+    case 'majestic-love':
+      return {
+        doorBgLeft: 'linear-gradient(135deg, #2d2013 0%, #4e351d 45%, #170f08 100%)',
+        doorBgRight: 'linear-gradient(225deg, #2d2013 0%, #4e351d 45%, #170f08 100%)',
+        doorBorder: 'border-amber-400/80',
+        innerGlow: 'from-amber-400/30 via-[#2d2013]/70 to-black',
+        goldAccent: '#d4af37',
+        sealBg: 'linear-gradient(135deg, #78350f 0%, #451a03 100%)',
+        sealBorder: 'border-amber-300',
+        accentText: 'text-amber-300',
+        frameBorder: 'border-amber-400/50',
+      };
+    case 'modern-minimal':
+    default:
+      return {
+        doorBgLeft: 'linear-gradient(135deg, #0B132B 0%, #1C2541 45%, #050B1B 100%)',
+        doorBgRight: 'linear-gradient(225deg, #0B132B 0%, #1C2541 45%, #050B1B 100%)',
+        doorBorder: 'border-[#d4af37]',
+        innerGlow: 'from-[#d4af37]/30 via-[#1C2541]/80 to-[#0B132B]',
+        goldAccent: '#d4af37',
+        sealBg: 'linear-gradient(135deg, #990000 0%, #550000 100%)',
+        sealBorder: 'border-[#d4af37]',
+        accentText: 'text-[#f3cf5b]',
+        frameBorder: 'border-[#d4af37]/50',
+      };
+  }
+};
+
 const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isRendered, setIsRendered] = useState(true);
   const [petals, setPetals] = useState([]);
+
+  const templateId = invitation.template_id || invitation.templateId || 'modern-minimal';
+  const themeStyles = getThemeStyles(templateId);
 
   const getMonogram = () => {
     if (invitation.bride_name && invitation.groom_name) {
@@ -116,17 +188,17 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
       {/* ROYAL PALACE FRAME & DOORS CONTAINER */}
       {/* ------------------------------------------------------------- */}
       <div
-        className="relative w-full h-full max-w-[440px] max-h-[740px] mx-auto overflow-hidden sm:rounded-3xl border sm:border-2 border-amber-400/50 shadow-[0_0_60px_rgba(212,175,55,0.4)] bg-[#1a0c04] flex flex-col justify-between"
+        className={`relative w-full h-full max-w-[440px] max-h-[740px] mx-auto overflow-hidden sm:rounded-3xl border sm:border-2 ${themeStyles.frameBorder} shadow-[0_0_60px_rgba(212,175,55,0.4)] bg-[#070D1F] flex flex-col justify-between`}
       >
         {/* Palace Interior Glow (Revealed behind opening doors) */}
-        <div className="absolute inset-0 z-0 flex flex-col items-center justify-center bg-gradient-to-b from-amber-500/25 via-amber-900/50 to-black text-center p-6">
-          <div className="w-56 h-56 rounded-full bg-amber-400/30 blur-3xl animate-pulse" />
+        <div className={`absolute inset-0 z-0 flex flex-col items-center justify-center bg-gradient-to-b ${themeStyles.innerGlow} text-center p-6`}>
+          <div className="w-56 h-56 rounded-full bg-[#d4af37]/30 blur-3xl animate-pulse" />
           <div className="z-10 space-y-2 animate-fade-in max-w-xs">
-            <Sparkles className="w-8 h-8 text-amber-300 mx-auto animate-spin-slow" />
+            <Sparkles className="w-8 h-8 text-[#f3cf5b] mx-auto animate-spin-slow" />
             <h3 className="font-serif text-2xl sm:text-3xl font-bold text-amber-100 tracking-tight leading-tight drop-shadow-md">
               {invitation.names || 'Aarav & Kiara'}
             </h3>
-            <p className="text-[10px] uppercase font-mono tracking-[0.25em] text-amber-300 font-bold">
+            <p className="text-[10px] uppercase font-mono tracking-[0.25em] text-[#f3cf5b] font-bold">
               Welcome To Our Celebration
             </p>
           </div>
@@ -134,7 +206,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
 
         {/* Top Hanging Royal Garland / Toran */}
         <div className="absolute top-0 inset-x-0 z-30 flex justify-center pointer-events-none">
-          <div className="w-full h-7 bg-gradient-to-b from-amber-950 via-[#3d1a08] to-transparent border-b border-amber-400/50 flex items-center justify-around px-2 shadow">
+          <div className="w-full h-7 bg-gradient-to-b from-black/80 via-[#1C2541]/70 to-transparent border-b border-[#d4af37]/50 flex items-center justify-around px-2 shadow">
             {Array.from({ length: 7 }).map((_, idx) => (
               <span key={idx} className="text-[10px] text-amber-300 drop-shadow">🌼</span>
             ))}
@@ -145,9 +217,9 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
         {/* 1. LEFT PALACE DOOR */}
         {/* ------------------------------------------------------------- */}
         <div
-          className="absolute top-0 bottom-0 left-0 w-1/2 z-20 flex flex-col justify-between p-3 border-r border-amber-400/80 shadow-2xl pointer-events-none transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]"
+          className="absolute top-0 bottom-0 left-0 w-1/2 z-20 flex flex-col justify-between p-3 border-r border-[#d4af37]/80 shadow-2xl pointer-events-none transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]"
           style={{
-            background: 'linear-gradient(135deg, #351404 0%, #5c2207 45%, #200902 100%)',
+            background: themeStyles.doorBgLeft,
             transformOrigin: 'left center',
             transform: isOpen ? 'translateX(-100%) rotateY(-90deg)' : 'translateX(0) rotateY(0deg)',
             opacity: isOpen ? 0 : 1,
@@ -155,16 +227,16 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
           }}
         >
           {/* Inner Golden Border */}
-          <div className="absolute inset-2 border border-amber-400/50 rounded-lg pointer-events-none" />
+          <div className="absolute inset-2 border border-[#d4af37]/50 rounded-lg pointer-events-none" />
 
           {/* Top Jaali Arch */}
-          <div className="relative z-10 w-full h-[15vh] min-h-[55px] max-h-[95px] rounded-t-lg border border-amber-400/60 bg-[#1c0a02]/90 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
-            <svg className="w-full h-full text-amber-400/35 fill-current" viewBox="0 0 100 100">
+          <div className="relative z-10 w-full h-[15vh] min-h-[55px] max-h-[95px] rounded-t-lg border border-[#d4af37]/60 bg-[#0B132B]/80 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
+            <svg className="w-full h-full text-[#d4af37]/40 fill-current" viewBox="0 0 100 100">
               <path d="M50 5 C30 5 15 25 15 50 C15 75 30 95 50 95 C70 95 85 75 85 50 C85 25 70 5 50 5 Z M50 15 C65 15 75 30 75 50 C75 70 65 85 50 85 C35 85 25 70 25 50 C25 30 35 15 50 15 Z" />
               <circle cx="50" cy="50" r="10" />
             </svg>
-            <div className="absolute top-1 left-1 text-[8px] text-amber-300">✦</div>
-            <div className="absolute top-1 right-1 text-[8px] text-amber-300">✦</div>
+            <div className="absolute top-1 left-1 text-[8px] text-[#f3cf5b]">✦</div>
+            <div className="absolute top-1 right-1 text-[8px] text-[#f3cf5b]">✦</div>
           </div>
 
           {/* Brass Rivets */}
@@ -188,11 +260,11 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
           </div>
 
           {/* Bottom Carved Panel */}
-          <div className="relative z-10 w-full h-[15vh] min-h-[50px] max-h-[90px] rounded-b-lg border border-amber-500/40 bg-[#120601]/90 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
-            <svg className="w-full h-full text-amber-500/20 fill-current" viewBox="0 0 100 100">
+          <div className="relative z-10 w-full h-[15vh] min-h-[50px] max-h-[90px] rounded-b-lg border border-[#d4af37]/40 bg-[#0B132B]/80 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
+            <svg className="w-full h-full text-[#d4af37]/25 fill-current" viewBox="0 0 100 100">
               <polygon points="50,10 62,38 92,38 68,56 77,85 50,68 23,85 32,56 8,38 38,38" />
             </svg>
-            <span className="text-[7px] uppercase font-mono tracking-widest text-amber-400/50">
+            <span className="text-[7px] uppercase font-mono tracking-widest text-[#d4af37]/60">
               Royal
             </span>
           </div>
@@ -202,9 +274,9 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
         {/* 2. RIGHT PALACE DOOR */}
         {/* ------------------------------------------------------------- */}
         <div
-          className="absolute top-0 bottom-0 right-0 w-1/2 z-20 flex flex-col justify-between p-3 border-l border-amber-400/80 shadow-2xl pointer-events-none transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]"
+          className="absolute top-0 bottom-0 right-0 w-1/2 z-20 flex flex-col justify-between p-3 border-l border-[#d4af37]/80 shadow-2xl pointer-events-none transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]"
           style={{
-            background: 'linear-gradient(225deg, #351404 0%, #5c2207 45%, #200902 100%)',
+            background: themeStyles.doorBgRight,
             transformOrigin: 'right center',
             transform: isOpen ? 'translateX(100%) rotateY(90deg)' : 'translateX(0) rotateY(0deg)',
             opacity: isOpen ? 0 : 1,
@@ -212,16 +284,16 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
           }}
         >
           {/* Inner Golden Border */}
-          <div className="absolute inset-2 border border-amber-400/50 rounded-lg pointer-events-none" />
+          <div className="absolute inset-2 border border-[#d4af37]/50 rounded-lg pointer-events-none" />
 
           {/* Top Jaali Arch */}
-          <div className="relative z-10 w-full h-[15vh] min-h-[55px] max-h-[95px] rounded-t-lg border border-amber-400/60 bg-[#1c0a02]/90 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
-            <svg className="w-full h-full text-amber-400/35 fill-current" viewBox="0 0 100 100">
+          <div className="relative z-10 w-full h-[15vh] min-h-[55px] max-h-[95px] rounded-t-lg border border-[#d4af37]/60 bg-[#0B132B]/80 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
+            <svg className="w-full h-full text-[#d4af37]/40 fill-current" viewBox="0 0 100 100">
               <path d="M50 5 C30 5 15 25 15 50 C15 75 30 95 50 95 C70 95 85 75 85 50 C85 25 70 5 50 5 Z M50 15 C65 15 75 30 75 50 C75 70 65 85 50 85 C35 85 25 70 25 50 C25 30 35 15 50 15 Z" />
               <circle cx="50" cy="50" r="10" />
             </svg>
-            <div className="absolute top-1 left-1 text-[8px] text-amber-300">✦</div>
-            <div className="absolute top-1 right-1 text-[8px] text-amber-300">✦</div>
+            <div className="absolute top-1 left-1 text-[8px] text-[#f3cf5b]">✦</div>
+            <div className="absolute top-1 right-1 text-[8px] text-[#f3cf5b]">✦</div>
           </div>
 
           {/* Brass Rivets */}
@@ -245,11 +317,11 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
           </div>
 
           {/* Bottom Carved Panel */}
-          <div className="relative z-10 w-full h-[15vh] min-h-[50px] max-h-[90px] rounded-b-lg border border-amber-500/40 bg-[#120601]/90 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
-            <svg className="w-full h-full text-amber-500/20 fill-current" viewBox="0 0 100 100">
+          <div className="relative z-10 w-full h-[15vh] min-h-[50px] max-h-[90px] rounded-b-lg border border-[#d4af37]/40 bg-[#0B132B]/80 p-1 flex flex-col items-center justify-center shadow-inner overflow-hidden">
+            <svg className="w-full h-full text-[#d4af37]/25 fill-current" viewBox="0 0 100 100">
               <polygon points="50,10 62,38 92,38 68,56 77,85 50,68 23,85 32,56 8,38 38,38" />
             </svg>
-            <span className="text-[7px] uppercase font-mono tracking-widest text-amber-400/50">
+            <span className="text-[7px] uppercase font-mono tracking-widest text-[#d4af37]/60">
               Heritage
             </span>
           </div>
@@ -267,7 +339,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
           }}
         >
           {/* Top Tagline */}
-          <span className="text-[9px] uppercase font-mono tracking-[0.25em] text-amber-300/90 font-bold drop-shadow mb-3">
+          <span className="text-[9px] uppercase font-mono tracking-[0.25em] text-[#f3cf5b] font-bold drop-shadow mb-3">
             {invitation.opening_heading || 'Cordially Invites You To Celebrate'}
           </span>
 
@@ -281,12 +353,15 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
             }}
           >
             {/* Glowing Ring Auras */}
-            <div className="absolute -inset-4 rounded-full bg-amber-400/30 blur-md animate-ping duration-1000" />
-            <div className="absolute -inset-1.5 rounded-full bg-amber-300/40 blur-sm animate-pulse" />
+            <div className="absolute -inset-4 rounded-full bg-[#d4af37]/40 blur-md animate-ping duration-1000" />
+            <div className="absolute -inset-1.5 rounded-full bg-[#f3cf5b]/50 blur-sm animate-pulse" />
 
             {/* Wax Seal 3D Body */}
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-[#990000] via-[#660000] to-[#330000] p-1.5 shadow-[0_0_30px_rgba(245,158,11,0.5)] border-2 border-amber-300 relative flex items-center justify-center group-hover:scale-105 active:scale-95 transition-transform">
-              <div className="w-full h-full rounded-full border border-dashed border-amber-300/70 flex flex-col items-center justify-center bg-gradient-to-b from-amber-500/25 to-black/70 text-center p-1">
+            <div
+              className="w-20 h-20 sm:w-24 sm:h-24 rounded-full p-1.5 shadow-[0_0_35px_rgba(212,175,55,0.6)] border-2 border-[#d4af37] relative flex items-center justify-center group-hover:scale-105 active:scale-95 transition-transform"
+              style={{ background: themeStyles.sealBg }}
+            >
+              <div className="w-full h-full rounded-full border border-dashed border-[#d4af37]/70 flex flex-col items-center justify-center bg-black/50 text-center p-1">
                 <span className="text-sm">{theme.crestIcon || '👑'}</span>
                 
                 {/* Couple Monogram Initials */}
@@ -294,7 +369,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
                   {getMonogram()}
                 </span>
 
-                <span className="text-[6.5px] uppercase font-mono tracking-widest text-amber-200 font-bold">
+                <span className="text-[6.5px] uppercase font-mono tracking-widest text-[#f3cf5b] font-bold">
                   Royal Seal
                 </span>
               </div>
@@ -311,7 +386,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
             <h2 className="font-serif text-lg sm:text-xl font-bold text-white tracking-tight drop-shadow-md leading-tight">
               {invitation.names || 'Aarav & Kiara'}
             </h2>
-            <p className="text-[9px] text-amber-200/80 font-mono tracking-wider">
+            <p className="text-[9px] text-[#cbd5e1] font-mono tracking-wider">
               {invitation.event_date || invitation.date
                 ? new Date(invitation.event_date || invitation.date).toLocaleDateString('en-IN', {
                     month: 'short',
@@ -335,9 +410,9 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
           </div>
 
           {/* Tap / Scroll Hint */}
-          <div className="mt-2 flex flex-col items-center space-y-0.5 text-[8px] text-amber-300/80 uppercase font-mono tracking-widest animate-pulse">
+          <div className="mt-2 flex flex-col items-center space-y-0.5 text-[8px] text-[#f3cf5b] uppercase font-mono tracking-widest animate-pulse">
             <span>Tap to Enter Palace</span>
-            <ChevronDown className="w-3 h-3 animate-bounce text-amber-400" />
+            <ChevronDown className="w-3 h-3 animate-bounce text-[#f3cf5b]" />
           </div>
         </div>
 
