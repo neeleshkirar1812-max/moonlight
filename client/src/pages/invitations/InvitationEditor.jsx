@@ -56,6 +56,7 @@ const InvitationEditor = () => {
   const [saving, setSaving] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
   const [showPublishModal, setShowPublishModal] = useState(false);
+  const [previewDoorKey, setPreviewDoorKey] = useState(0);
 
   const [form, setForm] = useState({
     template_id: 'royal-love',
@@ -70,6 +71,7 @@ const InvitationEditor = () => {
     venue: 'Jehan Numa Palace',
     venueAddress: '152 Shamla Hills, Bhopal, Madhya Pradesh',
     opening_heading: 'Cordially Invites You To The Celebration Of',
+    door_video_url: '',
     welcome_text: 'With joyous hearts, we request the honor of your presence to celebrate our special day.',
     message: 'With joyous hearts, we request the honor of your presence to celebrate our special day.',
     coverPhoto: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
@@ -502,6 +504,50 @@ const InvitationEditor = () => {
                     onChange={handleChange}
                     className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl p-3 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
                   />
+                </div>
+
+                {/* Royal Palace Doors Configuration */}
+                <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/80 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="font-serif font-bold text-sm text-amber-950 flex items-center space-x-1.5">
+                      <span>🚪</span>
+                      <span>Royal Palace Double Doors & Wax Seal</span>
+                    </span>
+                    <span className="text-[10px] font-mono uppercase bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full font-bold">
+                      Interactive 3D
+                    </span>
+                  </div>
+
+                  <div>
+                    <label className="font-mono uppercase font-bold text-neutral-700 block mb-1 text-[11px]">
+                      Door Opening Top Tagline
+                    </label>
+                    <input
+                      type="text"
+                      name="opening_heading"
+                      value={form.opening_heading || ''}
+                      onChange={handleChange}
+                      placeholder="Cordially Invites You To Celebrate"
+                      className="w-full bg-white border border-stone-300 rounded-xl px-3 py-2 text-xs text-neutral-900"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="font-mono uppercase font-bold text-neutral-700 block mb-1 text-[11px]">
+                      Optional Custom Door Opening Video (MP4 URL)
+                    </label>
+                    <input
+                      type="url"
+                      name="door_video_url"
+                      value={form.door_video_url || ''}
+                      onChange={handleChange}
+                      placeholder="Leave empty to use 3D Carved Palace Teak Doors"
+                      className="w-full bg-white border border-stone-300 rounded-xl px-3 py-2 text-xs text-neutral-900"
+                    />
+                    <p className="text-[10px] text-neutral-500 mt-1">
+                      By default, guests experience interactive 3D Royal Teak Palace Doors with 24K gold jaali arches, brass knockers, wax seal crest & falling petals.
+                    </p>
+                  </div>
                 </div>
               </div>
             )}
@@ -989,12 +1035,27 @@ const InvitationEditor = () => {
               <span className="text-[11px] font-mono uppercase font-bold text-amber-900 tracking-wider flex items-center">
                 <Eye className="w-4 h-4 mr-1.5" /> Real-Time Live Preview
               </span>
-              <span className="text-[10px] text-neutral-500 font-mono">390px Mobile Frame</span>
+              <div className="flex items-center space-x-2">
+                <button
+                  type="button"
+                  onClick={() => setPreviewDoorKey((prev) => prev + 1)}
+                  className="px-2.5 py-1 rounded-full bg-amber-900 text-amber-100 hover:bg-amber-950 text-[10px] font-mono font-bold flex items-center space-x-1 shadow"
+                  title="Preview 3D Palace Doors Entrance"
+                >
+                  <span>🚪 Test Door Opening</span>
+                </button>
+                <span className="text-[10px] text-neutral-500 font-mono hidden sm:inline">390px Mobile</span>
+              </div>
             </div>
 
             {/* Mobile Viewport Phone Mockup Container */}
-            <div className="max-w-[410px] mx-auto rounded-[40px] border-4 border-neutral-900 shadow-2xl overflow-hidden max-h-[85vh] overflow-y-auto scrollbar-thin">
-              <InvitationRenderer invitation={form} isPreview={true} />
+            <div className="max-w-[410px] mx-auto rounded-[40px] border-4 border-neutral-900 shadow-2xl overflow-hidden max-h-[85vh] overflow-y-auto scrollbar-thin relative">
+              <InvitationRenderer
+                key={`preview-${previewDoorKey}`}
+                invitation={form}
+                isPreview={previewDoorKey === 0}
+                showOpeningInPreview={previewDoorKey > 0}
+              />
             </div>
           </div>
         </div>

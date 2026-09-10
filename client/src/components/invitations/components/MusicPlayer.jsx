@@ -1,13 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Music, Volume2, VolumeX, Play, Pause } from 'lucide-react';
 
-const MusicPlayer = ({ musicUrl, theme }) => {
+const MusicPlayer = ({ musicUrl, theme, autoPlayTrigger }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
 
   const streamUrl =
     musicUrl ||
     'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3';
+
+  // Autoplay triggered on user interaction (like door opening)
+  useEffect(() => {
+    if (autoPlayTrigger && audioRef.current && !isPlaying) {
+      audioRef.current
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch((e) => console.warn('[Audio AutoPlay Notice]:', e));
+    }
+  }, [autoPlayTrigger]);
 
   const togglePlay = () => {
     if (!audioRef.current) return;

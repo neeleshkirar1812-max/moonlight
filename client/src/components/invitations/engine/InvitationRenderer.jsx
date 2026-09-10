@@ -9,15 +9,32 @@ import ThingsToKnow from '../components/ThingsToKnow';
 import ScratchCard from '../components/ScratchCard';
 import RsvpSection from '../components/RsvpSection';
 import MusicPlayer from '../components/MusicPlayer';
-import { Share2, QrCode, Copy, Check, X, Sparkles } from 'lucide-react';
+import { Share2, QrCode, Copy, Check, X, Sparkles, RefreshCw, DoorClosed } from 'lucide-react';
 
-const InvitationRenderer = ({ invitation = {}, isPreview = false, onRsvpSuccess }) => {
+const InvitationRenderer = ({
+  invitation = {},
+  isPreview = false,
+  onRsvpSuccess,
+  showOpeningInPreview = false,
+}) => {
   const templateId = invitation.template_id || invitation.templateId || 'royal-love';
   const config = getTemplateConfig(templateId);
   const theme = config.theme;
 
   const [qrOpen, setQrOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [doorsOpenCount, setDoorsOpenCount] = useState(0);
+  const [openingKey, setOpeningKey] = useState(0);
+  const [showOpeningScreen, setShowOpeningScreen] = useState(!isPreview || showOpeningInPreview);
+
+  const handleDoorEnter = () => {
+    setDoorsOpenCount((prev) => prev + 1);
+  };
+
+  const handleReplayDoors = () => {
+    setOpeningKey((prev) => prev + 1);
+    setShowOpeningScreen(true);
+  };
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -29,15 +46,25 @@ const InvitationRenderer = ({ invitation = {}, isPreview = false, onRsvpSuccess 
     const coupleNames =
       invitation.names || `${invitation.bride_name || 'Bride'} & ${invitation.groom_name || 'Groom'}`;
     const text = encodeURIComponent(
-      `Namaste! ✨\nYou are cordially invited to celebrate with us for ${coupleNames}.\n\nTap the live invitation link below to view our ceremony schedule, scratch the surprise card, and RSVP:\n${window.location.href}\n\nWith love,\n${coupleNames}`
+      `Namaste! ✨\nYou are cordially invited to celebrate with us for ${coupleNames}.\n\nTap the live invitation link below to view our royal double doors entrance, ceremony schedule, scratch card, and RSVP:\n${window.location.href}\n\nWith love,\n${coupleNames}`
     );
     window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
   };
 
   return (
-    <div className={`min-h-screen ${theme.pageBg} ${theme.textPrimary} relative selection:bg-amber-600 selection:text-white font-sans`}>
-      {/* 1. Cinematic Opening Monogram Curtain (Disabled in live editor preview) */}
-      {!isPreview && <OpeningScreen invitation={invitation} theme={theme} />}
+    <div
+      className={`min-h-screen ${theme.pageBg} ${theme.textPrimary} relative selection:bg-amber-600 selection:text-white font-sans`}
+    >
+      {/* 1. Cinematic 3D Royal Palace Double Doors & Video Curtain */}
+      {showOpeningScreen && (
+        <OpeningScreen
+          key={openingKey}
+          invitation={invitation}
+          theme={theme}
+          onEnter={handleDoorEnter}
+          isPreview={isPreview}
+        />
+      )}
 
       {/* 2. Hero Section & Live Countdown */}
       <HeroSection invitation={invitation} theme={theme} />
@@ -71,32 +98,49 @@ const InvitationRenderer = ({ invitation = {}, isPreview = false, onRsvpSuccess 
         <RsvpSection invitation={invitation} theme={theme} onRsvpSuccess={onRsvpSuccess} />
       )}
 
-      {/* 9. Background Music Player */}
+      {/* 9. Background Music Player (Auto-triggered when doors open) */}
       {invitation.music_enabled !== false && invitation.musicEnabled !== false && (
-        <MusicPlayer musicUrl={invitation.music_url || invitation.musicUrl} theme={theme} />
+        <MusicPlayer
+          musicUrl={invitation.music_url || invitation.musicUrl}
+          theme={theme}
+          autoPlayTrigger={doorsOpenCount}
+        />
       )}
 
-      {/* Floating Share & QR Toolbar on Public Live View */}
-      {!isPreview && (
-        <div className="fixed top-4 right-4 z-40 flex items-center space-x-2">
-          <button
-            type="button"
-            onClick={() => setQrOpen(true)}
-            className="p-2.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white hover:bg-black shadow-xl transition-all"
-            title="Show QR Code"
-          >
-            <QrCode className="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            onClick={handleShareWhatsApp}
-            className="px-3.5 py-2 rounded-full bg-emerald-600/90 backdrop-blur-md hover:bg-emerald-600 text-white font-bold text-xs uppercase tracking-wider shadow-xl flex items-center space-x-1.5 transition-all"
-          >
-            <Share2 className="w-3.5 h-3.5" />
-            <span className="hidden xs:inline">Share</span>
-          </button>
-        </div>
-      )}
+      {/* Floating Share, Replay & QR Toolbar */}
+      <div className="fixed top-4 right-4 z-40 flex items-center space-x-2">
+        {/* Replay Doors Button */}
+        <button
+          type="button"
+          onClick={handleReplayDoors}
+          className="px-3 py-2 rounded-full bg-black/60 backdrop-blur-md border border-amber-500/40 text-amber-300 hover:bg-black/90 shadow-xl transition-all flex items-center space-x-1.5 text-xs font-mono font-bold"
+          title="Replay Royal Door Opening"
+        >
+          <DoorClosed className="w-3.5 h-3.5 text-amber-400" />
+          <span className="hidden sm:inline">Replay Entrance</span>
+        </button>
+
+        {!isPreview && (
+          <>
+            <button
+              type="button"
+              onClick={() => setQrOpen(true)}
+              className="p-2.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white hover:bg-black shadow-xl transition-all"
+              title="Show QR Code"
+            >
+              <QrCode className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={handleShareWhatsApp}
+              className="px-3.5 py-2 rounded-full bg-emerald-600/90 backdrop-blur-md hover:bg-emerald-600 text-white font-bold text-xs uppercase tracking-wider shadow-xl flex items-center space-x-1.5 transition-all"
+            >
+              <Share2 className="w-3.5 h-3.5" />
+              <span className="hidden xs:inline">Share</span>
+            </button>
+          </>
+        )}
+      </div>
 
       {/* Footer Branding */}
       <footer className="py-12 border-t border-white/10 text-center space-y-2">
@@ -148,7 +192,11 @@ const InvitationRenderer = ({ invitation = {}, isPreview = false, onRsvpSuccess 
                 onClick={handleCopyLink}
                 className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs flex items-center shadow"
               >
-                {copied ? <Check className="w-3.5 h-3.5 mr-1 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 mr-1" />}
+                {copied ? (
+                  <Check className="w-3.5 h-3.5 mr-1 text-emerald-400" />
+                ) : (
+                  <Copy className="w-3.5 h-3.5 mr-1" />
+                )}
                 {copied ? 'Copied Link!' : 'Copy Link'}
               </button>
               <button
