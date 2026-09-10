@@ -21,6 +21,7 @@ export const invitationTemplates = [
     bgGradient: 'from-amber-950 via-[#2A1D13] to-neutral-950',
     accentColor: '#D4AF37',
     coverImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+    previewImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
     description: 'Regal crimson & 24K antique gold heritage wedding suite with royal crest, shehnai audio, multi-ceremony timeline, and gold foil touch scratch reveal.',
     features: [
       'Interactive Canvas Gold Scratch Card',
@@ -44,6 +45,7 @@ export const invitationTemplates = [
     bgGradient: 'from-rose-950 via-[#2B1B22] to-neutral-950',
     accentColor: '#E0A899',
     coverImage: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80',
+    previewImage: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80',
     description: 'Soft rose quartz & blush champagne botanical layout with gentle floating petals, romantic couple story, and rose gold scratch card.',
     features: [
       'Botanical Garland Monogram Screen',
@@ -67,6 +69,7 @@ export const invitationTemplates = [
     bgGradient: 'from-amber-900 via-[#332014] to-neutral-950',
     accentColor: '#F59E0B',
     coverImage: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80',
+    previewImage: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80',
     description: 'Vibrant turmeric yellow & festive marigold aesthetics tailored for energetic Haldi, Phoolon Ki Holi, and Mehendi Sangeet galas.',
     features: [
       'Festive Dhol & Sitar Audio Stream',
@@ -89,6 +92,7 @@ export const invitationTemplates = [
     bgGradient: 'from-indigo-950 via-[#151D30] to-neutral-950',
     accentColor: '#818CF8',
     coverImage: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1200&q=80',
+    previewImage: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1200&q=80',
     description: 'Midnight sapphire & shimmering starlight modern layout with constellation monogram, countdown clock, and cocktail gala agenda.',
     features: [
       'Starlit Constellation Monogram Reveal',
@@ -111,6 +115,7 @@ export const invitationTemplates = [
     bgGradient: 'from-emerald-950 via-[#102419] to-neutral-950',
     accentColor: '#34D399',
     coverImage: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80',
+    previewImage: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80',
     description: 'Imperial emerald green with Mughal jaali filigree borders, destination hotel accommodation guide, and royal palace flute music.',
     features: [
       'Mughal Jaali Arch Monogram',
@@ -133,6 +138,7 @@ export const invitationTemplates = [
     bgGradient: 'from-amber-950 via-[#261E14] to-neutral-950',
     accentColor: '#FBBF24',
     coverImage: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1200&q=80',
+    previewImage: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1200&q=80',
     description: 'Sunlit ochre & warm amber celebration layout with confetti animations, milestone memories gallery, and instant guest RSVP.',
     features: [
       'Celebratory Confetti Greeting',

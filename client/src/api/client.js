@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { invitationTemplates } from '../data/invitationTemplates';
 
 // One-time automatic purge for clean production state (removes all dummy testing cache)
 try {
@@ -938,6 +939,57 @@ const handleMockRequest = async (method, url, data) => {
       setCollection('invitationPurchases', purchases);
     }
 
+    if (templates.length === 0) {
+      templates = [...invitationTemplates];
+      setCollection('invitationTemplates', templates);
+    }
+
+    // Templates Catalog & Single Template
+    if (cleanUrl === '/invitations/templates' || cleanUrl === '/invitations/admin/templates') {
+      if (method === 'POST') {
+        const newTpl = {
+          id: data.slug || `tpl-${Date.now()}`,
+          slug: data.slug || `tpl-${Date.now()}`,
+          name: data.name || 'Bespoke Luxury Suite',
+          category: data.category || 'Wedding',
+          price: Number(data.price) || 699,
+          originalPrice: Number(data.originalPrice) || 1499,
+          previewImage: data.previewImage || data.coverImage || 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+          coverImage: data.previewImage || data.coverImage || 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
+          description: data.description || 'Luxury digital invitation suite with interactive features.',
+          features: data.features || ['Interactive Scratch Card', 'Live RSVP', 'Google Maps Navigation', 'Background Music'],
+          badge: data.badge || 'New',
+          theme: data.theme || 'heritage-gold',
+          bgGradient: data.bgGradient || 'from-amber-950 via-[#2A1D13] to-neutral-950',
+          accentColor: data.accentColor || '#D4AF37',
+          status: 'active',
+          createdAt: new Date().toISOString(),
+        };
+        templates.unshift(newTpl);
+        setCollection('invitationTemplates', templates);
+        return { data: { success: true, template: newTpl } };
+      }
+      return {
+        data: {
+          success: true,
+          templates: templates.length > 0 ? templates : invitationTemplates,
+        },
+      };
+    }
+
+    if (cleanUrl.startsWith('/invitations/templates/')) {
+      const slug = cleanUrl.replace('/invitations/templates/', '');
+      const found = (templates.length > 0 ? templates : invitationTemplates).find(
+        (t) => t.slug === slug || t.id === slug
+      );
+      return {
+        data: {
+          success: true,
+          template: found || invitationTemplates[0],
+        },
+      };
+    }
+
     // Coupons Endpoint
     if (cleanUrl.includes('/coupons/apply')) {
       const { code, amount = 699 } = data;
@@ -1279,7 +1331,12 @@ const handleMockRequest = async (method, url, data) => {
       cleanUrl.startsWith('/invitations/') &&
       !cleanUrl.includes('dashboard') &&
       !cleanUrl.includes('admin') &&
-      !cleanUrl.includes('payments')
+      !cleanUrl.includes('payments') &&
+      !cleanUrl.includes('templates') &&
+      !cleanUrl.includes('my') &&
+      !cleanUrl.includes('public') &&
+      !cleanUrl.includes('rsvp') &&
+      !cleanUrl.includes('coupons')
     ) {
       const id = cleanUrl.replace('/invitations/', '');
       if (method === 'GET') {

@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
 import api from '../../api/client';
+import { invitationTemplates } from '../../data/invitationTemplates';
 import SEO from '../../components/common/SEO';
 import {
   Sparkles,
@@ -73,7 +74,7 @@ const InvitationAdmin = ({ initialTab }) => {
   const [invitations, setInvitations] = useState([]);
   const [orders, setOrders] = useState([]);
   const [customers, setCustomers] = useState([]);
-  const [templates, setTemplates] = useState([]);
+  const [templates, setTemplates] = useState(invitationTemplates);
   const [coupons, setCoupons] = useState([]);
   const [rsvps, setRsvps] = useState([]);
   const [activityLogs, setActivityLogs] = useState([]);
@@ -139,7 +140,11 @@ const InvitationAdmin = ({ initialTab }) => {
       // 3. Templates
       const tplRes = await api.get('/invitations/templates');
       const tplData = tplRes.data || tplRes;
-      if (tplData.templates) setTemplates(tplData.templates);
+      if (tplData.templates && tplData.templates.length > 0) {
+        setTemplates(tplData.templates);
+      } else {
+        setTemplates(invitationTemplates);
+      }
 
       // 4. Coupons
       const coupRes = await api.get('/invitations/admin/coupons');
@@ -974,7 +979,7 @@ const InvitationAdmin = ({ initialTab }) => {
                             }`}
                           >
                             <img
-                              src={tpl.previewImage || tpl.image}
+                              src={tpl.previewImage || tpl.coverImage || tpl.image}
                               alt={tpl.name}
                               className="w-full h-20 object-cover rounded-lg mb-1.5"
                             />
@@ -1404,7 +1409,7 @@ const InvitationAdmin = ({ initialTab }) => {
                     >
                       <div>
                         <img
-                          src={tpl.previewImage || tpl.image}
+                          src={tpl.previewImage || tpl.coverImage || tpl.image}
                           alt={tpl.name}
                           className="w-full h-44 object-cover"
                         />
