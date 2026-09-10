@@ -302,12 +302,49 @@ export const templateRegistry = {
 
 export const getTemplateConfig = (templateId) => {
   const aliases = {
+    // Royal Tier Suites
     'emerald-noir': 'emerald-heritage',
     'crimson-royale': 'royal-love',
-    'rose-gold-blush': 'blooming-dreams',
+    'royal-love': 'royal-love',
     'majestic-love': 'royal-love',
-    'griha-pravesh': 'mehendi-magic',
+    'udaivilas-palace': 'celestial-night',
+    'jaipur-heritage': 'royal-love',
+    'jodhpur-sun-city': 'celestial-night',
+    'mughal-courtyard': 'royal-love',
+    'taj-imperial': 'celestial-night',
+    'bikaner-riyasat': 'royal-love',
+    'royal-engagement-regal': 'blooming-dreams',
+    'champagne-glamour': 'royal-love',
+    'shahi-sangeet': 'blooming-dreams',
+    'royal-reception-gala': 'celestial-night',
+    'vintage-rajputana': 'royal-love',
+    'nawab-of-awadh': 'emerald-heritage',
+    'mysore-grandeur': 'emerald-heritage',
+    'golden-jubilee-royal': 'royal-love',
+    'royal-griha-utsav': 'mehendi-magic',
+    'royal-yuvraj-arrival': 'celestial-night',
+
+    // Classic Tier Suites
     'modern-minimal': 'celestial-night',
+    'rose-gold-blush': 'blooming-dreams',
+    'little-sunshine': 'little-sunshine',
+    'griha-pravesh': 'mehendi-magic',
+    'botanical-eucalyptus': 'emerald-heritage',
+    'pastel-peony': 'blooming-dreams',
+    'celestial-starlight': 'celestial-night',
+    'terracotta-boho': 'royal-love',
+    'lavender-mist': 'blooming-dreams',
+    'sunset-citrus': 'mehendi-magic',
+    'coastal-breeze': 'celestial-night',
+    'monochrome-chic': 'celestial-night',
+    'sweet-first-birthday': 'little-sunshine',
+    'fairy-tale-princess': 'blooming-dreams',
+    'baby-blessing-cradle': 'celestial-night',
+    'sweet-nesting-baby': 'blooming-dreams',
+    'silver-anniversary': 'celestial-night',
+    'golden-fifty-love': 'little-sunshine',
+    'navaratna-puja': 'mehendi-magic',
+    'minimalist-arch': 'celestial-night',
   };
   const resolvedId = aliases[templateId] || templateId;
   return templateRegistry[resolvedId] || templateRegistry['royal-love'];

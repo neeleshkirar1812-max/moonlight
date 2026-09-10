@@ -48,64 +48,213 @@ const playRoyalDoorChime = () => {
 
 const getThemeStyles = (templateId) => {
   switch (templateId) {
+    // 1. Royal Emerald & Forest Jade
     case 'emerald-noir':
     case 'emerald-heritage':
+    case 'botanical-eucalyptus':
+    case 'sweet-first-birthday':
       return {
         doorBgLeft: 'linear-gradient(135deg, #052317 0%, #0c4630 45%, #02140c 100%)',
         doorBgRight: 'linear-gradient(225deg, #052317 0%, #0c4630 45%, #02140c 100%)',
         doorBorder: 'border-emerald-400/80',
-        innerGlow: 'from-emerald-500/30 via-emerald-950/70 to-black',
+        innerGlow: 'from-emerald-500/35 via-emerald-950/75 to-black',
         goldAccent: '#d4af37',
         sealBg: 'linear-gradient(135deg, #064e3b 0%, #022c22 100%)',
         sealBorder: 'border-emerald-300',
         accentText: 'text-emerald-300',
         frameBorder: 'border-emerald-500/50',
       };
+
+    // 2. Royal Crimson & Antique Sandstone
     case 'crimson-royale':
     case 'royal-love':
+    case 'mughal-courtyard':
+    case 'vintage-rajputana':
+    case 'golden-jubilee-royal':
       return {
         doorBgLeft: 'linear-gradient(135deg, #380710 0%, #5e0d1f 45%, #200308 100%)',
         doorBgRight: 'linear-gradient(225deg, #380710 0%, #5e0d1f 45%, #200308 100%)',
         doorBorder: 'border-amber-400/80',
-        innerGlow: 'from-rose-500/25 via-amber-950/60 to-black',
+        innerGlow: 'from-rose-500/30 via-amber-950/70 to-black',
         goldAccent: '#d4af37',
         sealBg: 'linear-gradient(135deg, #881337 0%, #4c0519 100%)',
         sealBorder: 'border-amber-300',
         accentText: 'text-rose-300',
         frameBorder: 'border-amber-400/50',
       };
+
+    // 3. Rose Gold & Romantic Blossom
     case 'rose-gold-blush':
     case 'blooming-dreams':
+    case 'pastel-peony':
+    case 'fairy-tale-princess':
+    case 'sweet-nesting-baby':
       return {
         doorBgLeft: 'linear-gradient(135deg, #2d131f 0%, #4a1d32 45%, #190911 100%)',
         doorBgRight: 'linear-gradient(225deg, #2d131f 0%, #4a1d32 45%, #190911 100%)',
         doorBorder: 'border-rose-400/80',
-        innerGlow: 'from-rose-400/30 via-pink-950/60 to-black',
+        innerGlow: 'from-rose-400/35 via-pink-950/65 to-black',
         goldAccent: '#e0a899',
         sealBg: 'linear-gradient(135deg, #9d174d 0%, #700b34 100%)',
         sealBorder: 'border-rose-300',
         accentText: 'text-rose-300',
         frameBorder: 'border-rose-400/50',
       };
-    case 'majestic-love':
+
+    // 4. Jaipur Haveli & Terracotta Earth
+    case 'jaipur-heritage':
+    case 'terracotta-boho':
       return {
-        doorBgLeft: 'linear-gradient(135deg, #2d2013 0%, #4e351d 45%, #170f08 100%)',
-        doorBgRight: 'linear-gradient(225deg, #2d2013 0%, #4e351d 45%, #170f08 100%)',
+        doorBgLeft: 'linear-gradient(135deg, #42151d 0%, #682330 45%, #23080e 100%)',
+        doorBgRight: 'linear-gradient(225deg, #42151d 0%, #682330 45%, #23080e 100%)',
         doorBorder: 'border-amber-400/80',
-        innerGlow: 'from-amber-400/30 via-[#2d2013]/70 to-black',
+        innerGlow: 'from-rose-600/30 via-orange-950/65 to-black',
+        goldAccent: '#f5d061',
+        sealBg: 'linear-gradient(135deg, #9f1239 0%, #4c0519 100%)',
+        sealBorder: 'border-amber-300',
+        accentText: 'text-rose-200',
+        frameBorder: 'border-rose-500/50',
+      };
+
+    // 5. Royal Purple & Twilight Lavender
+    case 'royal-engagement-regal':
+    case 'lavender-mist':
+      return {
+        doorBgLeft: 'linear-gradient(135deg, #240b36 0%, #3d1259 45%, #11031b 100%)',
+        doorBgRight: 'linear-gradient(225deg, #240b36 0%, #3d1259 45%, #11031b 100%)',
+        doorBorder: 'border-purple-400/80',
+        innerGlow: 'from-purple-500/35 via-indigo-950/70 to-black',
+        goldAccent: '#f3cf5b',
+        sealBg: 'linear-gradient(135deg, #581c87 0%, #2e1065 100%)',
+        sealBorder: 'border-purple-300',
+        accentText: 'text-purple-300',
+        frameBorder: 'border-purple-500/50',
+      };
+
+    // 6. Shahi Sangeet Magenta
+    case 'shahi-sangeet':
+      return {
+        doorBgLeft: 'linear-gradient(135deg, #3b0928 0%, #611043 45%, #1a0312 100%)',
+        doorBgRight: 'linear-gradient(225deg, #3b0928 0%, #611043 45%, #1a0312 100%)',
+        doorBorder: 'border-pink-400/80',
+        innerGlow: 'from-pink-500/35 via-rose-950/70 to-black',
+        goldAccent: '#f3cf5b',
+        sealBg: 'linear-gradient(135deg, #831843 0%, #500724 100%)',
+        sealBorder: 'border-pink-300',
+        accentText: 'text-pink-300',
+        frameBorder: 'border-pink-500/50',
+      };
+
+    // 7. Awadh & Mysore Peacock Turquoise
+    case 'nawab-of-awadh':
+    case 'mysore-grandeur':
+    case 'coastal-breeze':
+      return {
+        doorBgLeft: 'linear-gradient(135deg, #062424 0%, #0d4a4a 45%, #021212 100%)',
+        doorBgRight: 'linear-gradient(225deg, #062424 0%, #0d4a4a 45%, #021212 100%)',
+        doorBorder: 'border-teal-400/80',
+        innerGlow: 'from-teal-500/35 via-cyan-950/70 to-black',
+        goldAccent: '#d4af37',
+        sealBg: 'linear-gradient(135deg, #134e4a 0%, #042f2e 100%)',
+        sealBorder: 'border-teal-300',
+        accentText: 'text-teal-300',
+        frameBorder: 'border-teal-500/50',
+      };
+
+    // 8. Sacred Griha Pravesh Saffron & Marigold
+    case 'royal-griha-utsav':
+    case 'griha-pravesh':
+    case 'sunset-citrus':
+    case 'navaratna-puja':
+    case 'mehendi-magic':
+      return {
+        doorBgLeft: 'linear-gradient(135deg, #3b1207 0%, #5e200e 45%, #1a0702 100%)',
+        doorBgRight: 'linear-gradient(225deg, #3b1207 0%, #5e200e 45%, #1a0702 100%)',
+        doorBorder: 'border-amber-400/80',
+        innerGlow: 'from-amber-500/35 via-orange-950/75 to-black',
+        goldAccent: '#f59e0b',
+        sealBg: 'linear-gradient(135deg, #9a3412 0%, #431407 100%)',
+        sealBorder: 'border-amber-300',
+        accentText: 'text-amber-300',
+        frameBorder: 'border-amber-500/50',
+      };
+
+    // 9. Warm Swarna Amber & Golden Milestones
+    case 'majestic-love':
+    case 'bikaner-riyasat':
+    case 'little-sunshine':
+    case 'golden-fifty-love':
+      return {
+        doorBgLeft: 'linear-gradient(135deg, #2a1708 0%, #4d2b0e 45%, #140a03 100%)',
+        doorBgRight: 'linear-gradient(225deg, #2a1708 0%, #4d2b0e 45%, #140a03 100%)',
+        doorBorder: 'border-amber-400/80',
+        innerGlow: 'from-amber-400/35 via-[#2d2013]/75 to-black',
         goldAccent: '#d4af37',
         sealBg: 'linear-gradient(135deg, #78350f 0%, #451a03 100%)',
         sealBorder: 'border-amber-300',
         accentText: 'text-amber-300',
         frameBorder: 'border-amber-400/50',
       };
+
+    // 10. Taj Imperial Marble & Silver Monochrome
+    case 'taj-imperial':
+    case 'monochrome-chic':
+    case 'silver-anniversary':
+    case 'minimalist-arch':
+      return {
+        doorBgLeft: 'linear-gradient(135deg, #151c24 0%, #263240 45%, #0a0e13 100%)',
+        doorBgRight: 'linear-gradient(225deg, #151c24 0%, #263240 45%, #0a0e13 100%)',
+        doorBorder: 'border-slate-300/80',
+        innerGlow: 'from-slate-400/30 via-slate-900/80 to-black',
+        goldAccent: '#e2e8f0',
+        sealBg: 'linear-gradient(135deg, #334155 0%, #0f172a 100%)',
+        sealBorder: 'border-slate-300',
+        accentText: 'text-slate-200',
+        frameBorder: 'border-slate-400/50',
+      };
+
+    // 11. Baby Shower Celestial Blue
+    case 'baby-blessing-cradle':
+      return {
+        doorBgLeft: 'linear-gradient(135deg, #0c1c28 0%, #15344d 45%, #060e14 100%)',
+        doorBgRight: 'linear-gradient(225deg, #0c1c28 0%, #15344d 45%, #060e14 100%)',
+        doorBorder: 'border-sky-300/80',
+        innerGlow: 'from-sky-400/35 via-sky-950/70 to-black',
+        goldAccent: '#7dd3fc',
+        sealBg: 'linear-gradient(135deg, #075985 0%, #082f49 100%)',
+        sealBorder: 'border-sky-300',
+        accentText: 'text-sky-200',
+        frameBorder: 'border-sky-400/50',
+      };
+
+    // 12. Champagne Jet Black & 24K Gold
+    case 'champagne-glamour':
+      return {
+        doorBgLeft: 'linear-gradient(135deg, #181410 0%, #2a2218 45%, #0d0b08 100%)',
+        doorBgRight: 'linear-gradient(225deg, #181410 0%, #2a2218 45%, #0d0b08 100%)',
+        doorBorder: 'border-amber-300',
+        innerGlow: 'from-amber-400/35 via-neutral-900/85 to-black',
+        goldAccent: '#d4af37',
+        sealBg: 'linear-gradient(135deg, #78350f 0%, #1c1917 100%)',
+        sealBorder: 'border-amber-200',
+        accentText: 'text-amber-200',
+        frameBorder: 'border-amber-300/60',
+      };
+
+    // 13. Udaipur Lake Palace & Jodhpur Midnight Sapphire (Default Luxury)
+    case 'udaivilas-palace':
+    case 'jodhpur-sun-city':
+    case 'royal-reception-gala':
+    case 'royal-yuvraj-arrival':
+    case 'celestial-night':
+    case 'celestial-starlight':
     case 'modern-minimal':
     default:
       return {
         doorBgLeft: 'linear-gradient(135deg, #0B132B 0%, #1C2541 45%, #050B1B 100%)',
         doorBgRight: 'linear-gradient(225deg, #0B132B 0%, #1C2541 45%, #050B1B 100%)',
         doorBorder: 'border-[#d4af37]',
-        innerGlow: 'from-[#d4af37]/30 via-[#1C2541]/80 to-[#0B132B]',
+        innerGlow: 'from-[#d4af37]/35 via-[#1C2541]/85 to-[#0B132B]',
         goldAccent: '#d4af37',
         sealBg: 'linear-gradient(135deg, #990000 0%, #550000 100%)',
         sealBorder: 'border-[#d4af37]',

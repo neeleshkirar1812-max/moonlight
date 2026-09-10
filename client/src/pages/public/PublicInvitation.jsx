@@ -43,52 +43,170 @@ const PublicInvitation = () => {
       );
 
       if (matchedTemplate) {
-        const isModern = matchedTemplate.id === 'modern-minimal';
+        const cat = matchedTemplate.category;
+        const id = matchedTemplate.id;
+
+        // Dynamic names & copy based on category
+        let names = 'Aarav & Kiara';
+        let bride_name = 'Aarav';
+        let groom_name = 'Kiara';
+        let story_text = 'Two hearts, one lifelong promise under royal starry skies.';
+        let message = 'Invite you to share in the joy of the beginning of their new life together.';
+        let events = [
+          {
+            title: 'Mehendi & Sangeet Night',
+            date: '2026-11-19',
+            time: '06:00 PM',
+            venue: 'The Leela Palace Courtyard',
+            address: 'Udaipur, Rajasthan',
+          },
+          {
+            title: 'The Royal Wedding & Pheras',
+            date: '2026-11-20',
+            time: '07:30 PM',
+            venue: 'Grand Lawn, The Leela Palace',
+            address: 'Udaipur, Rajasthan',
+          },
+          {
+            title: 'Imperial Gala Reception',
+            date: '2026-11-21',
+            time: '08:00 PM',
+            venue: 'The Royal Ballroom',
+            address: 'Udaipur, Rajasthan',
+          },
+        ];
+
+        if (id === 'modern-minimal') {
+          names = 'Aisha Khan & Rohan Mehra';
+          bride_name = 'Aisha';
+          groom_name = 'Rohan';
+        } else if (cat.includes('Birthday')) {
+          names = id.includes('yuvraj') ? 'Prince Veer' : 'Aanya Sharma';
+          bride_name = 'Veer';
+          groom_name = 'Aanya';
+          story_text = 'One year of endless smiles, tiny steps, and infinite blessings.';
+          message = 'Cordially invites you to celebrate this magical 1st birthday milestone!';
+          events = [
+            {
+              title: 'Welcome & Magic Show',
+              date: '2026-11-20',
+              time: '05:00 PM',
+              venue: 'The Grand Pavilion',
+              address: 'Bhopal, Madhya Pradesh',
+            },
+            {
+              title: 'Cake Cutting Ceremony',
+              date: '2026-11-20',
+              time: '06:30 PM',
+              venue: 'Celebration Arena',
+              address: 'Bhopal, Madhya Pradesh',
+            },
+            {
+              title: 'Gala Birthday Dinner',
+              date: '2026-11-20',
+              time: '08:00 PM',
+              venue: 'Palace Banquets',
+              address: 'Bhopal, Madhya Pradesh',
+            },
+          ];
+        } else if (cat.includes('Griha Pravesh') || cat.includes('Housewarming')) {
+          names = 'The Sharma Family';
+          bride_name = 'Rajesh';
+          groom_name = 'Sunita';
+          story_text = 'With the divine blessings of Almighty, we step into our dream home.';
+          message = 'Requests your esteemed presence & blessings for our Griha Pravesh Puja.';
+          events = [
+            {
+              title: 'Ganesh Puja & Vastu Havan',
+              date: '2026-11-20',
+              time: '09:00 AM',
+              venue: 'Our New Home (Aashirwad)',
+              address: 'Arera Colony, Bhopal, MP',
+            },
+            {
+              title: 'Griha Pravesh & Mahaprasad',
+              date: '2026-11-20',
+              time: '12:30 PM',
+              venue: 'Courtyard & Terrace Lounge',
+              address: 'Arera Colony, Bhopal, MP',
+            },
+            {
+              title: 'Evening Blessings & Dinner',
+              date: '2026-11-20',
+              time: '07:30 PM',
+              venue: 'Grand Dining Hall',
+              address: 'Arera Colony, Bhopal, MP',
+            },
+          ];
+        } else if (cat.includes('Baby Shower') || cat.includes('Naming')) {
+          names = 'Pooja & Sameer';
+          bride_name = 'Pooja';
+          groom_name = 'Sameer';
+          story_text = 'A little blessing sent from above, filling our hearts with joy and love.';
+          message = 'Invite you to shower their little bundle of joy with love & blessings.';
+          events = [
+            {
+              title: 'Godh Bharai Puja & Rituals',
+              date: '2026-11-20',
+              time: '11:00 AM',
+              venue: 'The Heritage Hall',
+              address: 'Indore, Madhya Pradesh',
+            },
+            {
+              title: 'Blessings & Traditional Lunch',
+              date: '2026-11-20',
+              time: '01:00 PM',
+              venue: 'Royal Orchid Banquets',
+              address: 'Indore, Madhya Pradesh',
+            },
+          ];
+        } else if (cat.includes('Anniversary')) {
+          names = id.includes('50') || id.includes('jubilee') ? 'Ramesh & Kanta' : 'Vikram & Radhika';
+          bride_name = 'Vikram';
+          groom_name = 'Radhika';
+          story_text = 'Decades of shared laughter, enduring love, and precious family memories.';
+          message = 'Cordially invite you to celebrate their Milestone Wedding Anniversary.';
+          events = [
+            {
+              title: 'Champagne Toast & Speeches',
+              date: '2026-11-20',
+              time: '07:00 PM',
+              venue: 'The Imperial Crystal Ballroom',
+              address: 'Bhopal, Madhya Pradesh',
+            },
+            {
+              title: 'Gala Anniversary Dinner',
+              date: '2026-11-20',
+              time: '08:30 PM',
+              venue: 'The Grand Lawn Terrace',
+              address: 'Bhopal, Madhya Pradesh',
+            },
+          ];
+        }
+
         const demoData = {
           _id: `demo-${matchedTemplate.id}`,
           id: `demo-${matchedTemplate.id}`,
           template_id: matchedTemplate.id,
           templateId: matchedTemplate.id,
-          names: isModern ? 'Aisha Khan & Rohan Mehra' : 'Aarav & Kiara',
-          bride_name: isModern ? 'Aisha Khan' : 'Aarav Singhania',
-          groom_name: isModern ? 'Rohan Mehra' : 'Kiara Advani',
+          names,
+          bride_name,
+          groom_name,
           host_names: 'Together with their families',
           title: `${matchedTemplate.name} Demo`,
           eventType: matchedTemplate.category,
           date: '2026-11-20',
           time: '19:00',
-          venue: isModern ? 'The Leela Palace, Udaipur' : 'Jehan Numa Palace, Bhopal',
-          venueAddress: isModern ? 'Lake Pichola, Udaipur, Rajasthan' : '152 Shamla Hills, Bhopal, Madhya Pradesh',
-          story_text: 'Two hearts, one lifelong promise under royal starry skies.',
-          message: 'Invite you to share in the joy of the beginning of their new life together.',
-          welcome_text: 'Invite you to share in the joy of the beginning of their new life together.',
+          venue: 'The Leela Palace, Udaipur',
+          venueAddress: 'Lake Pichola, Udaipur, Rajasthan 313001',
+          story_text,
+          message,
+          welcome_text: message,
           scratch_reveal_text: 'YOU’RE INVITED ♡',
           scratch_enabled: true,
           rsvp_enabled: true,
           music_enabled: true,
-          events: [
-            {
-              title: 'Mehendi Ceremony',
-              date: '2026-11-19',
-              time: '06:00 PM',
-              venue: 'The Leela Palace, Courtyard',
-              address: 'Udaipur, Rajasthan',
-            },
-            {
-              title: 'Sangeet Night',
-              date: '2026-11-19',
-              time: '07:30 PM',
-              venue: 'The Royal Ballroom',
-              address: 'Udaipur, Rajasthan',
-            },
-            {
-              title: 'Wedding Reception',
-              date: '2026-11-20',
-              time: '08:00 PM',
-              venue: 'Grand Lawn, The Leela Palace',
-              address: 'Udaipur, Rajasthan',
-            },
-          ],
+          events,
           gallery_images: [
             'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
             'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
