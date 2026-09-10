@@ -163,7 +163,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
                   }
                   if (onEnter) onEnter();
                 }}
-                className="px-5 py-2 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-neutral-950 font-bold text-[11px] uppercase tracking-wider shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center space-x-1.5"
+                className="px-5 py-2 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-neutral-950 font-bold text-[11px] uppercase tracking-wider shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center space-x-1.5 cursor-pointer"
               >
                 <Play className="w-3.5 h-3.5 fill-current" />
                 <span>Watch Grand Door Opening</span>
@@ -175,7 +175,10 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
         /* ========================================================================= */
         /* 2. RESPONSIVE 3D ROYAL PALACE DOUBLE DOORS (Guaranteed Render & Perfect Proportions) */
         /* ========================================================================= */
-        <div className="w-full max-w-[360px] sm:max-w-md h-[90dvh] max-h-[680px] relative flex flex-col justify-between overflow-hidden rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-amber-500/70 shadow-[0_0_50px_rgba(217,119,6,0.35)] bg-[#140b05] select-none">
+        <div
+          onClick={handleOpenDoors}
+          className="w-full max-w-[360px] sm:max-w-md h-full max-h-[640px] relative flex flex-col justify-between overflow-hidden rounded-2xl sm:rounded-3xl border-2 sm:border-4 border-amber-500/70 shadow-[0_0_50px_rgba(217,119,6,0.35)] bg-[#140b05] select-none cursor-pointer"
+        >
           
           {/* Inner Palace Radiant Glow Backdrop (Revealed when doors swing open) */}
           <div className="absolute inset-0 z-0 flex flex-col items-center justify-center bg-gradient-to-b from-[#2B1B10] via-[#1A0E08] to-[#0A0503] text-center p-4">
@@ -208,7 +211,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
           {/* ========================================================================= */}
           {/* THE 3D DOUBLE DOORS CONTAINER */}
           {/* ========================================================================= */}
-          <div className="absolute inset-0 z-20 flex w-full h-full overflow-hidden">
+          <div className="absolute inset-0 z-20 flex w-full h-full overflow-hidden pointer-events-none">
             
             {/* ------------------------------------------------------------- */}
             {/* LEFT PALACE DOOR */}

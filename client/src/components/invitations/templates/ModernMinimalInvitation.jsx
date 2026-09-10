@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import api from '../../../api/client';
 import { useNotification } from '../../../context/NotificationContext';
-import { Volume2, VolumeX, MapPin, CheckCircle2, Heart } from 'lucide-react';
+import OpeningScreen from '../components/OpeningScreen';
+import { Volume2, VolumeX, MapPin, CheckCircle2, Heart, DoorClosed } from 'lucide-react';
 
 const ModernMinimalInvitation = ({ invitation = {}, isPreview = false, onRsvpSuccess }) => {
   const { addToast } = useNotification();
   const [isPlaying, setIsPlaying] = useState(false);
-  const [overlayActive, setOverlayActive] = useState(true);
+  const [showDoors, setShowDoors] = useState(true);
+  const [doorKey, setDoorKey] = useState(0);
   const [rsvpSubmitting, setRsvpSubmitting] = useState(false);
   const [rsvpSubmitted, setRsvpSubmitted] = useState(false);
   
@@ -228,34 +230,37 @@ const ModernMinimalInvitation = ({ invitation = {}, isPreview = false, onRsvpSuc
         }
       `}</style>
 
-      {/* 1. Opening Animation Overlay */}
-      {overlayActive && (
-        <div
-          onClick={() => setOverlayActive(false)}
-          className={`${
-            isPreview ? 'absolute' : 'fixed'
-          } inset-0 bg-[#0B132B] z-40 flex flex-col justify-center items-center cover-overlay-anim border-2 border-[#d4af37] outline-4 outline-[#0B132B] cursor-pointer text-center p-6`}
-          title="Tap to open invitation"
-        >
-          <span className="text-[10px] uppercase font-mono tracking-[0.25em] text-[#d4af37]/80 mb-3">
-            Wedding Invitation
-          </span>
-          <h2 className="font-serif text-3xl sm:text-5xl text-[#d4af37] tracking-[6px] font-semibold animate-pulse">
-            {initials}
-          </h2>
-          <div className="w-10 h-10 sm:w-11 sm:h-11 border border-[#d4af37] rotate-45 my-6 geometric-accent-spin" />
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setOverlayActive(false);
-            }}
-            className="px-4 py-1.5 rounded-full bg-[#d4af37]/20 border border-[#d4af37] text-[#d4af37] text-[11px] font-serif uppercase tracking-wider hover:bg-[#d4af37] hover:text-[#0B132B] transition-all"
-          >
-            Tap to Enter ✦
-          </button>
-        </div>
+      {/* 1. Cinematic 3D Royal Palace Double Doors & Wax Seal Opening */}
+      {showDoors && (
+        <OpeningScreen
+          key={doorKey}
+          invitation={invitation}
+          theme={{ crestIcon: '👑', fontHeading: 'font-serif' }}
+          onEnter={() => {
+            if (audioRef.current && !isPlaying) {
+              audioRef.current.play().catch(() => {});
+              setIsPlaying(true);
+            }
+          }}
+          isPreview={isPreview}
+        />
       )}
+
+      {/* Floating Toolbar: Replay Doors & Music Toggle */}
+      <div className={`${isPreview ? 'absolute top-3 right-3 z-30' : 'fixed top-4 right-4 z-40'} flex items-center space-x-2`}>
+        <button
+          type="button"
+          onClick={() => {
+            setDoorKey((prev) => prev + 1);
+            setShowDoors(true);
+          }}
+          className="px-3 py-1.5 rounded-full bg-black/70 hover:bg-black/90 backdrop-blur-md border border-[#d4af37]/50 text-[#d4af37] shadow-xl text-[11px] font-serif flex items-center space-x-1.5 cursor-pointer transition-transform hover:scale-105"
+          title="Replay Palace Doors"
+        >
+          <DoorClosed className="w-3.5 h-3.5 text-[#d4af37]" />
+          <span>Replay Doors</span>
+        </button>
+      </div>
 
       {/* 2. Floating Music Toggle */}
       {invitation.music_enabled !== false && (
