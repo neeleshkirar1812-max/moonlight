@@ -812,7 +812,7 @@ const handleMockRequest = async (method, url, data) => {
         {
           _id: 'inv-sample-1',
           id: 'inv-sample-1',
-          templateId: 'royal-love',
+          templateId: 'rose-gold-blush-royal',
           customerEmail: 'aarav.ananya@gmail.com',
           customerName: 'Aarav Sharma & Kiara Sen',
           brideName: 'Kiara Sen',
@@ -923,7 +923,7 @@ const handleMockRequest = async (method, url, data) => {
       purchases = [
         {
           _id: 'pur-1',
-          templateId: 'royal-love',
+          templateId: 'rose-gold-blush-royal',
           templateName: 'Royal Love',
           customerEmail: 'aarav.ananya@gmail.com',
           customerName: 'Aarav Sharma & Kiara Sen',
@@ -1049,7 +1049,7 @@ const handleMockRequest = async (method, url, data) => {
     if (cleanUrl.includes('/payments/verify')) {
       const newPurchase = {
         _id: `pur-${Date.now()}`,
-        templateId: data.templateId || 'royal-love',
+        templateId: data.templateId || 'rose-gold-blush-royal',
         templateName: 'Royal Love',
         customerEmail: data.customerEmail || 'couple@moonlight.com',
         customerName: data.customerName || 'Valued Couple',
@@ -1074,7 +1074,7 @@ const handleMockRequest = async (method, url, data) => {
       const newInv = {
         _id: `inv-${Date.now()}`,
         id: `inv-${Date.now()}`,
-        templateId: data.templateId || 'royal-love',
+        templateId: data.templateId || 'rose-gold-blush-royal',
         customerEmail: data.customerEmail || 'couple@moonlight.com',
         userEmail: data.customerEmail || 'couple@moonlight.com',
         customerName: data.customerName || 'Valued Couple',
@@ -1230,7 +1230,7 @@ const handleMockRequest = async (method, url, data) => {
 
       const newPurchase = {
         _id: `pur-${Date.now()}`,
-        templateId: data.templateId || 'royal-love',
+        templateId: data.templateId || 'rose-gold-blush-royal',
         templateName: 'Royal Love',
         customerEmail: email,
         customerName: name,
@@ -1247,7 +1247,7 @@ const handleMockRequest = async (method, url, data) => {
       const newInv = {
         _id: `inv-${Date.now()}`,
         id: `inv-${Date.now()}`,
-        templateId: data.templateId || 'royal-love',
+        templateId: data.templateId || 'rose-gold-blush-royal',
         customerEmail: email,
         userEmail: email,
         customerName: name,

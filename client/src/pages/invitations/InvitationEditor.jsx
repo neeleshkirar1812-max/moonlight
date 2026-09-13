@@ -53,7 +53,7 @@ const InvitationEditor = () => {
   const [previewDoorKey, setPreviewDoorKey] = useState(0);
 
   const [form, setForm] = useState({
-    template_id: 'royal-love',
+    template_id: 'rose-gold-blush-royal',
     title: 'A Royal Celebration',
     names: 'Aarav Sharma & Kiara Sen',
     bride_name: 'Kiara Sen',

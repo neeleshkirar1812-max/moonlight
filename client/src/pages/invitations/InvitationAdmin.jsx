@@ -95,7 +95,7 @@ const InvitationAdmin = ({ initialTab }) => {
     customerEmail: '',
     customerName: '',
     customerPhone: '',
-    templateId: 'royal-love',
+    templateId: 'rose-gold-blush-royal',
     title: 'A Royal Celebration',
     names: 'Aarav & Kiara',
     date: '2026-11-20',
@@ -222,7 +222,7 @@ const InvitationAdmin = ({ initialTab }) => {
         customerEmail: '',
         customerName: '',
         customerPhone: '',
-        templateId: 'royal-love',
+        templateId: 'rose-gold-blush-royal',
         title: 'A Royal Celebration',
         names: 'Aarav & Kiara',
         date: '2026-11-20',
@@ -245,7 +245,7 @@ const InvitationAdmin = ({ initialTab }) => {
       customerEmail: 'priya.rahul@gmail.com',
       customerName: 'Rahul Sharma & Priya Verma',
       customerPhone: '+91 98260 12345',
-      templateId: 'royal-love',
+      templateId: 'rose-gold-blush-royal',
       title: 'Rahul & Priya Royal Wedding',
       names: 'Rahul & Priya',
       date: '2026-12-15',
@@ -349,7 +349,7 @@ const InvitationAdmin = ({ initialTab }) => {
     const rows = invitations.map((inv) => [
       `"${inv.names || 'Couple'}"`,
       `"${inv.customerEmail || inv.userEmail || ''}"`,
-      `"${inv.templateId || 'royal-love'}"`,
+      `"${inv.templateId || 'rose-gold-blush-royal'}"`,
       inv.status || (inv.published ? 'PUBLISHED' : 'DRAFT'),
       `"${inv.slug || ''}"`,
       inv.rsvpCount || 0,
@@ -1226,7 +1226,7 @@ const InvitationAdmin = ({ initialTab }) => {
                               </td>
                               <td className="py-3.5 px-4">
                                 <span className="px-2 py-0.5 rounded-md bg-amber-50 text-amber-900 font-semibold text-[11px] border border-amber-200/60">
-                                  {inv.templateId || 'royal-love'}
+                                  {inv.templateId || 'rose-gold-blush-royal'}
                                 </span>
                               </td>
                               <td className="py-3.5 px-4">

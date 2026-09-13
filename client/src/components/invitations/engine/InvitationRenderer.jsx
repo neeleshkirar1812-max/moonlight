@@ -48,16 +48,6 @@ const InvitationRenderer = ({
       'royal-grace',
       'emerald-noir-royal',
       'ivory-elegance-royal',
-      'royal-love',
-      'royal-elegance',
-      'jaipur-heritage',
-      'shahi-sangeet',
-      'nawab-of-awadh',
-      'emerald-noir',
-      'crimson-royale',
-      'taj-imperial',
-      'bikaner-riyasat',
-      'udaivilas-palace',
     ].includes(rawTemplateId);
 
   if (isRoyal) {

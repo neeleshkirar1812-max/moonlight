@@ -592,7 +592,7 @@ const InvitationsLanding = () => {
               </ul>
             </div>
             <Link
-              to="/invitations/templates/royal-love"
+              to="/invitations/templates/rose-gold-blush-royal"
               className="w-full py-3.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-neutral-950 font-bold text-xs uppercase tracking-wider text-center block shadow-md transition-all"
             >
               Choose Royal Suite
