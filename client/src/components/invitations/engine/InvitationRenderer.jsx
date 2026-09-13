@@ -43,8 +43,7 @@ const InvitationRenderer = ({
 
   if (isRoyal) {
     return (
-      <ZareqiaRoyalSuite
-        invitation={invitation}
+      <ZareqiaRoyalSuite key={rawTemplateId} invitation={invitation}
         isPreview={isPreview}
         onRsvpSuccess={onRsvpSuccess}
       />
@@ -75,8 +74,7 @@ const InvitationRenderer = ({
 
   if (isClassic) {
     return (
-      <ZareqiaClassicSuite
-        invitation={invitation}
+      <ZareqiaClassicSuite key={rawTemplateId} invitation={invitation}
         isPreview={isPreview}
         onRsvpSuccess={onRsvpSuccess}
       />

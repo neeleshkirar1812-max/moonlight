@@ -21,7 +21,7 @@ import ZareqiaBody, {
 } from './ZareqiaBody';
 
 // =========================================================================
-// THEME CONFIGURATIONS FOR THE 5 CLASSIC SUITES
+// THEME CONFIGURATIONS FOR THE 12 CLASSIC SUITES (1:1 Zareqia & Multi-Category)
 // =========================================================================
 export const zareqiaClassicThemes = {
   'emerald-noir': {
@@ -159,6 +159,195 @@ export const zareqiaClassicThemes = {
     },
     musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
   },
+  'little-sunshine': {
+    id: 'little-sunshine',
+    name: 'Prince & Princess Birthday',
+    isDark: true,
+    background: 'hsl(245, 45%, 12%)',
+    foreground: 'hsl(45, 95%, 68%)',
+    subText: 'hsl(245, 20%, 70%)',
+    primaryColor: 'hsl(45, 95%, 68%)',
+    accent: 'hsl(45, 95%, 60%)',
+    doorLeftBg: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%)',
+    doorRightBg: 'linear-gradient(225deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%)',
+    doorBorder: '1px solid hsl(45, 90%, 50%)',
+    sealColor: 'hsl(45, 90%, 45%)',
+    sealHighlight: 'hsl(45, 95%, 65%)',
+    sealAccent: '#1e1b4b',
+    doorType: '3d-swing',
+    cornerType: 'palace',
+    fontStyle: 'cinzel',
+    scratch: {
+      gradStart: '#fde047',
+      gradMid: '#ca8a04',
+      gradEnd: '#1e1b4b',
+      textColor: '#1e1b4b',
+      accent: '#facc15',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_bb630cc098.mp3?filename=acoustic-guitars-ambient-uplifting-11369.mp3',
+  },
+  'sweet-nesting-baby': {
+    id: 'sweet-nesting-baby',
+    name: 'Sweet Cradle Baby Shower',
+    isDark: true,
+    background: 'hsl(270, 50%, 12%)',
+    foreground: 'hsl(280, 70%, 85%)',
+    subText: 'hsl(270, 20%, 75%)',
+    primaryColor: 'hsl(280, 70%, 85%)',
+    accent: 'hsl(280, 60%, 70%)',
+    doorLeftBg: 'linear-gradient(135deg, #2e1065 0%, #3b0764 50%, #2e1065 100%)',
+    doorRightBg: 'linear-gradient(225deg, #2e1065 0%, #3b0764 50%, #2e1065 100%)',
+    doorBorder: '1px solid hsl(280, 60%, 60%)',
+    sealColor: 'hsl(280, 50%, 35%)',
+    sealHighlight: 'hsl(280, 50%, 55%)',
+    sealAccent: '#ffffff',
+    doorType: 'slide-split',
+    cornerType: 'floral',
+    fontStyle: 'dancing',
+    scratch: {
+      gradStart: '#e9d5ff',
+      gradMid: '#a855f7',
+      gradEnd: '#3b0764',
+      textColor: '#ffffff',
+      accent: '#c084fc',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=piano-moment-9835.mp3',
+  },
+  'silver-anniversary': {
+    id: 'silver-anniversary',
+    name: 'Silver Jubilee Milestone',
+    isDark: true,
+    background: 'hsl(240, 6%, 10%)',
+    foreground: 'hsl(210, 20%, 90%)',
+    subText: 'hsl(240, 5%, 65%)',
+    primaryColor: 'hsl(210, 20%, 90%)',
+    accent: 'hsl(210, 15%, 80%)',
+    doorLeftBg: 'linear-gradient(135deg, #18181b 0%, #27272a 50%, #18181b 100%)',
+    doorRightBg: 'linear-gradient(225deg, #18181b 0%, #27272a 50%, #18181b 100%)',
+    doorBorder: '1px solid hsl(210, 15%, 50%)',
+    sealColor: 'hsl(240, 5%, 25%)',
+    sealHighlight: 'hsl(240, 5%, 45%)',
+    sealAccent: '#ffffff',
+    doorType: '3d-swing',
+    cornerType: 'classic',
+    fontStyle: 'cinzel',
+    scratch: {
+      gradStart: '#f4f4f5',
+      gradMid: '#71717a',
+      gradEnd: '#18181b',
+      textColor: '#18181b',
+      accent: '#a1a1aa',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+  },
+  'terracotta-boho': {
+    id: 'terracotta-boho',
+    name: 'Bohemian Griha Pravesh',
+    isDark: true,
+    background: 'hsl(24, 75%, 12%)',
+    foreground: 'hsl(35, 80%, 75%)',
+    subText: 'hsl(24, 30%, 65%)',
+    primaryColor: 'hsl(35, 80%, 75%)',
+    accent: 'hsl(24, 85%, 55%)',
+    doorLeftBg: 'linear-gradient(135deg, #451a03 0%, #78350f 50%, #451a03 100%)',
+    doorRightBg: 'linear-gradient(225deg, #451a03 0%, #78350f 50%, #451a03 100%)',
+    doorBorder: '1px solid hsl(24, 70%, 40%)',
+    sealColor: 'hsl(24, 80%, 30%)',
+    sealHighlight: 'hsl(24, 80%, 50%)',
+    sealAccent: '#fef3c7',
+    doorType: 'slide-split',
+    cornerType: 'minimal',
+    fontStyle: 'cinzel',
+    scratch: {
+      gradStart: '#fed7aa',
+      gradMid: '#c2410c',
+      gradEnd: '#451a03',
+      textColor: '#ffffff',
+      accent: '#ea580c',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_bb630cc098.mp3?filename=acoustic-guitars-ambient-uplifting-11369.mp3',
+  },
+  'mehendi-magic': {
+    id: 'mehendi-magic',
+    name: 'Marigold Henna Utsav',
+    isDark: true,
+    background: 'hsl(36, 80%, 12%)',
+    foreground: 'hsl(48, 95%, 65%)',
+    subText: 'hsl(36, 40%, 65%)',
+    primaryColor: 'hsl(48, 95%, 65%)',
+    accent: 'hsl(42, 95%, 50%)',
+    doorLeftBg: 'linear-gradient(135deg, #451a03 0%, #713f12 50%, #451a03 100%)',
+    doorRightBg: 'linear-gradient(225deg, #451a03 0%, #713f12 50%, #451a03 100%)',
+    doorBorder: '1px solid hsl(42, 90%, 45%)',
+    sealColor: 'hsl(42, 85%, 35%)',
+    sealHighlight: 'hsl(42, 90%, 55%)',
+    sealAccent: '#fef08a',
+    doorType: '3d-swing',
+    cornerType: 'floral',
+    fontStyle: 'dancing',
+    scratch: {
+      gradStart: '#fef08a',
+      gradMid: '#ca8a04',
+      gradEnd: '#451a03',
+      textColor: '#1a1208',
+      accent: '#eab308',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/03/10/audio_c3574c82c3.mp3?filename=indian-classical-instrumental-110825.mp3',
+  },
+  'celestial-night': {
+    id: 'celestial-night',
+    name: 'Celestial Galaxy Night',
+    isDark: true,
+    background: 'hsl(222, 60%, 6%)',
+    foreground: 'hsl(186, 90%, 75%)',
+    subText: 'hsl(222, 30%, 70%)',
+    primaryColor: 'hsl(186, 90%, 75%)',
+    accent: 'hsl(186, 85%, 55%)',
+    doorLeftBg: 'linear-gradient(135deg, #030712 0%, #0f172a 50%, #030712 100%)',
+    doorRightBg: 'linear-gradient(225deg, #030712 0%, #0f172a 50%, #030712 100%)',
+    doorBorder: '1px solid hsl(186, 70%, 40%)',
+    sealColor: 'hsl(222, 50%, 20%)',
+    sealHighlight: 'hsl(186, 80%, 50%)',
+    sealAccent: '#06b6d4',
+    doorType: 'slide-split',
+    cornerType: 'minimal',
+    fontStyle: 'cinzel',
+    scratch: {
+      gradStart: '#a5f3fc',
+      gradMid: '#0891b2',
+      gradEnd: '#020617',
+      textColor: '#ffffff',
+      accent: '#22d3ee',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=piano-moment-9835.mp3',
+  },
+  'coastal-breeze': {
+    id: 'coastal-breeze',
+    name: 'Goa Coastal Beachfront',
+    isDark: true,
+    background: 'hsl(198, 70%, 12%)',
+    foreground: 'hsl(190, 80%, 80%)',
+    subText: 'hsl(198, 30%, 70%)',
+    primaryColor: 'hsl(190, 80%, 80%)',
+    accent: 'hsl(190, 75%, 55%)',
+    doorLeftBg: 'linear-gradient(135deg, #083344 0%, #164e63 50%, #083344 100%)',
+    doorRightBg: 'linear-gradient(225deg, #083344 0%, #164e63 50%, #083344 100%)',
+    doorBorder: '1px solid hsl(190, 60%, 40%)',
+    sealColor: 'hsl(198, 60%, 25%)',
+    sealHighlight: 'hsl(190, 70%, 50%)',
+    sealAccent: '#cffafe',
+    doorType: '3d-swing',
+    cornerType: 'classic',
+    fontStyle: 'dancing',
+    scratch: {
+      gradStart: '#cffafe',
+      gradMid: '#0e7490',
+      gradEnd: '#083344',
+      textColor: '#083344',
+      accent: '#06b6d4',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_bb630cc098.mp3?filename=acoustic-guitars-ambient-uplifting-11369.mp3',
+  },
 };
 
 const ZareqiaClassicSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }) => {
@@ -216,7 +405,7 @@ const ZareqiaClassicSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess
   };
 
   const handleScrollDown = () => {
-    const el = document.getElementById('invitation-welcome');
+    const el = document.getElementById('invitation-welcome') || document.getElementById('invitation-scratch');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     } else {
@@ -248,7 +437,7 @@ const ZareqiaClassicSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess
     >
       <DamaskPattern />
 
-      {/* Audio Element */}
+      {/* Background Audio */}
       <audio
         ref={audioRef}
         loop
@@ -261,7 +450,7 @@ const ZareqiaClassicSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess
         <button
           type="button"
           onClick={toggleMusic}
-          className="p-2.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white hover:bg-black/80 shadow-2xl transition-all"
+          className="p-2.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white hover:bg-black/80 shadow-2xl transition-all cursor-pointer"
           title={isPlayingMusic ? 'Mute Music' : 'Play Music'}
         >
           {isPlayingMusic ? (
@@ -273,7 +462,7 @@ const ZareqiaClassicSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess
         <button
           type="button"
           onClick={() => setQrOpen(true)}
-          className="p-2.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white hover:bg-black/80 shadow-2xl transition-all"
+          className="p-2.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white hover:bg-black/80 shadow-2xl transition-all cursor-pointer"
           title="Share QR Code"
         >
           <QrCode className="w-4 h-4" />
@@ -281,7 +470,7 @@ const ZareqiaClassicSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess
         <button
           type="button"
           onClick={handleShareWhatsApp}
-          className="px-3.5 py-2 rounded-full bg-emerald-600/90 hover:bg-emerald-600 text-white font-bold text-xs uppercase tracking-wider shadow-xl flex items-center space-x-1.5 transition-all"
+          className="px-3.5 py-2 rounded-full bg-emerald-600/90 hover:bg-emerald-600 text-white font-bold text-xs uppercase tracking-wider shadow-xl flex items-center space-x-1.5 transition-all cursor-pointer"
         >
           <Share2 className="w-3.5 h-3.5" />
           <span className="hidden xs:inline">Share</span>
@@ -289,298 +478,204 @@ const ZareqiaClassicSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess
       </div>
 
       {/* =========================================================================
-          AUTHENTIC CLASSIC OPENING DOORS (Zareqia 1:1 Animation)
+          INTERACTIVE 3D PALACE GATES / ENVELOPE OPENING OVERLAY
          ========================================================================= */}
       {!doorsFadedOut && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center select-none"
-          style={{ perspective: '1600px', perspectiveOrigin: '50% 50%' }}
+          className={`fixed inset-0 z-40 flex items-center justify-center overflow-hidden transition-opacity duration-1000 select-none ${
+            hasDoorOpened ? 'pointer-events-none opacity-0 delay-1000' : 'opacity-100'
+          }`}
+          style={{ perspective: '1400px' }}
+          onClick={handleOpenDoors}
         >
+          {/* Left Door Panel */}
           <div
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              hasDoorOpened ? 'opacity-20' : 'opacity-100'
-            }`}
+            className="absolute inset-y-0 left-0 w-1/2 flex items-center justify-end z-20 shadow-2xl"
             style={{
-              background: 'radial-gradient(ellipse at center, rgba(201,163,85,0.05) 0%, rgba(10,15,12,1) 100%)',
-            }}
-          />
-
-          {/* Left Door */}
-          <div
-            className={`absolute top-0 left-0 w-1/2 h-full transition-transform duration-[2400ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
-              theme.doorType === 'slide-split'
-                ? hasDoorOpened
-                  ? '-translate-x-full'
-                  : 'translate-x-0'
-                : theme.doorType === 'curtain-skew'
-                ? hasDoorOpened
-                  ? '-translate-x-full -skew-x-3'
-                  : 'translate-x-0'
-                : hasDoorOpened
-                ? '-rotate-y-[90deg]'
-                : 'rotate-y-0'
-            }`}
-            style={{
-              transformOrigin: 'left center',
-              transformStyle: 'preserve-3d',
               background: theme.doorLeftBg,
               borderRight: theme.doorBorder,
+              transformOrigin: 'left center',
+              transform: hasDoorOpened
+                ? theme.doorType === 'slide-split'
+                  ? 'translateX(-100%)'
+                  : theme.doorType === 'curtain-skew'
+                  ? 'translateX(-100%) skewY(-8deg)'
+                  : 'rotateY(-115deg)'
+                : 'rotateY(0deg)',
+              transition: 'transform 2.2s cubic-bezier(0.25, 1, 0.5, 1)',
             }}
           >
-            {theme.cornerType === 'floral' ? (
-              <FloralCorner className="absolute top-6 left-6 w-20 h-20 opacity-30 text-rose-400" />
-            ) : theme.cornerType === 'minimal' ? (
-              <MinimalCorner className="absolute top-6 left-6 w-16 h-16 opacity-35 text-amber-400" />
-            ) : (
-              <ClassicCorner className="absolute top-6 right-6 w-16 h-16 opacity-30 text-amber-300" />
-            )}
+            {/* Ornate Corner Elements */}
+            <div className="absolute top-6 left-6 pointer-events-none opacity-40">
+              {theme.cornerType === 'palace' && <PalaceCorner className="w-16 h-16" />}
+              {theme.cornerType === 'floral' && <FloralCorner className="w-16 h-16" />}
+              {theme.cornerType === 'minimal' && <MinimalCorner className="w-16 h-16" />}
+              {theme.cornerType === 'classic' && <ClassicCorner className="w-16 h-16" />}
+            </div>
+            <div className="absolute bottom-6 left-6 pointer-events-none opacity-40 rotate-270">
+              {theme.cornerType === 'palace' && <PalaceCorner className="w-16 h-16" />}
+              {theme.cornerType === 'floral' && <FloralCorner className="w-16 h-16" />}
+              {theme.cornerType === 'minimal' && <MinimalCorner className="w-16 h-16" />}
+              {theme.cornerType === 'classic' && <ClassicCorner className="w-16 h-16" />}
+            </div>
           </div>
 
-          {/* Right Door */}
+          {/* Right Door Panel */}
           <div
-            className={`absolute top-0 right-0 w-1/2 h-full transition-transform duration-[2400ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
-              theme.doorType === 'slide-split'
-                ? hasDoorOpened
-                  ? 'translate-x-full'
-                  : 'translate-x-0'
-                : theme.doorType === 'curtain-skew'
-                ? hasDoorOpened
-                  ? 'translate-x-full skew-x-3'
-                  : 'translate-x-0'
-                : hasDoorOpened
-                ? 'rotate-y-[90deg]'
-                : 'rotate-y-0'
-            }`}
+            className="absolute inset-y-0 right-0 w-1/2 flex items-center justify-start z-20 shadow-2xl"
             style={{
-              transformOrigin: 'right center',
-              transformStyle: 'preserve-3d',
               background: theme.doorRightBg,
               borderLeft: theme.doorBorder,
+              transformOrigin: 'right center',
+              transform: hasDoorOpened
+                ? theme.doorType === 'slide-split'
+                  ? 'translateX(100%)'
+                  : theme.doorType === 'curtain-skew'
+                  ? 'translateX(100%) skewY(8deg)'
+                  : 'rotateY(115deg)'
+                : 'rotateY(0deg)',
+              transition: 'transform 2.2s cubic-bezier(0.25, 1, 0.5, 1)',
             }}
           >
-            {theme.cornerType === 'floral' ? (
-              <FloralCorner className="absolute top-6 right-6 w-20 h-20 opacity-30 text-rose-400 -scale-x-100" />
-            ) : theme.cornerType === 'minimal' ? (
-              <MinimalCorner className="absolute top-6 right-6 w-16 h-16 opacity-35 text-amber-400 -scale-x-100" />
-            ) : (
-              <ClassicCorner className="absolute top-6 left-6 w-16 h-16 opacity-30 text-amber-300 -scale-x-100" />
-            )}
+            {/* Ornate Corner Elements */}
+            <div className="absolute top-6 right-6 pointer-events-none opacity-40 rotate-90">
+              {theme.cornerType === 'palace' && <PalaceCorner className="w-16 h-16" />}
+              {theme.cornerType === 'floral' && <FloralCorner className="w-16 h-16" />}
+              {theme.cornerType === 'minimal' && <MinimalCorner className="w-16 h-16" />}
+              {theme.cornerType === 'classic' && <ClassicCorner className="w-16 h-16" />}
+            </div>
+            <div className="absolute bottom-6 right-6 pointer-events-none opacity-40 rotate-180">
+              {theme.cornerType === 'palace' && <PalaceCorner className="w-16 h-16" />}
+              {theme.cornerType === 'floral' && <FloralCorner className="w-16 h-16" />}
+              {theme.cornerType === 'minimal' && <MinimalCorner className="w-16 h-16" />}
+              {theme.cornerType === 'classic' && <ClassicCorner className="w-16 h-16" />}
+            </div>
           </div>
 
-          {/* Center Royal Seal Button */}
-          {!hasDoorOpened ? (
-            <div
+          {/* Golden Center Wax Seal Emblem */}
+          <div
+            className={`relative z-30 flex flex-col items-center justify-center pointer-events-auto transition-all duration-700 ${
+              hasDoorOpened ? 'scale-150 opacity-0 blur-md' : 'scale-100 opacity-100'
+            }`}
+          >
+            <button
+              type="button"
               onClick={handleOpenDoors}
-              className="absolute z-20 flex flex-col items-center cursor-pointer group transform hover:scale-105 transition-transform duration-300"
+              className="w-24 h-24 md:w-28 md:h-28 rounded-full border-2 border-amber-400/80 flex flex-col items-center justify-center shadow-[0_0_50px_rgba(212,175,55,0.45)] hover:scale-105 active:scale-95 transition-all cursor-pointer group"
+              style={{
+                background: theme.sealColor,
+                boxShadow: `0 0 35px ${theme.sealHighlight}`,
+              }}
             >
+              <Heart
+                size={28}
+                className="transition-transform group-hover:scale-110 mb-1"
+                style={{ color: theme.sealAccent }}
+                fill="currentColor"
+              />
+              <span
+                className="text-[9px] uppercase tracking-widest font-mono font-bold text-center px-1"
+                style={{ color: theme.sealAccent }}
+              >
+                OPEN
+              </span>
+            </button>
+            <span className="mt-4 text-xs tracking-[0.25em] uppercase font-mono text-amber-200/90 drop-shadow">
+              Tap to Open Invitation
+            </span>
+          </div>
+
+          {/* Sparkles Particle Burst on Opening */}
+          {hasDoorOpened &&
+            sparkles.map((s) => (
               <div
-                className="w-28 h-28 md:w-36 md:h-36 rounded-full flex items-center justify-center shadow-2xl relative border-2 border-white/20 animate-pulse"
+                key={s.id}
+                className="absolute z-50 rounded-full pointer-events-none animate-ping"
                 style={{
-                  background: `radial-gradient(circle at 35% 35%, ${theme.sealHighlight}, ${theme.sealColor})`,
-                  boxShadow: '0 0 35px rgba(201, 163, 85, 0.4), inset 0 2px 4px rgba(255,255,255,0.3)',
+                  width: s.size,
+                  height: s.size,
+                  backgroundColor: theme.accent,
+                  left: '50%',
+                  top: '50%',
+                  transform: `translate(${s.tx}px, ${s.ty}px)`,
+                  transition: 'transform 1.8s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 1.8s ease-out',
                 }}
-              >
-                <div
-                  className="w-20 h-20 md:w-28 md:h-28 rounded-full border border-dashed flex flex-col items-center justify-center p-2 text-center"
-                  style={{ borderColor: theme.sealAccent }}
-                >
-                  <span
-                    className="font-serif text-xs md:text-sm uppercase tracking-[0.2em] font-bold"
-                    style={{ color: theme.sealAccent }}
-                  >
-                    TAP TO
-                  </span>
-                  <span
-                    className="font-serif text-sm md:text-base font-extrabold uppercase tracking-widest"
-                    style={{ color: theme.sealAccent }}
-                  >
-                    OPEN
-                  </span>
-                </div>
-              </div>
-              <p
-                className="mt-4 font-mono text-[11px] uppercase tracking-[0.3em] font-semibold"
-                style={{ color: theme.foreground }}
-              >
-                {theme.name}
-              </p>
-            </div>
-          ) : (
-            <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
-              {sparkles.map((sp) => (
-                <div
-                  key={sp.id}
-                  className="absolute rounded-full animate-ping"
-                  style={{
-                    width: sp.size,
-                    height: sp.size,
-                    background: theme.accent,
-                    transform: `translate(${sp.tx}px, ${sp.ty}px)`,
-                    transition: 'all 1.5s ease-out',
-                    opacity: 0,
-                  }}
-                />
-              ))}
-            </div>
-          )}
+              />
+            ))}
         </div>
       )}
 
       {/* =========================================================================
-          SECTION 1: REVEALED HERO SECTION (Exact Zareqia Layout)
+          HERO REVEAL AFTER DOORS OPEN
          ========================================================================= */}
-      <section
-        className={`min-h-screen flex flex-col items-center justify-center px-6 text-center relative overflow-hidden transition-opacity duration-1000 ${
-          doorsFadedOut ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `radial-gradient(ellipse at 50% 40%, ${theme.accent}15, transparent 65%)`,
-          }}
-        />
-
-        {/* 4 Corner Ornaments */}
-        {theme.cornerType === 'floral' ? (
-          <>
-            <FloralCorner className="absolute top-6 left-6 w-24 h-24 text-rose-400 opacity-35" />
-            <FloralCorner className="absolute top-6 right-6 w-24 h-24 text-rose-400 opacity-35 -scale-x-100" />
-            <FloralCorner className="absolute bottom-6 left-6 w-24 h-24 text-rose-400 opacity-35 -scale-y-100" />
-            <FloralCorner className="absolute bottom-6 right-6 w-24 h-24 text-rose-400 opacity-35 -scale-x-100 -scale-y-100" />
-          </>
-        ) : theme.cornerType === 'minimal' ? (
-          <>
-            <MinimalCorner className="absolute top-8 left-8 w-16 h-16 text-amber-400 opacity-40" />
-            <MinimalCorner className="absolute top-8 right-8 w-16 h-16 text-amber-400 opacity-40 -scale-x-100" />
-            <MinimalCorner className="absolute bottom-8 left-8 w-16 h-16 text-amber-400 opacity-40 -scale-y-100" />
-            <MinimalCorner className="absolute bottom-8 right-8 w-16 h-16 text-amber-400 opacity-40 -scale-x-100 -scale-y-100" />
-          </>
-        ) : theme.cornerType === 'palace' ? (
-          <>
-            <PalaceCorner className="absolute top-6 left-6 w-20 h-20 text-primary opacity-35" />
-            <PalaceCorner className="absolute top-6 right-6 w-20 h-20 text-primary opacity-35 -scale-x-100" />
-            <PalaceCorner className="absolute bottom-6 left-6 w-20 h-20 text-primary opacity-35 -scale-y-100" />
-            <PalaceCorner className="absolute bottom-6 right-6 w-20 h-20 text-primary opacity-35 -scale-x-100 -scale-y-100" />
-          </>
-        ) : (
-          ['top-6 left-6', 'top-6 right-6 -scale-x-100', 'bottom-6 left-6 -scale-y-100', 'bottom-6 right-6 -scale-x-100 -scale-y-100'].map(
-            (posClass, i) => (
-              <ClassicCorner
-                key={i}
-                className={`absolute ${posClass} w-20 h-20 opacity-30 z-10 pointer-events-none text-primary`}
-              />
-            )
-          )
-        )}
-
-        {/* Top Diamond Line Divider */}
-        <div className="absolute top-16 md:top-20 left-1/2 -translate-x-1/2 w-64 md:w-80 z-10">
-          <div className="flex items-center gap-4">
-            <div
-              className="flex-1 h-px"
-              style={{ background: `linear-gradient(90deg, transparent, ${theme.accent})` }}
-            />
-            <div
-              className="w-2.5 h-2.5 rotate-45 border"
-              style={{ borderColor: theme.accent, backgroundColor: theme.background }}
-            />
-            <div
-              className="flex-1 h-px"
-              style={{ background: `linear-gradient(270deg, transparent, ${theme.accent})` }}
-            />
-          </div>
+      <section className="relative min-h-[90vh] flex flex-col items-center justify-center text-center px-6 py-20 overflow-hidden">
+        {/* Top Ornament */}
+        <div className="mb-4">
+          <Heart size={28} className="mx-auto" style={{ color: theme.foreground }} fill="currentColor" />
         </div>
 
-        {/* Hero Card Typography */}
-        <div className="relative z-10 max-w-lg space-y-4 pt-8">
-          <p
-            className="font-calligraphic text-xs tracking-[0.4em] uppercase font-bold"
-            style={{ color: theme.subText }}
+        <p
+          className={`mb-3 text-2xl md:text-3xl italic ${
+            theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-widest text-lg md:text-xl' : 'font-dancing'
+          }`}
+          style={{ color: theme.foreground }}
+        >
+          We are getting married
+        </p>
+
+        <HeartDivider />
+
+        <div className="space-y-2 max-w-2xl mx-auto">
+          <h1
+            className={`leading-none tracking-wide text-5xl md:text-8xl ${
+              theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-wider text-4xl md:text-6xl' : 'font-dancing'
+            }`}
+            style={{ color: theme.foreground }}
           >
-            THE WEDDING CELEBRATION OF
+            {groomName}
+          </h1>
+          {groomParents && (
+            <p className="text-xs md:text-sm italic opacity-80" style={{ color: theme.subText }}>
+              {groomParents}
+            </p>
+          )}
+
+          <p
+            className="my-3 font-dancing text-3xl md:text-4xl"
+            style={{ color: theme.foreground, opacity: 0.85 }}
+          >
+            &
           </p>
 
-          <div className="space-y-1">
-            <h1
-              className={`text-5xl md:text-7xl lg:text-8xl font-normal tracking-wide ${
-                theme.fontStyle === 'dancing' ? 'font-dancing' : 'font-cinzel'
-              }`}
-              style={{
-                color: theme.foreground,
-                textShadow: '0 2px 14px rgba(0,0,0,0.6)',
-              }}
-            >
-              {groomName}
-            </h1>
-            {groomParents && (
-              <p
-                className="text-xs md:text-sm font-display italic opacity-85 pt-1"
-                style={{ color: theme.accent }}
-              >
-                {groomParents}
-              </p>
-            )}
-          </div>
-
-          {/* Center Heart / Ampersand */}
-          <div className="my-2 flex items-center justify-center gap-4">
-            <div
-              className="w-20 h-px"
-              style={{ background: `linear-gradient(90deg, transparent, ${theme.accent})` }}
-            />
-            <span
-              className="font-dancing text-3xl md:text-4xl"
-              style={{ color: theme.accent }}
-            >
-              &
-            </span>
-            <div
-              className="w-20 h-px"
-              style={{ background: `linear-gradient(270deg, transparent, ${theme.accent})` }}
-            />
-          </div>
-
-          <div className="space-y-1">
-            <h1
-              className={`text-5xl md:text-7xl lg:text-8xl font-normal tracking-wide ${
-                theme.fontStyle === 'dancing' ? 'font-dancing' : 'font-cinzel'
-              }`}
-              style={{
-                color: theme.foreground,
-                textShadow: '0 2px 14px rgba(0,0,0,0.6)',
-              }}
-            >
-              {brideName}
-            </h1>
-            {brideParents && (
-              <p
-                className="text-xs md:text-sm font-display italic opacity-85 pt-1"
-                style={{ color: theme.accent }}
-              >
-                {brideParents}
-              </p>
-            )}
-          </div>
+          <h1
+            className={`leading-none tracking-wide text-5xl md:text-8xl ${
+              theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-wider text-4xl md:text-6xl' : 'font-dancing'
+            }`}
+            style={{ color: theme.foreground }}
+          >
+            {brideName}
+          </h1>
+          {brideParents && (
+            <p className="text-xs md:text-sm italic opacity-80" style={{ color: theme.subText }}>
+              {brideParents}
+            </p>
+          )}
         </div>
 
-        {/* Bouncing Scroll Down Trigger */}
+        {/* Scroll down button */}
         <div
           onClick={handleScrollDown}
-          className="absolute inset-x-0 bottom-8 z-20 flex flex-col items-center gap-2 cursor-pointer transition-all duration-700 animate-bounce pointer-events-auto"
+          className="mt-12 flex flex-col items-center gap-1.5 cursor-pointer animate-bounce transition-all hover:scale-110"
         >
-          <span
-            className="text-[10px] uppercase tracking-[0.25em] font-mono"
-            style={{ color: theme.subText }}
-          >
-            Scroll
+          <span className="text-[10px] uppercase tracking-widest font-mono opacity-80">
+            Scroll Down
           </span>
-          <ChevronDown size={20} style={{ color: theme.accent }} />
+          <ChevronDown size={18} style={{ color: theme.foreground }} />
         </div>
       </section>
 
       {/* =========================================================================
-          SECTION 2 TO 9: SEAMLESS ZAREQIA INSIDE BODY
+          MAIN INVITATION BODY SECTIONS
          ========================================================================= */}
       <ZareqiaBody
         data={invitation}
@@ -601,11 +696,11 @@ const ZareqiaClassicSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess
           >
             <button
               onClick={() => setQrOpen(false)}
-              className="absolute top-4 right-4 p-1.5 rounded-full bg-white/10 text-neutral-300 hover:text-white"
+              className="absolute top-4 right-4 p-1.5 rounded-full bg-white/10 text-neutral-300 hover:text-white cursor-pointer"
             >
               <X size={18} />
             </button>
-            <h3 className="font-serif text-xl font-bold text-primary">Scan & Share Invitation</h3>
+            <h3 className="font-serif text-xl font-bold text-amber-400">Scan & Share Invitation</h3>
             <p className="text-xs text-neutral-400">Share this QR code with your guests:</p>
             <div className="p-4 bg-white rounded-2xl inline-block shadow-inner">
               <img
@@ -616,16 +711,17 @@ const ZareqiaClassicSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess
                 className="w-44 h-44 mx-auto"
               />
             </div>
+            <p className="text-[11px] text-neutral-400 font-mono break-all">{window.location.href}</p>
             <button
               onClick={() => {
                 navigator.clipboard.writeText(window.location.href);
                 setCopied(true);
                 setTimeout(() => setCopied(false), 2000);
               }}
-              className="w-full py-2.5 rounded-full border border-primary/40 text-primary font-mono text-xs uppercase tracking-wider flex items-center justify-center space-x-1.5 hover:bg-primary/10 transition-all"
+              className="w-full py-2.5 rounded-full bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-1.5 transition-all cursor-pointer"
             >
-              {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-              <span>{copied ? 'Link Copied!' : 'Copy Invitation Link'}</span>
+              {copied ? <Check size={14} /> : <Copy size={14} />}
+              <span>{copied ? 'Link Copied!' : 'Copy Live Link'}</span>
             </button>
           </div>
         </div>

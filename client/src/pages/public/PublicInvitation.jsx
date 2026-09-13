@@ -6,7 +6,7 @@ import InvitationRenderer from '../../components/invitations/engine/InvitationRe
 import { Crown, Sparkles, ChevronDown, Check, ArrowRight } from 'lucide-react';
 import { getTemplateById, invitationTemplates } from '../../data/invitationTemplates';
 
-// 13 Distinct Presets for each Royal and Classic Template
+// 20 Distinct Presets for each Royal and Classic Template
 export const templateDemoDataMap = {
   // ==========================================
   // 👑 8 ROYAL VIDEO SUITES
@@ -229,7 +229,7 @@ export const templateDemoDataMap = {
   },
 
   // ==========================================
-  // ✨ 5 CLASSIC SUITES
+  // ✨ 12 CLASSIC SUITES
   // ==========================================
   'emerald-noir': {
     names: 'Zaid Khan & Alizeh Mirza',
@@ -364,9 +364,193 @@ export const templateDemoDataMap = {
       'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
     ],
   },
+  'little-sunshine': {
+    names: 'Vivaan Sharma',
+    groom_name: 'Vivaan Sharma',
+    bride_name: '1st Birthday Celebration',
+    groom_parents: 'Loving Parents: Sneha & Rohit Sharma',
+    bride_parents: 'Grandparents: Mrs. & Mr. K.K. Sharma',
+    host_names: 'Sharma Family',
+    title: 'Prince Vivaan Turns One!',
+    eventType: 'Birthday Invitation',
+    date: '2026-10-25',
+    time: '17:00',
+    venue: 'Grand Hyatt Mumbai Hotel & Residences',
+    venueAddress: 'Bandra Kurla Complex Vicinity, Mumbai 400055',
+    story_text: 'Our little prince is turning one! Join us for an evening of magic, laughter, balloons, and cake.',
+    message: 'Join us in celebrating Vivaan’s 1st Birthday with fun, games, and wonderful treats!',
+    welcome_text: 'Welcome to Little Prince Vivaan’s 1st Birthday Party!',
+    scratch_reveal_text: 'JOIN THE BIRTHDAY BASH 🎂',
+    events: [
+      { title: 'Magic Show & Balloon Twisting', date: '2026-10-25', time: '05:30 PM', venue: 'The Grand Ballroom', address: 'Grand Hyatt Mumbai' },
+      { title: 'Cake Cutting & Royal Feast', date: '2026-10-25', time: '07:00 PM', venue: 'Lawn Pavilion', address: 'Grand Hyatt Mumbai' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'sweet-nesting-baby': {
+    names: 'Ananya & Siddharth Joshi',
+    groom_name: 'Siddharth Joshi',
+    bride_name: 'Ananya Joshi',
+    groom_parents: 'Welcoming Baby Joshi with Love',
+    bride_parents: 'Blessed by Grandparents on both sides',
+    host_names: 'Joshi Family',
+    title: 'Godh Bharai & Baby Shower Celebration',
+    eventType: 'Baby Shower / Naming Ceremony',
+    date: '2026-11-08',
+    time: '16:00',
+    venue: 'The Westin Pune Koregaon Park',
+    venueAddress: '36/3-B, Mundhwa Rd, Koregaon Park Annexe, Pune 411001',
+    story_text: 'A sweet little miracle is on the way to fill our lives with endless joy and giggles.',
+    message: 'Cordially invite you to shower your blessings on the expectant mother and upcoming baby.',
+    welcome_text: 'Welcome to our heavenly Baby Shower blessing ceremony!',
+    scratch_reveal_text: 'BABY ON THE WAY 👶',
+    events: [
+      { title: 'Traditional Godh Bharai Rituals', date: '2026-11-08', time: '04:30 PM', venue: 'The Lotus Ballroom', address: 'The Westin Pune' },
+      { title: 'High Tea & Celebration Games', date: '2026-11-08', time: '06:00 PM', venue: 'The Pool Deck', address: 'The Westin Pune' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'silver-anniversary': {
+    names: 'Sunita & Rajesh Singhania',
+    groom_name: 'Rajesh Singhania',
+    bride_name: 'Sunita Singhania',
+    groom_parents: 'Celebrating 25 Glorious Years of Matrimony (1999 - 2024)',
+    bride_parents: 'Hosted with Love by Children: Aarav & Riya',
+    host_names: 'Singhania Family',
+    title: 'Silver Jubilee 25th Anniversary Celebration',
+    eventType: 'Anniversary Invitation',
+    date: '2026-11-30',
+    time: '19:30',
+    venue: 'The Taj Mahal Palace, Mumbai',
+    venueAddress: 'Apollo Bunder, Colaba, Mumbai, Maharashtra 400001',
+    story_text: '25 years of unconditional partnership, countless adventures, and an enduring bond of love.',
+    message: 'Join us as we raise a toast to 25 wonderful years of together forever!',
+    welcome_text: 'Welcome to the Silver Jubilee celebration of Sunita & Rajesh!',
+    scratch_reveal_text: 'CHEERS TO 25 YEARS 🥂',
+    events: [
+      { title: 'Cocktails & Toast to 25 Years', date: '2026-11-30', time: '07:30 PM', venue: 'The Sea Lounge', address: 'The Taj Mahal Palace Mumbai' },
+      { title: 'Gala Dinner & Dance', date: '2026-11-30', time: '09:00 PM', venue: 'The Crystal Room', address: 'The Taj Mahal Palace Mumbai' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'terracotta-boho': {
+    names: 'Neha & Vikram Malhotra',
+    groom_name: 'Vikram Malhotra',
+    bride_name: 'Neha Malhotra',
+    groom_parents: 'Shubh Griha Pravesh & Housewarming',
+    bride_parents: 'Welcoming blessings into our new abode',
+    host_names: 'Malhotra Family',
+    title: 'Griha Pravesh & New Home Celebration',
+    eventType: 'Housewarming / Griha Pravesh',
+    date: '2026-10-18',
+    time: '10:30',
+    venue: 'Villa Serenity, The Palm Springs',
+    venueAddress: 'Golf Course Road, Sector 54, Gurugram 122002',
+    story_text: 'A home built with dreams, warmth, and laughter. We begin a wonderful new chapter.',
+    message: 'Request your auspicious presence and blessings as we enter our new home.',
+    welcome_text: 'Shubh Swagatam to our New Home!',
+    scratch_reveal_text: 'WELCOME TO OUR NEW HOME 🏡',
+    events: [
+      { title: 'Vastu Shanti & Havan Puja', date: '2026-10-18', time: '10:30 AM', venue: 'Villa Serenity Courtyard', address: 'The Palm Springs, Gurugram' },
+      { title: 'Housewarming Lunch & High Tea', date: '2026-10-18', time: '01:00 PM', venue: 'Rooftop Terrace', address: 'The Palm Springs, Gurugram' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'mehendi-magic': {
+    names: 'Riya Sen & Varun Grover',
+    groom_name: 'Varun Grover',
+    bride_name: 'Riya Sen',
+    groom_parents: 'Son of Mrs. & Mr. K.L. Grover',
+    bride_parents: 'Daughter of Mrs. & Mr. Amit Sen',
+    host_names: 'Sen & Grover Families',
+    title: 'Marigold Henna & Dholak Utsav',
+    eventType: 'Party & Celebration Invitations',
+    date: '2026-11-16',
+    time: '16:00',
+    venue: 'Fairmont Jaipur, Kukas',
+    venueAddress: '2, Riico, Kukas, Jaipur, Rajasthan 302028',
+    story_text: 'Marigold yellow petals, fresh henna swirls, dholak beats, and joyous folk laughter.',
+    message: 'Join us for a vibrant evening of henna, music, dance and delicious festive food!',
+    welcome_text: 'Padharo Mhare Des! Welcome to the Henna Utsav!',
+    scratch_reveal_text: 'MEHENDI UTSAV • NOV 16 🌼',
+    events: [
+      { title: 'Henna Application & Folk Dancers', date: '2026-11-16', time: '04:00 PM', venue: 'Zoya Central Lawn', address: 'Fairmont Jaipur' },
+      { title: 'Dholak Beats & Rajasthani Feast', date: '2026-11-16', time: '07:30 PM', venue: 'Aravalli Ballroom', address: 'Fairmont Jaipur' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'celestial-night': {
+    names: 'Kiara & Aryan',
+    groom_name: 'Aryan Varma',
+    bride_name: 'Kiara Sen',
+    groom_parents: 'Sangeet & Cocktail Galaxy Night',
+    bride_parents: 'Presented by Sen & Varma Families',
+    host_names: 'Kiara & Aryan Squad',
+    title: 'Celestial Galaxy Sangeet & Cocktails',
+    eventType: 'Party & Celebration Invitations',
+    date: '2026-11-27',
+    time: '20:00',
+    venue: 'Alila Diwa Goa Resort',
+    venueAddress: '48/10, Adao Waddo, Majorda, Goa 403713',
+    story_text: 'Under a canopy of stardust and crystal constellations, we dance the night away.',
+    message: 'Get ready for an electric night of live band, Bollywood DJ battles, and signature cocktails!',
+    welcome_text: 'Welcome to the Most Epic Galaxy Sangeet Night!',
+    scratch_reveal_text: 'DANCE UNDER THE STARS ✨',
+    events: [
+      { title: 'Red Carpet & Cocktail Hour', date: '2026-11-27', time: '08:00 PM', venue: 'The Courtyard Deck', address: 'Alila Diwa Goa' },
+      { title: 'Stage Performances & Afterparty', date: '2026-11-27', time: '09:30 PM', venue: 'Grand Diwa Ballroom', address: 'Alila Diwa Goa' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'coastal-breeze': {
+    names: 'Tanya & Neil D’Souza',
+    groom_name: 'Neil D’Souza',
+    bride_name: 'Tanya Fernandez',
+    groom_parents: 'Son of Mrs. Maria & Mr. Francis D’Souza',
+    bride_parents: 'Daughter of Mrs. Joyce & Mr. Peter Fernandez',
+    host_names: 'D’Souza & Fernandez Families',
+    title: 'Goa Coastal Beachfront Nuptials',
+    eventType: 'Wedding Invitation',
+    date: '2026-12-04',
+    time: '16:30',
+    venue: 'W Goa Beachfront Pavilions, Vagator',
+    venueAddress: 'Vagator Beach, Bardez, Goa 403509',
+    story_text: 'Salty ocean breezes, sunlit palms, and barefoot vows along the shimmering Arabian Sea.',
+    message: 'Warmly invite you to celebrate our seaside destination wedding in sunny Goa.',
+    welcome_text: 'Welcome to our tropical beachfront wedding celebration!',
+    scratch_reveal_text: 'GOA BEACH WEDDING • DEC 04 🏖️',
+    events: [
+      { title: 'Barefoot Beachside Vows', date: '2026-12-04', time: '04:30 PM', venue: 'Vagator Beachfront Lawn', address: 'W Goa' },
+      { title: 'Sunset Sundowner & Live Jazz', date: '2026-12-04', time: '06:30 PM', venue: 'Rockpool Pavilion', address: 'W Goa' },
+      { title: 'Starlit Seafood Gala Dinner', date: '2026-12-04', time: '08:30 PM', venue: 'The Great Room', address: 'W Goa' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1544078741-7ea0e0cb5b81?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
 };
 
-const allDemosList = [
+export const allDemosList = [
+  // 👑 Royal
   { id: 'rose-gold-blush-royal', name: '👑 Royal Imperial', tier: 'royal' },
   { id: 'royal-majesty', name: '👑 Royal Majesty', tier: 'royal' },
   { id: 'royal-elegance-royal', name: '👑 Royal Elegance', tier: 'royal' },
@@ -375,11 +559,19 @@ const allDemosList = [
   { id: 'royal-grace', name: '👑 Royal Grace', tier: 'royal' },
   { id: 'royal-crest', name: '👑 Royal Crest', tier: 'royal' },
   { id: 'royal-legacy', name: '👑 Royal Legacy', tier: 'royal' },
+  // ✨ Classic
   { id: 'emerald-noir', name: '✨ Emerald Noir', tier: 'classic' },
   { id: 'ivory-elegance', name: '✨ Crimson Royale', tier: 'classic' },
   { id: 'rose-gold-blush', name: '✨ Rose Gold Blush', tier: 'classic' },
   { id: 'modern-minimal', name: '✨ Modern Minimal', tier: 'classic' },
   { id: 'royal-elegance', name: '✨ Majestic Love', tier: 'classic' },
+  { id: 'little-sunshine', name: '🎂 Birthday Prince', tier: 'classic' },
+  { id: 'sweet-nesting-baby', name: '👶 Baby Shower Cradle', tier: 'classic' },
+  { id: 'silver-anniversary', name: '🥂 Silver Jubilee', tier: 'classic' },
+  { id: 'terracotta-boho', name: '🏡 Griha Pravesh', tier: 'classic' },
+  { id: 'mehendi-magic', name: '🌼 Marigold Henna', tier: 'classic' },
+  { id: 'celestial-night', name: '✨ Galaxy Party', tier: 'classic' },
+  { id: 'coastal-breeze', name: '🏖️ Goa Beachfront', tier: 'classic' },
 ];
 
 const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
@@ -487,7 +679,7 @@ const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
             </button>
 
             {dropdownOpen && (
-              <div className="absolute left-0 top-full mt-2 w-56 max-h-72 overflow-y-auto rounded-2xl bg-neutral-950/95 border border-amber-500/30 shadow-2xl p-1.5 space-y-1 z-50 custom-scrollbar text-left">
+              <div className="absolute left-0 top-full mt-2 w-64 max-h-80 overflow-y-auto rounded-2xl bg-neutral-950/95 border border-amber-500/30 shadow-2xl p-1.5 space-y-1 z-50 custom-scrollbar text-left">
                 <div className="px-3 py-1 text-[10px] uppercase tracking-wider text-neutral-400 font-mono">
                   Switch Demo Template:
                 </div>

@@ -15,16 +15,18 @@ import {
 import ZareqiaBody, { DamaskPattern } from './ZareqiaBody';
 
 // =========================================================================
-// 8 DISTINCT ROYAL SUITE THEME CONFIGURATIONS (Exact Zareqia Mapping)
+// 8 DISTINCT ROYAL SUITE THEME CONFIGURATIONS (Exact 1:1 Zareqia Mapping)
 // =========================================================================
 export const zareqiaRoyalThemes = {
   'rose-gold-blush-royal': {
     id: 'rose-gold-blush-royal',
     name: 'Royal Imperial',
+    subtitle: 'Warm Gold & Champagne Rose',
     video: '/videos/rose-gold-blush.mp4',
     textColor: '#f5e6e0',
     accentColor: '#d4af37',
     primary: 'hsl(42, 75%, 48%)',
+    fontStyle: 'dancing',
     scratch: {
       gradStart: '#e8cc82',
       gradMid: '#a9802d',
@@ -38,10 +40,12 @@ export const zareqiaRoyalThemes = {
   'royal-majesty': {
     id: 'royal-majesty',
     name: 'Royal Majesty',
+    subtitle: 'Porcelain Blue Ballroom & Silver Crystal',
     video: '/videos/royal-majesty.mp4',
     textColor: '#f1f5f9',
     accentColor: '#0284c7',
     primary: 'hsl(200, 75%, 48%)',
+    fontStyle: 'dancing',
     scratch: {
       gradStart: '#bae6fd',
       gradMid: '#0284c7',
@@ -55,10 +59,12 @@ export const zareqiaRoyalThemes = {
   'royal-elegance-royal': {
     id: 'royal-elegance-royal',
     name: 'Royal Elegance',
+    subtitle: 'Crimson Velvet & Antique Gold Palace',
     video: '/videos/royal-elegance-royal.mp4',
     textColor: '#fef2f2',
     accentColor: '#dc2626',
     primary: 'hsl(0, 75%, 48%)',
+    fontStyle: 'dancing',
     scratch: {
       gradStart: '#fca5a5',
       gradMid: '#b91c1c',
@@ -72,10 +78,12 @@ export const zareqiaRoyalThemes = {
   'modern-minimal-royal': {
     id: 'royal-elegance-royal',
     name: 'Royal Elegance',
+    subtitle: 'Crimson Velvet & Antique Gold Palace',
     video: '/videos/royal-elegance-royal.mp4',
     textColor: '#fef2f2',
     accentColor: '#dc2626',
     primary: 'hsl(0, 75%, 48%)',
+    fontStyle: 'dancing',
     scratch: {
       gradStart: '#fca5a5',
       gradMid: '#b91c1c',
@@ -89,10 +97,12 @@ export const zareqiaRoyalThemes = {
   'royal-prestige': {
     id: 'royal-prestige',
     name: 'Royal Prestige',
+    subtitle: 'Blush Pink Velvet & Golden Foil',
     video: '/videos/royal-prestige.mp4',
     textColor: '#fde2e8',
     accentColor: '#be185d',
     primary: 'hsl(336, 75%, 48%)',
+    fontStyle: 'dancing',
     scratch: {
       gradStart: '#fbcfe8',
       gradMid: '#db2777',
@@ -106,16 +116,18 @@ export const zareqiaRoyalThemes = {
   'royal-heritage': {
     id: 'royal-heritage',
     name: 'Royal Heritage',
+    subtitle: 'Mediterranean Sky Blue & Platinum Grandeur',
     video: '/videos/royal-heritage.mp4',
     textColor: '#e0f2fe',
     accentColor: '#0369a1',
     primary: 'hsl(200, 75%, 48%)',
+    fontStyle: 'dancing',
     scratch: {
-      gradStart: '#e8cc82',
-      gradMid: '#a9802d',
-      gradEnd: '#5c421c',
-      textColor: '#1a1208',
-      accent: '#d4af37',
+      gradStart: '#bae6fd',
+      gradMid: '#0284c7',
+      gradEnd: '#0c4a6e',
+      textColor: '#ffffff',
+      accent: '#38bdf8',
     },
     background: '#081926',
     musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
@@ -123,10 +135,12 @@ export const zareqiaRoyalThemes = {
   'royal-grace': {
     id: 'royal-grace',
     name: 'Royal Grace',
+    subtitle: 'Sage Botanical Serenity & Emerald Pearl',
     video: '/videos/royal-grace.mp4',
     textColor: '#ecfdf5',
     accentColor: '#065f46',
     primary: 'hsl(160, 75%, 40%)',
+    fontStyle: 'dancing',
     scratch: {
       gradStart: '#a7f3d0',
       gradMid: '#059669',
@@ -140,10 +154,12 @@ export const zareqiaRoyalThemes = {
   'royal-crest': {
     id: 'royal-crest',
     name: 'Royal Crest',
+    subtitle: 'Lakeside Wax Seal & Deep Burgundy Romance',
     video: '/videos/royal-crest.mp4',
     textColor: '#fef2f2',
     accentColor: '#881337',
     primary: 'hsl(345, 75%, 48%)',
+    fontStyle: 'cinzel',
     scratch: {
       gradStart: '#fda4af',
       gradMid: '#9f1239',
@@ -157,10 +173,12 @@ export const zareqiaRoyalThemes = {
   'royal-legacy': {
     id: 'royal-legacy',
     name: 'Royal Legacy',
+    subtitle: 'Rajputana Imperial Velvet & Gold Filigree',
     video: '/videos/royal-legacy.mp4',
     textColor: '#fef3c7',
     accentColor: '#d97706',
     primary: 'hsl(38, 75%, 48%)',
+    fontStyle: 'cinzel',
     scratch: {
       gradStart: '#fde68a',
       gradMid: '#d97706',
@@ -174,10 +192,12 @@ export const zareqiaRoyalThemes = {
   'emerald-noir-royal': {
     id: 'emerald-noir-royal',
     name: 'Emerald Noir Royal',
+    subtitle: 'Emerald Green Palace & Gold Inlay',
     video: '/videos/emerald-noir-royal.mp4',
     textColor: '#ecfdf5',
     accentColor: '#10b981',
     primary: 'hsl(160, 75%, 40%)',
+    fontStyle: 'cinzel',
     scratch: {
       gradStart: '#6ee7b7',
       gradMid: '#059669',
@@ -191,10 +211,12 @@ export const zareqiaRoyalThemes = {
   'ivory-elegance-royal': {
     id: 'ivory-elegance-royal',
     name: 'Ivory Elegance & Crimson Royale',
+    subtitle: 'Dark Charcoal & Velvet Crimson',
     video: '/videos/ivory-elegance-royal.mp4',
     textColor: '#fff1f2',
     accentColor: '#e11d48',
     primary: 'hsl(348, 75%, 48%)',
+    fontStyle: 'cinzel',
     scratch: {
       gradStart: '#fda4af',
       gradMid: '#be123c',
@@ -239,7 +261,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
   const brideParents =
     invitation.bride_parents || invitation.brideParents || 'Daughter of Mrs. Poonam & Mr. Anand Malhotra';
 
-  // Strict Scroll Locking until 6.0s Gate Video completes
+  // Release scroll when gate opens
   useEffect(() => {
     if (!hasRevealed) {
       document.body.style.overflow = 'hidden';
@@ -258,36 +280,44 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
   const handleOpenGate = async (e) => {
     if (e && e.stopPropagation) e.stopPropagation();
     if (hasStarted) return;
+    setHasStarted(true);
+
     const vid = videoRef.current;
-    if (!vid) return;
-
-    try {
-      vid.muted = true;
-      vid.playsInline = true;
-      await vid.play();
-      setHasStarted(true);
-
-      if (audioRef.current) {
-        audioRef.current.play().then(() => setIsPlayingMusic(true)).catch(() => {});
+    if (vid) {
+      try {
+        vid.muted = true;
+        vid.playsInline = true;
+        vid.currentTime = 0;
+        await vid.play();
+      } catch {
+        // Fallback if browser blocks video play
       }
-
-      // Exact 5500ms gate animation duration from Zareqia
-      setTimeout(() => {
-        setHasRevealed(true);
-      }, 5500);
-    } catch {
-      setHasStarted(true);
-      setHasRevealed(true);
     }
+
+    if (audioRef.current) {
+      audioRef.current.play().then(() => setIsPlayingMusic(true)).catch(() => {});
+    }
+
+    // 5.5s Gate Video reveal timing
+    setTimeout(() => {
+      setHasRevealed(true);
+    }, 5500);
+  };
+
+  const handleVideoEnded = () => {
+    setHasRevealed(true);
   };
 
   const handleScrollDown = () => {
-    const el = document.getElementById('invitation-welcome') || document.getElementById('invitation-scratch');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.scrollBy({ top: window.innerHeight * 0.9, behavior: 'smooth' });
-    }
+    setHasRevealed(true);
+    setTimeout(() => {
+      const el = document.getElementById('invitation-welcome') || document.getElementById('invitation-scratch');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollBy({ top: window.innerHeight * 0.9, behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   const toggleMusic = () => {
@@ -320,7 +350,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
     >
       <DamaskPattern />
 
-      {/* Audio Element */}
+      {/* Background Audio */}
       <audio
         ref={audioRef}
         loop
@@ -328,12 +358,12 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
         src={invitation.music_url || invitation.musicUrl || theme.musicPreset}
       />
 
-      {/* Floating Toolbar */}
+      {/* Floating Action Toolbar */}
       <div className="fixed top-4 right-4 z-50 flex items-center space-x-2">
         <button
           type="button"
           onClick={toggleMusic}
-          className="p-2.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white hover:bg-black/80 shadow-2xl transition-all"
+          className="p-2.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white hover:bg-black/80 shadow-2xl transition-all cursor-pointer"
           title={isPlayingMusic ? 'Mute Music' : 'Play Music'}
         >
           {isPlayingMusic ? (
@@ -345,7 +375,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
         <button
           type="button"
           onClick={() => setQrOpen(true)}
-          className="p-2.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white hover:bg-black/80 shadow-2xl transition-all"
+          className="p-2.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white hover:bg-black/80 shadow-2xl transition-all cursor-pointer"
           title="Share QR Code"
         >
           <QrCode className="w-4 h-4" />
@@ -353,7 +383,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
         <button
           type="button"
           onClick={handleShareWhatsApp}
-          className="px-3.5 py-2 rounded-full bg-emerald-600/90 hover:bg-emerald-600 text-white font-bold text-xs uppercase tracking-wider shadow-xl flex items-center space-x-1.5 transition-all"
+          className="px-3.5 py-2 rounded-full bg-emerald-600/90 hover:bg-emerald-600 text-white font-bold text-xs uppercase tracking-wider shadow-xl flex items-center space-x-1.5 transition-all cursor-pointer"
         >
           <Share2 className="w-3.5 h-3.5" />
           <span className="hidden xs:inline">Share</span>
@@ -380,6 +410,8 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           disablePictureInPicture
           controlsList="nodownload noplaybackrate noremoteplayback nofullscreen"
           onContextMenu={(e) => e.preventDefault()}
+          onEnded={handleVideoEnded}
+          onError={() => setHasRevealed(true)}
           className="absolute inset-0 h-full w-full object-cover"
         />
 
@@ -442,7 +474,9 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
 
           {/* We are getting married */}
           <p
-            className="mb-3 whitespace-pre-line font-dancing text-2xl md:text-4xl"
+            className={`mb-3 whitespace-pre-line text-2xl md:text-4xl ${
+              theme.fontStyle === 'cinzel' ? 'font-serif tracking-widest uppercase text-xl md:text-2xl' : 'font-dancing'
+            }`}
             style={{ color: theme.textColor, textShadow: '0 2px 12px rgba(0,0,0,0.75)' }}
           >
             We are getting married
@@ -458,7 +492,9 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           {/* Groom Name */}
           <div className="space-y-1">
             <h1
-              className="font-dancing text-6xl leading-none md:text-9xl tracking-wide"
+              className={`leading-none tracking-wide text-6xl md:text-9xl ${
+                theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-wider text-4xl md:text-7xl' : 'font-dancing'
+              }`}
               style={{ color: theme.textColor, textShadow: '0 2px 14px rgba(0,0,0,0.75)' }}
             >
               {groomName}
@@ -481,7 +517,9 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           {/* Bride Name */}
           <div className="space-y-1">
             <h1
-              className="font-dancing text-6xl leading-none md:text-9xl tracking-wide"
+              className={`leading-none tracking-wide text-6xl md:text-9xl ${
+                theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-wider text-4xl md:text-7xl' : 'font-dancing'
+              }`}
               style={{ color: theme.textColor, textShadow: '0 2px 14px rgba(0,0,0,0.75)' }}
             >
               {brideName}
@@ -504,7 +542,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
               className="text-xs uppercase tracking-widest font-mono"
               style={{ color: 'rgba(245,230,224,0.8)', textShadow: '0 1px 6px rgba(0,0,0,0.7)' }}
             >
-              Scroll
+              Scroll Down
             </span>
             <ChevronDown size={20} style={{ color: theme.textColor }} />
           </div>
@@ -533,11 +571,11 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           >
             <button
               onClick={() => setQrOpen(false)}
-              className="absolute top-4 right-4 p-1.5 rounded-full bg-white/10 text-neutral-300 hover:text-white"
+              className="absolute top-4 right-4 p-1.5 rounded-full bg-white/10 text-neutral-300 hover:text-white cursor-pointer"
             >
               <X size={18} />
             </button>
-            <h3 className="font-serif text-xl font-bold text-primary">Scan & Share Invitation</h3>
+            <h3 className="font-serif text-xl font-bold text-amber-400">Scan & Share Invitation</h3>
             <p className="text-xs text-neutral-400">Share this QR code with your guests:</p>
             <div className="p-4 bg-white rounded-2xl inline-block shadow-inner">
               <img
@@ -548,16 +586,17 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
                 className="w-44 h-44 mx-auto"
               />
             </div>
+            <p className="text-[11px] text-neutral-400 font-mono break-all">{window.location.href}</p>
             <button
               onClick={() => {
                 navigator.clipboard.writeText(window.location.href);
                 setCopied(true);
                 setTimeout(() => setCopied(false), 2000);
               }}
-              className="w-full py-2.5 rounded-full border border-primary/40 text-primary font-mono text-xs uppercase tracking-wider flex items-center justify-center space-x-1.5 hover:bg-primary/10 transition-all"
+              className="w-full py-2.5 rounded-full bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-1.5 transition-all cursor-pointer"
             >
-              {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-              <span>{copied ? 'Link Copied!' : 'Copy Invitation Link'}</span>
+              {copied ? <Check size={14} /> : <Copy size={14} />}
+              <span>{copied ? 'Link Copied!' : 'Copy Live Link'}</span>
             </button>
           </div>
         </div>

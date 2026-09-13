@@ -31,81 +31,73 @@ const royalTemplates = [
     id: 'rose-gold-blush-royal',
     name: 'Royal Imperial',
     category: 'wedding',
-    desc: 'Cinematic rose-gold opening with luxurious motion storytelling',
+    desc: 'Cinematic rose-gold opening with luxurious motion storytelling, warm gold & champagne tones.',
     video: '/videos/rose-gold-blush.mp4',
-    poster: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
-    tag: 'Cinematic',
+    tag: 'Cinematic 👑',
     tagColor: 'bg-amber-500 text-neutral-950 font-bold',
   },
   {
     id: 'royal-majesty',
     name: 'Royal Majesty',
     category: 'wedding',
-    desc: 'Porcelain blue ballroom romance with painterly cinematic grandeur',
+    desc: 'Porcelain blue ballroom romance with painterly cinematic grandeur & shimmering crystal portals.',
     video: '/videos/royal-majesty.mp4',
-    poster: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80',
-    tag: 'New',
-    tagColor: 'bg-amber-600 text-white font-bold',
+    tag: 'Trending ✨',
+    tagColor: 'bg-sky-500 text-white font-bold',
   },
   {
     id: 'royal-elegance-royal',
     name: 'Royal Elegance',
     category: 'wedding',
-    desc: 'Velvet cream and crimson cinematic experience with palace motifs',
+    desc: 'Velvet cream and crimson cinematic experience with palace motifs & deep royal grandeur.',
     video: '/videos/royal-elegance-royal.mp4',
-    poster: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
-    tag: 'Premium',
-    tagColor: 'bg-amber-700 text-white font-bold',
+    tag: 'Grand Royale 🏰',
+    tagColor: 'bg-red-700 text-white font-bold',
   },
   {
     id: 'royal-prestige',
     name: 'Royal Prestige',
     category: 'wedding',
-    desc: 'Prestigious cinematic opening with refined elegance and grandeur',
+    desc: 'Prestigious cinematic opening with refined elegance, blush pink velvet & golden foil embellishments.',
     video: '/videos/royal-prestige.mp4',
-    poster: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
-    tag: 'New',
-    tagColor: 'bg-amber-600 text-white font-bold',
+    tag: 'Luxe Romance ✦',
+    tagColor: 'bg-pink-600 text-white font-bold',
   },
   {
     id: 'royal-heritage',
     name: 'Royal Heritage',
     category: 'wedding',
-    desc: 'Timeless cinematic opening with regal heritage storytelling',
+    desc: 'Timeless cinematic opening with regal heritage storytelling, sky blue & platinum palace grandeur.',
     video: '/videos/royal-heritage.mp4',
-    poster: 'https://images.unsplash.com/photo-1544078741-7ea0e0cb5b81?auto=format&fit=crop&w=800&q=80',
-    tag: 'New',
-    tagColor: 'bg-amber-600 text-white font-bold',
+    tag: 'Dynasty 🏛️',
+    tagColor: 'bg-blue-700 text-white font-bold',
   },
   {
     id: 'royal-grace',
     name: 'Royal Grace',
     category: 'wedding',
-    desc: 'Sage garden serenity with pearl drapes and graceful cinematic reveal',
+    desc: 'Sage garden serenity with pearl drapes, emerald motifs & graceful cinematic botanical reveal.',
     video: '/videos/royal-grace.mp4',
-    poster: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=800&q=80',
-    tag: 'New',
-    tagColor: 'bg-amber-600 text-white font-bold',
+    tag: 'Botanical 🌿',
+    tagColor: 'bg-emerald-600 text-white font-bold',
   },
   {
     id: 'royal-crest',
     name: 'Royal Crest',
     category: 'wedding',
-    desc: 'Warm ivory florals, antique burgundy wax seal, and lakeside cinematic romance',
+    desc: 'Warm ivory florals, antique burgundy wax seal, and lakeside cinematic romance.',
     video: '/videos/royal-crest.mp4',
-    poster: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80',
-    tag: 'New',
-    tagColor: 'bg-amber-600 text-white font-bold',
+    tag: 'Wax Seal 🍷',
+    tagColor: 'bg-rose-800 text-white font-bold',
   },
   {
     id: 'royal-legacy',
     name: 'Royal Legacy',
     category: 'wedding',
-    desc: 'Burgundy velvet curtains, antique gold ornament, and a timeless cinematic reveal',
+    desc: 'Burgundy velvet curtains, antique gold ornament, and a timeless Rajputana cinematic reveal.',
     video: '/videos/royal-legacy.mp4',
-    poster: 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=800&q=80',
-    tag: 'New',
-    tagColor: 'bg-amber-600 text-white font-bold',
+    tag: 'Rajputana 👑',
+    tagColor: 'bg-amber-700 text-white font-bold',
   },
 ];
 
@@ -114,7 +106,7 @@ const classicTemplates = [
     id: 'emerald-noir',
     name: 'Emerald Noir',
     category: 'wedding',
-    desc: 'Deep green and gold with ornate corner accents and luxury door opening',
+    desc: 'Deep green and gold with ornate corner accents and luxury door opening.',
     bgStyle: 'bg-gradient-to-br from-[#0c2f1d] via-[#13492e] to-[#0a2316]',
     textColor: 'text-amber-300',
     tag: 'Limited Edition',
@@ -124,7 +116,7 @@ const classicTemplates = [
     id: 'ivory-elegance',
     name: 'Crimson Royale',
     category: 'wedding',
-    desc: 'Dark charcoal base with gold and deep red accents, luxury card reveal',
+    desc: 'Dark charcoal base with gold and deep red accents, luxury card reveal.',
     bgStyle: 'bg-gradient-to-br from-[#1c1415] via-[#3d181b] to-[#170e10]',
     textColor: 'text-amber-400',
     tag: 'Most Liked',
@@ -134,7 +126,7 @@ const classicTemplates = [
     id: 'rose-gold-blush',
     name: 'Rose Gold Blush',
     category: 'engagement',
-    desc: 'Blush pink and rose gold with ornate floral door animation',
+    desc: 'Blush pink and rose gold with ornate floral door animation.',
     bgStyle: 'bg-gradient-to-br from-[#fde7ed] via-[#f8c9d4] to-[#fde7ed]',
     textColor: 'text-rose-700',
     tag: 'Romantic',
@@ -144,27 +136,27 @@ const classicTemplates = [
     id: 'modern-minimal',
     name: 'Modern Minimal',
     category: 'wedding',
-    desc: 'Deep navy and gold with geometric patterns and book-style opening',
+    desc: 'Deep navy and gold with geometric patterns and book-style opening.',
     bgStyle: 'bg-gradient-to-br from-[#111928] via-[#1f2a3f] to-[#0c121e]',
     textColor: 'text-amber-400',
-    tag: 'New',
+    tag: 'Minimal Luxe',
     tagColor: 'bg-amber-600 text-white font-bold',
   },
   {
     id: 'royal-elegance',
     name: 'Majestic Love',
     category: 'wedding',
-    desc: 'Classic ivory and gold with palace motifs and velvet curtain reveal',
+    desc: 'Classic ivory and gold with palace motifs and velvet curtain reveal.',
     bgStyle: 'bg-gradient-to-br from-[#fdf6e9] via-[#faebd1] to-[#fdf6e9]',
     textColor: 'text-amber-800',
-    tag: 'New',
+    tag: 'Palace Classic',
     tagColor: 'bg-amber-600 text-white font-bold',
   },
   {
     id: 'little-sunshine',
     name: 'Prince & Princess Birthday',
     category: 'birthday',
-    desc: 'Fairy castle gates opening with confetti, crown seal, and joyful music',
+    desc: 'Fairy castle gates opening with confetti, crown seal, and joyful music.',
     bgStyle: 'bg-gradient-to-br from-[#1e1b4b] via-[#312e81] to-[#1e1b4b]',
     textColor: 'text-amber-300',
     tag: 'Birthday 🎂',
@@ -174,7 +166,7 @@ const classicTemplates = [
     id: 'sweet-nesting-baby',
     name: 'Sweet Cradle Baby Shower',
     category: 'baby-shower',
-    desc: 'Golden-lit cloud wings parting gently with lavender tones and lullaby melody',
+    desc: 'Golden-lit cloud wings parting gently with lavender tones and lullaby melody.',
     bgStyle: 'bg-gradient-to-br from-[#2e1065] via-[#3b0764] to-[#2e1065]',
     textColor: 'text-purple-200',
     tag: 'Baby Shower 👶',
@@ -184,7 +176,7 @@ const classicTemplates = [
     id: 'silver-anniversary',
     name: 'Silver Jubilee Milestone',
     category: 'anniversary',
-    desc: 'Faceted crystal glass gates opening with laurel wreath crest and toast chime',
+    desc: 'Faceted crystal glass gates opening with laurel wreath crest and toast chime.',
     bgStyle: 'bg-gradient-to-br from-[#18181b] via-[#27272a] to-[#18181b]',
     textColor: 'text-slate-200',
     tag: 'Milestone 🥂',
@@ -194,7 +186,7 @@ const classicTemplates = [
     id: 'terracotta-boho',
     name: 'Bohemian Griha Pravesh',
     category: 'housewarming',
-    desc: 'Artisanal textured linen flaps with terracotta stamp and warm acoustic strings',
+    desc: 'Artisanal textured linen flaps with terracotta stamp and warm acoustic strings.',
     bgStyle: 'bg-gradient-to-br from-[#451a03] via-[#78350f] to-[#451a03]',
     textColor: 'text-amber-200',
     tag: 'Housewarming 🏡',
@@ -204,7 +196,7 @@ const classicTemplates = [
     id: 'mehendi-magic',
     name: 'Marigold Henna Utsav',
     category: 'party',
-    desc: 'Rotating henna mandala blooming outward with marigold yellow and folk beats',
+    desc: 'Rotating henna mandala blooming outward with marigold yellow and folk beats.',
     bgStyle: 'bg-gradient-to-br from-[#451a03] via-[#713f12] to-[#451a03]',
     textColor: 'text-yellow-300',
     tag: 'Henna 🌼',
@@ -214,7 +206,7 @@ const classicTemplates = [
     id: 'celestial-night',
     name: 'Celestial Galaxy Night',
     category: 'party',
-    desc: 'Constellation sphere splitting into glowing stardust nebulae and cosmic crystal chime',
+    desc: 'Constellation sphere splitting into glowing stardust nebulae and cosmic crystal chime.',
     bgStyle: 'bg-gradient-to-br from-[#030712] via-[#0f172a] to-[#030712]',
     textColor: 'text-cyan-300',
     tag: 'Party ✨',
@@ -224,7 +216,7 @@ const classicTemplates = [
     id: 'coastal-breeze',
     name: 'Goa Coastal Beachfront',
     category: 'wedding',
-    desc: 'Louvered beach pavilion shutters with ocean breeze view and tropical harp music',
+    desc: 'Louvered beach pavilion shutters with ocean breeze view and tropical harp music.',
     bgStyle: 'bg-gradient-to-br from-[#083344] via-[#164e63] to-[#083344]',
     textColor: 'text-cyan-200',
     tag: 'Beach Wedding 🏖️',
@@ -270,8 +262,8 @@ const TemplateMarketplace = () => {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 font-sans flex flex-col justify-between selection:bg-amber-200 selection:text-amber-900">
       <SEO
-        title="Invitation Templates | 15+ Premium Designs - Zareqia"
-        description="Browse 15+ premium animated digital invitation templates for weddings, birthdays, baby showers, and parties across Zareqia Royal & Classic collections."
+        title="Invitation Templates | 20+ Premium Designs - Zareqia"
+        description="Browse 20+ premium animated digital invitation templates for weddings, birthdays, baby showers, and parties across Zareqia Royal & Classic collections."
       />
 
       {/* Main Content Area */}
@@ -458,7 +450,7 @@ const TemplateMarketplace = () => {
                     onClick={() => handleSelectDesign(template.id)}
                     className="w-full py-2 rounded-md bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-bold text-xs uppercase tracking-wider shadow-xs transition-all cursor-pointer"
                   >
-                    Use This Design
+                    USE THIS DESIGN
                   </button>
                 </div>
               </div>
@@ -467,39 +459,16 @@ const TemplateMarketplace = () => {
         )}
       </main>
 
-      {/* ========================================================================= */}
-      {/* FOOTER (1:1 ZAREQIA) */}
-      {/* ========================================================================= */}
-      <footer className="border-t border-amber-900/10 bg-white/70 py-10 px-4 text-center space-y-4">
-        <h3 className="font-serif text-xl font-bold text-amber-800 tracking-wide">
-          Zareqia
-        </h3>
-
-        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-neutral-600 font-serif">
-          <Link to="/about" className="hover:text-amber-900 transition-colors">About</Link>
-          <Link to="/contact" className="hover:text-amber-900 transition-colors">Contact</Link>
-          <Link to="/terms" className="hover:text-amber-900 transition-colors">Terms & Conditions</Link>
-          <Link to="/privacy" className="hover:text-amber-900 transition-colors">Privacy Policy</Link>
-          <Link to="/refund" className="hover:text-amber-900 transition-colors">Refund Policy</Link>
-          <Link to="/shipping" className="hover:text-amber-900 transition-colors">Shipping & Delivery</Link>
-          <Link to="/affiliate" className="hover:text-amber-900 transition-colors">Become an Affiliate</Link>
+      {/* Footer Minimal Notice */}
+      <footer className="border-t border-neutral-200 bg-[#FAF8F5] py-8 text-center text-xs text-neutral-500 space-y-2">
+        <p>© 2026 Moonlight Production · Zareqia Digital Suites. All Rights Reserved.</p>
+        <div className="flex justify-center space-x-4 pt-1 text-neutral-600">
+          <Link to="/contact" className="hover:text-amber-700">Need Help?</Link>
+          <span>·</span>
+          <Link to="/faq" className="hover:text-amber-700">FAQ</Link>
+          <span>·</span>
+          <Link to="/terms" className="hover:text-amber-700">Terms of Service</Link>
         </div>
-
-        <div className="flex items-center justify-center space-x-4 text-neutral-500 pt-2">
-          <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-amber-800">
-            <Instagram className="w-4 h-4" />
-          </a>
-          <a href="mailto:support@zareqia.com" className="hover:text-amber-800">
-            <Mail className="w-4 h-4" />
-          </a>
-        </div>
-
-        <p className="text-[11px] text-neutral-500 font-serif">
-          © 2026 Zareqia. Crafted with love
-        </p>
-        <p className="text-[10px] text-neutral-400">
-          Digital invitation service • No physical products shipped
-        </p>
       </footer>
     </div>
   );
