@@ -1366,19 +1366,7 @@ export const updateInvitation = async (req, res, next) => {
 export const getPublicInvitationBySlug = async (req, res, next) => {
   try {
     const rawSlug = req.query.template || req.params.slug || req.query.slug || 'rose-gold-blush-royal';
-    const aliases = {
-      'royal-love': 'rose-gold-blush-royal',
-      'royal-elegance': 'modern-minimal-royal',
-      'jaipur-heritage': 'royal-heritage',
-      'shahi-sangeet': 'royal-legacy',
-      'royal-griha-utsav': 'royal-crest',
-      'nawab-of-awadh': 'royal-grace',
-      'emerald-noir': 'emerald-noir-royal',
-      'crimson-royale': 'ivory-elegance-royal',
-      'taj-imperial': 'royal-majesty',
-      'bikaner-riyasat': 'royal-legacy',
-      'udaivilas-palace': 'royal-heritage',
-    };
+        const aliases = {\n      'royal-imperial': 'rose-gold-blush-royal',\n      'royal-love': 'rose-gold-blush-royal',\n      'royal-elegance': 'royal-elegance-royal',\n      'modern-minimal-royal': 'royal-elegance-royal',\n      'jaipur-heritage': 'royal-heritage',\n      'shahi-sangeet': 'royal-legacy',\n      'royal-griha-utsav': 'royal-crest',\n      'nawab-of-awadh': 'royal-grace',\n      'crimson-royale': 'ivory-elegance-royal',\n      'taj-imperial': 'royal-majesty',\n      'bikaner-riyasat': 'royal-legacy',\n      'udaivilas-palace': 'royal-heritage',\n    };
     const slug = aliases[rawSlug] || rawSlug;
     let invitation = await Invitation.findOne({ $or: [{ slug }, { slug: rawSlug }] });
 

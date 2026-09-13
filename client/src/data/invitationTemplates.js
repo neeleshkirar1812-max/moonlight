@@ -67,7 +67,8 @@ export const invitationTemplates = [
     ],
   },
   {
-    id: 'modern-minimal-royal',
+    id: 'royal-elegance-royal',
+    slug: 'royal-elegance-royal',
     slug: 'modern-minimal-royal',
     name: 'Royal Elegance',
     category: 'Wedding Invitation',

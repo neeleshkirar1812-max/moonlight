@@ -1,15 +1,251 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useSearchParams, Link } from 'react-router-dom';
+import { useParams, useSearchParams, Link, useNavigate } from 'react-router-dom';
 import api from '../../api/client';
 import SEO from '../../components/common/SEO';
 import InvitationRenderer from '../../components/invitations/engine/InvitationRenderer';
-import { Heart, Sparkles, ArrowLeft, ShieldAlert } from 'lucide-react';
-
+import { Crown, Sparkles, ChevronDown, Check, ArrowRight } from 'lucide-react';
 import { getTemplateById, invitationTemplates } from '../../data/invitationTemplates';
+
+// Distinct rich preset demos for each Royal & Classic Template
+export const templateDemoDataMap = {
+  'rose-gold-blush-royal': {
+    names: 'Aarav Singhania & Kiara Malhotra',
+    groom_name: 'Aarav Singhania',
+    bride_name: 'Kiara Malhotra',
+    groom_parents: 'Son of Mrs. Sunita & Mr. Rajesh Singhania',
+    bride_parents: 'Daughter of Mrs. Poonam & Mr. Anand Malhotra',
+    host_names: 'Singhania & Malhotra Families',
+    title: 'The Royal Imperial Wedding',
+    eventType: 'Wedding Invitation',
+    date: '2026-11-20',
+    time: '19:00',
+    venue: 'The Leela Palace Courtyard, Udaipur',
+    venueAddress: 'Lake Pichola, Udaipur, Rajasthan 313001',
+    story_text: 'Two royal hearts united under the starry skies of Lake Pichola. A timeless fairytale of love, grace and eternal devotion.',
+    message: 'Request the honor of your presence to witness and bless the auspicious wedding ceremony of their children.',
+    welcome_text: 'With immense joy and gratitude, we invite you to share our happiest moments.',
+    scratch_reveal_text: 'YOU’RE INVITED TO THE ROYAL WEDDING ♡',
+    events: [
+      { title: 'The Royal Mehendi & Sangeet', date: '2026-11-19', time: '06:00 PM', venue: 'The Leela Palace Poolside', address: 'Lake Pichola, Udaipur, Rajasthan' },
+      { title: 'Shubh Vivah & Pheras', date: '2026-11-20', time: '07:30 PM', venue: 'Grand Lawn, The Leela Palace', address: 'Lake Pichola, Udaipur, Rajasthan' },
+      { title: 'Imperial Royal Reception', date: '2026-11-21', time: '08:00 PM', venue: 'The Crystal Ballroom', address: 'Lake Pichola, Udaipur, Rajasthan' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'royal-majesty': {
+    names: 'Kabir Rathore & Meera Suryavanshi',
+    groom_name: 'Kabir Rathore',
+    bride_name: 'Meera Suryavanshi',
+    groom_parents: 'Son of Rajmata Gayatri Devi & Thakur Vikram Singh',
+    bride_parents: 'Daughter of Mrs. Shweta & Dr. Harish Suryavanshi',
+    host_names: 'Rathore & Suryavanshi Dynasties',
+    title: 'The Royal Majesty Celestial Wedding',
+    eventType: 'Wedding Invitation',
+    date: '2026-12-15',
+    time: '18:30',
+    venue: 'Taj Umaid Bhawan Palace, Jodhpur',
+    venueAddress: 'Circuit House Rd, Jodhpur, Rajasthan 342006',
+    story_text: 'Like moonlight meeting the golden sands of Marwar, our souls found home in one another.',
+    message: 'Cordially invite you to celebrate the joyous matrimony of Kabir and Meera.',
+    welcome_text: 'Welcome to the royal celebrations of our auspicious union.',
+    scratch_reveal_text: 'SAVE THE DATE • DEC 15, 2026 ♡',
+    events: [
+      { title: 'Royal Haldi & Rajasthani Ghoomar', date: '2026-12-14', time: '11:00 AM', venue: 'Baradari Gardens, Umaid Bhawan', address: 'Jodhpur, Rajasthan' },
+      { title: 'Sangeet Under The Stars', date: '2026-12-14', time: '07:30 PM', venue: 'Marwar Hall, Umaid Bhawan Palace', address: 'Jodhpur, Rajasthan' },
+      { title: 'The Grand Royal Pheras', date: '2026-12-15', time: '07:00 PM', venue: 'Central Dome Pavillion', address: 'Jodhpur, Rajasthan' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'royal-elegance-royal': {
+    names: 'Ranveer Kapoor & Deepika Shekhawat',
+    groom_name: 'Ranveer Kapoor',
+    bride_name: 'Deepika Shekhawat',
+    groom_parents: 'Son of Mrs. Neetu & Mr. Rishi Kapoor',
+    bride_parents: 'Daughter of Mrs. Ujjwala & Mr. Prakash Shekhawat',
+    host_names: 'Kapoor & Shekhawat Families',
+    title: 'The Royal Elegance Crimson Gala',
+    eventType: 'Wedding Invitation',
+    date: '2026-12-08',
+    time: '19:30',
+    venue: 'Rambagh Palace, Jaipur',
+    venueAddress: 'Bhawani Singh Rd, Jaipur, Rajasthan 302005',
+    story_text: 'Draped in crimson velvet and lit by royal chandeliers, two hearts begin a majestic chapter of shared dreams.',
+    message: 'Solicit your gracious presence on the auspicious wedding reception of Ranveer and Deepika.',
+    welcome_text: 'We await your warm presence and blessings as we embark on this sacred journey.',
+    scratch_reveal_text: 'CELEBRATE WITH US • DEC 08, 2026 ♡',
+    events: [
+      { title: 'Sufi Sangeet Night', date: '2026-12-07', time: '07:00 PM', venue: 'Naksha Garden, Rambagh Palace', address: 'Jaipur, Rajasthan' },
+      { title: 'The Royal Baraat & Varmala', date: '2026-12-08', time: '06:30 PM', venue: 'Mubarak Mahal Lawn', address: 'Jaipur, Rajasthan' },
+      { title: 'Gala Dinner & Musical Night', date: '2026-12-08', time: '08:30 PM', venue: 'Jaipur Grand Ballroom', address: 'Jaipur, Rajasthan' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1544078741-7ea0e0cb5b81?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'royal-prestige': {
+    names: 'Rohan Mehra & Sanjana Singhal',
+    groom_name: 'Rohan Mehra',
+    bride_name: 'Sanjana Singhal',
+    groom_parents: 'Son of Mrs. Renu & Mr. Deepak Mehra',
+    bride_parents: 'Daughter of Mrs. Vandana & Mr. Suresh Singhal',
+    host_names: 'Mehra & Singhal Families',
+    title: 'The Royal Prestige Blush Romance',
+    eventType: 'Wedding Invitation',
+    date: '2026-11-28',
+    time: '18:00',
+    venue: 'Suryagarh Palace, Jaisalmer',
+    venueAddress: 'Kahala Phata, Sam Road, Jaisalmer, Rajasthan 345001',
+    story_text: 'Blush pink hues and golden palace spires celebrate two best friends stepping into forever.',
+    message: 'Warmly invite you to share our joy on our sacred wedding day.',
+    welcome_text: 'Welcome to our desert palace celebration!',
+    scratch_reveal_text: 'YOU’RE CORDIALLY INVITED ♡',
+    events: [
+      { title: 'Dunes Sundowner & Cocktails', date: '2026-11-27', time: '05:30 PM', venue: 'The Thar Sunset Dunes', address: 'Jaisalmer, Rajasthan' },
+      { title: 'Royal Wedding & Phere', date: '2026-11-28', time: '06:00 PM', venue: 'Suryagarh Courtyard', address: 'Jaisalmer, Rajasthan' },
+      { title: 'Midnight Starlit Afterparty', date: '2026-11-28', time: '10:00 PM', venue: 'Bagh Lawn', address: 'Jaisalmer, Rajasthan' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'royal-heritage': {
+    names: 'Yuvraj Devendra & Rajkumari Ananya',
+    groom_name: 'Devendra Singh',
+    bride_name: 'Ananya Rathore',
+    groom_parents: 'Son of Maharajadhiraj Gaj Singh & Maharani Hemlata',
+    bride_parents: 'Daughter of Maharaj Jai Singh & Maharani Suniti',
+    host_names: 'Royal Houses of Mewar & Marwar',
+    title: 'The Royal Heritage Dynasty Union',
+    eventType: 'Wedding Invitation',
+    date: '2026-12-22',
+    time: '19:00',
+    venue: 'City Palace Zenana Mahal, Udaipur',
+    venueAddress: 'Old City, Udaipur, Rajasthan 313001',
+    story_text: 'Five centuries of royal heritage embrace two souls destined for a timeless legacy.',
+    message: 'Request the honor of your august presence at the Royal Vivah Mahotsav.',
+    welcome_text: 'Shubh Swagatam to the Royal Heritage Celebration.',
+    scratch_reveal_text: 'ROYAL HERITAGE WEDDING • DEC 22 ♡',
+    events: [
+      { title: 'Shahi Mayra & Tel Baan', date: '2026-12-21', time: '10:30 AM', venue: 'Manek Chowk, City Palace', address: 'Udaipur, Rajasthan' },
+      { title: 'The Royal Vivah & Pheras', date: '2026-12-22', time: '07:00 PM', venue: 'Zenana Mahal Courtyard', address: 'Udaipur, Rajasthan' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1544078741-7ea0e0cb5b81?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'royal-grace': {
+    names: 'Arjun Oberoi & Tara Deshmukh',
+    groom_name: 'Arjun Oberoi',
+    bride_name: 'Tara Deshmukh',
+    groom_parents: 'Son of Mrs. Sharmila & Mr. Prithvi Oberoi',
+    bride_parents: 'Daughter of Mrs. Rohini & Mr. Vilas Deshmukh',
+    host_names: 'Oberoi & Deshmukh Families',
+    title: 'The Royal Grace Botanical Splendor',
+    eventType: 'Wedding Invitation',
+    date: '2026-11-14',
+    time: '18:00',
+    venue: 'Samode Palace & Bagh, Rajasthan',
+    venueAddress: 'Samode Village, Chomu, Rajasthan 303806',
+    story_text: 'Amidst sage gardens and fragrant blossoms, we promise each other a lifetime of love and laughter.',
+    message: 'Cordially invite you to celebrate the joyous marriage of Arjun and Tara.',
+    welcome_text: 'Welcome to our botanical fairytale in the Aravalli hills.',
+    scratch_reveal_text: 'JOIN OUR CELEBRATION • NOV 14 ♡',
+    events: [
+      { title: 'Botanical High Tea & Mehendi', date: '2026-11-13', time: '03:30 PM', venue: 'Samode Bagh Fountains', address: 'Samode, Rajasthan' },
+      { title: 'Sunset Nuptials & Dinner', date: '2026-11-14', time: '06:00 PM', venue: 'The Sheesh Mahal Lawn', address: 'Samode, Rajasthan' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'royal-crest': {
+    names: 'Aditya Vardhan & Gayatri Sen',
+    groom_name: 'Aditya Vardhan',
+    bride_name: 'Gayatri Sen',
+    groom_parents: 'Son of Mrs. Madhavi & Mr. Alok Vardhan',
+    bride_parents: 'Daughter of Mrs. Meenakshi & Mr. Debashis Sen',
+    host_names: 'Vardhan & Sen Families',
+    title: 'The Royal Crest Heritage Suite',
+    eventType: 'Wedding Invitation',
+    date: '2026-12-05',
+    time: '19:00',
+    venue: 'Jai Mahal Palace, Jaipur',
+    venueAddress: 'Jacob Rd, Civil Lines, Jaipur, Rajasthan 302006',
+    story_text: 'Sealed with an antique wax crest and timeless affection, our journey begins.',
+    message: 'Invite you to bless their union with your esteemed presence.',
+    welcome_text: 'Welcome to our sacred wedding celebrations.',
+    scratch_reveal_text: 'YOU’RE CORDIALLY INVITED ♡',
+    events: [
+      { title: 'Royal Haldi & Sangeet', date: '2026-12-04', time: '06:00 PM', venue: 'Lotus Pond Pavillion', address: 'Jaipur, Rajasthan' },
+      { title: 'Sacred Wedding Ceremony', date: '2026-12-05', time: '07:00 PM', venue: 'Palace Gardens Lawn', address: 'Jaipur, Rajasthan' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'royal-legacy': {
+    names: 'Maharaja Vikramaditya & Maharani Radhika',
+    groom_name: 'Vikramaditya',
+    bride_name: 'Radhika',
+    groom_parents: 'Son of Rajmata Padmavati & Maharaja Karni Singh',
+    bride_parents: 'Daughter of Thakurani Uma & Thakur Raghavendra',
+    host_names: 'The Royal Riyasat',
+    title: 'The Royal Legacy Rajputana Vivah',
+    eventType: 'Wedding Invitation',
+    date: '2026-12-18',
+    time: '19:30',
+    venue: 'Laxmi Niwas Palace, Bikaner',
+    venueAddress: 'Lal Garh Campus, Bikaner, Rajasthan 334001',
+    story_text: 'Under antique gold arches and crimson velvet drapes, a legendary love story continues.',
+    message: 'Request your auspicious presence at the Shahi Vivah Mahotsav.',
+    welcome_text: 'Shubh Aagman to the Royal Legacy celebration.',
+    scratch_reveal_text: 'THE ROYAL LEGACY • DEC 18 ♡',
+    events: [
+      { title: 'The Royal Shahi Barat', date: '2026-12-18', time: '06:00 PM', venue: 'Laxmi Niwas Grand Courtyard', address: 'Bikaner, Rajasthan' },
+      { title: 'Imperial Vivah & Banquet', date: '2026-12-18', time: '08:00 PM', venue: 'Swarna Mahal Hall', address: 'Bikaner, Rajasthan' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+};
+
+const allDemosList = [
+  { id: 'rose-gold-blush-royal', name: '👑 Royal Imperial', tier: 'royal' },
+  { id: 'royal-majesty', name: '👑 Royal Majesty', tier: 'royal' },
+  { id: 'royal-elegance-royal', name: '👑 Royal Elegance', tier: 'royal' },
+  { id: 'royal-prestige', name: '👑 Royal Prestige', tier: 'royal' },
+  { id: 'royal-heritage', name: '👑 Royal Heritage', tier: 'royal' },
+  { id: 'royal-grace', name: '👑 Royal Grace', tier: 'royal' },
+  { id: 'royal-crest', name: '👑 Royal Crest', tier: 'royal' },
+  { id: 'royal-legacy', name: '👑 Royal Legacy', tier: 'royal' },
+  { id: 'emerald-noir', name: '✨ Emerald Noir', tier: 'classic' },
+  { id: 'ivory-elegance', name: '✨ Crimson Royale', tier: 'classic' },
+  { id: 'rose-gold-blush', name: '✨ Rose Gold Blush', tier: 'classic' },
+  { id: 'modern-minimal', name: '✨ Modern Minimal', tier: 'classic' },
+  { id: 'royal-elegance', name: '✨ Majestic Love', tier: 'classic' },
+];
 
 const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
   const { slug: rawSlug } = useParams();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const templateQuery =
     searchParams.get('template') || searchParams.get('t') || searchParams.get('id');
@@ -19,213 +255,53 @@ const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
 
   const [invitation, setInvitation] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [isSuspended, setIsSuspended] = useState(false);
+  const [isDemoMode, setIsDemoMode] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     const fetchInvitation = async () => {
       setLoading(true);
-      setError(null);
       const activeSlug = slug || 'rose-gold-blush-royal';
+
+      // Alias resolver
+      const aliases = {
+        'royal-love': 'rose-gold-blush-royal',
+        'royal-elegance': 'royal-elegance-royal',
+        'modern-minimal-royal': 'royal-elegance-royal',
+        'crimson-royale': 'ivory-elegance',
+      };
+      const resolvedSlug = aliases[activeSlug] || activeSlug;
+
       try {
-        const res = await api.get(`/invitations/public/${activeSlug}`);
-        if (res.status === 'SUSPENDED' || res.data?.status === 'SUSPENDED') {
-          setIsSuspended(true);
-          setLoading(false);
-          return;
-        }
+        const res = await api.get(`/invitations/public/${resolvedSlug}`);
         const data = res.data?.invitation || res.data?.data || res.data || res.invitation;
-        if (data) {
-          if (data.status === 'SUSPENDED') {
-            setIsSuspended(true);
-          } else {
-            setInvitation(data);
-          }
+        if (data && !data._id?.startsWith('demo-')) {
+          setInvitation(data);
+          setIsDemoMode(false);
           setLoading(false);
           return;
         }
       } catch (err) {
-        // If API fails or returns 404, check if slug is a template demo slug
+        // Fallback to local rich demo preset
       }
 
-      // Check if slug corresponds to a known template or fallback to featured
-      const matchedTemplate = getTemplateById(activeSlug) || invitationTemplates[0];
+      setIsDemoMode(true);
+      const customPreset = templateDemoDataMap[resolvedSlug] || templateDemoDataMap['rose-gold-blush-royal'];
+      const matchedTemplate = getTemplateById(resolvedSlug) || invitationTemplates[0];
 
-      if (matchedTemplate) {
-        const cat = matchedTemplate.category;
-        const id = matchedTemplate.id;
+      const demoData = {
+        _id: `demo-${resolvedSlug}`,
+        id: `demo-${resolvedSlug}`,
+        template_id: resolvedSlug,
+        templateId: resolvedSlug,
+        tier: matchedTemplate.tier || (resolvedSlug.includes('royal') ? 'royal' : 'classic'),
+        ...customPreset,
+        scratch_enabled: true,
+        rsvp_enabled: true,
+        music_enabled: true,
+      };
 
-        // Dynamic names & copy based on category
-        let names = 'Aarav & Kiara';
-        let groom_name = 'Aarav Singhania';
-        let bride_name = 'Kiara Malhotra';
-        let story_text = 'Two hearts, one lifelong promise under royal starry skies.';
-        let message = 'Invite you to share in the joy of the beginning of their new life together.';
-        let events = [
-          {
-            title: 'Mehendi & Sangeet Night',
-            date: '2026-11-19',
-            time: '06:00 PM',
-            venue: 'The Leela Palace Courtyard',
-            address: 'Udaipur, Rajasthan',
-          },
-          {
-            title: 'The Royal Wedding & Pheras',
-            date: '2026-11-20',
-            time: '07:30 PM',
-            venue: 'Grand Lawn, The Leela Palace',
-            address: 'Udaipur, Rajasthan',
-          },
-          {
-            title: 'Imperial Gala Reception',
-            date: '2026-11-21',
-            time: '08:00 PM',
-            venue: 'The Royal Ballroom',
-            address: 'Udaipur, Rajasthan',
-          },
-        ];
-
-        if (id === 'modern-minimal') {
-          names = 'Aisha Khan & Rohan Mehra';
-          bride_name = 'Aisha';
-          groom_name = 'Rohan';
-        } else if (cat.includes('Birthday')) {
-          names = id.includes('yuvraj') ? 'Prince Veer' : 'Aanya Sharma';
-          bride_name = 'Veer';
-          groom_name = 'Aanya';
-          story_text = 'One year of endless smiles, tiny steps, and infinite blessings.';
-          message = 'Cordially invites you to celebrate this magical 1st birthday milestone!';
-          events = [
-            {
-              title: 'Welcome & Magic Show',
-              date: '2026-11-20',
-              time: '05:00 PM',
-              venue: 'The Grand Pavilion',
-              address: 'Bhopal, Madhya Pradesh',
-            },
-            {
-              title: 'Cake Cutting Ceremony',
-              date: '2026-11-20',
-              time: '06:30 PM',
-              venue: 'Celebration Arena',
-              address: 'Bhopal, Madhya Pradesh',
-            },
-            {
-              title: 'Gala Birthday Dinner',
-              date: '2026-11-20',
-              time: '08:00 PM',
-              venue: 'Palace Banquets',
-              address: 'Bhopal, Madhya Pradesh',
-            },
-          ];
-        } else if (cat.includes('Griha Pravesh') || cat.includes('Housewarming')) {
-          names = 'The Sharma Family';
-          bride_name = 'Rajesh';
-          groom_name = 'Sunita';
-          story_text = 'With the divine blessings of Almighty, we step into our dream home.';
-          message = 'Requests your esteemed presence & blessings for our Griha Pravesh Puja.';
-          events = [
-            {
-              title: 'Ganesh Puja & Vastu Havan',
-              date: '2026-11-20',
-              time: '09:00 AM',
-              venue: 'Our New Home (Aashirwad)',
-              address: 'Arera Colony, Bhopal, MP',
-            },
-            {
-              title: 'Griha Pravesh & Mahaprasad',
-              date: '2026-11-20',
-              time: '12:30 PM',
-              venue: 'Courtyard & Terrace Lounge',
-              address: 'Arera Colony, Bhopal, MP',
-            },
-            {
-              title: 'Evening Blessings & Dinner',
-              date: '2026-11-20',
-              time: '07:30 PM',
-              venue: 'Grand Dining Hall',
-              address: 'Arera Colony, Bhopal, MP',
-            },
-          ];
-        } else if (cat.includes('Baby Shower') || cat.includes('Naming')) {
-          names = 'Pooja & Sameer';
-          bride_name = 'Pooja';
-          groom_name = 'Sameer';
-          story_text = 'A little blessing sent from above, filling our hearts with joy and love.';
-          message = 'Invite you to shower their little bundle of joy with love & blessings.';
-          events = [
-            {
-              title: 'Godh Bharai Puja & Rituals',
-              date: '2026-11-20',
-              time: '11:00 AM',
-              venue: 'The Heritage Hall',
-              address: 'Indore, Madhya Pradesh',
-            },
-            {
-              title: 'Blessings & Traditional Lunch',
-              date: '2026-11-20',
-              time: '01:00 PM',
-              venue: 'Royal Orchid Banquets',
-              address: 'Indore, Madhya Pradesh',
-            },
-          ];
-        } else if (cat.includes('Anniversary')) {
-          names = id.includes('50') || id.includes('jubilee') ? 'Ramesh & Kanta' : 'Vikram & Radhika';
-          bride_name = 'Vikram';
-          groom_name = 'Radhika';
-          story_text = 'Decades of shared laughter, enduring love, and precious family memories.';
-          message = 'Cordially invite you to celebrate their Milestone Wedding Anniversary.';
-          events = [
-            {
-              title: 'Champagne Toast & Speeches',
-              date: '2026-11-20',
-              time: '07:00 PM',
-              venue: 'The Imperial Crystal Ballroom',
-              address: 'Bhopal, Madhya Pradesh',
-            },
-            {
-              title: 'Gala Anniversary Dinner',
-              date: '2026-11-20',
-              time: '08:30 PM',
-              venue: 'The Grand Lawn Terrace',
-              address: 'Bhopal, Madhya Pradesh',
-            },
-          ];
-        }
-
-        const demoData = {
-          _id: `demo-${matchedTemplate.id}`,
-          id: `demo-${matchedTemplate.id}`,
-          template_id: matchedTemplate.id,
-          templateId: matchedTemplate.id,
-          names,
-          bride_name,
-          groom_name,
-          host_names: 'Together with their families',
-          title: `${matchedTemplate.name} Demo`,
-          eventType: matchedTemplate.category,
-          date: '2026-11-20',
-          time: '19:00',
-          venue: 'The Leela Palace, Udaipur',
-          venueAddress: 'Lake Pichola, Udaipur, Rajasthan 313001',
-          story_text,
-          message,
-          welcome_text: message,
-          scratch_reveal_text: 'YOU’RE INVITED ♡',
-          scratch_enabled: true,
-          rsvp_enabled: true,
-          music_enabled: true,
-          events,
-          gallery_images: [
-            'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
-          ],
-        };
-        setInvitation(demoData);
-      } else {
-        setError('Invitation not found or has not been published yet.');
-      }
+      setInvitation(demoData);
       setLoading(false);
     };
 
@@ -246,66 +322,67 @@ const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
     );
   }
 
-  if (isSuspended) {
-    return (
-      <div className="min-h-screen bg-[#FAF8F5] flex flex-col items-center justify-center p-6 text-center space-y-4 font-sans">
-        <div className="w-16 h-16 rounded-full bg-amber-100 text-amber-900 flex items-center justify-center">
-          <ShieldAlert className="w-8 h-8" />
-        </div>
-        <h1 className="font-serif text-2xl font-bold text-neutral-900">Invitation Temporarily Unavailable</h1>
-        <p className="text-xs text-neutral-600 max-w-sm">
-          This digital invitation has been paused by the host or Moonlight Production administrator. Please check back later.
-        </p>
-        <Link
-          to="/invitations"
-          className="px-6 py-2.5 rounded-full bg-amber-900 hover:bg-amber-800 text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-all flex items-center space-x-2"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Explore Moonlight Invitations</span>
-        </Link>
-      </div>
-    );
-  }
-
-  if (error || !invitation) {
-    return (
-      <div className="min-h-screen bg-[#FAF8F5] flex flex-col items-center justify-center p-6 text-center space-y-4 font-sans">
-        <div className="w-16 h-16 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center">
-          <Heart className="w-8 h-8" />
-        </div>
-        <h1 className="font-serif text-2xl font-bold text-neutral-900">Invitation Not Available</h1>
-        <p className="text-xs text-neutral-600 max-w-sm">
-          {error || 'This digital invitation is either in draft mode or the link has changed.'}
-        </p>
-        <Link
-          to="/invitations"
-          className="px-6 py-2.5 rounded-full bg-amber-900 hover:bg-amber-800 text-white font-bold text-xs uppercase tracking-wider shadow-sm transition-all flex items-center space-x-2"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Explore Moonlight Invitations</span>
-        </Link>
-      </div>
-    );
-  }
-
-  const coupleNames =
-    invitation.names || `${invitation.bride_name || 'Bride'} & ${invitation.groom_name || 'Groom'}`;
-  const seoTitle = `${coupleNames} — Digital Wedding Invitation | Moonlight Production`;
-  const seoDesc =
-    invitation.message ||
-    invitation.welcome_text ||
-    `You are cordially invited to celebrate the royal wedding of ${coupleNames}.`;
+  const currentTemplateObj = allDemosList.find((t) => t.id === (invitation?.template_id || slug)) || allDemosList[0];
 
   return (
-    <div className="w-full min-h-screen">
+    <div className="relative min-h-screen">
       <SEO
-        title={seoTitle}
-        description={seoDesc}
-        image={invitation.coverPhoto || invitation.cover_photo}
+        title={`${invitation?.title || 'Royal Wedding Demo'} - Zareqia`}
+        description="Experience 1:1 luxury animated digital invitations with live 4K video gates, scratch card, map, and RSVP."
       />
 
-      {/* Main Dynamic Template Engine Renderer */}
-      <InvitationRenderer invitation={invitation} isPreview={false} />
+      {/* FLOATING TOP DEMO CONTROLS BANNER (Allows Instant Switching) */}
+      {isDemoMode && (
+        <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/80 backdrop-blur-xl border border-amber-500/40 shadow-2xl text-xs text-white">
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-bold border border-amber-500/40 transition-all cursor-pointer"
+            >
+              <span>{currentTemplateObj.name}</span>
+              <ChevronDown className="w-3.5 h-3.5" />
+            </button>
+
+            {dropdownOpen && (
+              <div className="absolute left-0 top-full mt-2 w-56 max-h-72 overflow-y-auto rounded-2xl bg-neutral-950/95 border border-amber-500/30 shadow-2xl p-1.5 space-y-1 z-50 custom-scrollbar text-left">
+                <div className="px-3 py-1 text-[10px] uppercase tracking-wider text-neutral-400 font-mono">
+                  Switch Demo Template:
+                </div>
+                {allDemosList.map((t) => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => {
+                      setDropdownOpen(false);
+                      navigate(`/invite/demo?template=${t.id}`);
+                    }}
+                    className={`w-full px-3 py-2 rounded-xl text-left text-xs transition-colors flex items-center justify-between cursor-pointer ${
+                      t.id === currentTemplateObj.id
+                        ? 'bg-amber-500 text-neutral-950 font-bold'
+                        : 'text-neutral-200 hover:bg-white/10'
+                    }`}
+                  >
+                    <span>{t.name}</span>
+                    {t.id === currentTemplateObj.id && <Check className="w-3.5 h-3.5" />}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Link
+            to={`/create/${currentTemplateObj.id}`}
+            className="flex items-center gap-1 px-3.5 py-1 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-bold uppercase tracking-wider text-[11px] shadow-md transition-transform active:scale-95 cursor-pointer"
+          >
+            <span>USE THIS DESIGN</span>
+            <ArrowRight className="w-3 h-3" />
+          </Link>
+        </div>
+      )}
+
+      {/* Main Suite Renderer */}
+      <InvitationRenderer invitation={invitation} />
     </div>
   );
 };

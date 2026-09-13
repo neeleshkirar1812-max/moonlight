@@ -9,11 +9,13 @@ import {
   Copy,
   Check,
   X,
+  Crown,
+  Sparkles,
 } from 'lucide-react';
 import ZareqiaBody, { DamaskPattern } from './ZareqiaBody';
 
 // =========================================================================
-// 10 ROYAL SUITE THEME CONFIGURATIONS (Exact Zareqia Mapping)
+// 8 DISTINCT ROYAL SUITE THEME CONFIGURATIONS (Exact Zareqia Mapping)
 // =========================================================================
 export const zareqiaRoyalThemes = {
   'rose-gold-blush-royal': {
@@ -33,40 +35,6 @@ export const zareqiaRoyalThemes = {
     background: '#1C140E',
     musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
   },
-  'royal-prestige': {
-    id: 'royal-prestige',
-    name: 'Royal Prestige',
-    video: '/videos/royal-prestige.mp4',
-    textColor: '#fde2e8',
-    accentColor: '#be185d',
-    primary: 'hsl(336, 75%, 48%)',
-    scratch: {
-      gradStart: '#fbcfe8',
-      gradMid: '#db2777',
-      gradEnd: '#831843',
-      textColor: '#ffffff',
-      accent: '#ec4899',
-    },
-    background: '#261019',
-    musicPreset: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_bb630cc098.mp3?filename=acoustic-guitars-ambient-uplifting-11369.mp3',
-  },
-  'modern-minimal-royal': {
-    id: 'modern-minimal-royal',
-    name: 'Royal Elegance',
-    video: '/videos/royal-elegance-royal.mp4',
-    textColor: '#fef2f2',
-    accentColor: '#dc2626',
-    primary: 'hsl(0, 75%, 48%)',
-    scratch: {
-      gradStart: '#fca5a5',
-      gradMid: '#b91c1c',
-      gradEnd: '#450a0a',
-      textColor: '#ffffff',
-      accent: '#ef4444',
-    },
-    background: '#1a0303',
-    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
-  },
   'royal-majesty': {
     id: 'royal-majesty',
     name: 'Royal Majesty',
@@ -83,6 +51,57 @@ export const zareqiaRoyalThemes = {
     },
     background: '#0b131e',
     musicPreset: 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=piano-moment-9835.mp3',
+  },
+  'royal-elegance-royal': {
+    id: 'royal-elegance-royal',
+    name: 'Royal Elegance',
+    video: '/videos/royal-elegance-royal.mp4',
+    textColor: '#fef2f2',
+    accentColor: '#dc2626',
+    primary: 'hsl(0, 75%, 48%)',
+    scratch: {
+      gradStart: '#fca5a5',
+      gradMid: '#b91c1c',
+      gradEnd: '#450a0a',
+      textColor: '#ffffff',
+      accent: '#ef4444',
+    },
+    background: '#1a0303',
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+  },
+  'modern-minimal-royal': {
+    id: 'royal-elegance-royal',
+    name: 'Royal Elegance',
+    video: '/videos/royal-elegance-royal.mp4',
+    textColor: '#fef2f2',
+    accentColor: '#dc2626',
+    primary: 'hsl(0, 75%, 48%)',
+    scratch: {
+      gradStart: '#fca5a5',
+      gradMid: '#b91c1c',
+      gradEnd: '#450a0a',
+      textColor: '#ffffff',
+      accent: '#ef4444',
+    },
+    background: '#1a0303',
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+  },
+  'royal-prestige': {
+    id: 'royal-prestige',
+    name: 'Royal Prestige',
+    video: '/videos/royal-prestige.mp4',
+    textColor: '#fde2e8',
+    accentColor: '#be185d',
+    primary: 'hsl(336, 75%, 48%)',
+    scratch: {
+      gradStart: '#fbcfe8',
+      gradMid: '#db2777',
+      gradEnd: '#831843',
+      textColor: '#ffffff',
+      accent: '#ec4899',
+    },
+    background: '#261019',
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_bb630cc098.mp3?filename=acoustic-guitars-ambient-uplifting-11369.mp3',
   },
   'royal-heritage': {
     id: 'royal-heritage',
@@ -101,22 +120,22 @@ export const zareqiaRoyalThemes = {
     background: '#081926',
     musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
   },
-  'royal-legacy': {
-    id: 'royal-legacy',
-    name: 'Royal Legacy',
-    video: '/videos/royal-legacy.mp4',
-    textColor: '#fef3c7',
-    accentColor: '#d97706',
-    primary: 'hsl(38, 75%, 48%)',
+  'royal-grace': {
+    id: 'royal-grace',
+    name: 'Royal Grace',
+    video: '/videos/royal-grace.mp4',
+    textColor: '#ecfdf5',
+    accentColor: '#065f46',
+    primary: 'hsl(160, 75%, 40%)',
     scratch: {
-      gradStart: '#fde68a',
-      gradMid: '#d97706',
-      gradEnd: '#78350f',
-      textColor: '#1a1208',
-      accent: '#f59e0b',
+      gradStart: '#a7f3d0',
+      gradMid: '#059669',
+      gradEnd: '#064e3b',
+      textColor: '#ffffff',
+      accent: '#10b981',
     },
-    background: '#1f0a07',
-    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+    background: '#0f1f18',
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/03/10/audio_c3574c82c3.mp3?filename=indian-classical-instrumental-110825.mp3',
   },
   'royal-crest': {
     id: 'royal-crest',
@@ -135,22 +154,22 @@ export const zareqiaRoyalThemes = {
     background: '#1f0810',
     musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
   },
-  'royal-grace': {
-    id: 'royal-grace',
-    name: 'Royal Grace',
-    video: '/videos/royal-grace.mp4',
-    textColor: '#ecfdf5',
-    accentColor: '#065f46',
-    primary: 'hsl(160, 75%, 40%)',
+  'royal-legacy': {
+    id: 'royal-legacy',
+    name: 'Royal Legacy',
+    video: '/videos/royal-legacy.mp4',
+    textColor: '#fef3c7',
+    accentColor: '#d97706',
+    primary: 'hsl(38, 75%, 48%)',
     scratch: {
-      gradStart: '#a7f3d0',
-      gradMid: '#059669',
-      gradEnd: '#064e3b',
-      textColor: '#ffffff',
-      accent: '#10b981',
+      gradStart: '#fde68a',
+      gradMid: '#d97706',
+      gradEnd: '#78350f',
+      textColor: '#1a1208',
+      accent: '#f59e0b',
     },
-    background: '#0f1f18',
-    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/03/10/audio_c3574c82c3.mp3?filename=indian-classical-instrumental-110825.mp3',
+    background: '#1f0a07',
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
   },
   'emerald-noir-royal': {
     id: 'emerald-noir-royal',
@@ -189,14 +208,18 @@ export const zareqiaRoyalThemes = {
 };
 
 const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }) => {
-  const templateId =
+  const rawTemplateId =
     invitation.template_id ||
     invitation.templateId ||
     'rose-gold-blush-royal';
 
-  const theme =
-    zareqiaRoyalThemes[templateId] ||
-    zareqiaRoyalThemes['rose-gold-blush-royal'];
+  const themeKey =
+    zareqiaRoyalThemes[rawTemplateId] ? rawTemplateId :
+    rawTemplateId === 'royal-elegance' ? 'royal-elegance-royal' :
+    rawTemplateId === 'modern-minimal-royal' ? 'royal-elegance-royal' :
+    'rose-gold-blush-royal';
+
+  const theme = zareqiaRoyalThemes[themeKey] || zareqiaRoyalThemes['rose-gold-blush-royal'];
 
   const videoRef = useRef(null);
   const audioRef = useRef(null);
@@ -232,7 +255,8 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
   }, [hasRevealed]);
 
   // Gate Tap to Open Trigger
-  const handleOpenGate = async () => {
+  const handleOpenGate = async (e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
     if (hasStarted) return;
     const vid = videoRef.current;
     if (!vid) return;
@@ -247,10 +271,10 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
         audioRef.current.play().then(() => setIsPlayingMusic(true)).catch(() => {});
       }
 
-      // Exact 6000ms gate animation duration from Zareqia
+      // Exact 5500ms gate animation duration from Zareqia
       setTimeout(() => {
         setHasRevealed(true);
-      }, 6000);
+      }, 5500);
     } catch {
       setHasStarted(true);
       setHasRevealed(true);
@@ -347,6 +371,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
         {/* Full-Bleed Video Element */}
         <video
           ref={videoRef}
+          key={theme.video}
           src={theme.video}
           playsInline
           muted
@@ -358,6 +383,41 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           className="absolute inset-0 h-full w-full object-cover"
         />
 
+        {/* Initial Gate Screen Interactive Prompt */}
+        {!hasStarted && (
+          <div className="relative z-30 flex flex-col items-center justify-center px-6 text-center animate-fade-in pointer-events-none">
+            <div className="mb-5 relative pointer-events-auto">
+              <button
+                type="button"
+                onClick={handleOpenGate}
+                className="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-amber-400/90 flex items-center justify-center bg-black/60 backdrop-blur-md shadow-[0_0_40px_rgba(212,175,55,0.4)] hover:scale-105 active:scale-95 transition-all cursor-pointer group"
+              >
+                <Crown className="w-10 h-10 md:w-12 md:h-12 text-amber-300 group-hover:text-amber-200 transition-colors" />
+              </button>
+              <div className="absolute -inset-2.5 rounded-full border border-amber-400/40 animate-ping pointer-events-none" />
+            </div>
+
+            <span className="text-[11px] md:text-xs font-mono uppercase tracking-[0.3em] text-amber-300 font-bold mb-1 drop-shadow-md">
+              👑 {theme.name}
+            </span>
+            <h2 className="font-serif text-3xl md:text-5xl font-bold text-white tracking-wide mb-2 drop-shadow-lg">
+              {coupleNames}
+            </h2>
+            <p className="text-xs md:text-sm text-neutral-300 font-serif italic mb-6">
+              Cordially invite you to celebrate their Royal Wedding
+            </p>
+
+            <button
+              type="button"
+              onClick={handleOpenGate}
+              className="pointer-events-auto px-8 py-3 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-serif font-bold text-xs uppercase tracking-widest shadow-2xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center space-x-2"
+            >
+              <Sparkles className="w-4 h-4 text-neutral-900" />
+              <span>TAP TO OPEN INVITATION</span>
+            </button>
+          </div>
+        )}
+
         {/* Dark Luxury Gradient Overlay over Video */}
         <div
           className={`absolute inset-0 pointer-events-none transition-opacity duration-1000 ${
@@ -365,7 +425,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           }`}
           style={{
             background:
-              'linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0.55) 100%)',
+              'linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.2) 45%, rgba(0,0,0,0.65) 100%)',
           }}
         />
 
