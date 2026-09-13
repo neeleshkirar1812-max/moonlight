@@ -23,7 +23,7 @@ const invitationTypes = [
   { id: 'custom', label: 'Custom invitation' },
 ];
 
-// Exact 8 Royal 4K Video Gate Templates (media_1789305808153.png)
+// Exact 10 Royal 4K Video Gate Templates
 const royalTemplates = [
   {
     id: 'rose-gold-blush-royal',
@@ -89,9 +89,25 @@ const royalTemplates = [
     tag: 'New',
     tagColor: 'bg-[#E5A83B] text-neutral-950 font-bold',
   },
+  {
+    id: 'emerald-noir-royal',
+    name: 'Emerald Noir Royal',
+    desc: '4K emerald green palace video gates with ornate gold inlay and royal symphony',
+    video: '/videos/emerald-noir-royal.mp4',
+    tag: 'New',
+    tagColor: 'bg-[#E5A83B] text-neutral-950 font-bold',
+  },
+  {
+    id: 'ivory-elegance-royal',
+    name: 'Ivory & Crimson Royal',
+    desc: '4K dark obsidian and velvet crimson video arch reveal with grand orchestral romance',
+    video: '/videos/ivory-elegance-royal.mp4',
+    tag: 'New',
+    tagColor: 'bg-[#E5A83B] text-neutral-950 font-bold',
+  },
 ];
 
-// Exact 5 Classic 3D Gate Templates (media_1789305807997.png)
+// Exact 5 Classic 3D Gate Templates
 const classicTemplates = [
   {
     id: 'emerald-noir',
@@ -159,103 +175,99 @@ const TemplateMarketplace = () => {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 font-sans flex flex-col justify-between selection:bg-amber-200 selection:text-amber-900">
       <SEO
-        title="Invitation Templates | Zareqia"
-        description="Choose from 13 premium animated digital invitation templates across Zareqia Royal & Classic collections."
+        title="Browse All Wedding & Event Invitation Templates - Zareqia Replica"
+        description="Select from our Royal 4K Video Gates and Classic 3D Gate Suites."
       />
 
-      {/* Top Navbar (1:1 Zareqia) */}
-      <header className="w-full border-b border-neutral-200/80 bg-[#FAF8F5]/90 backdrop-blur-md sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="font-serif text-2xl font-bold tracking-wide text-[#C59B27] hover:opacity-90 transition-opacity">
-            Zareqia
-          </Link>
-          <Link
-            to="/invitations/dashboard"
-            className="text-sm font-medium text-neutral-800 hover:text-[#C59B27] transition-colors"
-          >
-            Dashboard
-          </Link>
-        </div>
-      </header>
-
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 w-full">
-        {/* Top Dropdown Header (1:1 Zareqia) */}
-        <div className="text-center mb-6 space-y-2">
-          <span className="text-[11px] md:text-xs uppercase tracking-[0.2em] text-neutral-500 font-serif font-semibold block">
-            INVITATION TYPE
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 w-full flex-1">
+        {/* Header Titles */}
+        <div className="text-center space-y-2 mb-8">
+          <span className="text-[11px] font-mono tracking-[0.3em] uppercase text-amber-700 font-bold block">
+            THE DIGITAL SUITE COLLECTION
           </span>
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-neutral-900 tracking-tight">
+            Choose Your Design
+          </h1>
+          <p className="text-xs sm:text-sm text-neutral-600 max-w-xl mx-auto font-sans">
+            Select a theme to preview the opening door animations, interactive scratch card, maps, and live RSVP.
+          </p>
+        </div>
 
+        {/* Category Dropdown Pill */}
+        <div className="flex justify-center mb-8 relative z-30">
           <div className="relative inline-block text-left">
             <button
               type="button"
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="w-[280px] md:w-[320px] h-11 px-4 rounded-xl border border-neutral-300 bg-white text-sm font-medium text-neutral-800 shadow-xs flex items-center justify-between hover:border-amber-500 transition-all cursor-pointer"
+              className="inline-flex items-center justify-between w-64 sm:w-72 px-4 py-2.5 rounded-full border border-neutral-300 bg-white text-xs sm:text-sm font-medium text-neutral-800 shadow-xs hover:border-amber-500 transition-colors cursor-pointer"
             >
               <span>{invitationTypes.find((t) => t.id === selectedType)?.label || 'Wedding Invitation'}</span>
-              <ChevronDown className="w-4 h-4 text-neutral-500" />
+              <ChevronDown className="w-4 h-4 text-neutral-500 ml-2" />
             </button>
 
             {dropdownOpen && (
-              <div className="absolute left-0 right-0 mt-1.5 py-1.5 rounded-xl border border-neutral-200 bg-white shadow-xl z-50 max-h-[320px] overflow-y-auto custom-scrollbar text-left text-xs">
-                {invitationTypes.map((item) => (
+              <div className="absolute left-0 right-0 mt-1.5 rounded-2xl bg-white border border-neutral-200 shadow-xl py-1 z-40 max-h-64 overflow-y-auto">
+                {invitationTypes.map((type) => (
                   <button
-                    key={item.id}
+                    key={type.id}
                     type="button"
                     onClick={() => {
-                      setSelectedType(item.id);
+                      setSelectedType(type.id);
                       setDropdownOpen(false);
                     }}
-                    className={'w-full px-4 py-2.5 text-left transition-colors cursor-pointer ' + (selectedType === item.id ? 'bg-amber-50 font-bold text-amber-900' : 'text-neutral-700 hover:bg-neutral-50')}
+                    className={'w-full text-left px-4 py-2 text-xs transition-colors cursor-pointer ' +
+                      (selectedType === type.id
+                        ? 'bg-amber-50 text-amber-900 font-bold'
+                        : 'text-neutral-700 hover:bg-neutral-50')}
                   >
-                    {item.label}
+                    {type.label}
                   </button>
                 ))}
               </div>
             )}
           </div>
-
-          <p className="text-[11px] text-neutral-500 pt-1">
-            Royal plan includes both royal + classic templates.
-          </p>
         </div>
 
-        {/* Segmented Royal / Classics Capsule Switcher (1:1 Zareqia Screenshot) */}
+        {/* Collection Tab Switcher */}
         <div className="flex justify-center mb-10">
-          <div className="inline-flex items-center p-1 rounded-full bg-neutral-200/60 shadow-xs border border-neutral-300/40">
+          <div className="inline-flex p-1 rounded-full bg-[#EFEAE2] border border-[#E2DBD0]">
             <button
               type="button"
               onClick={() => setActiveTab('royal')}
-              className={'flex items-center space-x-1.5 px-6 md:px-8 py-2 rounded-full text-xs md:text-sm font-medium transition-all cursor-pointer ' + (activeTab === 'royal' ? 'bg-[#E5A83B] text-neutral-950 font-bold shadow-sm' : 'text-neutral-700 hover:text-neutral-900')}
+              className={'px-6 sm:px-8 py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer ' +
+                (activeTab === 'royal'
+                  ? 'bg-[#1C1814] text-white shadow-md font-bold'
+                  : 'text-neutral-700 hover:text-neutral-900')}
             >
-              <Crown className="w-3.5 h-3.5" />
-              <span>Zareqia Royal</span>
+              👑 Royal Collection
             </button>
-
             <button
               type="button"
               onClick={() => setActiveTab('classic')}
-              className={'px-6 md:px-8 py-2 rounded-full text-xs md:text-sm font-medium transition-all cursor-pointer ' + (activeTab === 'classic' ? 'bg-white text-neutral-900 font-bold shadow-md' : 'text-neutral-700 hover:text-neutral-900')}
+              className={'px-6 sm:px-8 py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer ' +
+                (activeTab === 'classic'
+                  ? 'bg-white text-neutral-900 shadow-md font-bold'
+                  : 'text-neutral-700 hover:text-neutral-900')}
             >
-              <span>Zareqia Classics</span>
+              Classic Collection
             </button>
           </div>
         </div>
 
         {/* ========================================================================= */}
-        {/* 1. ROYAL TEMPLATES TAB (8 4K Cinematic Video Gate Suites - media_1789305808153.png) */}
+        {/* 1. ROYAL COLLECTION TAB (10 Royal Video Gate Cards) */}
         {/* ========================================================================= */}
         {activeTab === 'royal' && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4.5 max-w-[1400px] mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {royalTemplates.map((template) => (
               <div
                 key={template.id}
-                className="group rounded-xl overflow-hidden border border-neutral-800 bg-[#16120E] text-white shadow-lg hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between relative"
+                className="group rounded-2xl overflow-hidden border border-neutral-200/80 bg-[#16120F] text-white shadow-md hover:shadow-xl hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between"
               >
-                {/* Visual Video Poster */}
-                <div className="relative h-64 sm:h-72 overflow-hidden bg-neutral-950">
+                {/* Video Area */}
+                <div className="relative h-44 sm:h-48 overflow-hidden bg-neutral-950">
                   {template.tag && (
-                    <span className={'absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded-sm text-[10px] uppercase tracking-wider ' + template.tagColor}>
+                    <span className={'absolute top-2.5 left-2.5 z-20 px-2.5 py-0.5 rounded text-[10px] tracking-wide ' + template.tagColor}>
                       {template.tag}
                     </span>
                   )}
@@ -268,29 +280,29 @@ const TemplateMarketplace = () => {
                     playsInline
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/30" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
-                  {/* View Demo Button Pill */}
+                  {/* View Demo Button */}
                   <Link
                     to={'/invite/demo?template=' + template.id + '&type=' + selectedType}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="absolute inset-x-0 bottom-3 z-20 flex items-center justify-center"
                   >
-                    <span className="inline-flex items-center rounded-full bg-black/70 hover:bg-black/90 backdrop-blur-md px-3.5 py-1 text-[11px] font-medium text-white border border-white/20 shadow-md transition-transform active:scale-95">
-                      <Eye className="w-3.5 h-3.5 mr-1 text-amber-300" />
+                    <span className="inline-flex items-center rounded-full bg-black/60 hover:bg-black/90 backdrop-blur-md px-3.5 py-1 text-[11px] font-medium text-white border border-white/20 shadow-md transition-transform active:scale-95">
+                      <Eye className="w-3.5 h-3.5 mr-1.5 text-[#E5A83B]" />
                       View Demo
                     </span>
                   </Link>
                 </div>
 
-                {/* Card Bottom: Title, Description & CTA Button */}
-                <div className="p-3.5 space-y-2.5 flex-1 flex flex-col justify-between bg-[#16120E]">
+                {/* Card Body */}
+                <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
                   <div className="space-y-1">
-                    <h3 className="font-serif text-sm font-bold text-white tracking-wide">
+                    <h3 className="font-serif text-base font-bold text-white tracking-wide">
                       {template.name}
                     </h3>
-                    <p className="text-[11px] text-neutral-300 leading-snug line-clamp-2">
+                    <p className="text-[11px] text-neutral-400 leading-relaxed line-clamp-2">
                       {template.desc}
                     </p>
                   </div>
@@ -298,7 +310,7 @@ const TemplateMarketplace = () => {
                   <button
                     type="button"
                     onClick={() => handleSelectDesign(template.id)}
-                    className="w-full py-2 rounded-md bg-[#14100C] hover:bg-[#201810] border border-[#C59B27] text-[#E5A83B] font-serif font-bold text-[11px] uppercase tracking-wider shadow-xs transition-all cursor-pointer"
+                    className="w-full py-2.5 rounded-lg border border-neutral-700 hover:border-amber-400/80 bg-neutral-900 hover:bg-neutral-800 text-white font-sans text-xs tracking-wider uppercase font-semibold transition-all cursor-pointer"
                   >
                     USE THIS DESIGN
                   </button>
@@ -309,49 +321,51 @@ const TemplateMarketplace = () => {
         )}
 
         {/* ========================================================================= */}
-        {/* 2. CLASSICS TEMPLATES TAB (5 3D Door Gate Suites - media_1789305807997.png) */}
+        {/* 2. CLASSIC COLLECTION TAB (5 Classic 3D Gate Cards) */}
         {/* ========================================================================= */}
         {activeTab === 'classic' && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4.5 max-w-[1400px] mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {classicTemplates.map((template) => (
               <div
                 key={template.id}
-                className="group rounded-xl overflow-hidden border border-neutral-200 bg-white shadow-sm hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between"
+                className="group rounded-2xl overflow-hidden border border-[#E8DFD1] bg-white shadow-sm hover:shadow-xl hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between"
               >
-                {/* Visual 3D Door Card Header */}
-                <div className={'relative h-52 sm:h-56 ' + template.previewBg + ' p-3 flex flex-col justify-between items-center text-center overflow-hidden'}>
+                {/* Visual Card Header */}
+                <div className={'relative h-44 sm:h-48 ' + template.previewBg + ' p-4 flex flex-col justify-between items-center text-center overflow-hidden'}>
                   {template.tag && (
-                    <span className={'absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded-sm text-[10px] uppercase tracking-wider ' + template.tagColor}>
+                    <span className={'absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded text-[10px] tracking-wide ' + template.tagColor}>
                       {template.tag}
                     </span>
                   )}
 
-                  {/* Centered Name inside preview box */}
-                  <h4 className={'font-serif text-lg font-bold tracking-wide my-auto text-center ' + template.accentText + ' drop-shadow-sm'}>
-                    {template.name}
-                  </h4>
+                  {/* 3D Door Preview Simulation */}
+                  <div className="my-auto px-2 flex flex-col items-center space-y-1.5 z-10">
+                    <h4 className={'font-serif text-xl font-bold tracking-wide ' + template.accentText + ' drop-shadow-sm'}>
+                      {template.name}
+                    </h4>
+                  </div>
 
-                  {/* View Demo Button Pill */}
+                  {/* View Demo Button */}
                   <Link
                     to={'/invite/demo?template=' + template.id + '&type=' + selectedType}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center z-10"
                   >
-                    <span className="inline-flex items-center rounded-full bg-black/60 hover:bg-black/85 backdrop-blur-md px-3.5 py-1 text-[11px] font-medium text-white border border-white/20 shadow-md transition-transform active:scale-95">
-                      <Eye className="w-3.5 h-3.5 mr-1" />
+                    <span className="inline-flex items-center rounded-full bg-black/60 hover:bg-black/90 backdrop-blur-md px-3.5 py-1 text-[11px] font-medium text-white border border-white/20 shadow-md transition-transform active:scale-95">
+                      <Eye className="w-3.5 h-3.5 mr-1.5 text-amber-300" />
                       View Demo
                     </span>
                   </Link>
                 </div>
 
-                {/* Card Bottom: Title, Description & Solid Gold CTA Button */}
-                <div className="p-3.5 space-y-2.5 flex-1 flex flex-col justify-between bg-white border-t border-neutral-100">
+                {/* Card Body */}
+                <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
                   <div className="space-y-1">
                     <h3 className="font-serif text-sm font-bold text-neutral-900">
                       {template.name}
                     </h3>
-                    <p className="text-[11px] text-neutral-500 leading-snug line-clamp-2">
+                    <p className="text-[11px] text-neutral-500 leading-relaxed line-clamp-2">
                       {template.desc}
                     </p>
                   </div>
@@ -359,47 +373,26 @@ const TemplateMarketplace = () => {
                   <button
                     type="button"
                     onClick={() => handleSelectDesign(template.id)}
-                    className="w-full py-2 rounded-md bg-[#b8860b] hover:bg-[#9a7009] text-white font-serif font-bold text-[11px] uppercase tracking-wider shadow-xs transition-colors cursor-pointer"
+                    className="w-full py-2.5 rounded-lg bg-[#E5A83B] hover:bg-[#d4962a] text-neutral-950 font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-xs"
                   >
-                    Use This Design
+                    USE THIS DESIGN
                   </button>
                 </div>
               </div>
             ))}
           </div>
         )}
-      </main>
+      </div>
 
-      {/* Exact 1:1 Zareqia Footer */}
-      <footer className="w-full border-t border-neutral-200/80 bg-[#FAF8F5] py-12 px-6 text-center space-y-6">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <Link to="/" className="font-serif text-xl font-bold tracking-wide text-[#C59B27] inline-block">
-            Zareqia
-          </Link>
-
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-neutral-600">
-            <Link to="/about" className="hover:text-neutral-900 transition-colors">About</Link>
-            <Link to="/contact" className="hover:text-neutral-900 transition-colors">Contact</Link>
-            <Link to="/terms" className="hover:text-neutral-900 transition-colors">Terms & Conditions</Link>
-            <Link to="/privacy-policy" className="hover:text-neutral-900 transition-colors">Privacy Policy</Link>
-            <Link to="/refund-policy" className="hover:text-neutral-900 transition-colors">Refund Policy</Link>
-            <Link to="/shipping-policy" className="hover:text-neutral-900 transition-colors">Shipping & Delivery</Link>
-            <Link to="/affiliate" className="hover:text-neutral-900 transition-colors">Become an Affiliate</Link>
-          </div>
-
-          <div className="flex items-center justify-center space-x-4 text-neutral-500">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-900 transition-colors">
-              <Instagram className="w-4 h-4" />
-            </a>
-            <a href="mailto:support@zareqia.com" className="hover:text-neutral-900 transition-colors">
-              <Mail className="w-4 h-4" />
-            </a>
-          </div>
-
-          <div className="space-y-1 text-[11px] text-neutral-400">
-            <p>© 2026 Zareqia. Crafted with love</p>
-            <p>Digital invitation service • No physical products shipped</p>
-          </div>
+      {/* Footer Minimal Notice */}
+      <footer className="border-t border-neutral-200 bg-[#FAF8F5] py-8 text-center text-xs text-neutral-500 space-y-2">
+        <p>© 2026 Moonlight Production · Digital Invitation Suites. All Rights Reserved.</p>
+        <div className="flex justify-center space-x-4 pt-1 text-neutral-600">
+          <Link to="/contact" className="hover:text-amber-700">Need Help?</Link>
+          <span>·</span>
+          <Link to="/faq" className="hover:text-amber-700">FAQ</Link>
+          <span>·</span>
+          <Link to="/terms" className="hover:text-amber-700">Terms of Service</Link>
         </div>
       </footer>
     </div>
