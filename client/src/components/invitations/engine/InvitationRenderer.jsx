@@ -11,6 +11,7 @@ import ScratchCard from '../components/ScratchCard';
 import RsvpSection from '../components/RsvpSection';
 import MusicPlayer from '../components/MusicPlayer';
 import ModernMinimalInvitation from '../templates/ModernMinimalInvitation';
+import ZareqiaRoyalSuite from '../templates/ZareqiaRoyalSuite';
 import { Share2, QrCode, Copy, Check, X, Sparkles, RefreshCw, DoorClosed } from 'lucide-react';
 
 const InvitationRenderer = ({
@@ -19,10 +20,10 @@ const InvitationRenderer = ({
   onRsvpSuccess,
   showOpeningInPreview = false,
 }) => {
-  const templateId = invitation.template_id || invitation.templateId || 'royal-love';
+  const rawTemplateId = invitation.template_id || invitation.templateId || 'rose-gold-blush-royal';
 
   // Dedicated Modern Minimal Design Suite
-  if (templateId === 'modern-minimal') {
+  if (rawTemplateId === 'modern-minimal') {
     return (
       <ModernMinimalInvitation
         invitation={invitation}
@@ -32,7 +33,44 @@ const InvitationRenderer = ({
     );
   }
 
-  const config = getTemplateConfig(templateId);
+  // Check if template belongs to the 10 Royal Video Suites (Exact Zareqia Replica)
+  const isRoyal =
+    invitation.tier === 'royal' ||
+    rawTemplateId.includes('royal') ||
+    [
+      'rose-gold-blush-royal',
+      'royal-prestige',
+      'modern-minimal-royal',
+      'royal-majesty',
+      'royal-heritage',
+      'royal-legacy',
+      'royal-crest',
+      'royal-grace',
+      'emerald-noir-royal',
+      'ivory-elegance-royal',
+      'royal-love',
+      'royal-elegance',
+      'jaipur-heritage',
+      'shahi-sangeet',
+      'nawab-of-awadh',
+      'emerald-noir',
+      'crimson-royale',
+      'taj-imperial',
+      'bikaner-riyasat',
+      'udaivilas-palace',
+    ].includes(rawTemplateId);
+
+  if (isRoyal) {
+    return (
+      <ZareqiaRoyalSuite
+        invitation={invitation}
+        isPreview={isPreview}
+        onRsvpSuccess={onRsvpSuccess}
+      />
+    );
+  }
+
+  const config = getTemplateConfig(rawTemplateId);
   const theme = config.theme;
 
   const [qrOpen, setQrOpen] = useState(false);

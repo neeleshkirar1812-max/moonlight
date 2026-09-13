@@ -45,6 +45,9 @@ export default {
         serif: ['"Playfair Display"', 'Cinzel', 'Georgia', 'serif'],
         sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
         display: ['"Cinzel"', '"Playfair Display"', 'serif'],
+        dancing: ['"Dancing Script"', '"Great Vibes"', 'cursive'],
+        calligraphy: ['"Dancing Script"', '"Great Vibes"', 'cursive'],
+        calligraphic: ['"Dancing Script"', '"Playfair Display"', 'cursive', 'serif'],
       },
       backgroundImage: {
         'gold-gradient': 'linear-gradient(135deg, #D4AF37 0%, #F5E6BE 50%, #B89225 100%)',
