@@ -422,6 +422,17 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
     }, 6000);
   };
 
+  // Scroll Down to content
+  const handleScrollDown = (e) => {
+    if (e) e.stopPropagation();
+    const nextSection = document.getElementById('invitation-welcome');
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+    }
+  };
+
   // Toggle Music
   const toggleMusic = () => {
     if (!audioRef.current) return;
@@ -607,74 +618,26 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           preload="auto"
           controls={false}
           disablePictureInPicture
+          controlsList="nodownload noplaybackrate noremoteplayback nofullscreen"
+          onContextMenu={(e) => e.preventDefault()}
           className="absolute inset-0 h-full w-full object-cover"
         />
 
         {/* Dark Luxury Gradient Overlay over Video */}
         <div
           className={`absolute inset-0 pointer-events-none transition-opacity duration-1000 ${
-            hasRevealed ? 'opacity-100' : 'opacity-70'
+            hasRevealed ? 'opacity-100' : 'opacity-0'
           }`}
           style={{
             background:
-              'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.2) 45%, rgba(0,0,0,0.85) 100%)',
+              'linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0.55) 100%)',
           }}
         />
 
-        {/* TAP TO OPEN WAX SEAL OVERLAY (Before Click) */}
-        {!hasStarted && (
-          <div className="relative z-30 flex flex-col items-center justify-center text-center px-6 transition-all duration-700">
-            <span className="text-[10px] uppercase font-mono tracking-[0.3em] text-[#d4af37] font-bold drop-shadow mb-4 animate-pulse">
-              {theme.name} Suite
-            </span>
-
-            {/* Glowing VIP Royal Wax Seal that Rotates 720° */}
-            <div className="relative group cursor-pointer mb-5 transform hover:scale-105 transition-transform">
-              <div className="absolute -inset-4 rounded-full bg-amber-400/40 blur-md animate-ping duration-1000" />
-              <div
-                className="w-24 h-24 sm:w-28 sm:h-28 rounded-full p-1.5 shadow-[0_0_40px_rgba(212,175,55,0.7)] border-2 border-amber-300 relative flex items-center justify-center"
-                style={{
-                  background: 'linear-gradient(135deg, #4a3410 0%, #b08820 55%, #2a1f08 100%)',
-                }}
-              >
-                <div className="w-full h-full rounded-full border border-dashed border-amber-200/80 flex flex-col items-center justify-center bg-black/60 text-center p-1.5">
-                  <span className="text-base">👑</span>
-                  <span className="font-dancing text-2xl font-bold tracking-wider text-amber-200 drop-shadow my-0.5">
-                    {groomName.charAt(0)} & {brideName.charAt(0)}
-                  </span>
-                  <span className="text-[6.5px] uppercase font-mono tracking-widest text-[#f3cf5b] font-bold">
-                    TAP TO OPEN
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <h2 className="font-dancing text-3xl sm:text-4xl font-bold text-white tracking-tight drop-shadow-lg mb-1">
-              {coupleNames}
-            </h2>
-            <p className="text-[11px] text-amber-200 font-mono tracking-widest mb-6">
-              {new Date(weddingDateStr).toLocaleDateString('en-IN', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              })}
-            </p>
-
-            <button
-              type="button"
-              onClick={handleOpenGate}
-              className="px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 hover:from-yellow-400 hover:to-amber-500 text-neutral-950 font-bold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(212,175,55,0.6)] flex items-center justify-center space-x-2 border border-amber-200"
-            >
-              <Sparkles className="w-4 h-4 text-neutral-950 animate-spin" />
-              <span>Tap to Open Royal Doors</span>
-            </button>
-          </div>
-        )}
-
         {/* OPENED GATE REVEAL CONTENT (Zareqia Exact Overlay) */}
         <div
-          className={`relative z-20 flex w-full flex-col items-center justify-center px-6 text-center transition-all duration-1000 ${
-            hasRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8 pointer-events-none'
+          className={`relative z-20 flex w-full flex-col items-center justify-center px-6 text-center pointer-events-none transition-all duration-1000 ${
+            hasRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
           {/* Top Heart Icon */}
@@ -734,9 +697,14 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
               </p>
             )}
           </div>
+        </div>
 
-          {/* Bottom Scroll Bounce Indicator */}
-          <div className="absolute inset-x-0 bottom-8 z-10 flex flex-col items-center gap-2 pointer-events-none animate-bounce">
+        {/* Bottom Scroll Bounce Indicator - Only shown once gate has revealed */}
+        {hasRevealed && (
+          <div
+            onClick={handleScrollDown}
+            className="absolute inset-x-0 bottom-8 z-30 flex flex-col items-center gap-2 cursor-pointer transition-all duration-700 animate-bounce pointer-events-auto"
+          >
             <span
               className="text-xs uppercase tracking-widest font-mono"
               style={{ color: 'rgba(245,230,224,0.8)', textShadow: '0 1px 6px rgba(0,0,0,0.7)' }}
@@ -745,13 +713,14 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
             </span>
             <ChevronDown size={20} style={{ color: theme.textColor }} />
           </div>
-        </div>
+        )}
       </section>
 
       {/* =========================================================================
           SECTION 2: WELCOME MESSAGE (Exact Zareqia Welcome Section)
          ========================================================================= */}
       <section
+        id="invitation-welcome"
         className="relative px-6 py-20 md:py-28 overflow-hidden text-center"
         style={{ background: theme.welcome.gradient }}
       >
