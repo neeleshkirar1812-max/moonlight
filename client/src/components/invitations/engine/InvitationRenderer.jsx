@@ -12,6 +12,7 @@ import RsvpSection from '../components/RsvpSection';
 import MusicPlayer from '../components/MusicPlayer';
 import ModernMinimalInvitation from '../templates/ModernMinimalInvitation';
 import ZareqiaRoyalSuite from '../templates/ZareqiaRoyalSuite';
+import ZareqiaClassicSuite from '../templates/ZareqiaClassicSuite';
 import { Share2, QrCode, Copy, Check, X, Sparkles, RefreshCw, DoorClosed } from 'lucide-react';
 
 const InvitationRenderer = ({
@@ -22,21 +23,10 @@ const InvitationRenderer = ({
 }) => {
   const rawTemplateId = invitation.template_id || invitation.templateId || 'rose-gold-blush-royal';
 
-  // Dedicated Modern Minimal Design Suite
-  if (rawTemplateId === 'modern-minimal') {
-    return (
-      <ModernMinimalInvitation
-        invitation={invitation}
-        isPreview={isPreview}
-        onRsvpSuccess={onRsvpSuccess}
-      />
-    );
-  }
-
   // Check if template belongs to the 10 Royal Video Suites (Exact Zareqia Replica)
   const isRoyal =
     invitation.tier === 'royal' ||
-    rawTemplateId.includes('royal') ||
+    (rawTemplateId.includes('royal') && rawTemplateId !== 'royal-elegance') ||
     [
       'rose-gold-blush-royal',
       'royal-prestige',
@@ -53,6 +43,38 @@ const InvitationRenderer = ({
   if (isRoyal) {
     return (
       <ZareqiaRoyalSuite
+        invitation={invitation}
+        isPreview={isPreview}
+        onRsvpSuccess={onRsvpSuccess}
+      />
+    );
+  }
+
+  // Check if template belongs to Classic Suites (Exact Zareqia Classic Replica)
+  const isClassic =
+    invitation.tier === 'classic' ||
+    [
+      'emerald-noir',
+      'ivory-elegance',
+      'rose-gold-blush',
+      'modern-minimal',
+      'royal-elegance',
+      'garden-romance',
+      'mughal-emerald',
+      'midnight-royal',
+      'blooming-dreams',
+      'terracotta-boho',
+      'mehendi-magic',
+      'little-sunshine',
+      'sweet-nesting-baby',
+      'silver-anniversary',
+      'coastal-breeze',
+      'celestial-night',
+    ].includes(rawTemplateId);
+
+  if (isClassic) {
+    return (
+      <ZareqiaClassicSuite
         invitation={invitation}
         isPreview={isPreview}
         onRsvpSuccess={onRsvpSuccess}
