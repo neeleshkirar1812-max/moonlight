@@ -4,7 +4,8 @@ import { useNotification } from '../../context/NotificationContext';
 import api from '../../api/client';
 import SEO from '../../components/common/SEO';
 import InvitationRenderer from '../../components/invitations/engine/InvitationRenderer';
-import { invitationTemplates } from '../../data/invitationTemplates';
+import { invitationTemplates, getTemplateById } from '../../data/invitationTemplates';
+import { templateDemoDataMap } from '../public/PublicInvitation';
 import {
   Sparkles,
   Save,
@@ -128,10 +129,14 @@ const InvitationEditor = () => {
   useEffect(() => {
     const fetchInvitation = async () => {
       setLoading(true);
+      const matchedTemplate = getTemplateById(id);
+      const templateIdToUse = matchedTemplate?.id || id || 'rose-gold-blush-royal';
+      const presetData = templateDemoDataMap[templateIdToUse] || templateDemoDataMap['rose-gold-blush-royal'] || {};
+
       try {
         const res = await api.get(`/invitations/${id}`);
         const inv = res.data?.invitation || res.data?.data || res.data;
-        if (inv) {
+        if (inv && !inv._id?.startsWith('demo-')) {
           setForm((prev) => ({
             ...prev,
             ...inv,
@@ -150,24 +155,41 @@ const InvitationEditor = () => {
             message: inv.message || inv.welcome_text || prev.message,
             story_text: inv.story_text || inv.story || prev.story_text,
             scratch_reveal_text: inv.scratch_reveal_text || inv.scratchMessage || prev.scratch_reveal_text,
-            scratch_enabled: inv.scratch_enabled !== undefined ? inv.scratch_enabled : (inv.scratchEnabled !== undefined ? inv.scratchEnabled : prev.scratch_enabled),
-            rsvp_enabled: inv.rsvp_enabled !== undefined ? inv.rsvp_enabled : (inv.rsvpEnabled !== undefined ? inv.rsvpEnabled : prev.rsvp_enabled),
+            scratch_enabled: inv.scratch_enabled !== undefined ? inv.scratch_enabled : prev.scratch_enabled,
+            rsvp_enabled: inv.rsvp_enabled !== undefined ? inv.rsvp_enabled : prev.rsvp_enabled,
             events: inv.events && inv.events.length > 0 ? inv.events : prev.events,
-            gallery_images:
-              inv.gallery_images && inv.gallery_images.length > 0
-                ? inv.gallery_images
-                : inv.galleryUrls && inv.galleryUrls.length > 0
-                ? inv.galleryUrls
-                : prev.gallery_images,
-            published: inv.published !== undefined ? inv.published : inv.status === 'PUBLISHED',
-            slug: inv.slug || prev.slug,
+            gallery_images: inv.gallery_images && inv.gallery_images.length > 0 ? inv.gallery_images : prev.gallery_images,
           }));
+          setLoading(false);
+          return;
         }
       } catch (err) {
-        console.warn('[Fetch Invitation Error]', err);
-      } finally {
-        setLoading(false);
+        // Fallback to loading preset data for newly selected template ID
       }
+
+      setForm((prev) => ({
+        ...prev,
+        template_id: templateIdToUse,
+        title: presetData.title || prev.title,
+        names: presetData.names || prev.names,
+        groom_name: presetData.groom_name || prev.groom_name,
+        bride_name: presetData.bride_name || prev.bride_name,
+        groom_parents: presetData.groom_parents || prev.groom_parents,
+        bride_parents: presetData.bride_parents || prev.bride_parents,
+        host_names: presetData.host_names || prev.host_names,
+        eventType: presetData.eventType || prev.eventType,
+        date: presetData.date || prev.date,
+        time: presetData.time || prev.time,
+        venue: presetData.venue || prev.venue,
+        venueAddress: presetData.venueAddress || prev.venueAddress,
+        story_text: presetData.story_text || prev.story_text,
+        message: presetData.message || prev.message,
+        welcome_text: presetData.welcome_text || prev.welcome_text,
+        scratch_reveal_text: presetData.scratch_reveal_text || prev.scratch_reveal_text,
+        events: presetData.events || prev.events,
+        gallery_images: presetData.gallery_images || prev.gallery_images,
+      }));
+      setLoading(false);
     };
 
     fetchInvitation();
