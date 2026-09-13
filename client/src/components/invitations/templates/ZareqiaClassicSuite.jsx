@@ -1028,7 +1028,7 @@ export const EmeraldNoirHero = ({ invitation, onScrollDown }) => {
         {/* Groom & Lineage */}
         <div className="space-y-1">
           <motion.h1
-            className="font-serif text-5xl md:text-7xl lg:text-8xl tracking-wide text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]"
+            className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-wide text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] break-words px-2 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.9 }}
@@ -1057,7 +1057,7 @@ export const EmeraldNoirHero = ({ invitation, onScrollDown }) => {
         {/* Bride & Lineage */}
         <div className="space-y-1">
           <motion.h1
-            className="font-serif text-5xl md:text-7xl lg:text-8xl tracking-wide text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]"
+            className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-wide text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] break-words px-2 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.9 }}
@@ -1126,7 +1126,7 @@ export const CrimsonRoyaleHero = ({ invitation, onScrollDown }) => {
         {/* Groom */}
         <div className="space-y-1">
           <motion.h1
-            className="font-serif text-5xl md:text-7xl lg:text-8xl tracking-wide text-amber-200 drop-shadow-[0_2px_14px_rgba(225,29,72,0.4)]"
+            className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-wide text-amber-200 drop-shadow-[0_2px_14px_rgba(225,29,72,0.4)] break-words px-2 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.9 }}
@@ -1155,7 +1155,7 @@ export const CrimsonRoyaleHero = ({ invitation, onScrollDown }) => {
         {/* Bride */}
         <div className="space-y-1">
           <motion.h1
-            className="font-serif text-5xl md:text-7xl lg:text-8xl tracking-wide text-amber-200 drop-shadow-[0_2px_14px_rgba(225,29,72,0.4)]"
+            className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-wide text-amber-200 drop-shadow-[0_2px_14px_rgba(225,29,72,0.4)] break-words px-2 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.9 }}
@@ -1235,7 +1235,7 @@ export const RoseGoldBlushHero = ({ invitation, onScrollDown }) => {
         {/* Groom */}
         <div className="space-y-1">
           <motion.h1
-            className="font-serif italic text-6xl md:text-8xl lg:text-9xl text-[#b76e79] drop-shadow-[0_2px_8px_rgba(183,110,121,0.2)]"
+            className="font-serif italic text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-[#b76e79] drop-shadow-[0_2px_8px_rgba(183,110,121,0.2)] break-words px-2 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.9 }}
@@ -1264,7 +1264,7 @@ export const RoseGoldBlushHero = ({ invitation, onScrollDown }) => {
         {/* Bride */}
         <div className="space-y-1">
           <motion.h1
-            className="font-serif italic text-6xl md:text-8xl lg:text-9xl text-[#b76e79] drop-shadow-[0_2px_8px_rgba(183,110,121,0.2)]"
+            className="font-serif italic text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-[#b76e79] drop-shadow-[0_2px_8px_rgba(183,110,121,0.2)] break-words px-2 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.9 }}
@@ -1340,7 +1340,7 @@ export const ModernMinimalHero = ({ invitation, onScrollDown }) => {
         {/* Groom */}
         <div className="space-y-1">
           <motion.h1
-            className="font-serif text-5xl md:text-7xl lg:text-8xl tracking-[0.15em] uppercase text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]"
+            className="font-serif text-3xl sm:text-5xl md:text-7xl lg:text-8xl tracking-[0.15em] uppercase text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] break-words px-2 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.9 }}
@@ -1366,7 +1366,7 @@ export const ModernMinimalHero = ({ invitation, onScrollDown }) => {
         {/* Bride */}
         <div className="space-y-1">
           <motion.h1
-            className="font-serif text-5xl md:text-7xl lg:text-8xl tracking-[0.15em] uppercase text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]"
+            className="font-serif text-3xl sm:text-5xl md:text-7xl lg:text-8xl tracking-[0.15em] uppercase text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] break-words px-2 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.9 }}
@@ -1448,7 +1448,7 @@ export const MajesticLoveHero = ({ invitation, onScrollDown }) => {
         {/* Groom */}
         <div className="space-y-1">
           <motion.h1
-            className="font-serif italic text-6xl md:text-8xl lg:text-9xl text-amber-800 drop-shadow-[0_2px_10px_rgba(0,0,0,0.15)]"
+            className="font-serif italic text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-amber-800 drop-shadow-[0_2px_10px_rgba(0,0,0,0.15)] break-words px-2 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.9 }}
@@ -1474,7 +1474,7 @@ export const MajesticLoveHero = ({ invitation, onScrollDown }) => {
         {/* Bride */}
         <div className="space-y-1">
           <motion.h1
-            className="font-serif italic text-6xl md:text-8xl lg:text-9xl text-amber-800 drop-shadow-[0_2px_10px_rgba(0,0,0,0.15)]"
+            className="font-serif italic text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-amber-800 drop-shadow-[0_2px_10px_rgba(0,0,0,0.15)] break-words px-2 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.9 }}

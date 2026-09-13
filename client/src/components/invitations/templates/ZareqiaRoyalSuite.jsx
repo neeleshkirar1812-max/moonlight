@@ -472,7 +472,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
 
         {/* Initial Gate Screen Interactive Prompt */}
         {!hasStarted && (
-          <div className="relative z-30 flex flex-col items-center justify-center px-6 text-center animate-fade-in pointer-events-none">
+          <div className="relative z-30 flex flex-col items-center justify-center px-4 sm:px-6 text-center animate-fade-in pointer-events-none">
             <div className="mb-5 relative pointer-events-auto">
               <button
                 type="button"
@@ -487,7 +487,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
             <span className="text-[11px] md:text-xs font-mono uppercase tracking-[0.3em] text-amber-300 font-bold mb-1 drop-shadow-md">
               👑 {theme.name}
             </span>
-            <h2 className="font-serif text-3xl md:text-5xl font-bold text-white tracking-wide mb-2 drop-shadow-lg">
+            <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl font-bold text-white tracking-wide mb-2 drop-shadow-lg px-2 break-words">
               {coupleNames}
             </h2>
             <p className="text-xs md:text-sm text-neutral-300 font-serif italic mb-6">
@@ -547,7 +547,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           {/* Groom Name */}
           <div className="space-y-1">
             <h1
-              className={`leading-none tracking-wide text-6xl md:text-9xl ${
+              className={`leading-tight tracking-wide text-4xl sm:text-6xl md:text-8xl lg:text-9xl break-words px-2 ${
                 theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-wider text-4xl md:text-7xl' : 'font-dancing'
               }`}
               style={{ color: theme.textColor, textShadow: '0 2px 14px rgba(0,0,0,0.75)' }}
@@ -572,7 +572,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           {/* Bride Name */}
           <div className="space-y-1">
             <h1
-              className={`leading-none tracking-wide text-6xl md:text-9xl ${
+              className={`leading-tight tracking-wide text-4xl sm:text-6xl md:text-8xl lg:text-9xl break-words px-2 ${
                 theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-wider text-4xl md:text-7xl' : 'font-dancing'
               }`}
               style={{ color: theme.textColor, textShadow: '0 2px 14px rgba(0,0,0,0.75)' }}
