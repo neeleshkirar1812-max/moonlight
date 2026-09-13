@@ -24,12 +24,13 @@ const InvitationRenderer = ({
   const rawTemplateId = invitation.template_id || invitation.templateId || 'rose-gold-blush-royal';
 
   // Check if template belongs to the 10 Royal Video Suites (Exact Zareqia Replica)
-  const isRoyal =
+    const isRoyal =
     invitation.tier === 'royal' ||
     (rawTemplateId.includes('royal') && rawTemplateId !== 'royal-elegance') ||
     [
       'rose-gold-blush-royal',
       'royal-prestige',
+      'royal-elegance-royal',
       'modern-minimal-royal',
       'royal-majesty',
       'royal-heritage',

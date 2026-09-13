@@ -6,8 +6,11 @@ import InvitationRenderer from '../../components/invitations/engine/InvitationRe
 import { Crown, Sparkles, ChevronDown, Check, ArrowRight } from 'lucide-react';
 import { getTemplateById, invitationTemplates } from '../../data/invitationTemplates';
 
-// Distinct rich preset demos for each Royal & Classic Template
+// 13 Distinct Presets for each Royal and Classic Template
 export const templateDemoDataMap = {
+  // ==========================================
+  // 👑 8 ROYAL VIDEO SUITES
+  // ==========================================
   'rose-gold-blush-royal': {
     names: 'Aarav Singhania & Kiara Malhotra',
     groom_name: 'Aarav Singhania',
@@ -224,6 +227,143 @@ export const templateDemoDataMap = {
       'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80',
     ],
   },
+
+  // ==========================================
+  // ✨ 5 CLASSIC SUITES
+  // ==========================================
+  'emerald-noir': {
+    names: 'Zaid Khan & Alizeh Mirza',
+    groom_name: 'Zaid Khan',
+    bride_name: 'Alizeh Mirza',
+    groom_parents: 'Son of Mrs. Parveen & Mr. Tariq Khan',
+    bride_parents: 'Daughter of Mrs. Shazia & Mr. Farhan Mirza',
+    host_names: 'Khan & Mirza Families',
+    title: 'Emerald Noir & Dynasty Nikah',
+    eventType: 'Wedding Invitation',
+    date: '2026-11-10',
+    time: '19:30',
+    venue: 'Taj Falaknuma Palace, Hyderabad',
+    venueAddress: 'Engine Bowli, Fatima Nagar, Falaknuma, Hyderabad 500053',
+    story_text: 'An emerald garden of love and heartfelt promises under the Nizami chandeliers of Falaknuma.',
+    message: 'Request the pleasure of your company to celebrate the auspicious Nikah & Walima ceremony.',
+    welcome_text: 'Khushamdeed! We warmly welcome you to our celebration.',
+    scratch_reveal_text: 'NIKAH MUBARAK • NOV 10 ♡',
+    events: [
+      { title: 'Qawwali & Dawat-e-Mehendi', date: '2026-11-09', time: '07:00 PM', venue: '101 Dining Hall, Falaknuma', address: 'Hyderabad, Telangana' },
+      { title: 'Shahi Nikah Ceremony', date: '2026-11-10', time: '07:30 PM', venue: 'The Palace Gardens', address: 'Hyderabad, Telangana' },
+      { title: 'Grand Dawat-e-Walima', date: '2026-11-11', time: '08:00 PM', venue: 'Durbar Hall', address: 'Hyderabad, Telangana' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'ivory-elegance': {
+    names: 'Karan Ahluwalia & Natasha Batra',
+    groom_name: 'Karan Ahluwalia',
+    bride_name: 'Natasha Batra',
+    groom_parents: 'Son of Mrs. Simran & Mr. Harpreet Ahluwalia',
+    bride_parents: 'Daughter of Mrs. Neena & Mr. Rajiv Batra',
+    host_names: 'Ahluwalia & Batra Families',
+    title: 'Crimson Royale Grand Wedding',
+    eventType: 'Wedding Invitation',
+    date: '2026-11-25',
+    time: '19:00',
+    venue: 'ITC Grand Bharat, Gurugram',
+    venueAddress: 'Hasanpur Tauru, Mewat District, Gurugram 122105',
+    story_text: 'From college library smiles to forever by your side. Our journey into holy matrimony.',
+    message: 'Cordially invite you to join in the celebrations of their auspicious wedding.',
+    welcome_text: 'We would be honored by your presence and blessings.',
+    scratch_reveal_text: 'YOU’RE INVITED TO CELEBRATE ♡',
+    events: [
+      { title: 'Cocktails & Sangeet Bash', date: '2026-11-24', time: '07:30 PM', venue: 'The Grand Pavilion', address: 'Gurugram, Haryana' },
+      { title: 'Anand Karaj & Pheras', date: '2026-11-25', time: '11:30 AM', venue: 'Poolside Amphitheatre', address: 'Gurugram, Haryana' },
+      { title: 'Gala Wedding Reception', date: '2026-11-25', time: '08:00 PM', venue: 'Bharat Ballroom', address: 'Gurugram, Haryana' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1544078741-7ea0e0cb5b81?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'rose-gold-blush': {
+    names: 'Aakash Varma & Rhea Chakraborty',
+    groom_name: 'Aakash Varma',
+    bride_name: 'Rhea Chakraborty',
+    groom_parents: 'Son of Mrs. Sunita & Mr. Deepak Varma',
+    bride_parents: 'Daughter of Mrs. Sharmila & Mr. Subhash Chakraborty',
+    host_names: 'Varma & Chakraborty Families',
+    title: 'Rose Gold Blush Floral Wedding',
+    eventType: 'Wedding Invitation',
+    date: '2026-12-02',
+    time: '17:30',
+    venue: 'JW Marriott Resort & Spa, Goa',
+    venueAddress: 'Vagator Beach Rd, Bardez, Goa 403509',
+    story_text: 'Sun-kissed beaches, endless laughter, and a romance painted in soft rose gold petals.',
+    message: 'Invite you to celebrate love and witness the marriage of Aakash and Rhea.',
+    welcome_text: 'Welcome to our destination beach wedding!',
+    scratch_reveal_text: 'BEACH WEDDING • DEC 02 ♡',
+    events: [
+      { title: 'Sunset Welcome Sundowner', date: '2026-12-01', time: '05:00 PM', venue: 'Vagator Beach Lawn', address: 'Goa' },
+      { title: 'Floral Pheras at Sunset', date: '2026-12-02', time: '05:30 PM', venue: 'The Cliffside Deck', address: 'Goa' },
+      { title: 'Starlit Beach Afterparty', date: '2026-12-02', time: '09:00 PM', venue: 'The Palms Courtyard', address: 'Goa' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'modern-minimal': {
+    names: 'Aisha Khan & Rohan Mehra',
+    groom_name: 'Rohan Mehra',
+    bride_name: 'Aisha Khan',
+    groom_parents: 'Son of Mrs. Anita & Mr. Sunil Mehra',
+    bride_parents: 'Daughter of Mrs. Shabana & Mr. Javed Khan',
+    host_names: 'Mehra & Khan Families',
+    title: 'Modern Minimal Contemporary Union',
+    eventType: 'Wedding Invitation',
+    date: '2026-11-18',
+    time: '18:30',
+    venue: 'The Oberoi Udaivilas, Udaipur',
+    venueAddress: 'Badi-Gorela-Mulla Talai Rd, Haridas Ji Ki Magri, Udaipur 313001',
+    story_text: 'Clean geometry, timeless intimacy, and unconditional love.',
+    message: 'Cordially invite you to celebrate the wedding ceremony of Aisha and Rohan.',
+    welcome_text: 'Welcome to our intimate celebration.',
+    scratch_reveal_text: 'SAVE THE DATE • NOV 18 ♡',
+    events: [
+      { title: 'The Intimate Vows Ceremony', date: '2026-11-18', time: '06:00 PM', venue: 'The Promenade Lawn', address: 'Udaipur, Rajasthan' },
+      { title: 'Dinner Under Chandeliers', date: '2026-11-18', time: '08:00 PM', venue: 'Chandni Terrace', address: 'Udaipur, Rajasthan' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
+  'royal-elegance': {
+    names: 'Devansh Aggarwal & Isha Bansal',
+    groom_name: 'Devansh Aggarwal',
+    bride_name: 'Isha Bansal',
+    groom_parents: 'Son of Mrs. Saroj & Mr. Naresh Aggarwal',
+    bride_parents: 'Daughter of Mrs. Rekha & Mr. Ashok Bansal',
+    host_names: 'Aggarwal & Bansal Families',
+    title: 'Majestic Love Palace Celebration',
+    eventType: 'Wedding Invitation',
+    date: '2026-12-12',
+    time: '19:00',
+    venue: 'Noor Mahal Palace, Karnal',
+    venueAddress: 'Noor Mahal Crossing, National Highway 1, Karnal 132001',
+    story_text: 'Classic ivory hues and gold palace drapes celebrate two families coming together in eternal joy.',
+    message: 'Request your esteemed presence to bless the wedding of Devansh and Isha.',
+    welcome_text: 'Shubh Aagman! Welcome to our wedding festivities.',
+    scratch_reveal_text: 'YOU’RE CORDIALLY INVITED ♡',
+    events: [
+      { title: 'Ring Ceremony & Sangeet', date: '2026-12-11', time: '07:00 PM', venue: 'Sheesh Mahal Banquets', address: 'Karnal, Haryana' },
+      { title: 'Shubh Vivah & Dinner', date: '2026-12-12', time: '07:30 PM', venue: 'Rani Bagh Central Lawn', address: 'Karnal, Haryana' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
 };
 
 const allDemosList = [
@@ -266,7 +406,6 @@ const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
       // Alias resolver
       const aliases = {
         'royal-love': 'rose-gold-blush-royal',
-        'royal-elegance': 'royal-elegance-royal',
         'modern-minimal-royal': 'royal-elegance-royal',
         'crimson-royale': 'ivory-elegance',
       };
@@ -289,12 +428,15 @@ const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
       const customPreset = templateDemoDataMap[resolvedSlug] || templateDemoDataMap['rose-gold-blush-royal'];
       const matchedTemplate = getTemplateById(resolvedSlug) || invitationTemplates[0];
 
+      const isRoyalSuite =
+        resolvedSlug.includes('royal') && resolvedSlug !== 'royal-elegance';
+
       const demoData = {
         _id: `demo-${resolvedSlug}`,
         id: `demo-${resolvedSlug}`,
         template_id: resolvedSlug,
         templateId: resolvedSlug,
-        tier: matchedTemplate.tier || (resolvedSlug.includes('royal') ? 'royal' : 'classic'),
+        tier: isRoyalSuite ? 'royal' : 'classic',
         ...customPreset,
         scratch_enabled: true,
         rsvp_enabled: true,
@@ -331,7 +473,7 @@ const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
         description="Experience 1:1 luxury animated digital invitations with live 4K video gates, scratch card, map, and RSVP."
       />
 
-      {/* FLOATING TOP DEMO CONTROLS BANNER (Allows Instant Switching) */}
+      {/* FLOATING TOP DEMO CONTROLS BANNER */}
       {isDemoMode && (
         <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/80 backdrop-blur-xl border border-amber-500/40 shadow-2xl text-xs text-white">
           <div className="relative">
