@@ -389,6 +389,20 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
     return () => clearInterval(timer);
   }, [weddingDateStr, weddingTimeStr]);
 
+  // Lock body scroll until the gate opens and content is revealed
+  useEffect(() => {
+    if (!hasRevealed) {
+      document.body.style.overflow = 'hidden';
+      window.scrollTo(0, 0);
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [hasRevealed]);
+
   // Video Tap & Gate Opening handler
   const handleOpenGate = async () => {
     if (hasStarted) return;
@@ -556,7 +570,9 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
 
   return (
     <div
-      className="min-h-screen font-sans selection:bg-amber-600 selection:text-white"
+      className={`font-sans selection:bg-amber-600 selection:text-white ${
+        !hasRevealed ? 'h-screen overflow-hidden' : 'min-h-screen'
+      }`}
       style={{ backgroundColor: theme.background, color: theme.textColor }}
     >
       {/* Background Audio */}
