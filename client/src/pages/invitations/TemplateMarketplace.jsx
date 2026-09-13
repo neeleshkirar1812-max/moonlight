@@ -371,12 +371,11 @@ const TemplateMarketplace = () => {
   }, [selectedType]);
 
   const filteredClassic = useMemo(() => {
-    if (selectedType === 'all') return classicTemplates;
-    if (selectedType === 'wedding' || selectedType === 'wedding-reception') {
+    if (selectedType === 'all' || selectedType === 'wedding' || selectedType === 'wedding-reception') {
       return classicTemplates.filter((t) => ['wedding', 'engagement'].includes(t.category));
     }
     const matches = classicTemplates.filter((t) => t.category === selectedType);
-    return matches.length > 0 ? matches : classicTemplates;
+    return matches.length > 0 ? matches : classicTemplates.filter((t) => ['wedding', 'engagement'].includes(t.category));
   }, [selectedType]);
 
   const handleSelectDesign = (templateId) => {
