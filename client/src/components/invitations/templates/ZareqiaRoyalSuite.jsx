@@ -449,11 +449,10 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           SECTION 1: 4K VIDEO GATE & COUPLE NAME REVEAL HERO (Zareqia 1:1)
          ========================================================================= */}
       <section
-        className="relative min-h-screen w-full overflow-hidden flex items-center justify-center cursor-pointer select-none"
-        style={{ backgroundColor: '#0f0f0f' }}
+        className="relative min-h-screen w-full overflow-hidden flex items-center justify-center cursor-pointer select-none bg-[#0f0f0f]"
         onClick={handleOpenGate}
       >
-        {/* Full-Bleed Video Element */}
+        {/* Full-Bleed 4K Video Element */}
         <video
           ref={videoRef}
           key={theme.video}
@@ -465,47 +464,32 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           disablePictureInPicture
           controlsList="nodownload noplaybackrate noremoteplayback nofullscreen"
           onContextMenu={(e) => e.preventDefault()}
+          onClick={handleOpenGate}
           onEnded={handleVideoEnded}
           onError={() => setHasRevealed(true)}
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full cursor-pointer object-cover"
         />
 
-        {/* Initial Gate Screen Interactive Prompt */}
+        {/* Initial Gate Screen - Clean Central Pulse Indicator */}
         {!hasStarted && (
-          <div className="relative z-30 flex flex-col items-center justify-center px-4 sm:px-6 text-center animate-fade-in pointer-events-none">
-            <div className="mb-5 relative pointer-events-auto">
-              <button
-                type="button"
-                onClick={handleOpenGate}
-                className="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-amber-400/90 flex items-center justify-center bg-black/60 backdrop-blur-md shadow-[0_0_40px_rgba(212,175,55,0.4)] hover:scale-105 active:scale-95 transition-all cursor-pointer group"
-              >
-                <Crown className="w-10 h-10 md:w-12 md:h-12 text-amber-300 group-hover:text-amber-200 transition-colors" />
-              </button>
-              <div className="absolute -inset-2.5 rounded-full border border-amber-400/40 animate-ping pointer-events-none" />
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none p-4">
+            {/* Subtle Center Touch Ripple Indicator over Seal */}
+            <div className="relative flex items-center justify-center">
+              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-2 border-amber-300/60 animate-ping opacity-30 pointer-events-none" />
+              <div className="absolute w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-amber-400/10 backdrop-blur-xs border border-amber-300/40 shadow-[0_0_30px_rgba(212,175,55,0.3)] flex items-center justify-center" />
             </div>
 
-            <span className="text-[11px] md:text-xs font-mono uppercase tracking-[0.3em] text-amber-300 font-bold mb-1 drop-shadow-md">
-              👑 {theme.name}
-            </span>
-            <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl font-bold text-white tracking-wide mb-2 drop-shadow-lg px-2 break-words">
-              {coupleNames}
-            </h2>
-            <p className="text-xs md:text-sm text-neutral-300 font-serif italic mb-6">
-              Cordially invite you to celebrate their Royal Wedding
-            </p>
-
-            <button
-              type="button"
-              onClick={handleOpenGate}
-              className="pointer-events-auto px-8 py-3 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-serif font-bold text-xs uppercase tracking-widest shadow-2xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center space-x-2"
-            >
-              <Sparkles className="w-4 h-4 text-neutral-900" />
-              <span>TAP TO OPEN INVITATION</span>
-            </button>
+            {/* Bottom Floating Hint */}
+            <div className="absolute bottom-10 inset-x-0 mx-auto text-center pointer-events-none">
+              <span className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-black/60 backdrop-blur-md border border-amber-400/40 text-amber-200 text-xs font-mono uppercase tracking-[0.2em] shadow-2xl animate-pulse">
+                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                <span>TAP ANYWHERE TO OPEN</span>
+              </span>
+            </div>
           </div>
         )}
 
-        {/* Dark Luxury Gradient Overlay over Video */}
+        {/* Dark Luxury Gradient Overlay over Video when Opened */}
         <div
           className={`absolute inset-0 pointer-events-none transition-opacity duration-1000 ${
             hasRevealed ? 'opacity-100' : 'opacity-0'
@@ -516,9 +500,9 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           }}
         />
 
-        {/* OPENED GATE REVEAL CONTENT (Zareqia Exact Overlay) */}
+        {/* OPENED GATE REVEAL CONTENT (100% Dead Center 1:1 Overlay) */}
         <div
-          className={`relative z-20 flex w-full flex-col items-center justify-center px-6 text-center pointer-events-none transition-all duration-1000 ${
+          className={`relative z-20 flex w-full max-w-4xl mx-auto flex-col items-center justify-center px-4 sm:px-6 text-center pointer-events-none transition-all duration-1000 ${
             hasRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
@@ -529,33 +513,33 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
 
           {/* We are getting married */}
           <p
-            className={`mb-3 whitespace-pre-line text-2xl md:text-4xl ${
-              theme.fontStyle === 'cinzel' ? 'font-serif tracking-widest uppercase text-xl md:text-2xl' : 'font-dancing'
+            className={`mb-3 whitespace-pre-line text-xl sm:text-2xl md:text-3xl px-4 max-w-xl mx-auto ${
+              theme.fontStyle === 'cinzel' ? 'font-serif tracking-widest uppercase' : 'font-dancing'
             }`}
             style={{ color: theme.textColor, textShadow: '0 2px 12px rgba(0,0,0,0.75)' }}
           >
-            We are getting married
+            {invitation.message || 'We are getting married'}
           </p>
 
           {/* Horizontal Lines with Center Heart */}
           <div className="my-3 flex items-center justify-center gap-3">
-            <div className="h-px w-16" style={{ backgroundColor: 'rgba(245,230,224,0.45)' }} />
+            <div className="h-px w-12 sm:w-16" style={{ backgroundColor: 'rgba(245,230,224,0.45)' }} />
             <Heart size={10} style={{ color: theme.textColor }} fill="currentColor" />
-            <div className="h-px w-16" style={{ backgroundColor: 'rgba(245,230,224,0.45)' }} />
+            <div className="h-px w-12 sm:w-16" style={{ backgroundColor: 'rgba(245,230,224,0.45)' }} />
           </div>
 
           {/* Groom Name */}
-          <div className="space-y-1">
+          <div className="space-y-1 w-full text-center">
             <h1
               className={`leading-tight tracking-wide text-4xl sm:text-6xl md:text-8xl lg:text-9xl break-words px-2 ${
-                theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-wider text-4xl md:text-7xl' : 'font-dancing'
+                theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-wider' : 'font-dancing'
               }`}
               style={{ color: theme.textColor, textShadow: '0 2px 14px rgba(0,0,0,0.75)' }}
             >
               {groomName}
             </h1>
             {groomParents && (
-              <p className="text-xs md:text-sm font-sans italic opacity-85 text-amber-200">
+              <p className="text-xs sm:text-sm font-sans italic opacity-85 text-amber-200 px-4 max-w-lg mx-auto">
                 {groomParents}
               </p>
             )}
@@ -563,24 +547,24 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
 
           {/* Ampersand */}
           <p
-            className="my-2 font-dancing text-3xl md:text-4xl"
+            className="my-2 font-dancing text-2xl sm:text-3xl md:text-4xl"
             style={{ color: 'rgba(245,230,224,0.85)', textShadow: '0 2px 10px rgba(0,0,0,0.6)' }}
           >
             &
           </p>
 
           {/* Bride Name */}
-          <div className="space-y-1">
+          <div className="space-y-1 w-full text-center">
             <h1
               className={`leading-tight tracking-wide text-4xl sm:text-6xl md:text-8xl lg:text-9xl break-words px-2 ${
-                theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-wider text-4xl md:text-7xl' : 'font-dancing'
+                theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-wider' : 'font-dancing'
               }`}
               style={{ color: theme.textColor, textShadow: '0 2px 14px rgba(0,0,0,0.75)' }}
             >
               {brideName}
             </h1>
             {brideParents && (
-              <p className="text-xs md:text-sm font-sans italic opacity-85 text-amber-200">
+              <p className="text-xs sm:text-sm font-sans italic opacity-85 text-amber-200 px-4 max-w-lg mx-auto">
                 {brideParents}
               </p>
             )}
@@ -591,15 +575,15 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
         {hasRevealed && (
           <div
             onClick={handleScrollDown}
-            className="absolute inset-x-0 bottom-8 z-30 flex flex-col items-center gap-2 cursor-pointer transition-all duration-700 animate-bounce pointer-events-auto"
+            className="absolute inset-x-0 bottom-8 z-30 flex flex-col items-center gap-1.5 cursor-pointer transition-all duration-700 animate-bounce pointer-events-auto"
           >
             <span
-              className="text-xs uppercase tracking-widest font-mono"
+              className="text-[10px] sm:text-xs uppercase tracking-widest font-mono"
               style={{ color: 'rgba(245,230,224,0.8)', textShadow: '0 1px 6px rgba(0,0,0,0.7)' }}
             >
               Scroll Down
             </span>
-            <ChevronDown size={20} style={{ color: theme.textColor }} />
+            <ChevronDown size={18} style={{ color: theme.textColor }} />
           </div>
         )}
       </section>
