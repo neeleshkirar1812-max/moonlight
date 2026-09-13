@@ -43,9 +43,10 @@ const InvitationRenderer = ({
 
   const handleDoorEnter = () => {
     setDoorsOpenCount((prev) => prev + 1);
-    setTimeout(() => {
-      setShowOpeningScreen(false);
-    }, 1000);
+  };
+
+  const handleDoorComplete = () => {
+    setShowOpeningScreen(false);
   };
 
   const handleReplayDoors = () => {
@@ -81,6 +82,7 @@ const InvitationRenderer = ({
           invitation={invitation}
           theme={theme}
           onEnter={handleDoorEnter}
+          onComplete={handleDoorComplete}
           isPreview={isPreview}
         />
       )}

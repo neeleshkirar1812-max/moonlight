@@ -102,8 +102,15 @@ const getVideoForTemplate = (templateId) => {
   return map[templateId] || null;
 };
 
-const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false }) => {
+const OpeningScreen = ({
+  invitation = {},
+  theme = {},
+  onEnter,
+  onComplete,
+  isPreview = false,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isFadingOut, setIsFadingOut] = useState(false);
   const [isRendered, setIsRendered] = useState(true);
   const [petals, setPetals] = useState([]);
   const [videoLoaded, setVideoLoaded] = useState(false);
@@ -139,20 +146,24 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
 
     // 2. Play video if royal video gate
     if (videoRef.current && isRoyalVideo) {
+      videoRef.current.currentTime = 0;
       videoRef.current.muted = true;
       videoRef.current.playsInline = true;
-      videoRef.current.play().catch(() => {});
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => console.log('Video play catch:', err));
+      }
       setVideoPlaying(true);
     }
 
-    // 3. Generate petals
+    // 3. Generate celebratory petals
     const confPool = ['🌹', '✨', '👑', '🥂', '🌸', '💎'];
     const newPetals = Array.from({ length: 26 }).map((_, i) => ({
       id: i,
       left: Math.random() * 92 + 4,
       size: Math.random() * 14 + 12,
       delay: Math.random() * 0.25,
-      duration: Math.random() * 1.3 + 1.2,
+      duration: Math.random() * 1.5 + 1.2,
       rotation: Math.random() * 360,
       type: confPool[i % confPool.length],
     }));
@@ -165,11 +176,35 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
       onEnter();
     }
 
-    // Royal video lasts ~5.5s, Classic 3D doors transition in ~1.1s
-    const exitDuration = isRoyalVideo ? 5500 : 1100;
+    if (isRoyalVideo) {
+      // Start smooth cross-fade at 4.6s, finish at 5.6s
+      setTimeout(() => {
+        setIsFadingOut(true);
+      }, 4600);
+
+      setTimeout(() => {
+        setIsRendered(false);
+        if (onComplete) onComplete();
+      }, 5800);
+    } else {
+      // Classic 3D doors smooth glide 1400ms
+      setTimeout(() => {
+        setIsFadingOut(true);
+      }, 1100);
+
+      setTimeout(() => {
+        setIsRendered(false);
+        if (onComplete) onComplete();
+      }, 1450);
+    }
+  };
+
+  const handleVideoEnded = () => {
+    setIsFadingOut(true);
     setTimeout(() => {
       setIsRendered(false);
-    }, exitDuration);
+      if (onComplete) onComplete();
+    }, 1000);
   };
 
   if (!isRendered) return null;
@@ -183,8 +218,10 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
         onClick={handleOpenDoors}
         className={`${
           isPreview ? 'absolute' : 'fixed'
-        } inset-0 z-50 flex items-center justify-center font-sans select-none w-full h-full cursor-pointer overflow-hidden transition-opacity duration-1000 ${
-          isOpen ? 'pointer-events-none opacity-0 delay-[5000ms] bg-transparent' : 'opacity-100 bg-neutral-950'
+        } inset-0 z-50 flex items-center justify-center font-sans select-none w-full h-full cursor-pointer overflow-hidden transition-all duration-1200 ease-in-out ${
+          isFadingOut
+            ? 'pointer-events-none opacity-0 scale-105 bg-transparent'
+            : 'opacity-100 scale-100 bg-neutral-950'
         }`}
       >
         <div className="relative w-full h-full max-w-[480px] max-h-[820px] mx-auto overflow-hidden sm:rounded-3xl border border-amber-500/40 shadow-[0_0_60px_rgba(212,175,55,0.4)] bg-black flex flex-col justify-between">
@@ -196,34 +233,46 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
             muted
             preload="auto"
             controls={false}
-            autoPlay={isOpen}
+            onEnded={handleVideoEnded}
             onLoadedData={() => setVideoLoaded(true)}
-            className="absolute inset-0 w-full h-full object-cover z-10"
+            className="absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-700"
           />
 
-          {/* Dark luxury gradient overlay */}
+          {/* Dark luxury gradient overlay that smoothly clears when opening */}
           <div
             className={`absolute inset-0 z-20 pointer-events-none transition-opacity duration-1000 ${
-              isOpen ? 'opacity-30' : 'opacity-80'
+              isOpen ? 'opacity-15' : 'opacity-75'
             }`}
             style={{
-              background: 'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.2) 45%, rgba(0,0,0,0.75) 100%)',
+              background:
+                'linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.85) 100%)',
             }}
           />
 
-          {/* Front Center Wax Seal & Monogram (Before Tap) */}
+          {/* Front Center Wax Seal & Monogram (Rotates and Dissolves on Tap) */}
           <div
-            className={`relative z-30 flex flex-col items-center justify-center text-center h-full px-6 transition-all duration-700 ${
-              isOpen ? 'opacity-0 scale-125 pointer-events-none' : 'opacity-100 scale-100'
+            className={`relative z-30 flex flex-col items-center justify-center text-center h-full px-6 transition-all duration-1000 ease-out ${
+              isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
             }`}
           >
             {/* Top Tagline */}
-            <span className="text-[10px] uppercase font-mono tracking-[0.3em] text-[#d4af37] font-bold drop-shadow mb-4">
+            <span
+              className={`text-[10px] uppercase font-mono tracking-[0.3em] text-[#d4af37] font-bold drop-shadow mb-4 transition-opacity duration-700 ${
+                isOpen ? 'opacity-0' : 'opacity-100'
+              }`}
+            >
               {config.name || 'Royal Digital Invitation'}
             </span>
 
-            {/* Glowing Royal Crest Seal */}
-            <div className="relative group cursor-pointer mb-5">
+            {/* Glowing Royal Wax Seal that Rotates 720° on Tap */}
+            <div
+              className="relative group cursor-pointer mb-5"
+              style={{
+                transform: isOpen ? 'rotate(720deg) scale(1.35)' : 'rotate(0deg) scale(1)',
+                opacity: isOpen ? 0 : 1,
+                transition: 'transform 1200ms cubic-bezier(0.22, 1, 0.36, 1), opacity 850ms ease-out',
+              }}
+            >
               <div className="absolute -inset-3 rounded-full bg-amber-400/40 blur-md animate-ping duration-1000" />
               <div className="absolute -inset-1 rounded-full bg-amber-300/50 blur-xs animate-pulse" />
               <div
@@ -245,10 +294,18 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
             </div>
 
             {/* Couple Names */}
-            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white tracking-tight drop-shadow-lg leading-tight mb-1">
+            <h2
+              className={`font-serif text-2xl sm:text-3xl font-bold text-white tracking-tight drop-shadow-lg leading-tight mb-1 transition-opacity duration-700 ${
+                isOpen ? 'opacity-0' : 'opacity-100'
+              }`}
+            >
               {invitation.names || 'Aarav & Kiara'}
             </h2>
-            <p className="text-[11px] text-amber-200 font-mono tracking-widest mb-6">
+            <p
+              className={`text-[11px] text-amber-200 font-mono tracking-widest mb-6 transition-opacity duration-700 ${
+                isOpen ? 'opacity-0' : 'opacity-100'
+              }`}
+            >
               {invitation.event_date || invitation.date || 'Nov 20, 2026'}
             </p>
 
@@ -256,20 +313,26 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
             <button
               type="button"
               onClick={handleOpenDoors}
-              className="px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 hover:from-yellow-400 hover:to-amber-500 text-neutral-950 font-bold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(212,175,55,0.6)] transform hover:scale-105 active:scale-95 transition-all flex items-center justify-center space-x-2 border border-amber-200 cursor-pointer"
+              className={`px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 hover:from-yellow-400 hover:to-amber-500 text-neutral-950 font-bold text-xs uppercase tracking-wider shadow-[0_0_25px_rgba(212,175,55,0.6)] transform hover:scale-105 active:scale-95 transition-all flex items-center justify-center space-x-2 border border-amber-200 cursor-pointer ${
+                isOpen ? 'opacity-0 scale-90 pointer-events-none' : 'opacity-100 scale-100'
+              }`}
             >
               <Sparkles className="w-4 h-4 text-neutral-950 animate-spin-slow" />
               <span>Tap to Open Royal Doors</span>
             </button>
 
             {/* Hint */}
-            <div className="mt-4 flex flex-col items-center text-[8.5px] text-amber-300/80 uppercase font-mono tracking-widest animate-pulse">
+            <div
+              className={`mt-4 flex flex-col items-center text-[8.5px] text-amber-300/80 uppercase font-mono tracking-widest animate-pulse transition-opacity duration-700 ${
+                isOpen ? 'opacity-0' : 'opacity-100'
+              }`}
+            >
               <span>Touch Screen to Enter</span>
               <ChevronDown className="w-3.5 h-3.5 animate-bounce text-amber-300 mt-0.5" />
             </div>
           </div>
 
-          {/* Confetti */}
+          {/* Celebratory Petals Cascade */}
           {isOpen && (
             <div className="absolute inset-0 z-40 pointer-events-none overflow-hidden">
               {petals.map((petal) => (
@@ -312,8 +375,10 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
       onClick={handleOpenDoors}
       className={`${
         isPreview ? 'absolute' : 'fixed'
-      } inset-0 z-50 flex items-center justify-center font-sans select-none w-full h-full cursor-pointer overflow-hidden transition-opacity duration-700 ${
-        isOpen ? 'pointer-events-none opacity-0 delay-700 bg-transparent' : 'opacity-100 bg-black/95'
+      } inset-0 z-50 flex items-center justify-center font-sans select-none w-full h-full cursor-pointer overflow-hidden transition-all duration-1000 ease-in-out ${
+        isFadingOut
+          ? 'pointer-events-none opacity-0 scale-105 bg-transparent'
+          : 'opacity-100 scale-100 bg-black/95'
       }`}
       style={{ perspective: '1400px' }}
     >
@@ -340,7 +405,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
             transformOrigin: 'left center',
             transform: isOpen ? 'translateX(-100%) rotateY(-105deg)' : 'none',
             opacity: isOpen ? 0 : 1,
-            transition: 'transform 1100ms cubic-bezier(0.22, 1, 0.36, 1), opacity 1100ms ease',
+            transition: 'transform 1400ms cubic-bezier(0.16, 1, 0.3, 1), opacity 1400ms ease',
           }}
         >
           <div className="absolute inset-2 border border-[#d4af37]/50 rounded-lg" />
@@ -361,7 +426,7 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
             transformOrigin: 'right center',
             transform: isOpen ? 'translateX(100%) rotateY(105deg)' : 'none',
             opacity: isOpen ? 0 : 1,
-            transition: 'transform 1100ms cubic-bezier(0.22, 1, 0.36, 1), opacity 1100ms ease',
+            transition: 'transform 1400ms cubic-bezier(0.16, 1, 0.3, 1), opacity 1400ms ease',
           }}
         >
           <div className="absolute inset-2 border border-[#d4af37]/50 rounded-lg" />
@@ -376,20 +441,25 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
 
         {/* Center Wax Seal */}
         <div
-          className={`absolute inset-0 z-40 flex flex-col items-center justify-center pointer-events-auto p-4 transition-all duration-700 ${
-            isOpen ? 'scale-125 opacity-0 pointer-events-none' : 'scale-100 opacity-100'
+          className={`absolute inset-0 z-40 flex flex-col items-center justify-center pointer-events-auto p-4 transition-all duration-1000 ease-out ${
+            isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
         >
-          <span className="text-[9px] uppercase font-mono tracking-[0.25em] text-[#f3cf5b] font-bold drop-shadow mb-3">
+          <span
+            className={`text-[9px] uppercase font-mono tracking-[0.25em] text-[#f3cf5b] font-bold drop-shadow mb-3 transition-opacity duration-700 ${
+              isOpen ? 'opacity-0' : 'opacity-100'
+            }`}
+          >
             Cordially Invites You To Celebrate
           </span>
 
           <div
             onClick={handleOpenDoors}
-            className="cursor-pointer group relative flex flex-col items-center justify-center transition-all"
+            className="cursor-pointer group relative flex flex-col items-center justify-center"
             style={{
-              transform: isOpen ? 'rotate(720deg) scale(1.3)' : 'rotate(0deg) scale(1)',
-              transition: 'transform 1100ms cubic-bezier(0.22, 1, 0.36, 1)',
+              transform: isOpen ? 'rotate(720deg) scale(1.35)' : 'rotate(0deg) scale(1)',
+              opacity: isOpen ? 0 : 1,
+              transition: 'transform 1200ms cubic-bezier(0.22, 1, 0.36, 1), opacity 850ms ease-out',
             }}
           >
             <div className="absolute -inset-4 rounded-full bg-[#d4af37]/40 blur-md animate-ping duration-1000" />
@@ -406,7 +476,11 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
             </div>
           </div>
 
-          <div className="mt-3 text-center space-y-0.5 max-w-[280px]">
+          <div
+            className={`mt-3 text-center space-y-0.5 max-w-[280px] transition-opacity duration-700 ${
+              isOpen ? 'opacity-0' : 'opacity-100'
+            }`}
+          >
             <h2 className="font-serif text-lg sm:text-xl font-bold text-white tracking-tight drop-shadow-md">
               {invitation.names || 'Aarav & Kiara'}
             </h2>
@@ -415,7 +489,11 @@ const OpeningScreen = ({ invitation = {}, theme = {}, onEnter, isPreview = false
             </p>
           </div>
 
-          <div className="mt-3">
+          <div
+            className={`mt-3 transition-opacity duration-700 ${
+              isOpen ? 'opacity-0 scale-90 pointer-events-none' : 'opacity-100 scale-100'
+            }`}
+          >
             <button
               type="button"
               onClick={handleOpenDoors}
