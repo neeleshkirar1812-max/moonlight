@@ -1,382 +1,156 @@
 import React, { useState, useMemo } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
 import SEO from '../../components/common/SEO';
 import {
   Crown,
   Eye,
   ChevronDown,
-  Sparkles,
-  Heart,
-  DoorClosed,
-  Check,
-  ArrowRight,
+  Instagram,
+  Mail,
 } from 'lucide-react';
 
 const invitationTypes = [
-  { id: 'all', label: 'All Categories' },
   { id: 'wedding', label: 'Wedding Invitation' },
   { id: 'engagement', label: 'Engagement Invitation' },
   { id: 'wedding-reception', label: 'Wedding & Reception Invitation' },
   { id: 'reception', label: 'Reception only invitation' },
   { id: 'birthday', label: 'Birthday Invitation' },
-  { id: 'housewarming', label: 'Housewarming / Griha Pravesh' },
-  { id: 'baby-shower', label: 'Baby shower / Naming Ceremony' },
+  { id: 'housewarming', label: 'Housewarming Invitations' },
+  { id: 'baby-shower', label: 'Baby shower' },
   { id: 'anniversary', label: 'Anniversary Invitation' },
-  { id: 'party', label: 'Party & Celebration Invitations' },
+  { id: 'party', label: 'Party Invitations' },
   { id: 'opening-ceremony', label: 'Opening Ceremony Invitation' },
   { id: 'custom', label: 'Custom invitation' },
 ];
 
+// Exact 8 Royal 4K Video Gate Templates (media_1789305808153.png)
 const royalTemplates = [
   {
     id: 'rose-gold-blush-royal',
     name: 'Royal Imperial',
-    category: 'wedding',
-    desc: 'Cinematic rose-gold opening with luxurious motion storytelling, warm gold & champagne tones.',
+    desc: 'Cinematic rose-gold opening with luxurious motion storytelling',
     video: '/videos/rose-gold-blush.mp4',
-    tag: 'Cinematic 👑',
-    tagColor: 'bg-amber-500 text-neutral-950 font-bold',
-    price: '₹1,999',
-    originalPrice: '₹3,999',
+    tag: 'Cinematic',
+    tagColor: 'bg-[#E5A83B] text-neutral-950 font-bold',
   },
   {
     id: 'royal-majesty',
     name: 'Royal Majesty',
-    category: 'wedding',
-    desc: 'Porcelain blue ballroom romance with painterly cinematic grandeur & shimmering crystal portals.',
+    desc: 'Porcelain blue ballroom romance with painterly cinematic grandeur',
     video: '/videos/royal-majesty.mp4',
-    tag: 'Trending ✨',
-    tagColor: 'bg-sky-500 text-white font-bold',
-    price: '₹1,999',
-    originalPrice: '₹3,999',
+    tag: 'New',
+    tagColor: 'bg-[#E5A83B] text-neutral-950 font-bold',
   },
   {
     id: 'royal-elegance-royal',
     name: 'Royal Elegance',
-    category: 'wedding',
-    desc: 'Velvet cream and crimson cinematic experience with palace motifs & deep royal grandeur.',
+    desc: 'Velvet cream and crimson cinematic experience with palace motifs',
     video: '/videos/royal-elegance-royal.mp4',
-    tag: 'Grand Royale 🏰',
-    tagColor: 'bg-red-700 text-white font-bold',
-    price: '₹1,999',
-    originalPrice: '₹3,999',
+    tag: 'Premium',
+    tagColor: 'bg-[#E5A83B] text-neutral-950 font-bold',
   },
   {
     id: 'royal-prestige',
     name: 'Royal Prestige',
-    category: 'wedding',
-    desc: 'Prestigious cinematic opening with refined elegance, blush pink velvet & golden foil embellishments.',
+    desc: 'Prestigious cinematic opening with refined elegance and grandeur',
     video: '/videos/royal-prestige.mp4',
-    tag: 'Luxe Romance ✦',
-    tagColor: 'bg-pink-600 text-white font-bold',
-    price: '₹1,999',
-    originalPrice: '₹3,999',
+    tag: 'New',
+    tagColor: 'bg-[#E5A83B] text-neutral-950 font-bold',
   },
   {
     id: 'royal-heritage',
     name: 'Royal Heritage',
-    category: 'wedding',
-    desc: 'Timeless cinematic opening with regal heritage storytelling, sky blue & platinum palace grandeur.',
+    desc: 'Timeless cinematic opening with regal heritage storytelling',
     video: '/videos/royal-heritage.mp4',
-    tag: 'Dynasty 🏛️',
-    tagColor: 'bg-blue-700 text-white font-bold',
-    price: '₹1,999',
-    originalPrice: '₹3,999',
+    tag: 'New',
+    tagColor: 'bg-[#E5A83B] text-neutral-950 font-bold',
   },
   {
     id: 'royal-grace',
     name: 'Royal Grace',
-    category: 'wedding',
-    desc: 'Sage garden serenity with pearl drapes, emerald motifs & graceful cinematic botanical reveal.',
+    desc: 'Sage garden serenity with pearl drapes and graceful cinematic reveal',
     video: '/videos/royal-grace.mp4',
-    tag: 'Botanical 🌿',
-    tagColor: 'bg-emerald-600 text-white font-bold',
-    price: '₹1,999',
-    originalPrice: '₹3,999',
+    tag: 'New',
+    tagColor: 'bg-[#E5A83B] text-neutral-950 font-bold',
   },
   {
     id: 'royal-crest',
     name: 'Royal Crest',
-    category: 'wedding',
-    desc: 'Warm ivory florals, antique burgundy wax seal, and lakeside cinematic romance.',
+    desc: 'Warm ivory florals, antique burgundy wax seal, and lakeside cinematic romance',
     video: '/videos/royal-crest.mp4',
-    tag: 'Wax Seal 🍷',
-    tagColor: 'bg-rose-800 text-white font-bold',
-    price: '₹1,999',
-    originalPrice: '₹3,999',
+    tag: 'New',
+    tagColor: 'bg-[#E5A83B] text-neutral-950 font-bold',
   },
   {
     id: 'royal-legacy',
     name: 'Royal Legacy',
-    category: 'wedding',
-    desc: 'Burgundy velvet curtains, antique gold ornament, and a timeless Rajputana cinematic reveal.',
+    desc: 'Burgundy velvet curtains, antique gold ornament, and a timeless cinematic reveal',
     video: '/videos/royal-legacy.mp4',
-    tag: 'Rajputana 👑',
-    tagColor: 'bg-amber-700 text-white font-bold',
-    price: '₹1,999',
-    originalPrice: '₹3,999',
-  },
-  {
-    id: 'emerald-noir-royal',
-    name: 'Emerald Noir Royal',
-    category: 'wedding',
-    desc: '4K emerald green palace video gates with ornate gold inlay and authentic royal shehnai symphony.',
-    video: '/videos/emerald-noir-royal.mp4',
-    tag: 'Mughal Royal 👑',
-    tagColor: 'bg-emerald-800 text-white font-bold',
-    price: '₹1,999',
-    originalPrice: '₹3,999',
-  },
-  {
-    id: 'ivory-elegance-royal',
-    name: 'Ivory & Crimson Royal',
-    category: 'wedding',
-    desc: '4K dark obsidian and velvet crimson video arch reveal with grand orchestral romance and gold embossing.',
-    video: '/videos/ivory-elegance-royal.mp4',
-    tag: 'Velvet Crimson 👑',
-    tagColor: 'bg-rose-900 text-white font-bold',
-    price: '₹1,999',
-    originalPrice: '₹3,999',
+    tag: 'New',
+    tagColor: 'bg-[#E5A83B] text-neutral-950 font-bold',
   },
 ];
 
+// Exact 5 Classic 3D Gate Templates (media_1789305807997.png)
 const classicTemplates = [
   {
     id: 'emerald-noir',
     name: 'Emerald Noir',
-    category: 'wedding',
-    doorType: '3D Palace Swing Gates',
-    desc: 'Deep emerald green and gold with ornate corner filigree, 3D double door swing opening, and royal ceremony itinerary.',
-    bgStyle: 'bg-gradient-to-br from-[#0c2f1d] via-[#13492e] to-[#0a2316]',
-    doorLeft: '#0a2316',
-    doorRight: '#13492e',
-    sealBg: '#0f3d28',
-    sealBorder: '#d4af37',
-    textColor: 'text-amber-300',
-    tag: 'Limited Edition ✦',
-    tagColor: 'bg-emerald-600 text-white font-bold',
-    price: '₹1,199',
-    originalPrice: '₹2,499',
+    desc: 'Deep green and gold with ornate corner accents and luxury door opening',
+    previewBg: 'bg-gradient-to-br from-[#0c2e1a] to-[#071f11]',
+    accentText: 'text-amber-300',
+    tag: 'Limited Edition',
+    tagColor: 'bg-[#E5A83B] text-neutral-950 font-bold',
   },
   {
     id: 'ivory-elegance',
     name: 'Crimson Royale',
-    category: 'wedding',
-    doorType: 'Sliding Architectural Doors',
-    desc: 'Deep obsidian and ruby crimson with gold lattice patterns, sliding double doors, and classical orchestra symphony.',
-    bgStyle: 'bg-gradient-to-br from-[#1c1415] via-[#3d181b] to-[#170e10]',
-    doorLeft: '#170e10',
-    doorRight: '#3d181b',
-    sealBg: '#5c141a',
-    sealBorder: '#f43f5e',
-    textColor: 'text-amber-400',
-    tag: 'Most Popular ✨',
-    tagColor: 'bg-rose-600 text-white font-bold',
-    price: '₹1,199',
-    originalPrice: '₹2,499',
+    desc: 'Dark charcoal base with gold and deep red accents, luxury card reveal',
+    previewBg: 'bg-gradient-to-br from-[#1a1415] via-[#3a1518] to-[#120e0f]',
+    accentText: 'text-amber-300',
+    tag: 'Most Liked',
+    tagColor: 'bg-[#e11d48] text-white font-bold',
   },
   {
     id: 'rose-gold-blush',
     name: 'Rose Gold Blush',
-    category: 'engagement',
-    doorType: '3D Floral Trifold Gates',
-    desc: 'Soft champagne blush & rose gold with romantic Dancing Script typography, trifold opening, and delicate acoustic strings.',
-    bgStyle: 'bg-gradient-to-br from-[#fde7ed] via-[#f8c9d4] to-[#fde7ed]',
-    doorLeft: '#fde7ed',
-    doorRight: '#f8c9d4',
-    sealBg: '#ec4899',
-    sealBorder: '#ffffff',
-    textColor: 'text-rose-800',
-    tag: 'Romantic 💕',
-    tagColor: 'bg-pink-500 text-white font-bold',
-    price: '₹1,199',
-    originalPrice: '₹2,499',
+    desc: 'Blush pink and rose gold with ornate floral door animation',
+    previewBg: 'bg-gradient-to-br from-[#fce7ed] to-[#f9c5d3]',
+    accentText: 'text-[#db2777]',
+    tag: null,
+    tagColor: null,
   },
   {
     id: 'modern-minimal',
     name: 'Modern Minimal',
-    category: 'wedding',
-    doorType: 'Architectural Sliding Panels',
-    desc: 'Midnight slate & platinum gold with architectural sliding panels, geometric diamond emblem, and minimalist grand piano soundtrack.',
-    bgStyle: 'bg-gradient-to-br from-[#111928] via-[#1f2a3f] to-[#0c121e]',
-    doorLeft: '#0c121e',
-    doorRight: '#1f2a3f',
-    sealBg: '#d97706',
-    sealBorder: '#fbbf24',
-    textColor: 'text-amber-400',
-    tag: 'Contemporary 💎',
-    tagColor: 'bg-slate-700 text-white font-bold',
-    price: '₹1,199',
-    originalPrice: '₹2,499',
+    desc: 'Deep navy and gold with geometric patterns and book-style opening',
+    previewBg: 'bg-gradient-to-br from-[#111827] to-[#1e293b]',
+    accentText: 'text-amber-300',
+    tag: 'New',
+    tagColor: 'bg-[#b8860b] text-white font-bold',
   },
   {
     id: 'royal-elegance',
     name: 'Majestic Love',
-    category: 'wedding',
-    doorType: 'Velvet Curtain Skew Pull',
-    desc: 'Deep royal velvet drape pull with crimson tones, gold tassels, classical philharmonic sitar symphony, and multi-event itinerary.',
-    bgStyle: 'bg-gradient-to-br from-[#fdf6e9] via-[#faebd1] to-[#fdf6e9]',
-    doorLeft: '#7a1212',
-    doorRight: '#9a1a1a',
-    sealBg: '#450a0a',
-    sealBorder: '#d4af37',
-    textColor: 'text-amber-900',
-    tag: 'Palace Classic 🏰',
-    tagColor: 'bg-amber-600 text-white font-bold',
-    price: '₹1,199',
-    originalPrice: '₹2,499',
-  },
-  {
-    id: 'little-sunshine',
-    name: 'Prince & Princess Birthday',
-    category: 'birthday',
-    doorType: 'Fairy Castle Gates & Confetti',
-    desc: 'Playful fairy castle gates opening with confetti, crown seal, and joyful celebration fanfare.',
-    bgStyle: 'bg-gradient-to-br from-[#1e1b4b] via-[#312e81] to-[#1e1b4b]',
-    doorLeft: '#1e1b4b',
-    doorRight: '#312e81',
-    sealBg: '#ca8a04',
-    sealBorder: '#facc15',
-    textColor: 'text-amber-300',
-    tag: 'Birthday 🎂',
-    tagColor: 'bg-amber-400 text-neutral-950 font-bold',
-    price: '₹1,199',
-    originalPrice: '₹2,499',
-  },
-  {
-    id: 'sweet-nesting-baby',
-    name: 'Sweet Cradle Baby Shower',
-    category: 'baby-shower',
-    doorType: 'Cloud Wings Parting & Lullaby',
-    desc: 'Golden-lit fluffy cloud wings parting gently with lavender tones, baby cradle medallion, and sweet lullaby melody.',
-    bgStyle: 'bg-gradient-to-br from-[#2e1065] via-[#3b0764] to-[#2e1065]',
-    doorLeft: '#2e1065',
-    doorRight: '#3b0764',
-    sealBg: '#a855f7',
-    sealBorder: '#e9d5ff',
-    textColor: 'text-purple-200',
-    tag: 'Baby Shower 👶',
-    tagColor: 'bg-purple-600 text-white font-bold',
-    price: '₹1,199',
-    originalPrice: '₹2,499',
-  },
-  {
-    id: 'silver-anniversary',
-    name: 'Silver Jubilee Milestone',
-    category: 'anniversary',
-    doorType: 'Crystal Glass Gates & Chime',
-    desc: 'Faceted crystal glass gates opening with shimmering laurel wreath crest and champagne toast chime.',
-    bgStyle: 'bg-gradient-to-br from-[#18181b] via-[#27272a] to-[#18181b]',
-    doorLeft: '#18181b',
-    doorRight: '#27272a',
-    sealBg: '#71717a',
-    sealBorder: '#f4f4f5',
-    textColor: 'text-slate-200',
-    tag: 'Milestone 🥂',
-    tagColor: 'bg-zinc-600 text-white font-bold',
-    price: '₹1,199',
-    originalPrice: '₹2,499',
-  },
-  {
-    id: 'terracotta-boho',
-    name: 'Bohemian Griha Pravesh',
-    category: 'housewarming',
-    doorType: 'Textured Linen Tri-Fold Flaps',
-    desc: 'Artisanal textured linen flaps with terracotta stamp, warm acoustic strings, and new home blessing schedule.',
-    bgStyle: 'bg-gradient-to-br from-[#451a03] via-[#78350f] to-[#451a03]',
-    doorLeft: '#451a03',
-    doorRight: '#78350f',
-    sealBg: '#c2410c',
-    sealBorder: '#fed7aa',
-    textColor: 'text-amber-200',
-    tag: 'Housewarming 🏡',
-    tagColor: 'bg-amber-700 text-white font-bold',
-    price: '₹1,199',
-    originalPrice: '₹2,499',
-  },
-  {
-    id: 'mehendi-magic',
-    name: 'Marigold Henna Utsav',
-    category: 'party',
-    doorType: 'Rotating Henna Mandala Bloom',
-    desc: 'Rotating henna mandala blooming outward with marigold yellow, dholak beats, and joyous folk laughter.',
-    bgStyle: 'bg-gradient-to-br from-[#451a03] via-[#713f12] to-[#451a03]',
-    doorLeft: '#451a03',
-    doorRight: '#713f12',
-    sealBg: '#ca8a04',
-    sealBorder: '#fef08a',
-    textColor: 'text-yellow-300',
-    tag: 'Henna 🌼',
-    tagColor: 'bg-yellow-600 text-white font-bold',
-    price: '₹1,199',
-    originalPrice: '₹2,499',
-  },
-  {
-    id: 'celestial-night',
-    name: 'Celestial Galaxy Night',
-    category: 'party',
-    doorType: '3D Constellation Sphere Split',
-    desc: 'Constellation sphere splitting into glowing stardust nebulae and cosmic crystal chime.',
-    bgStyle: 'bg-gradient-to-br from-[#030712] via-[#0f172a] to-[#030712]',
-    doorLeft: '#030712',
-    doorRight: '#0f172a',
-    sealBg: '#0891b2',
-    sealBorder: '#a5f3fc',
-    textColor: 'text-cyan-300',
-    tag: 'Party ✨',
-    tagColor: 'bg-cyan-600 text-white font-bold',
-    price: '₹1,199',
-    originalPrice: '₹2,499',
-  },
-  {
-    id: 'coastal-breeze',
-    name: 'Goa Coastal Beachfront',
-    category: 'wedding',
-    doorType: 'Louvered Beach Pavilion Shutters',
-    desc: 'Louvered beach pavilion shutters with ocean breeze view, tropical harp music, and sunset pheras schedule.',
-    bgStyle: 'bg-gradient-to-br from-[#083344] via-[#164e63] to-[#083344]',
-    doorLeft: '#083344',
-    doorRight: '#164e63',
-    sealBg: '#0e7490',
-    sealBorder: '#cffafe',
-    textColor: 'text-cyan-200',
-    tag: 'Beach Wedding 🏖️',
-    tagColor: 'bg-cyan-700 text-white font-bold',
-    price: '₹1,199',
-    originalPrice: '₹2,499',
+    desc: 'Classic ivory and gold with palace motifs and velvet curtain reveal',
+    previewBg: 'bg-gradient-to-br from-[#fef3c7] to-[#fde68a]',
+    accentText: 'text-amber-900',
+    tag: 'New',
+    tagColor: 'bg-[#b8860b] text-white font-bold',
   },
 ];
 
 const TemplateMarketplace = () => {
-  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const [activeTab, setActiveTab] = useState(
     searchParams.get('collection') === 'classic' ? 'classic' : 'royal'
   );
   const [selectedType, setSelectedType] = useState(
-    searchParams.get('type') || 'all'
+    searchParams.get('type') || 'wedding'
   );
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  // Filter templates based on selected category
-  const filteredRoyal = useMemo(() => {
-    if (selectedType === 'all' || selectedType === 'wedding' || selectedType === 'wedding-reception') {
-      return royalTemplates;
-    }
-    const matches = royalTemplates.filter((t) => t.category === selectedType);
-    return matches.length > 0 ? matches : royalTemplates;
-  }, [selectedType]);
-
-  const filteredClassic = useMemo(() => {
-    if (selectedType === 'all' || selectedType === 'wedding' || selectedType === 'wedding-reception') {
-      return classicTemplates.filter((t) => ['wedding', 'engagement'].includes(t.category));
-    }
-    const matches = classicTemplates.filter((t) => t.category === selectedType);
-    return matches.length > 0 ? matches : classicTemplates.filter((t) => ['wedding', 'engagement'].includes(t.category));
-  }, [selectedType]);
 
   const handleSelectDesign = (templateId) => {
     navigate('/create/' + templateId + '?type=' + selectedType);
@@ -385,13 +159,28 @@ const TemplateMarketplace = () => {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 font-sans flex flex-col justify-between selection:bg-amber-200 selection:text-amber-900">
       <SEO
-        title="Invitation Templates | 20+ Premium Designs - Zareqia"
-        description="Browse 20+ premium animated digital invitation templates for weddings, birthdays, baby showers, and parties across Zareqia Royal & Classic collections."
+        title="Invitation Templates | Zareqia"
+        description="Choose from 13 premium animated digital invitation templates across Zareqia Royal & Classic collections."
       />
+
+      {/* Top Navbar (1:1 Zareqia) */}
+      <header className="w-full border-b border-neutral-200/80 bg-[#FAF8F5]/90 backdrop-blur-md sticky top-0 z-30">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          <Link to="/" className="font-serif text-2xl font-bold tracking-wide text-[#C59B27] hover:opacity-90 transition-opacity">
+            Zareqia
+          </Link>
+          <Link
+            to="/invitations/dashboard"
+            className="text-sm font-medium text-neutral-800 hover:text-[#C59B27] transition-colors"
+          >
+            Dashboard
+          </Link>
+        </div>
+      </header>
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 w-full">
-        {/* Top Dropdown Header */}
+        {/* Top Dropdown Header (1:1 Zareqia) */}
         <div className="text-center mb-6 space-y-2">
           <span className="text-[11px] md:text-xs uppercase tracking-[0.2em] text-neutral-500 font-serif font-semibold block">
             INVITATION TYPE
@@ -401,9 +190,9 @@ const TemplateMarketplace = () => {
             <button
               type="button"
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="w-[280px] md:w-[340px] h-11 px-4 rounded-xl border border-neutral-300 bg-white/95 text-sm font-medium text-neutral-800 shadow-sm flex items-center justify-between hover:border-amber-500 transition-all cursor-pointer"
+              className="w-[280px] md:w-[320px] h-11 px-4 rounded-xl border border-neutral-300 bg-white text-sm font-medium text-neutral-800 shadow-xs flex items-center justify-between hover:border-amber-500 transition-all cursor-pointer"
             >
-              <span>{invitationTypes.find((t) => t.id === selectedType)?.label || 'All Categories'}</span>
+              <span>{invitationTypes.find((t) => t.id === selectedType)?.label || 'Wedding Invitation'}</span>
               <ChevronDown className="w-4 h-4 text-neutral-500" />
             </button>
 
@@ -431,42 +220,42 @@ const TemplateMarketplace = () => {
           </p>
         </div>
 
-        {/* Segmented Royal / Classics Toggle (1:1 Zareqia) */}
+        {/* Segmented Royal / Classics Capsule Switcher (1:1 Zareqia Screenshot) */}
         <div className="flex justify-center mb-10">
-          <div className="inline-flex items-center p-1 rounded-full border border-neutral-300/80 bg-white shadow-md">
+          <div className="inline-flex items-center p-1 rounded-full bg-neutral-200/60 shadow-xs border border-neutral-300/40">
             <button
               type="button"
               onClick={() => setActiveTab('royal')}
-              className={'flex items-center space-x-1.5 px-6 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all cursor-pointer ' + (activeTab === 'royal' ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-neutral-950 shadow-md' : 'text-neutral-600 hover:text-neutral-900')}
+              className={'flex items-center space-x-1.5 px-6 md:px-8 py-2 rounded-full text-xs md:text-sm font-medium transition-all cursor-pointer ' + (activeTab === 'royal' ? 'bg-[#E5A83B] text-neutral-950 font-bold shadow-sm' : 'text-neutral-700 hover:text-neutral-900')}
             >
               <Crown className="w-3.5 h-3.5" />
-              <span>Zareqia Royal ({filteredRoyal.length})</span>
+              <span>Zareqia Royal</span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveTab('classic')}
-              className={'px-6 md:px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all cursor-pointer ' + (activeTab === 'classic' ? 'bg-neutral-900 text-white shadow-md' : 'text-neutral-600 hover:text-neutral-900')}
+              className={'px-6 md:px-8 py-2 rounded-full text-xs md:text-sm font-medium transition-all cursor-pointer ' + (activeTab === 'classic' ? 'bg-white text-neutral-900 font-bold shadow-md' : 'text-neutral-700 hover:text-neutral-900')}
             >
-              <span>Zareqia Classics ({filteredClassic.length})</span>
+              <span>Zareqia Classics</span>
             </button>
           </div>
         </div>
 
         {/* ========================================================================= */}
-        {/* 1. ROYAL TEMPLATES TAB (4K Cinematic Video Gate Suites) */}
+        {/* 1. ROYAL TEMPLATES TAB (8 4K Cinematic Video Gate Suites - media_1789305808153.png) */}
         {/* ========================================================================= */}
         {activeTab === 'royal' && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {filteredRoyal.map((template) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4.5 max-w-[1400px] mx-auto">
+            {royalTemplates.map((template) => (
               <div
                 key={template.id}
-                className="group rounded-2xl overflow-hidden border border-amber-900/20 bg-gradient-to-b from-[#1c150e] to-[#2b1c12] text-white shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between"
+                className="group rounded-xl overflow-hidden border border-neutral-800 bg-[#16120E] text-white shadow-lg hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between relative"
               >
                 {/* Visual Video Poster */}
-                <div className="relative h-44 sm:h-48 overflow-hidden bg-neutral-950">
+                <div className="relative h-64 sm:h-72 overflow-hidden bg-neutral-950">
                   {template.tag && (
-                    <span className={'absolute top-2.5 left-2.5 z-20 px-2.5 py-0.5 rounded-md text-[10px] uppercase tracking-wider ' + template.tagColor}>
+                    <span className={'absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded-sm text-[10px] uppercase tracking-wider ' + template.tagColor}>
                       {template.tag}
                     </span>
                   )}
@@ -479,32 +268,29 @@ const TemplateMarketplace = () => {
                     playsInline
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/30" />
 
-                  {/* View Demo Button */}
+                  {/* View Demo Button Pill */}
                   <Link
                     to={'/invite/demo?template=' + template.id + '&type=' + selectedType}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="absolute inset-x-0 bottom-2.5 z-20 flex items-center justify-center"
+                    className="absolute inset-x-0 bottom-3 z-20 flex items-center justify-center"
                   >
-                    <span className="inline-flex items-center rounded-full bg-black/60 hover:bg-black/85 backdrop-blur-md px-3.5 py-1 text-[11px] font-medium text-amber-200 border border-amber-400/40 shadow-md transition-transform active:scale-95">
+                    <span className="inline-flex items-center rounded-full bg-black/70 hover:bg-black/90 backdrop-blur-md px-3.5 py-1 text-[11px] font-medium text-white border border-white/20 shadow-md transition-transform active:scale-95">
                       <Eye className="w-3.5 h-3.5 mr-1 text-amber-300" />
                       View Demo
                     </span>
                   </Link>
                 </div>
 
-                {/* Card Content & CTA */}
-                <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
+                {/* Card Bottom: Title, Description & CTA Button */}
+                <div className="p-3.5 space-y-2.5 flex-1 flex flex-col justify-between bg-[#16120E]">
                   <div className="space-y-1">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-serif text-base font-bold text-amber-200 tracking-wide">
-                        {template.name}
-                      </h3>
-                      <span className="text-xs font-mono font-bold text-amber-400">{template.price}</span>
-                    </div>
-                    <p className="text-[11px] text-amber-100/70 leading-relaxed line-clamp-2">
+                    <h3 className="font-serif text-sm font-bold text-white tracking-wide">
+                      {template.name}
+                    </h3>
+                    <p className="text-[11px] text-neutral-300 leading-snug line-clamp-2">
                       {template.desc}
                     </p>
                   </div>
@@ -512,7 +298,7 @@ const TemplateMarketplace = () => {
                   <button
                     type="button"
                     onClick={() => handleSelectDesign(template.id)}
-                    className="w-full py-2 rounded-md bg-gradient-to-r from-[#2a1d12] via-[#3a2818] to-[#2a1d12] hover:brightness-125 border border-amber-400/60 text-amber-300 font-serif font-bold text-xs uppercase tracking-wider shadow-sm transition-all cursor-pointer"
+                    className="w-full py-2 rounded-md bg-[#14100C] hover:bg-[#201810] border border-[#C59B27] text-[#E5A83B] font-serif font-bold text-[11px] uppercase tracking-wider shadow-xs transition-all cursor-pointer"
                   >
                     USE THIS DESIGN
                   </button>
@@ -523,67 +309,49 @@ const TemplateMarketplace = () => {
         )}
 
         {/* ========================================================================= */}
-        {/* 2. CLASSICS TEMPLATES TAB (Interactive 3D Gate Suites) */}
+        {/* 2. CLASSICS TEMPLATES TAB (5 3D Door Gate Suites - media_1789305807997.png) */}
         {/* ========================================================================= */}
         {activeTab === 'classic' && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {filteredClassic.map((template) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4.5 max-w-[1400px] mx-auto">
+            {classicTemplates.map((template) => (
               <div
                 key={template.id}
-                className="group rounded-2xl overflow-hidden border border-[#E8DFD1] bg-white shadow-sm hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between"
+                className="group rounded-xl overflow-hidden border border-neutral-200 bg-white shadow-sm hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between"
               >
                 {/* Visual 3D Door Card Header */}
-                <div className={'relative h-44 sm:h-48 ' + template.bgStyle + ' p-4 flex flex-col justify-between items-center text-center overflow-hidden'}>
+                <div className={'relative h-52 sm:h-56 ' + template.previewBg + ' p-3 flex flex-col justify-between items-center text-center overflow-hidden'}>
                   {template.tag && (
-                    <span className={'absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded-md text-[9px] uppercase tracking-wider ' + template.tagColor}>
+                    <span className={'absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded-sm text-[10px] uppercase tracking-wider ' + template.tagColor}>
                       {template.tag}
                     </span>
                   )}
 
-                  {/* 3D Door Preview Simulation */}
-                  <div className="my-auto px-2 flex flex-col items-center space-y-1.5 z-10">
-                    <div
-                      className="w-12 h-12 rounded-full border-2 flex items-center justify-center shadow-lg transition-transform group-hover:scale-110"
-                      style={{
-                        backgroundColor: template.sealBg,
-                        borderColor: template.sealBorder,
-                      }}
-                    >
-                      <DoorClosed className="w-5 h-5 text-white" />
-                    </div>
+                  {/* Centered Name inside preview box */}
+                  <h4 className={'font-serif text-lg font-bold tracking-wide my-auto text-center ' + template.accentText + ' drop-shadow-sm'}>
+                    {template.name}
+                  </h4>
 
-                    <h4 className={'font-serif text-lg font-bold tracking-wide ' + template.textColor + ' drop-shadow-sm'}>
-                      {template.name}
-                    </h4>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-white/70">
-                      {template.doorType}
-                    </span>
-                  </div>
-
-                  {/* View Demo Button */}
+                  {/* View Demo Button Pill */}
                   <Link
                     to={'/invite/demo?template=' + template.id + '&type=' + selectedType}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center z-10"
                   >
-                    <span className="inline-flex items-center rounded-full bg-black/60 hover:bg-black/85 backdrop-blur-md px-3.5 py-1 text-[11px] font-medium text-white border border-white/30 shadow-md transition-transform active:scale-95">
-                      <Eye className="w-3.5 h-3.5 mr-1 text-amber-300" />
-                      View 3D Demo
+                    <span className="inline-flex items-center rounded-full bg-black/60 hover:bg-black/85 backdrop-blur-md px-3.5 py-1 text-[11px] font-medium text-white border border-white/20 shadow-md transition-transform active:scale-95">
+                      <Eye className="w-3.5 h-3.5 mr-1" />
+                      View Demo
                     </span>
                   </Link>
                 </div>
 
-                {/* Card Content & CTA */}
-                <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
+                {/* Card Bottom: Title, Description & Solid Gold CTA Button */}
+                <div className="p-3.5 space-y-2.5 flex-1 flex flex-col justify-between bg-white border-t border-neutral-100">
                   <div className="space-y-1">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-serif text-sm font-bold text-neutral-900">
-                        {template.name}
-                      </h3>
-                      <span className="text-xs font-mono font-bold text-amber-700">{template.price}</span>
-                    </div>
-                    <p className="text-[11px] text-neutral-600 leading-relaxed line-clamp-2">
+                    <h3 className="font-serif text-sm font-bold text-neutral-900">
+                      {template.name}
+                    </h3>
+                    <p className="text-[11px] text-neutral-500 leading-snug line-clamp-2">
                       {template.desc}
                     </p>
                   </div>
@@ -591,9 +359,9 @@ const TemplateMarketplace = () => {
                   <button
                     type="button"
                     onClick={() => handleSelectDesign(template.id)}
-                    className="w-full py-2 rounded-md bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-bold text-xs uppercase tracking-wider shadow-xs transition-all cursor-pointer"
+                    className="w-full py-2 rounded-md bg-[#b8860b] hover:bg-[#9a7009] text-white font-serif font-bold text-[11px] uppercase tracking-wider shadow-xs transition-colors cursor-pointer"
                   >
-                    USE THIS DESIGN
+                    Use This Design
                   </button>
                 </div>
               </div>
@@ -602,15 +370,36 @@ const TemplateMarketplace = () => {
         )}
       </main>
 
-      {/* Footer Minimal Notice */}
-      <footer className="border-t border-neutral-200 bg-[#FAF8F5] py-8 text-center text-xs text-neutral-500 space-y-2">
-        <p>© 2026 Moonlight Production · Zareqia Digital Suites. All Rights Reserved.</p>
-        <div className="flex justify-center space-x-4 pt-1 text-neutral-600">
-          <Link to="/contact" className="hover:text-amber-700">Need Help?</Link>
-          <span>·</span>
-          <Link to="/faq" className="hover:text-amber-700">FAQ</Link>
-          <span>·</span>
-          <Link to="/terms" className="hover:text-amber-700">Terms of Service</Link>
+      {/* Exact 1:1 Zareqia Footer */}
+      <footer className="w-full border-t border-neutral-200/80 bg-[#FAF8F5] py-12 px-6 text-center space-y-6">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <Link to="/" className="font-serif text-xl font-bold tracking-wide text-[#C59B27] inline-block">
+            Zareqia
+          </Link>
+
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-neutral-600">
+            <Link to="/about" className="hover:text-neutral-900 transition-colors">About</Link>
+            <Link to="/contact" className="hover:text-neutral-900 transition-colors">Contact</Link>
+            <Link to="/terms" className="hover:text-neutral-900 transition-colors">Terms & Conditions</Link>
+            <Link to="/privacy-policy" className="hover:text-neutral-900 transition-colors">Privacy Policy</Link>
+            <Link to="/refund-policy" className="hover:text-neutral-900 transition-colors">Refund Policy</Link>
+            <Link to="/shipping-policy" className="hover:text-neutral-900 transition-colors">Shipping & Delivery</Link>
+            <Link to="/affiliate" className="hover:text-neutral-900 transition-colors">Become an Affiliate</Link>
+          </div>
+
+          <div className="flex items-center justify-center space-x-4 text-neutral-500">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-900 transition-colors">
+              <Instagram className="w-4 h-4" />
+            </a>
+            <a href="mailto:support@zareqia.com" className="hover:text-neutral-900 transition-colors">
+              <Mail className="w-4 h-4" />
+            </a>
+          </div>
+
+          <div className="space-y-1 text-[11px] text-neutral-400">
+            <p>© 2026 Zareqia. Crafted with love</p>
+            <p>Digital invitation service • No physical products shipped</p>
+          </div>
         </div>
       </footer>
     </div>
