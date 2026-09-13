@@ -17,6 +17,8 @@ import {
   QrCode,
   Volume2,
   VolumeX,
+  Mail,
+  Users,
 } from 'lucide-react';
 import { downloadIcsFile } from '../../../utils/calendarGenerator';
 import api from '../../../api/client';
@@ -25,50 +27,67 @@ import api from '../../../api/client';
 // SVG ORNAMENTS & LUXURY MOTIFS REVERSE-ENGINEERED FROM ZAREQIA
 // =========================================================================
 
-export const WaveOrnament = ({ className = '' }) => (
-  <svg viewBox="0 0 400 40" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+export const WaveOrnament = ({ className = '', style = {} }) => (
+  <svg viewBox="0 0 400 40" className={className} style={style} fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M0 20 Q50 5 100 20 Q150 35 200 20 Q250 5 300 20 Q350 35 400 20"
       stroke="currentColor"
       strokeWidth="1"
-      opacity="0.3"
+      opacity="0.4"
     />
     <path
       d="M0 20 Q50 10 100 20 Q150 30 200 20 Q250 10 300 20 Q350 30 400 20"
       stroke="currentColor"
-      strokeWidth="0.5"
-      opacity="0.2"
+      strokeWidth="0.6"
+      opacity="0.25"
     />
     {[50, 100, 150, 200, 250, 300, 350].map((t) => (
-      <circle key={t} cx={t} cy={20 + Math.sin(t * 0.03) * 8} r="2" fill="currentColor" opacity="0.25" />
+      <circle key={t} cx={t} cy={20 + Math.sin(t * 0.03) * 8} r="2" fill="currentColor" opacity="0.35" />
     ))}
   </svg>
 );
 
-export const HeartDivider = ({ className = '' }) => (
-  <div className={`flex items-center justify-center gap-3 my-6 ${className}`}>
-    <div className="w-16 h-px bg-current opacity-30" />
-    <Heart size={12} className="opacity-60" fill="currentColor" />
-    <div className="w-16 h-px bg-current opacity-30" />
+export const DiamondDivider = ({ className = '', style = {} }) => (
+  <div className={`flex items-center justify-center gap-3 my-4 ${className}`} style={style}>
+    <div className="w-12 sm:w-16 h-px bg-current opacity-30" />
+    <span className="text-xs opacity-75">✦</span>
+    <div className="w-12 sm:w-16 h-px bg-current opacity-30" />
   </div>
 );
 
-export const PalaceSkyline = ({ className = '' }) => (
-  <svg viewBox="0 0 800 300" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-    <rect x="100" y="250" width="600" height="10" rx="2" stroke="currentColor" strokeWidth="1.5" fill="none" />
-    <path d="M350 250 V160 Q350 80 400 60 Q450 80 450 160 V250" stroke="currentColor" strokeWidth="1.5" fill="none" />
-    <circle cx="400" cy="55" r="4" stroke="currentColor" strokeWidth="1.5" fill="none" />
-    <rect x="150" y="180" width="200" height="70" rx="2" stroke="currentColor" strokeWidth="1.5" fill="none" />
-    <path d="M200 180 V140 Q200 110 250 100 Q300 110 300 140 V180" stroke="currentColor" strokeWidth="1.5" fill="none" />
-    <circle cx="250" cy="96" r="3" stroke="currentColor" strokeWidth="1.5" fill="none" />
-    <rect x="450" y="180" width="200" height="70" rx="2" stroke="currentColor" strokeWidth="1.5" fill="none" />
-    <path d="M500 180 V140 Q500 110 550 100 Q600 110 600 140 V180" stroke="currentColor" strokeWidth="1.5" fill="none" />
-    <circle cx="550" cy="96" r="3" stroke="currentColor" strokeWidth="1.5" fill="none" />
+export const HeartDivider = ({ className = '', style = {} }) => (
+  <div className={`flex items-center justify-center gap-3 my-4 ${className}`} style={style}>
+    <div className="w-12 sm:w-16 h-px bg-current opacity-30" />
+    <Heart size={12} className="opacity-60" fill="currentColor" />
+    <div className="w-12 sm:w-16 h-px bg-current opacity-30" />
+  </div>
+);
+
+export const FlourishDivider = ({ className = '', style = {} }) => (
+  <div className={`flex items-center justify-center gap-2 my-5 ${className}`} style={style}>
+    <div className="w-10 sm:w-14 h-px bg-current opacity-30" />
+    <span className="text-sm opacity-60">❖</span>
+    <div className="w-10 sm:w-14 h-px bg-current opacity-30" />
+  </div>
+);
+
+export const PalaceSkyline = ({ className = '', style = {} }) => (
+  <svg viewBox="0 0 800 200" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
+    <rect x="100" y="170" width="600" height="6" rx="2" stroke="currentColor" strokeWidth="1.2" fill="none" />
+    <path d="M350 170 V100 Q350 40 400 25 Q450 40 450 100 V170" stroke="currentColor" strokeWidth="1.2" fill="none" />
+    <circle cx="400" cy="20" r="3" stroke="currentColor" strokeWidth="1.2" fill="none" />
+    <rect x="180" y="120" width="140" height="50" rx="2" stroke="currentColor" strokeWidth="1.2" fill="none" />
+    <path d="M210 120 V90 Q210 65 250 55 Q290 65 290 90 V120" stroke="currentColor" strokeWidth="1.2" fill="none" />
+    <circle cx="250" cy="50" r="2.5" stroke="currentColor" strokeWidth="1.2" fill="none" />
+    <rect x="480" y="120" width="140" height="50" rx="2" stroke="currentColor" strokeWidth="1.2" fill="none" />
+    <path d="M510 120 V90 Q510 65 550 55 Q590 65 590 90 V120" stroke="currentColor" strokeWidth="1.2" fill="none" />
+    <circle cx="550" cy="50" r="2.5" stroke="currentColor" strokeWidth="1.2" fill="none" />
   </svg>
 );
 
-export const PalaceCorner = ({ className = '' }) => (
-  <svg viewBox="0 0 100 100" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+
+export const PalaceCorner = ({ className = '', style = {} }) => (
+  <svg viewBox="0 0 100 100" className={className} style={style} fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M5 5C5 5 20 10 30 25C40 40 35 55 25 60C15 65 10 55 15 45C20 35 35 30 45 35C55 40 50 55 40 60"
       stroke="currentColor"
@@ -89,7 +108,7 @@ export const PalaceCorner = ({ className = '' }) => (
   </svg>
 );
 
-export const FloralCorner = ({ className = '', style }) => (
+export const FloralCorner = ({ className = '', style = {} }) => (
   <svg viewBox="0 0 120 120" className={className} style={style} fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M10 100C10 100 25 75 40 60C55 45 70 50 65 65C60 80 40 80 35 65C30 50 50 35 65 40C80 45 75 70 60 80"
@@ -104,16 +123,16 @@ export const FloralCorner = ({ className = '', style }) => (
   </svg>
 );
 
-export const MinimalCorner = ({ className = '' }) => (
-  <svg viewBox="0 0 80 80" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+export const MinimalCorner = ({ className = '', style = {} }) => (
+  <svg viewBox="0 0 80 80" className={className} style={style} fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M0 0L30 0L30 2L2 2L2 30L0 30Z" stroke="currentColor" strokeWidth="1" opacity="0.4" />
     <path d="M8 8L22 8L22 10L10 10L10 22L8 22Z" stroke="currentColor" strokeWidth="0.5" opacity="0.3" />
     <circle cx="15" cy="15" r="1" fill="currentColor" opacity="0.3" />
   </svg>
 );
 
-export const ClassicCorner = ({ className = '' }) => (
-  <svg viewBox="0 0 80 80" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+export const ClassicCorner = ({ className = '', style = {} }) => (
+  <svg viewBox="0 0 80 80" className={className} style={style} fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M5 5 L5 30 Q5 50 25 60 L50 70" stroke="currentColor" strokeWidth="0.8" fill="none" />
     <path d="M8 5 L8 25 Q8 40 20 48" stroke="currentColor" strokeWidth="0.5" fill="none" opacity="0.5" />
     <circle cx="5" cy="5" r="2" fill="currentColor" opacity="0.4" />
@@ -130,13 +149,14 @@ export const DamaskPattern = () => (
 );
 
 // =========================================================================
-// SECTION WRAPPER (Rt) - Open, Seamless Luxury Container
+// SECTION WRAPPER - Seamless Luxury Container
 // =========================================================================
-export const ZareqiaSection = ({ children, className = '', cream = false, id = '' }) => (
+export const ZareqiaSection = ({ children, className = '', cream = false, id = '', style = {} }) => (
   <section
     id={id}
-    className={`py-16 md:py-20 px-6 relative overflow-hidden transition-all duration-700 ${
-      cream ? 'bg-black/10 backdrop-blur-sm' : ''
+    style={style}
+    className={`py-12 sm:py-16 md:py-20 px-4 sm:px-6 relative overflow-hidden transition-all duration-700 ${
+      cream ? 'bg-black/[0.02] backdrop-blur-xs' : ''
     } ${className}`}
   >
     {children}
@@ -144,7 +164,46 @@ export const ZareqiaSection = ({ children, className = '', cream = false, id = '
 );
 
 // =========================================================================
-// INTERACTIVE CANVAS SCRATCH CARD (ro / qte) - Exact 1:1 Zareqia Style
+// 1. WELCOME QUOTATION SECTION (Top Dark Gradient Box from Screenshots)
+// =========================================================================
+export const ZareqiaWelcomeQuote = ({
+  groomName,
+  brideName,
+  coupleNames,
+  welcomeMessage,
+  gradient,
+  textColor,
+  accentColor,
+}) => {
+  return (
+    <div
+      className="w-full py-16 sm:py-20 px-6 text-center relative overflow-hidden transition-all duration-700 shadow-xl"
+      style={{
+        background: gradient || 'linear-gradient(to bottom, #564A42 0%, #7A6A5F 45%, #C7B6A8 78%, #F3E9E2 100%)',
+        color: '#FAF5EE',
+      }}
+    >
+      <div className="max-w-2xl mx-auto space-y-4 relative z-10">
+        <span className="text-lg opacity-80 block" style={{ color: accentColor || '#D4AF37' }}>✦</span>
+
+        <p className="font-serif italic text-base sm:text-lg md:text-xl leading-relaxed text-neutral-100 max-w-xl mx-auto px-4">
+          {welcomeMessage ||
+            `You are cordially invited to join us in celebrating the wedding celebration of ${coupleNames}, together with their families.`}
+        </p>
+
+        <p className="font-serif italic text-sm sm:text-base text-neutral-200 opacity-90 pt-1 flex items-center justify-center gap-1.5">
+          <span>Join us as we step into forever, hand in hand with joy & love.</span>
+          <span className="text-red-400">❤</span>
+        </p>
+
+        <span className="text-lg opacity-80 block pt-2" style={{ color: accentColor || '#D4AF37' }}>✦</span>
+      </div>
+    </div>
+  );
+};
+
+// =========================================================================
+// 2. INTERACTIVE HEART-SHAPED SCRATCH CARD (Exact 1:1 Zareqia Style)
 // =========================================================================
 export const ZareqiaScratchCard = ({
   weddingDateStr,
@@ -154,6 +213,8 @@ export const ZareqiaScratchCard = ({
   coupleNames,
   welcomeMessage,
   venueAddress,
+  accentColor,
+  textColor,
 }) => {
   const canvasRef = useRef(null);
   const [isRevealed, setIsRevealed] = useState(false);
@@ -162,12 +223,11 @@ export const ZareqiaScratchCard = ({
   const formattedDate = useMemo(() => {
     try {
       const d = new Date(weddingDateStr);
-      return d.toLocaleDateString('en-IN', {
-        weekday: 'long',
+      return d.toLocaleDateString('en-US', {
         month: 'long',
         day: 'numeric',
         year: 'numeric',
-      });
+      }).toUpperCase();
     } catch {
       return weddingDateStr;
     }
@@ -180,17 +240,17 @@ export const ZareqiaScratchCard = ({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const width = canvas.offsetWidth || 340;
-    const height = canvas.offsetHeight || 160;
+    const width = canvas.offsetWidth || 220;
+    const height = canvas.offsetHeight || 200;
     const dpr = window.devicePixelRatio || 1;
 
     canvas.width = width * dpr;
     canvas.height = height * dpr;
     ctx.scale(dpr, dpr);
 
-    // Radial Gold Foil Gradient
+    // Radial Metallic Foil Gradient
     const grad = ctx.createRadialGradient(
-      width * 0.4,
+      width * 0.45,
       height * 0.35,
       10,
       width * 0.5,
@@ -203,52 +263,41 @@ export const ZareqiaScratchCard = ({
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, width, height);
 
-    // Noise speckles (Gold dust texture)
-    const speckCount = Math.floor(width * height * 0.22);
+    // Rich Glitter Dust Speckles
+    const speckCount = Math.floor(width * height * 0.28);
     for (let i = 0; i < speckCount; i++) {
       const sx = Math.random() * width;
       const sy = Math.random() * height;
       const r = Math.random();
       let color;
       if (r < 0.55) {
-        color = 'rgba(255, 235, 180, ' + (0.35 + Math.random() * 0.55) + ')';
+        color = 'rgba(255, 245, 210, ' + (0.4 + Math.random() * 0.5) + ')';
       } else if (r < 0.85) {
-        color = 'rgba(212, 175, 55, ' + (0.4 + Math.random() * 0.5) + ')';
-      } else if (r < 0.95) {
-        color = 'rgba(120, 80, 20, ' + (0.4 + Math.random() * 0.4) + ')';
+        color = 'rgba(255, 255, 255, ' + (0.5 + Math.random() * 0.5) + ')';
       } else {
-        color = 'rgba(255, 255, 255, ' + (0.55 + Math.random() * 0.4) + ')';
+        color = 'rgba(100, 60, 15, ' + (0.3 + Math.random() * 0.4) + ')';
       }
       ctx.fillStyle = color;
-      const sz = Math.random() < 0.92 ? 1 : 1.5;
+      const sz = Math.random() < 0.9 ? 1 : 1.6;
       ctx.fillRect(sx, sy, sz, sz);
     }
 
-    // Sparkle stardust stars
-    for (let i = 0; i < 70; i++) {
+    // Sparkle Stardust Stars
+    for (let i = 0; i < 50; i++) {
       const sx = Math.random() * width;
       const sy = Math.random() * height;
-      ctx.fillStyle = 'rgba(255, 245, 200, ' + (0.7 + Math.random() * 0.3) + ')';
+      ctx.fillStyle = 'rgba(255, 255, 255, ' + (0.8 + Math.random() * 0.2) + ')';
       ctx.beginPath();
-      ctx.arc(sx, sy, 1.2 + Math.random() * 0.8, 0, Math.PI * 2);
+      ctx.arc(sx, sy, 1 + Math.random() * 0.9, 0, Math.PI * 2);
       ctx.fill();
     }
 
-    // Border
-    ctx.strokeStyle = palette?.accent || '#d4af37';
-    ctx.lineWidth = 1.5;
-    ctx.strokeRect(8, 8, width - 16, height - 16);
-
-    // Text on Scratch Foil
-    ctx.fillStyle = palette?.textColor || '#1a1208';
-    ctx.font = 'bold 15px "Cormorant Garamond", "Playfair Display", serif';
+    // Foil Center Prompt Text
+    ctx.fillStyle = palette?.textColor || '#ffffff';
+    ctx.font = 'bold 12px "Playfair Display", serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('✦ SCRATCH TO REVEAL ✦', width / 2, height / 2 - 8);
-
-    ctx.font = '11px "Plus Jakarta Sans", sans-serif';
-    ctx.fillStyle = palette?.textColor ? palette.textColor + 'cc' : 'rgba(0,0,0,0.7)';
-    ctx.fillText('Swipe or drag with finger to unlock', width / 2, height / 2 + 15);
+    ctx.fillText('✦ Scratch to Reveal ✦', width / 2, height / 2);
 
     let cleared = 0;
     const total = width * height;
@@ -256,11 +305,11 @@ export const ZareqiaScratchCard = ({
     const scratch = (x, y) => {
       ctx.globalCompositeOperation = 'destination-out';
       ctx.beginPath();
-      ctx.arc(x, y, 24, 0, Math.PI * 2);
+      ctx.arc(x, y, 22, 0, Math.PI * 2);
       ctx.fill();
 
-      cleared += 400;
-      if (cleared > total * 0.35) {
+      cleared += 380;
+      if (cleared > total * 0.3) {
         setIsRevealed(true);
       }
     };
@@ -316,67 +365,90 @@ export const ZareqiaScratchCard = ({
 
   return (
     <div className="max-w-md mx-auto text-center space-y-6">
-      <div className="space-y-1.5">
-        <span className="text-[11px] uppercase tracking-[0.25em] text-primary font-mono font-medium block">
-          ✦ Save The Date ✦
-        </span>
-        <h2 className="font-serif text-3xl md:text-4xl text-primary font-normal tracking-wide">
-          Special Card Reveal
+      {/* SVG Clip Path Definition for Heart Shape */}
+      <svg width="0" height="0" className="absolute">
+        <defs>
+          <clipPath id="zareqiaHeartClip" clipPathUnits="objectBoundingBox">
+            <path d="M 0.5, 0.88 C 0.5, 0.88 0.05, 0.58 0.05, 0.32 C 0.05, 0.12 0.22, 0.02 0.36, 0.02 C 0.45, 0.02 0.5, 0.12 0.5, 0.12 C 0.5, 0.12 0.55, 0.02 0.64, 0.02 C 0.78, 0.02 0.95, 0.12 0.95, 0.32 C 0.95, 0.58 0.5, 0.88 0.5, 0.88 Z" />
+          </clipPath>
+        </defs>
+      </svg>
+
+      {/* Title */}
+      <div className="space-y-1">
+        <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
+        <h2
+          className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
+          style={{ color: accentColor || textColor }}
+        >
+          Scratch to Reveal
         </h2>
-        <HeartDivider />
+        <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
       </div>
 
-      {/* Luxury Scratch Card Frame */}
-      <div className="relative w-full h-44 sm:h-48 rounded-xl overflow-hidden bg-black/40 border border-primary/30 shadow-2xl flex items-center justify-center select-none">
-        {/* Revealed Secret Wedding Information */}
-        <div className="p-6 text-center space-y-2 z-0 animate-fade-in">
-          <span className="text-[10px] uppercase tracking-[0.3em] text-primary/80 font-mono font-semibold block">
-            YOU ARE CORDIALLY INVITED
-          </span>
-          <h3 className="font-serif text-xl sm:text-2xl font-semibold text-foreground tracking-wide">
+      {/* Heart Scratch Container */}
+      <div className="relative w-52 h-48 sm:w-60 sm:h-56 mx-auto flex items-center justify-center select-none filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)]">
+        {/* Heart Background & Revealed Date Card */}
+        <div
+          className="absolute inset-0 w-full h-full flex flex-col items-center justify-center p-6 text-center bg-white/90 border border-neutral-200/50"
+          style={{
+            clipPath: 'url(#zareqiaHeartClip)',
+            WebkitClipPath: 'url(#zareqiaHeartClip)',
+          }}
+        >
+          <span className="text-xs opacity-75 mb-1" style={{ color: accentColor }}>✦</span>
+          <h3
+            className="font-serif text-base sm:text-lg font-bold tracking-wider leading-tight"
+            style={{ color: textColor || '#1a1208' }}
+          >
             {formattedDate}
           </h3>
-          <div className="flex items-center justify-center gap-2 text-xs text-primary/90 font-mono">
-            <Clock size={13} className="text-primary" />
-            <span>Ceremony Begins at {weddingTimeStr}</span>
-          </div>
-          <p className="text-xs text-muted-foreground pt-1 flex items-center justify-center gap-1.5">
-            <MapPin size={12} className="text-primary/70" />
-            <span>{venueName}</span>
+          <p className="text-[11px] font-mono opacity-80 pt-1" style={{ color: accentColor }}>
+            AT {weddingTimeStr || '07:00 PM'}
+          </p>
+          <p className="text-[9px] uppercase tracking-widest text-neutral-500 pt-1 max-w-[120px] truncate">
+            {venueName}
           </p>
         </div>
 
-        {/* Scratch Foil Layer */}
+        {/* Scratch Canvas Foil Layer */}
         {!isRevealed && (
           <canvas
             ref={canvasRef}
             className="absolute inset-0 w-full h-full cursor-crosshair z-10 touch-none transition-opacity duration-700"
+            style={{
+              clipPath: 'url(#zareqiaHeartClip)',
+              WebkitClipPath: 'url(#zareqiaHeartClip)',
+            }}
           />
         )}
       </div>
 
       {/* Save to Calendar Button */}
-      <div className="relative inline-block text-center">
+      <div className="relative inline-block text-center pt-2">
         <button
           type="button"
           onClick={() => setShowCalOptions((v) => !v)}
-          className="px-7 py-3 rounded-full bg-primary/20 hover:bg-primary/30 text-primary border border-primary/40 font-mono text-xs uppercase tracking-[0.15em] shadow-lg flex items-center justify-center space-x-2 transition-all mx-auto"
+          className="px-8 py-2.5 rounded-full text-white font-mono text-xs uppercase tracking-[0.15em] font-semibold shadow-lg hover:opacity-90 transition-all flex items-center space-x-2 mx-auto cursor-pointer"
+          style={{
+            backgroundColor: accentColor || '#8B5A2B',
+          }}
         >
-          <CalendarPlus className="w-4 h-4 text-primary" />
+          <CalendarPlus className="w-3.5 h-3.5 text-white" />
           <span>Save The Date</span>
         </button>
 
         {showCalOptions && (
-          <div className="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-neutral-900/95 border border-primary/30 backdrop-blur-xl rounded-xl shadow-2xl z-40 overflow-hidden text-left py-1 text-xs font-sans animate-fade-in">
+          <div className="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-white/95 text-neutral-900 border border-neutral-300 backdrop-blur-xl rounded-2xl shadow-2xl z-40 overflow-hidden text-left py-1 text-xs font-sans animate-fade-in">
             <button
               onClick={handleGoogleCalendar}
-              className="w-full px-4 py-2.5 text-neutral-200 hover:bg-primary/20 hover:text-primary flex items-center space-x-2 transition-colors"
+              className="w-full px-4 py-2.5 text-neutral-800 hover:bg-neutral-100 flex items-center space-x-2 transition-colors cursor-pointer"
             >
               <span>📅 Google Calendar</span>
             </button>
             <button
               onClick={handleDownloadIcs}
-              className="w-full px-4 py-2.5 text-neutral-200 hover:bg-primary/20 hover:text-primary flex items-center space-x-2 transition-colors border-t border-white/5"
+              className="w-full px-4 py-2.5 text-neutral-800 hover:bg-neutral-100 flex items-center space-x-2 transition-colors border-t border-neutral-100 cursor-pointer"
             >
               <span>🍏 Apple / Outlook (.ics)</span>
             </button>
@@ -388,9 +460,33 @@ export const ZareqiaScratchCard = ({
 };
 
 // =========================================================================
-// LUXURY COUNTDOWN TO FOREVER (Hte) - Frosted Glass Pills
+// 3. MOMENTS OF LOVE / PHOTO CARD SECTION (Screenshots 1:1)
 // =========================================================================
-export const ZareqiaCountdown = ({ weddingDateStr, weddingTimeStr }) => {
+export const ZareqiaPhotoCard = ({ coverImage, photos = [], accentColor }) => {
+  const defaultPhoto =
+    coverImage ||
+    (photos && photos.length > 0 ? photos[0] : null) ||
+    'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=85';
+
+  return (
+    <div className="max-w-2xl mx-auto text-center space-y-4">
+      <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
+
+      <div className="w-full rounded-2xl overflow-hidden shadow-2xl border border-black/10 bg-black/5 transform transition-transform duration-700 hover:scale-[1.01]">
+        <img
+          src={defaultPhoto}
+          alt="Moments of Love"
+          className="w-full h-64 sm:h-80 md:h-96 object-cover"
+        />
+      </div>
+    </div>
+  );
+};
+
+// =========================================================================
+// 4. COUNTDOWN TO FOREVER SECTION
+// =========================================================================
+export const ZareqiaCountdown = ({ weddingDateStr, weddingTimeStr, accentColor, textColor }) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
@@ -419,28 +515,37 @@ export const ZareqiaCountdown = ({ weddingDateStr, weddingTimeStr }) => {
   }, [weddingDateStr, weddingTimeStr]);
 
   const units = [
-    { label: 'Days', val: timeLeft.days },
-    { label: 'Hours', val: timeLeft.hours },
-    { label: 'Minutes', val: timeLeft.minutes },
-    { label: 'Seconds', val: timeLeft.seconds },
+    { label: 'DAYS', val: timeLeft.days },
+    { label: 'HOURS', val: timeLeft.hours },
+    { label: 'MINUTES', val: timeLeft.minutes },
+    { label: 'SECONDS', val: timeLeft.seconds },
   ];
 
   return (
     <div className="text-center relative max-w-xl mx-auto space-y-4">
-      <h2 className="font-serif text-3xl md:text-5xl text-primary font-normal tracking-wide">
+      <h2
+        className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
+        style={{ color: accentColor || textColor }}
+      >
         Counting Down to Forever
       </h2>
-      <HeartDivider />
+      <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
 
-      <div className="flex justify-center gap-2.5 sm:gap-4 md:gap-6 pt-2">
+      <div className="flex justify-center gap-2 sm:gap-4 md:gap-6 pt-2">
         {units.map((unit, i) => (
           <div key={i} className="text-center">
-            <div className="w-16 sm:w-20 md:w-24 px-1 py-3 sm:px-3 sm:py-4 mb-2 rounded-xl border border-primary/25 bg-primary/10 backdrop-blur-md shadow-lg">
-              <span className="font-serif text-2xl sm:text-3xl md:text-4xl font-semibold text-primary block leading-none">
+            <div
+              className="w-16 sm:w-20 md:w-24 px-1 py-3 sm:px-3 sm:py-4 mb-2 rounded-xl border bg-white/60 backdrop-blur-sm shadow-md"
+              style={{ borderColor: accentColor ? accentColor + '40' : 'rgba(0,0,0,0.15)' }}
+            >
+              <span
+                className="font-serif text-2xl sm:text-3xl md:text-4xl font-semibold block leading-none"
+                style={{ color: accentColor || textColor }}
+              >
                 {String(unit.val).padStart(2, '0')}
               </span>
             </div>
-            <span className="text-[10px] uppercase font-mono tracking-[0.2em] text-foreground/75 font-medium">
+            <span className="text-[10px] uppercase font-mono tracking-[0.2em] text-neutral-600 font-medium">
               {unit.label}
             </span>
           </div>
@@ -451,34 +556,54 @@ export const ZareqiaCountdown = ({ weddingDateStr, weddingTimeStr }) => {
 };
 
 // =========================================================================
-// PROGRAM TIMELINE (Jte) - Continuous Golden Thread
+// 5. PROGRAM TIMELINE SECTION
 // =========================================================================
-export const ZareqiaTimeline = ({ events = [] }) => {
+export const ZareqiaTimeline = ({ events = [], accentColor, textColor }) => {
   if (!events || events.length === 0) return null;
 
   return (
-    <div className="max-w-xl mx-auto space-y-4">
-      <div className="text-center">
-        <Calendar className="mx-auto text-primary mb-3" size={28} />
-        <h2 className="font-serif text-3xl md:text-5xl text-primary font-normal tracking-wide">
+    <div className="max-w-xl mx-auto space-y-6">
+      <div className="text-center space-y-1">
+        <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>❖</span>
+        <h2
+          className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
+          style={{ color: accentColor || textColor }}
+        >
           Program Timeline
         </h2>
-        <HeartDivider />
+        <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
       </div>
 
-      <div className="pt-6 pl-2 sm:pl-6">
+      <div className="pt-4 pl-4 sm:pl-8">
         {events.map((ev, idx) => (
           <div key={idx} className="flex gap-4 sm:gap-6 mb-8 last:mb-0">
-            {/* Golden Timeline Node & Line */}
+            {/* Timeline Continuous Thread */}
             <div className="flex flex-col items-center pt-1.5">
-              <div className="w-3.5 h-3.5 rounded-full bg-primary shadow-[0_0_12px_rgba(212,175,55,0.6)] ring-4 ring-primary/20" />
-              {idx < events.length - 1 && <div className="w-px flex-1 bg-primary/30 mt-2 min-h-[50px]" />}
+              <div
+                className="w-3.5 h-3.5 rounded-full shadow-md ring-4"
+                style={{
+                  backgroundColor: accentColor || '#8B5A2B',
+                  ringColor: accentColor ? accentColor + '30' : 'rgba(0,0,0,0.1)',
+                }}
+              />
+              {idx < events.length - 1 && (
+                <div
+                  className="w-px flex-1 mt-2 min-h-[60px]"
+                  style={{ backgroundColor: accentColor ? accentColor + '40' : 'rgba(0,0,0,0.2)' }}
+                />
+              )}
             </div>
 
             {/* Event Details */}
             <div className="pb-4 flex-1 space-y-1">
-              <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-primary/80">
-                <Clock size={12} className="text-primary" />
+              <h3
+                className="font-display font-semibold text-lg sm:text-xl leading-snug"
+                style={{ color: accentColor || textColor }}
+              >
+                ✦ {ev.title || ev.name}
+              </h3>
+              <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-neutral-600">
+                <Clock size={12} style={{ color: accentColor }} />
                 <span>{ev.time}</span>
                 {ev.date && (
                   <>
@@ -487,17 +612,14 @@ export const ZareqiaTimeline = ({ events = [] }) => {
                   </>
                 )}
               </div>
-              <h3 className="text-primary font-display font-semibold text-lg md:text-xl leading-snug">
-                {ev.title || ev.name}
-              </h3>
               {ev.venue && (
-                <p className="text-xs text-foreground/80 flex items-center gap-1.5 pt-0.5">
-                  <MapPin size={12} className="text-primary/70 shrink-0" />
+                <p className="text-xs text-neutral-700 flex items-center gap-1.5 pt-0.5">
+                  <MapPin size={12} style={{ color: accentColor }} className="shrink-0" />
                   <span>{ev.venue}</span>
                 </p>
               )}
               {ev.description && (
-                <p className="text-xs text-muted-foreground mt-1 whitespace-pre-wrap break-words leading-relaxed">
+                <p className="text-xs text-neutral-600 mt-1 whitespace-pre-wrap break-words leading-relaxed">
                   {ev.description}
                 </p>
               )}
@@ -510,32 +632,37 @@ export const ZareqiaTimeline = ({ events = [] }) => {
 };
 
 // =========================================================================
-// WEDDING VENUE & GOOGLE MAPS SECTION
+// 6. VENUE & INTERACTIVE GOOGLE MAP SECTION
 // =========================================================================
-export const ZareqiaVenue = ({ venueName, venueAddress }) => {
+export const ZareqiaVenue = ({ venueName, venueAddress, accentColor, textColor }) => {
   const fullAddress = [venueName, venueAddress].filter(Boolean).join(', ');
   const mapEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(fullAddress)}&t=m&z=14&output=embed`;
   const mapDirectUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
 
   return (
     <div className="max-w-2xl mx-auto space-y-6 text-center">
-      <MapPin className="mx-auto text-primary mb-3" size={28} />
-      <h2 className="font-serif text-3xl md:text-5xl text-primary font-normal tracking-wide">
-        Wedding Venue
-      </h2>
-      <HeartDivider />
+      <div className="space-y-1">
+        <MapPin className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
+        <h2
+          className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
+          style={{ color: accentColor || textColor }}
+        >
+          Venue
+        </h2>
+        <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
+      </div>
 
-      <div className="space-y-1.5 mb-6">
-        <p className="font-display text-xl md:text-2xl font-semibold text-foreground">
+      <div className="space-y-1 mb-4">
+        <p className="font-serif text-xl sm:text-2xl font-semibold" style={{ color: textColor || '#1a1208' }}>
           {venueName}
         </p>
-        <p className="text-sm text-muted-foreground max-w-lg mx-auto">
+        <p className="text-xs sm:text-sm text-neutral-600 max-w-lg mx-auto">
           {venueAddress}
         </p>
       </div>
 
       {/* Embedded Map */}
-      <div className="w-full h-72 md:h-80 rounded-2xl overflow-hidden shadow-2xl border border-primary/25 bg-black/20">
+      <div className="w-full h-64 sm:h-72 md:h-80 rounded-2xl overflow-hidden shadow-xl border border-black/10 bg-neutral-100">
         <iframe
           src={mapEmbedUrl}
           width="100%"
@@ -550,14 +677,17 @@ export const ZareqiaVenue = ({ venueName, venueAddress }) => {
 
       {/* Palace Silhouette & Maps Button */}
       <div className="max-w-sm mx-auto text-center pt-2 space-y-4">
-        <PalaceSkyline className="w-full text-primary opacity-25 h-12" />
+        <PalaceSkyline className="w-full opacity-35 h-10" style={{ color: accentColor || '#8B5A2B' }} />
         <a
           href={mapDirectUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center space-x-2 px-7 py-3 rounded-full bg-primary text-primary-foreground font-mono text-xs uppercase tracking-[0.15em] font-bold shadow-xl hover:opacity-90 transition-all"
+          className="inline-flex items-center space-x-2 px-8 py-2.5 rounded-full text-white font-mono text-xs uppercase tracking-[0.15em] font-semibold shadow-lg hover:opacity-90 transition-all cursor-pointer"
+          style={{
+            backgroundColor: accentColor || '#8B5A2B',
+          }}
         >
-          <Navigation size={14} />
+          <Navigation size={13} />
           <span>View on Google Maps</span>
         </a>
       </div>
@@ -566,34 +696,37 @@ export const ZareqiaVenue = ({ venueName, venueAddress }) => {
 };
 
 // =========================================================================
-// DRESS CODE SECTION
+// 7. DRESS CODE SECTION
 // =========================================================================
-export const ZareqiaDressCode = () => (
+export const ZareqiaDressCode = ({ accentColor, textColor }) => (
   <div className="max-w-xl mx-auto space-y-6 text-center">
-    <Shirt className="mx-auto text-primary mb-3" size={28} />
-    <h2 className="font-serif text-3xl md:text-5xl text-primary font-normal tracking-wide">
-      Dress Code
-    </h2>
-    <HeartDivider />
+    <div className="space-y-1">
+      <Shirt className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
+      <h2
+        className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
+        style={{ color: accentColor || textColor }}
+      >
+        Dress Code
+      </h2>
+      <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
+    </div>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-      <div className="py-4 px-6 rounded-xl border border-primary/20 bg-primary/5 backdrop-blur-sm space-y-2">
-        <h3 className="font-display text-base font-semibold text-primary tracking-wide">
-          Women
+    <div className="grid grid-cols-2 gap-4 sm:gap-6 pt-2 text-center">
+      <div className="py-5 px-4 rounded-2xl border bg-white/50 backdrop-blur-sm space-y-2 border-black/10">
+        <h3 className="font-mono text-xs uppercase tracking-widest font-bold" style={{ color: accentColor || '#8B5A2B' }}>
+          MEN
         </h3>
-        <div className="w-8 h-px bg-primary/30 mx-auto" />
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          Traditional Indian Lehengas, Sarees, Anarkalis, or Formal Evening Gowns in jewel tones.
+        <p className="text-xs text-neutral-600 leading-relaxed">
+          Traditional Indian Sherwanis, Bandhgalas, or Classic Tuxedos.
         </p>
       </div>
 
-      <div className="py-4 px-6 rounded-xl border border-primary/20 bg-primary/5 backdrop-blur-sm space-y-2">
-        <h3 className="font-display text-base font-semibold text-primary tracking-wide">
-          Men
+      <div className="py-5 px-4 rounded-2xl border bg-white/50 backdrop-blur-sm space-y-2 border-black/10">
+        <h3 className="font-mono text-xs uppercase tracking-widest font-bold" style={{ color: accentColor || '#8B5A2B' }}>
+          WOMEN
         </h3>
-        <div className="w-8 h-px bg-primary/30 mx-auto" />
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          Royal Sherwanis, Bandhgalas, Kurtas with Nehru jackets, or Classic Tuxedos.
+        <p className="text-xs text-neutral-600 leading-relaxed">
+          Traditional Lehengas, Sarees, Anarkalis, or Elegant Evening Gowns.
         </p>
       </div>
     </div>
@@ -601,31 +734,138 @@ export const ZareqiaDressCode = () => (
 );
 
 // =========================================================================
-// GIFTS & BLESSINGS SECTION
+// 8. PRE-WEDDING EVENTS SECTION
 // =========================================================================
-export const ZareqiaGifts = () => (
+export const ZareqiaPreWeddingEvents = ({ events = [], accentColor, textColor }) => {
+  const preEvents =
+    events && events.length > 0
+      ? events
+      : [
+          {
+            title: 'Mehendi Ceremony',
+            date: 'December 22, 2026',
+            time: '04:00 PM',
+            venue: 'Poolside Lawn',
+          },
+          {
+            title: 'Haldi Ritual',
+            date: 'December 23, 2026',
+            time: '11:00 AM',
+            venue: 'Courtyard Garden',
+          },
+          {
+            title: 'Sangeet & Cocktail',
+            date: 'December 23, 2026',
+            time: '07:30 PM',
+            venue: 'Grand Royal Ballroom',
+          },
+        ];
+
+  return (
+    <div className="max-w-xl mx-auto space-y-6 text-center">
+      <div className="space-y-1">
+        <Sparkles className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
+        <h2
+          className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
+          style={{ color: accentColor || textColor }}
+        >
+          Pre-Wedding Events
+        </h2>
+        <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
+      </div>
+
+      <div className="space-y-4 pt-2">
+        {preEvents.map((ev, i) => (
+          <div key={i} className="space-y-0.5">
+            <h3 className="font-serif text-base sm:text-lg font-semibold" style={{ color: textColor || '#1a1208' }}>
+              {ev.title || ev.name}
+            </h3>
+            <p className="text-xs text-neutral-600">
+              {ev.date} • {ev.time}
+            </p>
+            {ev.venue && (
+              <p className="text-[11px] text-neutral-500 italic">
+                {ev.venue}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// =========================================================================
+// 9. TRANSPORTATION SECTION
+// =========================================================================
+export const ZareqiaTransportation = ({ accentColor, textColor }) => (
   <div className="max-w-lg mx-auto space-y-4 text-center">
-    <Gift className="mx-auto text-primary mb-3" size={28} />
-    <h2 className="font-serif text-3xl md:text-5xl text-primary font-normal tracking-wide">
-      Gifts & Blessings
-    </h2>
-    <HeartDivider />
-    <p className="text-sm text-muted-foreground leading-relaxed italic whitespace-pre-line">
-      "Your presence, warm smiles, and heartfelt blessings on our special day are the greatest gift of all.
-      No boxed gifts please, only your blessings and love."
+    <div className="space-y-1">
+      <Car className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
+      <h2
+        className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
+        style={{ color: accentColor || textColor }}
+      >
+        Transportation
+      </h2>
+      <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
+    </div>
+    <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed max-w-md mx-auto">
+      Shuttle services will be available from designated partner hotels to the wedding venue. Complimentary valet parking is provided for all guests.
     </p>
   </div>
 );
 
 // =========================================================================
-// RSVP & GUESTBOOK REGISTRY SECTION
+// 10. ACCOMMODATION SECTION
 // =========================================================================
-export const ZareqiaRsvp = ({ invitationId, coupleNames }) => {
+export const ZareqiaAccommodation = ({ accentColor, textColor }) => (
+  <div className="max-w-lg mx-auto space-y-4 text-center">
+    <div className="space-y-1">
+      <Building className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
+      <h2
+        className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
+        style={{ color: accentColor || textColor }}
+      >
+        Accommodation
+      </h2>
+      <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
+    </div>
+    <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed max-w-md mx-auto">
+      Special room rates are reserved for our wedding guests at the Grand Palace Resort. Please mention our wedding party when booking.
+    </p>
+  </div>
+);
+
+// =========================================================================
+// 11. GIFTS & BLESSINGS SECTION
+// =========================================================================
+export const ZareqiaGifts = ({ accentColor, textColor }) => (
+  <div className="max-w-lg mx-auto space-y-4 text-center">
+    <div className="space-y-1">
+      <Gift className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
+      <h2
+        className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
+        style={{ color: accentColor || textColor }}
+      >
+        Gifts
+      </h2>
+      <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
+    </div>
+    <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed italic max-w-md mx-auto">
+      "Your presence, prayers, and heartfelt blessings are the greatest gift we could ask for. No boxed gifts requested."
+    </p>
+  </div>
+);
+
+// =========================================================================
+// 12. RSVP SECTION
+// =========================================================================
+export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor, onRsvpSuccess }) => {
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [attending, setAttending] = useState('Yes');
   const [guests, setGuests] = useState(1);
-  const [phone, setPhone] = useState('');
-  const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -637,12 +877,12 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames }) => {
       await api.post('/rsvp', {
         invitationId,
         name: name.trim(),
+        email: email.trim(),
         response: attending,
         guests: Number(guests) || 1,
-        phone: phone.trim(),
-        message: message.trim(),
       });
       setIsSubmitted(true);
+      if (onRsvpSuccess) onRsvpSuccess();
     } catch {
       setIsSubmitted(true);
     } finally {
@@ -651,105 +891,104 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames }) => {
   };
 
   return (
-    <div className="max-w-lg mx-auto space-y-6 text-center">
-      <Heart className="mx-auto text-primary mb-3" size={28} fill="currentColor" />
-      <h2 className="font-serif text-3xl md:text-5xl text-primary font-normal tracking-wide">
-        RSVP & Blessings
-      </h2>
-      <HeartDivider />
+    <div className="max-w-md mx-auto space-y-6 text-center">
+      <div className="space-y-1">
+        <Mail className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
+        <h2
+          className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
+          style={{ color: accentColor || textColor }}
+        >
+          RSVP
+        </h2>
+        <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
+      </div>
 
       {isSubmitted ? (
-        <div className="p-8 rounded-2xl border border-primary/40 bg-primary/10 backdrop-blur-md text-center space-y-3 animate-fade-in">
-          <CheckCircle2 className="w-12 h-12 text-primary mx-auto" />
-          <h3 className="font-serif text-2xl font-semibold text-foreground">
+        <div className="p-8 rounded-2xl border border-neutral-300 bg-white/80 backdrop-blur-md text-center space-y-3 animate-fade-in shadow-lg">
+          <CheckCircle2 className="w-12 h-12 mx-auto" style={{ color: accentColor || '#059669' }} />
+          <h3 className="font-serif text-2xl font-semibold text-neutral-900">
             Thank You, {name}!
           </h3>
-          <p className="text-xs text-muted-foreground leading-relaxed">
-            Your response and warm blessings have been joyfully recorded. We cannot wait to celebrate together!
+          <p className="text-xs text-neutral-600 leading-relaxed">
+            Your response has been joyfully recorded. We look forward to celebrating together!
           </p>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4 text-left text-xs">
           <div>
-            <label className="block uppercase font-mono tracking-wider mb-1.5 text-primary/90 font-medium">
-              Your Full Name *
+            <label className="block font-mono text-[11px] uppercase tracking-wider mb-1.5 text-neutral-700 font-medium">
+              Full Name *
             </label>
             <input
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Guest Name"
-              className="w-full px-4 py-3 rounded-xl border border-primary/25 bg-black/40 text-foreground placeholder-neutral-500 focus:outline-none focus:border-primary transition-colors"
+              placeholder="Your Name"
+              className="w-full px-4 py-3 rounded-xl border border-neutral-300 bg-white/80 text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-1 transition-all"
+              style={{ focusRingColor: accentColor }}
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block uppercase font-mono tracking-wider mb-1.5 text-primary/90 font-medium">
-                Will you attend?
-              </label>
-              <select
-                value={attending}
-                onChange={(e) => setAttending(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-primary/25 bg-neutral-900 text-foreground focus:outline-none focus:border-primary transition-colors"
-              >
-                <option value="Yes">Joyfully Accept (Yes)</option>
-                <option value="No">Regretfully Decline (No)</option>
-              </select>
-            </div>
-            <div>
-              <label className="block uppercase font-mono tracking-wider mb-1.5 text-primary/90 font-medium">
-                Guest Count
-              </label>
-              <input
-                type="number"
-                min="1"
-                max="10"
-                value={guests}
-                onChange={(e) => setGuests(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-primary/25 bg-black/40 text-foreground focus:outline-none focus:border-primary transition-colors"
-              />
-            </div>
-          </div>
-
           <div>
-            <label className="block uppercase font-mono tracking-wider mb-1.5 text-primary/90 font-medium">
-              WhatsApp / Phone (Optional)
+            <label className="block font-mono text-[11px] uppercase tracking-wider mb-1.5 text-neutral-700 font-medium">
+              Email *
             </label>
             <input
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="+91 98765 43210"
-              className="w-full px-4 py-3 rounded-xl border border-primary/25 bg-black/40 text-foreground placeholder-neutral-500 focus:outline-none focus:border-primary transition-colors"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="your.email@example.com"
+              className="w-full px-4 py-3 rounded-xl border border-neutral-300 bg-white/80 text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-1 transition-all"
             />
           </div>
 
           <div>
-            <label className="block uppercase font-mono tracking-wider mb-1.5 text-primary/90 font-medium">
-              Wishes & Blessings for {coupleNames}
+            <label className="block font-mono text-[11px] uppercase tracking-wider mb-1.5 text-neutral-700 font-medium">
+              Total Guest(s) *
             </label>
-            <textarea
-              rows="3"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Share your love, blessings, or dietary notes..."
-              className="w-full px-4 py-3 rounded-xl border border-primary/25 bg-black/40 text-foreground placeholder-neutral-500 focus:outline-none focus:border-primary transition-colors"
-            />
+            <select
+              value={guests}
+              onChange={(e) => setGuests(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-neutral-300 bg-white text-neutral-900 focus:outline-none focus:ring-1 transition-all"
+            >
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                <option key={num} value={num}>
+                  {num} {num === 1 ? 'Guest' : 'Guests'}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block font-mono text-[11px] uppercase tracking-wider mb-1.5 text-neutral-700 font-medium">
+              Will you attend? *
+            </label>
+            <select
+              value={attending}
+              onChange={(e) => setAttending(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-neutral-300 bg-white text-neutral-900 focus:outline-none focus:ring-1 transition-all"
+            >
+              <option value="Yes">Joyfully Accept</option>
+              <option value="No">Regretfully Decline</option>
+            </select>
           </div>
 
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground font-mono text-xs uppercase tracking-[0.15em] font-bold shadow-xl hover:opacity-90 flex items-center justify-center space-x-2 transition-all"
+            className="w-full py-3.5 rounded-full text-white font-mono text-xs uppercase tracking-[0.15em] font-semibold shadow-xl hover:opacity-90 flex items-center justify-center space-x-2 transition-all cursor-pointer mt-4"
+            style={{
+              backgroundColor: accentColor || '#8B5A2B',
+            }}
           >
             {isSubmitting ? (
-              <Sparkles className="w-4 h-4 animate-spin" />
+              <Sparkles className="w-4 h-4 animate-spin text-white" />
             ) : (
-              <Send className="w-4 h-4" />
+              <Send className="w-4 h-4 text-white" />
             )}
-            <span>{isSubmitting ? 'Recording RSVP...' : 'Send RSVP & Blessings'}</span>
+            <span>{isSubmitting ? 'Recording RSVP...' : 'SUBMIT RSVP'}</span>
           </button>
         </form>
       )}
@@ -758,72 +997,105 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames }) => {
 };
 
 // =========================================================================
-// MAIN EXPORTED ZAREQIA BODY ENGINE (yn)
+// 13. CLOSING BANNER SECTION ("We can't wait to celebrate with you!")
+// =========================================================================
+export const ZareqiaClosingBanner = ({ coupleNames, groomName, brideName, accentColor, textColor }) => {
+  const signature = groomName && brideName ? `${groomName} & ${brideName}` : coupleNames;
+
+  return (
+    <div className="max-w-xl mx-auto py-12 px-6 text-center space-y-3">
+      <h2
+        className="font-dancing text-3xl sm:text-4xl md:text-5xl font-normal tracking-wide"
+        style={{ color: accentColor || textColor }}
+      >
+        We can't wait to celebrate with you!
+      </h2>
+      <p
+        className="font-serif italic text-lg sm:text-xl text-neutral-700 pt-1"
+        style={{ color: textColor }}
+      >
+        {signature}
+      </p>
+      <div className="pt-2">
+        <WaveOrnament className="w-48 sm:w-64 mx-auto opacity-50" style={{ color: accentColor || '#8B5A2B' }} />
+      </div>
+    </div>
+  );
+};
+
+// =========================================================================
+// MAIN EXPORTED ZAREQIA BODY ENGINE
 // =========================================================================
 const ZareqiaBody = ({
   data = {},
   invitationId = '',
   theme = {},
   scratchPalette = null,
+  onRsvpSuccess,
 }) => {
-  const groomName = data.groom_name || data.groomName || 'Aarav Singhania';
-  const brideName = data.bride_name || data.brideName || 'Kiara Malhotra';
+  const groomName = data.groom_name || data.groomName || 'Romeo';
+  const brideName = data.bride_name || data.brideName || 'Juliet';
   const coupleNames = data.names || `${groomName} & ${brideName}`;
 
-  const weddingDateStr = data.event_date || data.date || '2026-11-20';
+  const weddingDateStr = data.event_date || data.date || '2026-12-24';
   const weddingTimeStr = data.event_time || data.time || '19:00';
-  const venueName = data.venue_name || data.venue || 'The Leela Palace, Udaipur';
+  const venueName = data.venue_name || data.venue || 'Grand Ballroom Hotel';
   const venueAddress =
-    data.venue_address || data.venueAddress || 'Lake Pichola, Udaipur, Rajasthan 313001';
+    data.venue_address || data.venueAddress || '123 Grand Avenue, New York, NY 10001';
   const welcomeMessage =
     data.welcome_text ||
     data.message ||
-    'Invite you to share in the joy of the beginning of their new life together.';
+    `You are cordially invited to join us in celebrating the wedding celebration of ${coupleNames}, together with their families.`;
+
+  const coverImage = data.cover_image || data.coverImage;
+  const photos = data.photos || data.gallery || [];
 
   const events =
     data.events && data.events.length > 0
       ? data.events
       : [
           {
-            title: 'Mehendi & Sangeet Night',
-            date: '2026-11-19',
-            time: '06:00 PM',
-            venue: 'The Leela Palace Courtyard',
-            description: 'Vibrant henna rituals, joyful folk beats, and celebratory cocktail dinner.',
+            title: 'Guest Arrival',
+            date: 'December 24, 2026',
+            time: '10:00 AM - 11:00 AM',
+            venue: 'Grand Welcome Foyer',
+            description: 'Welcome drinks & traditional seating.',
           },
           {
-            title: 'The Royal Wedding & Pheras',
-            date: '2026-11-20',
-            time: '07:30 PM',
-            venue: 'Grand Lawn, The Leela Palace',
-            description: 'Baraat procession followed by sacred Vedic rituals under the starlit sky.',
+            title: 'Wedding Ceremony',
+            date: 'December 24, 2026',
+            time: '11:30 AM - 01:00 PM',
+            venue: 'Mandap Pavilion',
+            description: 'The holy wedding vows and sacred pheras.',
           },
           {
-            title: 'Imperial Gala Reception',
-            date: '2026-11-21',
-            time: '08:00 PM',
-            venue: 'The Royal Ballroom',
-            description: 'Opulent evening banquet celebrating the newlyweds with live orchestra.',
+            title: 'Reception Dinner',
+            date: 'December 24, 2026',
+            time: '07:00 PM onwards',
+            venue: 'Grand Royal Ballroom',
+            description: 'Gala dinner, music, and celebratory dance.',
           },
         ];
 
-  return (
-    <div className="relative w-full z-10 space-y-4">
-      {/* 1. Welcome Quotation Section */}
-      {welcomeMessage && (
-        <ZareqiaSection id="invitation-welcome">
-          <div className="max-w-lg mx-auto text-center space-y-6">
-            <WaveOrnament className="w-full text-primary opacity-60 mb-6" />
-            <p className="font-calligraphic text-2xl md:text-3xl text-foreground leading-relaxed italic whitespace-pre-wrap break-words px-4">
-              "{welcomeMessage}"
-            </p>
-            <WaveOrnament className="w-full text-primary opacity-60 mt-6 rotate-180" />
-          </div>
-        </ZareqiaSection>
-      )}
+  const accentColor = theme.accentColor || '#8B5A2B';
+  const textColor = theme.textColor || '#1a1208';
+  const welcomeGradient = theme.welcomeGradient;
 
-      {/* 2. Interactive Scratch Card & Save The Date */}
-      <ZareqiaSection cream={true} id="invitation-scratch">
+  return (
+    <div className="relative w-full z-10 space-y-4 font-sans">
+      {/* 1. Welcome Quotation Top Banner */}
+      <ZareqiaWelcomeQuote
+        groomName={groomName}
+        brideName={brideName}
+        coupleNames={coupleNames}
+        welcomeMessage={welcomeMessage}
+        gradient={welcomeGradient}
+        textColor={textColor}
+        accentColor={accentColor}
+      />
+
+      {/* 2. Heart-Shaped Interactive Scratch to Reveal Card */}
+      <ZareqiaSection id="invitation-scratch">
         <ZareqiaScratchCard
           weddingDateStr={weddingDateStr}
           weddingTimeStr={weddingTimeStr}
@@ -832,42 +1104,115 @@ const ZareqiaBody = ({
           palette={scratchPalette || theme.scratch}
           coupleNames={coupleNames}
           welcomeMessage={welcomeMessage}
+          accentColor={accentColor}
+          textColor={textColor}
         />
       </ZareqiaSection>
 
-      {/* 3. Live Countdown to Forever */}
+      {/* 3. Moments of Love / Photo Card Section */}
+      <ZareqiaSection cream={true} id="invitation-photos">
+        <ZareqiaPhotoCard
+          coverImage={coverImage}
+          photos={photos}
+          accentColor={accentColor}
+        />
+      </ZareqiaSection>
+
+      {/* 4. Counting Down to Forever */}
       <ZareqiaSection id="invitation-countdown">
-        <ZareqiaCountdown weddingDateStr={weddingDateStr} weddingTimeStr={weddingTimeStr} />
+        <ZareqiaCountdown
+          weddingDateStr={weddingDateStr}
+          weddingTimeStr={weddingTimeStr}
+          accentColor={accentColor}
+          textColor={textColor}
+        />
       </ZareqiaSection>
 
-      {/* 4. Ceremony Timeline */}
+      {/* 5. Program Timeline */}
       <ZareqiaSection cream={true} id="invitation-timeline">
-        <ZareqiaTimeline events={events} />
+        <ZareqiaTimeline
+          events={events}
+          accentColor={accentColor}
+          textColor={textColor}
+        />
       </ZareqiaSection>
 
-      {/* 5. Venue & Google Maps */}
+      {/* 6. Venue & Interactive Google Maps */}
       <ZareqiaSection id="invitation-venue">
-        <ZareqiaVenue venueName={venueName} venueAddress={venueAddress} />
+        <ZareqiaVenue
+          venueName={venueName}
+          venueAddress={venueAddress}
+          accentColor={accentColor}
+          textColor={textColor}
+        />
       </ZareqiaSection>
 
-      {/* 6. Dress Code */}
+      {/* 7. Dress Code */}
       <ZareqiaSection cream={true} id="invitation-dress-code">
-        <ZareqiaDressCode />
+        <ZareqiaDressCode
+          accentColor={accentColor}
+          textColor={textColor}
+        />
       </ZareqiaSection>
 
-      {/* 7. Gifts & Blessings */}
-      <ZareqiaSection id="invitation-gifts">
-        <ZareqiaGifts />
+      {/* 8. Pre-Wedding Events */}
+      <ZareqiaSection id="invitation-pre-wedding">
+        <ZareqiaPreWeddingEvents
+          events={data.pre_wedding_events || []}
+          accentColor={accentColor}
+          textColor={textColor}
+        />
       </ZareqiaSection>
 
-      {/* 8. RSVP & Guestbook */}
-      <ZareqiaSection cream={true} id="invitation-rsvp">
-        <ZareqiaRsvp invitationId={invitationId} coupleNames={coupleNames} />
+      {/* 9. Transportation */}
+      <ZareqiaSection cream={true} id="invitation-transportation">
+        <ZareqiaTransportation
+          accentColor={accentColor}
+          textColor={textColor}
+        />
       </ZareqiaSection>
 
-      {/* 9. Luxury Footer */}
-      <footer className="py-12 text-center text-xs opacity-60 font-mono tracking-widest border-t border-primary/20 space-y-2">
-        <Heart size={14} className="mx-auto text-primary opacity-50" fill="currentColor" />
+      {/* 10. Accommodation */}
+      <ZareqiaSection id="invitation-accommodation">
+        <ZareqiaAccommodation
+          accentColor={accentColor}
+          textColor={textColor}
+        />
+      </ZareqiaSection>
+
+      {/* 11. Gifts & Blessings */}
+      <ZareqiaSection cream={true} id="invitation-gifts">
+        <ZareqiaGifts
+          accentColor={accentColor}
+          textColor={textColor}
+        />
+      </ZareqiaSection>
+
+      {/* 12. RSVP Section */}
+      <ZareqiaSection id="invitation-rsvp">
+        <ZareqiaRsvp
+          invitationId={invitationId}
+          coupleNames={coupleNames}
+          accentColor={accentColor}
+          textColor={textColor}
+          onRsvpSuccess={onRsvpSuccess}
+        />
+      </ZareqiaSection>
+
+      {/* 13. Closing Note Banner */}
+      <ZareqiaSection cream={true} id="invitation-closing">
+        <ZareqiaClosingBanner
+          coupleNames={coupleNames}
+          groomName={groomName}
+          brideName={brideName}
+          accentColor={accentColor}
+          textColor={textColor}
+        />
+      </ZareqiaSection>
+
+      {/* 14. Luxury Footer */}
+      <footer className="py-10 text-center text-xs opacity-60 font-mono tracking-widest border-t border-black/10 space-y-2">
+        <Heart size={14} className="mx-auto opacity-50" fill="currentColor" style={{ color: accentColor }} />
         <p>With Warm Love & Regards • {coupleNames}</p>
         <p className="text-[10px] opacity-40">Created with Moonlight Luxury Suites</p>
       </footer>

@@ -15,7 +15,7 @@ import {
 import ZareqiaBody, { DamaskPattern } from './ZareqiaBody';
 
 // =========================================================================
-// 8 DISTINCT ROYAL SUITE THEME CONFIGURATIONS (Exact 1:1 Zareqia Mapping)
+// 10 DISTINCT ROYAL SUITE THEME CONFIGURATIONS (Exact 1:1 Zareqia Mapping)
 // =========================================================================
 export const zareqiaRoyalThemes = {
   'rose-gold-blush-royal': {
@@ -43,11 +43,11 @@ export const zareqiaRoyalThemes = {
     welcomeGradient: 'linear-gradient(to bottom, #564A42 0%, #7A6A5F 45%, #C7B6A8 78%, #F3E9E2 100%)',
     fontStyle: 'dancing',
     scratch: {
-      gradStart: '#e8cc82',
-      gradMid: '#a9802d',
-      gradEnd: '#5c421c',
-      textColor: '#1a1208',
-      accent: '#d4af37',
+      gradStart: '#f7d3c5',
+      gradMid: '#c47a6c',
+      gradEnd: '#7a3e35',
+      textColor: '#ffffff',
+      accent: '#b87a5e',
     },
     musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
   },
@@ -73,7 +73,7 @@ export const zareqiaRoyalThemes = {
     textColor: '#141e2b',
     accentColor: '#0284c7',
     background: 'hsl(208, 40%, 97%)',
-    welcomeGradient: 'linear-gradient(to bottom, #B4B8BC 0%, #B4B8BC 18%, #ccd6de 55%, #EEF3F8 100%)',
+    welcomeGradient: 'linear-gradient(to bottom, #2c425c 0%, #466385 45%, #9cb2c9 78%, #EEF3F8 100%)',
     fontStyle: 'dancing',
     scratch: {
       gradStart: '#bae6fd',
@@ -106,7 +106,7 @@ export const zareqiaRoyalThemes = {
     textColor: '#241414',
     accentColor: '#b91c1c',
     background: 'hsl(36, 42%, 94%)',
-    welcomeGradient: 'linear-gradient(to bottom, #7A1212 0%, #450A0A 50%, #FAF5EE 100%)',
+    welcomeGradient: 'linear-gradient(to bottom, #540909 0%, #7A1212 45%, #c77b7b 78%, #FAF5EE 100%)',
     fontStyle: 'dancing',
     scratch: {
       gradStart: '#fca5a5',
@@ -137,9 +137,9 @@ export const zareqiaRoyalThemes = {
       '--font-calligraphy': "'Dancing Script', cursive",
     },
     textColor: '#2a0e18',
-    accentColor: '#e11d48',
+    accentColor: '#db2777',
     background: 'hsl(350, 45%, 96%)',
-    welcomeGradient: 'linear-gradient(to bottom, #282E39 0%, #282E39 18%, #8e8990 55%, #F5E5E8 100%)',
+    welcomeGradient: 'linear-gradient(to bottom, #4c0519 0%, #831843 45%, #e879a8 78%, #FDF2F8 100%)',
     fontStyle: 'dancing',
     scratch: {
       gradStart: '#fbcfe8',
@@ -172,7 +172,7 @@ export const zareqiaRoyalThemes = {
     textColor: '#0c1e2b',
     accentColor: '#0284c7',
     background: 'hsl(210, 45%, 96%)',
-    welcomeGradient: 'linear-gradient(to bottom, #5C5650 0%, #5C5650 18%, #a0a1a2 55%, #E5EDF5 100%)',
+    welcomeGradient: 'linear-gradient(to bottom, #1e293b 0%, #334155 45%, #94a3b8 78%, #E5EDF5 100%)',
     fontStyle: 'dancing',
     scratch: {
       gradStart: '#bae6fd',
@@ -205,7 +205,7 @@ export const zareqiaRoyalThemes = {
     textColor: '#152418',
     accentColor: '#059669',
     background: 'hsl(45, 38%, 96%)',
-    welcomeGradient: 'linear-gradient(to bottom, #DDCBB1 0%, #DDCBB1 18%, #E9DEC7 55%, #F7F2E6 100%)',
+    welcomeGradient: 'linear-gradient(to bottom, #143525 0%, #22543d 45%, #68d391 78%, #F2F7F4 100%)',
     fontStyle: 'dancing',
     scratch: {
       gradStart: '#a7f3d0',
@@ -238,7 +238,7 @@ export const zareqiaRoyalThemes = {
     textColor: '#290c12',
     accentColor: '#881337',
     background: 'hsl(40, 38%, 96%)',
-    welcomeGradient: 'linear-gradient(to bottom, #D4C0A7 0%, #D4C0A7 18%, #E7D9C4 56%, #F5EFE4 100%)',
+    welcomeGradient: 'linear-gradient(to bottom, #4c0519 0%, #881337 45%, #f43f5e 78%, #FDF6F7 100%)',
     fontStyle: 'cinzel',
     scratch: {
       gradStart: '#fda4af',
@@ -271,7 +271,7 @@ export const zareqiaRoyalThemes = {
     textColor: '#2b140a',
     accentColor: '#d97706',
     background: 'hsl(40, 36%, 95%)',
-    welcomeGradient: 'linear-gradient(to bottom, #63512B 0%, #63512B 18%, #B9A77D 56%, #F3E9D3 100%)',
+    welcomeGradient: 'linear-gradient(to bottom, #451a03 0%, #78350f 45%, #d97706 78%, #FCF9F2 100%)',
     fontStyle: 'cinzel',
     scratch: {
       gradStart: '#fde68a',
@@ -279,6 +279,72 @@ export const zareqiaRoyalThemes = {
       gradEnd: '#78350f',
       textColor: '#1a1208',
       accent: '#f59e0b',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+  },
+  'emerald-noir-royal': {
+    id: 'emerald-noir-royal',
+    name: 'Royal Emerald Noir',
+    subtitle: 'Deep Emerald & 24K Gold Luxury',
+    video: '/videos/emerald-noir-royal.mp4',
+    cssVars: {
+      '--primary': '155 70% 28%',
+      '--primary-foreground': '150 40% 98%',
+      '--background': '150 25% 96%',
+      '--foreground': '160 50% 12%',
+      '--card': '150 30% 94%',
+      '--card-foreground': '160 50% 12%',
+      '--muted-foreground': '160 20% 35%',
+      '--cream': '150 25% 92%',
+      '--gold': '45 75% 48%',
+      '--gold-light': '45 60% 75%',
+      '--border': '155 25% 80%',
+      '--font-calligraphy': "'Dancing Script', cursive",
+    },
+    textColor: '#062b1b',
+    accentColor: '#059669',
+    background: 'hsl(150, 25%, 96%)',
+    welcomeGradient: 'linear-gradient(to bottom, #022c22 0%, #064e3b 45%, #34d399 78%, #F2F8F5 100%)',
+    fontStyle: 'dancing',
+    scratch: {
+      gradStart: '#6ee7b7',
+      gradMid: '#059669',
+      gradEnd: '#064e3b',
+      textColor: '#ffffff',
+      accent: '#10b981',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/03/10/audio_c3574c82c3.mp3?filename=indian-classical-instrumental-110825.mp3',
+  },
+  'ivory-elegance-royal': {
+    id: 'ivory-elegance-royal',
+    name: 'Royal Ivory Velvet',
+    subtitle: 'Obsidian Midnight & Crimson Velvet Palace',
+    video: '/videos/ivory-elegance-royal.mp4',
+    cssVars: {
+      '--primary': '0 65% 42%',
+      '--primary-foreground': '40 50% 98%',
+      '--background': '40 30% 96%',
+      '--foreground': '20 15% 12%',
+      '--card': '40 35% 94%',
+      '--card-foreground': '20 15% 12%',
+      '--muted-foreground': '20 10% 38%',
+      '--cream': '40 30% 92%',
+      '--gold': '45 80% 48%',
+      '--gold-light': '45 65% 75%',
+      '--border': '40 20% 80%',
+      '--font-calligraphy': "'Dancing Script', cursive",
+    },
+    textColor: '#1c1917',
+    accentColor: '#b91c1c',
+    background: 'hsl(40, 30%, 96%)',
+    welcomeGradient: 'linear-gradient(to bottom, #1c1917 0%, #44403c 45%, #b91c1c 78%, #FAF6F0 100%)',
+    fontStyle: 'dancing',
+    scratch: {
+      gradStart: '#fef08a',
+      gradMid: '#ca8a04',
+      gradEnd: '#713f12',
+      textColor: '#1a1208',
+      accent: '#eab308',
     },
     musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
   },
@@ -293,6 +359,9 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
   const themeKey =
     zareqiaRoyalThemes[rawTemplateId] ? rawTemplateId :
     rawTemplateId === 'royal-elegance' ? 'royal-elegance-royal' :
+    rawTemplateId === 'emerald-noir' ? 'emerald-noir-royal' :
+    rawTemplateId === 'ivory-elegance' ? 'ivory-elegance-royal' :
+    rawTemplateId === 'rose-gold-blush' ? 'rose-gold-blush-royal' :
     rawTemplateId === 'modern-minimal-royal' ? 'royal-elegance-royal' :
     'rose-gold-blush-royal';
 
@@ -506,25 +575,25 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
             hasRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          {/* Top Heart Icon */}
+          {/* Top Diamond Icon */}
           <div className="mb-3">
-            <Heart size={26} className="mx-auto" style={{ color: theme.textColor }} fill="currentColor" />
+            <span className="text-xl" style={{ color: theme.accentColor }}>✦</span>
           </div>
 
           {/* We are getting married */}
           <p
-            className={`mb-3 whitespace-pre-line text-xl sm:text-2xl md:text-3xl px-4 max-w-xl mx-auto ${
+            className={`mb-3 whitespace-pre-line text-lg sm:text-2xl md:text-3xl px-4 max-w-xl mx-auto ${
               theme.fontStyle === 'cinzel' ? 'font-serif tracking-widest uppercase' : 'font-dancing'
             }`}
-            style={{ color: theme.textColor, textShadow: '0 2px 12px rgba(0,0,0,0.75)' }}
+            style={{ color: '#FAF5EE', textShadow: '0 2px 12px rgba(0,0,0,0.85)' }}
           >
-            {invitation.message || 'We are getting married'}
+            {invitation.message || "we're getting married"}
           </p>
 
           {/* Horizontal Lines with Center Heart */}
           <div className="my-3 flex items-center justify-center gap-3">
             <div className="h-px w-12 sm:w-16" style={{ backgroundColor: 'rgba(245,230,224,0.45)' }} />
-            <Heart size={10} style={{ color: theme.textColor }} fill="currentColor" />
+            <Heart size={10} style={{ color: '#FAF5EE' }} fill="currentColor" />
             <div className="h-px w-12 sm:w-16" style={{ backgroundColor: 'rgba(245,230,224,0.45)' }} />
           </div>
 
@@ -534,12 +603,12 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
               className={`leading-tight tracking-wide text-4xl sm:text-6xl md:text-8xl lg:text-9xl break-words px-2 ${
                 theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-wider' : 'font-dancing'
               }`}
-              style={{ color: theme.textColor, textShadow: '0 2px 14px rgba(0,0,0,0.75)' }}
+              style={{ color: '#FAF5EE', textShadow: '0 2px 14px rgba(0,0,0,0.9)' }}
             >
               {groomName}
             </h1>
             {groomParents && (
-              <p className="text-xs sm:text-sm font-sans italic opacity-85 text-amber-200 px-4 max-w-lg mx-auto">
+              <p className="text-xs sm:text-sm font-sans italic text-neutral-200 px-4 max-w-lg mx-auto drop-shadow-md">
                 {groomParents}
               </p>
             )}
@@ -548,7 +617,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           {/* Ampersand */}
           <p
             className="my-2 font-dancing text-2xl sm:text-3xl md:text-4xl"
-            style={{ color: 'rgba(245,230,224,0.85)', textShadow: '0 2px 10px rgba(0,0,0,0.6)' }}
+            style={{ color: 'rgba(245,230,224,0.9)', textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}
           >
             &
           </p>
@@ -559,12 +628,12 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
               className={`leading-tight tracking-wide text-4xl sm:text-6xl md:text-8xl lg:text-9xl break-words px-2 ${
                 theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-wider' : 'font-dancing'
               }`}
-              style={{ color: theme.textColor, textShadow: '0 2px 14px rgba(0,0,0,0.75)' }}
+              style={{ color: '#FAF5EE', textShadow: '0 2px 14px rgba(0,0,0,0.9)' }}
             >
               {brideName}
             </h1>
             {brideParents && (
-              <p className="text-xs sm:text-sm font-sans italic opacity-85 text-amber-200 px-4 max-w-lg mx-auto">
+              <p className="text-xs sm:text-sm font-sans italic text-neutral-200 px-4 max-w-lg mx-auto drop-shadow-md">
                 {brideParents}
               </p>
             )}
@@ -579,23 +648,24 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           >
             <span
               className="text-[10px] sm:text-xs uppercase tracking-widest font-mono"
-              style={{ color: 'rgba(245,230,224,0.8)', textShadow: '0 1px 6px rgba(0,0,0,0.7)' }}
+              style={{ color: 'rgba(245,230,224,0.9)', textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}
             >
               Scroll Down
             </span>
-            <ChevronDown size={18} style={{ color: theme.textColor }} />
+            <ChevronDown size={18} style={{ color: '#FAF5EE' }} />
           </div>
         )}
       </section>
 
       {/* =========================================================================
-          SECTION 2 TO 9: SEAMLESS ZAREQIA INSIDE BODY
+          SECTION 2 TO 15: SEAMLESS ZAREQIA INSIDE BODY (100% Match to Screenshots)
          ========================================================================= */}
       <ZareqiaBody
         data={invitation}
         invitationId={invitation._id || invitation.id || invitation.slug}
         theme={theme}
         scratchPalette={theme.scratch}
+        onRsvpSuccess={onRsvpSuccess}
       />
 
       {/* QR Code Sharing Modal */}
@@ -605,7 +675,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           onClick={() => setQrOpen(false)}
         >
           <div
-            className="relative w-full max-w-sm rounded-3xl p-6 border border-primary/30 shadow-2xl text-center space-y-4 bg-neutral-900"
+            className="relative w-full max-w-sm rounded-3xl p-6 border border-primary/30 shadow-2xl text-center space-y-4 bg-neutral-900 text-white"
             onClick={(e) => e.stopPropagation()}
           >
             <button
