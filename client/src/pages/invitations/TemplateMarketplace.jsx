@@ -6,9 +6,11 @@ import {
   Crown,
   Eye,
   ChevronDown,
-  Instagram,
-  Mail,
   Sparkles,
+  Heart,
+  DoorClosed,
+  Check,
+  ArrowRight,
 } from 'lucide-react';
 
 const invitationTypes = [
@@ -35,6 +37,8 @@ const royalTemplates = [
     video: '/videos/rose-gold-blush.mp4',
     tag: 'Cinematic 👑',
     tagColor: 'bg-amber-500 text-neutral-950 font-bold',
+    price: '₹1,999',
+    originalPrice: '₹3,999',
   },
   {
     id: 'royal-majesty',
@@ -44,6 +48,8 @@ const royalTemplates = [
     video: '/videos/royal-majesty.mp4',
     tag: 'Trending ✨',
     tagColor: 'bg-sky-500 text-white font-bold',
+    price: '₹1,999',
+    originalPrice: '₹3,999',
   },
   {
     id: 'royal-elegance-royal',
@@ -53,6 +59,8 @@ const royalTemplates = [
     video: '/videos/royal-elegance-royal.mp4',
     tag: 'Grand Royale 🏰',
     tagColor: 'bg-red-700 text-white font-bold',
+    price: '₹1,999',
+    originalPrice: '₹3,999',
   },
   {
     id: 'royal-prestige',
@@ -62,6 +70,8 @@ const royalTemplates = [
     video: '/videos/royal-prestige.mp4',
     tag: 'Luxe Romance ✦',
     tagColor: 'bg-pink-600 text-white font-bold',
+    price: '₹1,999',
+    originalPrice: '₹3,999',
   },
   {
     id: 'royal-heritage',
@@ -71,6 +81,8 @@ const royalTemplates = [
     video: '/videos/royal-heritage.mp4',
     tag: 'Dynasty 🏛️',
     tagColor: 'bg-blue-700 text-white font-bold',
+    price: '₹1,999',
+    originalPrice: '₹3,999',
   },
   {
     id: 'royal-grace',
@@ -80,6 +92,8 @@ const royalTemplates = [
     video: '/videos/royal-grace.mp4',
     tag: 'Botanical 🌿',
     tagColor: 'bg-emerald-600 text-white font-bold',
+    price: '₹1,999',
+    originalPrice: '₹3,999',
   },
   {
     id: 'royal-crest',
@@ -89,6 +103,8 @@ const royalTemplates = [
     video: '/videos/royal-crest.mp4',
     tag: 'Wax Seal 🍷',
     tagColor: 'bg-rose-800 text-white font-bold',
+    price: '₹1,999',
+    originalPrice: '₹3,999',
   },
   {
     id: 'royal-legacy',
@@ -98,6 +114,8 @@ const royalTemplates = [
     video: '/videos/royal-legacy.mp4',
     tag: 'Rajputana 👑',
     tagColor: 'bg-amber-700 text-white font-bold',
+    price: '₹1,999',
+    originalPrice: '₹3,999',
   },
 ];
 
@@ -106,121 +124,205 @@ const classicTemplates = [
     id: 'emerald-noir',
     name: 'Emerald Noir',
     category: 'wedding',
-    desc: 'Deep green and gold with ornate corner accents and luxury door opening.',
+    doorType: '3D Palace Swing Gates',
+    desc: 'Deep emerald green and gold with ornate corner filigree, 3D double door swing opening, and royal ceremony itinerary.',
     bgStyle: 'bg-gradient-to-br from-[#0c2f1d] via-[#13492e] to-[#0a2316]',
+    doorLeft: '#0a2316',
+    doorRight: '#13492e',
+    sealBg: '#0f3d28',
+    sealBorder: '#d4af37',
     textColor: 'text-amber-300',
-    tag: 'Limited Edition',
-    tagColor: 'bg-amber-500 text-neutral-950 font-bold',
+    tag: 'Limited Edition ✦',
+    tagColor: 'bg-emerald-600 text-white font-bold',
+    price: '₹1,199',
+    originalPrice: '₹2,499',
   },
   {
     id: 'ivory-elegance',
     name: 'Crimson Royale',
     category: 'wedding',
-    desc: 'Dark charcoal base with gold and deep red accents, luxury card reveal.',
+    doorType: 'Sliding Architectural Doors',
+    desc: 'Deep obsidian and ruby crimson with gold lattice patterns, sliding double doors, and classical orchestra symphony.',
     bgStyle: 'bg-gradient-to-br from-[#1c1415] via-[#3d181b] to-[#170e10]',
+    doorLeft: '#170e10',
+    doorRight: '#3d181b',
+    sealBg: '#5c141a',
+    sealBorder: '#f43f5e',
     textColor: 'text-amber-400',
-    tag: 'Most Liked',
-    tagColor: 'bg-rose-500 text-white font-bold',
+    tag: 'Most Popular ✨',
+    tagColor: 'bg-rose-600 text-white font-bold',
+    price: '₹1,199',
+    originalPrice: '₹2,499',
   },
   {
     id: 'rose-gold-blush',
     name: 'Rose Gold Blush',
     category: 'engagement',
-    desc: 'Blush pink and rose gold with ornate floral door animation.',
+    doorType: '3D Floral Trifold Gates',
+    desc: 'Soft champagne blush & rose gold with romantic Dancing Script typography, trifold opening, and delicate acoustic strings.',
     bgStyle: 'bg-gradient-to-br from-[#fde7ed] via-[#f8c9d4] to-[#fde7ed]',
-    textColor: 'text-rose-700',
-    tag: 'Romantic',
+    doorLeft: '#fde7ed',
+    doorRight: '#f8c9d4',
+    sealBg: '#ec4899',
+    sealBorder: '#ffffff',
+    textColor: 'text-rose-800',
+    tag: 'Romantic 💕',
     tagColor: 'bg-pink-500 text-white font-bold',
+    price: '₹1,199',
+    originalPrice: '₹2,499',
   },
   {
     id: 'modern-minimal',
     name: 'Modern Minimal',
     category: 'wedding',
-    desc: 'Deep navy and gold with geometric patterns and book-style opening.',
+    doorType: 'Architectural Sliding Panels',
+    desc: 'Midnight slate & platinum gold with architectural sliding panels, geometric diamond emblem, and minimalist grand piano soundtrack.',
     bgStyle: 'bg-gradient-to-br from-[#111928] via-[#1f2a3f] to-[#0c121e]',
+    doorLeft: '#0c121e',
+    doorRight: '#1f2a3f',
+    sealBg: '#d97706',
+    sealBorder: '#fbbf24',
     textColor: 'text-amber-400',
-    tag: 'Minimal Luxe',
-    tagColor: 'bg-amber-600 text-white font-bold',
+    tag: 'Contemporary 💎',
+    tagColor: 'bg-slate-700 text-white font-bold',
+    price: '₹1,199',
+    originalPrice: '₹2,499',
   },
   {
     id: 'royal-elegance',
     name: 'Majestic Love',
     category: 'wedding',
-    desc: 'Classic ivory and gold with palace motifs and velvet curtain reveal.',
+    doorType: 'Velvet Curtain Skew Pull',
+    desc: 'Deep royal velvet drape pull with crimson tones, gold tassels, classical philharmonic sitar symphony, and multi-event itinerary.',
     bgStyle: 'bg-gradient-to-br from-[#fdf6e9] via-[#faebd1] to-[#fdf6e9]',
-    textColor: 'text-amber-800',
-    tag: 'Palace Classic',
+    doorLeft: '#7a1212',
+    doorRight: '#9a1a1a',
+    sealBg: '#450a0a',
+    sealBorder: '#d4af37',
+    textColor: 'text-amber-900',
+    tag: 'Palace Classic 🏰',
     tagColor: 'bg-amber-600 text-white font-bold',
+    price: '₹1,199',
+    originalPrice: '₹2,499',
   },
   {
     id: 'little-sunshine',
     name: 'Prince & Princess Birthday',
     category: 'birthday',
-    desc: 'Fairy castle gates opening with confetti, crown seal, and joyful music.',
+    doorType: 'Fairy Castle Gates & Confetti',
+    desc: 'Playful fairy castle gates opening with confetti, crown seal, and joyful celebration fanfare.',
     bgStyle: 'bg-gradient-to-br from-[#1e1b4b] via-[#312e81] to-[#1e1b4b]',
+    doorLeft: '#1e1b4b',
+    doorRight: '#312e81',
+    sealBg: '#ca8a04',
+    sealBorder: '#facc15',
     textColor: 'text-amber-300',
     tag: 'Birthday 🎂',
     tagColor: 'bg-amber-400 text-neutral-950 font-bold',
+    price: '₹1,199',
+    originalPrice: '₹2,499',
   },
   {
     id: 'sweet-nesting-baby',
     name: 'Sweet Cradle Baby Shower',
     category: 'baby-shower',
-    desc: 'Golden-lit cloud wings parting gently with lavender tones and lullaby melody.',
+    doorType: 'Cloud Wings Parting & Lullaby',
+    desc: 'Golden-lit fluffy cloud wings parting gently with lavender tones, baby cradle medallion, and sweet lullaby melody.',
     bgStyle: 'bg-gradient-to-br from-[#2e1065] via-[#3b0764] to-[#2e1065]',
+    doorLeft: '#2e1065',
+    doorRight: '#3b0764',
+    sealBg: '#a855f7',
+    sealBorder: '#e9d5ff',
     textColor: 'text-purple-200',
     tag: 'Baby Shower 👶',
     tagColor: 'bg-purple-600 text-white font-bold',
+    price: '₹1,199',
+    originalPrice: '₹2,499',
   },
   {
     id: 'silver-anniversary',
     name: 'Silver Jubilee Milestone',
     category: 'anniversary',
-    desc: 'Faceted crystal glass gates opening with laurel wreath crest and toast chime.',
+    doorType: 'Crystal Glass Gates & Chime',
+    desc: 'Faceted crystal glass gates opening with shimmering laurel wreath crest and champagne toast chime.',
     bgStyle: 'bg-gradient-to-br from-[#18181b] via-[#27272a] to-[#18181b]',
+    doorLeft: '#18181b',
+    doorRight: '#27272a',
+    sealBg: '#71717a',
+    sealBorder: '#f4f4f5',
     textColor: 'text-slate-200',
     tag: 'Milestone 🥂',
     tagColor: 'bg-zinc-600 text-white font-bold',
+    price: '₹1,199',
+    originalPrice: '₹2,499',
   },
   {
     id: 'terracotta-boho',
     name: 'Bohemian Griha Pravesh',
     category: 'housewarming',
-    desc: 'Artisanal textured linen flaps with terracotta stamp and warm acoustic strings.',
+    doorType: 'Textured Linen Tri-Fold Flaps',
+    desc: 'Artisanal textured linen flaps with terracotta stamp, warm acoustic strings, and new home blessing schedule.',
     bgStyle: 'bg-gradient-to-br from-[#451a03] via-[#78350f] to-[#451a03]',
+    doorLeft: '#451a03',
+    doorRight: '#78350f',
+    sealBg: '#c2410c',
+    sealBorder: '#fed7aa',
     textColor: 'text-amber-200',
     tag: 'Housewarming 🏡',
     tagColor: 'bg-amber-700 text-white font-bold',
+    price: '₹1,199',
+    originalPrice: '₹2,499',
   },
   {
     id: 'mehendi-magic',
     name: 'Marigold Henna Utsav',
     category: 'party',
-    desc: 'Rotating henna mandala blooming outward with marigold yellow and folk beats.',
+    doorType: 'Rotating Henna Mandala Bloom',
+    desc: 'Rotating henna mandala blooming outward with marigold yellow, dholak beats, and joyous folk laughter.',
     bgStyle: 'bg-gradient-to-br from-[#451a03] via-[#713f12] to-[#451a03]',
+    doorLeft: '#451a03',
+    doorRight: '#713f12',
+    sealBg: '#ca8a04',
+    sealBorder: '#fef08a',
     textColor: 'text-yellow-300',
     tag: 'Henna 🌼',
     tagColor: 'bg-yellow-600 text-white font-bold',
+    price: '₹1,199',
+    originalPrice: '₹2,499',
   },
   {
     id: 'celestial-night',
     name: 'Celestial Galaxy Night',
     category: 'party',
+    doorType: '3D Constellation Sphere Split',
     desc: 'Constellation sphere splitting into glowing stardust nebulae and cosmic crystal chime.',
     bgStyle: 'bg-gradient-to-br from-[#030712] via-[#0f172a] to-[#030712]',
+    doorLeft: '#030712',
+    doorRight: '#0f172a',
+    sealBg: '#0891b2',
+    sealBorder: '#a5f3fc',
     textColor: 'text-cyan-300',
     tag: 'Party ✨',
     tagColor: 'bg-cyan-600 text-white font-bold',
+    price: '₹1,199',
+    originalPrice: '₹2,499',
   },
   {
     id: 'coastal-breeze',
     name: 'Goa Coastal Beachfront',
     category: 'wedding',
-    desc: 'Louvered beach pavilion shutters with ocean breeze view and tropical harp music.',
+    doorType: 'Louvered Beach Pavilion Shutters',
+    desc: 'Louvered beach pavilion shutters with ocean breeze view, tropical harp music, and sunset pheras schedule.',
     bgStyle: 'bg-gradient-to-br from-[#083344] via-[#164e63] to-[#083344]',
+    doorLeft: '#083344',
+    doorRight: '#164e63',
+    sealBg: '#0e7490',
+    sealBorder: '#cffafe',
     textColor: 'text-cyan-200',
     tag: 'Beach Wedding 🏖️',
     tagColor: 'bg-cyan-700 text-white font-bold',
+    price: '₹1,199',
+    originalPrice: '₹2,499',
   },
 ];
 
@@ -233,7 +335,7 @@ const TemplateMarketplace = () => {
     searchParams.get('collection') === 'classic' ? 'classic' : 'royal'
   );
   const [selectedType, setSelectedType] = useState(
-    searchParams.get('type') || 'wedding'
+    searchParams.get('type') || 'all'
   );
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -280,7 +382,7 @@ const TemplateMarketplace = () => {
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="w-[280px] md:w-[340px] h-11 px-4 rounded-xl border border-neutral-300 bg-white/95 text-sm font-medium text-neutral-800 shadow-sm flex items-center justify-between hover:border-amber-500 transition-all cursor-pointer"
             >
-              <span>{invitationTypes.find((t) => t.id === selectedType)?.label || 'Wedding Invitation'}</span>
+              <span>{invitationTypes.find((t) => t.id === selectedType)?.label || 'All Categories'}</span>
               <ChevronDown className="w-4 h-4 text-neutral-500" />
             </button>
 
@@ -331,7 +433,7 @@ const TemplateMarketplace = () => {
         </div>
 
         {/* ========================================================================= */}
-        {/* 1. ROYAL TEMPLATES TAB */}
+        {/* 1. ROYAL TEMPLATES TAB (4K Cinematic Video Gate Suites) */}
         {/* ========================================================================= */}
         {activeTab === 'royal' && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
@@ -375,9 +477,12 @@ const TemplateMarketplace = () => {
                 {/* Card Content & CTA */}
                 <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
                   <div className="space-y-1">
-                    <h3 className="font-serif text-base font-bold text-amber-200 tracking-wide">
-                      {template.name}
-                    </h3>
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-serif text-base font-bold text-amber-200 tracking-wide">
+                        {template.name}
+                      </h3>
+                      <span className="text-xs font-mono font-bold text-amber-400">{template.price}</span>
+                    </div>
                     <p className="text-[11px] text-amber-100/70 leading-relaxed line-clamp-2">
                       {template.desc}
                     </p>
@@ -397,7 +502,7 @@ const TemplateMarketplace = () => {
         )}
 
         {/* ========================================================================= */}
-        {/* 2. CLASSICS TEMPLATES TAB */}
+        {/* 2. CLASSICS TEMPLATES TAB (Interactive 3D Gate Suites) */}
         {/* ========================================================================= */}
         {activeTab === 'classic' && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
@@ -406,7 +511,7 @@ const TemplateMarketplace = () => {
                 key={template.id}
                 className="group rounded-2xl overflow-hidden border border-[#E8DFD1] bg-white shadow-sm hover:shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col justify-between"
               >
-                {/* Visual Color Block Header */}
+                {/* Visual 3D Door Card Header */}
                 <div className={'relative h-44 sm:h-48 ' + template.bgStyle + ' p-4 flex flex-col justify-between items-center text-center overflow-hidden'}>
                   {template.tag && (
                     <span className={'absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded-md text-[9px] uppercase tracking-wider ' + template.tagColor}>
@@ -414,10 +519,24 @@ const TemplateMarketplace = () => {
                     </span>
                   )}
 
-                  <div className="my-auto px-2">
+                  {/* 3D Door Preview Simulation */}
+                  <div className="my-auto px-2 flex flex-col items-center space-y-1.5 z-10">
+                    <div
+                      className="w-12 h-12 rounded-full border-2 flex items-center justify-center shadow-lg transition-transform group-hover:scale-110"
+                      style={{
+                        backgroundColor: template.sealBg,
+                        borderColor: template.sealBorder,
+                      }}
+                    >
+                      <DoorClosed className="w-5 h-5 text-white" />
+                    </div>
+
                     <h4 className={'font-serif text-lg font-bold tracking-wide ' + template.textColor + ' drop-shadow-sm'}>
                       {template.name}
                     </h4>
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-white/70">
+                      {template.doorType}
+                    </span>
                   </div>
 
                   {/* View Demo Button */}
@@ -429,7 +548,7 @@ const TemplateMarketplace = () => {
                   >
                     <span className="inline-flex items-center rounded-full bg-black/60 hover:bg-black/85 backdrop-blur-md px-3.5 py-1 text-[11px] font-medium text-white border border-white/30 shadow-md transition-transform active:scale-95">
                       <Eye className="w-3.5 h-3.5 mr-1 text-amber-300" />
-                      View Demo
+                      View 3D Demo
                     </span>
                   </Link>
                 </div>
@@ -437,9 +556,12 @@ const TemplateMarketplace = () => {
                 {/* Card Content & CTA */}
                 <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
                   <div className="space-y-1">
-                    <h3 className="font-serif text-sm font-bold text-neutral-900">
-                      {template.name}
-                    </h3>
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-serif text-sm font-bold text-neutral-900">
+                        {template.name}
+                      </h3>
+                      <span className="text-xs font-mono font-bold text-amber-700">{template.price}</span>
+                    </div>
                     <p className="text-[11px] text-neutral-600 leading-relaxed line-clamp-2">
                       {template.desc}
                     </p>
