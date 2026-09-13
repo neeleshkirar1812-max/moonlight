@@ -227,6 +227,38 @@ export const templateDemoDataMap = {
       'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80',
     ],
   },
+  'emerald-noir-royal': {
+    title: 'Royal Mughal Nikah & Walima of Kabir & Noor',
+    template_id: 'emerald-noir-royal',
+    bride_name: 'Noor-e-Zehra',
+    groom_name: 'Kabir Mirza',
+    wedding_date: '2026-12-25',
+    wedding_time: '07:30 PM',
+    venue_name: 'The Oberoi Rajvilas',
+    venue_address: 'Babaji Ka Thikana, Goner Road, Jaipur, Rajasthan',
+    couple_story: 'From childhood promises under moonlit jasmine arches to uniting two historic lineages in regal splendour.',
+    events: [
+      { name: 'Shahi Dastarkhwan & Qawwali', date: '2026-12-24', time: '08:00 PM', venue: 'Charbagh Courtyard' },
+      { name: 'Qubool Hai - Royal Nikah', date: '2026-12-25', time: '07:30 PM', venue: 'Mughal Pavilion' },
+      { name: 'Grand Walima Reception', date: '2026-12-26', time: '08:30 PM', venue: 'The Grand Ballroom' }
+    ]
+  },
+  'ivory-elegance-royal': {
+    title: 'The Grand Crimson Royal Wedding of Siddharth & Radhika',
+    template_id: 'ivory-elegance-royal',
+    bride_name: 'Radhika Singhania',
+    groom_name: 'Siddharth Mehra',
+    wedding_date: '2026-11-28',
+    wedding_time: '06:00 PM',
+    venue_name: 'Rambagh Palace',
+    venue_address: 'Bhawani Singh Road, Jaipur, Rajasthan',
+    couple_story: 'A timeless union forged in pure gold, framed by velvet crimson drapes and grand orchestral romance.',
+    events: [
+      { name: 'Sangeet Symphony & Velvet Gala', date: '2026-11-27', time: '07:30 PM', venue: 'Palace Gardens' },
+      { name: 'Shubh Vivah & Royal Pheras', date: '2026-11-28', time: '06:00 PM', venue: 'Kesar Bagh Mandap' },
+      { name: 'Imperial Banquet Reception', date: '2026-11-29', time: '08:00 PM', venue: 'Maharani Ballroom' }
+    ]
+  },
 
   // ==========================================
   // ✨ 12 CLASSIC SUITES
@@ -550,21 +582,26 @@ export const templateDemoDataMap = {
 };
 
 export const allDemosList = [
-  // 👑 Royal
-  { id: 'rose-gold-blush-royal', name: '👑 Royal Imperial', tier: 'royal' },
-  { id: 'royal-majesty', name: '👑 Royal Majesty', tier: 'royal' },
-  { id: 'royal-elegance-royal', name: '👑 Royal Elegance', tier: 'royal' },
-  { id: 'royal-prestige', name: '👑 Royal Prestige', tier: 'royal' },
-  { id: 'royal-heritage', name: '👑 Royal Heritage', tier: 'royal' },
-  { id: 'royal-grace', name: '👑 Royal Grace', tier: 'royal' },
-  { id: 'royal-crest', name: '👑 Royal Crest', tier: 'royal' },
-  { id: 'royal-legacy', name: '👑 Royal Legacy', tier: 'royal' },
-  // ✨ Classic
-  { id: 'emerald-noir', name: '✨ Emerald Noir', tier: 'classic' },
-  { id: 'ivory-elegance', name: '✨ Crimson Royale', tier: 'classic' },
-  { id: 'rose-gold-blush', name: '✨ Rose Gold Blush', tier: 'classic' },
-  { id: 'modern-minimal', name: '✨ Modern Minimal', tier: 'classic' },
-  { id: 'royal-elegance', name: '✨ Majestic Love', tier: 'classic' },
+  // 👑 10 Royal Video Gate Suites
+  { id: 'rose-gold-blush-royal', name: '👑 1. Royal Imperial', tier: 'royal' },
+  { id: 'royal-majesty', name: '👑 2. Royal Majesty', tier: 'royal' },
+  { id: 'royal-elegance-royal', name: '👑 3. Royal Elegance', tier: 'royal' },
+  { id: 'royal-prestige', name: '👑 4. Royal Prestige', tier: 'royal' },
+  { id: 'royal-heritage', name: '👑 5. Royal Heritage', tier: 'royal' },
+  { id: 'royal-grace', name: '👑 6. Royal Grace', tier: 'royal' },
+  { id: 'royal-crest', name: '👑 7. Royal Crest', tier: 'royal' },
+  { id: 'royal-legacy', name: '👑 8. Royal Legacy', tier: 'royal' },
+  { id: 'emerald-noir-royal', name: '👑 9. Emerald Noir Royal', tier: 'royal' },
+  { id: 'ivory-elegance-royal', name: '👑 10. Ivory & Crimson Royal', tier: 'royal' },
+
+  // ✨ 5 Classic 3D Gate Suites
+  { id: 'emerald-noir', name: '✨ 1. Emerald Mughal Jaali', tier: 'classic' },
+  { id: 'ivory-elegance', name: '✨ 2. Crimson Royale Split', tier: 'classic' },
+  { id: 'rose-gold-blush', name: '✨ 3. Rose Gold Floral Arch', tier: 'classic' },
+  { id: 'modern-minimal', name: '✨ 4. Modern Minimal Book', tier: 'classic' },
+  { id: 'royal-elegance', name: '✨ 5. Majestic Velvet Drape', tier: 'classic' },
+
+  // Multi-Category Event Suites
   { id: 'little-sunshine', name: '🎂 Birthday Prince', tier: 'classic' },
   { id: 'sweet-nesting-baby', name: '👶 Baby Shower Cradle', tier: 'classic' },
   { id: 'silver-anniversary', name: '🥂 Silver Jubilee', tier: 'classic' },

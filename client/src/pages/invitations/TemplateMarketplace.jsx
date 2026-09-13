@@ -117,6 +117,28 @@ const royalTemplates = [
     price: '₹1,999',
     originalPrice: '₹3,999',
   },
+  {
+    id: 'emerald-noir-royal',
+    name: 'Emerald Noir Royal',
+    category: 'wedding',
+    desc: '4K emerald green palace video gates with ornate gold inlay and authentic royal shehnai symphony.',
+    video: '/videos/emerald-noir-royal.mp4',
+    tag: 'Mughal Royal 👑',
+    tagColor: 'bg-emerald-800 text-white font-bold',
+    price: '₹1,999',
+    originalPrice: '₹3,999',
+  },
+  {
+    id: 'ivory-elegance-royal',
+    name: 'Ivory & Crimson Royal',
+    category: 'wedding',
+    desc: '4K dark obsidian and velvet crimson video arch reveal with grand orchestral romance and gold embossing.',
+    video: '/videos/ivory-elegance-royal.mp4',
+    tag: 'Velvet Crimson 👑',
+    tagColor: 'bg-rose-900 text-white font-bold',
+    price: '₹1,999',
+    originalPrice: '₹3,999',
+  },
 ];
 
 const classicTemplates = [

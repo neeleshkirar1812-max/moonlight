@@ -230,7 +230,62 @@ export const invitationTemplates = [
     ],
   },
 
-  // =========================================================================
+    {
+    id: 'emerald-noir-royal',
+    slug: 'emerald-noir-royal',
+    name: 'Emerald Noir Royal',
+    category: 'Wedding Invitation',
+    tier: 'royal',
+    price: 799,
+    originalPrice: 1599,
+    badge: 'Mughal Royal 👑',
+    badgeColor: 'bg-emerald-800 text-white',
+    cardBg: 'bg-gradient-to-br from-[#062419] via-[#0b4d37] to-[#03140e]',
+    cardTextColor: 'text-emerald-200',
+    theme: 'emerald-noir-royal',
+    openingStyle: 'video-cinematic',
+    videoGate: '/videos/emerald-noir-royal.mp4',
+    accentColor: '#10B981',
+    coverImage: 'https://images.unsplash.com/photo-1544078741-7ea0e0cb5b81?auto=format&fit=crop&w=1200&q=80',
+    description: 'Emerald green palace grandeur with 4K video gates, intricate Mughal inlay, and authentic royal shehnai symphony.',
+    features: [
+      '4K Cinematic Emerald Mughal Palace Video Gate Reveal',
+      'Emerald & 24K Gold Inlay Monogram Frame',
+      'Authentic Royal Shehnai & Sitar Harmony',
+      'Multi-Day Royal Nikah & Walima Itinerary',
+      'Interactive Velvet Emerald Scratch Card',
+      '1-Tap Google Maps Navigation & RSVP Sync',
+    ],
+  },
+  {
+    id: 'ivory-elegance-royal',
+    slug: 'ivory-elegance-royal',
+    name: 'Ivory Elegance & Crimson Royale',
+    category: 'Wedding Invitation',
+    tier: 'royal',
+    price: 799,
+    originalPrice: 1599,
+    badge: 'Velvet Crimson 👑',
+    badgeColor: 'bg-rose-900 text-white',
+    cardBg: 'bg-gradient-to-br from-[#2a050d] via-[#630b1e] to-[#150206]',
+    cardTextColor: 'text-rose-200',
+    theme: 'ivory-elegance-royal',
+    openingStyle: 'video-cinematic',
+    videoGate: '/videos/ivory-elegance-royal.mp4',
+    accentColor: '#E11D48',
+    coverImage: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80',
+    description: 'Dark obsidian and velvet crimson video arch reveal with grand symphony audio and regal gold embossing.',
+    features: [
+      '4K Cinematic Velvet Crimson Arch Video Gate Reveal',
+      'Gilded Crimson & Ivory Calligraphy Monogram',
+      'Philharmonic Romance & Sitar Symphony',
+      'Destination Palace Wedding Timeline',
+      'Interactive Ruby Foil Scratch Card',
+      'Live Guest Wishes & RSVP Confirmation',
+    ],
+  },
+
+// =========================================================================
   // ✨ 12 CLASSIC TIER TEMPLATES (Interactive 3D Gate Openings & Classic Suites)
   // =========================================================================
   {
