@@ -3,13 +3,24 @@ import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 
 // Layouts
-import PublicLayout from './layouts/PublicLayout';
 import InvitationsLayout from './layouts/InvitationsLayout';
+import PublicLayout from './layouts/PublicLayout';
 import CustomerLayout from './layouts/CustomerLayout';
 import EmployeeLayout from './layouts/EmployeeLayout';
 import AdminLayout from './layouts/AdminLayout';
 
-// Public Pages
+// Digital Invitation Suite Pages (Zareqia 1:1)
+import InvitationsLanding from './pages/invitations/InvitationsLanding';
+import TemplateMarketplace from './pages/invitations/TemplateMarketplace';
+import TemplateDetail from './pages/invitations/TemplateDetail';
+import InvitationDashboard from './pages/invitations/InvitationDashboard';
+import InvitationEditor from './pages/invitations/InvitationEditor';
+import InvitationLogin from './pages/invitations/InvitationLogin';
+import InvitationSignup from './pages/invitations/InvitationSignup';
+import InvitationAdmin from './pages/invitations/InvitationAdmin';
+import PublicInvitation from './pages/public/PublicInvitation';
+
+// Public Studio Pages
 import Home from './pages/public/Home';
 import Portfolio from './pages/public/Portfolio';
 import PortfolioCategoryPage from './pages/public/PortfolioCategoryPage';
@@ -28,17 +39,6 @@ import EnquiryPlanner from './pages/enquiry/EnquiryPlanner';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import ForgotPassword from './pages/auth/ForgotPassword';
-
-// Digital Invitation Suite Pages (Moonlight Production)
-import InvitationsLanding from './pages/invitations/InvitationsLanding';
-import TemplateMarketplace from './pages/invitations/TemplateMarketplace';
-import TemplateDetail from './pages/invitations/TemplateDetail';
-import InvitationDashboard from './pages/invitations/InvitationDashboard';
-import InvitationEditor from './pages/invitations/InvitationEditor';
-import InvitationLogin from './pages/invitations/InvitationLogin';
-import InvitationSignup from './pages/invitations/InvitationSignup';
-import InvitationAdmin from './pages/invitations/InvitationAdmin';
-import PublicInvitation from './pages/public/PublicInvitation';
 
 // Customer Portal Pages
 import CustomerDashboard from './pages/customer/CustomerDashboard';
@@ -98,11 +98,10 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   }
 
   if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/invitations/login" state={{ from: location }} replace />;
   }
 
   if (allowedRoles.length > 0 && !allowedRoles.includes(user.role)) {
-    // If user doesn't have role, redirect to their permitted home
     if (user.role === 'customer') return <Navigate to="/customer/dashboard" replace />;
     if (user.role === 'employee') return <Navigate to="/employee/dashboard" replace />;
     if (user.role === 'admin') return <Navigate to="/admin/dashboard" replace />;
@@ -115,9 +114,32 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
 const App = () => {
   return (
     <Routes>
-      {/* 1. Public Luxury Brand Website */}
+      {/* 1. PRIMARY ROOT: ZAREQIA DIGITAL INVITATIONS PLATFORM */}
+      <Route element={<InvitationsLayout />}>
+        <Route path="/" element={<InvitationsLanding />} />
+        <Route path="/templates" element={<TemplateMarketplace />} />
+        <Route path="/templates/:slug" element={<TemplateDetail />} />
+        <Route path="/dashboard" element={<InvitationDashboard />} />
+        <Route path="/create/:id" element={<InvitationEditor />} />
+        <Route path="/edit/:id" element={<InvitationEditor />} />
+
+        {/* Nested /invitations/* routes mirror the root for compatibility */}
+        <Route path="/invitations" element={<InvitationsLanding />} />
+        <Route path="/invitations/templates" element={<TemplateMarketplace />} />
+        <Route path="/invitations/templates/:slug" element={<TemplateDetail />} />
+        <Route path="/invitations/dashboard" element={<InvitationDashboard />} />
+        <Route path="/invitations/create/:id" element={<InvitationEditor />} />
+        <Route path="/invitations/edit/:id" element={<InvitationEditor />} />
+        <Route path="/invitations/login" element={<InvitationLogin />} />
+        <Route path="/invitations/signup" element={<InvitationSignup />} />
+        <Route path="/invitations/admin" element={<InvitationAdmin />} />
+        <Route path="/invitations/admin/:tab" element={<InvitationAdmin />} />
+        <Route path="/invitations/admin/manual" element={<InvitationAdmin initialTab="manual" />} />
+      </Route>
+
+      {/* 2. Public Studio Legacy Website */}
       <Route element={<PublicLayout />}>
-        <Route path="/" element={<Home />} />
+        <Route path="/studio" element={<Home />} />
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/portfolio/:category" element={<PortfolioCategoryPage />} />
         <Route path="/services" element={<Services />} />
@@ -130,26 +152,9 @@ const App = () => {
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/enquiry" element={<EnquiryPlanner />} />
-
-        {/* Auth Pages under Public Layout */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-      </Route>
-
-      {/* 2. Standalone Dedicated Moonlight Digital Invitations Universe */}
-      <Route path="/invitations" element={<InvitationsLayout />}>
-        <Route index element={<InvitationsLanding />} />
-        <Route path="templates" element={<TemplateMarketplace />} />
-        <Route path="templates/:slug" element={<TemplateDetail />} />
-        <Route path="dashboard" element={<InvitationDashboard />} />
-        <Route path="create/:id" element={<InvitationEditor />} />
-        <Route path="edit/:id" element={<InvitationEditor />} />
-        <Route path="login" element={<InvitationLogin />} />
-        <Route path="signup" element={<InvitationSignup />} />
-        <Route path="admin" element={<InvitationAdmin />} />
-        <Route path="admin/:tab" element={<InvitationAdmin />} />
-        <Route path="admin/manual" element={<InvitationAdmin initialTab="manual" />} />
       </Route>
 
       {/* 3. Customer Portal */}
@@ -174,7 +179,7 @@ const App = () => {
         <Route path="profile" element={<CustomerProfile />} />
       </Route>
 
-      {/* 3. Employee Portal */}
+      {/* 4. Employee Portal */}
       <Route
         path="/employee"
         element={
@@ -191,7 +196,7 @@ const App = () => {
         <Route path="profile" element={<EmployeeProfile />} />
       </Route>
 
-      {/* 4. Admin Portal */}
+      {/* 5. Admin Portal */}
       <Route
         path="/admin"
         element={
@@ -220,7 +225,7 @@ const App = () => {
         <Route path="settings" element={<AdminSettings />} />
       </Route>
 
-      {/* 5. Super Admin Portal */}
+      {/* 6. Super Admin Portal */}
       <Route
         path="/super-admin"
         element={
@@ -237,7 +242,7 @@ const App = () => {
         <Route path="config" element={<SuperAdminConfig />} />
       </Route>
 
-      {/* 6. Guest Digital Invitations (Immersive Mobile Card View on Same Domain) */}
+      {/* 7. Guest Digital Invitations */}
       <Route path="/i" element={<PublicInvitation />} />
       <Route path="/i/" element={<PublicInvitation />} />
       <Route path="/i/:slug" element={<PublicInvitation />} />
