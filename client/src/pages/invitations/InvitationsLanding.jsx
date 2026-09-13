@@ -32,47 +32,56 @@ import {
 const LandingCardItem = ({ template, isActiveDemo, onOpenDemo, onCloseDemo }) => {
   const [demoKey, setDemoKey] = useState(0);
 
+  const getDemoNames = () => {
+    if (template.category?.includes('Birthday')) return 'Ayaan Singhania (1st B’day)';
+    if (template.category?.includes('Baby')) return 'Aarav & Kiara (Baby Shower)';
+    if (template.category?.includes('Housewarming') || template.category?.includes('Griha')) return 'The Singhania Family';
+    if (template.category?.includes('Anniversary')) return 'Rajesh & Sunita (25th Jubilee)';
+    if (template.id === 'modern-minimal') return 'Ananya & Rohan';
+    return 'Aarav & Kiara';
+  };
+
   const demoInvitationData = {
     template_id: template.id,
     templateId: template.id,
     opening_screen_enabled: true,
-    opening_style: template.features?.gateStyle || 'royal-curtain',
+    opening_style: template.openingStyle || template.opening_style || 'rajwada-heavy-doors',
     opening_title: 'The Royal Celebration',
-    opening_seal_text: template.tier === 'royal' ? 'ROYAL SEAL' : 'VIP',
-    bride_name: template.id === 'modern-minimal' ? 'Ananya Sharma' : 'Aarav Singhania',
-    groom_name: template.id === 'modern-minimal' ? 'Rohan Mehra' : 'Kiara Advani',
-    names: template.id === 'modern-minimal' ? 'Ananya & Rohan' : 'Aarav & Kiara',
+    opening_seal_text: template.tier === 'royal' ? 'ROYAL SEAL' : 'VIP SEAL',
+    names: getDemoNames(),
+    bride_name: getDemoNames().split('&')[0]?.trim() || 'Aarav Singhania',
+    groom_name: getDemoNames().split('&')[1]?.trim() || 'Kiara Advani',
     title: `${template.name} Demo`,
     eventType: template.category,
     date: '2026-11-20',
     time: '19:00',
-    venue: template.id === 'modern-minimal' ? 'The Leela Palace, Udaipur' : 'Jehan Numa Palace, Bhopal',
-    venueAddress: template.id === 'modern-minimal' ? 'Lake Pichola, Udaipur, Rajasthan' : '152 Shamla Hills, Bhopal',
-    story_text: 'Two hearts, one lifelong promise under royal starry skies.',
+    venue: template.tier === 'royal' ? 'The Leela Palace, Udaipur' : 'Grand Heritage Pavilion',
+    venueAddress: 'Lake Pichola, Udaipur, Rajasthan',
+    story_text: 'Two hearts, one timeless celebration under starry skies.',
     scratch_reveal_text: 'YOU’RE INVITED ♡',
     scratch_enabled: true,
     rsvp_enabled: true,
     music_enabled: true,
     events: [
       {
-        title: 'Mehendi & Sangeet Gala',
+        title: 'Welcome Gala & Celebrations',
         date: '2026-11-19',
         time: '06:00 PM',
-        venue: 'The Leela Palace Courtyard',
+        venue: 'The Palace Courtyard',
         address: 'Udaipur, Rajasthan',
       },
       {
-        title: 'The Royal Wedding & Pheras',
+        title: 'Grand Auspicious Ceremony',
         date: '2026-11-20',
         time: '07:30 PM',
-        venue: 'Grand Lawn, The Leela Palace',
+        venue: 'The Royal Ballroom',
         address: 'Udaipur, Rajasthan',
       },
       {
-        title: 'Royal Grand Reception',
+        title: 'Dinner Banquet & Reception',
         date: '2026-11-21',
         time: '08:00 PM',
-        venue: 'The Royal Ballroom',
+        venue: 'The Grand Lawn',
         address: 'Udaipur, Rajasthan',
       },
     ],
