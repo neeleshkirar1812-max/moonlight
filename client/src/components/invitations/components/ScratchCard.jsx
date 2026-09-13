@@ -21,29 +21,70 @@ const ScratchCard = ({ invitation, theme }) => {
     canvas.width = width;
     canvas.height = height;
 
-    // Draw shimmering gold foil background
+    // Determine foil gradient based on theme style
+    const style = theme?.style || 'royal-imperial';
     const grad = ctx.createLinearGradient(0, 0, width, height);
-    grad.addColorStop(0, '#D4AF37');
-    grad.addColorStop(0.3, '#F5E6AB');
-    grad.addColorStop(0.6, '#AA820A');
-    grad.addColorStop(1, '#E6CA65');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, width, height);
+
+    if (style.includes('prestige') || style.includes('floral') || style.includes('rose-gold')) {
+      // Rose Gold Foil
+      grad.addColorStop(0, '#E0A899');
+      grad.addColorStop(0.3, '#FBD5CC');
+      grad.addColorStop(0.6, '#B76E79');
+      grad.addColorStop(1, '#E8B4B8');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, width, height);
+      ctx.strokeStyle = '#833948';
+    } else if (style.includes('emerald')) {
+      // Emerald Gold Foil
+      grad.addColorStop(0, '#0F5132');
+      grad.addColorStop(0.3, '#34D399');
+      grad.addColorStop(0.6, '#064E3B');
+      grad.addColorStop(1, '#6EE7B7');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, width, height);
+      ctx.strokeStyle = '#022c1b';
+    } else if (style.includes('majesty') || style.includes('minimal') || style.includes('silver')) {
+      // Platinum / Silver Diamond Foil
+      grad.addColorStop(0, '#94A3B8');
+      grad.addColorStop(0.3, '#F1F5F9');
+      grad.addColorStop(0.6, '#64748B');
+      grad.addColorStop(1, '#CBD5E1');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, width, height);
+      ctx.strokeStyle = '#334155';
+    } else if (style.includes('elegance') || style.includes('crimson')) {
+      // Ruby Royale Foil
+      grad.addColorStop(0, '#881337');
+      grad.addColorStop(0.3, '#FDA4AF');
+      grad.addColorStop(0.6, '#4C0519');
+      grad.addColorStop(1, '#F43F5E');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, width, height);
+      ctx.strokeStyle = '#30020d';
+    } else {
+      // 24K Royal Gold Foil (Default)
+      grad.addColorStop(0, '#D4AF37');
+      grad.addColorStop(0.3, '#F5E6AB');
+      grad.addColorStop(0.6, '#AA820A');
+      grad.addColorStop(1, '#E6CA65');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, width, height);
+      ctx.strokeStyle = '#5E430B';
+    }
 
     // Decorative Jaali / Border Frame
-    ctx.strokeStyle = '#5E430B';
     ctx.lineWidth = 3;
     ctx.strokeRect(6, 6, width - 12, height - 12);
 
     // Scratch Text
-    ctx.fillStyle = '#1A1208';
+    ctx.fillStyle = style.includes('emerald') || style.includes('elegance') ? '#FFFFFF' : '#1A1208';
     ctx.font = 'bold 15px Arial, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('✦ SCRATCH HERE ✦', width / 2, height / 2 - 6);
 
     ctx.font = '10px Arial, sans-serif';
-    ctx.fillStyle = '#3E2D07';
+    ctx.fillStyle = style.includes('emerald') || style.includes('elegance') ? '#D1FAE5' : '#3E2D07';
     ctx.fillText('Swipe with finger or mouse', width / 2, height / 2 + 14);
 
     let clearedCount = 0;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useSearchParams, Link } from 'react-router-dom';
 import api from '../../api/client';
 import SEO from '../../components/common/SEO';
 import InvitationRenderer from '../../components/invitations/engine/InvitationRenderer';
@@ -7,9 +7,15 @@ import { Heart, Sparkles, ArrowLeft, ShieldAlert } from 'lucide-react';
 
 import { getTemplateById, invitationTemplates } from '../../data/invitationTemplates';
 
-const PublicInvitation = ({ defaultSlug = 'emerald-noir' }) => {
+const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
   const { slug: rawSlug } = useParams();
-  const slug = rawSlug && rawSlug !== 'undefined' ? rawSlug : defaultSlug;
+  const [searchParams] = useSearchParams();
+
+  const templateQuery =
+    searchParams.get('template') || searchParams.get('t') || searchParams.get('id');
+
+  const slug =
+    templateQuery || (rawSlug && rawSlug !== 'undefined' && rawSlug !== 'demo' ? rawSlug : defaultSlug);
 
   const [invitation, setInvitation] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -20,7 +26,7 @@ const PublicInvitation = ({ defaultSlug = 'emerald-noir' }) => {
     const fetchInvitation = async () => {
       setLoading(true);
       setError(null);
-      const activeSlug = slug || 'emerald-noir';
+      const activeSlug = slug || 'rose-gold-blush-royal';
       try {
         const res = await api.get(`/invitations/public/${activeSlug}`);
         if (res.status === 'SUSPENDED' || res.data?.status === 'SUSPENDED') {
@@ -43,9 +49,7 @@ const PublicInvitation = ({ defaultSlug = 'emerald-noir' }) => {
       }
 
       // Check if slug corresponds to a known template or fallback to featured
-      const matchedTemplate =
-        invitationTemplates.find((t) => t.slug === activeSlug || t.id === activeSlug) ||
-        invitationTemplates[0];
+      const matchedTemplate = getTemplateById(activeSlug) || invitationTemplates[0];
 
       if (matchedTemplate) {
         const cat = matchedTemplate.category;
@@ -53,8 +57,8 @@ const PublicInvitation = ({ defaultSlug = 'emerald-noir' }) => {
 
         // Dynamic names & copy based on category
         let names = 'Aarav & Kiara';
-        let bride_name = 'Aarav';
-        let groom_name = 'Kiara';
+        let groom_name = 'Aarav Singhania';
+        let bride_name = 'Kiara Malhotra';
         let story_text = 'Two hearts, one lifelong promise under royal starry skies.';
         let message = 'Invite you to share in the joy of the beginning of their new life together.';
         let events = [

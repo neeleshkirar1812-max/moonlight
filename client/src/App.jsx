@@ -241,6 +241,10 @@ const App = () => {
       <Route path="/i" element={<PublicInvitation />} />
       <Route path="/i/" element={<PublicInvitation />} />
       <Route path="/i/:slug" element={<PublicInvitation />} />
+      <Route path="/invite" element={<PublicInvitation />} />
+      <Route path="/invite/demo" element={<PublicInvitation />} />
+      <Route path="/invite/:slug" element={<PublicInvitation />} />
+      <Route path="/invitation/:slug" element={<PublicInvitation />} />
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />

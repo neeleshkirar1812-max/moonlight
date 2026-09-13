@@ -3,6 +3,7 @@ import { getTemplateConfig } from './TemplateRegistry';
 import OpeningScreen from '../components/OpeningScreen';
 import HeroSection from '../components/HeroSection';
 import StorySection from '../components/StorySection';
+import CoupleProfileSection from '../components/CoupleProfileSection';
 import EventsTimeline from '../components/EventsTimeline';
 import InteractiveGallery from '../components/InteractiveGallery';
 import ThingsToKnow from '../components/ThingsToKnow';
@@ -87,10 +88,13 @@ const InvitationRenderer = ({
       {/* 2. Hero Section & Live Countdown */}
       <HeroSection invitation={invitation} theme={theme} />
 
-      {/* 3. Story Section (Optional) */}
+      {/* 3. Groom & Bride Couple Profile Cards */}
+      <CoupleProfileSection invitation={invitation} theme={theme} />
+
+      {/* 4. Story Section (Optional) */}
       {Boolean(invitation.story_text) && <StorySection invitation={invitation} theme={theme} />}
 
-      {/* 4. Multi-Event Schedule Timeline & Google Maps Navigation */}
+      {/* 5. Multi-Event Schedule Timeline & Google Maps Navigation */}
       <EventsTimeline
         events={invitation.events || invitation.event_schedule}
         invitation={invitation}

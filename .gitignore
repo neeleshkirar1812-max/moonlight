@@ -42,3 +42,7 @@ mobile/node_modules/
 mobile/.expo/
 mobile/android/
 mobile/ios/
+
+# Scratch & Temporary
+scratch/
+

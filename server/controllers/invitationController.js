@@ -1365,17 +1365,31 @@ export const updateInvitation = async (req, res, next) => {
 // 9. Public Invitation by Slug (Zero-Login for Guests)
 export const getPublicInvitationBySlug = async (req, res, next) => {
   try {
-    const slug = req.params.slug || req.query.slug || 'emerald-noir';
-    let invitation = await Invitation.findOne({ slug });
+    const rawSlug = req.query.template || req.params.slug || req.query.slug || 'rose-gold-blush-royal';
+    const aliases = {
+      'royal-love': 'rose-gold-blush-royal',
+      'royal-elegance': 'modern-minimal-royal',
+      'jaipur-heritage': 'royal-heritage',
+      'shahi-sangeet': 'royal-legacy',
+      'royal-griha-utsav': 'royal-crest',
+      'nawab-of-awadh': 'royal-grace',
+      'emerald-noir': 'emerald-noir-royal',
+      'crimson-royale': 'ivory-elegance-royal',
+      'taj-imperial': 'royal-majesty',
+      'bikaner-riyasat': 'royal-legacy',
+      'udaivilas-palace': 'royal-heritage',
+    };
+    const slug = aliases[rawSlug] || rawSlug;
+    let invitation = await Invitation.findOne({ $or: [{ slug }, { slug: rawSlug }] });
 
     if (!invitation) {
       // Check if this slug is a template demo
       let template = defaultTemplates.find(
-        (t) => t.slug === slug || t.id === slug
+        (t) => t.slug === slug || t.id === slug || t.slug === rawSlug || t.id === rawSlug
       );
       if (!template) {
         try {
-          template = await Template.findOne({ slug });
+          template = await Template.findOne({ $or: [{ slug }, { slug: rawSlug }] });
         } catch (e) {}
       }
 
