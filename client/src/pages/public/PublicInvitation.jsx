@@ -1116,6 +1116,7 @@ const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
   const slug =
     templateQuery || (rawSlug && rawSlug !== 'undefined' && rawSlug !== 'demo' ? rawSlug : defaultSlug);
 
+  const { isBlurred, securityAlert } = useContentProtection(true);
   const [invitation, setInvitation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isDemoMode, setIsDemoMode] = useState(false);

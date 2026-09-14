@@ -239,6 +239,7 @@ const InvitationRenderer = ({
   onRsvpSuccess,
   showOpeningInPreview = false,
 }) => {
+  const { isBlurred, securityAlert } = useContentProtection(!isPreview);
   const rawTemplateId = invitation.template_id || invitation.templateId || 'rose-gold-blush-royal';
 
   // Check if template belongs to Royal Video Suites
