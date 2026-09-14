@@ -22,7 +22,7 @@ import {
 const TemplateDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const template = getTemplateById(slug);
+  const template = getTemplateById(slug) || invitationTemplates.find((t) => t.id === slug) || invitationTemplates[0];
   const { user, isAuthenticated } = useAuth();
   const { addToast } = useNotification();
 

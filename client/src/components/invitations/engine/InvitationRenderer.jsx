@@ -15,89 +15,13 @@ import ZareqiaRoyalSuite from '../templates/ZareqiaRoyalSuite';
 import ZareqiaClassicSuite from '../templates/ZareqiaClassicSuite';
 import { Share2, QrCode, Copy, Check, X, Sparkles, RefreshCw, DoorClosed } from 'lucide-react';
 
-const InvitationRenderer = ({
+// Legacy Fallback Component with isolated hooks
+const LegacyInvitationSuite = ({
   invitation = {},
   isPreview = false,
   onRsvpSuccess,
-  showOpeningInPreview = false,
+  rawTemplateId,
 }) => {
-  const rawTemplateId = invitation.template_id || invitation.templateId || 'rose-gold-blush-royal';
-
-  // Check if template belongs to Royal Video Suites
-  const isRoyal =
-    invitation.tier === 'royal' ||
-    (rawTemplateId.includes('royal') && rawTemplateId !== 'royal-elegance' && !rawTemplateId.startsWith('classic-')) ||
-    [
-      'rose-gold-blush-royal',
-      'royal-prestige',
-      'royal-elegance-royal',
-      'modern-minimal-royal',
-      'royal-majesty',
-      'royal-heritage',
-      'royal-legacy',
-      'royal-crest',
-      'royal-grace',
-      'emerald-noir-royal',
-      'ivory-elegance-royal',
-      'royal-farman',
-      'royal-jharokha',
-      'royal-solitaire',
-      'royal-emerald-sheesh',
-      'royal-destination',
-      'royal-shubh-vivah-hindi',
-      'royal-rajwada-utsav-hindi',
-      'royal-shahi-farman-hindi',
-    ].includes(rawTemplateId);
-
-  if (isRoyal) {
-    return (
-      <ZareqiaRoyalSuite key={rawTemplateId} invitation={invitation}
-        isPreview={isPreview}
-        onRsvpSuccess={onRsvpSuccess}
-      />
-    );
-  }
-
-  // Check if template belongs to Classic Suites (Exact Zareqia Classic Replica)
-  const isClassic =
-    invitation.tier === 'classic' ||
-    rawTemplateId.startsWith('classic-') ||
-    [
-      'emerald-noir',
-      'ivory-elegance',
-      'rose-gold-blush',
-      'modern-minimal',
-      'royal-elegance',
-      'garden-romance',
-      'mughal-emerald',
-      'midnight-royal',
-      'blooming-dreams',
-      'terracotta-boho',
-      'mehendi-magic',
-      'little-sunshine',
-      'sweet-nesting-baby',
-      'silver-anniversary',
-      'coastal-breeze',
-      'celestial-night',
-      'classic-farman-scroll',
-      'classic-velvet-envelope',
-      'classic-boarding-pass',
-      'classic-marigold-utsav',
-      'classic-starlight-galaxy',
-      'classic-pavitra-bandhan-hindi',
-      'classic-mandap-sandesh-hindi',
-      'classic-anand-utsav-hindi',
-    ].includes(rawTemplateId);
-
-  if (isClassic) {
-    return (
-      <ZareqiaClassicSuite key={rawTemplateId} invitation={invitation}
-        isPreview={isPreview}
-        onRsvpSuccess={onRsvpSuccess}
-      />
-    );
-  }
-
   const config = getTemplateConfig(rawTemplateId);
   const theme = config.theme;
 
@@ -190,7 +114,7 @@ const InvitationRenderer = ({
         <RsvpSection invitation={invitation} theme={theme} onRsvpSuccess={onRsvpSuccess} />
       )}
 
-      {/* 9. Background Music Player (Always fixed & preset by Admin/Template) */}
+      {/* 9. Background Music Player */}
       {invitation.music_enabled !== false && invitation.musicEnabled !== false && (
         <MusicPlayer
           musicUrl={invitation.music_url || invitation.musicUrl || config.musicPreset}
@@ -303,6 +227,105 @@ const InvitationRenderer = ({
         </div>
       )}
     </div>
+  );
+};
+
+// Pure Routing Component
+const InvitationRenderer = ({
+  invitation = {},
+  isPreview = false,
+  onRsvpSuccess,
+  showOpeningInPreview = false,
+}) => {
+  const rawTemplateId = invitation.template_id || invitation.templateId || 'rose-gold-blush-royal';
+
+  // Check if template belongs to Royal Video Suites
+  const isRoyal =
+    invitation.tier === 'royal' ||
+    (rawTemplateId.includes('royal') && rawTemplateId !== 'royal-elegance' && !rawTemplateId.startsWith('classic-')) ||
+    [
+      'rose-gold-blush-royal',
+      'royal-prestige',
+      'royal-elegance-royal',
+      'modern-minimal-royal',
+      'royal-majesty',
+      'royal-heritage',
+      'royal-legacy',
+      'royal-crest',
+      'royal-grace',
+      'emerald-noir-royal',
+      'ivory-elegance-royal',
+      'royal-farman',
+      'royal-jharokha',
+      'royal-solitaire',
+      'royal-emerald-sheesh',
+      'royal-destination',
+      'royal-shubh-vivah-hindi',
+      'royal-rajwada-utsav-hindi',
+      'royal-shahi-farman-hindi',
+    ].includes(rawTemplateId);
+
+  if (isRoyal) {
+    return (
+      <ZareqiaRoyalSuite
+        key={rawTemplateId}
+        invitation={invitation}
+        isPreview={isPreview}
+        onRsvpSuccess={onRsvpSuccess}
+      />
+    );
+  }
+
+  // Check if template belongs to Classic Suites (Exact Zareqia Classic Replica)
+  const isClassic =
+    invitation.tier === 'classic' ||
+    rawTemplateId.startsWith('classic-') ||
+    [
+      'emerald-noir',
+      'ivory-elegance',
+      'rose-gold-blush',
+      'modern-minimal',
+      'royal-elegance',
+      'garden-romance',
+      'mughal-emerald',
+      'midnight-royal',
+      'blooming-dreams',
+      'terracotta-boho',
+      'mehendi-magic',
+      'little-sunshine',
+      'sweet-nesting-baby',
+      'silver-anniversary',
+      'coastal-breeze',
+      'celestial-night',
+      'classic-farman-scroll',
+      'classic-velvet-envelope',
+      'classic-boarding-pass',
+      'classic-marigold-utsav',
+      'classic-starlight-galaxy',
+      'classic-pavitra-bandhan-hindi',
+      'classic-mandap-sandesh-hindi',
+      'classic-anand-utsav-hindi',
+    ].includes(rawTemplateId);
+
+  if (isClassic) {
+    return (
+      <ZareqiaClassicSuite
+        key={rawTemplateId}
+        invitation={invitation}
+        isPreview={isPreview}
+        onRsvpSuccess={onRsvpSuccess}
+      />
+    );
+  }
+
+  return (
+    <LegacyInvitationSuite
+      key={rawTemplateId}
+      invitation={invitation}
+      isPreview={isPreview}
+      onRsvpSuccess={onRsvpSuccess}
+      rawTemplateId={rawTemplateId}
+    />
   );
 };
 
