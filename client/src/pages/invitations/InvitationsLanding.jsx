@@ -107,7 +107,7 @@ const featuresList = [
 ];
 
 const comparisonData = [
-  { feature: 'Cost', paper: '₹5,000–₹50,000+', digital: '₹599 / ₹999 Single • ₹899 / ₹1,499 Full Pass' },
+  { feature: 'Cost', paper: '₹5,000–₹50,000+', digital: '₹499 / ₹699 Single • ₹1,199 / ₹1,499 Full Pass' },
   { feature: 'Delivery Time', paper: '2–4 weeks', digital: 'Instant' },
   { feature: 'Interactive Features (3D Gates & Scratch Card)', paper: '❌ Not Possible', digital: '✅ Included' },
   { feature: 'Messaging & Guest Inbox', paper: '❌ Not Possible', digital: '✅ Included' },
@@ -540,7 +540,7 @@ const InvitationsLanding = () => {
                 Classic Invitation
               </span>
               <div className="flex items-baseline space-x-2">
-                <span className="font-serif text-4xl sm:text-5xl font-bold text-neutral-900">₹599</span><span className="text-xs text-neutral-500 line-through font-mono ml-2">₹1,499</span>
+                <span className="font-serif text-4xl sm:text-5xl font-bold text-neutral-900">₹499</span><span className="text-xs text-neutral-500 line-through font-mono ml-2">₹1,299</span>
                 <span className="text-xs text-neutral-500 font-mono">/ one-time</span>
               </div>
               <ul className="space-y-3 text-xs sm:text-sm text-neutral-600 pt-4 border-t border-neutral-100">
@@ -571,7 +571,7 @@ const InvitationsLanding = () => {
                 Royal Video Suite
               </span>
               <div className="flex items-baseline space-x-2">
-                <span className="font-serif text-4xl sm:text-5xl font-bold text-amber-300">₹999</span><span className="text-xs text-amber-200/50 line-through font-mono ml-2">₹2,499</span>
+                <span className="font-serif text-4xl sm:text-5xl font-bold text-amber-300">₹699</span><span className="text-xs text-amber-200/50 line-through font-mono ml-2">₹1,999</span>
                 <span className="text-xs text-amber-200/70 font-mono">/ one-time</span>
               </div>
               <ul className="space-y-3 text-xs sm:text-sm text-amber-100/90 pt-4 border-t border-amber-900/50">

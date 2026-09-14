@@ -70,12 +70,12 @@ const TemplateDetail = () => {
   }, [user, template.id, navigate]);
 
   const basePrice = isRoyal
-    ? (pricingPlan === 'suite' ? 1499 : 999)
-    : (pricingPlan === 'suite' ? 899 : 599);
+    ? (pricingPlan === 'suite' ? 1499 : 699)
+    : (pricingPlan === 'suite' ? 1199 : 499);
 
   const originalPrice = isRoyal
-    ? (pricingPlan === 'suite' ? 3499 : 2499)
-    : (pricingPlan === 'suite' ? 2499 : 1499);
+    ? (pricingPlan === 'suite' ? 3499 : 1999)
+    : (pricingPlan === 'suite' ? 2499 : 1299);
 
   const currentPayable = appliedCoupon
     ? appliedCoupon.finalAmount
@@ -464,13 +464,13 @@ const TemplateDetail = () => {
                         </p>
                         <div className="flex items-baseline space-x-2 pt-1">
                           <span className="font-serif text-xl font-bold text-amber-900">
-                            ₹{isRoyal ? 1499 : 899}
+                            ₹{isRoyal ? 1499 : 1199}
                           </span>
                           <span className="text-xs text-neutral-400 line-through font-mono">
                             ₹{isRoyal ? 3499 : 2499}
                           </span>
                           <span className="text-[10px] font-mono font-bold text-emerald-700">
-                            Save {isRoyal ? '57%' : '64%'}
+                            Save {isRoyal ? '57%' : '52%'}
                           </span>
                         </div>
                       </div>
@@ -502,10 +502,10 @@ const TemplateDetail = () => {
                         </p>
                         <div className="flex items-baseline space-x-2 pt-1">
                           <span className="font-serif text-xl font-bold text-amber-900">
-                            ₹{isRoyal ? 999 : 599}
+                            ₹{isRoyal ? 699 : 499}
                           </span>
                           <span className="text-xs text-neutral-400 line-through font-mono">
-                            ₹{isRoyal ? 2499 : 1499}
+                            ₹{isRoyal ? 1999 : 1299}
                           </span>
                           <span className="text-[10px] font-mono font-bold text-emerald-700">Save 60%</span>
                         </div>

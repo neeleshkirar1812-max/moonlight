@@ -515,7 +515,7 @@ const TemplateMarketplace = () => {
                   👑 Royal Collection VIP Pass — Only ₹1,499
                 </h3>
                 <p className="text-xs text-neutral-300">
-                  Get full lifetime access to <strong>ALL 15 Royal 4K Video Gates & Hindi Suites</strong> in 1 pass, or choose any single design below for <strong>₹999</strong>.
+                  Get full lifetime access to <strong>ALL 15 Royal 4K Video Gates & Hindi Suites</strong> in 1 pass, or choose any single design below for <strong>₹699</strong>.
                 </p>
               </div>
               <button
@@ -586,7 +586,7 @@ const TemplateMarketplace = () => {
                           : 'border border-amber-500/40 bg-neutral-900 hover:bg-neutral-800 text-amber-200'
                       }`}
                     >
-                      <span>USE THIS DESIGN (₹999)</span>
+                      <span>USE THIS DESIGN (₹699)</span>
                     </button>
                   </div>
                 </div>
@@ -610,10 +610,10 @@ const TemplateMarketplace = () => {
                   <span className="text-xs text-amber-300 font-serif font-bold">Save ₹6,000+</span>
                 </div>
                 <h3 className="font-serif text-lg sm:text-xl font-bold text-amber-100">
-                  ✨ Classic 3D Collection VIP Pass — Only ₹899
+                  ✨ Classic 3D Collection VIP Pass — Only ₹1,199
                 </h3>
                 <p className="text-xs text-neutral-300">
-                  Get full access to <strong>ALL 13 Classic 3D Gate Suites & Hindi Editions</strong>, or unlock any single template for <strong>₹599</strong>.
+                  Get full access to <strong>ALL 13 Classic 3D Gate Suites & Hindi Editions</strong>, or unlock any single template for <strong>₹499</strong>.
                 </p>
               </div>
               <button
@@ -621,7 +621,7 @@ const TemplateMarketplace = () => {
                 onClick={() => handleSelectDesign('emerald-noir')}
                 className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:brightness-110 text-neutral-950 font-bold text-xs uppercase tracking-wider shrink-0 shadow-lg cursor-pointer transition-transform active:scale-95"
               >
-                Get Classic Pass (₹899) →
+                Get Classic Pass (₹1,199) →
               </button>
             </div>
 
@@ -680,7 +680,7 @@ const TemplateMarketplace = () => {
                           : 'bg-[#E5A83B] hover:bg-[#d4962a] text-neutral-950'
                       }`}
                     >
-                      <span>USE THIS DESIGN (₹599)</span>
+                      <span>USE THIS DESIGN (₹499)</span>
                     </button>
                   </div>
                 </div>
@@ -704,7 +704,7 @@ const TemplateMarketplace = () => {
                   शुद्ध हिंदी निमंत्रण पत्रिका - देवनागरी कैलिग्राफी
                 </h3>
                 <p className="text-xs text-neutral-300">
-                  शाही 4K वीडियो फरमान पत्रिका मात्र <strong>₹999</strong> | क्लासिक 3D मंदिर द्वार पत्रिका मात्र <strong>₹599</strong>
+                  शाही 4K वीडियो फरमान पत्रिका मात्र <strong>₹699</strong> | क्लासिक 3D मंदिर द्वार पत्रिका मात्र <strong>₹499</strong>
                 </p>
               </div>
             </div>
@@ -775,7 +775,7 @@ const TemplateMarketplace = () => {
                           : 'bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-amber-200 border-amber-500/30'
                       }`}
                     >
-                      <span>{template.id.startsWith('royal-') || template.id.includes('royal') ? 'USE THIS DESIGN (₹999)' : 'USE THIS DESIGN (₹599)'}</span>
+                      <span>{template.id.startsWith('royal-') || template.id.includes('royal') ? 'USE THIS DESIGN (₹699)' : 'USE THIS DESIGN (₹499)'}</span>
                     </button>
                   </div>
                 </div>

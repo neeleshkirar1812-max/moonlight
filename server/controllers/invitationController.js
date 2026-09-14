@@ -799,7 +799,7 @@ export const createPaymentOrder = async (req, res, next) => {
 
     if (!template) template = defaultTemplates[0];
 
-    let finalPrice = template.price;
+    let finalPrice = Number(req.body.price) || template.price;
 
     // Apply Coupon if present
     if (couponCode) {
