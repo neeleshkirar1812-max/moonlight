@@ -460,7 +460,7 @@ const TemplateMarketplace = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
-                  {/* View Demo Button */}
+                  {/* Preview Button */}
                   <Link
                     to={'/invite/demo?template=' + template.id + '&type=' + selectedType}
                     target="_blank"
@@ -469,7 +469,7 @@ const TemplateMarketplace = () => {
                   >
                     <span className="inline-flex items-center rounded-full bg-black/60 hover:bg-black/90 backdrop-blur-md px-3.5 py-1 text-[11px] font-medium text-white border border-white/20 shadow-md transition-transform active:scale-95">
                       <Eye className="w-3.5 h-3.5 mr-1.5 text-[#E5A83B]" />
-                      View Demo
+                      Preview
                     </span>
                   </Link>
                 </div>
@@ -523,7 +523,7 @@ const TemplateMarketplace = () => {
                     </h4>
                   </div>
 
-                  {/* View Demo Button */}
+                  {/* Preview Button */}
                   <Link
                     to={'/invite/demo?template=' + template.id + '&type=' + selectedType}
                     target="_blank"
@@ -532,7 +532,7 @@ const TemplateMarketplace = () => {
                   >
                     <span className="inline-flex items-center rounded-full bg-black/60 hover:bg-black/90 backdrop-blur-md px-3.5 py-1 text-[11px] font-medium text-white border border-white/20 shadow-md transition-transform active:scale-95">
                       <Eye className="w-3.5 h-3.5 mr-1.5 text-amber-300" />
-                      View Demo
+                      Preview
                     </span>
                   </Link>
                 </div>
@@ -597,7 +597,7 @@ const TemplateMarketplace = () => {
 
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
-                  {/* View Demo Button */}
+                  {/* Preview Button */}
                   <Link
                     to={'/invite/demo?template=' + template.id + '&type=hindi-invitations'}
                     target="_blank"
@@ -606,7 +606,7 @@ const TemplateMarketplace = () => {
                   >
                     <span className="inline-flex items-center rounded-full bg-red-950/80 hover:bg-red-900 backdrop-blur-md px-3.5 py-1 text-[11px] font-bold text-amber-300 border border-amber-500/40 shadow-md transition-transform active:scale-95">
                       <Eye className="w-3.5 h-3.5 mr-1.5 text-amber-300" />
-                      डेमो देखें / View Demo
+                      प्रिव्यू / Preview
                     </span>
                   </Link>
                 </div>

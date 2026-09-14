@@ -4,11 +4,10 @@ import { useNotification } from '../../context/NotificationContext';
 import api from '../../api/client';
 import SEO from '../../components/common/SEO';
 import InvitationRenderer from '../../components/invitations/engine/InvitationRenderer';
-import { invitationTemplates, getTemplateById } from '../../data/invitationTemplates';
+import { getTemplateById } from '../../data/invitationTemplates';
 import { templateDemoDataMap } from '../public/PublicInvitation';
 import {
   Sparkles,
-  Save,
   Eye,
   ExternalLink,
   ArrowLeft,
@@ -24,21 +23,9 @@ import {
   Trash2,
   Heart,
   Image as ImageIcon,
-  Palette,
   Send,
   Upload,
-  DoorClosed,
 } from 'lucide-react';
-
-const sectionsNav = [
-  { id: 'sec-basic', label: '1. Essentials & Doors', icon: Calendar },
-  { id: 'sec-couple', label: '2. Couple & Host', icon: Heart },
-  { id: 'sec-events', label: '3. Events Schedule', icon: Clock },
-  { id: 'sec-gallery', label: '4. Photo Gallery', icon: ImageIcon },
-  { id: 'sec-scratch', label: '5. Scratch Card', icon: Gift },
-  { id: 'sec-rsvp', label: '6. Guest RSVP', icon: Send },
-  { id: 'sec-theme', label: '7. Theme Suite', icon: Palette },
-];
 
 const InvitationEditor = () => {
   const { id } = useParams();
@@ -51,7 +38,6 @@ const InvitationEditor = () => {
   const [showPublishModal, setShowPublishModal] = useState(false);
   const [showFullscreenPreview, setShowFullscreenPreview] = useState(false);
   const [previewDevice, setPreviewDevice] = useState('mobile');
-  const [previewDoorKey, setPreviewDoorKey] = useState(0);
 
   const [form, setForm] = useState({
     template_id: 'rose-gold-blush-royal',
@@ -125,6 +111,8 @@ const InvitationEditor = () => {
     published: false,
     slug: '',
   });
+
+  const activeTemplate = getTemplateById(form.template_id) || { name: 'Selected Luxury Suite', category: 'Wedding' };
 
   useEffect(() => {
     const fetchInvitation = async () => {
@@ -250,13 +238,6 @@ const InvitationEditor = () => {
     }));
   };
 
-  const scrollToSection = (secId) => {
-    const el = document.getElementById(secId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   const handleSave = async (shouldPublish = false) => {
     setSaving(true);
     try {
@@ -320,7 +301,7 @@ const InvitationEditor = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] text-neutral-900 pt-24 sm:pt-28 pb-20 px-4 sm:px-6 lg:px-8 font-sans">
+    <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-24 sm:pt-28 pb-20 px-4 sm:px-6 lg:px-8 font-sans">
       <SEO title={`Design Invitation: ${form.title} — Moonlight Production`} />
 
       <div className="max-w-7xl mx-auto space-y-6">
@@ -328,7 +309,7 @@ const InvitationEditor = () => {
         {/* ========================================================================= */}
         {/* TOP BAR: Navigation & Actions */}
         {/* ========================================================================= */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-[#DDD2C0] pb-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-amber-900/10 pb-4">
           <div>
             <Link
               to="/invitations/dashboard"
@@ -336,9 +317,14 @@ const InvitationEditor = () => {
             >
               <ArrowLeft className="w-3.5 h-3.5 mr-1.5" /> Back to Dashboard
             </Link>
-            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900">
-              Invitation Suite Designer
-            </h1>
+            <div className="flex items-center space-x-3">
+              <h1 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900">
+                Invitation Details
+              </h1>
+              <span className="px-3 py-0.5 rounded-full bg-amber-100 border border-amber-300 text-amber-900 text-[11px] font-mono font-bold">
+                {activeTemplate.name}
+              </span>
+            </div>
           </div>
 
           <div className="flex items-center space-x-3 w-full sm:w-auto justify-end">
@@ -348,7 +334,7 @@ const InvitationEditor = () => {
               className="px-4 py-2.5 rounded-full bg-amber-100 hover:bg-amber-200 border border-amber-300 text-amber-950 font-bold text-xs uppercase tracking-wider shadow-sm flex items-center space-x-1.5 transition-all"
             >
               <Eye className="w-3.5 h-3.5 text-amber-800" />
-              <span>Live Preview</span>
+              <span>Preview</span>
             </button>
             <button
               type="button"
@@ -362,7 +348,7 @@ const InvitationEditor = () => {
               type="button"
               onClick={() => handleSave(true)}
               disabled={saving}
-              className="px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-700 via-amber-800 to-amber-900 hover:from-amber-800 hover:to-amber-950 text-white font-bold text-xs uppercase tracking-wider shadow-md flex items-center transition-all"
+              className="px-6 py-2.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-md hover:brightness-105 flex items-center transition-all btn-shimmer"
             >
               <Sparkles className="w-3.5 h-3.5 mr-1.5" />
               {saving ? 'Publishing...' : form.published ? 'Update Live Invite' : 'Publish Live Invite'}
@@ -406,83 +392,49 @@ const InvitationEditor = () => {
         )}
 
         {/* ========================================================================= */}
-        {/* QUICK JUMP ANCHOR PILLS (Navigate in 1 click) */}
-        {/* ========================================================================= */}
-        <div className="bg-white/80 backdrop-blur-md p-2 rounded-2xl border border-stone-300 shadow-sm overflow-x-auto scrollbar-none sticky top-20 z-30">
-          <div className="flex items-center space-x-1.5 min-w-max">
-            <span className="text-[10px] uppercase font-mono font-bold text-amber-900 px-2 py-1 flex items-center">
-              <span>Quick Jump:</span>
-            </span>
-            {sectionsNav.map((sec) => {
-              const Icon = sec.icon;
-              return (
-                <button
-                  key={sec.id}
-                  type="button"
-                  onClick={() => scrollToSection(sec.id)}
-                  className="px-3 py-1.5 rounded-xl text-xs font-bold text-neutral-700 hover:bg-amber-100 hover:text-amber-950 transition-all flex items-center space-x-1.5 border border-transparent hover:border-amber-300/60"
-                >
-                  <Icon className="w-3.5 h-3.5 text-amber-800" />
-                  <span>{sec.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* ========================================================================= */}
-        {/* MAIN LAYOUT: Left Clean Form, Right Sticky Live 390px Viewport */}
+        {/* MAIN LAYOUT: Left Single Unified Form, Right Sticky Live 390px Viewport */}
         {/* ========================================================================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* ------------------------------------------------------------- */}
-          {/* LEFT: FOCUSED UNIFIED SINGLE-PAGE FORM */}
+          {/* LEFT: SINGLE UNIFIED COMPACT FORM */}
           {/* ------------------------------------------------------------- */}
-          <div className="lg:col-span-6 space-y-6">
-
-            {/* SECTION 1: ESSENTIALS & PALACE DOORS */}
-            <div
-              id="sec-basic"
-              className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E0D7C7] shadow-sm space-y-5 scroll-mt-36"
-            >
-              <div className="flex items-center space-x-2 border-b border-stone-200 pb-3">
-                <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center font-mono text-xs">
-                  01
-                </div>
-                <div>
-                  <h3 className="font-serif text-lg font-bold text-neutral-900">
-                    Celebration Essentials & Palace Doors
-                  </h3>
-                  <p className="text-[11px] text-neutral-500 font-sans">
-                    Basic event dates, venue location, and opening sequence.
-                  </p>
-                </div>
+          <div className="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 border border-amber-900/10 shadow-sm space-y-6">
+            
+            {/* 1. Couple & Event Title */}
+            <div className="space-y-4">
+              <div className="flex items-center space-x-2 border-b border-amber-900/10 pb-2">
+                <Heart className="w-4 h-4 text-amber-700" />
+                <h3 className="font-serif text-base font-bold text-neutral-900">
+                  Couple & Event Information
+                </h3>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                 <div>
                   <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                    Event Title
+                    Event Title / Heading
                   </label>
                   <input
                     type="text"
                     name="title"
                     value={form.title}
                     onChange={handleChange}
-                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none font-medium"
+                    placeholder="A Royal Celebration"
+                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none font-medium"
                   />
                 </div>
                 <div>
                   <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                    Event Type
+                    Combined Couple Heading
                   </label>
                   <input
                     type="text"
-                    name="eventType"
-                    value={form.eventType}
+                    name="names"
+                    value={form.names}
                     onChange={handleChange}
-                    placeholder="Wedding / Engagement / Reception"
-                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none font-medium"
+                    placeholder="Aarav Sharma & Kiara Sen"
+                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none font-bold"
                   />
                 </div>
               </div>
@@ -490,151 +442,7 @@ const InvitationEditor = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                 <div>
                   <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                    Main Ceremony Date
-                  </label>
-                  <input
-                    type="date"
-                    name="date"
-                    value={form.date}
-                    onChange={handleChange}
-                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                    Main Ceremony Time
-                  </label>
-                  <input
-                    type="time"
-                    name="time"
-                    value={form.time}
-                    onChange={handleChange}
-                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              <div className="text-xs space-y-3">
-                <div>
-                  <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                    Main Venue Name
-                  </label>
-                  <input
-                    type="text"
-                    name="venue"
-                    value={form.venue}
-                    onChange={handleChange}
-                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                    Complete Venue Address (For Google Maps Navigation)
-                  </label>
-                  <input
-                    type="text"
-                    name="venueAddress"
-                    value={form.venueAddress}
-                    onChange={handleChange}
-                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                    Welcome / Invitation Message
-                  </label>
-                  <textarea
-                    rows={3}
-                    name="welcome_text"
-                    value={form.welcome_text}
-                    onChange={handleChange}
-                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl p-3 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              {/* Royal Palace Doors & Video Curtain Configuration */}
-              <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/80 space-y-3 text-xs">
-                <div className="flex items-center justify-between">
-                  <span className="font-serif font-bold text-sm text-amber-950 flex items-center space-x-1.5">
-                    <span>🚪</span>
-                    <span>Royal Palace Double Doors & Wax Seal Opening</span>
-                  </span>
-                  <span className="text-[10px] font-mono uppercase bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full font-bold">
-                    3D Interactive
-                  </span>
-                </div>
-
-                <div>
-                  <label className="font-mono uppercase font-bold text-neutral-700 block mb-1 text-[11px]">
-                    Door Opening Top Tagline
-                  </label>
-                  <input
-                    type="text"
-                    name="opening_heading"
-                    value={form.opening_heading || ''}
-                    onChange={handleChange}
-                    placeholder="Cordially Invites You To Celebrate"
-                    className="w-full bg-white border border-stone-300 rounded-xl px-3 py-2 text-xs text-neutral-900"
-                  />
-                </div>
-
-                <div>
-                  <label className="font-mono uppercase font-bold text-neutral-700 block mb-1 text-[11px]">
-                    Optional Custom Door Video URL (MP4)
-                  </label>
-                  <input
-                    type="url"
-                    name="door_video_url"
-                    value={form.door_video_url || ''}
-                    onChange={handleChange}
-                    placeholder="Leave empty to use 3D Carved Palace Teak Doors"
-                    className="w-full bg-white border border-stone-300 rounded-xl px-3 py-2 text-xs text-neutral-900"
-                  />
-                  <p className="text-[10px] text-neutral-500 mt-1">
-                    By default, guests experience interactive 3D Royal Teak Palace Doors with 24K gold jaali arches, brass lion knockers, wax seal crest & falling petals.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* SECTION 2: COUPLE & HOST */}
-            <div
-              id="sec-couple"
-              className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E0D7C7] shadow-sm space-y-4 scroll-mt-36 text-xs"
-            >
-              <div className="flex items-center space-x-2 border-b border-stone-200 pb-3">
-                <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center font-mono text-xs">
-                  02
-                </div>
-                <div>
-                  <h3 className="font-serif text-lg font-bold text-neutral-900">Couple & Host Details</h3>
-                  <p className="text-[11px] text-neutral-500 font-sans">
-                    Bride and Groom names, family salutations, and cover portrait.
-                  </p>
-                </div>
-              </div>
-
-              <div>
-                <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                  Combined Display Heading Names
-                </label>
-                <input
-                  type="text"
-                  name="names"
-                  value={form.names}
-                  onChange={handleChange}
-                  placeholder="Aarav Sharma & Kiara Sen"
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none font-bold"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                    Bride Name
+                    Bride's Name
                   </label>
                   <input
                     type="text"
@@ -642,12 +450,12 @@ const InvitationEditor = () => {
                     value={form.bride_name}
                     onChange={handleChange}
                     placeholder="Kiara Sen"
-                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
+                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
                   />
                 </div>
                 <div>
                   <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                    Groom Name
+                    Groom's Name
                   </label>
                   <input
                     type="text"
@@ -655,14 +463,14 @@ const InvitationEditor = () => {
                     value={form.groom_name}
                     onChange={handleChange}
                     placeholder="Aarav Sharma"
-                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
+                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
                   />
                 </div>
               </div>
 
-              <div>
+              <div className="text-xs">
                 <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                  Host Families Line
+                  Host Family Salutations
                 </label>
                 <input
                   type="text"
@@ -670,138 +478,166 @@ const InvitationEditor = () => {
                   value={form.host_names}
                   onChange={handleChange}
                   placeholder="Mr. & Mrs. Sharma and Mr. & Mrs. Sen"
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                  Hero Cover Photo URL
-                </label>
-                <input
-                  type="url"
-                  name="coverPhoto"
-                  value={form.coverPhoto || ''}
-                  onChange={handleChange}
-                  placeholder="https://images.unsplash.com/..."
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
+                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
                 />
               </div>
             </div>
 
-            {/* SECTION 3: MULTI-EVENT SCHEDULE */}
-            <div
-              id="sec-events"
-              className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E0D7C7] shadow-sm space-y-4 scroll-mt-36 text-xs"
-            >
-              <div className="flex items-center justify-between border-b border-stone-200 pb-3">
-                <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center font-mono text-xs">
-                    03
-                  </div>
-                  <div>
-                    <h3 className="font-serif text-lg font-bold text-neutral-900">Multi-Event Schedule</h3>
-                    <p className="text-[11px] text-neutral-500 font-sans">
-                      Haldi, Mehendi, Sangeet, Wedding Ceremony, Reception.
-                    </p>
-                  </div>
-                </div>
+            {/* 2. Date, Time & Main Venue */}
+            <div className="space-y-4 pt-2">
+              <div className="flex items-center space-x-2 border-b border-amber-900/10 pb-2">
+                <Calendar className="w-4 h-4 text-amber-700" />
+                <h3 className="font-serif text-base font-bold text-neutral-900">
+                  Main Date, Time & Venue
+                </h3>
+              </div>
 
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div>
+                  <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
+                    Ceremony Date
+                  </label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={form.date}
+                    onChange={handleChange}
+                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
+                    Ceremony Time
+                  </label>
+                  <input
+                    type="time"
+                    name="time"
+                    value={form.time}
+                    onChange={handleChange}
+                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div>
+                  <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
+                    Venue Name
+                  </label>
+                  <input
+                    type="text"
+                    name="venue"
+                    value={form.venue}
+                    onChange={handleChange}
+                    placeholder="Jehan Numa Palace"
+                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
+                    Full Address (Google Maps)
+                  </label>
+                  <input
+                    type="text"
+                    name="venueAddress"
+                    value={form.venueAddress}
+                    onChange={handleChange}
+                    placeholder="152 Shamla Hills, Bhopal"
+                    className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="text-xs">
+                <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
+                  Welcome / Invitation Message
+                </label>
+                <textarea
+                  rows={2}
+                  name="welcome_text"
+                  value={form.welcome_text}
+                  onChange={handleChange}
+                  placeholder="With joyous hearts, we request the honor of your presence..."
+                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl p-2.5 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
+                />
+              </div>
+            </div>
+
+            {/* 3. Multi-Ceremony Schedule */}
+            <div className="space-y-4 pt-2">
+              <div className="flex items-center justify-between border-b border-amber-900/10 pb-2">
+                <div className="flex items-center space-x-2">
+                  <Clock className="w-4 h-4 text-amber-700" />
+                  <h3 className="font-serif text-base font-bold text-neutral-900">
+                    Ceremonies & Itinerary
+                  </h3>
+                </div>
                 <button
                   type="button"
                   onClick={handleAddEvent}
-                  className="px-3 py-1.5 rounded-xl bg-amber-900 hover:bg-amber-950 text-white font-bold text-xs flex items-center space-x-1 shadow-sm transition-all"
+                  className="px-3 py-1 rounded-xl bg-amber-900 hover:bg-amber-950 text-white font-bold text-[11px] flex items-center space-x-1 shadow-sm transition-all"
                 >
-                  <Plus className="w-3.5 h-3.5" />
+                  <Plus className="w-3 h-3" />
                   <span>Add Ceremony</span>
                 </button>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3 text-xs">
                 {form.events.map((ev, idx) => (
                   <div
                     key={ev.id || idx}
-                    className="p-4 rounded-2xl bg-[#FAF8F5] border border-stone-300 space-y-3 relative"
+                    className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-stone-300 space-y-2.5 relative"
                   >
-                    <div className="flex items-center justify-between border-b border-stone-200 pb-2">
-                      <span className="font-mono font-bold text-amber-900 text-xs">
+                    <div className="flex items-center justify-between border-b border-stone-200 pb-1.5">
+                      <span className="font-mono font-bold text-amber-900 text-[11px]">
                         Ceremony {idx + 1}: {ev.title}
                       </span>
                       {form.events.length > 1 && (
                         <button
                           type="button"
                           onClick={() => handleDeleteEvent(idx)}
-                          className="text-red-500 hover:text-red-700 p-1"
-                          title="Delete Event"
+                          className="text-red-500 hover:text-red-700 p-0.5"
+                          title="Delete Ceremony"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       )}
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      <div>
-                        <label className="font-mono text-[10px] uppercase font-bold text-neutral-600 block mb-1">
-                          Ceremony Name
-                        </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      <div className="sm:col-span-2">
                         <input
                           type="text"
                           value={ev.title}
                           onChange={(e) => handleUpdateEvent(idx, 'title', e.target.value)}
-                          placeholder="e.g. Royal Sangeet & Musical Night"
-                          className="w-full bg-white border border-stone-300 rounded-lg p-2 text-xs text-neutral-900"
+                          placeholder="Ceremony Title (e.g. Sangeet)"
+                          className="w-full bg-white border border-stone-300 rounded-lg px-2.5 py-1.5 text-xs text-neutral-900 font-medium"
                         />
                       </div>
                       <div>
-                        <label className="font-mono text-[10px] uppercase font-bold text-neutral-600 block mb-1">
-                          Date
-                        </label>
                         <input
                           type="date"
                           value={ev.date}
                           onChange={(e) => handleUpdateEvent(idx, 'date', e.target.value)}
-                          className="w-full bg-white border border-stone-300 rounded-lg p-2 text-xs text-neutral-900"
+                          className="w-full bg-white border border-stone-300 rounded-lg px-2 py-1.5 text-xs text-neutral-900"
                         />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      <div>
-                        <label className="font-mono text-[10px] uppercase font-bold text-neutral-600 block mb-1">
-                          Time
-                        </label>
-                        <input
-                          type="text"
-                          value={ev.time}
-                          onChange={(e) => handleUpdateEvent(idx, 'time', e.target.value)}
-                          placeholder="07:00 PM"
-                          className="w-full bg-white border border-stone-300 rounded-lg p-2 text-xs text-neutral-900"
-                        />
-                      </div>
-                      <div>
-                        <label className="font-mono text-[10px] uppercase font-bold text-neutral-600 block mb-1">
-                          Venue / Hall
-                        </label>
-                        <input
-                          type="text"
-                          value={ev.venue}
-                          onChange={(e) => handleUpdateEvent(idx, 'venue', e.target.value)}
-                          placeholder="Grand Ballroom"
-                          className="w-full bg-white border border-stone-300 rounded-lg p-2 text-xs text-neutral-900"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="font-mono text-[10px] uppercase font-bold text-neutral-600 block mb-1">
-                        Short Description / Highlights
-                      </label>
                       <input
                         type="text"
-                        value={ev.description}
-                        onChange={(e) => handleUpdateEvent(idx, 'description', e.target.value)}
-                        placeholder="An evening of dance performances and royal banquet..."
-                        className="w-full bg-white border border-stone-300 rounded-lg p-2 text-xs text-neutral-900"
+                        value={ev.time}
+                        onChange={(e) => handleUpdateEvent(idx, 'time', e.target.value)}
+                        placeholder="Time (e.g. 07:00 PM)"
+                        className="w-full bg-white border border-stone-300 rounded-lg px-2.5 py-1.5 text-xs text-neutral-900"
+                      />
+                      <input
+                        type="text"
+                        value={ev.venue}
+                        onChange={(e) => handleUpdateEvent(idx, 'venue', e.target.value)}
+                        placeholder="Venue / Hall"
+                        className="w-full bg-white border border-stone-300 rounded-lg px-2.5 py-1.5 text-xs text-neutral-900"
                       />
                     </div>
                   </div>
@@ -809,27 +645,19 @@ const InvitationEditor = () => {
               </div>
             </div>
 
-            {/* SECTION 4: PHOTO GALLERY */}
-            <div
-              id="sec-gallery"
-              className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E0D7C7] shadow-sm space-y-4 scroll-mt-36 text-xs"
-            >
-              <div className="flex items-center justify-between border-b border-stone-200 pb-3">
+            {/* 4. Photos & Visuals */}
+            <div className="space-y-4 pt-2">
+              <div className="flex items-center justify-between border-b border-amber-900/10 pb-2">
                 <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center font-mono text-xs">
-                    04
-                  </div>
-                  <div>
-                    <h3 className="font-serif text-lg font-bold text-neutral-900">Photo Gallery</h3>
-                    <p className="text-[11px] text-neutral-500 font-sans">
-                      Interactive swipe carousel & lightbox photos.
-                    </p>
-                  </div>
+                  <ImageIcon className="w-4 h-4 text-amber-700" />
+                  <h3 className="font-serif text-base font-bold text-neutral-900">
+                    Couple Portraits & Gallery
+                  </h3>
                 </div>
 
-                <label className="px-3 py-1.5 rounded-xl bg-amber-900 hover:bg-amber-950 text-white font-bold text-xs flex items-center space-x-1 cursor-pointer shadow-sm transition-all">
-                  <Upload className="w-3.5 h-3.5" />
-                  <span>Upload Image</span>
+                <label className="px-3 py-1 rounded-xl bg-amber-900 hover:bg-amber-950 text-white font-bold text-[11px] flex items-center space-x-1 cursor-pointer shadow-sm transition-all">
+                  <Upload className="w-3 h-3" />
+                  <span>Upload Photo</span>
                   <input
                     type="file"
                     accept="image/*"
@@ -846,7 +674,21 @@ const InvitationEditor = () => {
                 </label>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="text-xs">
+                <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
+                  Hero Cover Photo URL
+                </label>
+                <input
+                  type="url"
+                  name="coverPhoto"
+                  value={form.coverPhoto || ''}
+                  onChange={handleChange}
+                  placeholder="https://images.unsplash.com/..."
+                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
                 {form.gallery_images.map((img, idx) => (
                   <div
                     key={idx}
@@ -856,7 +698,7 @@ const InvitationEditor = () => {
                     <button
                       type="button"
                       onClick={() => handleDeleteGalleryImage(idx)}
-                      className="absolute top-1.5 right-1.5 p-1 rounded-full bg-red-600 text-white opacity-90 hover:opacity-100 shadow transition-all"
+                      className="absolute top-1 right-1 p-1 rounded-full bg-red-600 text-white opacity-90 hover:opacity-100 shadow transition-all"
                       title="Delete Image"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -866,148 +708,81 @@ const InvitationEditor = () => {
               </div>
             </div>
 
-            {/* SECTION 5: SCRATCH CARD */}
-            <div
-              id="sec-scratch"
-              className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E0D7C7] shadow-sm space-y-4 scroll-mt-36 text-xs"
-            >
-              <div className="flex items-center space-x-2 border-b border-stone-200 pb-3">
-                <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center font-mono text-xs">
-                  05
-                </div>
-                <div>
-                  <h3 className="font-serif text-lg font-bold text-neutral-900">Interactive Scratch Card</h3>
-                  <p className="text-[11px] text-neutral-500 font-sans">
-                    Touch foil scratch card with secret reveal message.
-                  </p>
-                </div>
+            {/* 5. Scratch Card & RSVP Options */}
+            <div className="space-y-4 pt-2">
+              <div className="flex items-center space-x-2 border-b border-amber-900/10 pb-2">
+                <Gift className="w-4 h-4 text-amber-700" />
+                <h3 className="font-serif text-base font-bold text-neutral-900">
+                  Interactive Experience & RSVP
+                </h3>
               </div>
 
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="scratch_enabled"
-                  name="scratch_enabled"
-                  checked={form.scratch_enabled}
-                  onChange={handleChange}
-                  className="rounded border-stone-300 text-amber-600 focus:ring-amber-500 w-4 h-4"
-                />
-                <label htmlFor="scratch_enabled" className="font-bold text-neutral-800">
-                  Enable Interactive Gold Foil Touch Scratch Card
-                </label>
+              {/* Scratch card toggle */}
+              <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-stone-300 space-y-2 text-xs">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="scratch_enabled"
+                    name="scratch_enabled"
+                    checked={form.scratch_enabled}
+                    onChange={handleChange}
+                    className="rounded border-stone-300 text-amber-600 focus:ring-amber-500 w-4 h-4"
+                  />
+                  <label htmlFor="scratch_enabled" className="font-bold text-neutral-800">
+                    Enable Gold Foil Touch Scratch Card
+                  </label>
+                </div>
+                {form.scratch_enabled && (
+                  <input
+                    type="text"
+                    name="scratch_reveal_text"
+                    value={form.scratch_reveal_text}
+                    onChange={handleChange}
+                    placeholder="YOU’RE INVITED ♡ We can't wait to celebrate with you."
+                    className="w-full bg-white border border-stone-300 rounded-lg px-2.5 py-1.5 text-xs text-neutral-900"
+                  />
+                )}
               </div>
 
-              <div>
-                <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                  Secret Revealed Message
-                </label>
-                <textarea
-                  rows={3}
-                  name="scratch_reveal_text"
-                  value={form.scratch_reveal_text}
-                  onChange={handleChange}
-                  placeholder="YOU’RE INVITED ♡&#10;We can't wait to celebrate with you."
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl p-3 text-xs text-neutral-900 font-bold"
-                />
+              {/* RSVP toggle */}
+              <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-stone-300 space-y-2 text-xs">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="rsvp_enabled"
+                    name="rsvp_enabled"
+                    checked={form.rsvp_enabled}
+                    onChange={handleChange}
+                    className="rounded border-stone-300 text-amber-600 focus:ring-amber-500 w-4 h-4"
+                  />
+                  <label htmlFor="rsvp_enabled" className="font-bold text-neutral-800">
+                    Enable Online Guest RSVP Form & Attendance
+                  </label>
+                </div>
+                {form.rsvp_enabled && (
+                  <input
+                    type="text"
+                    name="rsvp_heading"
+                    value={form.rsvp_heading}
+                    onChange={handleChange}
+                    placeholder="Guest RSVP"
+                    className="w-full bg-white border border-stone-300 rounded-lg px-2.5 py-1.5 text-xs text-neutral-900"
+                  />
+                )}
               </div>
             </div>
 
-            {/* SECTION 6: RSVP SETTINGS */}
-            <div
-              id="sec-rsvp"
-              className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E0D7C7] shadow-sm space-y-4 scroll-mt-36 text-xs"
-            >
-              <div className="flex items-center space-x-2 border-b border-stone-200 pb-3">
-                <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center font-mono text-xs">
-                  06
-                </div>
-                <div>
-                  <h3 className="font-serif text-lg font-bold text-neutral-900">Guest RSVP Settings</h3>
-                  <p className="text-[11px] text-neutral-500 font-sans">
-                    Collect guest attendance, counts, and WhatsApp confirmations.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="rsvp_enabled"
-                  name="rsvp_enabled"
-                  checked={form.rsvp_enabled}
-                  onChange={handleChange}
-                  className="rounded border-stone-300 text-amber-600 focus:ring-amber-500 w-4 h-4"
-                />
-                <label htmlFor="rsvp_enabled" className="font-bold text-neutral-800">
-                  Enable Online Guest RSVP Form & WhatsApp Attendance
-                </label>
-              </div>
-
-              <div>
-                <label className="font-mono uppercase font-bold text-neutral-700 block mb-1">
-                  RSVP Form Title
-                </label>
-                <input
-                  type="text"
-                  name="rsvp_heading"
-                  value={form.rsvp_heading}
-                  onChange={handleChange}
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2.5 text-xs text-neutral-900"
-                />
-              </div>
-            </div>
-
-            {/* SECTION 7: TEMPLATE SUITE */}
-            <div
-              id="sec-theme"
-              className="bg-white rounded-3xl p-6 sm:p-8 border border-[#E0D7C7] shadow-sm space-y-4 scroll-mt-36 text-xs"
-            >
-              <div className="flex items-center space-x-2 border-b border-stone-200 pb-3">
-                <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-900 font-bold flex items-center justify-center font-mono text-xs">
-                  07
-                </div>
-                <div>
-                  <h3 className="font-serif text-lg font-bold text-neutral-900">Switch Template Suite</h3>
-                  <p className="text-[11px] text-neutral-500 font-sans">
-                    Choose from the 6 authentic video-inspired luxury suites. Music and styling are automatically preset by Moonlight Production.
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {invitationTemplates.map((tpl) => (
-                  <button
-                    key={tpl.id}
-                    type="button"
-                    onClick={() => setForm((prev) => ({ ...prev, template_id: tpl.id }))}
-                    className={`p-3 rounded-2xl border text-left space-y-1 transition-all ${
-                      form.template_id === tpl.id
-                        ? 'bg-amber-100 border-amber-600 ring-2 ring-amber-400 shadow-sm'
-                        : 'bg-[#FAF8F5] border-stone-200 hover:bg-stone-100'
-                    }`}
-                  >
-                    <span className="font-serif font-bold text-xs text-neutral-900 block truncate">
-                      {tpl.name}
-                    </span>
-                    <span className="text-[10px] text-amber-800 uppercase font-mono block">
-                      {tpl.category}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* BOTTOM ACTION BAR */}
-            <div className="p-6 rounded-3xl bg-white border border-[#E0D7C7] shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="text-xs text-neutral-500 font-sans">
-                Ready to share with family and friends?
-              </div>
-              <div className="flex items-center space-x-3 w-full sm:w-auto justify-end">
+            {/* Form Bottom Save / Publish Actions */}
+            <div className="pt-3 border-t border-amber-900/10 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <span className="text-xs text-neutral-500 font-mono">
+                All changes sync automatically to live preview.
+              </span>
+              <div className="flex items-center space-x-2.5 w-full sm:w-auto justify-end">
                 <button
                   type="button"
                   onClick={() => handleSave(false)}
                   disabled={saving}
-                  className="px-5 py-2.5 rounded-full bg-stone-100 hover:bg-stone-200 text-neutral-800 font-bold text-xs uppercase tracking-wider"
+                  className="px-4 py-2 rounded-full bg-stone-100 hover:bg-stone-200 text-neutral-800 font-bold text-xs uppercase tracking-wider transition-all"
                 >
                   Save Draft
                 </button>
@@ -1015,10 +790,10 @@ const InvitationEditor = () => {
                   type="button"
                   onClick={() => handleSave(true)}
                   disabled={saving}
-                  className="px-6 py-2.5 rounded-full bg-gradient-to-r from-amber-700 via-amber-800 to-amber-900 hover:from-amber-800 hover:to-amber-950 text-white font-bold text-xs uppercase tracking-wider shadow-md flex items-center"
+                  className="px-5 py-2 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-md hover:brightness-105 flex items-center transition-all btn-shimmer"
                 >
-                  <Sparkles className="w-3.5 h-3.5 mr-1.5" />
-                  {saving ? 'Publishing...' : form.published ? 'Update Live Invite' : 'Publish Live Invite'}
+                  <Sparkles className="w-3.5 h-3.5 mr-1" />
+                  {saving ? 'Publishing...' : form.published ? 'Update Live Invite' : 'Publish Live'}
                 </button>
               </div>
             </div>
@@ -1026,43 +801,30 @@ const InvitationEditor = () => {
           </div>
 
           {/* ------------------------------------------------------------- */}
-          {/* RIGHT: STICKY REAL-TIME 390px MOBILE PREVIEW */}
+          {/* RIGHT: STICKY REAL-TIME 390px PREVIEW */}
           {/* ------------------------------------------------------------- */}
           <div className="lg:col-span-6 sticky top-24 space-y-3">
             <div className="flex items-center justify-between px-2">
               <span className="text-[11px] font-mono uppercase font-bold text-amber-900 tracking-wider flex items-center">
-                <Eye className="w-4 h-4 mr-1.5" /> Real-Time Live Preview
+                <Eye className="w-4 h-4 mr-1.5" /> Live Preview
               </span>
-              <div className="flex items-center space-x-2">
-                <button
-                  type="button"
-                  onClick={() => setShowFullscreenPreview(true)}
-                  className="px-2.5 py-1 rounded-full bg-amber-900 hover:bg-amber-950 text-amber-100 text-[10px] font-mono font-bold flex items-center space-x-1 shadow transition-all"
-                  title="Open Fullscreen Interactive Preview"
-                >
-                  <Eye className="w-3 h-3 text-amber-400" />
-                  <span>Fullscreen Live Preview</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPreviewDoorKey((prev) => prev + 1)}
-                  className="px-2.5 py-1 rounded-full bg-stone-200 hover:bg-stone-300 text-neutral-800 text-[10px] font-mono font-bold flex items-center space-x-1 shadow transition-all"
-                  title="Re-test Palace Door Entrance"
-                >
-                  <DoorClosed className="w-3 h-3 text-neutral-700" />
-                  <span>Test Doors</span>
-                </button>
-                <span className="text-[10px] text-neutral-500 font-mono hidden sm:inline">390px Mobile</span>
-              </div>
+              <button
+                type="button"
+                onClick={() => setShowFullscreenPreview(true)}
+                className="px-3 py-1 rounded-full bg-amber-900 hover:bg-amber-950 text-amber-100 text-[10.5px] font-mono font-bold flex items-center space-x-1 shadow transition-all"
+                title="Open Fullscreen Preview"
+              >
+                <Eye className="w-3.5 h-3.5 text-amber-400" />
+                <span>Preview</span>
+              </button>
             </div>
 
             {/* Mobile Viewport Mockup */}
             <div className="max-w-[410px] mx-auto rounded-[40px] border-4 border-neutral-900 shadow-2xl overflow-hidden max-h-[85vh] overflow-y-auto scrollbar-thin relative bg-black">
               <InvitationRenderer
-                key={`preview-${previewDoorKey}`}
                 invitation={form}
                 isPreview={true}
-                showOpeningInPreview={previewDoorKey > 0}
+                showOpeningInPreview={false}
               />
             </div>
           </div>
@@ -1086,7 +848,7 @@ const InvitationEditor = () => {
                   Your Invitation is Live! ✨
                 </h3>
                 <p className="text-xs text-neutral-600 font-sans">
-                  Guests can now open your royal double doors, scratch the card, view the map directions, and submit RSVPs online.
+                  Guests can now open your invitation, scratch the card, view map directions, and submit RSVPs online.
                 </p>
               </div>
 
@@ -1116,7 +878,7 @@ const InvitationEditor = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <a
                   href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
-                    `Namaste! ✨\nYou are cordially invited to celebrate ${form.title} on ${form.date}.\n\nTap the live link to view the royal door entrance, itinerary, scratch card & RSVP:\n${window.location.origin}/i/${form.slug}\n\nWith love,\n${form.names}`
+                    `Namaste! ✨\nYou are cordially invited to celebrate ${form.title} on ${form.date}.\n\nTap the live link to view the invitation, itinerary, scratch card & RSVP:\n${window.location.origin}/i/${form.slug}\n\nWith love,\n${form.names}`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -1151,7 +913,7 @@ const InvitationEditor = () => {
         )}
 
         {/* ========================================================================= */}
-        {/* FULLSCREEN LIVE GUEST PREVIEW SIMULATOR MODAL */}
+        {/* FULLSCREEN PREVIEW MODAL */}
         {/* ========================================================================= */}
         {showFullscreenPreview && (
           <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-between p-3 sm:p-6 animate-fade-in font-sans">
@@ -1160,10 +922,10 @@ const InvitationEditor = () => {
               <div className="flex items-center space-x-3">
                 <span className="font-serif text-base sm:text-lg font-bold text-amber-300 flex items-center space-x-2">
                   <Sparkles className="w-4 h-4 text-amber-400" />
-                  <span>Live Guest Experience Preview</span>
+                  <span>Invitation Preview</span>
                 </span>
                 <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full bg-white/10 text-[10px] font-mono uppercase text-neutral-300">
-                  Palace Doors Opening + Full Scroll
+                  {activeTemplate.name}
                 </span>
               </div>
 
@@ -1179,7 +941,7 @@ const InvitationEditor = () => {
                         : 'text-neutral-300 hover:text-white'
                     }`}
                   >
-                    📱 Mobile (390px)
+                    📱 Mobile
                   </button>
                   <button
                     type="button"
@@ -1190,20 +952,9 @@ const InvitationEditor = () => {
                         : 'text-neutral-300 hover:text-white'
                     }`}
                   >
-                    💻 Desktop View
+                    💻 Desktop
                   </button>
                 </div>
-
-                {/* Replay Doors */}
-                <button
-                  type="button"
-                  onClick={() => setPreviewDoorKey((prev) => prev + 1)}
-                  className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-amber-300 text-xs font-bold flex items-center space-x-1"
-                  title="Replay Entrance"
-                >
-                  <DoorClosed className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Replay Doors</span>
-                </button>
 
                 {/* Close Button */}
                 <button
@@ -1226,16 +977,11 @@ const InvitationEditor = () => {
                 }`}
               >
                 <InvitationRenderer
-                  key={`modal-preview-${previewDoorKey}`}
                   invitation={form}
                   isPreview={true}
-                  showOpeningInPreview={true}
+                  showOpeningInPreview={false}
                 />
               </div>
-            </div>
-
-            <div className="text-[11px] text-neutral-400 font-mono text-center">
-              <span>✨ Tap or scroll down the royal doors to open and explore the full live invitation.</span>
             </div>
           </div>
         )}
