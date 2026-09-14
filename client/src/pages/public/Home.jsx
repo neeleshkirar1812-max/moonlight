@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '../../api/client';
+import { useAuth } from '../../context/AuthContext';
 import SEO from '../../components/common/SEO';
 import TeslaHeroSlider from '../../components/common/TeslaHeroSlider';
 import TeslaStickyBar from '../../components/common/TeslaStickyBar';
@@ -177,6 +178,7 @@ const featuredGallery = [
 ];
 
 const Home = () => {
+  const { user } = useAuth();
   const [videos, setVideos] = useState(defaultMoonlightFilms.slice(0, 4));
   const [activeVideo, setActiveVideo] = useState(null);
   const [selectedPhotoCategory, setSelectedPhotoCategory] = useState('All');
@@ -452,7 +454,7 @@ const Home = () => {
               {/* Action Button */}
               <div className="pt-8">
                 <Link
-                  to="/templates?collection=classic"
+                  to={user ? "/templates?collection=classic" : "/invitations/signup?redirect=/templates?collection=classic"}
                   className="w-full py-4 rounded-2xl bg-white hover:bg-neutral-100 text-neutral-950 font-extrabold text-xs uppercase tracking-wider text-center block transition-all shadow-lg hover:shadow-xl active:scale-[0.99] cursor-pointer"
                 >
                   Get Classic Pass (₹1,199) →
@@ -544,7 +546,7 @@ const Home = () => {
               {/* Action Button */}
               <div className="pt-8">
                 <Link
-                  to="/templates?collection=royal"
+                  to={user ? "/templates?collection=royal" : "/invitations/signup?redirect=/templates?collection=royal"}
                   className="w-full py-4 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:brightness-110 text-neutral-950 font-extrabold text-xs uppercase tracking-wider text-center block shadow-xl shadow-amber-950/50 active:scale-[0.99] transition-all cursor-pointer"
                 >
                   Get Royal VIP Pass (₹1,499) →
