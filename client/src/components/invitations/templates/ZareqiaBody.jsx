@@ -24,7 +24,7 @@ import { downloadIcsFile } from '../../../utils/calendarGenerator';
 import api from '../../../api/client';
 
 // =========================================================================
-// SVG ORNAMENTS & LUXURY MOTIFS REVERSE-ENGINEERED FROM ZAREQIA
+// SVG ORNAMENTS & LUXURY MOTIFS
 // =========================================================================
 
 export const WaveOrnament = ({ className = '', style = {} }) => (
@@ -84,7 +84,6 @@ export const PalaceSkyline = ({ className = '', style = {} }) => (
     <circle cx="550" cy="50" r="2.5" stroke="currentColor" strokeWidth="1.2" fill="none" />
   </svg>
 );
-
 
 export const PalaceCorner = ({ className = '', style = {} }) => (
   <svg viewBox="0 0 100 100" className={className} style={style} fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -149,14 +148,14 @@ export const DamaskPattern = () => (
 );
 
 // =========================================================================
-// SECTION WRAPPER - Seamless Luxury Container
+// SECTION CONTAINER
 // =========================================================================
-export const ZareqiaSection = ({ children, className = '', cream = false, id = '', style = {} }) => (
+export const ZareqiaSection = ({ children, className = '', cream = false, id = '', isDark = false, style = {} }) => (
   <section
     id={id}
     style={style}
     className={`py-12 sm:py-16 md:py-20 px-4 sm:px-6 relative overflow-hidden transition-all duration-700 ${
-      cream ? 'bg-black/[0.02] backdrop-blur-xs' : ''
+      cream ? (isDark ? 'bg-white/[0.03] backdrop-blur-xs' : 'bg-black/[0.02] backdrop-blur-xs') : ''
     } ${className}`}
   >
     {children}
@@ -164,7 +163,7 @@ export const ZareqiaSection = ({ children, className = '', cream = false, id = '
 );
 
 // =========================================================================
-// 1. WELCOME QUOTATION SECTION (Top Dark Gradient Box from Screenshots)
+// 1. WELCOME QUOTATION BANNER
 // =========================================================================
 export const ZareqiaWelcomeQuote = ({
   groomName,
@@ -174,12 +173,15 @@ export const ZareqiaWelcomeQuote = ({
   gradient,
   textColor,
   accentColor,
+  isDark = false,
 }) => {
   return (
     <div
       className="w-full py-16 sm:py-20 px-6 text-center relative overflow-hidden transition-all duration-700 shadow-xl"
       style={{
-        background: gradient || 'linear-gradient(to bottom, #564A42 0%, #7A6A5F 45%, #C7B6A8 78%, #F3E9E2 100%)',
+        background: gradient || (isDark
+          ? 'linear-gradient(to bottom, #000000 0%, #171717 50%, #262626 100%)'
+          : 'linear-gradient(to bottom, #564A42 0%, #7A6A5F 45%, #C7B6A8 78%, #F3E9E2 100%)'),
         color: '#FAF5EE',
       }}
     >
@@ -203,7 +205,7 @@ export const ZareqiaWelcomeQuote = ({
 };
 
 // =========================================================================
-// 2. INTERACTIVE HEART-SHAPED SCRATCH CARD (Exact 1:1 Zareqia Style)
+// 2. SCRATCH TO REVEAL (Supports 'heart' for Royal & 'rect' for Classic)
 // =========================================================================
 export const ZareqiaScratchCard = ({
   weddingDateStr,
@@ -215,6 +217,8 @@ export const ZareqiaScratchCard = ({
   venueAddress,
   accentColor,
   textColor,
+  cardShape = 'heart', // 'heart' (Royal) or 'rect' (Classic)
+  isDark = false,
 }) => {
   const canvasRef = useRef(null);
   const [isRevealed, setIsRevealed] = useState(false);
@@ -240,8 +244,8 @@ export const ZareqiaScratchCard = ({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const width = canvas.offsetWidth || 220;
-    const height = canvas.offsetHeight || 200;
+    const width = canvas.offsetWidth || (cardShape === 'rect' ? 260 : 220);
+    const height = canvas.offsetHeight || (cardShape === 'rect' ? 140 : 200);
     const dpr = window.devicePixelRatio || 1;
 
     canvas.width = width * dpr;
@@ -257,9 +261,9 @@ export const ZareqiaScratchCard = ({
       height * 0.5,
       Math.max(width, height) * 0.75
     );
-    grad.addColorStop(0, palette?.gradStart || '#e8cc82');
-    grad.addColorStop(0.45, palette?.gradMid || '#a9802d');
-    grad.addColorStop(1, palette?.gradEnd || '#5c421c');
+    grad.addColorStop(0, palette?.gradStart || '#fde68a');
+    grad.addColorStop(0.45, palette?.gradMid || '#d97706');
+    grad.addColorStop(1, palette?.gradEnd || '#78350f');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, width, height);
 
@@ -333,7 +337,7 @@ export const ZareqiaScratchCard = ({
       canvas.removeEventListener('touchmove', handleTouch);
       canvas.removeEventListener('mousemove', handleMouse);
     };
-  }, [isRevealed, palette]);
+  }, [isRevealed, palette, cardShape]);
 
   const handleDownloadIcs = () => {
     downloadIcsFile({
@@ -386,43 +390,71 @@ export const ZareqiaScratchCard = ({
         <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
       </div>
 
-      {/* Heart Scratch Container */}
-      <div className="relative w-52 h-48 sm:w-60 sm:h-56 mx-auto flex items-center justify-center select-none filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)]">
-        {/* Heart Background & Revealed Date Card */}
+      {cardShape === 'rect' ? (
+        /* Rectangular Gold Scratch Foil (Classic Suite 1:1) */
         <div
-          className="absolute inset-0 w-full h-full flex flex-col items-center justify-center p-6 text-center bg-white/90 border border-neutral-200/50"
-          style={{
-            clipPath: 'url(#zareqiaHeartClip)',
-            WebkitClipPath: 'url(#zareqiaHeartClip)',
-          }}
+          className={`relative w-60 sm:w-72 h-36 sm:h-40 mx-auto rounded-2xl overflow-hidden border shadow-2xl flex items-center justify-center select-none ${
+            isDark ? 'bg-black/60 border-amber-400/40 text-white' : 'bg-white/90 border-amber-500/40 text-neutral-900'
+          }`}
         >
-          <span className="text-xs opacity-75 mb-1" style={{ color: accentColor }}>✦</span>
-          <h3
-            className="font-serif text-base sm:text-lg font-bold tracking-wider leading-tight"
-            style={{ color: textColor || '#1a1208' }}
-          >
-            {formattedDate}
-          </h3>
-          <p className="text-[11px] font-mono opacity-80 pt-1" style={{ color: accentColor }}>
-            AT {weddingTimeStr || '07:00 PM'}
-          </p>
-          <p className="text-[9px] uppercase tracking-widest text-neutral-500 pt-1 max-w-[120px] truncate">
-            {venueName}
-          </p>
-        </div>
+          {/* Revealed Secret Wedding Info */}
+          <div className="p-4 text-center space-y-1 z-0 animate-fade-in">
+            <span className="text-xs opacity-75 block" style={{ color: accentColor }}>✦</span>
+            <h3 className="font-serif text-base sm:text-lg font-bold tracking-wider leading-tight" style={{ color: textColor }}>
+              {formattedDate}
+            </h3>
+            <p className="text-[11px] font-mono opacity-90 font-semibold" style={{ color: accentColor }}>
+              AT {weddingTimeStr || '07:00 PM'}
+            </p>
+            <p className={`text-[9px] uppercase tracking-widest truncate max-w-[180px] mx-auto ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
+              {venueName}
+            </p>
+          </div>
 
-        {/* Scratch Canvas Foil Layer */}
-        {!isRevealed && (
-          <canvas
-            ref={canvasRef}
-            className="absolute inset-0 w-full h-full cursor-crosshair z-10 touch-none transition-opacity duration-700"
+          {/* Canvas Scratch Foil Layer */}
+          {!isRevealed && (
+            <canvas
+              ref={canvasRef}
+              className="absolute inset-0 w-full h-full cursor-crosshair z-10 touch-none transition-opacity duration-700 rounded-2xl"
+            />
+          )}
+        </div>
+      ) : (
+        /* Heart Shaped Gold Scratch Foil (Royal Suite 1:1) */
+        <div className="relative w-52 h-48 sm:w-60 sm:h-56 mx-auto flex items-center justify-center select-none filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)]">
+          <div
+            className={`absolute inset-0 w-full h-full flex flex-col items-center justify-center p-6 text-center border ${
+              isDark ? 'bg-black/60 border-amber-400/30 text-white' : 'bg-white/90 border-neutral-200/50 text-neutral-900'
+            }`}
             style={{
               clipPath: 'url(#zareqiaHeartClip)',
               WebkitClipPath: 'url(#zareqiaHeartClip)',
             }}
-          />
-        )}
-      </div>
+          >
+            <span className="text-xs opacity-75 mb-1" style={{ color: accentColor }}>✦</span>
+            <h3 className="font-serif text-base sm:text-lg font-bold tracking-wider leading-tight" style={{ color: textColor }}>
+              {formattedDate}
+            </h3>
+            <p className="text-[11px] font-mono opacity-90 pt-1" style={{ color: accentColor }}>
+              AT {weddingTimeStr || '07:00 PM'}
+            </p>
+            <p className={`text-[9px] uppercase tracking-widest pt-1 max-w-[120px] truncate ${isDark ? 'text-neutral-300' : 'text-neutral-500'}`}>
+              {venueName}
+            </p>
+          </div>
+
+          {!isRevealed && (
+            <canvas
+              ref={canvasRef}
+              className="absolute inset-0 w-full h-full cursor-crosshair z-10 touch-none transition-opacity duration-700"
+              style={{
+                clipPath: 'url(#zareqiaHeartClip)',
+                WebkitClipPath: 'url(#zareqiaHeartClip)',
+              }}
+            />
+          )}
+        </div>
+      )}
 
       {/* Save to Calendar Button */}
       <div className="relative inline-block text-center pt-2">
@@ -439,16 +471,22 @@ export const ZareqiaScratchCard = ({
         </button>
 
         {showCalOptions && (
-          <div className="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-white/95 text-neutral-900 border border-neutral-300 backdrop-blur-xl rounded-2xl shadow-2xl z-40 overflow-hidden text-left py-1 text-xs font-sans animate-fade-in">
+          <div className={`absolute left-1/2 -translate-x-1/2 mt-3 w-56 backdrop-blur-xl rounded-2xl shadow-2xl z-40 overflow-hidden text-left py-1 text-xs font-sans animate-fade-in border ${
+            isDark ? 'bg-neutral-900/95 text-white border-white/20' : 'bg-white/95 text-neutral-900 border-neutral-300'
+          }`}>
             <button
               onClick={handleGoogleCalendar}
-              className="w-full px-4 py-2.5 text-neutral-800 hover:bg-neutral-100 flex items-center space-x-2 transition-colors cursor-pointer"
+              className={`w-full px-4 py-2.5 flex items-center space-x-2 transition-colors cursor-pointer ${
+                isDark ? 'hover:bg-white/10 text-neutral-100' : 'hover:bg-neutral-100 text-neutral-800'
+              }`}
             >
               <span>📅 Google Calendar</span>
             </button>
             <button
               onClick={handleDownloadIcs}
-              className="w-full px-4 py-2.5 text-neutral-800 hover:bg-neutral-100 flex items-center space-x-2 transition-colors border-t border-neutral-100 cursor-pointer"
+              className={`w-full px-4 py-2.5 flex items-center space-x-2 transition-colors border-t cursor-pointer ${
+                isDark ? 'hover:bg-white/10 text-neutral-100 border-white/10' : 'hover:bg-neutral-100 text-neutral-800 border-neutral-100'
+              }`}
             >
               <span>🍏 Apple / Outlook (.ics)</span>
             </button>
@@ -460,9 +498,9 @@ export const ZareqiaScratchCard = ({
 };
 
 // =========================================================================
-// 3. MOMENTS OF LOVE / PHOTO CARD SECTION (Screenshots 1:1)
+// 3. MOMENTS OF LOVE / PHOTO CARD
 // =========================================================================
-export const ZareqiaPhotoCard = ({ coverImage, photos = [], accentColor }) => {
+export const ZareqiaPhotoCard = ({ coverImage, photos = [], accentColor, isDark = false }) => {
   const defaultPhoto =
     coverImage ||
     (photos && photos.length > 0 ? photos[0] : null) ||
@@ -472,7 +510,9 @@ export const ZareqiaPhotoCard = ({ coverImage, photos = [], accentColor }) => {
     <div className="max-w-2xl mx-auto text-center space-y-4">
       <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
 
-      <div className="w-full rounded-2xl overflow-hidden shadow-2xl border border-black/10 bg-black/5 transform transition-transform duration-700 hover:scale-[1.01]">
+      <div className={`w-full rounded-2xl overflow-hidden shadow-2xl border transform transition-transform duration-700 hover:scale-[1.01] ${
+        isDark ? 'border-white/10 bg-black/40' : 'border-black/10 bg-black/5'
+      }`}>
         <img
           src={defaultPhoto}
           alt="Moments of Love"
@@ -484,9 +524,9 @@ export const ZareqiaPhotoCard = ({ coverImage, photos = [], accentColor }) => {
 };
 
 // =========================================================================
-// 4. COUNTDOWN TO FOREVER SECTION
+// 4. COUNTDOWN TO FOREVER
 // =========================================================================
-export const ZareqiaCountdown = ({ weddingDateStr, weddingTimeStr, accentColor, textColor }) => {
+export const ZareqiaCountdown = ({ weddingDateStr, weddingTimeStr, accentColor, textColor, isDark = false }) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
@@ -535,8 +575,10 @@ export const ZareqiaCountdown = ({ weddingDateStr, weddingTimeStr, accentColor, 
         {units.map((unit, i) => (
           <div key={i} className="text-center">
             <div
-              className="w-16 sm:w-20 md:w-24 px-1 py-3 sm:px-3 sm:py-4 mb-2 rounded-xl border bg-white/60 backdrop-blur-sm shadow-md"
-              style={{ borderColor: accentColor ? accentColor + '40' : 'rgba(0,0,0,0.15)' }}
+              className={`w-16 sm:w-20 md:w-24 px-1 py-3 sm:px-3 sm:py-4 mb-2 rounded-xl border backdrop-blur-sm shadow-md ${
+                isDark ? 'bg-white/10 border-white/20' : 'bg-white/60 border-black/10'
+              }`}
+              style={{ borderColor: accentColor ? accentColor + '40' : undefined }}
             >
               <span
                 className="font-serif text-2xl sm:text-3xl md:text-4xl font-semibold block leading-none"
@@ -545,7 +587,9 @@ export const ZareqiaCountdown = ({ weddingDateStr, weddingTimeStr, accentColor, 
                 {String(unit.val).padStart(2, '0')}
               </span>
             </div>
-            <span className="text-[10px] uppercase font-mono tracking-[0.2em] text-neutral-600 font-medium">
+            <span className={`text-[10px] uppercase font-mono tracking-[0.2em] font-medium ${
+              isDark ? 'text-neutral-300' : 'text-neutral-600'
+            }`}>
               {unit.label}
             </span>
           </div>
@@ -556,9 +600,9 @@ export const ZareqiaCountdown = ({ weddingDateStr, weddingTimeStr, accentColor, 
 };
 
 // =========================================================================
-// 5. PROGRAM TIMELINE SECTION
+// 5. PROGRAM TIMELINE
 // =========================================================================
-export const ZareqiaTimeline = ({ events = [], accentColor, textColor }) => {
+export const ZareqiaTimeline = ({ events = [], accentColor, textColor, isDark = false }) => {
   if (!events || events.length === 0) return null;
 
   return (
@@ -577,7 +621,7 @@ export const ZareqiaTimeline = ({ events = [], accentColor, textColor }) => {
       <div className="pt-4 pl-4 sm:pl-8">
         {events.map((ev, idx) => (
           <div key={idx} className="flex gap-4 sm:gap-6 mb-8 last:mb-0">
-            {/* Timeline Continuous Thread */}
+            {/* Continuous Line */}
             <div className="flex flex-col items-center pt-1.5">
               <div
                 className="w-3.5 h-3.5 rounded-full shadow-md ring-4"
@@ -602,7 +646,9 @@ export const ZareqiaTimeline = ({ events = [], accentColor, textColor }) => {
               >
                 ✦ {ev.title || ev.name}
               </h3>
-              <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-neutral-600">
+              <div className={`flex flex-wrap items-center gap-2 text-xs font-mono ${
+                isDark ? 'text-neutral-300' : 'text-neutral-600'
+              }`}>
                 <Clock size={12} style={{ color: accentColor }} />
                 <span>{ev.time}</span>
                 {ev.date && (
@@ -613,13 +659,17 @@ export const ZareqiaTimeline = ({ events = [], accentColor, textColor }) => {
                 )}
               </div>
               {ev.venue && (
-                <p className="text-xs text-neutral-700 flex items-center gap-1.5 pt-0.5">
+                <p className={`text-xs flex items-center gap-1.5 pt-0.5 ${
+                  isDark ? 'text-neutral-200' : 'text-neutral-700'
+                }`}>
                   <MapPin size={12} style={{ color: accentColor }} className="shrink-0" />
                   <span>{ev.venue}</span>
                 </p>
               )}
               {ev.description && (
-                <p className="text-xs text-neutral-600 mt-1 whitespace-pre-wrap break-words leading-relaxed">
+                <p className={`text-xs mt-1 whitespace-pre-wrap break-words leading-relaxed ${
+                  isDark ? 'text-neutral-300' : 'text-neutral-600'
+                }`}>
                   {ev.description}
                 </p>
               )}
@@ -632,9 +682,9 @@ export const ZareqiaTimeline = ({ events = [], accentColor, textColor }) => {
 };
 
 // =========================================================================
-// 6. VENUE & INTERACTIVE GOOGLE MAP SECTION
+// 6. VENUE & MAP
 // =========================================================================
-export const ZareqiaVenue = ({ venueName, venueAddress, accentColor, textColor }) => {
+export const ZareqiaVenue = ({ venueName, venueAddress, accentColor, textColor, isDark = false }) => {
   const fullAddress = [venueName, venueAddress].filter(Boolean).join(', ');
   const mapEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(fullAddress)}&t=m&z=14&output=embed`;
   const mapDirectUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
@@ -653,16 +703,18 @@ export const ZareqiaVenue = ({ venueName, venueAddress, accentColor, textColor }
       </div>
 
       <div className="space-y-1 mb-4">
-        <p className="font-serif text-xl sm:text-2xl font-semibold" style={{ color: textColor || '#1a1208' }}>
+        <p className="font-serif text-xl sm:text-2xl font-semibold" style={{ color: textColor }}>
           {venueName}
         </p>
-        <p className="text-xs sm:text-sm text-neutral-600 max-w-lg mx-auto">
+        <p className={`text-xs sm:text-sm max-w-lg mx-auto ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
           {venueAddress}
         </p>
       </div>
 
       {/* Embedded Map */}
-      <div className="w-full h-64 sm:h-72 md:h-80 rounded-2xl overflow-hidden shadow-xl border border-black/10 bg-neutral-100">
+      <div className={`w-full h-64 sm:h-72 md:h-80 rounded-2xl overflow-hidden shadow-xl border ${
+        isDark ? 'border-white/10 bg-black/40' : 'border-black/10 bg-neutral-100'
+      }`}>
         <iframe
           src={mapEmbedUrl}
           width="100%"
@@ -696,9 +748,9 @@ export const ZareqiaVenue = ({ venueName, venueAddress, accentColor, textColor }
 };
 
 // =========================================================================
-// 7. DRESS CODE SECTION
+// 7. DRESS CODE
 // =========================================================================
-export const ZareqiaDressCode = ({ accentColor, textColor }) => (
+export const ZareqiaDressCode = ({ accentColor, textColor, isDark = false }) => (
   <div className="max-w-xl mx-auto space-y-6 text-center">
     <div className="space-y-1">
       <Shirt className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
@@ -712,20 +764,24 @@ export const ZareqiaDressCode = ({ accentColor, textColor }) => (
     </div>
 
     <div className="grid grid-cols-2 gap-4 sm:gap-6 pt-2 text-center">
-      <div className="py-5 px-4 rounded-2xl border bg-white/50 backdrop-blur-sm space-y-2 border-black/10">
+      <div className={`py-5 px-4 rounded-2xl border backdrop-blur-sm space-y-2 ${
+        isDark ? 'bg-white/5 border-white/15' : 'bg-white/50 border-black/10'
+      }`}>
         <h3 className="font-mono text-xs uppercase tracking-widest font-bold" style={{ color: accentColor || '#8B5A2B' }}>
           MEN
         </h3>
-        <p className="text-xs text-neutral-600 leading-relaxed">
+        <p className={`text-xs leading-relaxed ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
           Traditional Indian Sherwanis, Bandhgalas, or Classic Tuxedos.
         </p>
       </div>
 
-      <div className="py-5 px-4 rounded-2xl border bg-white/50 backdrop-blur-sm space-y-2 border-black/10">
+      <div className={`py-5 px-4 rounded-2xl border backdrop-blur-sm space-y-2 ${
+        isDark ? 'bg-white/5 border-white/15' : 'bg-white/50 border-black/10'
+      }`}>
         <h3 className="font-mono text-xs uppercase tracking-widest font-bold" style={{ color: accentColor || '#8B5A2B' }}>
           WOMEN
         </h3>
-        <p className="text-xs text-neutral-600 leading-relaxed">
+        <p className={`text-xs leading-relaxed ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
           Traditional Lehengas, Sarees, Anarkalis, or Elegant Evening Gowns.
         </p>
       </div>
@@ -734,9 +790,9 @@ export const ZareqiaDressCode = ({ accentColor, textColor }) => (
 );
 
 // =========================================================================
-// 8. PRE-WEDDING EVENTS SECTION
+// 8. PRE-WEDDING EVENTS
 // =========================================================================
-export const ZareqiaPreWeddingEvents = ({ events = [], accentColor, textColor }) => {
+export const ZareqiaPreWeddingEvents = ({ events = [], accentColor, textColor, isDark = false }) => {
   const preEvents =
     events && events.length > 0
       ? events
@@ -777,14 +833,14 @@ export const ZareqiaPreWeddingEvents = ({ events = [], accentColor, textColor })
       <div className="space-y-4 pt-2">
         {preEvents.map((ev, i) => (
           <div key={i} className="space-y-0.5">
-            <h3 className="font-serif text-base sm:text-lg font-semibold" style={{ color: textColor || '#1a1208' }}>
+            <h3 className="font-serif text-base sm:text-lg font-semibold" style={{ color: textColor }}>
               {ev.title || ev.name}
             </h3>
-            <p className="text-xs text-neutral-600">
+            <p className={`text-xs ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
               {ev.date} • {ev.time}
             </p>
             {ev.venue && (
-              <p className="text-[11px] text-neutral-500 italic">
+              <p className={`text-[11px] italic ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>
                 {ev.venue}
               </p>
             )}
@@ -796,9 +852,9 @@ export const ZareqiaPreWeddingEvents = ({ events = [], accentColor, textColor })
 };
 
 // =========================================================================
-// 9. TRANSPORTATION SECTION
+// 9. TRANSPORTATION
 // =========================================================================
-export const ZareqiaTransportation = ({ accentColor, textColor }) => (
+export const ZareqiaTransportation = ({ accentColor, textColor, isDark = false }) => (
   <div className="max-w-lg mx-auto space-y-4 text-center">
     <div className="space-y-1">
       <Car className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
@@ -810,16 +866,16 @@ export const ZareqiaTransportation = ({ accentColor, textColor }) => (
       </h2>
       <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
     </div>
-    <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed max-w-md mx-auto">
+    <p className={`text-xs sm:text-sm leading-relaxed max-w-md mx-auto ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
       Shuttle services will be available from designated partner hotels to the wedding venue. Complimentary valet parking is provided for all guests.
     </p>
   </div>
 );
 
 // =========================================================================
-// 10. ACCOMMODATION SECTION
+// 10. ACCOMMODATION
 // =========================================================================
-export const ZareqiaAccommodation = ({ accentColor, textColor }) => (
+export const ZareqiaAccommodation = ({ accentColor, textColor, isDark = false }) => (
   <div className="max-w-lg mx-auto space-y-4 text-center">
     <div className="space-y-1">
       <Building className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
@@ -831,16 +887,16 @@ export const ZareqiaAccommodation = ({ accentColor, textColor }) => (
       </h2>
       <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
     </div>
-    <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed max-w-md mx-auto">
+    <p className={`text-xs sm:text-sm leading-relaxed max-w-md mx-auto ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
       Special room rates are reserved for our wedding guests at the Grand Palace Resort. Please mention our wedding party when booking.
     </p>
   </div>
 );
 
 // =========================================================================
-// 11. GIFTS & BLESSINGS SECTION
+// 11. GIFTS
 // =========================================================================
-export const ZareqiaGifts = ({ accentColor, textColor }) => (
+export const ZareqiaGifts = ({ accentColor, textColor, isDark = false }) => (
   <div className="max-w-lg mx-auto space-y-4 text-center">
     <div className="space-y-1">
       <Gift className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
@@ -852,16 +908,16 @@ export const ZareqiaGifts = ({ accentColor, textColor }) => (
       </h2>
       <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
     </div>
-    <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed italic max-w-md mx-auto">
+    <p className={`text-xs sm:text-sm leading-relaxed italic max-w-md mx-auto ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
       "Your presence, prayers, and heartfelt blessings are the greatest gift we could ask for. No boxed gifts requested."
     </p>
   </div>
 );
 
 // =========================================================================
-// 12. RSVP SECTION
+// 12. RSVP
 // =========================================================================
-export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor, onRsvpSuccess }) => {
+export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor, isDark = false, onRsvpSuccess }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [attending, setAttending] = useState('Yes');
@@ -904,19 +960,23 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor,
       </div>
 
       {isSubmitted ? (
-        <div className="p-8 rounded-2xl border border-neutral-300 bg-white/80 backdrop-blur-md text-center space-y-3 animate-fade-in shadow-lg">
+        <div className={`p-8 rounded-2xl border backdrop-blur-md text-center space-y-3 animate-fade-in shadow-lg ${
+          isDark ? 'bg-white/10 border-white/20 text-white' : 'bg-white/80 border-neutral-300 text-neutral-900'
+        }`}>
           <CheckCircle2 className="w-12 h-12 mx-auto" style={{ color: accentColor || '#059669' }} />
-          <h3 className="font-serif text-2xl font-semibold text-neutral-900">
+          <h3 className="font-serif text-2xl font-semibold">
             Thank You, {name}!
           </h3>
-          <p className="text-xs text-neutral-600 leading-relaxed">
+          <p className={`text-xs leading-relaxed ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
             Your response has been joyfully recorded. We look forward to celebrating together!
           </p>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4 text-left text-xs">
           <div>
-            <label className="block font-mono text-[11px] uppercase tracking-wider mb-1.5 text-neutral-700 font-medium">
+            <label className={`block font-mono text-[11px] uppercase tracking-wider mb-1.5 font-medium ${
+              isDark ? 'text-neutral-300' : 'text-neutral-700'
+            }`}>
               Full Name *
             </label>
             <input
@@ -925,13 +985,16 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor,
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Your Name"
-              className="w-full px-4 py-3 rounded-xl border border-neutral-300 bg-white/80 text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-1 transition-all"
-              style={{ focusRingColor: accentColor }}
+              className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all ${
+                isDark ? 'bg-black/50 border-white/20 text-white placeholder-neutral-500' : 'bg-white/80 border-neutral-300 text-neutral-900 placeholder-neutral-400'
+              }`}
             />
           </div>
 
           <div>
-            <label className="block font-mono text-[11px] uppercase tracking-wider mb-1.5 text-neutral-700 font-medium">
+            <label className={`block font-mono text-[11px] uppercase tracking-wider mb-1.5 font-medium ${
+              isDark ? 'text-neutral-300' : 'text-neutral-700'
+            }`}>
               Email *
             </label>
             <input
@@ -940,18 +1003,24 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor,
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your.email@example.com"
-              className="w-full px-4 py-3 rounded-xl border border-neutral-300 bg-white/80 text-neutral-900 placeholder-neutral-400 focus:outline-none focus:ring-1 transition-all"
+              className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all ${
+                isDark ? 'bg-black/50 border-white/20 text-white placeholder-neutral-500' : 'bg-white/80 border-neutral-300 text-neutral-900 placeholder-neutral-400'
+              }`}
             />
           </div>
 
           <div>
-            <label className="block font-mono text-[11px] uppercase tracking-wider mb-1.5 text-neutral-700 font-medium">
+            <label className={`block font-mono text-[11px] uppercase tracking-wider mb-1.5 font-medium ${
+              isDark ? 'text-neutral-300' : 'text-neutral-700'
+            }`}>
               Total Guest(s) *
             </label>
             <select
               value={guests}
               onChange={(e) => setGuests(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-neutral-300 bg-white text-neutral-900 focus:outline-none focus:ring-1 transition-all"
+              className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all ${
+                isDark ? 'bg-neutral-900 border-white/20 text-white' : 'bg-white border-neutral-300 text-neutral-900'
+              }`}
             >
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                 <option key={num} value={num}>
@@ -962,13 +1031,17 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor,
           </div>
 
           <div>
-            <label className="block font-mono text-[11px] uppercase tracking-wider mb-1.5 text-neutral-700 font-medium">
+            <label className={`block font-mono text-[11px] uppercase tracking-wider mb-1.5 font-medium ${
+              isDark ? 'text-neutral-300' : 'text-neutral-700'
+            }`}>
               Will you attend? *
             </label>
             <select
               value={attending}
               onChange={(e) => setAttending(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-neutral-300 bg-white text-neutral-900 focus:outline-none focus:ring-1 transition-all"
+              className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all ${
+                isDark ? 'bg-neutral-900 border-white/20 text-white' : 'bg-white border-neutral-300 text-neutral-900'
+              }`}
             >
               <option value="Yes">Joyfully Accept</option>
               <option value="No">Regretfully Decline</option>
@@ -997,9 +1070,9 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor,
 };
 
 // =========================================================================
-// 13. CLOSING BANNER SECTION ("We can't wait to celebrate with you!")
+// 13. CLOSING BANNER
 // =========================================================================
-export const ZareqiaClosingBanner = ({ coupleNames, groomName, brideName, accentColor, textColor }) => {
+export const ZareqiaClosingBanner = ({ coupleNames, groomName, brideName, accentColor, textColor, isDark = false }) => {
   const signature = groomName && brideName ? `${groomName} & ${brideName}` : coupleNames;
 
   return (
@@ -1011,7 +1084,9 @@ export const ZareqiaClosingBanner = ({ coupleNames, groomName, brideName, accent
         We can't wait to celebrate with you!
       </h2>
       <p
-        className="font-serif italic text-lg sm:text-xl text-neutral-700 pt-1"
+        className={`font-serif italic text-lg sm:text-xl pt-1 ${
+          isDark ? 'text-neutral-200' : 'text-neutral-700'
+        }`}
         style={{ color: textColor }}
       >
         {signature}
@@ -1031,6 +1106,8 @@ const ZareqiaBody = ({
   invitationId = '',
   theme = {},
   scratchPalette = null,
+  cardShape = 'heart', // 'heart' for Royal, 'rect' for Classic
+  isDark = false,
   onRsvpSuccess,
 }) => {
   const groomName = data.groom_name || data.groomName || 'Romeo';
@@ -1077,8 +1154,10 @@ const ZareqiaBody = ({
           },
         ];
 
-  const accentColor = theme.accentColor || '#8B5A2B';
-  const textColor = theme.textColor || '#1a1208';
+  const effectiveIsDark = isDark || theme.isDark || (typeof theme.background === 'string' && (theme.background.includes('0%') || theme.background.includes('#0') || theme.background.includes('#1')));
+  const effectiveShape = cardShape || theme.cardShape || 'heart';
+  const accentColor = theme.accentColor || theme.accent || '#8B5A2B';
+  const textColor = theme.textColor || theme.foreground || (effectiveIsDark ? '#FAF5EE' : '#1a1208');
   const welcomeGradient = theme.welcomeGradient;
 
   return (
@@ -1092,10 +1171,11 @@ const ZareqiaBody = ({
         gradient={welcomeGradient}
         textColor={textColor}
         accentColor={accentColor}
+        isDark={effectiveIsDark}
       />
 
-      {/* 2. Heart-Shaped Interactive Scratch to Reveal Card */}
-      <ZareqiaSection id="invitation-scratch">
+      {/* 2. Interactive Scratch to Reveal Card */}
+      <ZareqiaSection id="invitation-scratch" isDark={effectiveIsDark}>
         <ZareqiaScratchCard
           weddingDateStr={weddingDateStr}
           weddingTimeStr={weddingTimeStr}
@@ -1106,112 +1186,127 @@ const ZareqiaBody = ({
           welcomeMessage={welcomeMessage}
           accentColor={accentColor}
           textColor={textColor}
+          cardShape={effectiveShape}
+          isDark={effectiveIsDark}
         />
       </ZareqiaSection>
 
       {/* 3. Moments of Love / Photo Card Section */}
-      <ZareqiaSection cream={true} id="invitation-photos">
+      <ZareqiaSection cream={true} id="invitation-photos" isDark={effectiveIsDark}>
         <ZareqiaPhotoCard
           coverImage={coverImage}
           photos={photos}
           accentColor={accentColor}
+          isDark={effectiveIsDark}
         />
       </ZareqiaSection>
 
       {/* 4. Counting Down to Forever */}
-      <ZareqiaSection id="invitation-countdown">
+      <ZareqiaSection id="invitation-countdown" isDark={effectiveIsDark}>
         <ZareqiaCountdown
           weddingDateStr={weddingDateStr}
           weddingTimeStr={weddingTimeStr}
           accentColor={accentColor}
           textColor={textColor}
+          isDark={effectiveIsDark}
         />
       </ZareqiaSection>
 
       {/* 5. Program Timeline */}
-      <ZareqiaSection cream={true} id="invitation-timeline">
+      <ZareqiaSection cream={true} id="invitation-timeline" isDark={effectiveIsDark}>
         <ZareqiaTimeline
           events={events}
           accentColor={accentColor}
           textColor={textColor}
+          isDark={effectiveIsDark}
         />
       </ZareqiaSection>
 
       {/* 6. Venue & Interactive Google Maps */}
-      <ZareqiaSection id="invitation-venue">
+      <ZareqiaSection id="invitation-venue" isDark={effectiveIsDark}>
         <ZareqiaVenue
           venueName={venueName}
           venueAddress={venueAddress}
           accentColor={accentColor}
           textColor={textColor}
+          isDark={effectiveIsDark}
         />
       </ZareqiaSection>
 
       {/* 7. Dress Code */}
-      <ZareqiaSection cream={true} id="invitation-dress-code">
+      <ZareqiaSection cream={true} id="invitation-dress-code" isDark={effectiveIsDark}>
         <ZareqiaDressCode
           accentColor={accentColor}
           textColor={textColor}
+          isDark={effectiveIsDark}
         />
       </ZareqiaSection>
 
       {/* 8. Pre-Wedding Events */}
-      <ZareqiaSection id="invitation-pre-wedding">
+      <ZareqiaSection id="invitation-pre-wedding" isDark={effectiveIsDark}>
         <ZareqiaPreWeddingEvents
           events={data.pre_wedding_events || []}
           accentColor={accentColor}
           textColor={textColor}
+          isDark={effectiveIsDark}
         />
       </ZareqiaSection>
 
       {/* 9. Transportation */}
-      <ZareqiaSection cream={true} id="invitation-transportation">
+      <ZareqiaSection cream={true} id="invitation-transportation" isDark={effectiveIsDark}>
         <ZareqiaTransportation
           accentColor={accentColor}
           textColor={textColor}
+          isDark={effectiveIsDark}
         />
       </ZareqiaSection>
 
       {/* 10. Accommodation */}
-      <ZareqiaSection id="invitation-accommodation">
+      <ZareqiaSection id="invitation-accommodation" isDark={effectiveIsDark}>
         <ZareqiaAccommodation
           accentColor={accentColor}
           textColor={textColor}
+          isDark={effectiveIsDark}
         />
       </ZareqiaSection>
 
       {/* 11. Gifts & Blessings */}
-      <ZareqiaSection cream={true} id="invitation-gifts">
+      <ZareqiaSection cream={true} id="invitation-gifts" isDark={effectiveIsDark}>
         <ZareqiaGifts
           accentColor={accentColor}
           textColor={textColor}
+          isDark={effectiveIsDark}
         />
       </ZareqiaSection>
 
       {/* 12. RSVP Section */}
-      <ZareqiaSection id="invitation-rsvp">
+      <ZareqiaSection id="invitation-rsvp" isDark={effectiveIsDark}>
         <ZareqiaRsvp
           invitationId={invitationId}
           coupleNames={coupleNames}
           accentColor={accentColor}
           textColor={textColor}
+          isDark={effectiveIsDark}
           onRsvpSuccess={onRsvpSuccess}
         />
       </ZareqiaSection>
 
       {/* 13. Closing Note Banner */}
-      <ZareqiaSection cream={true} id="invitation-closing">
+      <ZareqiaSection cream={true} id="invitation-closing" isDark={effectiveIsDark}>
         <ZareqiaClosingBanner
           coupleNames={coupleNames}
           groomName={groomName}
           brideName={brideName}
           accentColor={accentColor}
           textColor={textColor}
+          isDark={effectiveIsDark}
         />
       </ZareqiaSection>
 
       {/* 14. Luxury Footer */}
-      <footer className="py-10 text-center text-xs opacity-60 font-mono tracking-widest border-t border-black/10 space-y-2">
+      <footer className={`py-10 text-center text-xs opacity-60 font-mono tracking-widest border-t space-y-2 ${
+        effectiveIsDark ? 'border-white/10 text-neutral-300' : 'border-black/10 text-neutral-700'
+      }`}>
         <Heart size={14} className="mx-auto opacity-50" fill="currentColor" style={{ color: accentColor }} />
         <p>With Warm Love & Regards • {coupleNames}</p>
         <p className="text-[10px] opacity-40">Created with Moonlight Luxury Suites</p>

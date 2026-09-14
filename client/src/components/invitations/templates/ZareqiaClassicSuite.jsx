@@ -1511,35 +1511,35 @@ export const zareqiaClassicThemes = {
   'emerald-noir': {
     id: 'emerald-noir',
     name: 'Emerald Noir',
+    font: "'Cinzel', serif",
+    background: '#062017',
+    foreground: '#FAF5EE',
+    accent: '#D4AF37',
+    welcomeGradient: 'linear-gradient(to bottom, #03130e 0%, #06231a 45%, #0a3326 100%)',
     isDark: true,
-    background: 'hsl(160, 25%, 8%)',
-    foreground: 'hsl(40, 40%, 85%)',
-    primaryColor: 'hsl(40, 50%, 65%)',
-    accent: 'hsl(40, 50%, 60%)',
     scratch: {
-      gradStart: '#d4af37',
-      gradMid: '#064e3b',
-      gradEnd: '#022c22',
+      gradStart: '#fde68a',
+      gradMid: '#d97706',
+      gradEnd: '#78350f',
       textColor: '#ffffff',
-      accent: '#d4af37',
     },
     musicPreset:
       'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=royal-ambient-112345.mp3',
   },
   'ivory-elegance': {
     id: 'ivory-elegance',
-    name: 'Crimson Royale',
+    name: 'Ivory Elegance',
+    font: "'Dancing Script', cursive",
+    background: '#0e0e0e',
+    foreground: '#FAF5EE',
+    accent: '#D4AF37',
+    welcomeGradient: 'linear-gradient(to bottom, #000000 0%, #121212 45%, #1c1c1c 100%)',
     isDark: true,
-    background: 'hsl(0, 0%, 6%)',
-    foreground: 'hsl(40, 30%, 85%)',
-    primaryColor: 'hsl(0, 65%, 55%)',
-    accent: 'hsl(0, 65%, 55%)',
     scratch: {
-      gradStart: '#ef4444',
-      gradMid: '#991b1b',
-      gradEnd: '#1a0505',
+      gradStart: '#fde68a',
+      gradMid: '#d97706',
+      gradEnd: '#78350f',
       textColor: '#ffffff',
-      accent: '#ef4444',
     },
     musicPreset:
       'https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=piano-moment-9835.mp3',
@@ -1547,17 +1547,17 @@ export const zareqiaClassicThemes = {
   'rose-gold-blush': {
     id: 'rose-gold-blush',
     name: 'Rose Gold Blush',
+    font: "'Dancing Script', cursive",
+    background: '#fcf6f7',
+    foreground: '#2a1218',
+    accent: '#b85d75',
+    welcomeGradient: 'linear-gradient(to bottom, #4a1525 0%, #6b2138 45%, #e8a5b8 80%, #FCF6F7 100%)',
     isDark: false,
-    background: 'hsl(20, 30%, 97%)',
-    foreground: 'hsl(350, 20%, 20%)',
-    primaryColor: '#b76e79',
-    accent: '#b76e79',
     scratch: {
-      gradStart: '#fda4af',
-      gradMid: '#f43f5e',
-      gradEnd: '#881337',
+      gradStart: '#fde68a',
+      gradMid: '#d97706',
+      gradEnd: '#78350f',
       textColor: '#ffffff',
-      accent: '#db2777',
     },
     musicPreset:
       'https://cdn.pixabay.com/download/audio/2022/10/14/audio_9939f792cb.mp3?filename=sweet-love-124434.mp3',
@@ -1565,35 +1565,35 @@ export const zareqiaClassicThemes = {
   'modern-minimal': {
     id: 'modern-minimal',
     name: 'Modern Minimal',
+    font: "'Cinzel', serif",
+    background: '#0d1527',
+    foreground: '#FAF5EE',
+    accent: '#EAB308',
+    welcomeGradient: 'linear-gradient(to bottom, #020617 0%, #0f172a 45%, #1e293b 100%)',
     isDark: true,
-    background: 'hsl(220, 30%, 12%)',
-    foreground: 'hsl(40, 20%, 90%)',
-    primaryColor: '#d4af37',
-    accent: '#d4af37',
     scratch: {
-      gradStart: '#e2e8f0',
-      gradMid: '#64748b',
-      gradEnd: '#0f172a',
+      gradStart: '#fde68a',
+      gradMid: '#d97706',
+      gradEnd: '#78350f',
       textColor: '#ffffff',
-      accent: '#38bdf8',
     },
     musicPreset:
       'https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=ambient-piano-amp-strings-10711.mp3',
   },
   'royal-elegance': {
     id: 'royal-elegance',
-    name: 'Majestic Love',
+    name: 'Royal Elegance',
+    font: "'Dancing Script', cursive",
+    background: '#fdfbf7',
+    foreground: '#1a1208',
+    accent: '#b45309',
+    welcomeGradient: 'linear-gradient(to bottom, #2e1065 0%, #4c1d95 45%, #c4b5fd 80%, #FDFBF7 100%)',
     isDark: false,
-    background: 'hsl(40, 30%, 96%)',
-    foreground: 'hsl(40, 40%, 15%)',
-    primaryColor: '#b45309',
-    accent: '#d97706',
     scratch: {
-      gradStart: '#fef08a',
-      gradMid: '#eab308',
-      gradEnd: '#713f12',
+      gradStart: '#fde68a',
+      gradMid: '#d97706',
+      gradEnd: '#78350f',
       textColor: '#ffffff',
-      accent: '#eab308',
     },
     musicPreset:
       'https://cdn.pixabay.com/download/audio/2022/03/24/audio_34e12c1bcf.mp3?filename=cinematic-fairy-tale-story-main-8697.mp3',
@@ -1974,105 +1974,25 @@ const ZareqiaClassicSuite = ({
       {/* 2. Distinct Hero Section */}
       {renderHero()}
 
-      {/* 3. Welcome Message (Optional) */}
-      {Boolean(invitation.welcome_text || invitation.welcomeMessage) && (
-        <section id="invitation-welcome" className="py-16 md:py-20 px-6 max-w-3xl mx-auto text-center">
-          <WaveOrnament className="w-48 mx-auto mb-6 opacity-40 text-amber-400" />
-          <p className="font-serif italic text-xl md:text-2xl leading-relaxed text-amber-200/90">
-            "{invitation.welcome_text || invitation.welcomeMessage}"
-          </p>
-          <WaveOrnament className="w-48 mx-auto mt-6 opacity-40 text-amber-400 rotate-180" />
-        </section>
-      )}
-
-      {/* 4. Touch Scratch Card (Customized per Theme Foil) */}
-      {invitation.scratch_enabled !== false && (
-        <section id="invitation-scratch" className="py-12 md:py-16 px-6 max-w-xl mx-auto">
-          <ZareqiaScratchCard
-            weddingDateStr={invitation.wedding_date || invitation.date || '2026-12-18'}
-            weddingTimeStr={invitation.wedding_time || invitation.time || '19:00'}
-            revealText={
-              invitation.scratch_reveal_text ||
-              invitation.scratchRevealText ||
-              'YOU ARE CORDIALLY INVITED ♡'
-            }
-            themeScratch={theme.scratch}
-          />
-        </section>
-      )}
-
-      {/* 5. Live Countdown Timer */}
-      <section id="invitation-countdown" className="py-12 md:py-16 px-6 max-w-2xl mx-auto">
-        <ZareqiaCountdown
-          weddingDateStr={invitation.wedding_date || invitation.date || '2026-12-18'}
-          weddingTimeStr={invitation.wedding_time || invitation.time || '19:00'}
-        />
-      </section>
-
-      {/* 6. Multi-Event Schedule Timeline */}
-      <section id="invitation-timeline" className="py-16 md:py-20 px-6 max-w-3xl mx-auto">
-        <ZareqiaTimeline
-          events={invitation.events || invitation.event_schedule || []}
-        />
-      </section>
-
-      {/* 7. Ceremony & Reception Venues */}
-      <section id="invitation-venue" className="py-16 md:py-20 px-6 max-w-3xl mx-auto">
-        <ZareqiaVenue
-          venueName={invitation.venue_name || invitation.venue || 'The Leela Palace'}
-          venueAddress={
-            invitation.venue_address ||
-            invitation.venueAddress ||
-            'Lake Pichola, Udaipur, Rajasthan'
-          }
-        />
-      </section>
-
-      {/* 8. Photo Gallery (Optional) */}
-      {Array.isArray(invitation.gallery_images || invitation.galleryUrls) &&
-        (invitation.gallery_images || invitation.galleryUrls).length > 0 && (
-          <section id="invitation-gallery" className="py-16 md:py-20 px-6 max-w-5xl mx-auto">
-            <div className="text-center mb-10">
-              <Camera className="w-8 h-8 mx-auto text-amber-400 mb-2 opacity-70" />
-              <h3 className="font-serif text-3xl md:text-4xl text-amber-200">
-                Moments of Love
-              </h3>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              {(invitation.gallery_images || invitation.galleryUrls).map((img, idx) => (
-                <div
-                  key={idx}
-                  className="rounded-2xl overflow-hidden border border-white/10 shadow-xl aspect-square"
-                >
-                  <img
-                    src={img}
-                    alt={`Gallery ${idx + 1}`}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-      {/* 9. Dress Code & Gifts Info (Optional) */}
-      <section className="py-12 px-6 max-w-2xl mx-auto space-y-6">
-        <ZareqiaDressCode />
-        <ZareqiaGifts />
-      </section>
-
-      {/* 10. Live RSVP Online Form */}
-      {invitation.rsvp_enabled !== false && (
-        <section id="invitation-rsvp" className="py-16 md:py-20 px-6 max-w-2xl mx-auto">
-          <ZareqiaRsvp
-            invitationId={invitation._id || invitation.id || 'demo'}
-            coupleNames={coupleNames}
-          />
-        </section>
-      )}
-
-      {/* 11. Footer Branding */}
+      {/* =========================================================================
+          SECTION 2 TO 14: SEAMLESS EXACT ZAREQIA INSIDE BODY (Classic 1:1)
+         ========================================================================= */}
+      <ZareqiaBody
+        data={invitation}
+        invitationId={invitation._id || invitation.id || invitation.slug}
+        theme={{
+          ...theme,
+          accentColor: theme.accent,
+          textColor: theme.foreground,
+          welcomeGradient: theme.welcomeGradient,
+          cardShape: 'rect',
+          isDark: theme.isDark || templateId === 'emerald-noir' || templateId === 'ivory-elegance' || templateId === 'modern-minimal',
+        }}
+        scratchPalette={theme.scratch}
+        cardShape="rect"
+        isDark={theme.isDark || templateId === 'emerald-noir' || templateId === 'ivory-elegance' || templateId === 'modern-minimal'}
+        onRsvpSuccess={onRsvpSuccess}
+      />
       <footer className="py-12 border-t border-white/10 text-center space-y-2">
         <div className="flex items-center justify-center space-x-1.5 text-amber-400">
           <Sparkles className="w-4 h-4" />
