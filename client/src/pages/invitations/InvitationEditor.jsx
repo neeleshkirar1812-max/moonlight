@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
 import api from '../../api/client';
 import SEO from '../../components/common/SEO';
@@ -30,6 +31,7 @@ import {
 const InvitationEditor = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { addToast } = useNotification();
 
   const [loading, setLoading] = useState(true);
@@ -152,7 +154,18 @@ const InvitationEditor = () => {
           return;
         }
       } catch (err) {
-        // Fallback to loading preset data for newly selected template ID
+        // Fallback or not found
+      }
+
+      // If user is a regular customer attempting to access raw template editor without purchasing:
+      if (user?.role !== 'admin' && user?.role !== 'superadmin' && !id?.startsWith('inv-') && !id?.startsWith('pur-')) {
+        addToast({
+          title: 'Unlock Template Required ✨',
+          message: 'Please complete checkout to customize and publish this luxury template.',
+          type: 'info',
+        });
+        navigate(`/templates/${templateIdToUse}`);
+        return;
       }
 
       setForm((prev) => ({

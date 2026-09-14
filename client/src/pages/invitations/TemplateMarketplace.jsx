@@ -328,7 +328,7 @@ const TemplateMarketplace = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleSelectDesign = (templateId) => {
-    navigate('/create/' + templateId + '?type=' + selectedType);
+    navigate('/templates/' + templateId);
   };
 
   const filteredHindiTemplates = useMemo(() => {

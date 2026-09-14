@@ -1235,7 +1235,7 @@ const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
           </div>
 
           <Link
-            to={`/create/${currentTemplateObj.id}`}
+            to={`/templates/${currentTemplateObj.id}`}
             className="flex items-center gap-1 px-3.5 py-1 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-bold uppercase tracking-wider text-[11px] shadow-md transition-transform active:scale-95 cursor-pointer"
           >
             <span>USE THIS DESIGN</span>
