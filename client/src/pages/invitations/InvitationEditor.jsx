@@ -157,6 +157,17 @@ const InvitationEditor = () => {
         // Fallback or not found
       }
 
+      // Check if user is logged in
+      if (!user) {
+        addToast({
+          title: 'Sign Up Required ✨',
+          message: 'Please sign up or log in first to customize your invitation.',
+          type: 'info',
+        });
+        navigate(`/invitations/signup?redirect=${encodeURIComponent('/templates/' + templateIdToUse)}`);
+        return;
+      }
+
       // Check if user is authorized to edit
       const savedPlans = JSON.parse(localStorage.getItem('moonlight_unlocked_plans') || '[]');
       const savedTemplates = JSON.parse(localStorage.getItem('moonlight_unlocked_templates') || '[]');

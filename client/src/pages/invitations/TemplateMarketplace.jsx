@@ -361,40 +361,20 @@ const TemplateMarketplace = () => {
     return unlockedPlans.includes(category) || savedSingleTpls.includes(templateId);
   };
 
-  const handleSelectDesign = async (templateId) => {
+  const handleSelectDesign = (templateId) => {
     // 1. If not logged in, prompt signup first with redirect to checkout!
-    if (!user && !localStorage.getItem('moonlight_customer_email')) {
+    if (!user) {
       addToast({
         title: 'Sign Up Required ✨',
-        message: 'Please sign up or log in first to secure your invitation and complete payment.',
+        message: 'Please create an account or sign in to choose your plan and complete checkout.',
         type: 'info',
       });
-      navigate(`/invitations/signup?redirect=/templates/${templateId}`);
+      navigate(`/invitations/signup?redirect=${encodeURIComponent('/templates/' + templateId)}`);
       return;
     }
 
-    // 2. If already unlocked (paid suite pass or paid single template)
-    if (isTemplateUnlocked(templateId)) {
-      try {
-        const email = user?.email || localStorage.getItem('moonlight_customer_email') || 'couple@moonlight.com';
-        const res = await api.post('/invitations/payments/verify', {
-          razorpay_order_id: `pass_${Date.now()}`,
-          razorpay_payment_id: `unlocked_pass_${Date.now()}`,
-          razorpay_signature: 'pass_verified',
-          templateId,
-          customerEmail: email,
-          customerName: user?.name || 'Valued Couple',
-          couponCode: 'UNLOCKED_PASS_FREE',
-        });
-        const invId = res.data?.invitation?._id || res.data?.invitation?.id || templateId;
-        navigate(`/invitations/create/${invId}`);
-      } catch (e) {
-        navigate(`/invitations/create/${templateId}`);
-      }
-    } else {
-      // 3. If NOT paid yet, route to checkout for payment!
-      navigate('/templates/' + templateId);
-    }
+    // 2. If logged in, ALWAYS take customer to the Template Checkout / Payment Page!
+    navigate(`/templates/${templateId}`);
   };
 
   const filteredHindiTemplates = useMemo(() => {
