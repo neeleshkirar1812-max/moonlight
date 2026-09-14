@@ -157,8 +157,30 @@ const InvitationEditor = () => {
         // Fallback or not found
       }
 
-      // If user is a regular customer attempting to access raw template editor without purchasing:
-      if (user?.role !== 'admin' && user?.role !== 'superadmin' && !id?.startsWith('inv-') && !id?.startsWith('pur-')) {
+      // Check if user is authorized to edit
+      const savedPlans = JSON.parse(localStorage.getItem('moonlight_unlocked_plans') || '[]');
+      const savedTemplates = JSON.parse(localStorage.getItem('moonlight_unlocked_templates') || '[]');
+      const isRoyal =
+        templateIdToUse.includes('royal') ||
+        templateIdToUse.includes('pichola') ||
+        templateIdToUse.includes('udaipur') ||
+        templateIdToUse.includes('jaipur') ||
+        templateIdToUse.includes('marigold') ||
+        templateIdToUse.includes('sunset') ||
+        templateIdToUse.includes('shubh-vivah') ||
+        templateIdToUse.includes('rajwada') ||
+        templateIdToUse.includes('shahi-farman');
+      const planCategory = isRoyal ? 'royal' : 'classic';
+
+      const isUnlocked =
+        user?.role === 'admin' ||
+        user?.role === 'superadmin' ||
+        id?.startsWith('inv-') ||
+        id?.startsWith('pur-') ||
+        savedPlans.includes(planCategory) ||
+        savedTemplates.includes(templateIdToUse);
+
+      if (!isUnlocked) {
         addToast({
           title: 'Unlock Template Required ✨',
           message: 'Please complete checkout to customize and publish this luxury template.',
@@ -286,10 +308,10 @@ const InvitationEditor = () => {
 
       const activeSlug = updated?.slug || form.slug;
       addToast({
-        title: isPublishing ? 'Live Invitation Published! ✦' : 'Draft Saved',
+        title: isPublishing ? '🎉 Live Invitation Published!' : '💾 Draft Saved to Dashboard!',
         message: isPublishing
           ? `Your invitation is live online at /i/${activeSlug}`
-          : 'All your changes have been saved.',
+          : 'All changes saved securely! You can continue editing or view it from your Dashboard (मेरे इनविटेशन).',
         type: 'success',
       });
     } catch (err) {

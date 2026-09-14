@@ -1069,12 +1069,16 @@ const handleMockRequest = async (method, url, data) => {
         tplId.includes('rajwada') ||
         tplId.includes('shahi-farman');
       const planCategory = isRoyal ? 'royal' : 'classic';
+      const planType = data.planType || 'suite'; // 'single' or 'suite'
 
       const newPurchase = {
         _id: `pur-${Date.now()}`,
         templateId: data.templateId || 'rose-gold-blush-royal',
-        templateName: isRoyal ? 'Royal 4K Gate Suite All-Access' : 'Classic 3D Gate Suite All-Access',
+        templateName: planType === 'single'
+          ? `Single Template: ${data.templateId}`
+          : isRoyal ? 'Royal 4K Gate Suite All-Access' : 'Classic 3D Gate Suite All-Access',
         planCategory,
+        planType,
         customerEmail: data.customerEmail || 'couple@moonlight.com',
         customerName: data.customerName || 'Valued Couple',
         customerPhone: data.customerPhone || '',
@@ -1082,7 +1086,7 @@ const handleMockRequest = async (method, url, data) => {
         couponCode: data.couponCode || '',
         razorpayOrderId: data.razorpay_order_id || `ord_${Date.now()}`,
         razorpayPaymentId: data.razorpay_payment_id || `pay_${Date.now()}`,
-        amount: 699,
+        amount: data.amount || (planType === 'single' ? 499 : 799),
         status: 'paid',
         createdAt: new Date().toISOString(),
       };
@@ -1099,7 +1103,9 @@ const handleMockRequest = async (method, url, data) => {
         _id: `inv-${Date.now()}`,
         id: `inv-${Date.now()}`,
         templateId: data.templateId || 'rose-gold-blush-royal',
+        template_id: data.templateId || 'rose-gold-blush-royal',
         planCategory,
+        planType,
         customerEmail: data.customerEmail || 'couple@moonlight.com',
         userEmail: data.customerEmail || 'couple@moonlight.com',
         customerName: data.customerName || 'Valued Couple',
@@ -1124,7 +1130,38 @@ const handleMockRequest = async (method, url, data) => {
           'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
           'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
         ],
-        events: [],
+        events: [
+          {
+            id: 'ev-1',
+            title: 'Haldi & Chooda Ceremony',
+            date: '2026-11-19',
+            time: '10:00 AM',
+            venue: 'Palace Courtyard',
+            address: '152 Shamla Hills, Bhopal',
+            description: 'Vibrant yellow florals, turmeric blessings, and traditional marigold festivities.',
+            image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+          },
+          {
+            id: 'ev-2',
+            title: 'Royal Sangeet & Musical Night',
+            date: '2026-11-19',
+            time: '07:00 PM',
+            venue: 'Grand Ballroom, Jehan Numa Palace',
+            address: '152 Shamla Hills, Bhopal',
+            description: 'An evening of dance performances, celebratory beats, and royal banquet dinner.',
+            image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+          },
+          {
+            id: 'ev-3',
+            title: 'The Wedding Ceremony (Pheras)',
+            date: '2026-11-20',
+            time: '07:00 PM',
+            venue: 'Lakeside Palace Gardens',
+            address: '152 Shamla Hills, Bhopal',
+            description: 'Baraat procession followed by sacred Vedic vows under the royal mandap.',
+            image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+          },
+        ],
         status: 'DRAFT',
         published: false,
         slug: initialSlug,
@@ -1137,7 +1174,7 @@ const handleMockRequest = async (method, url, data) => {
       newPurchase.invitationId = newInv._id;
       setCollection('invitationPurchases', purchases);
 
-      return { data: { success: true, invitation: newInv, purchase: newPurchase, planCategory } };
+      return { data: { success: true, invitation: newInv, purchase: newPurchase, planCategory, planType } };
     }
 
     // Public /i/:slug endpoint

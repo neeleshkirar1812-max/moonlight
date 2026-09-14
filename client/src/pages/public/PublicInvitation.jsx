@@ -1,3 +1,5 @@
+import { useContentProtection } from '../../hooks/useContentProtection';
+import ContentProtectionBanner from '../../components/common/ContentProtectionBanner';
 import React, { useState, useEffect } from 'react';
 import { useParams, useSearchParams, Link, useNavigate } from 'react-router-dom';
 import api from '../../api/client';
@@ -1188,7 +1190,8 @@ const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
   const currentTemplateObj = allDemosList.find((t) => t.id === (invitation?.template_id || slug)) || allDemosList[0];
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen protected-content select-none">
+      <ContentProtectionBanner isBlurred={isBlurred} securityAlert={securityAlert} />
       <SEO
         title={`${invitation?.title || 'Royal Wedding Demo'} - Zareqia`}
         description="Experience 1:1 luxury animated digital invitations with live 4K video gates, scratch card, map, and RSVP."

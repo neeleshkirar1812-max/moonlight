@@ -1,3 +1,5 @@
+import { useContentProtection } from '../../../hooks/useContentProtection';
+import ContentProtectionBanner from '../../common/ContentProtectionBanner';
 import React, { useState } from 'react';
 import { getTemplateConfig } from './TemplateRegistry';
 import OpeningScreen from '../components/OpeningScreen';
@@ -267,12 +269,15 @@ const InvitationRenderer = ({
 
   if (isRoyal) {
     return (
-      <ZareqiaRoyalSuite
-        key={rawTemplateId}
-        invitation={invitation}
-        isPreview={isPreview}
-        onRsvpSuccess={onRsvpSuccess}
-      />
+      <div className="protected-content relative select-none">
+        <ContentProtectionBanner isBlurred={isBlurred} securityAlert={securityAlert} />
+        <ZareqiaRoyalSuite
+          key={rawTemplateId}
+          invitation={invitation}
+          isPreview={isPreview}
+          onRsvpSuccess={onRsvpSuccess}
+        />
+      </div>
     );
   }
 
@@ -309,23 +314,29 @@ const InvitationRenderer = ({
 
   if (isClassic) {
     return (
-      <ZareqiaClassicSuite
-        key={rawTemplateId}
-        invitation={invitation}
-        isPreview={isPreview}
-        onRsvpSuccess={onRsvpSuccess}
-      />
+      <div className="protected-content relative select-none">
+        <ContentProtectionBanner isBlurred={isBlurred} securityAlert={securityAlert} />
+        <ZareqiaClassicSuite
+          key={rawTemplateId}
+          invitation={invitation}
+          isPreview={isPreview}
+          onRsvpSuccess={onRsvpSuccess}
+        />
+      </div>
     );
   }
 
   return (
-    <LegacyInvitationSuite
-      key={rawTemplateId}
-      invitation={invitation}
-      isPreview={isPreview}
-      onRsvpSuccess={onRsvpSuccess}
-      rawTemplateId={rawTemplateId}
-    />
+    <div className="protected-content relative select-none">
+      <ContentProtectionBanner isBlurred={isBlurred} securityAlert={securityAlert} />
+      <LegacyInvitationSuite
+        key={rawTemplateId}
+        invitation={invitation}
+        isPreview={isPreview}
+        onRsvpSuccess={onRsvpSuccess}
+        rawTemplateId={rawTemplateId}
+      />
+    </div>
   );
 };
 

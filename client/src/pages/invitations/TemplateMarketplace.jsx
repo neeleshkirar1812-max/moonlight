@@ -355,7 +355,8 @@ const TemplateMarketplace = () => {
       templateId.includes('rajwada') ||
       templateId.includes('shahi-farman');
     const category = isRoyal ? 'royal' : 'classic';
-    return unlockedPlans.includes(category);
+    const savedSingleTpls = JSON.parse(localStorage.getItem('moonlight_unlocked_templates') || '[]');
+    return unlockedPlans.includes(category) || savedSingleTpls.includes(templateId);
   };
 
   const handleSelectDesign = async (templateId) => {

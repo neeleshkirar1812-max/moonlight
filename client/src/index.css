@@ -217,3 +217,31 @@ html.light textarea:focus {
   color: #111827 !important;
 }
 
+/* ========================================================================= */
+/* DIGITAL INVITATION CONTENT SECURITY & ANTI-SCREENSHOT SYSTEM */
+/* ========================================================================= */
+.protected-content {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -khtml-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+.protected-content img,
+.protected-content video {
+  -webkit-user-drag: none !important;
+  user-drag: none !important;
+}
+
+@media print {
+  html, body, #root {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+}
+
+
