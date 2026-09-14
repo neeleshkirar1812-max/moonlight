@@ -16,7 +16,7 @@ const InvitationLogin = () => {
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
-  const redirectUrl = searchParams.get('redirect') || '/invitations/dashboard';
+  const redirectUrl = searchParams.get('redirect') || '/templates';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,13 +69,13 @@ const InvitationLogin = () => {
           message: 'Opening your Invitation Dashboard...',
           type: 'success',
         });
-        navigate('/invitations/dashboard');
+        navigate(redirectUrl);
       }
     } catch (err) {
       if (roleType === 'admin') {
         navigate('/invitations/admin');
       } else {
-        navigate('/invitations/dashboard');
+        navigate(redirectUrl);
       }
     } finally {
       setLoading(false);

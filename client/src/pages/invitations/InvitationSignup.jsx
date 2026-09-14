@@ -3,7 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
 import SEO from '../../components/common/SEO';
-import { Sparkles, Heart, Lock, Mail, User, Phone, ArrowRight } from 'lucide-react';
+import { Sparkles, Mail, User, Phone, ArrowRight, Lock } from 'lucide-react';
 
 const InvitationSignup = () => {
   const [name, setName] = useState('');
@@ -15,9 +15,9 @@ const InvitationSignup = () => {
   const { register } = useAuth();
   const { addToast } = useNotification();
   const navigate = useNavigate();
-
   const [searchParams] = useSearchParams();
-  const redirectUrl = searchParams.get('redirect') || '/invitations/templates';
+
+  const redirectUrl = searchParams.get('redirect') || '/templates';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,15 +28,22 @@ const InvitationSignup = () => {
 
     setLoading(true);
     try {
-      localStorage.setItem('moonlight_customer_email', email.trim());
       if (register) {
-        await register({ name: name.trim(), email: email.trim(), phone: phone.trim(), password: password || 'Client@2026' });
+        await register({
+          name: name.trim(),
+          email: email.trim(),
+          phone: phone.trim() || '+91 92292 29323',
+          password: password || 'Client@2026',
+        });
       }
+      localStorage.setItem('moonlight_customer_email', email.trim());
+
       addToast({
         title: 'Account Created! 🎉',
-        message: 'Welcome! Proceeding to your selected template...',
+        message: 'Proceeding to your selected invitation checkout...',
         type: 'success',
       });
+
       navigate(redirectUrl);
     } catch (err) {
       localStorage.setItem('moonlight_customer_email', email.trim());
@@ -50,26 +57,26 @@ const InvitationSignup = () => {
     <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-28 pb-16 flex items-center justify-center px-4 font-sans">
       <SEO
         title="Create Account | Moonlight Digital Invitations"
-        description="Register to build your luxury wedding digital invitation, personalize interactive features, and share live RSVP links with your wedding guests."
+        description="Register to build your luxury wedding digital invitation."
       />
 
-      <div className="w-full max-w-md bg-white rounded-3xl border border-amber-900/10 shadow-xl p-8 sm:p-10 space-y-6">
+      <div className="w-full max-w-md bg-white rounded-3xl border border-amber-900/10 shadow-2xl p-8 sm:p-10 space-y-6">
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center mx-auto mb-3">
+          <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center mx-auto mb-3 shadow-inner">
             <Sparkles className="w-6 h-6 text-amber-700" />
           </div>
           <h1 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900">
             Create Your Account
           </h1>
           <p className="text-xs sm:text-sm text-neutral-500 font-sans">
-            Start creating your royal digital wedding invitation
+            Sign up to unlock and customize your luxury digital invitation
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1.5">
-              Full Name / Couple Names
+              Full Name / Couple Names *
             </label>
             <div className="relative">
               <User className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -78,15 +85,15 @@ const InvitationSignup = () => {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Aarav & Kiara"
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+                placeholder="e.g. Aarav Sharma & Kiara Sen"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border border-neutral-300 text-xs focus:outline-none focus:border-amber-600"
               />
             </div>
           </div>
 
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1.5">
-              Email Address
+              Email Address *
             </label>
             <div className="relative">
               <Mail className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -95,15 +102,15 @@ const InvitationSignup = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="couple@gmail.com"
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+                placeholder="e.g. aarav.kiara@gmail.com"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border border-neutral-300 text-xs focus:outline-none focus:border-amber-600"
               />
             </div>
           </div>
 
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-1.5">
-              WhatsApp Phone Number
+              WhatsApp Phone Number (Optional)
             </label>
             <div className="relative">
               <Phone className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -111,8 +118,8 @@ const InvitationSignup = () => {
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="+91 98765 43210"
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+                placeholder="+91 98260 00000"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border border-neutral-300 text-xs focus:outline-none focus:border-amber-600"
               />
             </div>
           </div>
@@ -128,7 +135,7 @@ const InvitationSignup = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-3 rounded-xl border border-neutral-200 text-sm focus:outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-600"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border border-neutral-300 text-xs focus:outline-none focus:border-amber-600"
               />
             </div>
           </div>
@@ -136,34 +143,23 @@ const InvitationSignup = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 rounded-xl bg-amber-900 hover:bg-amber-950 text-white font-bold text-xs uppercase tracking-widest transition-all shadow-md flex items-center justify-center space-x-2"
+            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 hover:from-amber-800 hover:to-amber-800 text-white font-bold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center space-x-2 transition-all cursor-pointer"
           >
-            {loading ? (
-              <div className="w-5 h-5 rounded-full border-2 border-white border-t-transparent animate-spin" />
-            ) : (
-              <>
-                <span>Get Started</span>
-                <ArrowRight className="w-4 h-4" />
-              </>
-            )}
+            <span>{loading ? 'Creating Account...' : 'Continue to Payment →'}</span>
+            <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        <div className="pt-4 border-t border-neutral-100 text-center space-y-3">
+        <div className="text-center pt-2 border-t border-neutral-100">
           <p className="text-xs text-neutral-500">
-            Already registered?{' '}
-            <Link to="/invitations/login" className="text-amber-800 font-bold hover:underline">
+            Already have an account?{' '}
+            <Link
+              to={`/invitations/login?redirect=${encodeURIComponent(redirectUrl)}`}
+              className="text-amber-800 font-bold hover:underline"
+            >
               Sign In
             </Link>
           </p>
-          <div className="text-center">
-            <Link
-              to="/invitations"
-              className="text-[11px] text-neutral-400 hover:text-neutral-700 inline-flex items-center"
-            >
-              ← Back to Digital Invitations
-            </Link>
-          </div>
         </div>
       </div>
     </div>

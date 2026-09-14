@@ -58,14 +58,16 @@ const TemplateDetail = () => {
   const [redirectCountdown, setRedirectCountdown] = useState(null);
 
   useEffect(() => {
-    const savedPlans = JSON.parse(localStorage.getItem('moonlight_unlocked_plans') || '[]');
-    const savedTemplates = JSON.parse(localStorage.getItem('moonlight_unlocked_templates') || '[]');
-    const isAdmin = user?.role === 'admin' || user?.role === 'superadmin';
-
-    if (isAdmin || savedPlans.includes(planCategory) || savedTemplates.includes(template.id)) {
-      setIsAlreadyUnlocked(true);
+    // If not logged in, redirect to Signup first!
+    if (!user) {
+      addToast({
+        title: 'Sign Up Required ✨',
+        message: 'Please create an account or sign in to complete payment and unlock your invitation.',
+        type: 'info',
+      });
+      navigate(`/invitations/signup?redirect=${encodeURIComponent('/templates/' + template.id)}`);
     }
-  }, [template.id, planCategory, user]);
+  }, [user, template.id, navigate]);
 
   const basePrice = isRoyal
     ? (pricingPlan === 'suite' ? 1499 : 999)
@@ -306,46 +308,7 @@ const TemplateDetail = () => {
           </span>
         </div>
 
-        {/* ========================================================================= */}
-        {/* ALREADY UNLOCKED VIP NOTICE (IF USER HAS SUITE PASS OR SINGLE ACCESS) */}
-        {/* ========================================================================= */}
-        {isAlreadyUnlocked ? (
-          <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-[#1C120C] via-[#2A1D13] to-[#120B06] text-amber-100 border-2 border-amber-500/50 shadow-2xl space-y-6 text-center max-w-3xl mx-auto animate-fade-in">
-            <div className="w-16 h-16 rounded-full bg-amber-500/20 border-2 border-amber-400/60 text-amber-300 flex items-center justify-center mx-auto shadow-lg">
-              <Crown className="w-8 h-8" />
-            </div>
-
-            <div className="space-y-2">
-              <span className="text-xs font-mono uppercase tracking-[0.25em] text-amber-400 font-bold block">
-                ✦ UNLOCKED VIP ACCESS ACTIVE ✦
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white">
-                You Already Own This {template.name} Design!
-              </h2>
-              <p className="text-sm text-neutral-300 max-w-lg mx-auto font-sans leading-relaxed">
-                Your account has full unlocked access to customize, add ceremonies, and publish this digital invitation at <strong>₹0 (No Payment Needed)</strong>.
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <button
-                type="button"
-                onClick={() => navigate(`/invitations/create/${template.id}`)}
-                className="w-full sm:w-auto px-8 py-4 rounded-full bg-gold-gradient text-neutral-950 font-black text-sm uppercase tracking-wider shadow-2xl flex items-center justify-center space-x-2 hover:brightness-110 transition-all transform hover:-translate-y-0.5 btn-shimmer"
-              >
-                <Sparkles className="w-4 h-4" />
-                <span>✨ Open Invitation Editor Now →</span>
-              </button>
-
-              <Link
-                to="/invitations/dashboard"
-                className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 border border-amber-400/40 text-amber-200 font-bold text-xs uppercase tracking-wider transition-all"
-              >
-                Go to My Dashboard
-              </Link>
-            </div>
-          </div>
-        ) : (
+        (
           /* ========================================================================= */
           /* MAIN 2-COLUMN REDESIGNED CHECKOUT LAYOUT */
           /* ========================================================================= */
@@ -702,8 +665,7 @@ const TemplateDetail = () => {
               </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
     </div>
   );
 };

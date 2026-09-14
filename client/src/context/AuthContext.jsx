@@ -263,13 +263,17 @@ export const AuthProvider = ({ children }) => {
     const newUser = {
       _id: `usr-${Date.now()}`,
       name: userData.name || 'Valued Couple',
-      email: userData.email,
+      email: (userData.email || '').toLowerCase().trim(),
       role: 'customer',
       avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80',
       phone: userData.phone || '+91 92292 29323',
-      status: 'pending_approval',
+      status: 'active',
     };
 
+    localStorage.setItem('Moonlight_token', `moonlight_jwt_${Date.now()}`);
+    localStorage.setItem('Moonlight_user', JSON.stringify(newUser));
+    localStorage.setItem('moonlight_customer_email', newUser.email);
+    setUser(newUser);
     return newUser;
   };
 

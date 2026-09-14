@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useNotification } from '../../context/NotificationContext';
 import api from '../../api/client';
 import SEO from '../../components/common/SEO';
 import {
@@ -319,6 +320,7 @@ const TemplateMarketplace = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { user } = useAuth();
+  const { addToast } = useNotification();
   const [unlockedPlans, setUnlockedPlans] = useState([]);
 
   useEffect(() => {
@@ -499,173 +501,46 @@ const TemplateMarketplace = () => {
         {/* 1. ROYAL COLLECTION TAB */}
         {/* ========================================================================= */}
         {activeTab === 'royal' && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {royalTemplates.map((template) => (
-              <div
-                key={template.id}
-                className="group rounded-2xl overflow-hidden border border-neutral-200/80 bg-[#16120F] text-white shadow-md hover:shadow-xl hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between"
-              >
-                {/* Video Area */}
-                <div className="relative h-44 sm:h-48 overflow-hidden bg-neutral-950">
-                  {template.tag && (
-                    <span className={'absolute top-2.5 left-2.5 z-20 px-2.5 py-0.5 rounded text-[10px] tracking-wide ' + template.tagColor}>
-                      {template.tag}
-                    </span>
-                  )}
-
-                  <video
-                    src={template.video}
-                    style={{ filter: template.videoFilter || 'none' }}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
-
-                  {/* Preview Button */}
-                  <Link
-                    to={'/invite/demo?template=' + template.id + '&type=' + selectedType}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="absolute inset-x-0 bottom-3 z-20 flex items-center justify-center"
-                  >
-                    <span className="inline-flex items-center rounded-full bg-black/60 hover:bg-black/90 backdrop-blur-md px-3.5 py-1 text-[11px] font-medium text-white border border-white/20 shadow-md transition-transform active:scale-95">
-                      <Eye className="w-3.5 h-3.5 mr-1.5 text-[#E5A83B]" />
-                      Preview
-                    </span>
-                  </Link>
+          <div className="space-y-6">
+            {/* VIP Pass Announcement Banner */}
+            <div className="rounded-2xl bg-gradient-to-r from-neutral-950 via-[#2A1D0D] to-neutral-950 border-2 border-amber-500/40 p-5 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="space-y-1 text-center sm:text-left">
+                <div className="flex items-center justify-center sm:justify-start space-x-2">
+                  <span className="px-2.5 py-0.5 rounded-full bg-amber-500 text-neutral-950 text-[10px] font-mono font-bold uppercase tracking-wider">
+                    BEST VALUE PASS
+                  </span>
+                  <span className="text-xs text-amber-300 font-serif font-bold">Save ₹11,000+</span>
                 </div>
-
-                {/* Card Body */}
-                <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
-                  <div className="space-y-1">
-                    <h3 className="font-serif text-base font-bold text-white tracking-wide">
-                      {template.name}
-                    </h3>
-                    <p className="text-[11px] text-neutral-400 leading-relaxed line-clamp-2">
-                      {template.desc}
-                    </p>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => handleSelectDesign(template.id)}
-                    className={`w-full py-2.5 rounded-lg font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-sm ${
-                      isTemplateUnlocked(template.id)
-                        ? 'bg-gold-gradient text-neutral-950 hover:brightness-105 btn-shimmer'
-                        : 'border border-amber-500/40 bg-neutral-900 hover:bg-neutral-800 text-amber-200'
-                    }`}
-                  >
-                    {isTemplateUnlocked(template.id) ? (
-                      <span className="flex items-center justify-center space-x-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-neutral-950" />
-                        <span>CREATE CARD (UNLOCKED PASS)</span>
-                      </span>
-                    ) : (
-                      <span>USE THIS DESIGN (₹999)</span>
-                    )}
-                  </button>
-                </div>
+                <h3 className="font-serif text-lg sm:text-xl font-bold text-amber-100">
+                  👑 Royal Collection VIP Pass — Only ₹1,499
+                </h3>
+                <p className="text-xs text-neutral-300">
+                  Get full lifetime access to <strong>ALL 15 Royal 4K Video Gates & Hindi Suites</strong> in 1 pass, or choose any single design below for <strong>₹999</strong>.
+                </p>
               </div>
-            ))}
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* 2. CLASSIC COLLECTION TAB */}
-        {/* ========================================================================= */}
-        {activeTab === 'classic' && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {classicTemplates.map((template) => (
-              <div
-                key={template.id}
-                className="group rounded-2xl overflow-hidden border border-[#E8DFD1] bg-[#120E0B] text-white shadow-sm hover:shadow-xl hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between"
+              <button
+                type="button"
+                onClick={() => handleSelectDesign('rose-gold-blush-royal')}
+                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:brightness-110 text-neutral-950 font-bold text-xs uppercase tracking-wider shrink-0 shadow-lg cursor-pointer transition-transform active:scale-95"
               >
-                {/* Visual Card Header */}
-                <div className={'relative h-44 sm:h-48 ' + template.previewBg + ' p-4 flex flex-col justify-between items-center text-center overflow-hidden border-b border-white/10'}>
-                  {template.tag && (
-                    <span className={'absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded text-[10px] tracking-wide ' + template.tagColor}>
-                      {template.tag}
-                    </span>
-                  )}
+                Get Royal Pass (₹1,499) →
+              </button>
+            </div>
 
-                  {/* 3D Door Preview Simulation */}
-                  <div className="my-auto px-2 flex flex-col items-center space-y-1.5 z-10">
-                    <h4 className={'font-serif text-xl font-bold tracking-wide ' + template.accentText + ' drop-shadow-sm'}>
-                      {template.name}
-                    </h4>
-                  </div>
-
-                  {/* Preview Button */}
-                  <Link
-                    to={'/invite/demo?template=' + template.id + '&type=' + selectedType}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full flex items-center justify-center z-10"
-                  >
-                    <span className="inline-flex items-center rounded-full bg-black/60 hover:bg-black/90 backdrop-blur-md px-3.5 py-1 text-[11px] font-medium text-white border border-white/20 shadow-md transition-transform active:scale-95">
-                      <Eye className="w-3.5 h-3.5 mr-1.5 text-amber-300" />
-                      Preview
-                    </span>
-                  </Link>
-                </div>
-
-                {/* Card Body */}
-                <div className="p-4 space-y-3 flex-1 flex flex-col justify-between bg-[#16120F]">
-                  <div className="space-y-1">
-                    <h3 className="font-serif text-sm font-bold text-white">
-                      {template.name}
-                    </h3>
-                    <p className="text-[11px] text-neutral-400 leading-relaxed line-clamp-2">
-                      {template.desc}
-                    </p>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => handleSelectDesign(template.id)}
-                    className={`w-full py-2.5 rounded-lg font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-sm ${
-                      isTemplateUnlocked(template.id)
-                        ? 'bg-gold-gradient text-neutral-950 hover:brightness-105 btn-shimmer'
-                        : 'bg-[#E5A83B] hover:bg-[#d4962a] text-neutral-950'
-                    }`}
-                  >
-                    {isTemplateUnlocked(template.id) ? (
-                      <span className="flex items-center justify-center space-x-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-neutral-950" />
-                        <span>CREATE CARD (UNLOCKED PASS)</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {royalTemplates.map((template) => (
+                <div
+                  key={template.id}
+                  className="group rounded-2xl overflow-hidden border border-neutral-200/80 bg-[#16120F] text-white shadow-md hover:shadow-xl hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between"
+                >
+                  {/* Video Area */}
+                  <div className="relative h-44 sm:h-48 overflow-hidden bg-neutral-950">
+                    {template.tag && (
+                      <span className={'absolute top-2.5 left-2.5 z-20 px-2.5 py-0.5 rounded text-[10px] tracking-wide ' + template.tagColor}>
+                        {template.tag}
                       </span>
-                    ) : (
-                      <span>USE THIS DESIGN (₹599)</span>
                     )}
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
 
-        {/* ========================================================================= */}
-        {/* 3. 🕉️ HINDI INVITATIONS TAB */}
-        {/* ========================================================================= */}
-        {activeTab === 'hindi' && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredHindiTemplates.map((template) => (
-              <div
-                key={template.id}
-                className="group rounded-2xl overflow-hidden border border-red-900/40 bg-[#1A0808] text-white shadow-md hover:shadow-xl hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between"
-              >
-                {/* Header Area */}
-                <div className="relative h-44 sm:h-48 overflow-hidden bg-neutral-950">
-                  {template.tag && (
-                    <span className={'absolute top-2.5 left-2.5 z-20 px-2.5 py-0.5 rounded text-[10px] tracking-wide ' + template.tagColor}>
-                      {template.tag}
-                    </span>
-                  )}
-
-                  {template.video ? (
                     <video
                       src={template.video}
                       style={{ filter: template.videoFilter || 'none' }}
@@ -675,60 +550,237 @@ const TemplateMarketplace = () => {
                       playsInline
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                     />
-                  ) : (
-                    <div className={'w-full h-full ' + template.previewBg + ' flex items-center justify-center p-4'}>
-                      <span className="font-rozha text-2xl text-amber-300 drop-shadow">卐 शुभ विवाह 卐</span>
-                    </div>
-                  )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
-
-                  {/* Preview Button */}
-                  <Link
-                    to={'/invite/demo?template=' + template.id + '&type=hindi-invitations'}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="absolute inset-x-0 bottom-3 z-20 flex items-center justify-center"
-                  >
-                    <span className="inline-flex items-center rounded-full bg-red-950/80 hover:bg-red-900 backdrop-blur-md px-3.5 py-1 text-[11px] font-bold text-amber-300 border border-amber-500/40 shadow-md transition-transform active:scale-95">
-                      <Eye className="w-3.5 h-3.5 mr-1.5 text-amber-300" />
-                      प्रिव्यू / Preview
-                    </span>
-                  </Link>
-                </div>
-
-                {/* Card Body */}
-                <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
-                  <div className="space-y-1">
-                    <h3 className="font-rozha text-base font-bold text-amber-300 tracking-wide">
-                      {template.name}
-                    </h3>
-                    <p className="text-[11px] text-neutral-300 leading-relaxed line-clamp-2">
-                      {template.desc}
-                    </p>
+                    {/* Preview Button */}
+                    <Link
+                      to={'/invite/demo?template=' + template.id + '&type=' + selectedType}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="absolute inset-x-0 bottom-3 z-20 flex items-center justify-center"
+                    >
+                      <span className="inline-flex items-center rounded-full bg-black/60 hover:bg-black/90 backdrop-blur-md px-3.5 py-1 text-[11px] font-medium text-white border border-white/20 shadow-md transition-transform active:scale-95">
+                        <Eye className="w-3.5 h-3.5 mr-1.5 text-[#E5A83B]" />
+                        Preview
+                      </span>
+                    </Link>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => handleSelectDesign(template.id)}
-                    className={`w-full py-2.5 rounded-lg font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-md border ${
-                      isTemplateUnlocked(template.id)
-                        ? 'bg-gold-gradient text-neutral-950 border-amber-400 hover:brightness-105'
-                        : 'bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-amber-200 border-amber-500/30'
-                    }`}
-                  >
-                    {isTemplateUnlocked(template.id) ? (
-                      <span className="flex items-center justify-center space-x-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-neutral-950" />
-                        <span>कार्ड बनाएं (पास अनलॉक है)</span>
-                      </span>
-                    ) : (
-                      <span>{template.tier === 'royal' ? 'USE THIS DESIGN (₹999)' : 'USE THIS DESIGN (₹599)'}</span>
-                    )}
-                  </button>
+                  {/* Card Body */}
+                  <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
+                    <div className="space-y-1">
+                      <h3 className="font-serif text-base font-bold text-white tracking-wide">
+                        {template.name}
+                      </h3>
+                      <p className="text-[11px] text-neutral-400 leading-relaxed line-clamp-2">
+                        {template.desc}
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => handleSelectDesign(template.id)}
+                      className={`w-full py-2.5 rounded-lg font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-sm ${
+                        isTemplateUnlocked(template.id)
+                          ? 'bg-gold-gradient text-neutral-950 hover:brightness-105 btn-shimmer'
+                          : 'border border-amber-500/40 bg-neutral-900 hover:bg-neutral-800 text-amber-200'
+                      }`}
+                    >
+                      <span>USE THIS DESIGN (₹999)</span>
+                    </button>
+                  </div>
                 </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* 2. CLASSIC COLLECTION TAB */}
+        {/* ========================================================================= */}
+        {activeTab === 'classic' && (
+          <div className="space-y-6">
+            {/* VIP Pass Announcement Banner */}
+            <div className="rounded-2xl bg-gradient-to-r from-[#1C1814] via-[#2D2114] to-[#1C1814] border-2 border-amber-600/40 p-5 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="space-y-1 text-center sm:text-left">
+                <div className="flex items-center justify-center sm:justify-start space-x-2">
+                  <span className="px-2.5 py-0.5 rounded-full bg-amber-600 text-white text-[10px] font-mono font-bold uppercase tracking-wider">
+                    BEST VALUE PASS
+                  </span>
+                  <span className="text-xs text-amber-300 font-serif font-bold">Save ₹6,000+</span>
+                </div>
+                <h3 className="font-serif text-lg sm:text-xl font-bold text-amber-100">
+                  ✨ Classic 3D Collection VIP Pass — Only ₹899
+                </h3>
+                <p className="text-xs text-neutral-300">
+                  Get full access to <strong>ALL 13 Classic 3D Gate Suites & Hindi Editions</strong>, or unlock any single template for <strong>₹599</strong>.
+                </p>
               </div>
-            ))}
+              <button
+                type="button"
+                onClick={() => handleSelectDesign('emerald-noir')}
+                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:brightness-110 text-neutral-950 font-bold text-xs uppercase tracking-wider shrink-0 shadow-lg cursor-pointer transition-transform active:scale-95"
+              >
+                Get Classic Pass (₹899) →
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {classicTemplates.map((template) => (
+                <div
+                  key={template.id}
+                  className="group rounded-2xl overflow-hidden border border-[#E8DFD1] bg-[#120E0B] text-white shadow-sm hover:shadow-xl hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between"
+                >
+                  {/* Visual Card Header */}
+                  <div className={'relative h-44 sm:h-48 ' + template.previewBg + ' p-4 flex flex-col justify-between items-center text-center overflow-hidden border-b border-white/10'}>
+                    {template.tag && (
+                      <span className={'absolute top-2.5 left-2.5 z-20 px-2 py-0.5 rounded text-[10px] tracking-wide ' + template.tagColor}>
+                        {template.tag}
+                      </span>
+                    )}
+
+                    {/* 3D Door Preview Simulation */}
+                    <div className="my-auto px-2 flex flex-col items-center space-y-1.5 z-10">
+                      <h4 className={'font-serif text-xl font-bold tracking-wide ' + template.accentText + ' drop-shadow-sm'}>
+                        {template.name}
+                      </h4>
+                    </div>
+
+                    {/* Preview Button */}
+                    <Link
+                      to={'/invite/demo?template=' + template.id + '&type=' + selectedType}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full flex items-center justify-center z-10"
+                    >
+                      <span className="inline-flex items-center rounded-full bg-black/60 hover:bg-black/90 backdrop-blur-md px-3.5 py-1 text-[11px] font-medium text-white border border-white/20 shadow-md transition-transform active:scale-95">
+                        <Eye className="w-3.5 h-3.5 mr-1.5 text-amber-300" />
+                        Preview
+                      </span>
+                    </Link>
+                  </div>
+
+                  {/* Card Body */}
+                  <div className="p-4 space-y-3 flex-1 flex flex-col justify-between bg-[#16120F]">
+                    <div className="space-y-1">
+                      <h3 className="font-serif text-sm font-bold text-white">
+                        {template.name}
+                      </h3>
+                      <p className="text-[11px] text-neutral-400 leading-relaxed line-clamp-2">
+                        {template.desc}
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => handleSelectDesign(template.id)}
+                      className={`w-full py-2.5 rounded-lg font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-sm ${
+                        isTemplateUnlocked(template.id)
+                          ? 'bg-gold-gradient text-neutral-950 hover:brightness-105 btn-shimmer'
+                          : 'bg-[#E5A83B] hover:bg-[#d4962a] text-neutral-950'
+                      }`}
+                    >
+                      <span>USE THIS DESIGN (₹599)</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* 3. 🕉️ HINDI INVITATIONS TAB */}
+        {/* ========================================================================= */}
+        {activeTab === 'hindi' && (
+          <div className="space-y-6">
+            {/* Hindi Info Banner */}
+            <div className="rounded-2xl bg-gradient-to-r from-red-950 via-[#350A0A] to-red-950 border-2 border-amber-500/40 p-5 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="space-y-1 text-center sm:text-left">
+                <span className="px-2.5 py-0.5 rounded-full bg-red-700 text-white text-[10px] font-mono font-bold uppercase tracking-wider">
+                  卐 वैदिक व रजवाड़ी पत्रिका
+                </span>
+                <h3 className="font-rozha text-lg sm:text-xl font-bold text-amber-300">
+                  शुद्ध हिंदी निमंत्रण पत्रिका - देवनागरी कैलिग्राफी
+                </h3>
+                <p className="text-xs text-neutral-300">
+                  शाही 4K वीडियो फरमान पत्रिका मात्र <strong>₹999</strong> | क्लासिक 3D मंदिर द्वार पत्रिका मात्र <strong>₹599</strong>
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredHindiTemplates.map((template) => (
+                <div
+                  key={template.id}
+                  className="group rounded-2xl overflow-hidden border border-red-900/40 bg-[#1A0808] text-white shadow-md hover:shadow-xl hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between"
+                >
+                  {/* Header Area */}
+                  <div className="relative h-44 sm:h-48 overflow-hidden bg-neutral-950">
+                    {template.tag && (
+                      <span className={'absolute top-2.5 left-2.5 z-20 px-2.5 py-0.5 rounded text-[10px] tracking-wide ' + template.tagColor}>
+                        {template.tag}
+                      </span>
+                    )}
+
+                    {template.video ? (
+                      <video
+                        src={template.video}
+                        style={{ filter: template.videoFilter || 'none' }}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+                      />
+                    ) : (
+                      <div className={'w-full h-full ' + template.previewBg + ' flex items-center justify-center p-4'}>
+                        <span className="font-rozha text-2xl text-amber-300 drop-shadow">卐 शुभ विवाह 卐</span>
+                      </div>
+                    )}
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+
+                    {/* Preview Button */}
+                    <Link
+                      to={'/invite/demo?template=' + template.id + '&type=hindi-invitations'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="absolute inset-x-0 bottom-3 z-20 flex items-center justify-center"
+                    >
+                      <span className="inline-flex items-center rounded-full bg-red-950/80 hover:bg-red-900 backdrop-blur-md px-3.5 py-1 text-[11px] font-bold text-amber-300 border border-amber-500/40 shadow-md transition-transform active:scale-95">
+                        <Eye className="w-3.5 h-3.5 mr-1.5 text-amber-300" />
+                        प्रिव्यू / Preview
+                      </span>
+                    </Link>
+                  </div>
+
+                  {/* Card Body */}
+                  <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
+                    <div className="space-y-1">
+                      <h3 className="font-rozha text-base font-bold text-amber-300 tracking-wide">
+                        {template.name}
+                      </h3>
+                      <p className="text-[11px] text-neutral-300 leading-relaxed line-clamp-2">
+                        {template.desc}
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => handleSelectDesign(template.id)}
+                      className={`w-full py-2.5 rounded-lg font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-md border ${
+                        isTemplateUnlocked(template.id)
+                          ? 'bg-gold-gradient text-neutral-950 border-amber-400 hover:brightness-105'
+                          : 'bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-amber-200 border-amber-500/30'
+                      }`}
+                    >
+                      <span>{template.id.startsWith('royal-') || template.id.includes('royal') ? 'USE THIS DESIGN (₹999)' : 'USE THIS DESIGN (₹599)'}</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
