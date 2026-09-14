@@ -988,47 +988,56 @@ export const ZareqiaCrimsonGlowEffect = () => (
 // 4. THE 5 DISTINCT INSIDE HERO ARCHITECTURES (1:1 FROM ZAREQIA)
 // =========================================================================
 
-// Hero 1: Emerald Noir Architecture (`nre`)
+// =========================================================================
+// 4. THE 5 DISTINCT INSIDE HERO ARCHITECTURES (1:1 FROM ZAREQIA)
+// =========================================================================
+
+// Hero 1: Emerald Noir Architecture (Screenshot 3: Aryan & Eva)
 export const EmeraldNoirHero = ({ invitation, onScrollDown }) => {
-  const groomName = invitation.groom_name || invitation.groomName || 'Aarav';
-  const brideName = invitation.bride_name || invitation.brideName || 'Kiara';
+  const groomName = invitation.groom_name || invitation.groomName || 'Aryan';
+  const brideName = invitation.bride_name || invitation.brideName || 'Eva';
   const groomParents =
-    invitation.groom_parents || invitation.groomParents || 'Son of Mrs. Sunita & Mr. Rajesh Singhania';
+    invitation.groom_parents || invitation.groomParents || 'Son of Mrs. & Mr. Singhania';
   const brideParents =
-    invitation.bride_parents || invitation.brideParents || 'Daughter of Mrs. Poonam & Mr. Anand Malhotra';
+    invitation.bride_parents || invitation.brideParents || 'Daughter of Mrs. & Mr. Malhotra';
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center relative overflow-hidden bg-[hsl(160,25%,8%)] text-[hsl(40,30%,85%)]">
+    <section
+      className="min-h-screen flex flex-col items-center justify-center px-6 text-center relative overflow-hidden text-white"
+      style={{
+        background: 'linear-gradient(180deg, #03140e 0%, #07261c 50%, #03140e 100%)',
+      }}
+    >
       {/* Radial Gold Aura */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 40%, hsla(40, 50%, 50%, 0.08), transparent 60%)',
+            'radial-gradient(ellipse at 50% 45%, rgba(212, 175, 55, 0.12), transparent 70%)',
         }}
       />
 
       {/* Mughal Jaali Corner Filigrees */}
-      <ZareqiaMughalCornerSVG className="absolute top-6 left-6 w-20 h-20 text-amber-400 opacity-60" />
-      <ZareqiaMughalCornerSVG className="absolute top-6 right-6 w-20 h-20 text-amber-400 opacity-60 -scale-x-100" />
-      <ZareqiaMughalCornerSVG className="absolute bottom-6 left-6 w-20 h-20 text-amber-400 opacity-60 -scale-y-100" />
-      <ZareqiaMughalCornerSVG className="absolute bottom-6 right-6 w-20 h-20 text-amber-400 opacity-60 -scale-x-100 -scale-y-100" />
+      <ZareqiaMughalCornerSVG className="absolute top-4 left-4 sm:top-6 sm:left-6 w-20 h-20 sm:w-24 sm:h-24 text-amber-400 opacity-70" />
+      <ZareqiaMughalCornerSVG className="absolute top-4 right-4 sm:top-6 sm:right-6 w-20 h-20 sm:w-24 sm:h-24 text-amber-400 opacity-70 -scale-x-100" />
+      <ZareqiaMughalCornerSVG className="absolute bottom-6 left-4 sm:bottom-8 sm:left-6 w-16 h-16 sm:w-20 sm:h-20 text-amber-400 opacity-60 -scale-y-100" />
+      <ZareqiaMughalCornerSVG className="absolute bottom-6 right-4 sm:bottom-8 sm:right-6 w-16 h-16 sm:w-20 sm:h-20 text-amber-400 opacity-60 -scale-x-100 -scale-y-100" />
 
       {/* Hero Content */}
-      <div className="relative z-10 max-w-2xl mx-auto space-y-6">
+      <div className="relative z-10 max-w-2xl mx-auto space-y-4 sm:space-y-6 pt-4">
         <motion.p
-          className="font-serif text-xs md:text-sm tracking-[0.25em] uppercase text-amber-300/80"
+          className="font-serif text-xs sm:text-sm md:text-base tracking-[0.3em] uppercase text-white font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] max-w-xl mx-auto px-4 leading-relaxed"
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {invitation.message || 'Request the pleasure of your company'}
+          {invitation.message || 'Request the pleasure of your company to celebrate'}
         </motion.p>
 
         {/* Groom & Lineage */}
-        <div className="space-y-1">
+        <div className="space-y-1 sm:space-y-2">
           <motion.h1
-            className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-wide text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] break-words px-2 leading-tight"
+            className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-[0.18em] uppercase text-[#E5C158] font-light drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] break-words px-2 leading-tight select-none"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.9 }}
@@ -1036,7 +1045,7 @@ export const EmeraldNoirHero = ({ invitation, onScrollDown }) => {
             {groomName}
           </motion.h1>
           {Boolean(groomParents) && (
-            <p className="text-xs md:text-sm font-serif italic text-amber-200/70">
+            <p className="text-xs sm:text-sm md:text-base font-serif italic text-white/95 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] tracking-wide">
               {groomParents}
             </p>
           )}
@@ -1044,20 +1053,20 @@ export const EmeraldNoirHero = ({ invitation, onScrollDown }) => {
 
         {/* Gold Diamond Filigree Center Divider */}
         <motion.div
-          className="flex items-center justify-center gap-4 my-2"
+          className="flex items-center justify-center gap-4 my-1 sm:my-2"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4 }}
         >
-          <div className="w-16 md:w-24 h-px bg-gradient-to-r from-transparent to-amber-400/60" />
-          <span className="font-serif text-2xl md:text-3xl text-amber-300 italic">&</span>
-          <div className="w-16 md:w-24 h-px bg-gradient-to-l from-transparent to-amber-400/60" />
+          <div className="w-12 sm:w-20 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-80" />
+          <span className="font-serif text-2xl sm:text-3xl text-amber-300 italic drop-shadow">&</span>
+          <div className="w-12 sm:w-20 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-80" />
         </motion.div>
 
         {/* Bride & Lineage */}
-        <div className="space-y-1">
+        <div className="space-y-1 sm:space-y-2">
           <motion.h1
-            className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-wide text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] break-words px-2 leading-tight"
+            className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-[0.18em] uppercase text-[#E5C158] font-light drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] break-words px-2 leading-tight select-none"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.9 }}
@@ -1065,7 +1074,7 @@ export const EmeraldNoirHero = ({ invitation, onScrollDown }) => {
             {brideName}
           </motion.h1>
           {Boolean(brideParents) && (
-            <p className="text-xs md:text-sm font-serif italic text-amber-200/70">
+            <p className="text-xs sm:text-sm md:text-base font-serif italic text-white/95 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] tracking-wide">
               {brideParents}
             </p>
           )}
@@ -1076,57 +1085,62 @@ export const EmeraldNoirHero = ({ invitation, onScrollDown }) => {
       <motion.button
         type="button"
         onClick={onScrollDown}
-        className="absolute bottom-8 inset-x-0 mx-auto flex flex-col items-center gap-1 text-amber-300/60 hover:text-amber-300 transition-colors cursor-pointer"
+        className="absolute bottom-6 sm:bottom-8 inset-x-0 mx-auto flex flex-col items-center gap-1 text-white hover:text-amber-300 transition-colors cursor-pointer drop-shadow-md z-20"
         animate={{ y: [0, 6, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <span className="text-[10px] uppercase tracking-[0.25em]">Scroll Down</span>
-        <ChevronDown className="w-4 h-4 text-amber-300" />
+        <span className="text-[10px] sm:text-xs uppercase tracking-[0.25em] font-medium text-white/90">Scroll Down</span>
+        <ChevronDown className="w-4 h-4 text-amber-400" />
       </motion.button>
     </section>
   );
 };
 
-// Hero 2: Crimson Royale Architecture (`Xne`)
+// Hero 2: Crimson Royale Architecture (Screenshot 2: Veer & Zara)
 export const CrimsonRoyaleHero = ({ invitation, onScrollDown }) => {
-  const groomName = invitation.groom_name || invitation.groomName || 'Karan';
-  const brideName = invitation.bride_name || invitation.brideName || 'Natasha';
+  const groomName = invitation.groom_name || invitation.groomName || 'Veer';
+  const brideName = invitation.bride_name || invitation.brideName || 'Zara';
   const groomParents =
-    invitation.groom_parents || invitation.groomParents || 'Son of Mrs. Simran & Mr. Harpreet Ahluwalia';
+    invitation.groom_parents || invitation.groomParents || 'Son of Mrs. & Mr. Ahluwalia';
   const brideParents =
-    invitation.bride_parents || invitation.brideParents || 'Daughter of Mrs. Neena & Mr. Rajiv Batra';
+    invitation.bride_parents || invitation.brideParents || 'Daughter of Mrs. & Mr. Batra';
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center relative overflow-hidden bg-[hsl(0,0%,6%)] text-[hsl(40,30%,85%)]">
+    <section
+      className="min-h-screen flex flex-col items-center justify-center px-6 text-center relative overflow-hidden text-white"
+      style={{
+        background: 'linear-gradient(180deg, #090504 0%, #170d09 50%, #090504 100%)',
+      }}
+    >
       {/* Geometric Gold Lattice Background */}
       <div
-        className="fixed inset-0 pointer-events-none z-0 opacity-[0.03]"
+        className="fixed inset-0 pointer-events-none z-0 opacity-[0.04]"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z' fill='%23c9a355' fill-opacity='0.04'/%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z' fill='%23c9a355' fill-opacity='0.08'/%3E%3C/g%3E%3C/svg%3E")`,
         }}
       />
 
       {/* Obsidian Corner Brackets */}
-      <ZareqiaObsidianCornerSVG className="absolute top-6 left-6 w-20 h-20 text-rose-500 opacity-50" />
-      <ZareqiaObsidianCornerSVG className="absolute top-6 right-6 w-20 h-20 text-rose-500 opacity-50 -scale-x-100" />
-      <ZareqiaObsidianCornerSVG className="absolute bottom-6 left-6 w-20 h-20 text-rose-500 opacity-50 -scale-y-100" />
-      <ZareqiaObsidianCornerSVG className="absolute bottom-6 right-6 w-20 h-20 text-rose-500 opacity-50 -scale-x-100 -scale-y-100" />
+      <ZareqiaObsidianCornerSVG className="absolute top-4 left-4 sm:top-6 sm:left-6 w-20 h-20 text-rose-500 opacity-60" />
+      <ZareqiaObsidianCornerSVG className="absolute top-4 right-4 sm:top-6 sm:right-6 w-20 h-20 text-rose-500 opacity-60 -scale-x-100" />
+      <ZareqiaObsidianCornerSVG className="absolute bottom-6 left-4 sm:bottom-8 sm:left-6 w-16 h-16 text-rose-500 opacity-50 -scale-y-100" />
+      <ZareqiaObsidianCornerSVG className="absolute bottom-6 right-4 sm:bottom-8 sm:right-6 w-16 h-16 text-rose-500 opacity-50 -scale-x-100 -scale-y-100" />
 
       {/* Hero Content */}
-      <div className="relative z-10 max-w-2xl mx-auto space-y-6">
+      <div className="relative z-10 max-w-2xl mx-auto space-y-4 sm:space-y-6 pt-4">
         <motion.p
-          className="font-serif text-xs md:text-sm tracking-[0.25em] uppercase text-rose-400/90"
+          className="font-serif text-xs sm:text-sm md:text-base tracking-[0.25em] uppercase text-white font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] max-w-xl mx-auto px-4 leading-relaxed"
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {invitation.message || 'Cordially invite you to celebrate'}
+          {invitation.message || 'Cordially invite you to celebrate the wedding ceremony of'}
         </motion.p>
 
         {/* Groom */}
-        <div className="space-y-1">
+        <div className="space-y-1 sm:space-y-2">
           <motion.h1
-            className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-wide text-amber-200 drop-shadow-[0_2px_14px_rgba(225,29,72,0.4)] break-words px-2 leading-tight"
+            className="font-dancing text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[#E5C158] drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] break-words px-2 leading-tight select-none"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.9 }}
@@ -1134,7 +1148,7 @@ export const CrimsonRoyaleHero = ({ invitation, onScrollDown }) => {
             {groomName}
           </motion.h1>
           {Boolean(groomParents) && (
-            <p className="text-xs md:text-sm font-serif italic text-rose-200/70">
+            <p className="text-xs sm:text-sm md:text-base font-serif italic text-white/95 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] tracking-wide">
               {groomParents}
             </p>
           )}
@@ -1142,20 +1156,20 @@ export const CrimsonRoyaleHero = ({ invitation, onScrollDown }) => {
 
         {/* Ruby Jewel Dot Divider */}
         <motion.div
-          className="flex items-center justify-center gap-3 my-2"
+          className="flex items-center justify-center gap-3 my-1 sm:my-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
         >
-          <div className="w-12 h-px bg-amber-500/40" />
-          <div className="w-2.5 h-2.5 rounded-full bg-rose-600 shadow-[0_0_8px_rgba(225,29,72,0.8)]" />
-          <div className="w-12 h-px bg-amber-500/40" />
+          <div className="w-12 sm:w-16 h-px bg-amber-400/60" />
+          <div className="w-2.5 h-2.5 rounded-full bg-rose-600 shadow-[0_0_10px_rgba(225,29,72,0.9)]" />
+          <div className="w-12 sm:w-16 h-px bg-amber-400/60" />
         </motion.div>
 
         {/* Bride */}
-        <div className="space-y-1">
+        <div className="space-y-1 sm:space-y-2">
           <motion.h1
-            className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-wide text-amber-200 drop-shadow-[0_2px_14px_rgba(225,29,72,0.4)] break-words px-2 leading-tight"
+            className="font-dancing text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[#E5C158] drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] break-words px-2 leading-tight select-none"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.9 }}
@@ -1163,7 +1177,7 @@ export const CrimsonRoyaleHero = ({ invitation, onScrollDown }) => {
             {brideName}
           </motion.h1>
           {Boolean(brideParents) && (
-            <p className="text-xs md:text-sm font-serif italic text-rose-200/70">
+            <p className="text-xs sm:text-sm md:text-base font-serif italic text-white/95 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] tracking-wide">
               {brideParents}
             </p>
           )}
@@ -1174,68 +1188,73 @@ export const CrimsonRoyaleHero = ({ invitation, onScrollDown }) => {
       <motion.button
         type="button"
         onClick={onScrollDown}
-        className="absolute bottom-8 inset-x-0 mx-auto flex flex-col items-center gap-1 text-rose-400/70 hover:text-rose-300 transition-colors cursor-pointer"
+        className="absolute bottom-6 sm:bottom-8 inset-x-0 mx-auto flex flex-col items-center gap-1 text-white hover:text-amber-300 transition-colors cursor-pointer drop-shadow-md z-20"
         animate={{ y: [0, 6, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <span className="text-[10px] uppercase tracking-[0.25em]">Scroll Down</span>
-        <ChevronDown className="w-4 h-4 text-rose-400" />
+        <span className="text-[10px] sm:text-xs uppercase tracking-[0.25em] font-medium text-white/90">Scroll Down</span>
+        <ChevronDown className="w-4 h-4 text-amber-400" />
       </motion.button>
     </section>
   );
 };
 
-// Hero 3: Rose Gold Blush Architecture (`Gne`)
+// Hero 3: Rose Gold Blush Architecture (Screenshot 4: Vihaan & Myra)
 export const RoseGoldBlushHero = ({ invitation, onScrollDown }) => {
-  const groomName = invitation.groom_name || invitation.groomName || 'Rohan';
-  const brideName = invitation.bride_name || invitation.brideName || 'Ananya';
+  const groomName = invitation.groom_name || invitation.groomName || 'Vihaan';
+  const brideName = invitation.bride_name || invitation.brideName || 'Myra';
   const groomParents =
     invitation.groom_parents || invitation.groomParents || 'Son of Mrs. & Mr. Kapoor';
   const brideParents =
     invitation.bride_parents || invitation.brideParents || 'Daughter of Mrs. & Mr. Mehra';
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center relative overflow-hidden bg-[hsl(20,30%,97%)] text-[hsl(350,20%,20%)]">
-      {/* Soft Romantic Blush Gradient */}
+    <section
+      className="min-h-screen flex flex-col items-center justify-center px-6 text-center relative overflow-hidden text-white"
+      style={{
+        background: 'linear-gradient(180deg, #150a18 0%, #241029 50%, #150a18 100%)',
+      }}
+    >
+      {/* Soft Romantic Blush Gradient Aura */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'linear-gradient(to bottom, rgba(183,110,121,0.18), rgba(212,145,154,0.08))',
+            'radial-gradient(ellipse at 50% 45%, rgba(212, 145, 154, 0.15), transparent 70%)',
         }}
       />
 
       {/* Botanical Floral Corner SVGs */}
-      <ZareqiaFloralCornerSVG className="absolute top-6 left-6 w-24 h-24 text-[#b76e79]" />
-      <ZareqiaFloralCornerSVG className="absolute top-6 right-6 w-24 h-24 text-[#b76e79] -scale-x-100" />
-      <ZareqiaFloralCornerSVG className="absolute bottom-6 left-6 w-24 h-24 text-[#b76e79] -scale-y-100" />
-      <ZareqiaFloralCornerSVG className="absolute bottom-6 right-6 w-24 h-24 text-[#b76e79] -scale-x-100 -scale-y-100" />
+      <ZareqiaFloralCornerSVG className="absolute top-4 left-4 sm:top-6 sm:left-6 w-20 h-20 sm:w-24 sm:h-24 text-[#b76e79] opacity-75" />
+      <ZareqiaFloralCornerSVG className="absolute top-4 right-4 sm:top-6 sm:right-6 w-20 h-20 sm:w-24 sm:h-24 text-[#b76e79] opacity-75 -scale-x-100" />
+      <ZareqiaFloralCornerSVG className="absolute bottom-6 left-4 sm:bottom-8 sm:left-6 w-16 h-16 sm:w-20 sm:h-20 text-[#b76e79] opacity-65 -scale-y-100" />
+      <ZareqiaFloralCornerSVG className="absolute bottom-6 right-4 sm:bottom-8 sm:right-6 w-16 h-16 sm:w-20 sm:h-20 text-[#b76e79] opacity-65 -scale-x-100 -scale-y-100" />
 
       {/* Hero Content */}
-      <div className="relative z-10 max-w-2xl mx-auto space-y-6">
+      <div className="relative z-10 max-w-2xl mx-auto space-y-4 sm:space-y-6 pt-4">
         {/* Heart Crest */}
         <motion.div
-          className="mb-2"
+          className="mb-1"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <Heart className="w-8 h-8 mx-auto text-[#b76e79] fill-[#b76e79]/20" />
+          <Heart className="w-8 h-8 mx-auto text-rose-300 fill-rose-300/30 drop-shadow" />
         </motion.div>
 
         <motion.p
-          className="font-serif italic text-base md:text-lg text-[#9b4d5a]"
+          className="font-serif text-xs sm:text-sm md:text-base tracking-[0.25em] uppercase text-white font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] max-w-xl mx-auto px-4 leading-relaxed"
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {invitation.message || 'With joyous hearts, we invite you to share in our celebration'}
+          {invitation.message || 'With joyous hearts, we invite you to celebrate the wedding of'}
         </motion.p>
 
         {/* Groom */}
-        <div className="space-y-1">
+        <div className="space-y-1 sm:space-y-2">
           <motion.h1
-            className="font-serif italic text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-[#b76e79] drop-shadow-[0_2px_8px_rgba(183,110,121,0.2)] break-words px-2 leading-tight"
+            className="font-dancing text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[#F3E5AB] drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] break-words px-2 leading-tight select-none"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.9 }}
@@ -1243,7 +1262,7 @@ export const RoseGoldBlushHero = ({ invitation, onScrollDown }) => {
             {groomName}
           </motion.h1>
           {Boolean(groomParents) && (
-            <p className="text-xs md:text-sm font-serif italic text-[#9b4d5a]/80">
+            <p className="text-xs sm:text-sm md:text-base font-serif italic text-white/95 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] tracking-wide">
               {groomParents}
             </p>
           )}
@@ -1251,20 +1270,20 @@ export const RoseGoldBlushHero = ({ invitation, onScrollDown }) => {
 
         {/* Romantic & Divider */}
         <motion.div
-          className="flex items-center justify-center gap-4 my-2"
+          className="flex items-center justify-center gap-3 my-1 sm:my-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
         >
-          <div className="w-16 h-px bg-[#b76e79]/30" />
-          <span className="font-serif italic text-3xl md:text-4xl text-[#b76e79]">&</span>
-          <div className="w-16 h-px bg-[#b76e79]/30" />
+          <div className="w-12 sm:w-16 h-px bg-rose-300/60" />
+          <span className="font-dancing text-3xl sm:text-4xl text-white drop-shadow italic">&</span>
+          <div className="w-12 sm:w-16 h-px bg-rose-300/60" />
         </motion.div>
 
         {/* Bride */}
-        <div className="space-y-1">
+        <div className="space-y-1 sm:space-y-2">
           <motion.h1
-            className="font-serif italic text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-[#b76e79] drop-shadow-[0_2px_8px_rgba(183,110,121,0.2)] break-words px-2 leading-tight"
+            className="font-dancing text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[#F3E5AB] drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] break-words px-2 leading-tight select-none"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.9 }}
@@ -1272,7 +1291,7 @@ export const RoseGoldBlushHero = ({ invitation, onScrollDown }) => {
             {brideName}
           </motion.h1>
           {Boolean(brideParents) && (
-            <p className="text-xs md:text-sm font-serif italic text-[#9b4d5a]/80">
+            <p className="text-xs sm:text-sm md:text-base font-serif italic text-white/95 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] tracking-wide">
               {brideParents}
             </p>
           )}
@@ -1283,46 +1302,51 @@ export const RoseGoldBlushHero = ({ invitation, onScrollDown }) => {
       <motion.button
         type="button"
         onClick={onScrollDown}
-        className="absolute bottom-8 inset-x-0 mx-auto flex flex-col items-center gap-1 text-[#b76e79]/70 hover:text-[#b76e79] transition-colors cursor-pointer"
+        className="absolute bottom-6 sm:bottom-8 inset-x-0 mx-auto flex flex-col items-center gap-1 text-white hover:text-rose-200 transition-colors cursor-pointer drop-shadow-md z-20"
         animate={{ y: [0, 6, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <span className="text-[10px] uppercase tracking-[0.25em]">Scroll Down</span>
-        <ChevronDown className="w-4 h-4 text-[#b76e79]" />
+        <span className="text-[10px] sm:text-xs uppercase tracking-[0.25em] font-medium text-white/90">Scroll Down</span>
+        <ChevronDown className="w-4 h-4 text-rose-300" />
       </motion.button>
     </section>
   );
 };
 
-// Hero 4: Modern Minimal Architecture (`Wne`)
+// Hero 4: Modern Minimal Architecture (Screenshot 5: Romeo & Juliet)
 export const ModernMinimalHero = ({ invitation, onScrollDown }) => {
-  const groomName = invitation.groom_name || invitation.groomName || 'Arjun';
-  const brideName = invitation.bride_name || invitation.brideName || 'Tara';
+  const groomName = invitation.groom_name || invitation.groomName || 'Romeo';
+  const brideName = invitation.bride_name || invitation.brideName || 'Juliet';
   const groomParents =
-    invitation.groom_parents || invitation.groomParents || 'Son of Mrs. & Mr. Sharma';
+    invitation.groom_parents || invitation.groomParents || 'Son of Mrs. & Mr. Montague';
   const brideParents =
-    invitation.bride_parents || invitation.brideParents || 'Daughter of Mrs. & Mr. Verma';
+    invitation.bride_parents || invitation.brideParents || 'Daughter of Mrs. & Mr. Capulet';
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center relative overflow-hidden bg-[hsl(220,30%,12%)] text-[hsl(40,20%,90%)]">
+    <section
+      className="min-h-screen flex flex-col items-center justify-center px-6 text-center relative overflow-hidden text-white"
+      style={{
+        background: 'linear-gradient(180deg, #070e1c 0%, #0d1b38 50%, #070e1c 100%)',
+      }}
+    >
       {/* 60x60 Diamond SVG Grid */}
       <div
-        className="fixed inset-0 pointer-events-none z-0 opacity-5"
+        className="fixed inset-0 pointer-events-none z-0 opacity-10"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' stroke='%23d4af37' stroke-width='0.3' fill='none'/%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' stroke='%23d4af37' stroke-width='0.4' fill='none'/%3E%3C/svg%3E")`,
         }}
       />
 
       {/* Modern Diamond Corner Brackets */}
-      <ZareqiaDiamondCornerSVG className="absolute top-8 left-8 w-16 h-16 text-[#d4af37]" />
-      <ZareqiaDiamondCornerSVG className="absolute top-8 right-8 w-16 h-16 text-[#d4af37] -scale-x-100" />
-      <ZareqiaDiamondCornerSVG className="absolute bottom-8 left-8 w-16 h-16 text-[#d4af37] -scale-y-100" />
-      <ZareqiaDiamondCornerSVG className="absolute bottom-8 right-8 w-16 h-16 text-[#d4af37] -scale-x-100 -scale-y-100" />
+      <ZareqiaDiamondCornerSVG className="absolute top-4 left-4 sm:top-8 sm:left-8 w-16 h-16 text-[#d4af37] opacity-80" />
+      <ZareqiaDiamondCornerSVG className="absolute top-4 right-4 sm:top-8 sm:right-8 w-16 h-16 text-[#d4af37] opacity-80 -scale-x-100" />
+      <ZareqiaDiamondCornerSVG className="absolute bottom-6 left-4 sm:bottom-8 sm:left-8 w-16 h-16 text-[#d4af37] opacity-70 -scale-y-100" />
+      <ZareqiaDiamondCornerSVG className="absolute bottom-6 right-4 sm:bottom-8 sm:right-8 w-16 h-16 text-[#d4af37] opacity-70 -scale-x-100 -scale-y-100" />
 
       {/* Hero Content */}
-      <div className="relative z-10 max-w-2xl mx-auto space-y-6">
+      <div className="relative z-10 max-w-2xl mx-auto space-y-4 sm:space-y-6 pt-4">
         <motion.p
-          className="font-serif text-xs md:text-sm tracking-[0.4em] uppercase text-[#d4af37]"
+          className="font-serif text-xs sm:text-sm md:text-base tracking-[0.35em] uppercase text-amber-300 font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] max-w-xl mx-auto px-4 leading-relaxed"
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -1331,16 +1355,16 @@ export const ModernMinimalHero = ({ invitation, onScrollDown }) => {
         </motion.p>
 
         {/* Minimal Diamond Divider */}
-        <div className="flex items-center justify-center gap-4 my-4">
-          <div className="w-20 md:w-28 h-px bg-gradient-to-r from-transparent to-[#d4af37]" />
-          <div className="w-2 h-2 rotate-45 border border-[#d4af37]" />
-          <div className="w-20 md:w-28 h-px bg-gradient-to-l from-transparent to-[#d4af37]" />
+        <div className="flex items-center justify-center gap-3 my-2">
+          <div className="w-16 sm:w-24 h-px bg-gradient-to-r from-transparent to-[#d4af37]" />
+          <div className="w-2.5 h-2.5 rotate-45 border border-[#d4af37] bg-amber-400/20" />
+          <div className="w-16 sm:w-24 h-px bg-gradient-to-l from-transparent to-[#d4af37]" />
         </div>
 
         {/* Groom */}
-        <div className="space-y-1">
+        <div className="space-y-1 sm:space-y-2">
           <motion.h1
-            className="font-serif text-3xl sm:text-5xl md:text-7xl lg:text-8xl tracking-[0.15em] uppercase text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] break-words px-2 leading-tight"
+            className="font-dancing text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[#E5C158] drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] break-words px-2 leading-tight select-none"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.9 }}
@@ -1348,25 +1372,28 @@ export const ModernMinimalHero = ({ invitation, onScrollDown }) => {
             {groomName}
           </motion.h1>
           {Boolean(groomParents) && (
-            <p className="text-xs md:text-sm font-sans tracking-widest uppercase text-slate-400">
+            <p className="text-xs sm:text-sm md:text-base font-serif italic text-white/95 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] tracking-wide">
               {groomParents}
             </p>
           )}
         </div>
 
-        <motion.p
-          className="font-serif text-xl md:text-2xl text-[#d4af37] my-2"
+        {/* Ampersand */}
+        <motion.div
+          className="flex items-center justify-center gap-3 my-1 sm:my-2"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.8 }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
         >
-          ◇
-        </motion.p>
+          <div className="w-12 sm:w-16 h-px bg-[#d4af37]/50" />
+          <span className="font-dancing text-3xl sm:text-4xl text-white drop-shadow italic">&</span>
+          <div className="w-12 sm:w-16 h-px bg-[#d4af37]/50" />
+        </motion.div>
 
         {/* Bride */}
-        <div className="space-y-1">
+        <div className="space-y-1 sm:space-y-2">
           <motion.h1
-            className="font-serif text-3xl sm:text-5xl md:text-7xl lg:text-8xl tracking-[0.15em] uppercase text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] break-words px-2 leading-tight"
+            className="font-dancing text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[#E5C158] drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] break-words px-2 leading-tight select-none"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.9 }}
@@ -1374,7 +1401,7 @@ export const ModernMinimalHero = ({ invitation, onScrollDown }) => {
             {brideName}
           </motion.h1>
           {Boolean(brideParents) && (
-            <p className="text-xs md:text-sm font-sans tracking-widest uppercase text-slate-400">
+            <p className="text-xs sm:text-sm md:text-base font-serif italic text-white/95 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] tracking-wide">
               {brideParents}
             </p>
           )}
@@ -1385,70 +1412,90 @@ export const ModernMinimalHero = ({ invitation, onScrollDown }) => {
       <motion.button
         type="button"
         onClick={onScrollDown}
-        className="absolute bottom-8 inset-x-0 mx-auto flex flex-col items-center gap-1 text-[#d4af37]/60 hover:text-[#d4af37] transition-colors cursor-pointer"
+        className="absolute bottom-6 sm:bottom-8 inset-x-0 mx-auto flex flex-col items-center gap-1 text-white hover:text-amber-300 transition-colors cursor-pointer drop-shadow-md z-20"
         animate={{ y: [0, 6, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <span className="text-[10px] uppercase tracking-[0.25em]">Scroll Down</span>
-        <ChevronDown className="w-4 h-4 text-[#d4af37]" />
+        <span className="text-[10px] sm:text-xs uppercase tracking-[0.25em] font-medium text-white/90">Scroll Down</span>
+        <ChevronDown className="w-4 h-4 text-amber-400" />
       </motion.button>
     </section>
   );
 };
 
-// Hero 5: Majestic Love Architecture (`Fne`)
+// Hero 5: Majestic Love Architecture (Screenshot 1: Fazil & Zoya)
 export const MajesticLoveHero = ({ invitation, onScrollDown }) => {
-  const groomName = invitation.groom_name || invitation.groomName || 'Ranveer';
-  const brideName = invitation.bride_name || invitation.brideName || 'Deepika';
+  const groomName = invitation.groom_name || invitation.groomName || 'Fazil';
+  const brideName = invitation.bride_name || invitation.brideName || 'Zoya';
   const groomParents =
-    invitation.groom_parents || invitation.groomParents || 'Son of Mrs. & Mr. Bhavnani';
+    invitation.groom_parents || invitation.groomParents || 'Son of Mrs. & Mr. Khan';
   const brideParents =
-    invitation.bride_parents || invitation.brideParents || 'Daughter of Mrs. & Mr. Padukone';
+    invitation.bride_parents || invitation.brideParents || 'Daughter of Mrs. & Mr. Siddiqui';
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-6 text-center relative overflow-hidden bg-[hsl(40,30%,96%)] text-[hsl(40,40%,15%)]">
-      {/* Palace Baroque Corner Arches */}
-      <ZareqiaPalaceArchCornerSVG className="absolute top-6 left-6 w-20 h-20 text-amber-600 opacity-60" />
-      <ZareqiaPalaceArchCornerSVG className="absolute top-6 right-6 w-20 h-20 text-amber-600 opacity-60 -scale-x-100" />
-      <ZareqiaPalaceArchCornerSVG className="absolute bottom-6 left-6 w-20 h-20 text-amber-600 opacity-60 -scale-y-100" />
-      <ZareqiaPalaceArchCornerSVG className="absolute bottom-6 right-6 w-20 h-20 text-amber-600 opacity-60 -scale-x-100 -scale-y-100" />
+    <section
+      className="min-h-screen flex flex-col items-center justify-center px-6 text-center relative overflow-hidden text-white"
+      style={{
+        background: 'linear-gradient(180deg, #10081d 0%, #1a0f2e 50%, #10081d 100%)',
+      }}
+    >
+      {/* Radial Gold Aura */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(ellipse at 50% 45%, rgba(212, 175, 55, 0.12), transparent 70%)',
+        }}
+      />
 
-      {/* 20 Floating Golden Starlight Particles */}
-      {[...Array(20)].map((_, i) => (
+      {/* Palace Baroque Top Arch SVG Frame */}
+      <div className="absolute top-0 inset-x-0 mx-auto max-w-2xl h-24 sm:h-32 pointer-events-none opacity-40">
+        <svg viewBox="0 0 600 120" fill="none" className="w-full h-full text-amber-300" preserveAspectRatio="none">
+          <path d="M0 0 C 150 100, 450 100, 600 0" stroke="currentColor" strokeWidth="1.5" />
+          <path d="M50 0 C 180 80, 420 80, 550 0" stroke="currentColor" strokeWidth="0.8" opacity="0.6" />
+        </svg>
+      </div>
+
+      {/* Palace Baroque Corner Filigrees */}
+      <ZareqiaPalaceArchCornerSVG className="absolute top-4 left-4 sm:top-6 sm:left-6 w-20 h-20 sm:w-24 sm:h-24 text-amber-400 opacity-70" />
+      <ZareqiaPalaceArchCornerSVG className="absolute top-4 right-4 sm:top-6 sm:right-6 w-20 h-20 sm:w-24 sm:h-24 text-amber-400 opacity-70 -scale-x-100" />
+      <ZareqiaPalaceArchCornerSVG className="absolute bottom-6 left-4 sm:bottom-8 sm:left-6 w-16 h-16 sm:w-20 sm:h-20 text-amber-400 opacity-60 -scale-y-100" />
+      <ZareqiaPalaceArchCornerSVG className="absolute bottom-6 right-4 sm:bottom-8 sm:right-6 w-16 h-16 sm:w-20 sm:h-20 text-amber-400 opacity-60 -scale-x-100 -scale-y-100" />
+
+      {/* Floating Golden Starlight Particles */}
+      {[...Array(16)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute w-1.5 h-1.5 rounded-full bg-amber-500 opacity-20 pointer-events-none"
+          className="absolute w-1.5 h-1.5 rounded-full bg-amber-300 opacity-40 pointer-events-none"
           style={{
-            left: `${(i * 13) % 100}%`,
-            top: `${(i * 17) % 100}%`,
+            left: `${(i * 13) % 94 + 3}%`,
+            top: `${(i * 17) % 88 + 6}%`,
           }}
-          animate={{ y: [0, -30, 0], opacity: [0.1, 0.4, 0.1] }}
+          animate={{ y: [0, -25, 0], opacity: [0.2, 0.6, 0.2] }}
           transition={{
-            duration: 3 + (i % 4),
+            duration: 3.5 + (i % 4),
             repeat: Infinity,
-            delay: (i * 0.2),
+            delay: i * 0.2,
           }}
         />
       ))}
 
       {/* Hero Content */}
-      <div className="relative z-10 max-w-2xl mx-auto space-y-6">
+      <div className="relative z-10 max-w-2xl mx-auto space-y-4 sm:space-y-6 pt-4">
+        {/* Top Request Text (Pure Crisp White) */}
         <motion.p
-          className="font-serif italic text-2xl md:text-3xl text-amber-900"
+          className="font-serif text-xs sm:text-sm md:text-base tracking-[0.25em] uppercase text-white font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] max-w-xl mx-auto px-4 leading-relaxed"
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {invitation.message || 'We request the honor of your presence'}
+          {invitation.message || 'We request the honor of your presence to celebrate the wedding ceremony of'}
         </motion.p>
 
-        {/* Ornate Baroque Divider */}
-        <div className="w-16 h-1.5 mx-auto bg-amber-600/60 rounded-full my-2" />
-
-        {/* Groom */}
-        <div className="space-y-1">
+        {/* Groom & Lineage */}
+        <div className="space-y-1 sm:space-y-2">
           <motion.h1
-            className="font-serif italic text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-amber-800 drop-shadow-[0_2px_10px_rgba(0,0,0,0.15)] break-words px-2 leading-tight"
+            className="font-dancing text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[#E5C158] drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] break-words px-2 leading-tight select-none"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.9 }}
@@ -1456,25 +1503,28 @@ export const MajesticLoveHero = ({ invitation, onScrollDown }) => {
             {groomName}
           </motion.h1>
           {Boolean(groomParents) && (
-            <p className="text-xs md:text-sm font-serif italic text-amber-900/70">
+            <p className="text-xs sm:text-sm md:text-base font-serif italic text-white/95 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] tracking-wide">
               {groomParents}
             </p>
           )}
         </div>
 
-        <motion.p
-          className="font-serif italic text-3xl md:text-4xl text-amber-700/80 my-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.8 }}
+        {/* Pure White Ampersand Divider */}
+        <motion.div
+          className="flex items-center justify-center gap-3 my-1 sm:my-2"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4 }}
         >
-          &
-        </motion.p>
+          <div className="w-12 sm:w-20 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-80" />
+          <span className="font-dancing text-3xl sm:text-4xl text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] italic">&</span>
+          <div className="w-12 sm:w-20 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent opacity-80" />
+        </motion.div>
 
-        {/* Bride */}
-        <div className="space-y-1">
+        {/* Bride & Lineage */}
+        <div className="space-y-1 sm:space-y-2">
           <motion.h1
-            className="font-serif italic text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-amber-800 drop-shadow-[0_2px_10px_rgba(0,0,0,0.15)] break-words px-2 leading-tight"
+            className="font-dancing text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[#E5C158] drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] break-words px-2 leading-tight select-none"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.9 }}
@@ -1482,7 +1532,7 @@ export const MajesticLoveHero = ({ invitation, onScrollDown }) => {
             {brideName}
           </motion.h1>
           {Boolean(brideParents) && (
-            <p className="text-xs md:text-sm font-serif italic text-amber-900/70">
+            <p className="text-xs sm:text-sm md:text-base font-serif italic text-white/95 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] tracking-wide">
               {brideParents}
             </p>
           )}
@@ -1493,12 +1543,12 @@ export const MajesticLoveHero = ({ invitation, onScrollDown }) => {
       <motion.button
         type="button"
         onClick={onScrollDown}
-        className="absolute bottom-8 inset-x-0 mx-auto flex flex-col items-center gap-1 text-amber-800/70 hover:text-amber-800 transition-colors cursor-pointer"
+        className="absolute bottom-6 sm:bottom-8 inset-x-0 mx-auto flex flex-col items-center gap-1 text-white hover:text-amber-300 transition-colors cursor-pointer drop-shadow-md z-20"
         animate={{ y: [0, 6, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <span className="text-[10px] uppercase tracking-[0.25em]">Scroll Down</span>
-        <ChevronDown className="w-4 h-4 text-amber-800" />
+        <span className="text-[10px] sm:text-xs uppercase tracking-[0.25em] font-medium text-white/90">Scroll Down</span>
+        <ChevronDown className="w-4 h-4 text-amber-400" />
       </motion.button>
     </section>
   );
