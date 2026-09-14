@@ -532,100 +532,183 @@ const InvitationsLanding = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
-          {/* Classic Plan */}
-          <div className="bg-white rounded-3xl border border-neutral-300 p-8 space-y-6 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-amber-400 transition-all">
-            <div className="space-y-4">
-              <span className="text-xs uppercase font-mono font-bold text-neutral-500 tracking-wider">
-                🏛️ Classic 3D Gate Suites
-              </span>
-              
-              {/* Single vs Pass Pricing Box */}
-              <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-stone-200 space-y-2">
-                <div className="flex items-baseline justify-between">
-                  <span className="text-xs font-bold text-neutral-700">Single Template:</span>
-                  <div className="flex items-baseline space-x-1.5">
-                    <span className="font-serif text-3xl font-bold text-neutral-900">₹499</span>
-                    <span className="text-xs text-neutral-400 line-through font-mono">₹1,299</span>
-                  </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 max-w-5xl mx-auto items-stretch">
+          {/* Classic 3D Collection Pass Card */}
+          <div className="bg-[#1C1613] text-white rounded-[32px] border border-stone-700/80 p-8 sm:p-10 flex flex-col justify-between shadow-2xl hover:border-amber-500/50 transition-all duration-300 relative group">
+            <div className="space-y-6">
+              {/* Header */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-amber-400 font-bold">
+                    3D DOOR REVEAL SUITES
+                  </span>
+                  <span className="px-3 py-0.5 rounded-full bg-stone-800 border border-stone-700 text-stone-300 text-[10.5px] font-mono">
+                    13 Themes Included
+                  </span>
                 </div>
-                <div className="pt-2 border-t border-stone-200 flex items-baseline justify-between">
-                  <div className="flex items-center space-x-1.5">
-                    <span className="text-xs font-bold text-amber-900">All-Access Pass:</span>
-                    <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[9.5px] font-mono font-bold">ALL 13 THEMES</span>
-                  </div>
-                  <div className="flex items-baseline space-x-1.5">
-                    <span className="font-serif text-xl font-bold text-amber-800">₹1,199</span>
-                    <span className="text-xs text-neutral-400 line-through font-mono">₹2,499</span>
-                  </div>
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white">
+                  Classic 3D Collection Pass
+                </h3>
+                <p className="text-xs text-neutral-400 leading-relaxed">
+                  Full access to all 13 Classic 3D opening doors, floral arches & traditional Hindi Mandap suites.
+                </p>
+              </div>
+
+              {/* Hero Pass Pricing Block */}
+              <div className="p-5 rounded-2xl bg-black/40 border border-stone-800/90 space-y-2">
+                <div className="flex items-baseline space-x-3">
+                  <span className="font-serif text-4xl sm:text-5xl font-bold text-white">
+                    ₹1,199
+                  </span>
+                  <span className="text-sm text-neutral-500 line-through font-mono">
+                    ₹2,499
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-950 border border-emerald-500/40 text-emerald-400 text-[10px] font-mono font-bold">
+                    SAVE 52%
+                  </span>
+                </div>
+                <div className="flex items-center justify-between pt-1 border-t border-stone-800/80 text-[11px]">
+                  <span className="text-neutral-400">All-Access Lifetime Pass</span>
+                  <span className="text-amber-300 font-mono font-semibold">Single Theme: ₹499</span>
                 </div>
               </div>
 
-              <ul className="space-y-3 text-xs sm:text-sm text-neutral-600 pt-2 border-t border-neutral-100">
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-700 mr-2.5 shrink-0" /> 13 Classic 3D Animated Door Suites & Hindi Mandap</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-700 mr-2.5 shrink-0" /> Interactive Scratch Card & Date Reveal</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-700 mr-2.5 shrink-0" /> Live Countdown to Forever</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-700 mr-2.5 shrink-0" /> Background Music with Floating Toggle</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-700 mr-2.5 shrink-0" /> Embedded Google Maps with GPS Directions</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-700 mr-2.5 shrink-0" /> Live Guest RSVP & Wishes Inbox</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-700 mr-2.5 shrink-0" /> Unlimited WhatsApp Shares & Lifetime Edits</li>
+              {/* Feature List */}
+              <ul className="space-y-3 text-xs sm:text-[13px] text-neutral-300 pt-1">
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0 mt-0.5" />
+                  <span><strong>13 Classic 3D Animations</strong> with double-door parting reveals</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0 mt-0.5" />
+                  <span><strong>Interactive Scratch Card</strong> to reveal wedding date & secret surprise</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0 mt-0.5" />
+                  <span><strong>Romantic Instrumental Audio</strong> with floating mute & play controls</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0 mt-0.5" />
+                  <span><strong>Embedded Google Maps GPS</strong> for 1-click guest navigation</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0 mt-0.5" />
+                  <span><strong>Live Guest RSVP Management</strong> & personal wishes inbox</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0 mt-0.5" />
+                  <span><strong>Unlimited WhatsApp Broadcasts</strong> & lifetime unlimited edits</span>
+                </li>
               </ul>
             </div>
-            <Link
-              to="/templates?collection=classic"
-              className="w-full py-4 rounded-full bg-neutral-900 hover:bg-black text-white font-bold text-xs uppercase tracking-wider text-center block transition-all shadow-md"
-            >
-              Choose Classic (From ₹499)
-            </Link>
+
+            {/* Action Button */}
+            <div className="pt-8">
+              <Link
+                to="/templates?collection=classic"
+                className="w-full py-4 rounded-2xl bg-white hover:bg-neutral-100 text-neutral-950 font-extrabold text-xs uppercase tracking-wider text-center block transition-all shadow-lg hover:shadow-xl active:scale-[0.99] cursor-pointer"
+              >
+                Get Classic Pass (₹1,199) →
+              </Link>
+              <div className="text-center pt-2">
+                <Link
+                  to="/templates?collection=classic"
+                  className="text-[11px] text-neutral-400 hover:text-amber-300 underline font-mono"
+                >
+                  Or explore single classic designs from ₹499
+                </Link>
+              </div>
+            </div>
           </div>
 
-          {/* Royal Video Plan */}
-          <div className="bg-gradient-to-b from-[#1c140e] to-[#2b1b11] text-white rounded-3xl border-2 border-amber-500 p-8 space-y-6 shadow-2xl flex flex-col justify-between relative overflow-hidden">
-            <div className="absolute top-4 right-4 bg-amber-400 text-neutral-950 text-[10px] font-mono font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
-              MOST POPULAR 👑
+          {/* Royal 4K Video Gates VIP Pass Card */}
+          <div className="bg-gradient-to-b from-[#251A10] via-[#1E140C] to-[#150E09] text-white rounded-[32px] border-2 border-amber-500/80 p-8 sm:p-10 flex flex-col justify-between shadow-2xl relative overflow-hidden group">
+            {/* VIP Shimmer Badge */}
+            <div className="absolute top-5 right-5 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-neutral-950 text-[10px] font-mono font-extrabold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-lg shadow-amber-900/40">
+              MOST POPULAR VIP 👑
             </div>
-            <div className="space-y-4">
-              <span className="text-xs uppercase font-mono font-bold text-amber-400 tracking-wider">
-                👑 Royal 4K Video Gates Suite
-              </span>
 
-              {/* Single vs Pass Pricing Box */}
-              <div className="p-4 rounded-2xl bg-black/40 border border-amber-500/30 space-y-2">
-                <div className="flex items-baseline justify-between">
-                  <span className="text-xs font-bold text-amber-200">Single Template:</span>
-                  <div className="flex items-baseline space-x-1.5">
-                    <span className="font-serif text-3xl font-bold text-amber-300">₹699</span>
-                    <span className="text-xs text-amber-200/50 line-through font-mono">₹1,999</span>
-                  </div>
+            <div className="space-y-6">
+              {/* Header */}
+              <div className="space-y-1.5">
+                <div className="flex items-center space-x-2">
+                  <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-amber-300 font-bold">
+                    4K CINEMATIC GATE SUITES
+                  </span>
                 </div>
-                <div className="pt-2 border-t border-amber-500/20 flex items-baseline justify-between">
-                  <div className="flex items-center space-x-1.5">
-                    <span className="text-xs font-bold text-amber-300">Royal VIP Pass:</span>
-                    <span className="px-2 py-0.5 rounded-full bg-amber-500 text-neutral-950 text-[9.5px] font-mono font-bold">ALL 15 THEMES</span>
-                  </div>
-                  <div className="flex items-baseline space-x-1.5">
-                    <span className="font-serif text-xl font-bold text-amber-400">₹1,499</span>
-                    <span className="text-xs text-amber-200/50 line-through font-mono">₹3,499</span>
-                  </div>
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-amber-100">
+                  Royal 4K Collection VIP Pass
+                </h3>
+                <p className="text-xs text-amber-200/70 leading-relaxed">
+                  Unlocks ALL 15 Royal 4K Video Gates, Shahi Farman scrolls, and Devnagari Vedic wedding suites.
+                </p>
+              </div>
+
+              {/* Hero Pass Pricing Block */}
+              <div className="p-5 rounded-2xl bg-black/60 border border-amber-500/40 space-y-2">
+                <div className="flex items-baseline space-x-3">
+                  <span className="font-serif text-4xl sm:text-5xl font-bold text-amber-300">
+                    ₹1,499
+                  </span>
+                  <span className="text-sm text-amber-200/40 line-through font-mono">
+                    ₹3,499
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/50 text-amber-300 text-[10px] font-mono font-bold">
+                    SAVE 57%
+                  </span>
+                </div>
+                <div className="flex items-center justify-between pt-1 border-t border-amber-500/20 text-[11px]">
+                  <span className="text-amber-200/80">All 15 Royal Suites Unlocked</span>
+                  <span className="text-amber-300 font-mono font-semibold">Single Theme: ₹699</span>
                 </div>
               </div>
 
-              <ul className="space-y-3 text-xs sm:text-sm text-amber-100/90 pt-2 border-t border-amber-900/50">
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0" /> 15 Imperial 4K Video Gate Animations & Shahi Farman</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0" /> Strict Scroll Locking Until Cinematic Gate Opens</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0" /> Interactive Scratch Card & Save The Date</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0" /> Live Countdown Timer & Golden Event Timeline</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0" /> Couple Photo Gallery & Love Story Slideshow</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0" /> Real-time Guest RSVP Management & Export</li>
-                <li className="flex items-center"><CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0" /> Priority WhatsApp Support & Instant Edits</li>
+              {/* Feature List */}
+              <ul className="space-y-3 text-xs sm:text-[13px] text-amber-100/90 pt-1">
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0 mt-0.5" />
+                  <span><strong>ALL 15 Royal 4K Video Gates</strong> & authentic Shahi Farman decrees</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0 mt-0.5" />
+                  <span><strong>Full-Screen Cinematic Scroll-Lock</strong> until royal gates swing open</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0 mt-0.5" />
+                  <span><strong>Live Countdown & Golden Timeline</strong> for Haldi, Sangeet & Pheras</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0 mt-0.5" />
+                  <span><strong>Couple Photo Gallery</strong> with fine-art slideshow & story music</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0 mt-0.5" />
+                  <span><strong>Real-Time Guest RSVP Management</strong> with 1-click Excel export</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 mr-2.5 shrink-0 mt-0.5" />
+                  <span><strong>Priority VIP WhatsApp Concierge</strong> & instant design assistance</span>
+                </li>
               </ul>
             </div>
-            <Link
-              to="/templates?collection=royal"
-              className="w-full py-4 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-neutral-950 font-bold text-xs uppercase tracking-wider text-center block shadow-lg transition-all hover:scale-105"
-            >
-              Choose Royal Suite (From ₹699)
-            </Link>
+
+            {/* Action Button */}
+            <div className="pt-8">
+              <Link
+                to="/templates?collection=royal"
+                className="w-full py-4 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:brightness-110 text-neutral-950 font-extrabold text-xs uppercase tracking-wider text-center block shadow-xl shadow-amber-950/50 active:scale-[0.99] transition-all cursor-pointer"
+              >
+                Get Royal VIP Pass (₹1,499) →
+              </Link>
+              <div className="text-center pt-2">
+                <Link
+                  to="/templates?collection=royal"
+                  className="text-[11px] text-amber-300/70 hover:text-amber-200 underline font-mono"
+                >
+                  Or explore single royal designs from ₹699
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
