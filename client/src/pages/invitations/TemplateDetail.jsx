@@ -308,11 +308,10 @@ const TemplateDetail = () => {
           </span>
         </div>
 
-        (
-          /* ========================================================================= */
-          /* MAIN 2-COLUMN REDESIGNED CHECKOUT LAYOUT */
-          /* ========================================================================= */
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* ========================================================================= */}
+        {/* MAIN 2-COLUMN REDESIGNED CHECKOUT LAYOUT */}
+        {/* ========================================================================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* LEFT COLUMN: Template Hero Image, Live Demo & Scratch Card */}
             <div className="lg:col-span-7 space-y-6">
               {/* High-Resolution Cover Box */}
