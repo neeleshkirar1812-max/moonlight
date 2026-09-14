@@ -526,7 +526,7 @@ export const ZareqiaPhotoCard = ({ coverImage, photos = [], accentColor, isDark 
 // =========================================================================
 // 4. COUNTDOWN TO FOREVER
 // =========================================================================
-export const ZareqiaCountdown = ({ weddingDateStr, weddingTimeStr, accentColor, textColor, isDark = false }) => {
+export const ZareqiaCountdown = ({ weddingDateStr, weddingTimeStr, accentColor, textColor, isDark = false, isHindi = false }) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
@@ -567,7 +567,7 @@ export const ZareqiaCountdown = ({ weddingDateStr, weddingTimeStr, accentColor, 
         className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
         style={{ color: accentColor || textColor }}
       >
-        Counting Down to Forever
+        {isHindi ? 'शुभ विवाह की उल्टी गिनती' : 'Counting Down to Forever'}
       </h2>
       <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
 
@@ -602,7 +602,7 @@ export const ZareqiaCountdown = ({ weddingDateStr, weddingTimeStr, accentColor, 
 // =========================================================================
 // 5. PROGRAM TIMELINE
 // =========================================================================
-export const ZareqiaTimeline = ({ events = [], accentColor, textColor, isDark = false }) => {
+export const ZareqiaTimeline = ({ events = [], accentColor, textColor, isDark = false, isHindi = false }) => {
   if (!events || events.length === 0) return null;
 
   return (
@@ -613,7 +613,7 @@ export const ZareqiaTimeline = ({ events = [], accentColor, textColor, isDark = 
           className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
           style={{ color: accentColor || textColor }}
         >
-          Program Timeline
+          {isHindi ? 'मांगलिक कार्यक्रम' : 'Program Timeline'}
         </h2>
         <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
       </div>
@@ -684,7 +684,7 @@ export const ZareqiaTimeline = ({ events = [], accentColor, textColor, isDark = 
 // =========================================================================
 // 6. VENUE & MAP
 // =========================================================================
-export const ZareqiaVenue = ({ venueName, venueAddress, accentColor, textColor, isDark = false }) => {
+export const ZareqiaVenue = ({ venueName, venueAddress, accentColor, textColor, isDark = false, isHindi = false }) => {
   const fullAddress = [venueName, venueAddress].filter(Boolean).join(', ');
   const mapEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(fullAddress)}&t=m&z=14&output=embed`;
   const mapDirectUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
@@ -694,10 +694,10 @@ export const ZareqiaVenue = ({ venueName, venueAddress, accentColor, textColor, 
       <div className="space-y-1">
         <MapPin className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
         <h2
-          className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
+          className={`text-4xl sm:text-5xl font-normal tracking-wide ${isHindi ? 'font-rozha' : 'font-dancing'}`}
           style={{ color: accentColor || textColor }}
         >
-          Venue
+          {isHindi ? 'विवाह स्थल' : 'Venue'}
         </h2>
         <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
       </div>
@@ -740,7 +740,7 @@ export const ZareqiaVenue = ({ venueName, venueAddress, accentColor, textColor, 
           }}
         >
           <Navigation size={13} />
-          <span>View on Google Maps</span>
+          <span>{isHindi ? 'गूगल मैप पर देखें' : 'View on Google Maps'}</span>
         </a>
       </div>
     </div>
@@ -792,7 +792,7 @@ export const ZareqiaDressCode = ({ accentColor, textColor, isDark = false }) => 
 // =========================================================================
 // 8. PRE-WEDDING EVENTS
 // =========================================================================
-export const ZareqiaPreWeddingEvents = ({ events = [], accentColor, textColor, isDark = false }) => {
+export const ZareqiaPreWeddingEvents = ({ events = [], accentColor, textColor, isDark = false, isHindi = false }) => {
   const preEvents =
     events && events.length > 0
       ? events
@@ -822,10 +822,10 @@ export const ZareqiaPreWeddingEvents = ({ events = [], accentColor, textColor, i
       <div className="space-y-1">
         <Sparkles className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
         <h2
-          className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
+          className={`text-4xl sm:text-5xl font-normal tracking-wide ${isHindi ? 'font-rozha' : 'font-dancing'}`}
           style={{ color: accentColor || textColor }}
         >
-          Pre-Wedding Events
+          {isHindi ? 'वैवाहिक उत्सव' : 'Pre-Wedding Events'}
         </h2>
         <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
       </div>
@@ -951,10 +951,10 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor,
       <div className="space-y-1">
         <Mail className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
         <h2
-          className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
+          className={`text-4xl sm:text-5xl font-normal tracking-wide ${isHindi ? 'font-rozha' : 'font-dancing'}`}
           style={{ color: accentColor || textColor }}
         >
-          RSVP
+          {isHindi ? 'उपस्थिति स्वीकृति (RSVP)' : 'RSVP'}
         </h2>
         <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
       </div>
@@ -1081,7 +1081,7 @@ export const ZareqiaClosingBanner = ({ coupleNames, groomName, brideName, accent
         className="font-dancing text-3xl sm:text-4xl md:text-5xl font-normal tracking-wide"
         style={{ color: accentColor || textColor }}
       >
-        We can't wait to celebrate with you!
+        {isHindi ? 'आपकी स्नेहिल उपस्थिति प्रार्थनीय है!' : "We can't wait to celebrate with you!"}
       </h2>
       <p
         className={`font-serif italic text-lg sm:text-xl pt-1 ${
@@ -1154,6 +1154,7 @@ const ZareqiaBody = ({
           },
         ];
 
+  const isHindi = Boolean(theme.isHindi || data.isHindi || data.language === 'hi');
   const effectiveIsDark = isDark || theme.isDark || (typeof theme.background === 'string' && (theme.background.includes('0%') || theme.background.includes('#0') || theme.background.includes('#1')));
   const effectiveShape = cardShape || theme.cardShape || 'heart';
   const accentColor = theme.accentColor || theme.accent || '#8B5A2B';
@@ -1209,6 +1210,7 @@ const ZareqiaBody = ({
           accentColor={accentColor}
           textColor={textColor}
           isDark={effectiveIsDark}
+          isHindi={isHindi}
         />
       </ZareqiaSection>
 
@@ -1219,6 +1221,7 @@ const ZareqiaBody = ({
           accentColor={accentColor}
           textColor={textColor}
           isDark={effectiveIsDark}
+          isHindi={isHindi}
         />
       </ZareqiaSection>
 
@@ -1230,6 +1233,7 @@ const ZareqiaBody = ({
           accentColor={accentColor}
           textColor={textColor}
           isDark={effectiveIsDark}
+          isHindi={isHindi}
         />
       </ZareqiaSection>
 
@@ -1239,6 +1243,7 @@ const ZareqiaBody = ({
           accentColor={accentColor}
           textColor={textColor}
           isDark={effectiveIsDark}
+          isHindi={isHindi}
         />
       </ZareqiaSection>
 
@@ -1249,6 +1254,7 @@ const ZareqiaBody = ({
           accentColor={accentColor}
           textColor={textColor}
           isDark={effectiveIsDark}
+          isHindi={isHindi}
         />
       </ZareqiaSection>
 
@@ -1258,6 +1264,7 @@ const ZareqiaBody = ({
           accentColor={accentColor}
           textColor={textColor}
           isDark={effectiveIsDark}
+          isHindi={isHindi}
         />
       </ZareqiaSection>
 
@@ -1267,6 +1274,7 @@ const ZareqiaBody = ({
           accentColor={accentColor}
           textColor={textColor}
           isDark={effectiveIsDark}
+          isHindi={isHindi}
         />
       </ZareqiaSection>
 
@@ -1276,6 +1284,7 @@ const ZareqiaBody = ({
           accentColor={accentColor}
           textColor={textColor}
           isDark={effectiveIsDark}
+          isHindi={isHindi}
         />
       </ZareqiaSection>
 
@@ -1287,6 +1296,7 @@ const ZareqiaBody = ({
           accentColor={accentColor}
           textColor={textColor}
           isDark={effectiveIsDark}
+          isHindi={isHindi}
           onRsvpSuccess={onRsvpSuccess}
         />
       </ZareqiaSection>
@@ -1300,6 +1310,7 @@ const ZareqiaBody = ({
           accentColor={accentColor}
           textColor={textColor}
           isDark={effectiveIsDark}
+          isHindi={isHindi}
         />
       </ZareqiaSection>
 

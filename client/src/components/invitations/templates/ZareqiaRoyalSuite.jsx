@@ -350,6 +350,176 @@ export const zareqiaRoyalThemes = {
     },
     musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
   },
+  // =========================================================================
+  // 👑 5 NEW SIGNATURE ROYAL TIER SUITES
+  // =========================================================================
+  'royal-farman': {
+    id: 'royal-farman',
+    name: 'Royal Shahi Farman',
+    subtitle: 'Traditional Rajputana Royal Decree & Shehnai',
+    video: '/videos/rose-gold-blush.mp4',
+    videoFilter: 'sepia(0.6) hue-rotate(-20deg) contrast(1.15)',
+    textColor: '#241414',
+    accentColor: '#C99700',
+    background: 'hsl(36, 42%, 94%)',
+    welcomeGradient: 'linear-gradient(to bottom, #4a0d0d 0%, #751a1a 45%, #c47d7d 78%, #FAF5EE 100%)',
+    fontStyle: 'dancing',
+    scratch: {
+      gradStart: '#fde68a',
+      gradMid: '#d97706',
+      gradEnd: '#78350f',
+      textColor: '#ffffff',
+      accent: '#d97706',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=royal-ambient-112345.mp3',
+  },
+  'royal-jharokha': {
+    id: 'royal-jharokha',
+    name: 'Rajputana Jharokha Mandap',
+    subtitle: 'Palace Arch, Glowing Diyas & Sunset Sitar',
+    video: '/videos/royal-legacy.mp4',
+    videoFilter: 'sepia(0.4) saturate(1.4) contrast(1.1)',
+    textColor: '#261608',
+    accentColor: '#D97706',
+    background: 'hsl(32, 45%, 95%)',
+    welcomeGradient: 'linear-gradient(to bottom, #3b1b05 0%, #69320a 45%, #bf8152 78%, #FDF7F2 100%)',
+    fontStyle: 'dancing',
+    scratch: {
+      gradStart: '#fef08a',
+      gradMid: '#d97706',
+      gradEnd: '#78350f',
+      textColor: '#ffffff',
+      accent: '#f59e0b',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=royal-ambient-112345.mp3',
+  },
+  'royal-solitaire': {
+    id: 'royal-solitaire',
+    name: 'Kohinoor Solitaire Luxe',
+    subtitle: 'Sapphire Crystal & Diamond Glimmer',
+    video: '/videos/royal-majesty.mp4',
+    videoFilter: 'brightness(1.1) contrast(1.2) hue-rotate(10deg)',
+    textColor: '#0c1b2b',
+    accentColor: '#0284C7',
+    background: 'hsl(210, 40%, 97%)',
+    welcomeGradient: 'linear-gradient(to bottom, #0f172a 0%, #1e293b 45%, #64748b 78%, #F1F5F9 100%)',
+    fontStyle: 'dancing',
+    scratch: {
+      gradStart: '#bae6fd',
+      gradMid: '#0284c7',
+      gradEnd: '#082f49',
+      textColor: '#ffffff',
+      accent: '#38bdf8',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=piano-moment-9835.mp3',
+  },
+  'royal-emerald-sheesh': {
+    id: 'royal-emerald-sheesh',
+    name: 'Sheesh Mahal Emerald',
+    subtitle: 'Mirrored Glass Mosaic & Regal Emerald Sitar',
+    video: '/videos/royal-crest.mp4',
+    videoFilter: 'hue-rotate(60deg) saturate(1.3) contrast(1.1)',
+    textColor: '#082117',
+    accentColor: '#059669',
+    background: 'hsl(155, 35%, 96%)',
+    welcomeGradient: 'linear-gradient(to bottom, #06231a 0%, #0c4a37 45%, #4fa389 78%, #F0FDF4 100%)',
+    fontStyle: 'cinzel',
+    scratch: {
+      gradStart: '#a7f3d0',
+      gradMid: '#059669',
+      gradEnd: '#064e3b',
+      textColor: '#ffffff',
+      accent: '#10b981',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=royal-ambient-112345.mp3',
+  },
+  'royal-destination': {
+    id: 'royal-destination',
+    name: 'Udaipur Lakefront Destination',
+    subtitle: 'Lake Palace Sunset & Destination Grandeur',
+    video: '/videos/royal-heritage.mp4',
+    videoFilter: 'saturate(1.25) contrast(1.05)',
+    textColor: '#0f1c2e',
+    accentColor: '#0284C7',
+    background: 'hsl(210, 45%, 96%)',
+    welcomeGradient: 'linear-gradient(to bottom, #1e293b 0%, #334155 45%, #94a3b8 78%, #E5EDF5 100%)',
+    fontStyle: 'dancing',
+    scratch: {
+      gradStart: '#bae6fd',
+      gradMid: '#0284c7',
+      gradEnd: '#0c4a6e',
+      textColor: '#ffffff',
+      accent: '#38bdf8',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+  },
+
+  // =========================================================================
+  // 🕉️ 3 ROYAL HINDI LUXURY SUITES (Devanagari Typography & Shlokas)
+  // =========================================================================
+  'royal-shubh-vivah-hindi': {
+    id: 'royal-shubh-vivah-hindi',
+    name: 'राजसी शुभ विवाह (|| श्री गणेशाय नमः ||)',
+    subtitle: 'वैदिक श्लोक, शुद्ध देवनागरी एवं राजसी शहनाई',
+    video: '/videos/royal-elegance-royal.mp4',
+    videoFilter: 'contrast(1.15) saturate(1.25)',
+    textColor: '#2a1212',
+    accentColor: '#DC2626',
+    background: 'hsl(36, 45%, 95%)',
+    welcomeGradient: 'linear-gradient(to bottom, #540909 0%, #7A1212 45%, #c77b7b 78%, #FAF5EE 100%)',
+    fontStyle: 'devanagari',
+    isHindi: true,
+    scratch: {
+      gradStart: '#fde68a',
+      gradMid: '#d97706',
+      gradEnd: '#78350f',
+      textColor: '#ffffff',
+      accent: '#ef4444',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=royal-ambient-112345.mp3',
+  },
+  'royal-rajwada-utsav-hindi': {
+    id: 'royal-rajwada-utsav-hindi',
+    name: 'राजवाड़ा विवाह महोत्सव',
+    subtitle: 'शाही रजवाड़ी ठाठ, हल्दी-कुमकुम एवं पाणिग्रहण',
+    video: '/videos/royal-grace.mp4',
+    videoFilter: 'sepia(0.3) saturate(1.3)',
+    textColor: '#29180c',
+    accentColor: '#B45309',
+    background: 'hsl(34, 45%, 95%)',
+    welcomeGradient: 'linear-gradient(to bottom, #451a03 0%, #78350f 45%, #d97706 78%, #FEF3C7 100%)',
+    fontStyle: 'devanagari',
+    isHindi: true,
+    scratch: {
+      gradStart: '#fef08a',
+      gradMid: '#d97706',
+      gradEnd: '#78350f',
+      textColor: '#ffffff',
+      accent: '#f59e0b',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=royal-ambient-112345.mp3',
+  },
+  'royal-shahi-farman-hindi': {
+    id: 'royal-shahi-farman-hindi',
+    name: 'शाही फरमान निमंत्रण पत्रिका',
+    subtitle: 'परंपरागत मांगलिक पत्रिका एवं शंख-शहनाई मंगल ध्वनि',
+    video: '/videos/rose-gold-blush.mp4',
+    videoFilter: 'sepia(0.5) contrast(1.2)',
+    textColor: '#241414',
+    accentColor: '#991B1B',
+    background: 'hsl(36, 42%, 94%)',
+    welcomeGradient: 'linear-gradient(to bottom, #4a0d0d 0%, #751a1a 45%, #c47d7d 78%, #FAF5EE 100%)',
+    fontStyle: 'devanagari',
+    isHindi: true,
+    scratch: {
+      gradStart: '#fca5a5',
+      gradMid: '#b91c1c',
+      gradEnd: '#450a0a',
+      textColor: '#ffffff',
+      accent: '#ef4444',
+    },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=royal-ambient-112345.mp3',
+  },
 };
 
 const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }) => {
@@ -580,13 +750,19 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
         >
           {/* Top Diamond Icon */}
           <div className="mb-3">
-            <span className="text-xl" style={{ color: theme.accentColor }}>✦</span>
+            {theme.isHindi ? (
+              <span className="text-sm sm:text-base font-bold font-rozha text-amber-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] tracking-widest block py-1">
+                || 卐 श्री गणेशाय नमः 卐 ||
+              </span>
+            ) : (
+              <span className="text-xl" style={{ color: theme.accentColor }}>✦</span>
+            )}
           </div>
 
           {/* We are getting married */}
           <p
             className={`mb-3 whitespace-pre-line text-lg sm:text-2xl md:text-3xl px-4 max-w-xl mx-auto ${
-              theme.fontStyle === 'cinzel' ? 'font-serif tracking-widest uppercase' : 'font-dancing'
+              theme.isHindi ? 'font-rozha text-amber-200' : theme.fontStyle === 'cinzel' ? 'font-serif tracking-widest uppercase' : 'font-dancing'
             }`}
             style={{ color: '#FAF5EE', textShadow: '0 2px 12px rgba(0,0,0,0.85)' }}
           >
@@ -604,7 +780,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           <div className="space-y-1 w-full text-center">
             <h1
               className={`leading-tight tracking-wide text-4xl sm:text-6xl md:text-8xl lg:text-9xl break-words px-2 ${
-                theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-wider' : 'font-dancing'
+                theme.isHindi ? 'font-rozha text-amber-300 font-bold' : theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-wider' : 'font-dancing'
               }`}
               style={{ color: '#FAF5EE', textShadow: '0 2px 14px rgba(0,0,0,0.9)' }}
             >

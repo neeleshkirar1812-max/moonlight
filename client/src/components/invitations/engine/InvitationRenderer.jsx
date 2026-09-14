@@ -23,10 +23,10 @@ const InvitationRenderer = ({
 }) => {
   const rawTemplateId = invitation.template_id || invitation.templateId || 'rose-gold-blush-royal';
 
-  // Check if template belongs to the 10 Royal Video Suites (Exact Zareqia Replica)
-    const isRoyal =
+  // Check if template belongs to Royal Video Suites
+  const isRoyal =
     invitation.tier === 'royal' ||
-    (rawTemplateId.includes('royal') && rawTemplateId !== 'royal-elegance') ||
+    (rawTemplateId.includes('royal') && rawTemplateId !== 'royal-elegance' && !rawTemplateId.startsWith('classic-')) ||
     [
       'rose-gold-blush-royal',
       'royal-prestige',
@@ -39,6 +39,14 @@ const InvitationRenderer = ({
       'royal-grace',
       'emerald-noir-royal',
       'ivory-elegance-royal',
+      'royal-farman',
+      'royal-jharokha',
+      'royal-solitaire',
+      'royal-emerald-sheesh',
+      'royal-destination',
+      'royal-shubh-vivah-hindi',
+      'royal-rajwada-utsav-hindi',
+      'royal-shahi-farman-hindi',
     ].includes(rawTemplateId);
 
   if (isRoyal) {
@@ -53,6 +61,7 @@ const InvitationRenderer = ({
   // Check if template belongs to Classic Suites (Exact Zareqia Classic Replica)
   const isClassic =
     invitation.tier === 'classic' ||
+    rawTemplateId.startsWith('classic-') ||
     [
       'emerald-noir',
       'ivory-elegance',
@@ -70,6 +79,14 @@ const InvitationRenderer = ({
       'silver-anniversary',
       'coastal-breeze',
       'celestial-night',
+      'classic-farman-scroll',
+      'classic-velvet-envelope',
+      'classic-boarding-pass',
+      'classic-marigold-utsav',
+      'classic-starlight-galaxy',
+      'classic-pavitra-bandhan-hindi',
+      'classic-mandap-sandesh-hindi',
+      'classic-anand-utsav-hindi',
     ].includes(rawTemplateId);
 
   if (isClassic) {

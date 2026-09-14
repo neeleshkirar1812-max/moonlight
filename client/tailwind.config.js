@@ -50,6 +50,10 @@ export default {
         dancing: ['"Dancing Script"', '"Great Vibes"', 'cursive'],
         calligraphy: ['"Dancing Script"', '"Great Vibes"', 'cursive'],
         calligraphic: ['"Dancing Script"', '"Cormorant Garamond"', '"Playfair Display"', 'cursive', 'serif'],
+        rozha: ['"Rozha One"', '"Noto Serif Devanagari"', 'serif'],
+        yatra: ['"Yatra One"', '"Noto Serif Devanagari"', 'cursive', 'serif'],
+        tiro: ['"Tiro Devanagari Hindi"', '"Noto Serif Devanagari"', 'serif'],
+        devanagari: ['"Rozha One"', '"Tiro Devanagari Hindi"', '"Noto Serif Devanagari"', 'serif'],
       },
       backgroundImage: {
         'gold-gradient': 'linear-gradient(135deg, #D4AF37 0%, #F5E6BE 50%, #B89225 100%)',

@@ -931,6 +931,406 @@ export const MajesticLoveGate = ({ onComplete }) => {
 // =========================================================================
 
 // Animated Golden Dust Floating Effect (`ere`)
+
+// =========================================================================
+// 5 NEW CLASSIC 3D GATES + 3 CLASSIC HINDI GATES
+// =========================================================================
+
+// Gate 6: 3D Royal Farman Scroll Unroll Gate
+export const FarmanScrollGate = ({ onComplete }) => {
+  const [opening, setOpening] = useState(false);
+  const [faded, setFaded] = useState(false);
+
+  const handleOpen = () => {
+    setOpening(true);
+    setTimeout(() => setFaded(true), 2800);
+    setTimeout(onComplete, 3200);
+  };
+
+  return (
+    <AnimatePresence>
+      {!faded && (
+        <motion.div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0d0707] overflow-hidden"
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {/* Scroll Canvas Top & Bottom Cylinders */}
+          <motion.div
+            className="absolute top-0 inset-x-0 h-1/2 bg-gradient-to-b from-[#2a1010] to-[#1a0808] border-b-2 border-amber-500/60 flex items-end justify-center shadow-2xl origin-top"
+            animate={opening ? { y: '-100%', opacity: 0 } : { y: '0%', opacity: 1 }}
+            transition={{ duration: 2.2, ease: [0.25, 1, 0.5, 1] }}
+          >
+            <div className="w-full h-8 bg-gradient-to-r from-amber-700 via-amber-400 to-amber-700 shadow-lg mb-0 rounded-t-sm" />
+          </motion.div>
+
+          <motion.div
+            className="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-[#2a1010] to-[#1a0808] border-t-2 border-amber-500/60 flex items-start justify-center shadow-2xl origin-bottom"
+            animate={opening ? { y: '100%', opacity: 0 } : { y: '0%', opacity: 1 }}
+            transition={{ duration: 2.2, ease: [0.25, 1, 0.5, 1] }}
+          >
+            <div className="w-full h-8 bg-gradient-to-r from-amber-700 via-amber-400 to-amber-700 shadow-lg mt-0 rounded-b-sm" />
+          </motion.div>
+
+          {/* Central Royal Farman Seal */}
+          {!opening && (
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-6 text-center select-none pointer-events-auto">
+              <motion.p
+                className="font-serif text-sm md:text-base tracking-[0.25em] uppercase mb-6 text-white font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                Royal Shahi Farman
+              </motion.p>
+              <ZareqiaWaxSealButton
+                onClick={handleOpen}
+                letter="📜"
+                sealColor="#7f1d1d"
+                sealHighlight="#d97706"
+                accentColor="#fde68a"
+              />
+              <motion.p
+                className="font-mono text-xs tracking-[0.2em] uppercase mt-6 text-amber-300 font-medium drop-shadow"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.9 }}
+                transition={{ delay: 0.7 }}
+              >
+                tap to unroll farman
+              </motion.p>
+            </div>
+          )}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+// Gate 7: 3D Velvet Envelope & Slide-Out Gold Card Gate
+export const VelvetEnvelopeGate = ({ onComplete }) => {
+  const [opening, setOpening] = useState(false);
+  const [faded, setFaded] = useState(false);
+
+  const handleOpen = () => {
+    setOpening(true);
+    setTimeout(() => setFaded(true), 2800);
+    setTimeout(onComplete, 3200);
+  };
+
+  return (
+    <AnimatePresence>
+      {!faded && (
+        <motion.div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0a0a0a] overflow-hidden"
+          style={{ perspective: '1200px' }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {/* Envelope Body */}
+          <div className="relative w-80 sm:w-96 h-64 bg-[#3f0f18] rounded-2xl shadow-2xl border border-amber-500/40 overflow-hidden flex items-center justify-center">
+            {/* Slide Out Card */}
+            <motion.div
+              className="absolute inset-4 bg-gradient-to-br from-[#FAF5EE] to-[#F5E6BE] rounded-xl border-2 border-amber-500 shadow-xl p-4 text-center flex flex-col items-center justify-center"
+              animate={opening ? { y: -180, scale: 1.05, opacity: 0 } : { y: 0, scale: 1, opacity: 1 }}
+              transition={{ duration: 2.2, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
+            >
+              <Sparkles className="w-6 h-6 text-amber-600 mb-1" />
+              <span className="font-serif text-sm font-bold text-neutral-900 uppercase tracking-widest">
+                Wedding Invitation
+              </span>
+              <span className="font-dancing text-2xl text-amber-800 font-bold">You're Invited</span>
+            </motion.div>
+
+            {/* Envelope Top Triangle Flap */}
+            <motion.div
+              className="absolute top-0 inset-x-0 h-32 bg-[#4a121d] origin-top border-b border-amber-500/40 shadow-lg"
+              style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)', transformStyle: 'preserve-3d' }}
+              animate={opening ? { rotateX: 180, opacity: 0 } : { rotateX: 0, opacity: 1 }}
+              transition={{ duration: 1.2, ease: 'easeInOut' }}
+            />
+          </div>
+
+          {/* Wax Seal Center */}
+          {!opening && (
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-auto select-none">
+              <ZareqiaWaxSealButton
+                onClick={handleOpen}
+                letter="💌"
+                sealColor="#581c87"
+                sealHighlight="#eab308"
+                accentColor="#fde047"
+              />
+              <motion.p
+                className="font-mono text-xs tracking-[0.2em] uppercase mt-6 text-amber-300 font-medium drop-shadow"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.9 }}
+                transition={{ delay: 0.5 }}
+              >
+                tap seal to open envelope
+              </motion.p>
+            </div>
+          )}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+// Gate 8: Destination Boarding Pass & Passport Gate
+export const BoardingPassGate = ({ onComplete }) => {
+  const [opening, setOpening] = useState(false);
+  const [faded, setFaded] = useState(false);
+
+  const handleOpen = () => {
+    setOpening(true);
+    setTimeout(() => setFaded(true), 2800);
+    setTimeout(onComplete, 3200);
+  };
+
+  return (
+    <AnimatePresence>
+      {!faded && (
+        <motion.div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#071322] overflow-hidden"
+          style={{ perspective: '1400px' }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {/* 3D Passport Cover */}
+          <motion.div
+            className="relative w-80 sm:w-96 h-[480px] bg-gradient-to-br from-[#0c1f38] via-[#122e54] to-[#071424] rounded-3xl border-2 border-amber-400/50 shadow-2xl p-8 flex flex-col items-center justify-between text-center select-none"
+            animate={opening ? { rotateY: -90, opacity: 0 } : { rotateY: 0, opacity: 1 }}
+            transition={{ duration: 2.2, ease: [0.25, 1, 0.5, 1] }}
+          >
+            <div className="space-y-2">
+              <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-amber-300">
+                ROYAL DESTINATION PASS
+              </span>
+              <div className="w-16 h-16 rounded-full border-2 border-amber-400 flex items-center justify-center mx-auto shadow-lg bg-amber-400/10">
+                <Crown className="w-8 h-8 text-amber-300" />
+              </div>
+              <h3 className="font-serif text-2xl font-bold text-white tracking-widest uppercase">
+                PASSPORT
+              </h3>
+            </div>
+
+            {!opening && (
+              <div className="pointer-events-auto my-4">
+                <ZareqiaWaxSealButton
+                  onClick={handleOpen}
+                  letter="✈️"
+                  sealColor="#0369a1"
+                  sealHighlight="#38bdf8"
+                  accentColor="#ffffff"
+                />
+              </div>
+            )}
+
+            <div className="space-y-1 text-xs text-neutral-300 font-mono">
+              <p className="text-amber-300 uppercase tracking-wider">DESTINATION: FOREVER IN LOVE</p>
+              <p className="text-[10px] text-neutral-400">BOARDING GATE • VIP INVITATION</p>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+// Gate 9: Marigold Heritage Temple Bells Gate
+export const MarigoldBellGate = ({ onComplete }) => {
+  const [opening, setOpening] = useState(false);
+  const [faded, setFaded] = useState(false);
+
+  const handleOpen = () => {
+    setOpening(true);
+    setTimeout(() => setFaded(true), 2800);
+    setTimeout(onComplete, 3200);
+  };
+
+  return (
+    <AnimatePresence>
+      {!faded && (
+        <motion.div
+          className="fixed inset-0 z-[100] flex overflow-hidden bg-[#1f1005]"
+          style={{ perspective: '1400px' }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {/* Left Marigold Temple Door */}
+          <motion.div
+            className="w-1/2 h-full bg-gradient-to-r from-[#451a03] to-[#78350f] border-r-2 border-amber-500 flex flex-col justify-between p-6"
+            animate={opening ? { rotateY: -85, x: '-10%' } : { rotateY: 0, x: '0%' }}
+            transition={{ duration: 2.4, ease: [0.25, 1, 0.5, 1] }}
+          >
+            <div className="space-y-2">
+              <div className="w-12 h-12 rounded-full border border-amber-400/40 bg-amber-500/10 flex items-center justify-center">
+                <span className="text-amber-300 text-xl">🔔</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Marigold Temple Door */}
+          <motion.div
+            className="w-1/2 h-full bg-gradient-to-l from-[#451a03] to-[#78350f] border-l-2 border-amber-500 flex flex-col justify-between p-6 items-end"
+            animate={opening ? { rotateY: 85, x: '10%' } : { rotateY: 0, x: '0%' }}
+            transition={{ duration: 2.4, ease: [0.25, 1, 0.5, 1] }}
+          >
+            <div className="space-y-2">
+              <div className="w-12 h-12 rounded-full border border-amber-400/40 bg-amber-500/10 flex items-center justify-center">
+                <span className="text-amber-300 text-xl">🔔</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Center Brass Wax Seal */}
+          {!opening && (
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-6 text-center select-none pointer-events-auto">
+              <motion.p
+                className="font-serif text-sm md:text-base tracking-[0.25em] uppercase mb-6 text-amber-200 font-medium drop-shadow"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                Marigold Utsav Vivah
+              </motion.p>
+              <ZareqiaWaxSealButton
+                onClick={handleOpen}
+                letter="🪔"
+                sealColor="#92400e"
+                sealHighlight="#f59e0b"
+                accentColor="#fef08a"
+              />
+              <motion.p
+                className="font-mono text-xs tracking-[0.2em] uppercase mt-6 text-amber-300 font-medium drop-shadow"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.9 }}
+              >
+                tap to open temple gates
+              </motion.p>
+            </div>
+          )}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+// Gate 10: Celestial Zodiac Harmony Gate
+export const CelestialZodiacGate = ({ onComplete }) => {
+  const [opening, setOpening] = useState(false);
+  const [faded, setFaded] = useState(false);
+
+  const handleOpen = () => {
+    setOpening(true);
+    setTimeout(() => setFaded(true), 2800);
+    setTimeout(onComplete, 3200);
+  };
+
+  return (
+    <AnimatePresence>
+      {!faded && (
+        <motion.div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#030712] overflow-hidden"
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {/* Radial Galaxy Glow */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'radial-gradient(circle at center, rgba(147, 51, 234, 0.18) 0%, rgba(3, 7, 18, 1) 75%)',
+            }}
+          />
+
+          {!opening && (
+            <div className="relative z-10 flex flex-col items-center justify-center p-6 text-center select-none pointer-events-auto space-y-4">
+              <motion.div
+                className="flex items-center gap-4 text-purple-300 font-mono text-xs tracking-widest uppercase"
+                animate={{ opacity: [0.6, 1, 0.6] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <span>✦ STAR CROSSED DESTINY ✦</span>
+              </motion.div>
+              <ZareqiaWaxSealButton
+                onClick={handleOpen}
+                letter="✨"
+                sealColor="#4c1d95"
+                sealHighlight="#a855f7"
+                accentColor="#e9d5ff"
+              />
+              <p className="font-mono text-xs tracking-[0.2em] uppercase text-purple-200 font-medium drop-shadow">
+                tap to align constellations
+              </p>
+            </div>
+          )}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+// Gate 11: 🕉️ Pavitra Bandhan Hindi 3D Temple Gate
+export const PavitraBandhanGate = ({ onComplete }) => {
+  const [opening, setOpening] = useState(false);
+  const [faded, setFaded] = useState(false);
+
+  const handleOpen = () => {
+    setOpening(true);
+    setTimeout(() => setFaded(true), 2800);
+    setTimeout(onComplete, 3200);
+  };
+
+  return (
+    <AnimatePresence>
+      {!faded && (
+        <motion.div
+          className="fixed inset-0 z-[100] flex overflow-hidden bg-[#1f0707]"
+          style={{ perspective: '1400px' }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {/* Left Temple Gate */}
+          <motion.div
+            className="w-1/2 h-full bg-gradient-to-r from-[#450a0a] to-[#7f1d1d] border-r-2 border-amber-400 flex flex-col justify-center p-6 items-center"
+            animate={opening ? { rotateY: -85 } : { rotateY: 0 }}
+            transition={{ duration: 2.4, ease: [0.25, 1, 0.5, 1] }}
+          >
+            <span className="font-rozha text-3xl sm:text-4xl text-amber-300 drop-shadow">卐 शुभ</span>
+          </motion.div>
+
+          {/* Right Temple Gate */}
+          <motion.div
+            className="w-1/2 h-full bg-gradient-to-l from-[#450a0a] to-[#7f1d1d] border-l-2 border-amber-400 flex flex-col justify-center p-6 items-center"
+            animate={opening ? { rotateY: 85 } : { rotateY: 0 }}
+            transition={{ duration: 2.4, ease: [0.25, 1, 0.5, 1] }}
+          >
+            <span className="font-rozha text-3xl sm:text-4xl text-amber-300 drop-shadow">लाभ 卐</span>
+          </motion.div>
+
+          {!opening && (
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-6 text-center select-none pointer-events-auto space-y-4">
+              <span className="font-rozha text-lg sm:text-xl text-amber-200 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                || ॐ श्री गणेशाय नमः ||
+              </span>
+              <ZareqiaWaxSealButton
+                onClick={handleOpen}
+                letter="卐"
+                sealColor="#991b1b"
+                sealHighlight="#f59e0b"
+                accentColor="#fef08a"
+              />
+              <p className="font-rozha text-sm tracking-wider text-amber-300 font-bold drop-shadow">
+                निमंत्रण खोलने हेतु स्पर्श करें
+              </p>
+            </div>
+          )}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+
 export const ZareqiaGoldDustEffect = () => (
   <div className="fixed inset-0 pointer-events-none z-[60] overflow-hidden">
     {[...Array(15)].map((_, i) => (
@@ -1648,6 +2048,113 @@ export const zareqiaClassicThemes = {
     musicPreset:
       'https://cdn.pixabay.com/download/audio/2022/03/24/audio_34e12c1bcf.mp3?filename=cinematic-fairy-tale-story-main-8697.mp3',
   },
+  // =========================================================================
+  // 5 NEW CLASSIC SIGNATURE SUITES
+  // =========================================================================
+  'classic-farman-scroll': {
+    id: 'classic-farman-scroll',
+    name: 'Royal Shahi Scroll',
+    font: "'Dancing Script', cursive",
+    background: '#140a0a',
+    foreground: '#FAF5EE',
+    accent: '#D4AF37',
+    welcomeGradient: 'linear-gradient(to bottom, #2b0c0c 0%, #4a1515 45%, #832727 100%)',
+    isDark: true,
+    scratch: { gradStart: '#fde68a', gradMid: '#d97706', gradEnd: '#78350f', textColor: '#ffffff' },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=royal-ambient-112345.mp3',
+  },
+  'classic-velvet-envelope': {
+    id: 'classic-velvet-envelope',
+    name: 'Velvet Envelope Flap',
+    font: "'Dancing Script', cursive",
+    background: '#0d0d0d',
+    foreground: '#FAF5EE',
+    accent: '#EAB308',
+    welcomeGradient: 'linear-gradient(to bottom, #1f0b18 0%, #3f1230 45%, #6b1d52 100%)',
+    isDark: true,
+    scratch: { gradStart: '#fde68a', gradMid: '#d97706', gradEnd: '#78350f', textColor: '#ffffff' },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=piano-moment-9835.mp3',
+  },
+  'classic-boarding-pass': {
+    id: 'classic-boarding-pass',
+    name: 'Destination Luxe Passport',
+    font: "'Cinzel', serif",
+    background: '#0a1424',
+    foreground: '#FAF5EE',
+    accent: '#38BDF8',
+    welcomeGradient: 'linear-gradient(to bottom, #031124 0%, #072247 45%, #0f3d7a 100%)',
+    isDark: true,
+    scratch: { gradStart: '#bae6fd', gradMid: '#0284c7', gradEnd: '#082f49', textColor: '#ffffff' },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2021/08/04/audio_bb630cc098.mp3?filename=acoustic-guitars-ambient-uplifting-11369.mp3',
+  },
+  'classic-marigold-utsav': {
+    id: 'classic-marigold-utsav',
+    name: 'Marigold Temple Bells',
+    font: "'Dancing Script', cursive",
+    background: '#170e06',
+    foreground: '#FAF5EE',
+    accent: '#F59E0B',
+    welcomeGradient: 'linear-gradient(to bottom, #2e1504 0%, #522507 45%, #8f400c 100%)',
+    isDark: true,
+    scratch: { gradStart: '#fef08a', gradMid: '#d97706', gradEnd: '#78350f', textColor: '#ffffff' },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=royal-ambient-112345.mp3',
+  },
+  'classic-starlight-galaxy': {
+    id: 'classic-starlight-galaxy',
+    name: 'Celestial Zodiac Harmony',
+    font: "'Cinzel', serif",
+    background: '#040714',
+    foreground: '#FAF5EE',
+    accent: '#C084FC',
+    welcomeGradient: 'linear-gradient(to bottom, #0a0e27 0%, #151b47 45%, #2a3480 100%)',
+    isDark: true,
+    scratch: { gradStart: '#e9d5ff', gradMid: '#9333ea', gradEnd: '#3b0764', textColor: '#ffffff' },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=ambient-piano-amp-strings-10711.mp3',
+  },
+
+  // =========================================================================
+  // 3 CLASSIC HINDI SUITES
+  // =========================================================================
+  'classic-pavitra-bandhan-hindi': {
+    id: 'classic-pavitra-bandhan-hindi',
+    name: 'पवित्र बंधन विवाह पत्रिका',
+    font: "'Rozha One', 'Noto Serif Devanagari', serif",
+    background: '#140606',
+    foreground: '#FAF5EE',
+    accent: '#DC2626',
+    welcomeGradient: 'linear-gradient(to bottom, #3b0808 0%, #631010 45%, #a82020 100%)',
+    isDark: true,
+    isHindi: true,
+    scratch: { gradStart: '#fde68a', gradMid: '#d97706', gradEnd: '#78350f', textColor: '#ffffff' },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=royal-ambient-112345.mp3',
+  },
+  'classic-mandap-sandesh-hindi': {
+    id: 'classic-mandap-sandesh-hindi',
+    name: 'मंगल मंडप संदेश',
+    font: "'Rozha One', 'Noto Serif Devanagari', serif",
+    background: '#170c04',
+    foreground: '#FAF5EE',
+    accent: '#D97706',
+    welcomeGradient: 'linear-gradient(to bottom, #361704 0%, #5e2807 45%, #9c430c 100%)',
+    isDark: true,
+    isHindi: true,
+    scratch: { gradStart: '#fef08a', gradMid: '#d97706', gradEnd: '#78350f', textColor: '#ffffff' },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=royal-ambient-112345.mp3',
+  },
+  'classic-anand-utsav-hindi': {
+    id: 'classic-anand-utsav-hindi',
+    name: 'आनंद उत्सव निमंत्रण',
+    font: "'Rozha One', 'Noto Serif Devanagari', serif",
+    background: '#120a1f',
+    foreground: '#FAF5EE',
+    accent: '#B45309',
+    welcomeGradient: 'linear-gradient(to bottom, #1d0f33 0%, #361c5e 45%, #6032a6 100%)',
+    isDark: true,
+    isHindi: true,
+    scratch: { gradStart: '#fde68a', gradMid: '#d97706', gradEnd: '#78350f', textColor: '#ffffff' },
+    musicPreset: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=royal-ambient-112345.mp3',
+  },
+
   // Multi-Category Event Presets
   'little-sunshine': {
     id: 'little-sunshine',
@@ -1876,6 +2383,20 @@ const ZareqiaClassicSuite = ({
     if (doorsFadedOut) return null;
 
     switch (templateId) {
+      case 'classic-farman-scroll':
+        return <FarmanScrollGate onComplete={handleDoorComplete} />;
+      case 'classic-velvet-envelope':
+        return <VelvetEnvelopeGate onComplete={handleDoorComplete} />;
+      case 'classic-boarding-pass':
+        return <BoardingPassGate onComplete={handleDoorComplete} />;
+      case 'classic-marigold-utsav':
+        return <MarigoldBellGate onComplete={handleDoorComplete} />;
+      case 'classic-starlight-galaxy':
+        return <CelestialZodiacGate onComplete={handleDoorComplete} />;
+      case 'classic-pavitra-bandhan-hindi':
+      case 'classic-mandap-sandesh-hindi':
+      case 'classic-anand-utsav-hindi':
+        return <PavitraBandhanGate onComplete={handleDoorComplete} />;
       case 'emerald-noir':
         return <EmeraldNoirGate onComplete={handleDoorComplete} />;
       case 'ivory-elegance':
