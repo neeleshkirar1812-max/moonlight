@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
 import SEO from '../../components/common/SEO';
@@ -14,6 +14,9 @@ const InvitationLogin = () => {
   const { login } = useAuth();
   const { addToast } = useNotification();
   const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const redirectUrl = searchParams.get('redirect') || '/invitations/dashboard';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,14 +33,13 @@ const InvitationLogin = () => {
       }
       addToast({
         title: 'Welcome Back! ✨',
-        message: 'Opening your invitation management dashboard...',
+        message: 'Opening your selection...',
         type: 'success',
       });
-      navigate('/invitations/dashboard');
+      navigate(redirectUrl);
     } catch (err) {
-      // Even if generic login fails, set email for invitation dashboard access
       localStorage.setItem('moonlight_customer_email', email.trim());
-      navigate('/invitations/dashboard');
+      navigate(redirectUrl);
     } finally {
       setLoading(false);
     }

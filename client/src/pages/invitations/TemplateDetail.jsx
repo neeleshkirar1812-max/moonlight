@@ -153,6 +153,15 @@ const TemplateDetail = () => {
   };
 
   const handleBuyTemplate = async () => {
+    if (!user && !customerEmail && !localStorage.getItem('moonlight_customer_email')) {
+      addToast({
+        title: 'Sign Up Required ✨',
+        message: 'Please sign up or log in first before completing payment.',
+        type: 'info',
+      });
+      navigate(`/invitations/signup?redirect=/templates/${template.id}`);
+      return;
+    }
     if (currentPayable === 0) {
       return handleProceedToEditor(false);
     }

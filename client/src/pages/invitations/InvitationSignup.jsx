@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
 import SEO from '../../components/common/SEO';
@@ -16,6 +16,9 @@ const InvitationSignup = () => {
   const { addToast } = useNotification();
   const navigate = useNavigate();
 
+  const [searchParams] = useSearchParams();
+  const redirectUrl = searchParams.get('redirect') || '/invitations/templates';
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !name) {
@@ -31,13 +34,13 @@ const InvitationSignup = () => {
       }
       addToast({
         title: 'Account Created! 🎉',
-        message: 'Welcome to Moonlight Digital Invitations.',
+        message: 'Welcome! Proceeding to your selected template...',
         type: 'success',
       });
-      navigate('/invitations/templates');
+      navigate(redirectUrl);
     } catch (err) {
       localStorage.setItem('moonlight_customer_email', email.trim());
-      navigate('/invitations/templates');
+      navigate(redirectUrl);
     } finally {
       setLoading(false);
     }

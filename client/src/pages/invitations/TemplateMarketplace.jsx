@@ -360,6 +360,18 @@ const TemplateMarketplace = () => {
   };
 
   const handleSelectDesign = async (templateId) => {
+    // 1. If not logged in, prompt signup first with redirect to checkout!
+    if (!user && !localStorage.getItem('moonlight_customer_email')) {
+      addToast({
+        title: 'Sign Up Required ✨',
+        message: 'Please sign up or log in first to secure your invitation and complete payment.',
+        type: 'info',
+      });
+      navigate(`/invitations/signup?redirect=/templates/${templateId}`);
+      return;
+    }
+
+    // 2. If already unlocked (paid suite pass or paid single template)
     if (isTemplateUnlocked(templateId)) {
       try {
         const email = user?.email || localStorage.getItem('moonlight_customer_email') || 'couple@moonlight.com';
@@ -378,6 +390,7 @@ const TemplateMarketplace = () => {
         navigate(`/invitations/create/${templateId}`);
       }
     } else {
+      // 3. If NOT paid yet, route to checkout for payment!
       navigate('/templates/' + templateId);
     }
   };
