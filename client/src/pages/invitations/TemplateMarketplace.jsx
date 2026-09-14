@@ -1,5 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import api from '../../api/client';
 import SEO from '../../components/common/SEO';
 import {
   Crown,
@@ -7,6 +9,8 @@ import {
   ChevronDown,
   Sparkles,
   Heart,
+  CheckCircle2,
+  Lock,
 } from 'lucide-react';
 
 const invitationTypes = [
@@ -314,6 +318,17 @@ const classicTemplates = [
 const TemplateMarketplace = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { user } = useAuth();
+  const [unlockedPlans, setUnlockedPlans] = useState([]);
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('moonlight_unlocked_plans') || '[]');
+      setUnlockedPlans(saved);
+    } catch (e) {
+      setUnlockedPlans([]);
+    }
+  }, []);
 
   const [activeTab, setActiveTab] = useState(
     searchParams.get('collection') === 'classic'
@@ -327,8 +342,43 @@ const TemplateMarketplace = () => {
   );
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const handleSelectDesign = (templateId) => {
-    navigate('/templates/' + templateId);
+  const isTemplateUnlocked = (templateId) => {
+    if (user?.role === 'admin' || user?.role === 'superadmin') return true;
+    const isRoyal =
+      templateId.includes('royal') ||
+      templateId.includes('pichola') ||
+      templateId.includes('udaipur') ||
+      templateId.includes('jaipur') ||
+      templateId.includes('marigold') ||
+      templateId.includes('sunset') ||
+      templateId.includes('shubh-vivah') ||
+      templateId.includes('rajwada') ||
+      templateId.includes('shahi-farman');
+    const category = isRoyal ? 'royal' : 'classic';
+    return unlockedPlans.includes(category);
+  };
+
+  const handleSelectDesign = async (templateId) => {
+    if (isTemplateUnlocked(templateId)) {
+      try {
+        const email = user?.email || localStorage.getItem('moonlight_customer_email') || 'couple@moonlight.com';
+        const res = await api.post('/invitations/payments/verify', {
+          razorpay_order_id: `pass_${Date.now()}`,
+          razorpay_payment_id: `unlocked_pass_${Date.now()}`,
+          razorpay_signature: 'pass_verified',
+          templateId,
+          customerEmail: email,
+          customerName: user?.name || 'Valued Couple',
+          couponCode: 'UNLOCKED_PASS_FREE',
+        });
+        const invId = res.data?.invitation?._id || res.data?.invitation?.id || templateId;
+        navigate(`/invitations/create/${invId}`);
+      } catch (e) {
+        navigate(`/invitations/create/${templateId}`);
+      }
+    } else {
+      navigate('/templates/' + templateId);
+    }
   };
 
   const filteredHindiTemplates = useMemo(() => {
@@ -488,9 +538,20 @@ const TemplateMarketplace = () => {
                   <button
                     type="button"
                     onClick={() => handleSelectDesign(template.id)}
-                    className="w-full py-2.5 rounded-lg border border-neutral-700 hover:border-amber-400/80 bg-neutral-900 hover:bg-neutral-800 text-white font-sans text-xs tracking-wider uppercase font-semibold transition-all cursor-pointer"
+                    className={`w-full py-2.5 rounded-lg font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-sm ${
+                      isTemplateUnlocked(template.id)
+                        ? 'bg-gold-gradient text-neutral-950 hover:brightness-105 btn-shimmer'
+                        : 'border border-amber-500/40 bg-neutral-900 hover:bg-neutral-800 text-amber-200'
+                    }`}
                   >
-                    USE THIS DESIGN
+                    {isTemplateUnlocked(template.id) ? (
+                      <span className="flex items-center justify-center space-x-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-neutral-950" />
+                        <span>CREATE CARD (UNLOCKED PASS)</span>
+                      </span>
+                    ) : (
+                      <span>UNLOCK ROYAL SUITE (₹699)</span>
+                    )}
                   </button>
                 </div>
               </div>
@@ -551,9 +612,20 @@ const TemplateMarketplace = () => {
                   <button
                     type="button"
                     onClick={() => handleSelectDesign(template.id)}
-                    className="w-full py-2.5 rounded-lg bg-[#E5A83B] hover:bg-[#d4962a] text-neutral-950 font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-xs"
+                    className={`w-full py-2.5 rounded-lg font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-sm ${
+                      isTemplateUnlocked(template.id)
+                        ? 'bg-gold-gradient text-neutral-950 hover:brightness-105 btn-shimmer'
+                        : 'bg-[#E5A83B] hover:bg-[#d4962a] text-neutral-950'
+                    }`}
                   >
-                    USE THIS DESIGN
+                    {isTemplateUnlocked(template.id) ? (
+                      <span className="flex items-center justify-center space-x-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-neutral-950" />
+                        <span>CREATE CARD (UNLOCKED PASS)</span>
+                      </span>
+                    ) : (
+                      <span>UNLOCK CLASSIC SUITE (₹699)</span>
+                    )}
                   </button>
                 </div>
               </div>
@@ -625,9 +697,20 @@ const TemplateMarketplace = () => {
                   <button
                     type="button"
                     onClick={() => handleSelectDesign(template.id)}
-                    className="w-full py-2.5 rounded-lg bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-amber-200 font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-md border border-amber-500/30"
+                    className={`w-full py-2.5 rounded-lg font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-md border ${
+                      isTemplateUnlocked(template.id)
+                        ? 'bg-gold-gradient text-neutral-950 border-amber-400 hover:brightness-105'
+                        : 'bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-amber-200 border-amber-500/30'
+                    }`}
                   >
-                    यह डिजाइन चुनें / USE THIS DESIGN
+                    {isTemplateUnlocked(template.id) ? (
+                      <span className="flex items-center justify-center space-x-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-neutral-950" />
+                        <span>कार्ड बनाएं (पास अनलॉक है)</span>
+                      </span>
+                    ) : (
+                      <span>यह कलेक्शन अनलॉक करें (₹699)</span>
+                    )}
                   </button>
                 </div>
               </div>

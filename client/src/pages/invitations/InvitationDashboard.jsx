@@ -28,6 +28,7 @@ const InvitationDashboard = () => {
   const { addToast } = useNotification();
 
   const [invitations, setInvitations] = useState([]);
+  const [unlockedPlans, setUnlockedPlans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [copiedSlug, setCopiedSlug] = useState(null);
 
@@ -39,7 +40,12 @@ const InvitationDashboard = () => {
     try {
       const res = await api.get(`/invitations/dashboard?email=${encodeURIComponent(customerEmail)}`);
       const data = res.data?.invitations || res.data?.data || res.data || [];
+      const plans = res.data?.unlockedPlans || [];
+      const savedPlans = JSON.parse(localStorage.getItem('moonlight_unlocked_plans') || '[]');
+      const combinedPlans = Array.from(new Set([...plans, ...savedPlans]));
+      
       setInvitations(data);
+      setUnlockedPlans(combinedPlans);
     } catch (err) {
       console.warn('[Dashboard Fetch Error]', err);
     } finally {
@@ -134,12 +140,38 @@ const InvitationDashboard = () => {
             </button>
             <Link
               to="/invitations/templates"
-              className="px-5 py-2.5 rounded-full bg-amber-900 hover:bg-amber-800 text-white font-bold text-xs uppercase tracking-wider flex items-center shadow-sm"
+              className="px-5 py-2.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider flex items-center shadow-md hover:brightness-105 transition-all btn-shimmer"
             >
-              <Plus className="w-3.5 h-3.5 mr-1.5" /> Buy New Template
+              <Plus className="w-3.5 h-3.5 mr-1.5" />
+              <span>+ Create / Choose Design</span>
             </Link>
           </div>
         </div>
+
+        {/* Unlocked Plan Passes Status Banner */}
+        {(unlockedPlans.length > 0 || user?.role === 'admin' || user?.role === 'superadmin') && (
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-[#2C1A1D] to-[#150A0C] text-amber-100 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg">
+            <div className="space-y-0.5">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-amber-300 font-bold flex items-center">
+                <Sparkles className="w-3.5 h-3.5 mr-1.5 text-amber-400" />
+                Active Collection Plan Access
+              </span>
+              <p className="text-xs text-white font-medium">
+                {user?.role === 'admin' || user?.role === 'superadmin' || (unlockedPlans.includes('royal') && unlockedPlans.includes('classic'))
+                  ? '👑 Supreme VIP: Full Access to ALL 31 Royal 4K Gate Themes, Classic 3D Suites & Hindi Editions!'
+                  : unlockedPlans.includes('royal')
+                  ? '👑 Royal Suite Pass: You have unlocked ALL 13 Royal 4K Video Door Themes & Hindi Editions!'
+                  : '🏛️ Classic Suite Pass: You have unlocked ALL 13 Classic 3D Gate Themes & Hindi Editions!'}
+              </p>
+            </div>
+            <Link
+              to={unlockedPlans.includes('royal') ? '/templates?collection=royal' : '/templates?collection=classic'}
+              className="px-4 py-2 rounded-xl bg-gold-gradient text-neutral-950 text-xs font-extrabold uppercase tracking-wider shadow-sm hover:brightness-105 shrink-0"
+            >
+              Pick Any Theme (₹0) →
+            </Link>
+          </div>
+        )}
 
         {/* 3 Overview Stat Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

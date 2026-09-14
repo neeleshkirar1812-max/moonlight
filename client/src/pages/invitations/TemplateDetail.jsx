@@ -75,6 +75,25 @@ const TemplateDetail = () => {
         type: 'success',
       });
 
+      const unlockedCategory =
+        template.id?.includes('royal') ||
+        template.id?.includes('pichola') ||
+        template.id?.includes('udaipur') ||
+        template.id?.includes('jaipur') ||
+        template.id?.includes('marigold') ||
+        template.id?.includes('sunset') ||
+        template.id?.includes('shubh-vivah') ||
+        template.id?.includes('rajwada') ||
+        template.id?.includes('shahi-farman')
+          ? 'royal'
+          : 'classic';
+
+      const currentSaved = JSON.parse(localStorage.getItem('moonlight_unlocked_plans') || '[]');
+      if (!currentSaved.includes(unlockedCategory)) {
+        currentSaved.push(unlockedCategory);
+        localStorage.setItem('moonlight_unlocked_plans', JSON.stringify(currentSaved));
+      }
+
       localStorage.setItem('moonlight_customer_email', emailToUse);
       const invId = verifyRes.data?.invitation?._id || verifyRes.data?.invitation?.id || template.id;
       navigate(`/invitations/create/${invId}`);
@@ -146,6 +165,25 @@ const TemplateDetail = () => {
 
             // Save active customer email in local session
             localStorage.setItem('moonlight_customer_email', customerEmail.trim());
+
+            const unlockedCategory =
+              template.id?.includes('royal') ||
+              template.id?.includes('pichola') ||
+              template.id?.includes('udaipur') ||
+              template.id?.includes('jaipur') ||
+              template.id?.includes('marigold') ||
+              template.id?.includes('sunset') ||
+              template.id?.includes('shubh-vivah') ||
+              template.id?.includes('rajwada') ||
+              template.id?.includes('shahi-farman')
+                ? 'royal'
+                : 'classic';
+
+            const currentSaved = JSON.parse(localStorage.getItem('moonlight_unlocked_plans') || '[]');
+            if (!currentSaved.includes(unlockedCategory)) {
+              currentSaved.push(unlockedCategory);
+              localStorage.setItem('moonlight_unlocked_plans', JSON.stringify(currentSaved));
+            }
 
             const invId = verifyRes.data?.invitation?._id || verifyRes.data?.invitation?.id;
             if (invId) {
@@ -282,11 +320,40 @@ const TemplateDetail = () => {
             <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-amber-900/20 shadow-xl space-y-6">
               <div className="space-y-2 border-b border-stone-200 pb-5">
                 <span className="text-[10.5px] uppercase font-mono tracking-widest text-amber-800 font-bold block">
-                  Official Moonlight License
+                  {template.id?.includes('royal') ||
+                  template.id?.includes('pichola') ||
+                  template.id?.includes('udaipur') ||
+                  template.id?.includes('jaipur') ||
+                  template.id?.includes('marigold') ||
+                  template.id?.includes('sunset') ||
+                  template.id?.includes('shubh-vivah') ||
+                  template.id?.includes('rajwada') ||
+                  template.id?.includes('shahi-farman')
+                    ? '👑 ROYAL 4K GATE COLLECTION PASS'
+                    : '🏛️ CLASSIC 3D GATE COLLECTION PASS'}
                 </span>
                 <h2 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900">
                   {template.name}
                 </h2>
+                <div className="p-3 rounded-2xl bg-amber-50/80 border border-amber-300/80 text-xs text-amber-950 space-y-1">
+                  <span className="font-bold flex items-center">
+                    <Sparkles className="w-3.5 h-3.5 mr-1.5 text-amber-700" />
+                    {template.id?.includes('royal') ||
+                    template.id?.includes('pichola') ||
+                    template.id?.includes('udaipur') ||
+                    template.id?.includes('jaipur') ||
+                    template.id?.includes('marigold') ||
+                    template.id?.includes('sunset') ||
+                    template.id?.includes('shubh-vivah') ||
+                    template.id?.includes('rajwada') ||
+                    template.id?.includes('shahi-farman')
+                      ? 'Unlocks ALL 13 Royal 4K Gate Themes & Hindi Editions!'
+                      : 'Unlocks ALL 13 Classic 3D Gate Themes & Hindi Editions!'}
+                  </span>
+                  <p className="text-[11px] text-neutral-600">
+                    One single payment gives you lifetime access to craft and switch any template in this entire collection.
+                  </p>
+                </div>
                 <div className="flex items-baseline space-x-3 pt-1">
                   <span className="font-serif text-4xl font-bold text-amber-900">
                     ₹{template.price}
@@ -303,9 +370,27 @@ const TemplateDetail = () => {
               {/* Included Suite Features */}
               <div className="space-y-3">
                 <span className="text-xs uppercase font-mono font-bold text-neutral-700 tracking-wider block">
-                  Included in This Suite:
+                  Included in This Suite Pass:
                 </span>
                 <ul className="space-y-2 text-xs text-neutral-700">
+                  <li className="flex items-center">
+                    <CheckCircle2 className="w-4 h-4 mr-2 text-emerald-600 shrink-0 font-bold" />
+                    <span>
+                      <strong>
+                        {template.id?.includes('royal') ||
+                        template.id?.includes('pichola') ||
+                        template.id?.includes('udaipur') ||
+                        template.id?.includes('jaipur') ||
+                        template.id?.includes('marigold') ||
+                        template.id?.includes('sunset') ||
+                        template.id?.includes('shubh-vivah') ||
+                        template.id?.includes('rajwada') ||
+                        template.id?.includes('shahi-farman')
+                          ? 'All 13 Royal 4K Video Door Themes Access'
+                          : 'All 13 Classic 3D Door Themes Access'}
+                      </strong>
+                    </span>
+                  </li>
                   {template.features.map((feat, idx) => (
                     <li key={idx} className="flex items-center">
                       <CheckCircle2 className="w-4 h-4 mr-2 text-emerald-600 shrink-0" />

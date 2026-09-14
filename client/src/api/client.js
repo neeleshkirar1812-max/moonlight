@@ -1023,11 +1023,21 @@ const handleMockRequest = async (method, url, data) => {
       const userPurchases = email
         ? purchases.filter((p) => (p.customerEmail || '').toLowerCase().trim() === email)
         : purchases;
+      
+      const unlockedPlans = Array.from(
+        new Set(
+          userPurchases
+            .map((p) => p.planCategory || (p.templateId?.includes('royal') ? 'royal' : 'classic'))
+            .filter(Boolean)
+        )
+      );
+
       return {
         data: {
           success: true,
           invitations: userInvs.length > 0 ? userInvs : invitations,
           purchases: userPurchases.length > 0 ? userPurchases : purchases,
+          unlockedPlans,
         },
       };
     }
@@ -1047,10 +1057,24 @@ const handleMockRequest = async (method, url, data) => {
 
     // Razorpay Verify & Draft Generation
     if (cleanUrl.includes('/payments/verify')) {
+      const tplId = (data.templateId || 'rose-gold-blush-royal').toLowerCase();
+      const isRoyal =
+        tplId.includes('royal') ||
+        tplId.includes('pichola') ||
+        tplId.includes('udaipur') ||
+        tplId.includes('jaipur') ||
+        tplId.includes('marigold') ||
+        tplId.includes('sunset') ||
+        tplId.includes('shubh-vivah') ||
+        tplId.includes('rajwada') ||
+        tplId.includes('shahi-farman');
+      const planCategory = isRoyal ? 'royal' : 'classic';
+
       const newPurchase = {
         _id: `pur-${Date.now()}`,
         templateId: data.templateId || 'rose-gold-blush-royal',
-        templateName: 'Royal Love',
+        templateName: isRoyal ? 'Royal 4K Gate Suite All-Access' : 'Classic 3D Gate Suite All-Access',
+        planCategory,
         customerEmail: data.customerEmail || 'couple@moonlight.com',
         customerName: data.customerName || 'Valued Couple',
         customerPhone: data.customerPhone || '',
@@ -1075,10 +1099,11 @@ const handleMockRequest = async (method, url, data) => {
         _id: `inv-${Date.now()}`,
         id: `inv-${Date.now()}`,
         templateId: data.templateId || 'rose-gold-blush-royal',
+        planCategory,
         customerEmail: data.customerEmail || 'couple@moonlight.com',
         userEmail: data.customerEmail || 'couple@moonlight.com',
         customerName: data.customerName || 'Valued Couple',
-        title: `${data.customerName || 'Couple'}'s Royal Celebration`,
+        title: `${data.customerName || 'Couple'}'s ${isRoyal ? 'Royal' : 'Classic'} Celebration`,
         names: data.customerName || 'Aarav & Kiara',
         brideName: 'Kiara',
         groomName: 'Aarav',
@@ -1112,7 +1137,7 @@ const handleMockRequest = async (method, url, data) => {
       newPurchase.invitationId = newInv._id;
       setCollection('invitationPurchases', purchases);
 
-      return { data: { success: true, invitation: newInv, purchase: newPurchase } };
+      return { data: { success: true, invitation: newInv, purchase: newPurchase, planCategory } };
     }
 
     // Public /i/:slug endpoint
