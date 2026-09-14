@@ -58,8 +58,11 @@ const TemplateDetail = () => {
   const [redirectCountdown, setRedirectCountdown] = useState(null);
 
   useEffect(() => {
+    const loggedUser = user || (localStorage.getItem('Moonlight_user') ? JSON.parse(localStorage.getItem('Moonlight_user')) : null);
+    const emailToUse = loggedUser?.email || localStorage.getItem('moonlight_customer_email');
+
     // If not logged in, redirect to Signup first!
-    if (!user) {
+    if (!loggedUser && !emailToUse) {
       addToast({
         title: 'Sign Up Required ✨',
         message: 'Please create an account or sign in to complete payment and unlock your invitation.',

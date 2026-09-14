@@ -118,8 +118,8 @@ export const defaultTemplates = [
     slug: 'udaivilas-palace',
     category: 'Wedding Invitation',
     tier: 'royal',
-    price: 799,
-    originalPrice: 1699,
+    price: 699,
+    originalPrice: 1999,
     previewImage: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80',
     description: 'Midnight sapphire water reflection portal inspired by Lake Pichola, arched lakeside portals with shimmering ripple effect and starry lakeside crest.',
     theme: {
@@ -151,7 +151,7 @@ export const defaultTemplates = [
     category: 'Wedding Invitation',
     tier: 'royal',
     price: 699,
-    originalPrice: 1499,
+    originalPrice: 1999,
     previewImage: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=1200&q=80',
     description: 'Terracotta sandstone Jharokha balcony gates with marigold toran rise, traditional Rajasthani royal peacock medallion, and nagada beats.',
     theme: {
@@ -183,7 +183,7 @@ export const defaultTemplates = [
     category: 'Wedding Invitation',
     tier: 'royal',
     price: 699,
-    originalPrice: 1499,
+    originalPrice: 1999,
     previewImage: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80',
     description: 'Multi-tiered celebratory magenta and royal purple silk stage curtains parting with golden tassels and festive dance beats.',
     theme: {
@@ -214,8 +214,8 @@ export const defaultTemplates = [
     slug: 'nawab-of-awadh',
     category: 'Wedding Invitation',
     tier: 'royal',
-    price: 799,
-    originalPrice: 1599,
+    price: 699,
+    originalPrice: 1999,
     previewImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
     description: 'Elegantly gliding turquoise and ivory arched screens with Persian calligraphic crescent, gold filigree, and melodic sitar acoustics.',
     theme: {
@@ -247,7 +247,7 @@ export const defaultTemplates = [
     category: 'Housewarming / Griha Pravesh',
     tier: 'royal',
     price: 699,
-    originalPrice: 1399,
+    originalPrice: 1999,
     previewImage: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80',
     description: 'Solid teakwood doors with hanging brass bells, sacred Kalash and Shubh Labh seal, mango leaf toran rise, and deep resonant temple bells.',
     theme: {
@@ -278,8 +278,8 @@ export const defaultTemplates = [
     slug: 'taj-imperial',
     category: 'Wedding Invitation',
     tier: 'royal',
-    price: 899,
-    originalPrice: 1899,
+    price: 699,
+    originalPrice: 1999,
     previewImage: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1200&q=80',
     description: 'Monumental Makrana white marble slab gates with inlaid Pietra Dura florals, platinum gold details, and pristine crystal harmonic sound.',
     theme: {
@@ -311,7 +311,7 @@ export const defaultTemplates = [
     category: 'Wedding Invitation',
     tier: 'royal',
     price: 699,
-    originalPrice: 1499,
+    originalPrice: 1999,
     previewImage: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80',
     description: 'Heavy fortress studded doors with antique brass knockers, 24K Solar Dynasty sunburst seal, and majestic trumpet fanfare sound.',
     theme: {
@@ -347,7 +347,7 @@ export const defaultTemplates = [
     category: 'Engagement Invitation',
     tier: 'classic',
     price: 499,
-    originalPrice: 999,
+    originalPrice: 1299,
     previewImage: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80',
     description: 'Romantic vintage botanical envelope unfolding with blooming flower petals, rose gold wax seal, and gentle romantic flute/harp chords.',
     theme: {
@@ -379,7 +379,7 @@ export const defaultTemplates = [
     category: 'Wedding Invitation',
     tier: 'classic',
     price: 499,
-    originalPrice: 999,
+    originalPrice: 1299,
     previewImage: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1200&q=80',
     description: 'Dual frosted-glass sliding architectural panels, clean typography, geometric diamond monogram, and crisp platinum harmonic audio.',
     theme: {
@@ -410,8 +410,8 @@ export const defaultTemplates = [
     slug: 'rose-gold-blush',
     category: 'Engagement Invitation',
     tier: 'classic',
-    price: 449,
-    originalPrice: 899,
+    price: 499,
+    originalPrice: 1299,
     previewImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
     description: 'Silk satin ribbon untying in the center, causing smooth side sliding panels to open with delicate rose gold heart crest and soft acoustic strings.',
     theme: {
@@ -443,7 +443,7 @@ export const defaultTemplates = [
     category: 'Wedding Invitation',
     tier: 'classic',
     price: 499,
-    originalPrice: 999,
+    originalPrice: 1299,
     previewImage: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80',
     description: 'Constellation sphere splitting into glowing stardust nebulae with silver crescent moon seal and shimmering cosmic crystal chimes.',
     theme: {
@@ -474,8 +474,8 @@ export const defaultTemplates = [
     slug: 'terracotta-boho',
     category: 'Wedding Invitation',
     tier: 'classic',
-    price: 449,
-    originalPrice: 899,
+    price: 499,
+    originalPrice: 1299,
     previewImage: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80',
     description: 'Textured artisanal linen flaps opening tri-fold style with terracotta clay stamp, warm earth tones, and warm acoustic guitar notes.',
     theme: {
@@ -506,8 +506,8 @@ export const defaultTemplates = [
     slug: 'mehendi-magic',
     category: 'Wedding Invitation',
     tier: 'classic',
-    price: 449,
-    originalPrice: 899,
+    price: 499,
+    originalPrice: 1299,
     previewImage: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80',
     description: 'Rotating henna mandala blooming outward in circular segments with marigold yellow, emerald green, and joyful folk bell sounds.',
     theme: {
@@ -538,8 +538,8 @@ export const defaultTemplates = [
     slug: 'little-sunshine',
     category: 'Birthday Invitation',
     tier: 'classic',
-    price: 399,
-    originalPrice: 799,
+    price: 499,
+    originalPrice: 1299,
     previewImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
     description: 'Playful enchanted kingdom fairy castle gates with colorful confetti balloon pop, golden crown seal, and bright glockenspiel celebration chime.',
     theme: {
@@ -570,8 +570,8 @@ export const defaultTemplates = [
     slug: 'sweet-nesting-baby',
     category: 'Baby Shower / Naming Ceremony',
     tier: 'classic',
-    price: 399,
-    originalPrice: 799,
+    price: 499,
+    originalPrice: 1299,
     previewImage: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80',
     description: 'Golden-lit fluffy cloud wings parting gently with golden cradle medallion, soft lavender tones, and sweet lullaby chime.',
     theme: {
@@ -603,7 +603,7 @@ export const defaultTemplates = [
     category: 'Anniversary & Reception',
     tier: 'classic',
     price: 499,
-    originalPrice: 999,
+    originalPrice: 1299,
     previewImage: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1200&q=80',
     description: 'Faceted crystal glass gates opening with shimmering light refraction, milestone laurel wreath crest, and champagne glass toast chime.',
     theme: {
@@ -634,8 +634,8 @@ export const defaultTemplates = [
     slug: 'coastal-breeze',
     category: 'Wedding Invitation',
     tier: 'classic',
-    price: 449,
-    originalPrice: 899,
+    price: 499,
+    originalPrice: 1299,
     previewImage: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80',
     description: 'Louvered beach pavilion shutters opening with ocean breeze view, golden seashell monogram seal, and ambient tropical harp sound.',
     theme: {

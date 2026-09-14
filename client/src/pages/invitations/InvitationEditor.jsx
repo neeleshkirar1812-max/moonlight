@@ -158,7 +158,10 @@ const InvitationEditor = () => {
       }
 
       // Check if user is logged in
-      if (!user) {
+      const loggedUser = user || (localStorage.getItem('Moonlight_user') ? JSON.parse(localStorage.getItem('Moonlight_user')) : null);
+      const customerEmail = loggedUser?.email || localStorage.getItem('moonlight_customer_email');
+
+      if (!loggedUser && !customerEmail) {
         addToast({
           title: 'Sign Up Required ✨',
           message: 'Please sign up or log in first to customize your invitation.',

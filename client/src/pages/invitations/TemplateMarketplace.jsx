@@ -384,8 +384,11 @@ const TemplateMarketplace = () => {
   };
 
   const handleSelectDesign = (templateId) => {
+    const loggedUser = user || (localStorage.getItem('Moonlight_user') ? JSON.parse(localStorage.getItem('Moonlight_user')) : null);
+    const customerEmail = loggedUser?.email || localStorage.getItem('moonlight_customer_email');
+
     // 1. If not logged in, prompt signup first with redirect to checkout!
-    if (!user) {
+    if (!loggedUser && !customerEmail) {
       addToast({
         title: 'Sign Up Required ✨',
         message: 'Please create an account or sign in to choose your plan and complete checkout.',
