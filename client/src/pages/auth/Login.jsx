@@ -117,29 +117,36 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F1EA] text-neutral-950 pt-20 sm:pt-24 pb-12 px-3 sm:px-6 flex items-center justify-center relative">
+    <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-24 pb-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center font-sans relative selection:bg-amber-200 selection:text-amber-900">
       <SEO
-        title="Client & Crew Portal Sign In"
-        description="Sign in to your Moonlight Production client portal to view 4K wedding films, proof wedding photo galleries, and access studio management tools."
+        title="Sign In to Your Workspace | Moonlight Production"
+        description="Access your luxury wedding films, private client galleries, digital invitation suites, and studio workspace."
       />
-      <div className="max-w-5xl w-full bg-white border-2 border-neutral-300 rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 relative z-10">
+
+      {/* Background Decorative Ambient Glows */}
+      <div className="absolute top-10 left-1/4 w-96 h-96 rounded-full bg-amber-200/30 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 right-1/4 w-96 h-96 rounded-full bg-rose-200/20 blur-3xl pointer-events-none" />
+
+      <div className="max-w-5xl w-full bg-white border border-stone-300 rounded-[32px] shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 relative z-10">
         
-        {/* LEFT COLUMN: Modern Luxury Cinematic Showcase Panel (Market Standard for Luxury SaaS & Studios) */}
-        <div className="hidden lg:flex lg:col-span-5 bg-gradient-to-br from-neutral-950 via-neutral-900 to-amber-950 p-10 flex-col justify-between relative text-white">
+        {/* ========================================================================= */}
+        {/* LEFT COLUMN: CINEMATIC LUXURY VISUAL CANVAS */}
+        {/* ========================================================================= */}
+        <div className="hidden lg:flex lg:col-span-5 bg-gradient-to-br from-[#120D0A] via-[#1E1510] to-[#2B1B12] p-10 flex-col justify-between relative text-white overflow-hidden">
           {/* Background Ambient Poster */}
-          <div className="absolute inset-0 z-0 opacity-35">
+          <div className="absolute inset-0 z-0 opacity-40">
             <img
-              src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80"
+              src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80"
               alt="Moonlight Royal Wedding Cinema"
-              className="w-full h-full object-cover filter brightness-75"
+              className="w-full h-full object-cover filter brightness-75 scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#120D0A] via-[#120D0A]/70 to-transparent" />
           </div>
 
           {/* Top Brand Crest */}
           <div className="relative z-10 space-y-3">
             <div className="flex items-center space-x-3">
-              <div className="w-11 h-11 rounded-full border-2 border-gold-500 flex items-center justify-center bg-white p-0.5 shadow-md">
+              <div className="w-12 h-12 rounded-full border-2 border-amber-400/80 flex items-center justify-center bg-white p-0.5 shadow-lg">
                 <img
                   src="https://ugc.production.linktr.ee/bbcf2874-0602-4cdb-b362-ad612f9fc135_zV3Uuw-tQraxE7KwMApwOHbWTg75v6W5ZJJOyWhXSJBR8O1GMQMZMOQ4CvB8uCMV4mM0SXMK-Q-s800-c-k-c0x00ffffff-no-r.jpeg?io=true&size=avatar-v3_0"
                   alt="Moonlight Production"
@@ -147,80 +154,85 @@ const Login = () => {
                 />
               </div>
               <div>
-                <span className="font-serif text-lg font-bold tracking-[0.16em] text-white block">
+                <span className="font-serif text-lg font-bold tracking-[0.18em] text-white block">
                   MOONLIGHT
                 </span>
-                <span className="text-[9px] tracking-[0.25em] text-gold-400 font-mono uppercase font-bold">
-                  Production • Cinema House
+                <span className="text-[9px] tracking-[0.25em] text-amber-400 font-mono uppercase font-bold">
+                  Production • Luxury Cinema
                 </span>
               </div>
             </div>
 
-            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-gold-300 text-[10px] font-mono uppercase font-bold backdrop-blur-md">
-              <Award className="w-3.5 h-3.5 text-gold-400" />
-              <span>Vogue & WeddingSutra Master Directors</span>
+            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-amber-300 text-[10px] font-mono uppercase font-bold backdrop-blur-md">
+              <Award className="w-3.5 h-3.5 text-amber-400" />
+              <span>India's Premier Wedding Studio</span>
             </div>
           </div>
 
-          {/* Center Quote */}
+          {/* Center Quote / Testimonial */}
           <div className="relative z-10 space-y-4 my-auto py-8">
-            <blockquote className="font-serif text-xl sm:text-2xl font-bold leading-snug text-neutral-100 italic">
-              “Every sacred moment immortalized with royal grandeur, raw emotional depth, and master DaVinci color grading.”
+            <blockquote className="font-serif text-xl sm:text-2xl font-normal leading-snug text-neutral-100 italic">
+              “Every sacred moment immortalized with royal grandeur, raw emotion, and master 4K color grading.”
             </blockquote>
-            <div className="flex items-center space-x-3">
-              <div className="w-9 h-9 rounded-full bg-gold-gradient text-neutral-950 font-bold flex items-center justify-center text-xs">
+            <div className="flex items-center space-x-3 pt-2">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-r from-amber-500 to-amber-700 text-neutral-950 font-bold flex items-center justify-center text-xs shadow">
                 MP
               </div>
               <div>
-                <h4 className="text-xs font-bold text-white">Moonlight Production Team</h4>
-                <p className="text-[10px] text-neutral-400">Bhopal • Maheshwar • Udaipur • Goa</p>
+                <h4 className="text-xs font-bold text-white">Moonlight Cinema & Invitations</h4>
+                <p className="text-[10px] text-neutral-400">Bhopal • Udaipur • Goa • Destination</p>
               </div>
             </div>
           </div>
 
-          {/* Bottom Highlights */}
+          {/* Bottom Statistics */}
           <div className="relative z-10 pt-4 border-t border-white/15 grid grid-cols-2 gap-4 text-xs font-mono">
             <div>
-              <span className="text-[10px] text-neutral-400 uppercase block">Total Coverage</span>
-              <span className="font-bold text-gold-300 text-sm">500+ Weddings</span>
+              <span className="text-[10px] text-neutral-400 uppercase block">Royal Celebrations</span>
+              <span className="font-bold text-amber-300 text-sm">500+ Weddings</span>
             </div>
             <div>
-              <span className="text-[10px] text-neutral-400 uppercase block">Film Quality</span>
-              <span className="font-bold text-gold-300 text-sm">4K Master Cinema</span>
+              <span className="text-[10px] text-neutral-400 uppercase block">Digital Suites</span>
+              <span className="font-bold text-amber-300 text-sm">31 4K Gate Themes</span>
             </div>
           </div>
         </div>
 
-        {/* RIGHT COLUMN: Universal Sign In Form Panel */}
-        <div className="lg:col-span-7 p-6 sm:p-10 md:p-12 flex flex-col justify-between space-y-6">
+        {/* ========================================================================= */}
+        {/* RIGHT COLUMN: REFINED AUTHENTICATION FORM */}
+        {/* ========================================================================= */}
+        <div className="lg:col-span-7 p-6 sm:p-10 md:p-12 flex flex-col justify-between space-y-6 bg-white">
           
           {/* Header */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono uppercase tracking-widest text-amber-900 font-bold">
-                SECURE ACCESS
+              <span className="text-xs font-mono uppercase tracking-[0.2em] text-amber-800 font-bold flex items-center">
+                <Sparkles className="w-3.5 h-3.5 mr-1.5 text-amber-600" />
+                SECURE AUTHENTICATION
               </span>
-              <span className="text-[11px] text-neutral-600 font-mono">2026 Portal</span>
+              <span className="text-[10px] font-mono text-neutral-500 px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200">
+                2026 Portal
+              </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-neutral-950 tracking-tight">
+            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight">
               Sign In to Your Workspace
             </h1>
-            <p className="text-neutral-700 text-xs sm:text-sm font-medium">
-              Enter your registered credentials. The system will automatically route you to your dedicated dashboard.
+            <p className="text-neutral-600 text-xs sm:text-sm font-sans">
+              Enter your credentials below. The platform will automatically route you to your dedicated couple portal or administration panel.
             </p>
           </div>
 
-          {/* Fast 1-Click Demo Persona Bar (Instant Switching for Testing / Clients) */}
-          <div className="space-y-2 p-3.5 rounded-2xl bg-[#FAF8F5] border-2 border-neutral-300">
+          {/* 1-Click Fast Test Persona Picker */}
+          <div className="space-y-2.5 p-4 rounded-2xl bg-[#FAF8F5] border border-stone-300">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-bold text-neutral-900 uppercase tracking-wider flex items-center">
-                <Sparkles className="w-3.5 h-3.5 text-amber-700 mr-1" />
+                <Sparkles className="w-3.5 h-3.5 text-amber-700 mr-1.5" />
                 Quick-Fill Demo Accounts:
               </span>
               <span className="text-[10px] text-neutral-500 font-mono">1-Click Test</span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 pt-1">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
               {demoAccounts.map((d) => {
                 const IconComponent = d.icon;
                 const isSelected = selectedDemo === d.role;
@@ -229,19 +241,19 @@ const Login = () => {
                     key={d.role}
                     type="button"
                     onClick={() => handleSelectDemo(d)}
-                    className={`p-2 rounded-xl text-left border transition-all flex flex-col justify-between min-h-[56px] ${
+                    className={`p-2.5 rounded-xl text-left border transition-all flex flex-col justify-between min-h-[62px] cursor-pointer ${
                       isSelected
-                        ? 'bg-amber-700 text-white border-amber-800 shadow-md scale-[1.02]'
-                        : 'bg-white text-neutral-800 border-neutral-300 hover:border-amber-700 hover:bg-neutral-50'
+                        ? 'bg-amber-900 text-white border-amber-950 shadow-md scale-[1.02]'
+                        : 'bg-white text-neutral-800 border-stone-300 hover:border-amber-700 hover:bg-stone-50'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <IconComponent className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-amber-800'}`} />
+                      <IconComponent className={`w-3.5 h-3.5 ${isSelected ? 'text-amber-300' : 'text-amber-800'}`} />
                       <span className={`text-[9px] font-mono font-bold uppercase ${isSelected ? 'text-amber-200' : 'text-neutral-500'}`}>
-                        {d.role === 'customer' ? 'Couple' : d.role === 'superadmin' ? 'Admin' : d.role === 'admin' ? 'HR' : 'Team'}
+                        {d.role === 'customer' ? 'Couple' : d.role === 'superadmin' ? 'Admin' : d.role === 'admin' ? 'HR' : 'Crew'}
                       </span>
                     </div>
-                    <span className="text-[10.5px] font-bold leading-tight line-clamp-1 mt-1">
+                    <span className="text-[11px] font-bold leading-tight line-clamp-1 mt-1.5">
                       {d.label}
                     </span>
                   </button>
@@ -250,14 +262,14 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Main Clean Sign In Form */}
+          {/* Sign In Form */}
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="text-neutral-950 font-bold text-xs uppercase tracking-wider block">
+              <label className="text-neutral-900 font-bold text-xs uppercase tracking-wider block font-sans">
                 Email Address
               </label>
               <div className="relative">
-                <User className="w-5 h-5 text-neutral-600 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <User className="w-4 h-4 text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
                   required
@@ -267,22 +279,22 @@ const Login = () => {
                     setSelectedDemo(null);
                   }}
                   placeholder="name@domain.com"
-                  className="w-full bg-white border-2 border-neutral-400 rounded-xl pl-11 pr-4 py-3 text-neutral-950 font-medium text-sm placeholder-neutral-500 focus:border-amber-700 focus:outline-none transition-colors"
+                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl pl-10 pr-4 py-3 text-neutral-900 font-medium text-xs sm:text-sm placeholder-neutral-400 focus:border-amber-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <label className="text-neutral-950 font-bold text-xs uppercase tracking-wider block">
+                <label className="text-neutral-900 font-bold text-xs uppercase tracking-wider block font-sans">
                   Password
                 </label>
-                <Link to="/forgot-password" className="text-amber-900 font-bold text-xs hover:underline">
+                <Link to="/forgot-password" className="text-amber-800 font-bold text-xs hover:underline">
                   Forgot password?
                 </Link>
               </div>
               <div className="relative">
-                <Lock className="w-5 h-5 text-neutral-600 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Lock className="w-4 h-4 text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
@@ -292,27 +304,27 @@ const Login = () => {
                     setSelectedDemo(null);
                   }}
                   placeholder="Enter your password"
-                  className="w-full bg-white border-2 border-neutral-400 rounded-xl pl-11 pr-11 py-3 text-neutral-950 font-medium text-sm placeholder-neutral-500 focus:border-amber-700 focus:outline-none transition-colors"
+                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl pl-10 pr-10 py-3 text-neutral-900 font-medium text-xs sm:text-sm placeholder-neutral-400 focus:border-amber-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-700 hover:text-black p-1"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-800 p-1 cursor-pointer"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
 
             {/* Remember Me Checkbox */}
             <div className="flex items-center justify-between pt-1 text-xs">
-              <label className="flex items-center space-x-2 cursor-pointer select-none text-neutral-800 font-medium">
+              <label className="flex items-center space-x-2 cursor-pointer select-none text-neutral-700 font-medium">
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-4 h-4 rounded border-neutral-400 text-amber-700 focus:ring-amber-500 cursor-pointer"
+                  className="w-4 h-4 rounded border-stone-300 text-amber-700 focus:ring-amber-500 cursor-pointer"
                 />
                 <span>Remember this device</span>
               </label>
@@ -321,34 +333,34 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 mt-2 rounded-xl bg-amber-700 hover:bg-amber-800 active:bg-amber-900 text-white font-bold text-sm tracking-wide shadow-md transition-all flex items-center justify-center disabled:opacity-50"
+              className="w-full py-3.5 mt-2 rounded-xl bg-gradient-to-r from-amber-700 via-amber-800 to-amber-900 hover:from-amber-800 hover:to-amber-950 active:scale-[0.99] text-white font-bold text-xs uppercase tracking-wider shadow-lg transition-all flex items-center justify-center disabled:opacity-50 cursor-pointer"
             >
               {loading ? (
                 <div className="flex items-center space-x-2">
                   <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Verifying & Routing...</span>
+                  <span>Verifying & Opening Workspace...</span>
                 </div>
               ) : (
                 <>
-                  <span>Sign In</span>
-                  <ArrowRight className="w-4 h-4 ml-2 stroke-[2.5]" />
+                  <span>Sign In to Your Workspace</span>
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </>
               )}
             </button>
           </form>
 
-          {/* Footer Self-Service & Hotline */}
-          <div className="pt-4 border-t border-neutral-300 space-y-3 text-center text-xs">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-neutral-700">
-              <span>New client couple without an ID?</span>
-              <Link to="/register" className="text-amber-900 font-bold hover:underline">
-                Request Couple Access →
+          {/* Footer Links & Studio Hotline */}
+          <div className="pt-4 border-t border-stone-200 space-y-3 text-center text-xs">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-neutral-600">
+              <span>New couple creating an invitation?</span>
+              <Link to="/templates" className="text-amber-900 font-bold hover:underline">
+                Explore Digital Suites →
               </Link>
             </div>
 
-            <div className="flex items-center justify-center space-x-1.5 text-neutral-600 font-medium">
+            <div className="flex items-center justify-center space-x-1.5 text-neutral-500 font-medium">
               <Phone className="w-3.5 h-3.5 text-amber-800" />
-              <span>Studio Hotline:</span>
+              <span>Direct Studio Assistance:</span>
               <a href="tel:+919229229323" className="text-amber-900 font-bold hover:underline font-mono">
                 +91 92292 29323
               </a>
