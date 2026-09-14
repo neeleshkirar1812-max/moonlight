@@ -710,7 +710,7 @@ const TemplateMarketplace = () => {
                         <span>कार्ड बनाएं (पास अनलॉक है)</span>
                       </span>
                     ) : (
-                      <span>यह कलेक्शन अनलॉक करें (₹699)</span>
+                      <span>{template.tier === 'royal' ? 'USE THIS DESIGN (₹999)' : 'USE THIS DESIGN (₹599)'}</span>
                     )}
                   </button>
                 </div>

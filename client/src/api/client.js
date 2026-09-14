@@ -1044,7 +1044,7 @@ const handleMockRequest = async (method, url, data) => {
 
     // Razorpay Create Order
     if (cleanUrl.includes('/payments/create-order')) {
-      const tplPrice = data.price || 699;
+      const tplPrice = data.price || (data.templateId?.includes('royal') ? 999 : 599);
       return {
         data: {
           key: 'rzp_test_Ta47WTEJxJInTH',
@@ -1086,7 +1086,7 @@ const handleMockRequest = async (method, url, data) => {
         couponCode: data.couponCode || '',
         razorpayOrderId: data.razorpay_order_id || `ord_${Date.now()}`,
         razorpayPaymentId: data.razorpay_payment_id || `pay_${Date.now()}`,
-        amount: data.amount || (planType === 'single' ? 499 : 799),
+        amount: data.amount || (isRoyal ? (planType === 'suite' ? 1499 : 999) : (planType === 'suite' ? 899 : 599)),
         status: 'paid',
         createdAt: new Date().toISOString(),
       };

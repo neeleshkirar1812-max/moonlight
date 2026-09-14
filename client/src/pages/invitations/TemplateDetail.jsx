@@ -38,7 +38,7 @@ const TemplateDetail = () => {
   const [appliedCoupon, setAppliedCoupon] = useState(null);
 
   // Pricing Tier Selection: 'suite' (Full Collection Pass ₹799) or 'single' (Single Template ₹499)
-  const [pricingPlan, setPricingPlan] = useState('suite');
+  const [pricingPlan, setPricingPlan] = useState('single');
 
   // Check if template is Royal or Classic
   const isRoyal =
