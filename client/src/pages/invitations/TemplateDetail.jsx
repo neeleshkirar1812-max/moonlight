@@ -66,8 +66,28 @@ const TemplateDetail = () => {
         type: 'info',
       });
       navigate(`/invitations/signup?redirect=${encodeURIComponent('/templates/' + template.id)}`);
+      return;
     }
-  }, [user, template.id, navigate]);
+
+    // Check if user has already unlocked this template or has active Pass
+    let savedPlans = [];
+    let savedTemplates = [];
+    try {
+      savedPlans = JSON.parse(localStorage.getItem('moonlight_unlocked_plans') || '[]');
+      savedTemplates = JSON.parse(localStorage.getItem('moonlight_unlocked_templates') || '[]');
+    } catch (e) {}
+
+    const isUnlocked =
+      user?.role === 'admin' ||
+      user?.role === 'superadmin' ||
+      savedPlans.includes(planCategory) ||
+      savedPlans.includes('all') ||
+      savedTemplates.includes(template.id);
+
+    if (isUnlocked) {
+      setIsAlreadyUnlocked(true);
+    }
+  }, [user, template.id, planCategory, navigate]);
 
   const basePrice = isRoyal
     ? (pricingPlan === 'suite' ? 1499 : 699)
@@ -610,6 +630,31 @@ const TemplateDetail = () => {
 
                   {/* Main Action Buttons */}
                   <div className="space-y-2.5 pt-3">
+                    {/* Already Unlocked / Pass Active Notice */}
+                    {isAlreadyUnlocked && (
+                      <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950 via-neutral-900 to-emerald-950 border-2 border-emerald-500/60 text-white space-y-3 shadow-xl mb-3">
+                        <div className="flex items-center space-x-2.5">
+                          <Sparkles className="w-5 h-5 text-emerald-400 shrink-0" />
+                          <div>
+                            <span className="font-bold text-xs uppercase tracking-wider text-emerald-300 block">
+                              Active Pass / Already Unlocked ✨
+                            </span>
+                            <span className="text-[11px] text-neutral-300">
+                              You have full unrestricted editing access to this luxury template!
+                            </span>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => navigate(`/invitations/create/${template.id}`)}
+                          className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:brightness-110 text-neutral-950 font-bold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center space-x-2 cursor-pointer transition-all active:scale-95"
+                        >
+                          <Sparkles className="w-4 h-4 text-neutral-950" />
+                          <span>✨ OPEN IN EDITOR & CUSTOMIZE NOW</span>
+                        </button>
+                      </div>
+                    )}
+
                     {/* Admin Free Unlock */}
                     {(user?.role === 'admin' || user?.role === 'superadmin') && (
                       <button

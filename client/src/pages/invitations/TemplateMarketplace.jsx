@@ -347,6 +347,7 @@ const TemplateMarketplace = () => {
   const isTemplateUnlocked = (templateId) => {
     if (user?.role === 'admin' || user?.role === 'superadmin') return true;
     const isRoyal =
+      royalTemplates.some((t) => t.id === templateId) ||
       templateId.includes('royal') ||
       templateId.includes('pichola') ||
       templateId.includes('udaipur') ||
@@ -355,10 +356,31 @@ const TemplateMarketplace = () => {
       templateId.includes('sunset') ||
       templateId.includes('shubh-vivah') ||
       templateId.includes('rajwada') ||
-      templateId.includes('shahi-farman');
+      templateId.includes('shahi-farman') ||
+      templateId.includes('imperial') ||
+      templateId.includes('majesty') ||
+      templateId.includes('prestige') ||
+      templateId.includes('heritage') ||
+      templateId.includes('crest') ||
+      templateId.includes('solitaire') ||
+      templateId.includes('farman') ||
+      templateId.includes('jharokha');
     const category = isRoyal ? 'royal' : 'classic';
-    const savedSingleTpls = JSON.parse(localStorage.getItem('moonlight_unlocked_templates') || '[]');
-    return unlockedPlans.includes(category) || savedSingleTpls.includes(templateId);
+
+    let savedPlans = [];
+    let savedSingleTpls = [];
+    try {
+      savedPlans = JSON.parse(localStorage.getItem('moonlight_unlocked_plans') || '[]');
+      savedSingleTpls = JSON.parse(localStorage.getItem('moonlight_unlocked_templates') || '[]');
+    } catch (e) {}
+
+    return (
+      unlockedPlans.includes(category) ||
+      unlockedPlans.includes('all') ||
+      savedPlans.includes(category) ||
+      savedPlans.includes('all') ||
+      savedSingleTpls.includes(templateId)
+    );
   };
 
   const handleSelectDesign = (templateId) => {
@@ -373,7 +395,18 @@ const TemplateMarketplace = () => {
       return;
     }
 
-    // 2. If logged in, ALWAYS take customer to the Template Checkout / Payment Page!
+    // 2. If unlocked (via Pass, single purchase, or admin), IMMEDIATELY OPEN EDITOR!
+    if (isTemplateUnlocked(templateId)) {
+      addToast({
+        title: 'Template Unlocked! ✨',
+        message: 'Opening your invitation customization suite...',
+        type: 'success',
+      });
+      navigate(`/invitations/create/${templateId}`);
+      return;
+    }
+
+    // 3. If logged in but unpurchased, take customer to the Template Checkout / Payment Page!
     navigate(`/templates/${templateId}`);
   };
 
@@ -486,16 +519,20 @@ const TemplateMarketplace = () => {
             <div className="rounded-2xl bg-gradient-to-r from-neutral-950 via-[#2A1D0D] to-neutral-950 border-2 border-amber-500/40 p-5 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="space-y-1 text-center sm:text-left">
                 <div className="flex items-center justify-center sm:justify-start space-x-2">
-                  <span className="px-2.5 py-0.5 rounded-full bg-amber-500 text-neutral-950 text-[10px] font-mono font-bold uppercase tracking-wider">
-                    BEST VALUE PASS
+                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider ${unlockedPlans.includes('royal') || unlockedPlans.includes('all') ? 'bg-emerald-600 text-white' : 'bg-amber-500 text-neutral-950'}`}>
+                    {unlockedPlans.includes('royal') || unlockedPlans.includes('all') ? '✓ ACTIVE PASS' : 'BEST VALUE PASS'}
                   </span>
-                  <span className="text-xs text-amber-300 font-serif font-bold">Save ₹11,000+</span>
+                  <span className="text-xs text-amber-300 font-serif font-bold">
+                    {unlockedPlans.includes('royal') || unlockedPlans.includes('all') ? 'VIP Unrestricted Access' : 'Save ₹11,000+'}
+                  </span>
                 </div>
                 <h3 className="font-serif text-lg sm:text-xl font-bold text-amber-100">
-                  👑 Royal Collection VIP Pass — Only ₹1,499
+                  {unlockedPlans.includes('royal') || unlockedPlans.includes('all') ? '👑 Royal Collection VIP Pass — Active & Unlocked' : '👑 Royal Collection VIP Pass — Only ₹1,499'}
                 </h3>
                 <p className="text-xs text-neutral-300">
-                  Get full lifetime access to <strong>ALL 15 Royal 4K Video Gates & Hindi Suites</strong> in 1 pass, or choose any single design below for <strong>₹699</strong>.
+                  {unlockedPlans.includes('royal') || unlockedPlans.includes('all')
+                    ? 'All 15 Royal 4K Video Gates & Hindi Suites are unlocked for you. Select any template below to customize.'
+                    : 'Get full lifetime access to ALL 15 Royal 4K Video Gates & Hindi Suites in 1 pass, or choose any single design below for ₹699.'}
                 </p>
               </div>
               <button
@@ -503,7 +540,7 @@ const TemplateMarketplace = () => {
                 onClick={() => handleSelectDesign('rose-gold-blush-royal')}
                 className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:brightness-110 text-neutral-950 font-bold text-xs uppercase tracking-wider shrink-0 shadow-lg cursor-pointer transition-transform active:scale-95"
               >
-                Get Royal Pass (₹1,499) →
+                {unlockedPlans.includes('royal') || unlockedPlans.includes('all') ? '✨ Customize Royal Template →' : 'Get Royal Pass (₹1,499) →'}
               </button>
             </div>
 
@@ -560,13 +597,20 @@ const TemplateMarketplace = () => {
                     <button
                       type="button"
                       onClick={() => handleSelectDesign(template.id)}
-                      className={`w-full py-2.5 rounded-lg font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-sm ${
+                      className={`w-full py-2.5 rounded-lg font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-sm flex items-center justify-center space-x-1.5 ${
                         isTemplateUnlocked(template.id)
-                          ? 'bg-gold-gradient text-neutral-950 hover:brightness-105 btn-shimmer'
+                          ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-neutral-950 hover:brightness-110 shadow-md ring-1 ring-amber-300 btn-shimmer'
                           : 'border border-amber-500/40 bg-neutral-900 hover:bg-neutral-800 text-amber-200'
                       }`}
                     >
-                      <span>USE THIS DESIGN (₹699)</span>
+                      {isTemplateUnlocked(template.id) ? (
+                        <>
+                          <Sparkles className="w-3.5 h-3.5 text-neutral-950" />
+                          <span>✨ UNLOCKED — EDIT NOW</span>
+                        </>
+                      ) : (
+                        <span>USE THIS DESIGN (₹699)</span>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -584,16 +628,20 @@ const TemplateMarketplace = () => {
             <div className="rounded-2xl bg-gradient-to-r from-[#1C1814] via-[#2D2114] to-[#1C1814] border-2 border-amber-600/40 p-5 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="space-y-1 text-center sm:text-left">
                 <div className="flex items-center justify-center sm:justify-start space-x-2">
-                  <span className="px-2.5 py-0.5 rounded-full bg-amber-600 text-white text-[10px] font-mono font-bold uppercase tracking-wider">
-                    BEST VALUE PASS
+                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider ${unlockedPlans.includes('classic') || unlockedPlans.includes('all') ? 'bg-emerald-600 text-white' : 'bg-amber-600 text-white'}`}>
+                    {unlockedPlans.includes('classic') || unlockedPlans.includes('all') ? '✓ ACTIVE PASS' : 'BEST VALUE PASS'}
                   </span>
-                  <span className="text-xs text-amber-300 font-serif font-bold">Save ₹6,000+</span>
+                  <span className="text-xs text-amber-300 font-serif font-bold">
+                    {unlockedPlans.includes('classic') || unlockedPlans.includes('all') ? 'Classic Pass Active' : 'Save ₹6,000+'}
+                  </span>
                 </div>
                 <h3 className="font-serif text-lg sm:text-xl font-bold text-amber-100">
-                  ✨ Classic 3D Collection VIP Pass — Only ₹1,199
+                  {unlockedPlans.includes('classic') || unlockedPlans.includes('all') ? '✨ Classic 3D Collection Pass — Active & Unlocked' : '✨ Classic 3D Collection VIP Pass — Only ₹1,199'}
                 </h3>
                 <p className="text-xs text-neutral-300">
-                  Get full access to <strong>ALL 13 Classic 3D Gate Suites & Hindi Editions</strong>, or unlock any single template for <strong>₹499</strong>.
+                  {unlockedPlans.includes('classic') || unlockedPlans.includes('all')
+                    ? 'All 13 Classic 3D Opening Suites & Hindi Editions are unlocked for you. Select any template below to customize.'
+                    : 'Get full access to ALL 13 Classic 3D Gate Suites & Hindi Editions, or unlock any single template for ₹499.'}
                 </p>
               </div>
               <button
@@ -601,7 +649,7 @@ const TemplateMarketplace = () => {
                 onClick={() => handleSelectDesign('emerald-noir')}
                 className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:brightness-110 text-neutral-950 font-bold text-xs uppercase tracking-wider shrink-0 shadow-lg cursor-pointer transition-transform active:scale-95"
               >
-                Get Classic Pass (₹1,199) →
+                {unlockedPlans.includes('classic') || unlockedPlans.includes('all') ? '✨ Customize Classic Template →' : 'Get Classic Pass (₹1,199) →'}
               </button>
             </div>
 
@@ -654,13 +702,20 @@ const TemplateMarketplace = () => {
                     <button
                       type="button"
                       onClick={() => handleSelectDesign(template.id)}
-                      className={`w-full py-2.5 rounded-lg font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-sm ${
+                      className={`w-full py-2.5 rounded-lg font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-sm flex items-center justify-center space-x-1.5 ${
                         isTemplateUnlocked(template.id)
-                          ? 'bg-gold-gradient text-neutral-950 hover:brightness-105 btn-shimmer'
+                          ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-neutral-950 hover:brightness-110 shadow-md ring-1 ring-amber-300 btn-shimmer'
                           : 'bg-[#E5A83B] hover:bg-[#d4962a] text-neutral-950'
                       }`}
                     >
-                      <span>USE THIS DESIGN (₹499)</span>
+                      {isTemplateUnlocked(template.id) ? (
+                        <>
+                          <Sparkles className="w-3.5 h-3.5 text-neutral-950" />
+                          <span>✨ UNLOCKED — EDIT NOW</span>
+                        </>
+                      ) : (
+                        <span>USE THIS DESIGN (₹499)</span>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -749,13 +804,20 @@ const TemplateMarketplace = () => {
                     <button
                       type="button"
                       onClick={() => handleSelectDesign(template.id)}
-                      className={`w-full py-2.5 rounded-lg font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-md border ${
+                      className={`w-full py-2.5 rounded-lg font-sans text-xs tracking-wider uppercase font-bold transition-all cursor-pointer shadow-md border flex items-center justify-center space-x-1.5 ${
                         isTemplateUnlocked(template.id)
-                          ? 'bg-gold-gradient text-neutral-950 border-amber-400 hover:brightness-105'
+                          ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-neutral-950 border-amber-400 hover:brightness-105 btn-shimmer'
                           : 'bg-gradient-to-r from-red-800 to-red-700 hover:from-red-700 hover:to-red-600 text-amber-200 border-amber-500/30'
                       }`}
                     >
-                      <span>{template.id.startsWith('royal-') || template.id.includes('royal') ? 'USE THIS DESIGN (₹699)' : 'USE THIS DESIGN (₹499)'}</span>
+                      {isTemplateUnlocked(template.id) ? (
+                        <>
+                          <Sparkles className="w-3.5 h-3.5 text-neutral-950" />
+                          <span>✨ UNLOCKED — EDIT NOW</span>
+                        </>
+                      ) : (
+                        <span>{template.id.startsWith('royal-') || template.id.includes('royal') ? 'USE THIS DESIGN (₹699)' : 'USE THIS DESIGN (₹499)'}</span>
+                      )}
                     </button>
                   </div>
                 </div>

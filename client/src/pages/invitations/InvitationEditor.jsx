@@ -169,8 +169,13 @@ const InvitationEditor = () => {
       }
 
       // Check if user is authorized to edit
-      const savedPlans = JSON.parse(localStorage.getItem('moonlight_unlocked_plans') || '[]');
-      const savedTemplates = JSON.parse(localStorage.getItem('moonlight_unlocked_templates') || '[]');
+      let savedPlans = [];
+      let savedTemplates = [];
+      try {
+        savedPlans = JSON.parse(localStorage.getItem('moonlight_unlocked_plans') || '[]');
+        savedTemplates = JSON.parse(localStorage.getItem('moonlight_unlocked_templates') || '[]');
+      } catch (e) {}
+
       const isRoyal =
         templateIdToUse.includes('royal') ||
         templateIdToUse.includes('pichola') ||
@@ -180,7 +185,15 @@ const InvitationEditor = () => {
         templateIdToUse.includes('sunset') ||
         templateIdToUse.includes('shubh-vivah') ||
         templateIdToUse.includes('rajwada') ||
-        templateIdToUse.includes('shahi-farman');
+        templateIdToUse.includes('shahi-farman') ||
+        templateIdToUse.includes('imperial') ||
+        templateIdToUse.includes('majesty') ||
+        templateIdToUse.includes('prestige') ||
+        templateIdToUse.includes('heritage') ||
+        templateIdToUse.includes('crest') ||
+        templateIdToUse.includes('solitaire') ||
+        templateIdToUse.includes('farman') ||
+        templateIdToUse.includes('jharokha');
       const planCategory = isRoyal ? 'royal' : 'classic';
 
       const isUnlocked =
@@ -189,6 +202,7 @@ const InvitationEditor = () => {
         id?.startsWith('inv-') ||
         id?.startsWith('pur-') ||
         savedPlans.includes(planCategory) ||
+        savedPlans.includes('all') ||
         savedTemplates.includes(templateIdToUse);
 
       if (!isUnlocked) {
