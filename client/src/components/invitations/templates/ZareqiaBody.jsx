@@ -854,20 +854,22 @@ export const ZareqiaPreWeddingEvents = ({ events = [], accentColor, textColor, i
 // =========================================================================
 // 9. TRANSPORTATION
 // =========================================================================
-export const ZareqiaTransportation = ({ accentColor, textColor, isDark = false }) => (
+export const ZareqiaTransportation = ({ accentColor, textColor, isDark = false, isHindi = false }) => (
   <div className="max-w-lg mx-auto space-y-4 text-center">
     <div className="space-y-1">
       <Car className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
       <h2
-        className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
+        className={`text-4xl sm:text-5xl font-normal tracking-wide ${isHindi ? 'font-rozha' : 'font-dancing'}`}
         style={{ color: accentColor || textColor }}
       >
-        Transportation
+        {isHindi ? 'आवागमन व्यवस्था' : 'Transportation'}
       </h2>
       <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
     </div>
     <p className={`text-xs sm:text-sm leading-relaxed max-w-md mx-auto ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
-      Shuttle services will be available from designated partner hotels to the wedding venue. Complimentary valet parking is provided for all guests.
+      {isHindi
+        ? 'अतिथियों के लिए निर्धारित होटलों से विवाह स्थल तक वाहन सुविधा उपलब्ध है। सभी अतिथियों हेतु वैले पार्किंग की व्यवस्था है।'
+        : 'Shuttle services will be available from designated partner hotels to the wedding venue. Complimentary valet parking is provided for all guests.'}
     </p>
   </div>
 );
@@ -875,20 +877,22 @@ export const ZareqiaTransportation = ({ accentColor, textColor, isDark = false }
 // =========================================================================
 // 10. ACCOMMODATION
 // =========================================================================
-export const ZareqiaAccommodation = ({ accentColor, textColor, isDark = false }) => (
+export const ZareqiaAccommodation = ({ accentColor, textColor, isDark = false, isHindi = false }) => (
   <div className="max-w-lg mx-auto space-y-4 text-center">
     <div className="space-y-1">
       <Building className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
       <h2
-        className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
+        className={`text-4xl sm:text-5xl font-normal tracking-wide ${isHindi ? 'font-rozha' : 'font-dancing'}`}
         style={{ color: accentColor || textColor }}
       >
-        Accommodation
+        {isHindi ? 'आवास व्यवस्था' : 'Accommodation'}
       </h2>
       <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
     </div>
     <p className={`text-xs sm:text-sm leading-relaxed max-w-md mx-auto ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
-      Special room rates are reserved for our wedding guests at the Grand Palace Resort. Please mention our wedding party when booking.
+      {isHindi
+        ? 'हमारे प्रिय अतिथियों के विश्राम हेतु हेरिटेज पैलेस में विशेष आवास व्यवस्था की गई है।'
+        : 'Special room rates are reserved for our wedding guests at the Grand Palace Resort. Please mention our wedding party when booking.'}
     </p>
   </div>
 );
@@ -896,20 +900,22 @@ export const ZareqiaAccommodation = ({ accentColor, textColor, isDark = false })
 // =========================================================================
 // 11. GIFTS
 // =========================================================================
-export const ZareqiaGifts = ({ accentColor, textColor, isDark = false }) => (
+export const ZareqiaGifts = ({ accentColor, textColor, isDark = false, isHindi = false }) => (
   <div className="max-w-lg mx-auto space-y-4 text-center">
     <div className="space-y-1">
       <Gift className="mx-auto" size={24} style={{ color: accentColor || '#8B5A2B' }} />
       <h2
-        className="font-dancing text-4xl sm:text-5xl font-normal tracking-wide"
+        className={`text-4xl sm:text-5xl font-normal tracking-wide ${isHindi ? 'font-rozha' : 'font-dancing'}`}
         style={{ color: accentColor || textColor }}
       >
-        Gifts
+        {isHindi ? 'शुभकामनाएं एवं उपहार' : 'Gifts'}
       </h2>
       <span className="text-base opacity-75" style={{ color: accentColor || '#D4AF37' }}>✦</span>
     </div>
     <p className={`text-xs sm:text-sm leading-relaxed italic max-w-md mx-auto ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
-      "Your presence, prayers, and heartfelt blessings are the greatest gift we could ask for. No boxed gifts requested."
+      {isHindi
+        ? '"आपका स्नेह, आशीर्वाद और उपस्थिति ही हमारे लिए सबसे अनमोल उपहार है। कृपया कोई भौतिक उपहार न लाएं।"'
+        : '"Your presence, prayers, and heartfelt blessings are the greatest gift we could ask for. No boxed gifts requested."'}
     </p>
   </div>
 );
@@ -917,7 +923,7 @@ export const ZareqiaGifts = ({ accentColor, textColor, isDark = false }) => (
 // =========================================================================
 // 12. RSVP
 // =========================================================================
-export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor, isDark = false, onRsvpSuccess }) => {
+export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor, isDark = false, isHindi = false, onRsvpSuccess }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [attending, setAttending] = useState('Yes');
@@ -965,10 +971,12 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor,
         }`}>
           <CheckCircle2 className="w-12 h-12 mx-auto" style={{ color: accentColor || '#059669' }} />
           <h3 className="font-serif text-2xl font-semibold">
-            Thank You, {name}!
+            {isHindi ? `हार्दिक धन्यवाद, ${name}!` : `Thank You, ${name}!`}
           </h3>
           <p className={`text-xs leading-relaxed ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
-            Your response has been joyfully recorded. We look forward to celebrating together!
+            {isHindi
+              ? 'आपकी स्वीकृति सप्रेम दर्ज कर ली गई है। हम आपके आगमन की प्रतीक्षा करेंगे!'
+              : 'Your response has been joyfully recorded. We look forward to celebrating together!'}
           </p>
         </div>
       ) : (
@@ -977,14 +985,14 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor,
             <label className={`block font-mono text-[11px] uppercase tracking-wider mb-1.5 font-medium ${
               isDark ? 'text-neutral-300' : 'text-neutral-700'
             }`}>
-              Full Name *
+              {isHindi ? 'अतिथि का पूरा नाम *' : 'Full Name *'}
             </label>
             <input
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Your Name"
+              placeholder={isHindi ? 'आपका शुभ नाम' : 'Your Name'}
               className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all ${
                 isDark ? 'bg-black/50 border-white/20 text-white placeholder-neutral-500' : 'bg-white/80 border-neutral-300 text-neutral-900 placeholder-neutral-400'
               }`}
@@ -995,14 +1003,14 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor,
             <label className={`block font-mono text-[11px] uppercase tracking-wider mb-1.5 font-medium ${
               isDark ? 'text-neutral-300' : 'text-neutral-700'
             }`}>
-              Email *
+              {isHindi ? 'ईमेल या फोन नंबर *' : 'Email *'}
             </label>
             <input
-              type="email"
+              type="text"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="your.email@example.com"
+              placeholder={isHindi ? 'contact@example.com' : 'your.email@example.com'}
               className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all ${
                 isDark ? 'bg-black/50 border-white/20 text-white placeholder-neutral-500' : 'bg-white/80 border-neutral-300 text-neutral-900 placeholder-neutral-400'
               }`}
@@ -1013,7 +1021,7 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor,
             <label className={`block font-mono text-[11px] uppercase tracking-wider mb-1.5 font-medium ${
               isDark ? 'text-neutral-300' : 'text-neutral-700'
             }`}>
-              Total Guest(s) *
+              {isHindi ? 'कुल सदस्यों की संख्या *' : 'Total Guest(s) *'}
             </label>
             <select
               value={guests}
@@ -1024,7 +1032,7 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor,
             >
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                 <option key={num} value={num}>
-                  {num} {num === 1 ? 'Guest' : 'Guests'}
+                  {num} {isHindi ? 'सदस्य' : num === 1 ? 'Guest' : 'Guests'}
                 </option>
               ))}
             </select>
@@ -1034,7 +1042,7 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor,
             <label className={`block font-mono text-[11px] uppercase tracking-wider mb-1.5 font-medium ${
               isDark ? 'text-neutral-300' : 'text-neutral-700'
             }`}>
-              Will you attend? *
+              {isHindi ? 'क्या आप पधार रहे हैं? *' : 'Will you attend? *'}
             </label>
             <select
               value={attending}
@@ -1043,8 +1051,8 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor,
                 isDark ? 'bg-neutral-900 border-white/20 text-white' : 'bg-white border-neutral-300 text-neutral-900'
               }`}
             >
-              <option value="Yes">Joyfully Accept</option>
-              <option value="No">Regretfully Decline</option>
+              <option value="Yes">{isHindi ? 'सहर्ष स्वीकार (अवश्य पधारेंगे)' : 'Joyfully Accept'}</option>
+              <option value="No">{isHindi ? 'सस्नेह असमर्थ' : 'Regretfully Decline'}</option>
             </select>
           </div>
 
@@ -1061,7 +1069,7 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor,
             ) : (
               <Send className="w-4 h-4 text-white" />
             )}
-            <span>{isSubmitting ? 'Recording RSVP...' : 'SUBMIT RSVP'}</span>
+            <span>{isSubmitting ? (isHindi ? 'स्वीकृति दर्ज हो रही है...' : 'Recording RSVP...') : (isHindi ? 'उपस्थिति दर्ज करें' : 'SUBMIT RSVP')}</span>
           </button>
         </form>
       )}
@@ -1072,13 +1080,13 @@ export const ZareqiaRsvp = ({ invitationId, coupleNames, accentColor, textColor,
 // =========================================================================
 // 13. CLOSING BANNER
 // =========================================================================
-export const ZareqiaClosingBanner = ({ coupleNames, groomName, brideName, accentColor, textColor, isDark = false }) => {
+export const ZareqiaClosingBanner = ({ coupleNames, groomName, brideName, accentColor, textColor, isDark = false, isHindi = false }) => {
   const signature = groomName && brideName ? `${groomName} & ${brideName}` : coupleNames;
 
   return (
     <div className="max-w-xl mx-auto py-12 px-6 text-center space-y-3">
       <h2
-        className="font-dancing text-3xl sm:text-4xl md:text-5xl font-normal tracking-wide"
+        className={`text-3xl sm:text-4xl md:text-5xl font-normal tracking-wide ${isHindi ? 'font-rozha' : 'font-dancing'}`}
         style={{ color: accentColor || textColor }}
       >
         {isHindi ? 'आपकी स्नेहिल उपस्थिति प्रार्थनीय है!' : "We can't wait to celebrate with you!"}
