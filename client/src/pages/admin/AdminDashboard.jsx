@@ -14,6 +14,8 @@ import {
   ArrowRight,
   ShieldCheck,
   CheckCircle2,
+  Sparkles,
+  Gift,
 } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -78,16 +80,24 @@ const AdminDashboard = () => {
         </div>
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <Link
-            to="/admin/enquiries"
-            className="px-4 py-2 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-md hover:brightness-105 transition-all btn-shimmer min-h-[44px] flex items-center"
+            to="/invitations/admin/manual"
+            className="px-4 py-2 rounded-full bg-amber-900 hover:bg-amber-950 text-amber-50 font-bold text-xs uppercase tracking-wider shadow-md transition-all min-h-[44px] flex items-center space-x-1.5"
           >
-            Review Enquiries
+            <Gift className="w-3.5 h-3.5" />
+            <span>+ Free Invitation (₹0)</span>
           </Link>
           <Link
-            to="/admin/portfolio"
+            to="/invitations/admin"
+            className="px-4 py-2 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-md hover:brightness-105 transition-all btn-shimmer min-h-[44px] flex items-center space-x-1.5"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Invitation Suite</span>
+          </Link>
+          <Link
+            to="/admin/enquiries"
             className="px-4 py-2 rounded-full bg-white hover:bg-neutral-50 border border-neutral-300 text-xs font-bold text-neutral-800 uppercase tracking-wider shadow-sm transition-all min-h-[44px] flex items-center"
           >
-            + Upload Portfolio
+            Review Enquiries
           </Link>
         </div>
       </div>
@@ -210,6 +220,87 @@ const AdminDashboard = () => {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* Digital Invitations Master Suite Hub */}
+      <div className="bg-gradient-to-r from-[#2C1A1D] via-[#1F1416] to-[#150A0C] text-amber-50 rounded-3xl p-6 sm:p-8 border border-amber-500/30 shadow-xl space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center space-x-2">
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              <span className="text-xs uppercase font-mono tracking-widest text-amber-300 font-bold">
+                Digital Invitations Control & Orders
+              </span>
+            </div>
+            <h3 className="font-serif text-2xl font-bold text-white">Master Invitation Operations</h3>
+            <p className="text-xs text-amber-200/80">
+              Manage 31 luxury 4K gate themes, track guest RSVPs, process orders, and assign free client cards.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <Link
+              to="/invitations/admin/manual"
+              className="px-4 py-2 rounded-full bg-gold-gradient text-neutral-950 font-bold text-xs uppercase tracking-wider shadow-md hover:brightness-105 transition-all flex items-center space-x-1.5"
+            >
+              <Gift className="w-3.5 h-3.5" />
+              <span>Create Free Card</span>
+            </Link>
+            <Link
+              to="/invitations/admin"
+              className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-amber-400/40 text-xs font-bold text-amber-200 uppercase tracking-wider transition-all flex items-center space-x-1"
+            >
+              <span>Open Master Admin</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+          <Link
+            to="/invitations/admin/orders"
+            className="p-4 rounded-2xl bg-white/5 border border-amber-500/20 hover:border-amber-400 hover:bg-white/10 transition-all block group"
+          >
+            <span className="text-[10px] font-mono uppercase tracking-wider text-amber-300 block">Orders & Revenue</span>
+            <h4 className="font-serif text-lg font-bold text-white mt-1 group-hover:text-amber-300 transition-colors">
+              Marketplace Orders
+            </h4>
+            <p className="text-[11px] text-amber-200/70 mt-0.5">Track ₹699 and custom digital card purchases.</p>
+          </Link>
+
+          <Link
+            to="/invitations/admin/manual"
+            className="p-4 rounded-2xl bg-white/5 border border-amber-500/20 hover:border-amber-400 hover:bg-white/10 transition-all block group"
+          >
+            <span className="text-[10px] font-mono uppercase tracking-wider text-amber-300 block">Client Perks</span>
+            <h4 className="font-serif text-lg font-bold text-white mt-1 group-hover:text-amber-300 transition-colors">
+              Manual Free Cards (₹0)
+            </h4>
+            <p className="text-[11px] text-amber-200/70 mt-0.5">Issue full luxury invites to booked studio couples.</p>
+          </Link>
+
+          <Link
+            to="/invitations/admin/rsvps"
+            className="p-4 rounded-2xl bg-white/5 border border-amber-500/20 hover:border-amber-400 hover:bg-white/10 transition-all block group"
+          >
+            <span className="text-[10px] font-mono uppercase tracking-wider text-amber-300 block">Guest Intelligence</span>
+            <h4 className="font-serif text-lg font-bold text-white mt-1 group-hover:text-amber-300 transition-colors">
+              Guest RSVPs & Meals
+            </h4>
+            <p className="text-[11px] text-amber-200/70 mt-0.5">Real-time attendance & guest counts.</p>
+          </Link>
+
+          <Link
+            to="/invitations/templates"
+            target="_blank"
+            className="p-4 rounded-2xl bg-white/5 border border-amber-500/20 hover:border-amber-400 hover:bg-white/10 transition-all block group"
+          >
+            <span className="text-[10px] font-mono uppercase tracking-wider text-amber-300 block">Catalog Live</span>
+            <h4 className="font-serif text-lg font-bold text-white mt-1 group-hover:text-amber-300 transition-colors">
+              31 Themes Catalog →
+            </h4>
+            <p className="text-[11px] text-amber-200/70 mt-0.5">Royal, Classic, Floral, Modern & Hindi suites.</p>
+          </Link>
         </div>
       </div>
     </div>
