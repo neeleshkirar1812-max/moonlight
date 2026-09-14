@@ -67,8 +67,13 @@ const TemplateDetail = () => {
     }
   }, [template.id, planCategory, user]);
 
-  const basePrice = pricingPlan === 'suite' ? 799 : 499;
-  const originalPrice = pricingPlan === 'suite' ? 1999 : 1299;
+  const basePrice = isRoyal
+    ? (pricingPlan === 'suite' ? 1499 : 999)
+    : (pricingPlan === 'suite' ? 899 : 599);
+
+  const originalPrice = isRoyal
+    ? (pricingPlan === 'suite' ? 3499 : 2499)
+    : (pricingPlan === 'suite' ? 2499 : 1499);
 
   const currentPayable = appliedCoupon
     ? appliedCoupon.finalAmount
@@ -478,15 +483,23 @@ const TemplateDetail = () => {
 
                       <div className="space-y-1 pr-16">
                         <span className="font-serif font-bold text-neutral-950 text-sm block">
-                          {isRoyal ? '👑 Royal 4K Gate Suite Pass' : '🏛️ Classic 3D Gate Suite Pass'}
+                          {isRoyal ? '👑 Royal Collection Pass (All 13 Royal Themes)' : '🏛️ Classic Collection Pass (All 13 Classic Themes)'}
                         </span>
                         <p className="text-[11px] text-neutral-600 leading-tight">
-                          Unlocks <strong>ALL 13 themes & Hindi editions</strong> in this entire collection with lifetime unlimited switches!
+                          {isRoyal
+                            ? 'Unlocks ALL 13 Royal 4K Gate Themes & Hindi Editions with lifetime unlimited switches!'
+                            : 'Unlocks ALL 13 Classic 3D Gate Themes & Hindi Editions with lifetime unlimited switches!'}
                         </p>
                         <div className="flex items-baseline space-x-2 pt-1">
-                          <span className="font-serif text-xl font-bold text-amber-900">₹799</span>
-                          <span className="text-xs text-neutral-400 line-through font-mono">₹1,999</span>
-                          <span className="text-[10px] font-mono font-bold text-emerald-700">Save 60%</span>
+                          <span className="font-serif text-xl font-bold text-amber-900">
+                            ₹{isRoyal ? 1499 : 899}
+                          </span>
+                          <span className="text-xs text-neutral-400 line-through font-mono">
+                            ₹{isRoyal ? 3499 : 2499}
+                          </span>
+                          <span className="text-[10px] font-mono font-bold text-emerald-700">
+                            Save {isRoyal ? '57%' : '64%'}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -510,15 +523,19 @@ const TemplateDetail = () => {
 
                       <div className="space-y-1">
                         <span className="font-serif font-bold text-neutral-950 text-sm block">
-                          🌟 Single Template License ({template.name})
+                          🌟 Single Template Access ({template.name})
                         </span>
                         <p className="text-[11px] text-neutral-600 leading-tight">
-                          Unlocks only this specific invitation design for full editing & guest publishing.
+                          Unlocks only this 1 selected invitation design for full customization & publishing.
                         </p>
                         <div className="flex items-baseline space-x-2 pt-1">
-                          <span className="font-serif text-xl font-bold text-amber-900">₹499</span>
-                          <span className="text-xs text-neutral-400 line-through font-mono">₹1,299</span>
-                          <span className="text-[10px] font-mono font-bold text-emerald-700">Save 62%</span>
+                          <span className="font-serif text-xl font-bold text-amber-900">
+                            ₹{isRoyal ? 999 : 599}
+                          </span>
+                          <span className="text-xs text-neutral-400 line-through font-mono">
+                            ₹{isRoyal ? 2499 : 1499}
+                          </span>
+                          <span className="text-[10px] font-mono font-bold text-emerald-700">Save 60%</span>
                         </div>
                       </div>
                     </div>

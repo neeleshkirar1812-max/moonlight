@@ -551,7 +551,7 @@ const TemplateMarketplace = () => {
                         <span>CREATE CARD (UNLOCKED PASS)</span>
                       </span>
                     ) : (
-                      <span>UNLOCK ROYAL SUITE (₹699)</span>
+                      <span>USE THIS DESIGN (₹999)</span>
                     )}
                   </button>
                 </div>
@@ -625,7 +625,7 @@ const TemplateMarketplace = () => {
                         <span>CREATE CARD (UNLOCKED PASS)</span>
                       </span>
                     ) : (
-                      <span>UNLOCK CLASSIC SUITE (₹699)</span>
+                      <span>USE THIS DESIGN (₹599)</span>
                     )}
                   </button>
                 </div>
