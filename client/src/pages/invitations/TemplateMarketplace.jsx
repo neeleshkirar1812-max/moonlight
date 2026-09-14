@@ -91,17 +91,19 @@ const royalTemplates = [
   },
   {
     id: 'emerald-noir-royal',
-    name: 'Emerald Noir Royal',
+    name: 'Royal Emerald Noir',
     desc: '4K emerald green palace video gates with ornate gold inlay and royal symphony',
-    video: '/videos/emerald-noir-royal.mp4',
+    video: '/videos/royal-legacy.mp4',
+    videoFilter: 'hue-rotate(90deg) saturate(1.4) contrast(1.15) brightness(0.95)',
     tag: 'New',
     tagColor: 'bg-[#E5A83B] text-neutral-950 font-bold',
   },
   {
     id: 'ivory-elegance-royal',
-    name: 'Ivory & Crimson Royal',
-    desc: '4K dark obsidian and velvet crimson video arch reveal with grand orchestral romance',
-    video: '/videos/ivory-elegance-royal.mp4',
+    name: 'Royal Ivory & Velvet Noir',
+    desc: '4K obsidian and champagne gold antique palace video arch with grand orchestral romance',
+    video: '/videos/rose-gold-blush.mp4',
+    videoFilter: 'sepia(0.6) contrast(1.3) brightness(0.85) saturate(0.8)',
     tag: 'New',
     tagColor: 'bg-[#E5A83B] text-neutral-950 font-bold',
   },
@@ -274,6 +276,7 @@ const TemplateMarketplace = () => {
 
                   <video
                     src={template.video}
+                    style={{ filter: template.videoFilter || 'none' }}
                     autoPlay
                     loop
                     muted

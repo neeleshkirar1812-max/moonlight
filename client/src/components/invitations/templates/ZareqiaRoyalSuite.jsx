@@ -285,8 +285,9 @@ export const zareqiaRoyalThemes = {
   'emerald-noir-royal': {
     id: 'emerald-noir-royal',
     name: 'Royal Emerald Noir',
-    subtitle: 'Deep Emerald & 24K Gold Luxury',
-    video: '/videos/emerald-noir-royal.mp4',
+    subtitle: 'Deep Emerald Velvet & 24K Gold Luxury',
+    video: '/videos/royal-legacy.mp4',
+    videoFilter: 'hue-rotate(90deg) saturate(1.4) contrast(1.15) brightness(0.95)',
     cssVars: {
       '--primary': '155 70% 28%',
       '--primary-foreground': '150 40% 98%',
@@ -317,9 +318,10 @@ export const zareqiaRoyalThemes = {
   },
   'ivory-elegance-royal': {
     id: 'ivory-elegance-royal',
-    name: 'Royal Ivory Velvet',
-    subtitle: 'Obsidian Midnight & Crimson Velvet Palace',
-    video: '/videos/ivory-elegance-royal.mp4',
+    name: 'Royal Ivory & Velvet Noir',
+    subtitle: 'Obsidian Midnight & 24K Champagne Gold Palace',
+    video: '/videos/rose-gold-blush.mp4',
+    videoFilter: 'sepia(0.6) contrast(1.3) brightness(0.85) saturate(0.8)',
     cssVars: {
       '--primary': '0 65% 42%',
       '--primary-foreground': '40 50% 98%',
@@ -524,8 +526,9 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
         {/* Full-Bleed 4K Video Element */}
         <video
           ref={videoRef}
-          key={theme.video}
+          key={theme.video + (theme.videoFilter || '')}
           src={theme.video}
+          style={{ filter: theme.videoFilter || 'none' }}
           playsInline
           muted
           preload="auto"
