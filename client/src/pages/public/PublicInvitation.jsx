@@ -69,6 +69,34 @@ export const templateDemoDataMap = {
       'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80',
     ],
   },
+  'modern-minimal-royal': {
+    names: 'Kabir Rathore & Meera Suryavanshi',
+    groom_name: 'Kabir Rathore',
+    bride_name: 'Meera Suryavanshi',
+    groom_parents: 'Son of Rajmata Gayatri Devi & Thakur Vikram Singh',
+    bride_parents: 'Daughter of Mrs. Shweta & Dr. Harish Suryavanshi',
+    host_names: 'Rathore & Suryavanshi Dynasties',
+    title: 'The Royal Majesty Celestial Wedding',
+    eventType: 'Wedding Invitation',
+    date: '2026-12-15',
+    time: '18:30',
+    venue: 'Taj Umaid Bhawan Palace, Jodhpur',
+    venueAddress: 'Circuit House Rd, Jodhpur, Rajasthan 342006',
+    story_text: 'Like moonlight meeting the golden sands of Marwar, our souls found home in one another.',
+    message: 'Cordially invite you to celebrate the joyous matrimony of Kabir and Meera.',
+    welcome_text: 'Welcome to the royal celebrations of our auspicious union.',
+    scratch_reveal_text: 'SAVE THE DATE • DEC 15, 2026 ♡',
+    events: [
+      { title: 'Royal Haldi & Rajasthani Ghoomar', date: '2026-12-14', time: '11:00 AM', venue: 'Baradari Gardens, Umaid Bhawan', address: 'Jodhpur, Rajasthan' },
+      { title: 'Sangeet Under The Stars', date: '2026-12-14', time: '07:30 PM', venue: 'Marwar Hall, Umaid Bhawan Palace', address: 'Jodhpur, Rajasthan' },
+      { title: 'The Grand Royal Pheras', date: '2026-12-15', time: '07:00 PM', venue: 'Central Dome Pavillion', address: 'Jodhpur, Rajasthan' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
   'royal-elegance-royal': {
     names: 'Ranveer Kapoor & Deepika Shekhawat',
     groom_name: 'Ranveer Kapoor',
@@ -283,34 +311,7 @@ export const templateDemoDataMap = {
       'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=800&q=80',
     ],
   },
-  'modern-minimal-royal': {
-    names: 'Aarav Singhania & Kiara Malhotra',
-    groom_name: 'Aarav Singhania',
-    bride_name: 'Kiara Malhotra',
-    groom_parents: 'Son of Mrs. Sunita & Mr. Rajesh Singhania',
-    bride_parents: 'Daughter of Mrs. Poonam & Mr. Anand Malhotra',
-    host_names: 'Singhania & Malhotra Families',
-    title: 'Modern Minimal Royal Suite',
-    eventType: 'Wedding Invitation',
-    date: '2026-11-20',
-    time: '19:00',
-    venue: 'The Oberoi Udaivilas, Udaipur',
-    venueAddress: 'Lake Pichola, Udaipur, Rajasthan 313001',
-    story_text: 'Two royal hearts united under the starry skies of Lake Pichola. A timeless fairytale of love, grace and eternal devotion.',
-    message: 'Request the honor of your presence to witness and bless the auspicious wedding ceremony of their children.',
-    welcome_text: 'With immense joy and gratitude, we invite you to share our happiest moments.',
-    scratch_reveal_text: 'YOU’RE INVITED TO THE ROYAL WEDDING ♡',
-    events: [
-      { title: 'The Royal Mehendi & Sangeet', date: '2026-11-19', time: '06:00 PM', venue: 'The Leela Palace Poolside', address: 'Lake Pichola, Udaipur, Rajasthan' },
-      { title: 'Shubh Vivah & Pheras', date: '2026-11-20', time: '07:30 PM', venue: 'Grand Lawn, The Leela Palace', address: 'Lake Pichola, Udaipur, Rajasthan' },
-      { title: 'Imperial Royal Reception', date: '2026-11-21', time: '08:00 PM', venue: 'The Crystal Ballroom', address: 'Lake Pichola, Udaipur, Rajasthan' },
-    ],
-    gallery_images: [
-      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
-    ],
-  },
+
 
   // ==========================================
   // ✨ 12 CLASSIC SUITES
@@ -1083,6 +1084,7 @@ export const allDemosList = [
   // 👑 10 Royal Video Gate Suites
   { id: 'rose-gold-blush-royal', name: '👑 1. Royal Imperial', tier: 'royal' },
   { id: 'royal-majesty', name: '👑 2. Royal Majesty', tier: 'royal' },
+  { id: 'modern-minimal-royal', name: '👑 2b. Modern Minimal Royal', tier: 'royal' },
   { id: 'royal-elegance-royal', name: '👑 3. Royal Elegance', tier: 'royal' },
   { id: 'royal-prestige', name: '👑 4. Royal Prestige', tier: 'royal' },
   { id: 'royal-heritage', name: '👑 5. Royal Heritage', tier: 'royal' },
@@ -1149,7 +1151,6 @@ const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
     const activeSlug = targetSlug || defaultSlug;
     const aliases = {
       'royal-love': 'rose-gold-blush-royal',
-      'modern-minimal-royal': 'royal-elegance-royal',
       'crimson-royale': 'ivory-elegance',
     };
     const resolvedSlug = aliases[activeSlug] || activeSlug;
@@ -1183,7 +1184,6 @@ const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
       // Alias resolver
       const aliases = {
         'royal-love': 'rose-gold-blush-royal',
-        'modern-minimal-royal': 'royal-elegance-royal',
         'crimson-royale': 'ivory-elegance',
       };
       const resolvedSlug = aliases[activeSlug] || activeSlug;

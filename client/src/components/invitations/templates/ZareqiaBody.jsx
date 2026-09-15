@@ -325,18 +325,27 @@ export const ZareqiaScratchCard = ({
       if (t) scratch(t.clientX - rect.left, t.clientY - rect.top);
     };
 
-    const handleMouse = (e) => {
+    const handleMouseDown = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      scratch(e.clientX - rect.left, e.clientY - rect.top);
+    };
+
+    const handleMouseMove = (e) => {
       if (e.buttons !== 1) return;
       const rect = canvas.getBoundingClientRect();
       scratch(e.clientX - rect.left, e.clientY - rect.top);
     };
 
+    canvas.addEventListener('touchstart', handleTouch, { passive: true });
     canvas.addEventListener('touchmove', handleTouch, { passive: true });
-    canvas.addEventListener('mousemove', handleMouse);
+    canvas.addEventListener('mousedown', handleMouseDown);
+    canvas.addEventListener('mousemove', handleMouseMove);
 
     return () => {
+      canvas.removeEventListener('touchstart', handleTouch);
       canvas.removeEventListener('touchmove', handleTouch);
-      canvas.removeEventListener('mousemove', handleMouse);
+      canvas.removeEventListener('mousedown', handleMouseDown);
+      canvas.removeEventListener('mousemove', handleMouseMove);
     };
   }, [isRevealed, palette, cardShape]);
 
