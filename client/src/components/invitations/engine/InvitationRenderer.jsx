@@ -270,7 +270,7 @@ const InvitationRenderer = ({
 
   if (isRoyal) {
     return (
-      <div className="protected-content relative select-none">
+      <div className="protected-content h-full min-h-full w-full relative select-none">
         <ContentProtectionBanner isBlurred={isBlurred} securityAlert={securityAlert} />
         <ZareqiaRoyalSuite
           key={rawTemplateId}
@@ -315,7 +315,7 @@ const InvitationRenderer = ({
 
   if (isClassic) {
     return (
-      <div className="protected-content relative select-none">
+      <div className="protected-content h-full min-h-full w-full relative select-none">
         <ContentProtectionBanner isBlurred={isBlurred} securityAlert={securityAlert} />
         <ZareqiaClassicSuite
           key={rawTemplateId}
@@ -328,7 +328,7 @@ const InvitationRenderer = ({
   }
 
   return (
-    <div className="protected-content relative select-none">
+    <div className="protected-content h-full min-h-full w-full relative select-none">
       <ContentProtectionBanner isBlurred={isBlurred} securityAlert={securityAlert} />
       <LegacyInvitationSuite
         key={rawTemplateId}

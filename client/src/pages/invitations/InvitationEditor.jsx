@@ -509,9 +509,9 @@ const InvitationEditor = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* ------------------------------------------------------------- */}
-          {/* LEFT: SINGLE UNIFIED COMPACT FORM (MATCHING PHONE PREVIEW HEIGHT WITH INDEPENDENT SCROLL) */}
+          {/* LEFT: SINGLE UNIFIED COMPACT FORM (EXACT MATCHING HEIGHT WITH PHONE PREVIEW) */}
           {/* ------------------------------------------------------------- */}
-          <div className="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 border border-amber-900/10 shadow-lg space-y-6 lg:h-[820px] lg:max-h-[calc(100vh-140px)] lg:overflow-y-auto scrollbar-thin scrollbar-thumb-amber-600/30 scrollbar-track-stone-100 hover:scrollbar-thumb-amber-600/60 transition-all">
+          <div className="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 border border-amber-900/10 shadow-lg space-y-6 lg:h-[770px] lg:max-h-[770px] lg:overflow-y-auto scrollbar-thin scrollbar-thumb-amber-600/30 scrollbar-track-stone-100 hover:scrollbar-thumb-amber-600/60 transition-all">
             
             {/* 1. Couple & Event Title */}
             <div className="space-y-4">
@@ -966,7 +966,7 @@ const InvitationEditor = () => {
           {/* ------------------------------------------------------------- */}
           {/* RIGHT: STICKY REAL-TIME LUXURY MOBILE DEVICE PREVIEW */}
           {/* ------------------------------------------------------------- */}
-          <div className="lg:col-span-6 lg:sticky lg:top-24 space-y-3 flex flex-col items-center justify-start">
+          <div className="lg:col-span-6 lg:sticky lg:top-24 space-y-2 flex flex-col items-center justify-start lg:h-[770px]">
             {/* Mobile Device Mockup */}
             <MobileDeviceMockup
               invitation={form}

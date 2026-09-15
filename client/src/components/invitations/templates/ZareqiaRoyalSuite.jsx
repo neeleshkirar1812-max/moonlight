@@ -712,8 +712,8 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
 
   return (
     <div
-      className={`font-sans selection:bg-amber-600 selection:text-white ${
-        !hasRevealed ? 'h-screen overflow-hidden' : 'min-h-screen'
+      className={`font-sans selection:bg-amber-600 selection:text-white w-full ${
+        !hasRevealed ? (isPreview ? 'h-full min-h-full overflow-hidden' : 'h-screen overflow-hidden') : 'min-h-screen'
       }`}
       style={{
         backgroundColor: theme.background,
@@ -767,9 +767,13 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           SECTION 1: 4K VIDEO GATE & COUPLE NAME REVEAL HERO (Zareqia 1:1)
          ========================================================================= */}
       <section
-        className="relative min-h-screen w-full overflow-hidden flex items-center justify-center cursor-pointer select-none"
+        className={`relative w-full overflow-hidden flex items-center justify-center cursor-pointer select-none ${
+          !hasRevealed && isPreview ? 'h-full min-h-full min-h-[680px]' : 'min-h-screen'
+        }`}
         style={{
           background: theme.welcomeGradient || theme.background || '#18120e',
+          height: !hasRevealed && isPreview ? '100%' : undefined,
+          minHeight: !hasRevealed && isPreview ? '100%' : '100vh',
         }}
         onClick={handleOpenGate}
       >
