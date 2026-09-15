@@ -283,6 +283,34 @@ export const templateDemoDataMap = {
       'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=800&q=80',
     ],
   },
+  'modern-minimal-royal': {
+    names: 'Aarav Singhania & Kiara Malhotra',
+    groom_name: 'Aarav Singhania',
+    bride_name: 'Kiara Malhotra',
+    groom_parents: 'Son of Mrs. Sunita & Mr. Rajesh Singhania',
+    bride_parents: 'Daughter of Mrs. Poonam & Mr. Anand Malhotra',
+    host_names: 'Singhania & Malhotra Families',
+    title: 'Modern Minimal Royal Suite',
+    eventType: 'Wedding Invitation',
+    date: '2026-11-20',
+    time: '19:00',
+    venue: 'The Oberoi Udaivilas, Udaipur',
+    venueAddress: 'Lake Pichola, Udaipur, Rajasthan 313001',
+    story_text: 'Two royal hearts united under the starry skies of Lake Pichola. A timeless fairytale of love, grace and eternal devotion.',
+    message: 'Request the honor of your presence to witness and bless the auspicious wedding ceremony of their children.',
+    welcome_text: 'With immense joy and gratitude, we invite you to share our happiest moments.',
+    scratch_reveal_text: 'YOU’RE INVITED TO THE ROYAL WEDDING ♡',
+    events: [
+      { title: 'The Royal Mehendi & Sangeet', date: '2026-11-19', time: '06:00 PM', venue: 'The Leela Palace Poolside', address: 'Lake Pichola, Udaipur, Rajasthan' },
+      { title: 'Shubh Vivah & Pheras', date: '2026-11-20', time: '07:30 PM', venue: 'Grand Lawn, The Leela Palace', address: 'Lake Pichola, Udaipur, Rajasthan' },
+      { title: 'Imperial Royal Reception', date: '2026-11-21', time: '08:00 PM', venue: 'The Crystal Ballroom', address: 'Lake Pichola, Udaipur, Rajasthan' },
+    ],
+    gallery_images: [
+      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+    ],
+  },
 
   // ==========================================
   // ✨ 12 CLASSIC SUITES
