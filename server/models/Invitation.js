@@ -196,15 +196,25 @@ const invitationSchema = new mongoose.Schema(
   }
 );
 
-// Auto-generate slug helper if not present
+// Auto-generate slug helper prioritizing couple names
 invitationSchema.pre('save', function (next) {
-  if (!this.slug && this.names) {
-    const cleanNames = this.names
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
+  const isGeneric = !this.slug || this.slug.startsWith('draft-') || this.slug.startsWith('template-');
+  if (isGeneric) {
+    let clean = '';
+    if (this.brideName && this.groomName) {
+      const b = this.brideName.trim().split(' ')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+      const g = this.groomName.trim().split(' ')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (b && g) clean = `${g}-weds-${b}`;
+    }
+    if (!clean && this.names) {
+      clean = this.names
+        .toLowerCase()
+        .replace(/&/g, '-and-')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
     const rand = Math.random().toString(36).substring(2, 6);
-    this.slug = `${cleanNames || 'event'}-${rand}`;
+    this.slug = clean ? `${clean}-${rand}` : `wedding-${rand}`;
   }
   if (this.status === 'PUBLISHED') {
     this.published = true;

@@ -1321,18 +1321,58 @@ export const updateInvitation = async (req, res, next) => {
       invitation.status = 'DRAFT';
     }
 
-    // Collision-resistant clean slug generation
-    if (!invitation.slug || shouldPublish) {
-      if (!invitation.slug) {
-        const rawName = (invitation.brideName && invitation.groomName)
-          ? `${invitation.brideName}-${invitation.groomName}`
-          : (invitation.names || 'royal-celebration');
-        const cleanSlug = rawName
+    // Determine / update couple-personalized slug
+    let requestedSlug = (req.body.slug || req.body.customSlug || '').trim();
+    if (requestedSlug) {
+      requestedSlug = requestedSlug
+        .toLowerCase()
+        .replace(/[^a-z0-9-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+
+    const currentNames = invitation.names || (invitation.brideName && invitation.groomName ? `${invitation.brideName} & ${invitation.groomName}` : '');
+    const isGenericSlug = !invitation.slug || 
+      invitation.slug.startsWith('draft-') || 
+      invitation.slug.startsWith('rose-gold-') || 
+      invitation.slug.startsWith('royal-') || 
+      invitation.slug.startsWith('classic-') || 
+      invitation.slug.startsWith('template-') || 
+      invitation.slug.startsWith('wedding-') ||
+      invitation.slug.startsWith('inv-');
+
+    if (requestedSlug) {
+      // If user requested a custom couple slug, check collision
+      const existing = await Invitation.findOne({ slug: requestedSlug, _id: { $ne: invitation._id } });
+      if (existing) {
+        const rand = Math.random().toString(36).substring(2, 6);
+        invitation.slug = `${requestedSlug}-${rand}`;
+      } else {
+        invitation.slug = requestedSlug;
+      }
+    } else if (isGenericSlug || shouldPublish) {
+      // Auto generate from couple's real names (e.g. aarav-weds-kiara)
+      let rawCoupleBase = '';
+      if (invitation.brideName && invitation.groomName) {
+        const b = invitation.brideName.trim().split(' ')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+        const g = invitation.groomName.trim().split(' ')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (b && g) rawCoupleBase = `${g}-weds-${b}`;
+      }
+      if (!rawCoupleBase && currentNames) {
+        rawCoupleBase = currentNames
           .toLowerCase()
+          .replace(/&/g, '-and-')
           .replace(/[^a-z0-9]+/g, '-')
           .replace(/^-+|-+$/g, '');
+      }
+      const cleanSlug = rawCoupleBase || 'royal-wedding';
+
+      // Check collision
+      const existing = await Invitation.findOne({ slug: cleanSlug, _id: { $ne: invitation._id } });
+      if (existing) {
         const rand = Math.random().toString(36).substring(2, 6);
-        invitation.slug = `${cleanSlug || 'royal-invite'}-${rand}`;
+        invitation.slug = `${cleanSlug}-${rand}`;
+      } else {
+        invitation.slug = cleanSlug;
       }
     }
 
@@ -1350,6 +1390,7 @@ export const updateInvitation = async (req, res, next) => {
         ...invObj,
         _id: invObj._id.toString(),
         id: invObj._id.toString(),
+        slug: invitation.slug,
         template_id: invObj.templateId,
         bride_name: invObj.brideName,
         groom_name: invObj.groomName,
@@ -1377,7 +1418,20 @@ export const updateInvitation = async (req, res, next) => {
 export const getPublicInvitationBySlug = async (req, res, next) => {
   try {
     const rawSlug = req.query.template || req.params.slug || req.query.slug || 'rose-gold-blush-royal';
-        const aliases = {\n      'royal-imperial': 'rose-gold-blush-royal',\n      'royal-love': 'rose-gold-blush-royal',\n      'royal-elegance': 'royal-elegance-royal',\n      'modern-minimal-royal': 'royal-elegance-royal',\n      'jaipur-heritage': 'royal-heritage',\n      'shahi-sangeet': 'royal-legacy',\n      'royal-griha-utsav': 'royal-crest',\n      'nawab-of-awadh': 'royal-grace',\n      'crimson-royale': 'ivory-elegance-royal',\n      'taj-imperial': 'royal-majesty',\n      'bikaner-riyasat': 'royal-legacy',\n      'udaivilas-palace': 'royal-heritage',\n    };
+    const aliases = {
+      'royal-imperial': 'rose-gold-blush-royal',
+      'royal-love': 'rose-gold-blush-royal',
+      'royal-elegance': 'royal-elegance-royal',
+      'modern-minimal-royal': 'royal-elegance-royal',
+      'jaipur-heritage': 'royal-heritage',
+      'shahi-sangeet': 'royal-legacy',
+      'royal-griha-utsav': 'royal-crest',
+      'nawab-of-awadh': 'royal-grace',
+      'crimson-royale': 'ivory-elegance-royal',
+      'taj-imperial': 'royal-majesty',
+      'bikaner-riyasat': 'royal-legacy',
+      'udaivilas-palace': 'royal-heritage',
+    };
     const slug = aliases[rawSlug] || rawSlug;
     let invitation = await Invitation.findOne({ $or: [{ slug }, { slug: rawSlug }] });
 

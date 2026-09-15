@@ -262,12 +262,54 @@ const InvitationEditor = () => {
     fetchInvitation();
   }, [id]);
 
+  const generateSlugFromNames = (bName, gName, cNames) => {
+    let clean = '';
+    if (bName && gName) {
+      const b = bName.trim().split(' ')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+      const g = gName.trim().split(' ')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (b && g) clean = `${g}-weds-${b}`;
+    }
+    if (!clean && cNames) {
+      clean = cNames
+        .toLowerCase()
+        .replace(/&/g, '-and-')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+    return clean || 'royal-wedding';
+  };
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    setForm((prev) => {
+      const updated = {
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value,
+      };
+
+      // Auto update slug if it's currently default/empty
+      if ((name === 'bride_name' || name === 'groom_name' || name === 'names') && (!prev.slug || prev.slug.startsWith('draft-') || prev.slug.startsWith('rose-gold-') || prev.slug.startsWith('royal-') || prev.slug.startsWith('wedding-'))) {
+        updated.slug = generateSlugFromNames(
+          name === 'bride_name' ? value : prev.bride_name,
+          name === 'groom_name' ? value : prev.groom_name,
+          name === 'names' ? value : prev.names
+        );
+      }
+      return updated;
+    });
+  };
+
+  const handleAutoGenerateSlug = () => {
+    const suggested = generateSlugFromNames(form.bride_name, form.groom_name, form.names);
     setForm((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      slug: suggested,
     }));
+    addToast({
+      title: 'Couple Link Updated ✨',
+      message: `Personalized URL set to /i/${suggested}`,
+      type: 'info',
+    });
   };
 
   const handleAddEvent = () => {
@@ -559,6 +601,44 @@ const InvitationEditor = () => {
                   placeholder="Mr. & Mrs. Sharma and Mr. & Mrs. Sen"
                   className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl px-3.5 py-2 text-xs text-neutral-900 focus:border-amber-600 focus:outline-none"
                 />
+              </div>
+
+              {/* 💍 Custom Personalized Couple URL Slug Box */}
+              <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+                    <label className="font-mono uppercase font-bold text-amber-950 text-[11px] block">
+                      Custom Couple Invitation URL Link
+                    </label>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleAutoGenerateSlug}
+                    className="text-[10.5px] font-mono text-amber-800 hover:text-amber-950 font-bold underline"
+                    title="Generate custom link based on Bride & Groom names"
+                  >
+                    ✨ Auto-Generate from Names
+                  </button>
+                </div>
+
+                <div className="flex items-center bg-white border border-stone-300 rounded-xl px-3 py-2 text-xs font-mono text-neutral-900 shadow-inner">
+                  <span className="text-neutral-500 select-none mr-1 font-semibold">{window.location.origin}/i/</span>
+                  <input
+                    type="text"
+                    name="slug"
+                    value={form.slug || ''}
+                    onChange={(e) => {
+                      const val = e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-');
+                      setForm((prev) => ({ ...prev, slug: val }));
+                    }}
+                    placeholder="aarav-weds-kiara"
+                    className="flex-1 bg-transparent border-0 p-0 text-amber-900 font-bold focus:outline-none"
+                  />
+                </div>
+                <p className="text-[11px] text-neutral-600 font-sans">
+                  Guests will open your invitation with this live link on WhatsApp & SMS (e.g. <strong>{window.location.origin}/i/{form.slug || 'aarav-weds-kiara'}</strong>).
+                </p>
               </div>
             </div>
 
