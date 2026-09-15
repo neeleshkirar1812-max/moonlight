@@ -1116,15 +1116,40 @@ const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
   const slug =
     templateQuery || (rawSlug && rawSlug !== 'undefined' && rawSlug !== 'demo' ? rawSlug : defaultSlug);
 
+  // Synchronous initial preset resolution to prevent black screen on load
+  const getInitialDemoData = (targetSlug) => {
+    const activeSlug = targetSlug || defaultSlug;
+    const aliases = {
+      'royal-love': 'rose-gold-blush-royal',
+      'modern-minimal-royal': 'royal-elegance-royal',
+      'crimson-royale': 'ivory-elegance',
+    };
+    const resolvedSlug = aliases[activeSlug] || activeSlug;
+    const customPreset = templateDemoDataMap[resolvedSlug] || templateDemoDataMap['rose-gold-blush-royal'];
+    const isRoyalSuite =
+      resolvedSlug.includes('royal') && resolvedSlug !== 'royal-elegance';
+
+    return {
+      _id: `demo-${resolvedSlug}`,
+      id: `demo-${resolvedSlug}`,
+      template_id: resolvedSlug,
+      templateId: resolvedSlug,
+      tier: isRoyalSuite ? 'royal' : 'classic',
+      ...customPreset,
+      scratch_enabled: true,
+      rsvp_enabled: true,
+      music_enabled: true,
+    };
+  };
+
   const { isBlurred, securityAlert } = useContentProtection(true);
-  const [invitation, setInvitation] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [isDemoMode, setIsDemoMode] = useState(false);
+  const [invitation, setInvitation] = useState(() => getInitialDemoData(slug));
+  const [loading, setLoading] = useState(false);
+  const [isDemoMode, setIsDemoMode] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     const fetchInvitation = async () => {
-      setLoading(true);
       const activeSlug = slug || 'rose-gold-blush-royal';
 
       // Alias resolver
@@ -1141,7 +1166,6 @@ const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
         if (data && !data._id?.startsWith('demo-')) {
           setInvitation(data);
           setIsDemoMode(false);
-          setLoading(false);
           return;
         }
       } catch (err) {
@@ -1150,8 +1174,6 @@ const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
 
       setIsDemoMode(true);
       const customPreset = templateDemoDataMap[resolvedSlug] || templateDemoDataMap['rose-gold-blush-royal'];
-      const matchedTemplate = getTemplateById(resolvedSlug) || invitationTemplates[0];
-
       const isRoyalSuite =
         resolvedSlug.includes('royal') && resolvedSlug !== 'royal-elegance';
 
@@ -1168,25 +1190,10 @@ const PublicInvitation = ({ defaultSlug = 'rose-gold-blush-royal' }) => {
       };
 
       setInvitation(demoData);
-      setLoading(false);
     };
 
     fetchInvitation();
   }, [slug]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#1A120B] flex flex-col items-center justify-center space-y-4 font-sans text-white">
-        <div className="w-12 h-12 rounded-full border-2 border-amber-500 border-t-transparent animate-spin" />
-        <div className="text-center space-y-1">
-          <span className="text-xs font-mono text-amber-300 tracking-[0.25em] uppercase font-bold block">
-            Moonlight Production
-          </span>
-          <p className="text-[11px] text-neutral-400">Opening Digital Invitation Suite...</p>
-        </div>
-      </div>
-    );
-  }
 
   const currentTemplateObj = allDemosList.find((t) => t.id === (invitation?.template_id || slug)) || allDemosList[0];
 

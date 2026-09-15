@@ -557,14 +557,19 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
   const brideParents =
     invitation.bride_parents || invitation.brideParents || 'Daughter of Mrs. Poonam & Mr. Anand Malhotra';
 
-  // Initial video preparation on mount (paused at 0:00 showing closed gate)
+  // On mount: Autoplay video in muted loop immediately so mobile screens NEVER show a black box
   useEffect(() => {
     const vid = videoRef.current;
     if (vid) {
       vid.muted = true;
       vid.playsInline = true;
-      vid.loop = false;
-      vid.currentTime = 0;
+      vid.loop = true;
+      const playPromise = vid.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay handled by browser policy
+        });
+      }
     }
   }, [theme.video]);
 
@@ -583,7 +588,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
     };
   }, [hasRevealed]);
 
-  // Gate Tap Trigger - Plays full video, then unlocks scroll when complete
+  // Gate Tap Trigger - Restarts and plays full video with sound, then unlocks scroll when complete
   const handleOpenGate = async (e) => {
     if (e && e.stopPropagation) e.stopPropagation();
 
@@ -593,7 +598,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
       return;
     }
 
-    // If currently playing, let it finish
+    // If currently playing full reveal, let it finish
     if (hasStarted) return;
     setHasStarted(true);
 
@@ -721,15 +726,20 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           SECTION 1: 4K VIDEO GATE & COUPLE NAME REVEAL HERO (Zareqia 1:1)
          ========================================================================= */}
       <section
-        className="relative min-h-screen w-full overflow-hidden flex items-center justify-center cursor-pointer select-none bg-gradient-to-b from-neutral-950 via-neutral-900 to-black"
+        className="relative min-h-screen w-full overflow-hidden flex items-center justify-center cursor-pointer select-none"
+        style={{
+          background: theme.welcomeGradient || theme.background || '#18120e',
+        }}
         onClick={handleOpenGate}
       >
-        {/* Full-Bleed 4K Video Element - Gate Opening Animation */}
+        {/* Full-Bleed 4K Video Element - Live on Mount (Zero Black Screen) */}
         <video
           ref={videoRef}
           key={theme.video + (theme.videoFilter || '')}
-          src={theme.video}
+          src={`${theme.video}#t=0.001`}
           style={{ filter: theme.videoFilter || 'none' }}
+          autoPlay
+          loop
           playsInline
           muted
           preload="auto"
