@@ -603,20 +603,22 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
     }
   }, [theme.video]);
 
-  // Release scroll when gate video finishes and hasRevealed is true
+  // Release scroll when gate video finishes and hasRevealed is true (ONLY on standalone live guest page, NEVER when inside editor/preview)
   useEffect(() => {
-    if (!hasRevealed) {
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
+    if (!isPreview) {
+      if (!hasRevealed) {
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+      }
     }
     return () => {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
     };
-  }, [hasRevealed]);
+  }, [hasRevealed, isPreview]);
 
   // Gate Tap Trigger - Plays full video, reveals text as gates part, and unlocks scroll when open
   const handleOpenGate = async (e) => {
