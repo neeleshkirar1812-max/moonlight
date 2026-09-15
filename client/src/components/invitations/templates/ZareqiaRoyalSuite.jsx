@@ -543,6 +543,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
   const audioRef = useRef(null);
 
   const [hasStarted, setHasStarted] = useState(false);
+  const [textRevealed, setTextRevealed] = useState(false);
   const [hasRevealed, setHasRevealed] = useState(false);
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
@@ -584,7 +585,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
     };
   }, [hasRevealed]);
 
-  // Gate Tap Trigger - Restarts and plays full video with sound, then unlocks scroll when complete
+  // Gate Tap Trigger - Plays full video, reveals text as gates part, and unlocks scroll when open
   const handleOpenGate = async (e) => {
     if (e && e.stopPropagation) e.stopPropagation();
 
@@ -608,19 +609,27 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
         await vid.play();
       } catch {
         // Fallback if browser blocks video play
+        setTextRevealed(true);
         setHasRevealed(true);
       }
 
-      // Safety fallback timer matching video duration
+      // 1. As the gate doors swing open (around 900ms), text emerges naturally inside the palace opening
+      setTimeout(() => {
+        setTextRevealed(true);
+      }, 900);
+
+      // 2. When gate is fully open (around 4200ms), unlock scroll and show scroll indicator
       const durationMs =
         vid.duration && !isNaN(vid.duration) && vid.duration > 0
           ? vid.duration * 1000
           : 4500;
 
       setTimeout(() => {
+        setTextRevealed(true);
         setHasRevealed(true);
-      }, durationMs + 200);
+      }, Math.max(durationMs - 200, 3800));
     } else {
+      setTextRevealed(true);
       setHasRevealed(true);
     }
 
@@ -633,6 +642,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
   };
 
   const handleVideoEnded = () => {
+    setTextRevealed(true);
     setHasRevealed(true);
   };
 
@@ -752,60 +762,70 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
         {/* Dark Luxury Gradient Overlay over Video when Opened */}
         <div
           className={`absolute inset-0 pointer-events-none transition-opacity duration-1000 ${
-            hasRevealed ? 'opacity-100' : 'opacity-0'
+            textRevealed ? 'opacity-100' : 'opacity-0'
           }`}
           style={{
             background:
-              'linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.2) 45%, rgba(0,0,0,0.65) 100%)',
+              'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.7) 100%)',
           }}
         />
 
-        {/* OPENED GATE REVEAL CONTENT (100% Dead Center 1:1 Overlay) */}
+        {/* OPENED GATE REVEAL CONTENT (Naturally emerged inside the opened gates) */}
         <div
-          className={`relative z-20 flex w-full max-w-4xl mx-auto flex-col items-center justify-center px-4 sm:px-6 text-center pointer-events-none transition-all duration-1000 ${
-            hasRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          className={`relative z-20 flex w-full max-w-3xl mx-auto flex-col items-center justify-center px-4 sm:px-6 text-center pointer-events-none transition-all duration-1000 ease-out ${
+            textRevealed
+              ? 'opacity-100 translate-y-0 scale-100 blur-none'
+              : 'opacity-0 translate-y-6 scale-95 blur-xs'
           }`}
         >
-          {/* Top Diamond Icon */}
-          <div className="mb-3">
+          {/* Top Auspicious Symbol */}
+          <div className="mb-2">
             {theme.isHindi ? (
-              <span className="text-sm sm:text-base font-bold font-rozha text-amber-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] tracking-widest block py-1">
+              <span className="text-sm sm:text-base font-bold font-rozha text-amber-300 drop-shadow-[0_2px_12px_rgba(212,175,55,0.9)] tracking-widest block py-1">
                 || 卐 श्री गणेशाय नमः 卐 ||
               </span>
             ) : (
-              <span className="text-xl" style={{ color: theme.accentColor }}>✦</span>
+              <span className="text-xl text-amber-300 drop-shadow-[0_0_10px_rgba(212,175,55,0.8)]">✦</span>
             )}
           </div>
 
-          {/* We are getting married */}
+          {/* Invitation Message / Shubh Vivah */}
           <p
-            className={`mb-3 whitespace-pre-line text-lg sm:text-2xl md:text-3xl px-4 max-w-xl mx-auto ${
-              theme.isHindi ? 'font-rozha text-amber-200' : theme.fontStyle === 'cinzel' ? 'font-serif tracking-widest uppercase' : 'font-dancing'
+            className={`mb-2 whitespace-pre-line text-base sm:text-xl md:text-2xl px-4 max-w-lg mx-auto tracking-wide ${
+              theme.isHindi
+                ? 'font-rozha text-amber-200'
+                : theme.fontStyle === 'cinzel'
+                ? 'font-serif tracking-widest uppercase text-amber-100'
+                : 'font-dancing text-amber-100'
             }`}
-            style={{ color: '#FAF5EE', textShadow: '0 2px 12px rgba(0,0,0,0.85)' }}
+            style={{ textShadow: '0 2px 14px rgba(0,0,0,0.95), 0 0 20px rgba(212,175,55,0.4)' }}
           >
-            {invitation.message || "we're getting married"}
+            {invitation.message || (theme.isHindi ? 'मांगलिक परिणय संस्कार' : "we're getting married")}
           </p>
 
-          {/* Horizontal Lines with Center Heart */}
-          <div className="my-3 flex items-center justify-center gap-3">
-            <div className="h-px w-12 sm:w-16" style={{ backgroundColor: 'rgba(245,230,224,0.45)' }} />
-            <Heart size={10} style={{ color: '#FAF5EE' }} fill="currentColor" />
-            <div className="h-px w-12 sm:w-16" style={{ backgroundColor: 'rgba(245,230,224,0.45)' }} />
+          {/* Horizontal Golden Filigree Divider */}
+          <div className="my-2 flex items-center justify-center gap-3">
+            <div className="h-px w-10 sm:w-16 bg-gradient-to-r from-transparent via-amber-400 to-amber-300 opacity-80" />
+            <Heart size={12} className="text-amber-300 fill-amber-300 drop-shadow-[0_0_8px_rgba(212,175,55,0.9)]" />
+            <div className="h-px w-10 sm:w-16 bg-gradient-to-l from-transparent via-amber-400 to-amber-300 opacity-80" />
           </div>
 
           {/* Groom Name */}
-          <div className="space-y-1 w-full text-center">
+          <div className="space-y-0.5 w-full text-center">
             <h1
-              className={`leading-tight tracking-wide text-4xl sm:text-6xl md:text-8xl lg:text-9xl break-words px-2 ${
-                theme.isHindi ? 'font-rozha text-amber-300 font-bold' : theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-wider' : 'font-dancing'
+              className={`leading-tight tracking-wide text-4xl sm:text-6xl md:text-7xl lg:text-8xl break-words px-2 bg-gradient-to-b from-amber-100 via-amber-200 to-yellow-400 bg-clip-text text-transparent font-bold ${
+                theme.isHindi
+                  ? 'font-rozha'
+                  : theme.fontStyle === 'cinzel'
+                  ? 'font-serif uppercase tracking-wider'
+                  : 'font-dancing'
               }`}
-              style={{ color: '#FAF5EE', textShadow: '0 2px 14px rgba(0,0,0,0.9)' }}
+              style={{ filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.95)) drop-shadow(0 0 25px rgba(212,175,55,0.5))' }}
             >
               {groomName}
             </h1>
             {groomParents && (
-              <p className="text-xs sm:text-sm font-sans italic text-neutral-200 px-4 max-w-lg mx-auto drop-shadow-md">
+              <p className="text-[11px] sm:text-xs font-sans italic text-amber-100/90 px-4 max-w-md mx-auto drop-shadow-md">
                 {groomParents}
               </p>
             )}
@@ -813,24 +833,28 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
 
           {/* Ampersand */}
           <p
-            className="my-2 font-dancing text-2xl sm:text-3xl md:text-4xl"
-            style={{ color: 'rgba(245,230,224,0.9)', textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}
+            className="my-1 font-dancing text-2xl sm:text-3xl text-amber-300 font-bold"
+            style={{ textShadow: '0 2px 10px rgba(0,0,0,0.9), 0 0 15px rgba(212,175,55,0.7)' }}
           >
             &
           </p>
 
           {/* Bride Name */}
-          <div className="space-y-1 w-full text-center">
+          <div className="space-y-0.5 w-full text-center">
             <h1
-              className={`leading-tight tracking-wide text-4xl sm:text-6xl md:text-8xl lg:text-9xl break-words px-2 ${
-                theme.fontStyle === 'cinzel' ? 'font-serif uppercase tracking-wider' : 'font-dancing'
+              className={`leading-tight tracking-wide text-4xl sm:text-6xl md:text-7xl lg:text-8xl break-words px-2 bg-gradient-to-b from-amber-100 via-amber-200 to-yellow-400 bg-clip-text text-transparent font-bold ${
+                theme.isHindi
+                  ? 'font-rozha'
+                  : theme.fontStyle === 'cinzel'
+                  ? 'font-serif uppercase tracking-wider'
+                  : 'font-dancing'
               }`}
-              style={{ color: '#FAF5EE', textShadow: '0 2px 14px rgba(0,0,0,0.9)' }}
+              style={{ filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.95)) drop-shadow(0 0 25px rgba(212,175,55,0.5))' }}
             >
               {brideName}
             </h1>
             {brideParents && (
-              <p className="text-xs sm:text-sm font-sans italic text-neutral-200 px-4 max-w-lg mx-auto drop-shadow-md">
+              <p className="text-[11px] sm:text-xs font-sans italic text-amber-100/90 px-4 max-w-md mx-auto drop-shadow-md">
                 {brideParents}
               </p>
             )}
