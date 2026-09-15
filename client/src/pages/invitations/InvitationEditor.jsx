@@ -5,6 +5,7 @@ import { useNotification } from '../../context/NotificationContext';
 import api from '../../api/client';
 import SEO from '../../components/common/SEO';
 import InvitationRenderer from '../../components/invitations/engine/InvitationRenderer';
+import MusicCustomizer from '../../components/invitations/components/MusicCustomizer';
 import { getTemplateById } from '../../data/invitationTemplates';
 import { templateDemoDataMap } from '../public/PublicInvitation';
 import {
@@ -110,6 +111,14 @@ const InvitationEditor = () => {
     rsvp_heading: 'Guest RSVP',
     rsvp_message: 'Kindly confirm your attendance by submitting your details below:',
 
+    // Music & Sound
+    music_enabled: true,
+    musicEnabled: true,
+    music_url: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+    musicUrl: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+    music_title: 'Royal Rajputana Shehnai & Nagada',
+    musicTitle: 'Royal Rajputana Shehnai & Nagada',
+
     published: false,
     slug: '',
   });
@@ -147,6 +156,12 @@ const InvitationEditor = () => {
             scratch_reveal_text: inv.scratch_reveal_text || inv.scratchMessage || prev.scratch_reveal_text,
             scratch_enabled: inv.scratch_enabled !== undefined ? inv.scratch_enabled : prev.scratch_enabled,
             rsvp_enabled: inv.rsvp_enabled !== undefined ? inv.rsvp_enabled : prev.rsvp_enabled,
+            music_enabled: inv.music_enabled !== undefined ? inv.music_enabled : (inv.musicEnabled !== undefined ? inv.musicEnabled : prev.music_enabled),
+            musicEnabled: inv.musicEnabled !== undefined ? inv.musicEnabled : (inv.music_enabled !== undefined ? inv.music_enabled : prev.musicEnabled),
+            music_url: inv.music_url || inv.musicUrl || prev.music_url,
+            musicUrl: inv.musicUrl || inv.music_url || prev.musicUrl,
+            music_title: inv.music_title || inv.musicTitle || prev.music_title,
+            musicTitle: inv.musicTitle || inv.music_title || prev.musicTitle,
             events: inv.events && inv.events.length > 0 ? inv.events : prev.events,
             gallery_images: inv.gallery_images && inv.gallery_images.length > 0 ? inv.gallery_images : prev.gallery_images,
           }));
@@ -771,7 +786,20 @@ const InvitationEditor = () => {
               </div>
             </div>
 
-            {/* 5. Scratch Card & RSVP Options */}
+            {/* 5. Background Sound & Royal Music */}
+            <MusicCustomizer
+              currentMusicUrl={form.music_url || form.musicUrl || ''}
+              currentMusicTitle={form.music_title || form.musicTitle || ''}
+              musicEnabled={form.music_enabled !== false && form.musicEnabled !== false}
+              onChange={(musicData) => {
+                setForm((prev) => ({
+                  ...prev,
+                  ...musicData,
+                }));
+              }}
+            />
+
+            {/* 6. Scratch Card & RSVP Options */}
             <div className="space-y-4 pt-2">
               <div className="flex items-center space-x-2 border-b border-amber-900/10 pb-2">
                 <Gift className="w-4 h-4 text-amber-700" />

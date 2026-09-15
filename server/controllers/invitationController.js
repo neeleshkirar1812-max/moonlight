@@ -1267,6 +1267,12 @@ export const updateInvitation = async (req, res, next) => {
     if (req.body.musicUrl !== undefined || req.body.music_url !== undefined) {
       invitation.musicUrl = req.body.musicUrl || req.body.music_url;
     }
+    if (req.body.musicTitle !== undefined || req.body.music_title !== undefined) {
+      invitation.musicTitle = req.body.musicTitle || req.body.music_title;
+    }
+    if (req.body.musicEnabled !== undefined || req.body.music_enabled !== undefined) {
+      invitation.musicEnabled = req.body.musicEnabled !== undefined ? req.body.musicEnabled : req.body.music_enabled;
+    }
     if (req.body.coverPhoto !== undefined || req.body.cover_photo !== undefined) {
       invitation.coverPhoto = req.body.coverPhoto || req.body.cover_photo;
     }
@@ -1354,7 +1360,12 @@ export const updateInvitation = async (req, res, next) => {
         welcome_text: invObj.message,
         scratch_enabled: invObj.scratchEnabled,
         rsvp_enabled: invObj.rsvpEnabled,
-        music_enabled: true,
+        music_enabled: invObj.musicEnabled !== undefined ? invObj.musicEnabled : true,
+        musicEnabled: invObj.musicEnabled !== undefined ? invObj.musicEnabled : true,
+        music_url: invObj.musicUrl,
+        musicUrl: invObj.musicUrl,
+        music_title: invObj.musicTitle,
+        musicTitle: invObj.musicTitle,
       },
     });
   } catch (error) {
@@ -1506,7 +1517,12 @@ export const getPublicInvitationBySlug = async (req, res, next) => {
         welcome_text: invObj.message,
         scratch_enabled: invObj.scratchEnabled,
         rsvp_enabled: invObj.rsvpEnabled,
-        music_enabled: true,
+        music_enabled: invObj.musicEnabled !== undefined ? invObj.musicEnabled : true,
+        musicEnabled: invObj.musicEnabled !== undefined ? invObj.musicEnabled : true,
+        music_url: invObj.musicUrl,
+        musicUrl: invObj.musicUrl,
+        music_title: invObj.musicTitle,
+        musicTitle: invObj.musicTitle,
         template,
         rsvpCount,
       },
@@ -1793,7 +1809,9 @@ export const createAdminManualInvitation = async (req, res, next) => {
       story: 'What began as a chance meeting under the golden sunset of the lakes turned into a lifetime promise of love.',
       hashtag: '#MoonlightCelebration',
       scratchMessage: 'YOU’RE INVITED ♡',
-      musicUrl: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+      musicUrl: req.body.musicUrl || req.body.music_url || 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+      musicTitle: req.body.musicTitle || req.body.music_title || 'Royal Rajputana Shehnai & Nagada',
+      musicEnabled: req.body.musicEnabled !== undefined ? req.body.musicEnabled : (req.body.music_enabled !== undefined ? req.body.music_enabled : true),
       coverPhoto: template.previewImage,
       galleryUrls: [
         'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',

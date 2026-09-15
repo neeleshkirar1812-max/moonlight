@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
 import api from '../../api/client';
 import { invitationTemplates } from '../../data/invitationTemplates';
+import MusicCustomizer from '../../components/invitations/components/MusicCustomizer';
 import SEO from '../../components/common/SEO';
 import {
   Sparkles,
@@ -100,6 +101,9 @@ const InvitationAdmin = ({ initialTab }) => {
     names: 'Aarav & Kiara',
     date: '2026-11-20',
     venue: 'Jehan Numa Palace',
+    musicUrl: 'https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-113828.mp3',
+    musicTitle: 'Royal Rajputana Shehnai & Nagada',
+    musicEnabled: true,
     publishImmediately: false,
   });
   const [newTemplate, setNewTemplate] = useState({
@@ -1124,7 +1128,25 @@ const InvitationAdmin = ({ initialTab }) => {
                     </div>
                   </div>
 
-                  {/* Step 4: Publication Option */}
+                  {/* Step 4: Background Sound & Music */}
+                  <div className="bg-neutral-50/70 border border-neutral-200/80 rounded-2xl p-4">
+                    <MusicCustomizer
+                      currentMusicUrl={manualForm.musicUrl}
+                      currentMusicTitle={manualForm.musicTitle}
+                      musicEnabled={manualForm.musicEnabled}
+                      onChange={(musicData) => {
+                        setManualForm((prev) => ({
+                          ...prev,
+                          musicUrl: musicData.musicUrl || musicData.music_url,
+                          musicTitle: musicData.musicTitle || musicData.music_title,
+                          musicEnabled: musicData.musicEnabled !== undefined ? musicData.musicEnabled : musicData.music_enabled,
+                        }));
+                      }}
+                      isAdmin={true}
+                    />
+                  </div>
+
+                  {/* Step 5: Publication Option */}
                   <div className="p-4 rounded-xl bg-amber-50/60 border border-amber-200/60 flex items-center justify-between">
                     <div>
                       <p className="font-semibold text-xs text-amber-950">Publish Immediately?</p>

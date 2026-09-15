@@ -2327,7 +2327,9 @@ const ZareqiaClassicSuite = ({
   const handleDoorComplete = () => {
     setHasDoorOpened(true);
     setDoorsFadedOut(true);
-    if (audioRef.current) {
+    const isMusicEnabled =
+      invitation.music_enabled !== false && invitation.musicEnabled !== false;
+    if (audioRef.current && isMusicEnabled) {
       audioRef.current
         .play()
         .then(() => setIsPlayingMusic(true))

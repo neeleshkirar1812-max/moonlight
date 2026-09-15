@@ -110,6 +110,14 @@ const invitationSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    musicTitle: {
+      type: String,
+      default: 'Royal Rajputana Shehnai',
+    },
+    musicEnabled: {
+      type: Boolean,
+      default: true,
+    },
     coverPhoto: {
       type: String,
       default: '',
