@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 const DEFAULT_TITLE = 'Moonlight Production | Royal Indian Wedding Photography & 4K Cinema Films';
 const DEFAULT_DESC = "India's premier luxury wedding photography and 4K cinematography studio specializing in royal palace weddings, pre-wedding shoots, and destination celebrations across Bhopal, Maheshwar, Udaipur & all-India.";
 const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=85';
-const BASE_URL = 'https://moonlight-pink-two.vercel.app';
+const BASE_URL = 'https://www.moonlight-production.com';
 
 const setMetaTag = (attrName, attrValue, content) => {
   if (!content) return;
