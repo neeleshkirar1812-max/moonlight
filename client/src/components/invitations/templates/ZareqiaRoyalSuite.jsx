@@ -557,19 +557,15 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
   const brideParents =
     invitation.bride_parents || invitation.brideParents || 'Daughter of Mrs. Poonam & Mr. Anand Malhotra';
 
-  // On mount: Autoplay video in muted loop immediately so mobile screens NEVER show a black box
+  // On mount: Keep video paused at the first frame (0:00 - closed gate) without auto-running
   useEffect(() => {
     const vid = videoRef.current;
     if (vid) {
       vid.muted = true;
       vid.playsInline = true;
-      vid.loop = true;
-      const playPromise = vid.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Autoplay handled by browser policy
-        });
-      }
+      vid.loop = false;
+      vid.currentTime = 0;
+      vid.pause();
     }
   }, [theme.video]);
 
@@ -732,14 +728,12 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
         }}
         onClick={handleOpenGate}
       >
-        {/* Full-Bleed 4K Video Element - Live on Mount (Zero Black Screen) */}
+        {/* Full-Bleed 4K Video Element - Paused on Mount, Plays on Tap */}
         <video
           ref={videoRef}
           key={theme.video + (theme.videoFilter || '')}
           src={`${theme.video}#t=0.001`}
           style={{ filter: theme.videoFilter || 'none' }}
-          autoPlay
-          loop
           playsInline
           muted
           preload="auto"
