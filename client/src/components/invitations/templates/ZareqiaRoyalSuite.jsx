@@ -557,23 +557,18 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
   const brideParents =
     invitation.bride_parents || invitation.brideParents || 'Daughter of Mrs. Poonam & Mr. Anand Malhotra';
 
-  // Autoplay video immediately on mount so no black screen appears
+  // Initial video preparation on mount (paused at 0:00 showing closed gate)
   useEffect(() => {
     const vid = videoRef.current;
     if (vid) {
       vid.muted = true;
       vid.playsInline = true;
-      vid.loop = true;
-      const playPromise = vid.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Autoplay handled by browser policy
-        });
-      }
+      vid.loop = false;
+      vid.currentTime = 0;
     }
   }, [theme.video]);
 
-  // Release scroll when gate opens
+  // Release scroll when gate video finishes and hasRevealed is true
   useEffect(() => {
     if (!hasRevealed) {
       document.body.style.overflow = 'hidden';
@@ -588,12 +583,19 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
     };
   }, [hasRevealed]);
 
-  // Gate Tap to Open Trigger - Opens INSTANTLY on user tap/click
+  // Gate Tap Trigger - Plays full video, then unlocks scroll when complete
   const handleOpenGate = async (e) => {
     if (e && e.stopPropagation) e.stopPropagation();
-    if (hasRevealed) return;
+
+    // If already revealed, clicking scrolls down
+    if (hasRevealed) {
+      handleScrollDown();
+      return;
+    }
+
+    // If currently playing, let it finish
+    if (hasStarted) return;
     setHasStarted(true);
-    setHasRevealed(true);
 
     const vid = videoRef.current;
     if (vid) {
@@ -601,10 +603,24 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
         vid.muted = true;
         vid.playsInline = true;
         vid.loop = false;
+        vid.currentTime = 0;
         await vid.play();
       } catch {
         // Fallback if browser blocks video play
+        setHasRevealed(true);
       }
+
+      // Safety fallback timer matching video duration
+      const durationMs =
+        vid.duration && !isNaN(vid.duration) && vid.duration > 0
+          ? vid.duration * 1000
+          : 4500;
+
+      setTimeout(() => {
+        setHasRevealed(true);
+      }, durationMs + 200);
+    } else {
+      setHasRevealed(true);
     }
 
     const isMusicEnabled =
@@ -613,14 +629,6 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
     if (audioRef.current && isMusicEnabled) {
       audioRef.current.play().then(() => setIsPlayingMusic(true)).catch(() => {});
     }
-
-    // Smooth scroll down to the royal invitation farman / welcome after a gentle moment
-    setTimeout(() => {
-      const el = document.getElementById('invitation-welcome') || document.getElementById('invitation-scratch');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 350);
   };
 
   const handleVideoEnded = () => {
@@ -716,14 +724,12 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
         className="relative min-h-screen w-full overflow-hidden flex items-center justify-center cursor-pointer select-none bg-gradient-to-b from-neutral-950 via-neutral-900 to-black"
         onClick={handleOpenGate}
       >
-        {/* Full-Bleed 4K Video Element - Live & Playing immediately on Mount */}
+        {/* Full-Bleed 4K Video Element - Gate Opening Animation */}
         <video
           ref={videoRef}
           key={theme.video + (theme.videoFilter || '')}
           src={theme.video}
           style={{ filter: theme.videoFilter || 'none' }}
-          autoPlay
-          loop
           playsInline
           muted
           preload="auto"
