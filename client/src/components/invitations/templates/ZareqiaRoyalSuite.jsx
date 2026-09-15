@@ -737,23 +737,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           className="absolute inset-0 h-full w-full cursor-pointer object-cover z-0"
         />
 
-        {/* Direct Clean 4K Video Screen - Instant Tap to Open Button Overlay */}
-        {!hasRevealed && (
-          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-4 bg-black/25">
-            <button
-              type="button"
-              onClick={handleOpenGate}
-              className="group px-8 py-4 rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 hover:from-yellow-400 hover:to-amber-500 text-neutral-950 font-extrabold text-sm sm:text-base uppercase tracking-widest shadow-[0_0_50px_rgba(234,179,8,0.9)] transform hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center space-x-3 border-2 border-amber-100 cursor-pointer animate-pulse"
-            >
-              <Sparkles className="w-5 h-5 text-neutral-950 animate-spin-slow" />
-              <span>{theme.isHindi ? 'शाही निमंत्रण खोलें' : 'Tap to Open Royal Invitation'}</span>
-              <Crown className="w-5 h-5 text-neutral-950" />
-            </button>
-            <p className="mt-4 text-xs sm:text-sm font-serif tracking-widest text-amber-200/90 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] uppercase">
-              {theme.isHindi ? 'संगीत के साथ आनंद लें' : 'Experience with Royal Music'}
-            </p>
-          </div>
-        )}
+
 
         {/* Dark Luxury Gradient Overlay over Video when Opened */}
         <div
