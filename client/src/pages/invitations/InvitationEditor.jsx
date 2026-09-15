@@ -40,7 +40,6 @@ const InvitationEditor = () => {
   const [saving, setSaving] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
   const [showPublishModal, setShowPublishModal] = useState(false);
-  const [showFullscreenPreview, setShowFullscreenPreview] = useState(false);
   const [previewDevice, setPreviewDevice] = useState('mobile');
 
   const [form, setForm] = useState({
@@ -449,14 +448,6 @@ const InvitationEditor = () => {
           </div>
 
           <div className="flex items-center space-x-3 w-full sm:w-auto justify-end">
-            <button
-              type="button"
-              onClick={() => setShowFullscreenPreview(true)}
-              className="px-4 py-2.5 rounded-full bg-amber-100 hover:bg-amber-200 border border-amber-300 text-amber-950 font-bold text-xs uppercase tracking-wider shadow-sm flex items-center space-x-1.5 transition-all"
-            >
-              <Eye className="w-3.5 h-3.5 text-amber-800" />
-              <span>Preview</span>
-            </button>
             <button
               type="button"
               onClick={() => handleSave(false)}
@@ -976,21 +967,6 @@ const InvitationEditor = () => {
           {/* RIGHT: STICKY REAL-TIME LUXURY MOBILE DEVICE PREVIEW */}
           {/* ------------------------------------------------------------- */}
           <div className="lg:col-span-6 lg:sticky lg:top-24 space-y-3 flex flex-col items-center justify-start">
-            <div className="flex items-center justify-between px-2 w-full max-w-[420px]">
-              <span className="text-[11px] font-mono uppercase font-bold text-amber-900 tracking-wider flex items-center">
-                <Eye className="w-4 h-4 mr-1.5 text-amber-700" /> 2026 Interactive Mobile Display
-              </span>
-              <button
-                type="button"
-                onClick={() => setShowFullscreenPreview(true)}
-                className="px-3 py-1 rounded-full bg-amber-900 hover:bg-amber-950 text-amber-100 text-[10.5px] font-mono font-bold flex items-center space-x-1 shadow transition-all"
-                title="Open Fullscreen Device Simulator"
-              >
-                <Eye className="w-3.5 h-3.5 text-amber-400" />
-                <span>Fullscreen Device</span>
-              </button>
-            </div>
-
             {/* Mobile Device Mockup */}
             <MobileDeviceMockup
               invitation={form}
@@ -1081,48 +1057,6 @@ const InvitationEditor = () => {
                   Close & Keep Editing
                 </button>
               </div>
-            </div>
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* FULLSCREEN DEVICE SIMULATOR MODAL */}
-        {/* ========================================================================= */}
-        {showFullscreenPreview && (
-          <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex flex-col items-center justify-between p-3 sm:p-6 animate-fade-in font-sans">
-            {/* Top Toolbar */}
-            <div className="w-full max-w-5xl flex items-center justify-between py-2 border-b border-white/10 text-white gap-3 z-10">
-              <div className="flex items-center space-x-3">
-                <span className="font-serif text-base sm:text-lg font-bold text-amber-300 flex items-center space-x-2">
-                  <Sparkles className="w-4 h-4 text-amber-400" />
-                  <span>2026 Live Smartphone Simulator</span>
-                </span>
-                <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full bg-white/10 text-[10px] font-mono uppercase text-neutral-300">
-                  {activeTemplate.name}
-                </span>
-              </div>
-
-              <div className="flex items-center space-x-3">
-                <button
-                  type="button"
-                  onClick={() => setShowFullscreenPreview(false)}
-                  className="px-4 py-1.5 rounded-xl bg-amber-500 text-neutral-950 font-bold text-xs uppercase tracking-wider hover:brightness-110 transition-all shadow-md"
-                >
-                  ✕ Close Simulator
-                </button>
-              </div>
-            </div>
-
-            {/* Simulator Screen Container */}
-            <div className="w-full flex-1 flex items-center justify-center my-3 overflow-y-auto">
-              <MobileDeviceMockup
-                invitation={form}
-                isPreview={true}
-                showControls={true}
-                defaultDevice="auto"
-                maxHeight="78vh"
-                showOpeningInPreview={false}
-              />
             </div>
           </div>
         )}

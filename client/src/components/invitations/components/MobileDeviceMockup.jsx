@@ -96,107 +96,54 @@ const MobileDeviceMockup = ({
   return (
     <div className={`flex flex-col items-center w-full select-none ${className}`}>
       {/* ------------------------------------------------------------- */}
-      {/* LUXURY DEVICE CONTROL BAR */}
+      {/* LUXURY SLIM STATUS & ACTION BAR */}
       {/* ------------------------------------------------------------- */}
       {showControls && (
-        <div className="w-full max-w-[440px] mb-3 px-2 flex flex-col gap-2">
-          {/* Top Row: Device Presets Switcher */}
-          <div className="flex items-center justify-between bg-neutral-900/90 backdrop-blur-md p-1.5 rounded-2xl border border-amber-500/20 shadow-lg text-[11px] font-mono">
-            <div className="flex items-center space-x-1 overflow-x-auto scrollbar-none py-0.5">
-              <button
-                type="button"
-                onClick={() => setDevice('auto')}
-                className={`px-2.5 py-1 rounded-xl transition-all whitespace-nowrap flex items-center space-x-1 ${
-                  isAuto
-                    ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-neutral-950 font-bold shadow-md'
-                    : 'text-neutral-400 hover:text-white'
-                }`}
-                title="Auto detect best device display"
-              >
-                <Smartphone className="w-3 h-3" />
-                <span>Auto Display</span>
-              </button>
+        <div className="w-full max-w-[380px] mb-2 px-2 flex items-center justify-between">
+          <div className="flex items-center space-x-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-amber-900">
+              Live Preview
+            </span>
+          </div>
 
-              <button
-                type="button"
-                onClick={() => setDevice('iphone-16-pro')}
-                className={`px-2.5 py-1 rounded-xl transition-all whitespace-nowrap flex items-center space-x-1 ${
-                  isIphone
-                    ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-neutral-950 font-bold shadow-md'
-                    : 'text-neutral-400 hover:text-white'
-                }`}
-                title="Apple iPhone 16 Pro Max Mockup"
-              >
-                <span>🍎 iPhone 16</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setDevice('galaxy-s24')}
-                className={`px-2.5 py-1 rounded-xl transition-all whitespace-nowrap flex items-center space-x-1 ${
-                  isGalaxy
-                    ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-neutral-950 font-bold shadow-md'
-                    : 'text-neutral-400 hover:text-white'
-                }`}
-                title="Samsung Galaxy S24 Ultra Mockup"
-              >
-                <span>🤖 S24 Ultra</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setDevice('pixel-9-pro')}
-                className={`px-2.5 py-1 rounded-xl transition-all whitespace-nowrap flex items-center space-x-1 ${
-                  isPixel
-                    ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-neutral-950 font-bold shadow-md'
-                    : 'text-neutral-400 hover:text-white'
-                }`}
-                title="Google Pixel 9 Pro Mockup"
-              >
-                <span>📱 Pixel 9</span>
-              </button>
-            </div>
-
-            {/* Replay Gate Button */}
+          <div className="flex items-center space-x-1.5">
             <button
               type="button"
               onClick={handleReplayGate}
-              className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-amber-300 transition-all shrink-0 ml-1"
-              title="Replay Video Gate Entrance"
+              className="px-2.5 py-1 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-950 font-mono text-[11px] font-bold flex items-center space-x-1 transition-all border border-amber-500/20"
+              title="Replay Gate Opening Animation"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
+              <RotateCcw className="w-3 h-3 text-amber-700" />
+              <span>Replay Gate</span>
             </button>
-          </div>
 
-          {/* Bottom Action Strip: Real Phone Testing & Share */}
-          <div className="flex items-center justify-between text-xs px-1">
             <button
               type="button"
               onClick={() => setShowQrModal(true)}
-              className="flex items-center space-x-1.5 text-amber-600 hover:text-amber-500 font-semibold transition-colors"
+              className="p-1.5 rounded-xl bg-stone-200/80 hover:bg-stone-300 text-neutral-800 transition-colors"
+              title="Scan on Physical Phone"
             >
               <QrCode className="w-3.5 h-3.5" />
-              <span>Scan On Real Phone</span>
             </button>
 
-            <div className="flex items-center space-x-2">
-              <button
-                type="button"
-                onClick={handleCopyLink}
-                className="p-1 rounded-lg bg-stone-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 hover:text-amber-500 transition-colors"
-                title="Copy Link"
-              >
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-              </button>
-              <button
-                type="button"
-                onClick={handleShareWhatsApp}
-                className="p-1 rounded-lg bg-emerald-600/10 text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all"
-                title="Share via WhatsApp"
-              >
-                <Share2 className="w-3.5 h-3.5" />
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={handleCopyLink}
+              className="p-1.5 rounded-xl bg-stone-200/80 hover:bg-stone-300 text-neutral-800 transition-colors"
+              title="Copy Live Link"
+            >
+              {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+            </button>
+
+            <button
+              type="button"
+              onClick={handleShareWhatsApp}
+              className="p-1.5 rounded-xl bg-emerald-600/10 text-emerald-700 hover:bg-emerald-600 hover:text-white transition-all"
+              title="Share via WhatsApp"
+            >
+              <Share2 className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
       )}
