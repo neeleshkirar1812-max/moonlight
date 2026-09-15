@@ -518,9 +518,9 @@ const InvitationEditor = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* ------------------------------------------------------------- */}
-          {/* LEFT: SINGLE UNIFIED COMPACT FORM */}
+          {/* LEFT: SINGLE UNIFIED COMPACT FORM (MATCHING PHONE PREVIEW HEIGHT WITH INDEPENDENT SCROLL) */}
           {/* ------------------------------------------------------------- */}
-          <div className="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 border border-amber-900/10 shadow-sm space-y-6">
+          <div className="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 border border-amber-900/10 shadow-lg space-y-6 lg:h-[820px] lg:max-h-[calc(100vh-140px)] lg:overflow-y-auto scrollbar-thin scrollbar-thumb-amber-600/30 scrollbar-track-stone-100 hover:scrollbar-thumb-amber-600/60 transition-all">
             
             {/* 1. Couple & Event Title */}
             <div className="space-y-4">
@@ -975,8 +975,8 @@ const InvitationEditor = () => {
           {/* ------------------------------------------------------------- */}
           {/* RIGHT: STICKY REAL-TIME LUXURY MOBILE DEVICE PREVIEW */}
           {/* ------------------------------------------------------------- */}
-          <div className="lg:col-span-6 sticky top-24 space-y-3">
-            <div className="flex items-center justify-between px-2">
+          <div className="lg:col-span-6 lg:sticky lg:top-24 space-y-3 flex flex-col items-center justify-start">
+            <div className="flex items-center justify-between px-2 w-full max-w-[420px]">
               <span className="text-[11px] font-mono uppercase font-bold text-amber-900 tracking-wider flex items-center">
                 <Eye className="w-4 h-4 mr-1.5 text-amber-700" /> 2026 Interactive Mobile Display
               </span>
@@ -997,6 +997,7 @@ const InvitationEditor = () => {
               isPreview={true}
               showControls={true}
               defaultDevice="auto"
+              maxHeight="700px"
               showOpeningInPreview={false}
             />
           </div>

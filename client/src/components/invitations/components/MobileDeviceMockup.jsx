@@ -202,7 +202,7 @@ const MobileDeviceMockup = ({
       )}
 
       {/* ------------------------------------------------------------- */}
-      {/* REALISTIC SMARTPHONE HARDWARE CHASSIS CONTAINER */}
+      {/* REALISTIC PHYSICAL SMARTPHONE HARDWARE CHASSIS */}
       {/* ------------------------------------------------------------- */}
       <div className="relative flex items-center justify-center w-full">
         {/* Exterior Phone Body Shell */}
@@ -210,72 +210,101 @@ const MobileDeviceMockup = ({
           className={`relative transition-all duration-300 ease-out ${
             isNative
               ? 'w-full max-w-full rounded-none border-0 shadow-none'
-              : 'w-[375px] sm:w-[400px] md:w-[418px] max-w-full'
+              : 'w-[360px] sm:w-[380px] max-w-full'
           }`}
         >
           {/* Titanium Metallic Outer Rim with realistic 3D shadow & side buttons */}
           {!isNative && (
             <div
-              className={`relative bg-neutral-950 p-[10px] sm:p-[12px] shadow-[0_25px_70px_rgba(0,0,0,0.85),0_10px_25px_rgba(184,137,53,0.15)] border-2 ${
-                isIphone
-                  ? 'rounded-[50px] sm:rounded-[54px] border-amber-500/30'
+              className={`relative bg-gradient-to-b from-[#2e2a24] via-[#1a1916] to-[#0f0e0c] p-[10px] sm:p-[12px] shadow-[0_25px_70px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.15),inset_0_1px_2px_rgba(255,255,255,0.3)] border-2 ${
+                isIphone || isAuto
+                  ? 'rounded-[50px] sm:rounded-[54px] border-[#554e42]/70'
                   : isGalaxy
-                  ? 'rounded-[36px] sm:rounded-[40px] border-stone-600/40'
-                  : 'rounded-[46px] sm:rounded-[50px] border-amber-600/30'
+                  ? 'rounded-[32px] sm:rounded-[36px] border-[#3f3f46]/80'
+                  : 'rounded-[46px] sm:rounded-[50px] border-[#4b5563]/70'
               }`}
             >
-              {/* Left Side Hardware Buttons (Mute + Volume Rockers) */}
-              <div className="hidden sm:block absolute -left-[5px] top-[100px] w-[3px] h-[26px] bg-neutral-700 rounded-l-md" />
-              <div className="hidden sm:block absolute -left-[5px] top-[140px] w-[3px] h-[45px] bg-neutral-700 rounded-l-md" />
-              <div className="hidden sm:block absolute -left-[5px] top-[195px] w-[3px] h-[45px] bg-neutral-700 rounded-l-md" />
+              {/* Antenna Band Inlays (Real Flagship Phone Detail) */}
+              <div className="absolute -left-[2px] top-[75px] w-[4px] h-[3px] bg-neutral-900/90 rounded-sm" />
+              <div className="absolute -left-[2px] bottom-[75px] w-[4px] h-[3px] bg-neutral-900/90 rounded-sm" />
+              <div className="absolute -right-[2px] top-[75px] w-[4px] h-[3px] bg-neutral-900/90 rounded-sm" />
+              <div className="absolute -right-[2px] bottom-[75px] w-[4px] h-[3px] bg-neutral-900/90 rounded-sm" />
 
-              {/* Right Side Power Button */}
-              <div className="hidden sm:block absolute -right-[5px] top-[130px] w-[3px] h-[65px] bg-neutral-700 rounded-r-md" />
+              {/* Left Side Hardware Buttons (Action Button + Volume Rockers) */}
+              <div className="hidden sm:block absolute -left-[5px] top-[95px] w-[3px] h-[22px] bg-gradient-to-r from-neutral-500 via-neutral-400 to-neutral-600 rounded-l-md shadow-sm" />
+              <div className="hidden sm:block absolute -left-[5px] top-[135px] w-[3px] h-[48px] bg-gradient-to-r from-neutral-500 via-neutral-400 to-neutral-600 rounded-l-md shadow-sm" />
+              <div className="hidden sm:block absolute -left-[5px] top-[195px] w-[3px] h-[48px] bg-gradient-to-r from-neutral-500 via-neutral-400 to-neutral-600 rounded-l-md shadow-sm" />
+
+              {/* Right Side Hardware Buttons (Power/Lock + Camera Control) */}
+              <div className="hidden sm:block absolute -right-[5px] top-[140px] w-[3px] h-[70px] bg-gradient-to-l from-neutral-500 via-neutral-400 to-neutral-600 rounded-r-md shadow-sm" />
+              <div className="hidden sm:block absolute -right-[5px] top-[235px] w-[3px] h-[36px] bg-gradient-to-l from-neutral-600 via-neutral-500 to-neutral-700 rounded-r-md shadow-inner" />
+
+              {/* Top Bezel Speaker Earpiece Grill */}
+              <div className="w-12 h-[3px] bg-[#0c0c0d] rounded-full mx-auto -mt-1 mb-1.5 border border-white/10 shadow-inner" />
 
               {/* Inner Screen Bezel with Glass Glare */}
               <div
-                className={`relative bg-black overflow-hidden select-auto ${
-                  isIphone
+                className={`relative bg-black overflow-hidden select-auto shadow-inner ${
+                  isIphone || isAuto
                     ? 'rounded-[40px] sm:rounded-[44px]'
                     : isGalaxy
-                    ? 'rounded-[26px] sm:rounded-[30px]'
+                    ? 'rounded-[22px] sm:rounded-[26px]'
                     : 'rounded-[36px] sm:rounded-[40px]'
                 }`}
                 style={{ maxHeight: maxHeight }}
               >
+                {/* Subtle Glass Reflection Sheen */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.015] to-white/[0.06] pointer-events-none z-30" />
+
                 {/* --------------------------------------------------------- */}
                 {/* STATUS BAR (iPhone Dynamic Island / Android Punch-Hole) */}
                 {/* --------------------------------------------------------- */}
-                <div className="absolute top-0 left-0 right-0 z-40 px-6 pt-2 pb-1 flex items-center justify-between text-[11px] font-semibold text-white/90 pointer-events-none drop-shadow-md">
+                <div className="absolute top-0 left-0 right-0 z-40 px-5 pt-2 pb-1 flex items-center justify-between text-[11px] font-semibold text-white/95 pointer-events-none drop-shadow-md">
                   {/* Left: Clock */}
-                  <span className="font-mono tracking-tight pl-1">{currentTime || '12:00'}</span>
+                  <span className="font-sans font-bold tracking-tight pl-1 text-[11.5px]">{currentTime || '12:00'}</span>
 
                   {/* Center: Dynamic Island or Camera Cutout */}
                   {isIphone || isAuto ? (
                     <div className="flex items-center justify-center">
-                      <div className="h-[24px] w-[110px] bg-black rounded-full border border-neutral-800 flex items-center justify-between px-2.5 shadow-inner">
-                        <div className="w-2.5 h-2.5 rounded-full bg-neutral-900 border border-neutral-700/60 flex items-center justify-center">
-                          <div className="w-1 h-1 rounded-full bg-blue-500/80" />
+                      <div className="h-[26px] w-[114px] bg-black rounded-full border border-neutral-800/90 flex items-center justify-between px-2.5 shadow-[0_0_8px_rgba(0,0,0,1)]">
+                        {/* Camera Aperture Lens */}
+                        <div className="w-3 h-3 rounded-full bg-[#0d0d12] border border-neutral-700/80 flex items-center justify-center relative shadow-inner">
+                          <div className="w-1.5 h-1.5 rounded-full bg-indigo-500/80" />
+                          <div className="w-0.5 h-0.5 rounded-full bg-cyan-300/90 absolute top-0.5 right-0.5" />
                         </div>
+                        {/* Dynamic Status / Music Wave */}
                         <div className="flex items-center space-x-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                           <Sparkles className="w-2.5 h-2.5 text-amber-400" />
                         </div>
                       </div>
                     </div>
                   ) : (
                     <div className="flex items-center justify-center">
-                      <div className="w-3.5 h-3.5 rounded-full bg-neutral-950 border border-neutral-800 flex items-center justify-center">
-                        <div className="w-1 h-1 rounded-full bg-blue-500/70" />
+                      <div className="w-3.5 h-3.5 rounded-full bg-[#0a0a0f] border border-neutral-800 flex items-center justify-center shadow-inner">
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500/70" />
                       </div>
                     </div>
                   )}
 
-                  {/* Right: Signal, 5G & Battery Icons */}
+                  {/* Right: Cellular, 5G & Real Battery Pill */}
                   <div className="flex items-center space-x-1.5 pr-1">
-                    <Wifi className="w-3 h-3 text-white/90" />
+                    {/* Cellular 4-Bars */}
+                    <div className="flex items-end space-x-[1.5px] h-2.5">
+                      <span className="w-[2px] h-[3px] bg-white rounded-[0.5px]" />
+                      <span className="w-[2px] h-[5px] bg-white rounded-[0.5px]" />
+                      <span className="w-[2px] h-[7px] bg-white rounded-[0.5px]" />
+                      <span className="w-[2px] h-[9px] bg-white rounded-[0.5px]" />
+                    </div>
                     <span className="text-[9px] font-mono font-bold text-amber-400">5G</span>
-                    <Battery className="w-3.5 h-3.5 text-white/90" />
+                    <Wifi className="w-3 h-3 text-white" />
+                    {/* Realistic Battery Pill */}
+                    <div className="flex items-center">
+                      <div className="w-5 h-2.5 rounded-[3px] border border-white/80 p-[1px] flex items-center">
+                        <div className="h-full w-[85%] bg-emerald-400 rounded-[1.5px]" />
+                      </div>
+                      <div className="w-[1.5px] h-1 bg-white/80 rounded-r-[1px] -ml-[0.5px]" />
+                    </div>
                   </div>
                 </div>
 
@@ -283,9 +312,9 @@ const MobileDeviceMockup = ({
                 {/* SCROLLABLE LIVE INVITATION DISPLAY */}
                 {/* --------------------------------------------------------- */}
                 <div
-                  className="w-full overflow-y-auto scrollbar-thin scrollbar-thumb-amber-500/20 scrollbar-track-transparent relative bg-neutral-950"
+                  className="w-full overflow-y-auto scrollbar-thin scrollbar-thumb-amber-500/20 scrollbar-track-transparent relative bg-neutral-950 pt-2"
                   style={{
-                    height: isAuto || isIphone ? '740px' : '720px',
+                    height: maxHeight || '700px',
                     maxHeight: maxHeight,
                   }}
                 >
@@ -300,7 +329,7 @@ const MobileDeviceMockup = ({
 
                 {/* Bottom iOS Home Indicator / Android Bar */}
                 <div className="absolute bottom-1.5 left-0 right-0 flex justify-center pointer-events-none z-40">
-                  <div className="w-32 h-1 bg-white/40 rounded-full backdrop-blur-sm shadow-sm" />
+                  <div className="w-32 h-[4px] bg-white/60 rounded-full backdrop-blur-md shadow-sm" />
                 </div>
               </div>
             </div>
