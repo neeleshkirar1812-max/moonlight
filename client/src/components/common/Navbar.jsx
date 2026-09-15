@@ -11,9 +11,18 @@ import {
   LayoutDashboard,
   Calendar,
   ChevronDown,
+  ChevronRight,
   User,
   LogIn,
   Sparkles,
+  Camera,
+  Heart,
+  Film,
+  Award,
+  BookOpen,
+  Building2,
+  Briefcase,
+  MapPin,
 } from 'lucide-react';
 
 const Navbar = () => {
@@ -296,136 +305,316 @@ const Navbar = () => {
         </div>
       </header>
 
-      {/* Mobile Slide-Out Menu Drawer (Outside header to avoid backdrop-blur / filter stacking-context trapping) */}
+      {/* Mobile Slide-Out Menu Drawer (2026 Luxury Market Standard) */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-[48px] xs:top-[52px] sm:top-[58px] bottom-0 bg-[#FAF8F5] z-40 px-4 sm:px-6 py-5 border-t border-amber-900/10 flex flex-col justify-between overflow-y-auto animate-fade-in text-neutral-900 shadow-2xl">
-          <div className="space-y-3">
-            {/* Account Quick Card */}
-            <div className="p-3.5 rounded-2xl bg-white border border-neutral-200 space-y-2 shadow-sm">
-              <span className="text-[10px] uppercase font-mono font-bold text-amber-800 block tracking-wider">
-                Account & Portal
-              </span>
+        <div className="lg:hidden fixed inset-x-0 top-[48px] xs:top-[52px] sm:top-[58px] bottom-0 bg-[#FAF8F5] z-40 overflow-y-auto overscroll-contain animate-fade-in text-neutral-900 shadow-2xl flex flex-col justify-between custom-scrollbar">
+          <div className="px-3.5 xs:px-4 sm:px-6 py-4 space-y-4">
+            
+            {/* 1. Account / VIP Sign In Quick Capsule */}
+            <div className="p-3 rounded-2xl bg-gradient-to-r from-amber-900/[0.04] to-amber-700/[0.08] border border-amber-900/10 shadow-xs">
               {isAuthenticated ? (
-                <div className="space-y-2">
-                  <Link
-                    to={getDashboardPath()}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-center w-full py-2.5 rounded-xl bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-sm min-h-[42px]"
-                  >
-                    <LayoutDashboard className="w-3.5 h-3.5 mr-2" />
-                    Access {user?.role} Portal
-                  </Link>
-                  <button
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      logout();
-                    }}
-                    className="w-full py-2 rounded-xl bg-red-50 border border-red-200 text-red-600 font-bold text-xs flex items-center justify-center min-h-[42px]"
-                  >
-                    <LogOut className="w-3.5 h-3.5 mr-2" />
-                    Sign Out
-                  </button>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2.5">
+                    <div className="w-9 h-9 rounded-full bg-gold-gradient text-neutral-950 flex items-center justify-center font-bold text-xs shadow-xs shrink-0">
+                      {user?.name?.charAt(0) || 'U'}
+                    </div>
+                    <div>
+                      <div className="font-serif font-bold text-xs sm:text-sm text-neutral-900 leading-tight truncate max-w-[130px]">
+                        {user?.name}
+                      </div>
+                      <div className="text-[9.5px] font-mono text-amber-800 uppercase font-semibold">
+                        {user?.role} Portal
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-1.5">
+                    <Link
+                      to={getDashboardPath()}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="px-2.5 py-1.5 rounded-xl bg-gold-gradient text-neutral-950 font-extrabold text-[10px] uppercase tracking-wider shadow-xs flex items-center"
+                    >
+                      <LayoutDashboard className="w-3 h-3 mr-1" />
+                      Dashboard
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        logout();
+                      }}
+                      className="p-1.5 rounded-xl bg-red-50 text-red-600 border border-red-200 hover:bg-red-100"
+                      title="Sign Out"
+                    >
+                      <LogOut className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
               ) : (
-                <Link
-                  to="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center py-2.5 rounded-xl border border-neutral-300 bg-white hover:bg-neutral-50 text-neutral-900 font-bold text-xs uppercase tracking-wider text-center shadow-sm min-h-[42px]"
-                >
-                  <LogIn className="w-4 h-4 mr-1.5 text-amber-700" /> Sign In to Portal
-                </Link>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-8 h-8 rounded-full bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-800 shrink-0">
+                      <User className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-xs text-neutral-900 leading-tight">
+                        Client & Couple Portal
+                      </div>
+                      <div className="text-[10px] text-neutral-500 font-sans">
+                        Access booking & draft invites
+                      </div>
+                    </div>
+                  </div>
+                  <Link
+                    to="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="px-3 py-1.5 rounded-xl border border-neutral-300 bg-white hover:bg-neutral-50 text-neutral-900 font-bold text-[10.5px] uppercase tracking-wider shadow-xs flex items-center shrink-0"
+                  >
+                    <LogIn className="w-3 h-3 mr-1 text-amber-700" /> Sign In
+                  </Link>
+                </div>
               )}
             </div>
 
-            {/* Navigation Links */}
-            <div className="space-y-1 pt-1">
-              <Link
-                to="/invitations"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center text-sm font-extrabold text-amber-950 bg-gradient-to-r from-amber-100 to-amber-200/90 border border-amber-300 px-3 py-2.5 rounded-xl my-1 shadow-sm"
-              >
-                <Sparkles className="w-4 h-4 mr-2 text-amber-700" /> Digital Invitation (Marketplace) ✦ ↗
-              </Link>
-              <Link
-                to="/"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center text-sm font-semibold text-neutral-800 hover:text-amber-800 border-b border-neutral-200/80 py-2.5"
-              >
-                Home
-              </Link>
-              <Link
-                to="/portfolio"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center text-sm font-semibold text-neutral-800 hover:text-amber-800 border-b border-neutral-200/80 py-2.5"
-              >
-                Royal Wedding Portfolio
-              </Link>
-              <Link
-                to="/portfolio/pre-wedding"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center text-sm font-semibold text-neutral-800 hover:text-amber-800 border-b border-neutral-200/80 py-2.5"
-              >
-                Pre-Wedding Shoots
-              </Link>
-              <Link
-                to="/portfolio/films"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center text-sm font-semibold text-neutral-800 hover:text-amber-800 border-b border-neutral-200/80 py-2.5"
-              >
-                4K Cinema Films
-              </Link>
-              <Link
-                to="/services"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center text-sm font-semibold text-neutral-800 hover:text-amber-800 border-b border-neutral-200/80 py-2.5"
-              >
-                Services & Pricing
-              </Link>
-              <Link
-                to="/blog"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center text-sm font-semibold text-neutral-800 hover:text-amber-800 border-b border-neutral-200/80 py-2.5"
-              >
-                Blog & Wedding Guides
-              </Link>
-              <Link
-                to="/about"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center text-sm font-semibold text-neutral-800 hover:text-amber-800 border-b border-neutral-200/80 py-2.5"
-              >
-                About Studio
-              </Link>
-              <Link
-                to="/careers"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center text-sm font-semibold text-neutral-800 hover:text-amber-800 border-b border-neutral-200/80 py-2.5"
-              >
-                Join Our Crew (Careers)
-              </Link>
-              <Link
-                to="/contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center text-sm font-semibold text-neutral-800 hover:text-amber-800 border-b border-neutral-200/80 py-2.5"
-              >
-                Contact & Studio Hub
-              </Link>
+            {/* 2. Highlighted VIP Banner: Digital Invitation Suites */}
+            <Link
+              to="/invitations"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-3.5 rounded-2xl bg-gradient-to-r from-amber-100 via-amber-200/90 to-amber-100 border border-amber-300/90 shadow-xs flex items-center justify-between group hover:shadow-md transition-all block"
+            >
+              <div className="flex items-center space-x-3">
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-neutral-950 flex items-center justify-center shadow-xs shrink-0">
+                  <Sparkles className="w-4 h-4 text-neutral-950" />
+                </div>
+                <div>
+                  <div className="flex items-center space-x-1.5">
+                    <span className="font-serif font-bold text-xs sm:text-sm text-amber-950">
+                      Digital Invitation Suites
+                    </span>
+                    <span className="px-1.5 py-0.2 rounded-full bg-amber-400/60 text-[8.5px] font-mono font-extrabold text-neutral-950 uppercase">
+                      3D & 4K
+                    </span>
+                  </div>
+                  <p className="text-[10.5px] text-amber-900 font-normal leading-tight mt-0.5">
+                    Interactive double doors, live RSVP & scratch cards
+                  </p>
+                </div>
+              </div>
+              <ChevronRight className="w-4 h-4 text-amber-800 group-hover:translate-x-0.5 transition-transform shrink-0" />
+            </Link>
+
+            {/* 3. Section 1: Signature Photography & 4K Cinema */}
+            <div className="space-y-1">
+              <span className="text-[9.5px] font-mono uppercase font-bold tracking-[0.2em] text-neutral-500 px-1 block">
+                Signature Cinema & Photography
+              </span>
+
+              <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-xs divide-y divide-neutral-100 overflow-hidden">
+                <Link
+                  to="/"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between px-3.5 py-2.5 hover:bg-amber-50/50 transition-colors"
+                >
+                  <div className="flex items-center space-x-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-neutral-100 text-neutral-800 flex items-center justify-center shrink-0">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-neutral-900">Home Showcase</div>
+                      <div className="text-[10px] text-neutral-500 font-normal">Official Studio Homepage</div>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-neutral-400" />
+                </Link>
+
+                <Link
+                  to="/portfolio"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between px-3.5 py-2.5 hover:bg-amber-50/50 transition-colors"
+                >
+                  <div className="flex items-center space-x-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-800 flex items-center justify-center shrink-0">
+                      <Camera className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-neutral-900">Royal Wedding Portfolio</div>
+                      <div className="text-[10px] text-neutral-500 font-normal">Palaces & Grand Ceremonies</div>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-neutral-400" />
+                </Link>
+
+                <Link
+                  to="/portfolio/pre-wedding"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between px-3.5 py-2.5 hover:bg-amber-50/50 transition-colors"
+                >
+                  <div className="flex items-center space-x-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-pink-500/10 text-pink-700 flex items-center justify-center shrink-0">
+                      <Heart className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-neutral-900">Pre-Wedding Shoots</div>
+                      <div className="text-[10px] text-neutral-500 font-normal">Maheshwar Ghats & River Romance</div>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-neutral-400" />
+                </Link>
+
+                <Link
+                  to="/portfolio/films"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between px-3.5 py-2.5 hover:bg-amber-50/50 transition-colors"
+                >
+                  <div className="flex items-center space-x-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-amber-600/10 text-amber-700 flex items-center justify-center shrink-0">
+                      <Film className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-neutral-900">4K Cinema Films</div>
+                      <div className="text-[10px] text-neutral-500 font-normal">Sony FX6 Teasers & Docu-Films</div>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-neutral-400" />
+                </Link>
+              </div>
             </div>
+
+            {/* 4. Section 2: Studio Services, Packages & Journal */}
+            <div className="space-y-1">
+              <span className="text-[9.5px] font-mono uppercase font-bold tracking-[0.2em] text-neutral-500 px-1 block">
+                Studio Services & Information
+              </span>
+
+              <div className="bg-white rounded-2xl border border-neutral-200/80 shadow-xs divide-y divide-neutral-100 overflow-hidden">
+                <Link
+                  to="/services"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between px-3.5 py-2.5 hover:bg-amber-50/50 transition-colors"
+                >
+                  <div className="flex items-center space-x-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-neutral-100 text-neutral-800 flex items-center justify-center shrink-0">
+                      <Award className="w-3.5 h-3.5 text-amber-700" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-neutral-900">Services & Pricing Tiers</div>
+                      <div className="text-[10px] text-neutral-500 font-normal">Transparent Multi-Day Packages</div>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-neutral-400" />
+                </Link>
+
+                <Link
+                  to="/blog"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between px-3.5 py-2.5 hover:bg-amber-50/50 transition-colors"
+                >
+                  <div className="flex items-center space-x-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-neutral-100 text-neutral-800 flex items-center justify-center shrink-0">
+                      <BookOpen className="w-3.5 h-3.5 text-amber-700" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-neutral-900">Wedding Blog & Guides</div>
+                      <div className="text-[10px] text-neutral-500 font-normal">Tips, Muhurats & Trends</div>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-neutral-400" />
+                </Link>
+
+                <Link
+                  to="/about"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between px-3.5 py-2.5 hover:bg-amber-50/50 transition-colors"
+                >
+                  <div className="flex items-center space-x-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-neutral-100 text-neutral-800 flex items-center justify-center shrink-0">
+                      <Building2 className="w-3.5 h-3.5 text-amber-700" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-neutral-900">About Studio</div>
+                      <div className="text-[10px] text-neutral-500 font-normal">Our Legacy, Philosophy & Gear</div>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-neutral-400" />
+                </Link>
+
+                <Link
+                  to="/careers"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between px-3.5 py-2.5 hover:bg-amber-50/50 transition-colors"
+                >
+                  <div className="flex items-center space-x-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-neutral-100 text-neutral-800 flex items-center justify-center shrink-0">
+                      <Briefcase className="w-3.5 h-3.5 text-amber-700" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-neutral-900">Careers & Crew</div>
+                      <div className="text-[10px] text-neutral-500 font-normal">Join Our Visual Storytelling Team</div>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-neutral-400" />
+                </Link>
+
+                <Link
+                  to="/contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between px-3.5 py-2.5 hover:bg-amber-50/50 transition-colors"
+                >
+                  <div className="flex items-center space-x-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-neutral-100 text-neutral-800 flex items-center justify-center shrink-0">
+                      <MapPin className="w-3.5 h-3.5 text-amber-700" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-neutral-900">Contact & Studio Hub</div>
+                      <div className="text-[10px] text-neutral-500 font-normal">Bhopal Studio • Pan-India Coverage</div>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-neutral-400" />
+                </Link>
+              </div>
+            </div>
+
+            {/* 5. Direct Action CTA */}
+            <Link
+              to="/enquiry"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full py-3.5 rounded-2xl bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider text-center flex items-center justify-center shadow-md hover:brightness-105 active:scale-[0.99] transition-all btn-shimmer"
+            >
+              <Calendar className="w-4 h-4 mr-2 text-neutral-950" />
+              Book Wedding Shoot Enquiry
+            </Link>
           </div>
 
-          {/* Social Links Bottom */}
-          <div className="pt-4 border-t border-neutral-200">
-            <div className="flex justify-around items-center text-xs font-mono font-semibold text-neutral-600">
-              <a href="https://instagram.com/moonlight_production__" target="_blank" rel="noreferrer" className="flex items-center hover:text-pink-600">
+          {/* 6. Footer Social & Quick WhatsApp */}
+          <div className="p-3.5 bg-white border-t border-amber-900/10 space-y-2.5">
+            <div className="flex items-center justify-around text-xs font-mono font-semibold text-neutral-700">
+              <a
+                href="https://instagram.com/moonlight_production__"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center hover:text-pink-600 transition-colors py-1 px-2 rounded-lg hover:bg-pink-50"
+              >
                 <Instagram className="w-4 h-4 mr-1 text-pink-600" /> Instagram
               </a>
-              <a href="https://www.youtube.com/@moonlightproductions_films" target="_blank" rel="noreferrer" className="flex items-center hover:text-red-600">
+              <a
+                href="https://www.youtube.com/@moonlightproductions_films"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center hover:text-red-600 transition-colors py-1 px-2 rounded-lg hover:bg-red-50"
+              >
                 <Youtube className="w-4 h-4 mr-1 text-red-600" /> YouTube
               </a>
-              <a href="https://api.whatsapp.com/send?phone=919229229323" target="_blank" rel="noreferrer" className="flex items-center text-emerald-600 font-bold">
-                <Phone className="w-4 h-4 mr-1" /> WhatsApp
+              <a
+                href="https://api.whatsapp.com/send?phone=919229229323"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center text-emerald-700 font-bold transition-colors py-1 px-2 rounded-lg hover:bg-emerald-50"
+              >
+                <Phone className="w-4 h-4 mr-1 text-emerald-600" /> WhatsApp
               </a>
+            </div>
+            <div className="text-center text-[9.5px] text-neutral-400 font-mono">
+              © {new Date().getFullYear()} Moonlight Production • Cinema & Films
             </div>
           </div>
         </div>
