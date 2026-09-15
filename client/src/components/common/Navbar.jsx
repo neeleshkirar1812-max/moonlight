@@ -241,34 +241,53 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* 4. Mobile Controls: Direct Buttons & Hamburger */}
-          <div className="lg:hidden flex items-center space-x-1.5 shrink-0">
+          {/* 4. Mobile Controls: Direct Quick Buttons (Invite, Shoot, Login) & Hamburger */}
+          <div className="lg:hidden flex items-center space-x-1 sm:space-x-1.5 shrink-0">
+            {/* Quick Invitation Button */}
+            <Link
+              to="/invitations"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-2 sm:px-2.5 py-1 text-[9.5px] sm:text-[10.5px] font-extrabold uppercase tracking-wider bg-gradient-to-r from-amber-200 to-amber-300 text-amber-950 border border-amber-400/60 rounded-full shadow-xs flex items-center shrink-0 min-h-[32px] sm:min-h-[34px] hover:brightness-105 active:scale-95 transition-all"
+            >
+              <Sparkles className="w-3 h-3 mr-0.5 sm:mr-1 text-amber-800 shrink-0" />
+              <span>Invite</span>
+            </Link>
+
+            {/* Quick Shoot Booking Button */}
+            <Link
+              to="/enquiry"
+              className="px-2.5 sm:px-3 py-1 text-[9.5px] sm:text-[10.5px] font-extrabold uppercase tracking-wider bg-gold-gradient text-neutral-950 rounded-full shadow-xs shrink-0 min-h-[32px] sm:min-h-[34px] flex items-center hover:brightness-105 active:scale-95 transition-all btn-shimmer"
+            >
+              <Calendar className="w-3 h-3 mr-0.5 sm:mr-1 text-neutral-950 shrink-0 hidden xs:inline-block" />
+              <span>Shoot</span>
+            </Link>
+
+            {/* Portal / Sign In */}
             {isAuthenticated ? (
               <Link
                 to={getDashboardPath()}
-                className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 border border-amber-500/30 text-amber-900 rounded-full shadow-sm flex items-center shrink-0 min-h-[34px]"
+                className="px-2 sm:px-2.5 py-1 text-[9.5px] sm:text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 border border-amber-500/30 text-amber-900 rounded-full shadow-xs flex items-center shrink-0 min-h-[32px] sm:min-h-[34px]"
+                title="Access Portal"
               >
-                <User className="w-3 h-3 mr-1 text-amber-700" /> Portal
+                <User className="w-3 h-3 text-amber-700 shrink-0" />
+                <span className="hidden xs:inline-block ml-1">Portal</span>
               </Link>
             ) : (
               <Link
                 to="/login?role=customer"
-                className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider border border-neutral-300 bg-white text-neutral-900 rounded-full shadow-sm flex items-center shrink-0 min-h-[34px]"
+                className="px-2 sm:px-2.5 py-1 text-[9.5px] sm:text-[10px] font-bold uppercase tracking-wider border border-neutral-300 bg-white text-neutral-900 rounded-full shadow-xs flex items-center shrink-0 min-h-[32px] sm:min-h-[34px]"
+                title="Sign In"
               >
-                <LogIn className="w-3 h-3 mr-1 text-amber-700" /> Login
+                <LogIn className="w-3 h-3 text-amber-700 shrink-0" />
+                <span className="hidden xs:inline-block ml-1">Login</span>
               </Link>
             )}
 
-            <Link
-              to="/enquiry"
-              className="px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider bg-gold-gradient text-neutral-950 rounded-full shadow-sm shrink-0 min-h-[34px] flex items-center"
-            >
-              Book
-            </Link>
-
+            {/* Hamburger Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-neutral-800 hover:text-amber-800 rounded-lg focus:outline-none min-w-[40px] min-h-[40px] flex items-center justify-center shrink-0 p-1"
+              className="text-neutral-800 hover:text-amber-800 rounded-lg focus:outline-none min-w-[36px] min-h-[36px] sm:min-w-[40px] sm:min-h-[40px] flex items-center justify-center shrink-0 p-1"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5 text-amber-700" /> : <Menu className="w-5 h-5" />}
