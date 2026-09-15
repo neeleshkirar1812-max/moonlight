@@ -48,9 +48,9 @@ const Footer = () => {
 
             <Link
               to="/enquiry"
-              className="px-5 py-2 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white font-medium text-xs shadow-xs active:scale-95 transition-all flex items-center"
+              className="px-5 py-2 rounded-full bg-gold-gradient text-neutral-950 font-bold text-xs shadow-gold-subtle hover:brightness-105 active:scale-95 transition-all flex items-center btn-shimmer"
             >
-              <Calendar className="w-3.5 h-3.5 mr-1.5" /> Book a Shoot
+              <Calendar className="w-3.5 h-3.5 mr-1.5 text-neutral-950" /> Book a Shoot
             </Link>
           </div>
         </div>

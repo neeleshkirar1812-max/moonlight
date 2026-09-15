@@ -52,10 +52,10 @@ const TeslaStickyBar = () => {
 
           <Link
             to="/enquiry"
-            className="px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white font-medium text-[10px] sm:text-xs shadow-xs active:scale-95 transition-all flex items-center min-h-[32px]"
+            className="px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-gold-gradient text-neutral-950 font-bold text-[10px] sm:text-xs shadow-gold-subtle hover:brightness-105 active:scale-95 transition-all flex items-center min-h-[32px] btn-shimmer"
           >
             <span>Book Shoot</span>
-            <ArrowRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 ml-1" />
+            <ArrowRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 ml-1 text-neutral-950" />
           </Link>
 
           <button

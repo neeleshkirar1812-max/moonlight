@@ -143,14 +143,14 @@ const TeslaHeroSlider = ({ onPlayVideo }) => {
               href={slide.primaryCta.external}
               target="_blank"
               rel="noreferrer"
-              className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-white hover:bg-neutral-100 text-neutral-950 font-semibold text-xs sm:text-sm tracking-normal shadow-lg active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center"
+              className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-gold-gradient text-neutral-950 font-bold text-xs sm:text-sm tracking-normal shadow-gold-subtle hover:brightness-105 active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center btn-shimmer"
             >
               {slide.primaryCta.label}
             </a>
           ) : (
             <Link
               to={slide.primaryCta.path}
-              className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-white hover:bg-neutral-100 text-neutral-950 font-semibold text-xs sm:text-sm tracking-normal shadow-lg active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center"
+              className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-gold-gradient text-neutral-950 font-bold text-xs sm:text-sm tracking-normal shadow-gold-subtle hover:brightness-105 active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center btn-shimmer"
             >
               {slide.primaryCta.label}
             </Link>

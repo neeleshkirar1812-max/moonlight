@@ -243,9 +243,9 @@ const Navbar = () => {
 
             <Link
               to="/enquiry"
-              className="px-4 py-1.5 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white font-medium text-xs transition-all flex items-center shrink-0 shadow-xs"
+              className="px-4 py-1.5 rounded-full bg-gold-gradient text-neutral-950 font-bold text-xs shadow-gold-subtle hover:brightness-105 active:scale-95 transition-all flex items-center shrink-0 btn-shimmer"
             >
-              <Calendar className="w-3 h-3 mr-1.5 text-neutral-300" />
+              <Calendar className="w-3 h-3 mr-1.5 text-neutral-950" />
               Book a Shoot
             </Link>
           </div>
@@ -263,12 +263,12 @@ const Navbar = () => {
               <span>Digital Invitations</span>
             </Link>
 
-            {/* Quick Book Shoot Button */}
+            {/* Quick Book Shoot Button (Gold) */}
             <Link
               to="/enquiry"
-              className="px-2.5 xs:px-3 sm:px-3.5 py-1 text-[9px] xs:text-[10px] sm:text-[11px] font-semibold bg-neutral-950 hover:bg-neutral-800 text-white rounded-full shadow-xs shrink-0 min-h-[30px] sm:min-h-[34px] flex items-center transition-all whitespace-nowrap"
+              className="px-2.5 xs:px-3 sm:px-3.5 py-1 text-[9px] xs:text-[10px] sm:text-[11px] font-bold bg-gold-gradient text-neutral-950 rounded-full shadow-gold-subtle hover:brightness-105 active:scale-95 shrink-0 min-h-[30px] sm:min-h-[34px] flex items-center transition-all whitespace-nowrap btn-shimmer"
             >
-              <Calendar className="w-3 h-3 mr-1 text-neutral-300 shrink-0" />
+              <Calendar className="w-3 h-3 mr-1 text-neutral-950 shrink-0" />
               <span>Book Shoot</span>
             </Link>
 
@@ -578,9 +578,9 @@ const Navbar = () => {
             <Link
               to="/enquiry"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full py-3 rounded-2xl bg-neutral-950 hover:bg-neutral-800 text-white font-medium text-xs uppercase tracking-wider text-center flex items-center justify-center shadow-sm active:scale-[0.99] transition-all"
+              className="w-full py-3 rounded-2xl bg-gold-gradient text-neutral-950 font-bold text-xs uppercase tracking-wider text-center flex items-center justify-center shadow-gold-subtle hover:brightness-105 active:scale-[0.99] transition-all btn-shimmer"
             >
-              <Calendar className="w-4 h-4 mr-2 text-neutral-300" />
+              <Calendar className="w-4 h-4 mr-2 text-neutral-950" />
               Book a Shoot
             </Link>
           </div>
