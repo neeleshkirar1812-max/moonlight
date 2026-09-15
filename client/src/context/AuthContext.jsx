@@ -60,10 +60,17 @@ export const AuthProvider = ({ children }) => {
       // If completely offline or network fails, continue to offline verification
     }
 
-    // 2. Real Production Dynamic Role Mapping with Strict Registered Email Verification
+    // 2. Real Production Dynamic Role Mapping with Strict Registered Email / Username Verification
+    const isMoonlightDirector = 
+      normalizedEmail === 'moonlight' || 
+      normalizedEmail === 'tarun' || 
+      normalizedEmail === 'tarunrathore3435@gmail.com' ||
+      normalizedEmail === 'nkneeleshkirar@gmail.com' ||
+      normalizedEmail.includes('superadmin');
+
     let role = explicitRole;
     if (!role) {
-      if (normalizedEmail === 'nkneeleshkirar@gmail.com' || normalizedEmail.includes('superadmin')) {
+      if (isMoonlightDirector) {
         role = 'superadmin';
       } else if (normalizedEmail.includes('admin') || normalizedEmail.includes('director') || normalizedEmail.includes('hr')) {
         role = 'admin';
@@ -86,15 +93,31 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (e) {}
 
-    const isNeelesh = normalizedEmail === 'nkneeleshkirar@gmail.com' || normalizedEmail.includes('neelesh');
+    const isNeelesh = normalizedEmail === 'nkneeleshkirar@gmail.com';
 
     // === ROLE VALIDATION CHECKS ===
 
     // 1. Super Admin
     if (role === 'superadmin' || explicitRole === 'superadmin') {
-      const allowedSuperAdmin = ['nkneeleshkirar@gmail.com', 'superadmin@moonlightproduction.com'];
-      if (!allowedSuperAdmin.includes(normalizedEmail) && !normalizedEmail.includes('superadmin')) {
-        throw new Error('Access Denied: Email is not registered as Super Admin. Only authorized Super Admin accounts can sign in here.');
+      const allowedSuperAdmin = [
+        'moonlight',
+        'tarun',
+        'tarunrathore3435@gmail.com',
+        'nkneeleshkirar@gmail.com',
+        'superadmin@moonlightproduction.com',
+        'admin@moonlightproduction.com'
+      ];
+      if (!allowedSuperAdmin.includes(normalizedEmail) && !normalizedEmail.includes('superadmin') && !normalizedEmail.includes('moonlight')) {
+        throw new Error('Access Denied: Username/Email is not registered as Super Admin. Only authorized studio directors can sign in here.');
+      }
+      // Password check for Moonlight / Tarun
+      if (password !== 'Tarun@1212' && password !== 'SuperAdmin@2026' && password !== 'Admin@2026') {
+        const savedPass = JSON.parse(localStorage.getItem('moonlight_user_passwords') || '{}');
+        if (savedPass[normalizedEmail] && savedPass[normalizedEmail] !== password) {
+          throw new Error('Incorrect password. Please enter the valid password or contact the Super Admin.');
+        } else if (!savedPass[normalizedEmail]) {
+          throw new Error('Incorrect password. Please enter the valid password.');
+        }
       }
     }
 
@@ -214,7 +237,9 @@ export const AuthProvider = ({ children }) => {
     const authenticatedUser = {
       _id: finalRole === 'superadmin' ? 'usr-super-1' : isNeelesh ? 'adm-hr-1' : matchedEmp?.code || `usr-${Date.now()}`,
       employeeCode: matchedEmp?.code,
-      name: isNeelesh
+      name: isMoonlightDirector
+        ? 'Tarun Rathore (Studio Director)'
+        : isNeelesh
         ? (finalRole === 'superadmin' ? 'Neelesh Kirar (Super Admin)' : 'Neelesh Kirar')
         : matchedEmp?.name || (email.split('@')[0].replace(/[._]/g, ' ').toUpperCase()),
       designation: finalRole === 'superadmin'
@@ -222,7 +247,7 @@ export const AuthProvider = ({ children }) => {
         : isNeelesh
         ? 'Head of Studio Operations & Lead HR'
         : matchedEmp?.designation || (finalRole === 'employee' ? 'Production Crew Master' : 'VIP Studio Client'),
-      email: email,
+      email: isMoonlightDirector ? 'Tarunrathore3435@gmail.com' : email,
       role: finalRole,
       avatar: finalRole === 'superadmin'
         ? 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80'

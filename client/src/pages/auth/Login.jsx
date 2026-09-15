@@ -21,58 +21,16 @@ import {
   Award,
 } from 'lucide-react';
 
-const demoAccounts = [
-  {
-    role: 'customer',
-    label: 'Couple',
-    icon: Heart,
-    email: 'aarav.ananya@gmail.com',
-    pass: 'Client@2026',
-    desc: '4K Films & Gallery',
-  },
-  {
-    role: 'superadmin',
-    label: 'Admin',
-    icon: Crown,
-    email: 'nkneeleshkirar@gmail.com',
-    pass: 'SuperAdmin@2026',
-    desc: 'Full Studio Command',
-  },
-  {
-    role: 'admin',
-    label: 'HR',
-    icon: ShieldCheck,
-    email: 'admin@moonlightproduction.com',
-    pass: 'Admin@2026',
-    desc: 'HR & Operations',
-  },
-  {
-    role: 'employee',
-    label: 'Team',
-    icon: Camera,
-    email: 'amanpawar074@gmail.com',
-    pass: 'Crew@2026',
-    desc: 'Shoots & Pay Slips',
-  },
-];
-
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [selectedDemo, setSelectedDemo] = useState(null);
 
   const { login } = useAuth();
   const { addToast } = useNotification();
   const navigate = useNavigate();
-
-  const handleSelectDemo = (demo) => {
-    setSelectedDemo(demo.role);
-    setEmail(demo.email);
-    setPassword(demo.pass);
-  };
 
   const handleLogin = async (e) => {
     if (e) e.preventDefault();
@@ -222,63 +180,20 @@ const Login = () => {
             </p>
           </div>
 
-          {/* 1-Click Fast Test Persona Picker */}
-          <div className="space-y-2.5 p-4 rounded-2xl bg-[#FAF8F5] border border-stone-300">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-neutral-900 uppercase tracking-wider flex items-center font-sans">
-                <Sparkles className="w-3.5 h-3.5 text-amber-700 mr-1.5" />
-                Quick-Fill Demo Accounts:
-              </span>
-              <span className="text-[10px] text-neutral-500 font-sans font-medium">1-Click Test</span>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
-              {demoAccounts.map((d) => {
-                const IconComponent = d.icon;
-                const isSelected = selectedDemo === d.role;
-                return (
-                  <button
-                    key={d.role}
-                    type="button"
-                    onClick={() => handleSelectDemo(d)}
-                    className={`p-2.5 rounded-xl text-left border transition-all flex flex-col justify-between min-h-[62px] cursor-pointer ${
-                      isSelected
-                        ? 'bg-amber-900 text-white border-amber-950 shadow-md scale-[1.02]'
-                        : 'bg-white text-neutral-800 border-stone-300 hover:border-amber-700 hover:bg-stone-50'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <IconComponent className={`w-3.5 h-3.5 ${isSelected ? 'text-amber-300' : 'text-amber-800'}`} />
-                      <span className={`text-[9px] font-sans font-bold uppercase ${isSelected ? 'text-amber-200' : 'text-neutral-500'}`}>
-                        {d.role === 'customer' ? 'Couple' : d.role === 'superadmin' ? 'Admin' : d.role === 'admin' ? 'HR' : 'Crew'}
-                      </span>
-                    </div>
-                    <span className="text-[11px] font-bold leading-tight line-clamp-1 mt-1.5">
-                      {d.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
           {/* Sign In Form */}
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-4 pt-2">
             <div className="space-y-1.5">
               <label className="text-neutral-900 font-bold text-xs uppercase tracking-wider block font-sans">
-                Email Address
+                Username or Email Address
               </label>
               <div className="relative">
                 <User className="w-4 h-4 text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
-                  type="email"
+                  type="text"
                   required
                   value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    setSelectedDemo(null);
-                  }}
-                  placeholder="name@domain.com"
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter username (e.g. Moonlight) or email"
                   className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl pl-10 pr-4 py-3 text-neutral-900 font-medium text-xs sm:text-sm placeholder-neutral-400 focus:border-amber-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all"
                 />
               </div>
