@@ -588,11 +588,12 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
     };
   }, [hasRevealed]);
 
-  // Gate Tap to Open Trigger
+  // Gate Tap to Open Trigger - Opens INSTANTLY on user tap/click
   const handleOpenGate = async (e) => {
     if (e && e.stopPropagation) e.stopPropagation();
-    if (hasStarted) return;
+    if (hasRevealed) return;
     setHasStarted(true);
+    setHasRevealed(true);
 
     const vid = videoRef.current;
     if (vid) {
@@ -600,7 +601,6 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
         vid.muted = true;
         vid.playsInline = true;
         vid.loop = false;
-        vid.currentTime = 0;
         await vid.play();
       } catch {
         // Fallback if browser blocks video play
@@ -614,10 +614,13 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
       audioRef.current.play().then(() => setIsPlayingMusic(true)).catch(() => {});
     }
 
-    // 4.5s Gate Video reveal timing
+    // Smooth scroll down to the royal invitation farman / welcome after a gentle moment
     setTimeout(() => {
-      setHasRevealed(true);
-    }, 4500);
+      const el = document.getElementById('invitation-welcome') || document.getElementById('invitation-scratch');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 350);
   };
 
   const handleVideoEnded = () => {
@@ -734,13 +737,21 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           className="absolute inset-0 h-full w-full cursor-pointer object-cover z-0"
         />
 
-        {/* Direct Clean 4K Video Screen (Zero Obstruction) */}
-        {!hasStarted && (
-          <div className="absolute inset-x-0 bottom-8 z-20 flex justify-center pointer-events-none p-4 animate-fade-in">
-            <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-black/60 backdrop-blur-md border border-amber-400/40 text-amber-200 text-xs font-mono uppercase tracking-[0.2em] shadow-2xl animate-pulse">
-              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-              <span>TAP ANYWHERE TO ENTER</span>
-            </span>
+        {/* Direct Clean 4K Video Screen - Instant Tap to Open Button Overlay */}
+        {!hasRevealed && (
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-4 bg-black/25">
+            <button
+              type="button"
+              onClick={handleOpenGate}
+              className="group px-8 py-4 rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 hover:from-yellow-400 hover:to-amber-500 text-neutral-950 font-extrabold text-sm sm:text-base uppercase tracking-widest shadow-[0_0_50px_rgba(234,179,8,0.9)] transform hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center space-x-3 border-2 border-amber-100 cursor-pointer animate-pulse"
+            >
+              <Sparkles className="w-5 h-5 text-neutral-950 animate-spin-slow" />
+              <span>{theme.isHindi ? 'शाही निमंत्रण खोलें' : 'Tap to Open Royal Invitation'}</span>
+              <Crown className="w-5 h-5 text-neutral-950" />
+            </button>
+            <p className="mt-4 text-xs sm:text-sm font-serif tracking-widest text-amber-200/90 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] uppercase">
+              {theme.isHindi ? 'संगीत के साथ आनंद लें' : 'Experience with Royal Music'}
+            </p>
           </div>
         )}
 

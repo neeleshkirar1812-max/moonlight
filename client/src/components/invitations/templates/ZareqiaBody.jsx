@@ -177,6 +177,7 @@ export const ZareqiaWelcomeQuote = ({
 }) => {
   return (
     <div
+      id="invitation-welcome"
       className="w-full py-16 sm:py-20 px-6 text-center relative overflow-hidden transition-all duration-700 shadow-xl"
       style={{
         background: gradient || (isDark
