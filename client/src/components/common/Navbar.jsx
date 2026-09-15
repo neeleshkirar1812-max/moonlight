@@ -67,10 +67,10 @@ const Navbar = () => {
             : 'bg-[#FAF8F5]/90 backdrop-blur-md border-b border-amber-900/10 py-3'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-2 xs:px-3 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* 1. Brand Logo */}
-          <Link to="/" className="flex items-center space-x-2 group shrink-0">
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-amber-600/40 p-0.5 flex items-center justify-center bg-white group-hover:border-amber-600 transition-all shadow-sm overflow-hidden">
+          <Link to="/" className="flex items-center space-x-1.5 sm:space-x-2 group shrink-0">
+            <div className="w-7 h-7 xs:w-8 xs:h-8 sm:w-9 sm:h-9 rounded-full border-2 border-amber-600/40 p-0.5 flex items-center justify-center bg-white group-hover:border-amber-600 transition-all shadow-sm overflow-hidden shrink-0">
               <img
                 src="https://ugc.production.linktr.ee/bbcf2874-0602-4cdb-b362-ad612f9fc135_zV3Uuw-tQraxE7KwMApwOHbWTg75v6W5ZJJOyWhXSJBR8O1GMQMZMOQ4CvB8uCMV4mM0SXMK-Q-s800-c-k-c0x00ffffff-no-r.jpeg?io=true&size=avatar-v3_0"
                 alt="Moonlight Production"
@@ -83,10 +83,10 @@ const Navbar = () => {
               />
             </div>
             <div className="flex flex-col">
-              <span className="font-serif text-sm sm:text-base font-bold tracking-[0.14em] text-neutral-900 group-hover:text-amber-700 transition-colors">
+              <span className="font-serif text-xs xs:text-sm sm:text-base font-bold tracking-[0.1em] sm:tracking-[0.14em] text-neutral-900 group-hover:text-amber-700 transition-colors whitespace-nowrap">
                 MOONLIGHT
               </span>
-              <span className="text-[7px] sm:text-[7.5px] tracking-[0.2em] text-amber-700 font-mono uppercase font-bold hidden xs:inline-block">
+              <span className="text-[7px] sm:text-[7.5px] tracking-[0.2em] text-amber-700 font-mono uppercase font-bold hidden md:inline-block">
                 Production • Films
               </span>
             </div>
@@ -242,24 +242,24 @@ const Navbar = () => {
           </div>
 
           {/* 4. Mobile Controls: Direct Quick Buttons (Digital Invitation, Book Shoot, Login) & Hamburger */}
-          <div className="lg:hidden flex items-center space-x-1 sm:space-x-1.5 shrink-0">
+          <div className="lg:hidden flex items-center space-x-1 xs:space-x-1.5 shrink-0">
             {/* Quick Digital Invitation Button */}
             <Link
               to="/invitations"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-2 xs:px-2.5 sm:px-3 py-1 text-[8.5px] xs:text-[9.5px] sm:text-[10.5px] font-extrabold uppercase tracking-wider bg-gradient-to-r from-amber-200 to-amber-300 text-amber-950 border border-amber-400/60 rounded-full shadow-xs flex items-center shrink-0 min-h-[30px] sm:min-h-[34px] hover:brightness-105 active:scale-95 transition-all whitespace-nowrap"
+              className="px-1.5 xs:px-2.5 sm:px-3 py-1 text-[8px] xs:text-[9.5px] sm:text-[10.5px] font-extrabold uppercase tracking-wider bg-gradient-to-r from-amber-200 to-amber-300 text-amber-950 border border-amber-400/60 rounded-full shadow-xs flex items-center shrink-0 min-h-[28px] xs:min-h-[32px] sm:min-h-[34px] hover:brightness-105 active:scale-95 transition-all whitespace-nowrap"
             >
-              <Sparkles className="w-2.5 h-2.5 xs:w-3 xs:h-3 mr-1 text-amber-800 shrink-0" />
+              <Sparkles className="w-2.5 h-2.5 xs:w-3 xs:h-3 mr-0.5 xs:mr-1 text-amber-800 shrink-0" />
               <span>Digital Invitation</span>
             </Link>
 
             {/* Quick Book Shoot Button */}
             <Link
               to="/enquiry"
-              className="px-2 xs:px-2.5 sm:px-3 py-1 text-[8.5px] xs:text-[9.5px] sm:text-[10.5px] font-extrabold uppercase tracking-wider bg-gold-gradient text-neutral-950 rounded-full shadow-xs shrink-0 min-h-[30px] sm:min-h-[34px] flex items-center hover:brightness-105 active:scale-95 transition-all btn-shimmer whitespace-nowrap"
+              className="px-1.5 xs:px-2.5 sm:px-3 py-1 text-[8px] xs:text-[9.5px] sm:text-[10.5px] font-extrabold uppercase tracking-wider bg-gold-gradient text-neutral-950 rounded-full shadow-xs shrink-0 min-h-[28px] xs:min-h-[32px] sm:min-h-[34px] flex items-center hover:brightness-105 active:scale-95 transition-all btn-shimmer whitespace-nowrap"
             >
-              <Calendar className="w-2.5 h-2.5 xs:w-3 xs:h-3 mr-1 text-neutral-950 shrink-0" />
+              <Calendar className="w-2.5 h-2.5 xs:w-3 xs:h-3 mr-0.5 xs:mr-1 text-neutral-950 shrink-0" />
               <span>Book Shoot</span>
             </Link>
 
@@ -267,19 +267,19 @@ const Navbar = () => {
             {isAuthenticated ? (
               <Link
                 to={getDashboardPath()}
-                className="p-1 xs:p-1.5 sm:px-2.5 sm:py-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 border border-amber-500/30 text-amber-900 rounded-full shadow-xs flex items-center shrink-0 min-h-[30px] sm:min-h-[34px]"
+                className="p-1 xs:p-1.5 sm:px-2.5 sm:py-1 text-[8.5px] xs:text-[9.5px] sm:text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 border border-amber-500/30 text-amber-900 rounded-full shadow-xs flex items-center shrink-0 min-h-[28px] xs:min-h-[32px] sm:min-h-[34px]"
                 title="Access Portal"
               >
-                <User className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-700 shrink-0" />
+                <User className="w-3 h-3 xs:w-3.5 xs:h-3.5 text-amber-700 shrink-0" />
                 <span className="hidden md:inline-block ml-1">Portal</span>
               </Link>
             ) : (
               <Link
                 to="/login?role=customer"
-                className="p-1 xs:p-1.5 sm:px-2.5 sm:py-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider border border-neutral-300 bg-white text-neutral-900 rounded-full shadow-xs flex items-center shrink-0 min-h-[30px] sm:min-h-[34px]"
+                className="p-1 xs:p-1.5 sm:px-2.5 sm:py-1 text-[8.5px] xs:text-[9.5px] sm:text-[10px] font-bold uppercase tracking-wider border border-neutral-300 bg-white text-neutral-900 rounded-full shadow-xs flex items-center shrink-0 min-h-[28px] xs:min-h-[32px] sm:min-h-[34px]"
                 title="Sign In"
               >
-                <LogIn className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-700 shrink-0" />
+                <LogIn className="w-3 h-3 xs:w-3.5 xs:h-3.5 text-amber-700 shrink-0" />
                 <span className="hidden md:inline-block ml-1">Login</span>
               </Link>
             )}
@@ -287,7 +287,7 @@ const Navbar = () => {
             {/* Hamburger Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-neutral-800 hover:text-amber-800 rounded-lg focus:outline-none min-w-[32px] min-h-[32px] sm:min-w-[38px] sm:min-h-[38px] flex items-center justify-center shrink-0 p-0.5"
+              className="text-neutral-800 hover:text-amber-800 rounded-lg focus:outline-none min-w-[30px] min-h-[28px] xs:min-w-[34px] xs:min-h-[32px] sm:min-w-[38px] sm:min-h-[38px] flex items-center justify-center shrink-0 p-0.5"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-4 h-4 xs:w-5 xs:h-5 text-amber-700" /> : <Menu className="w-4 h-4 xs:w-5 xs:h-5" />}
@@ -298,7 +298,7 @@ const Navbar = () => {
 
       {/* Mobile Slide-Out Menu Drawer (Outside header to avoid backdrop-blur / filter stacking-context trapping) */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-[52px] sm:top-[58px] bottom-0 bg-[#FAF8F5] z-40 px-4 sm:px-6 py-5 border-t border-amber-900/10 flex flex-col justify-between overflow-y-auto animate-fade-in text-neutral-900 shadow-2xl">
+        <div className="lg:hidden fixed inset-x-0 top-[48px] xs:top-[52px] sm:top-[58px] bottom-0 bg-[#FAF8F5] z-40 px-4 sm:px-6 py-5 border-t border-amber-900/10 flex flex-col justify-between overflow-y-auto animate-fade-in text-neutral-900 shadow-2xl">
           <div className="space-y-3">
             {/* Account Quick Card */}
             <div className="p-3.5 rounded-2xl bg-white border border-neutral-200 space-y-2 shadow-sm">
