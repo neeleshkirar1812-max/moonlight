@@ -251,7 +251,7 @@ const Home = () => {
       {/* 2. PRESS & ROYAL RECOGNITIONS BAR */}
       <section className="py-5 sm:py-7 bg-[#F2ECE4] border-y border-amber-900/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:flex md:items-center md:justify-around gap-4 sm:gap-6 text-neutral-700 text-xs font-mono uppercase tracking-[0.15em] text-center">
+          <div className="grid grid-cols-2 md:flex md:items-center md:justify-around gap-4 sm:gap-6 text-neutral-700 text-xs font-sans uppercase tracking-[0.14em] text-center">
             {pressLogos.map((p, idx) => (
               <div key={idx} className="group cursor-default p-1">
                 <span className="font-serif text-xs sm:text-sm font-bold text-neutral-900 group-hover:text-amber-800 transition-colors block">
@@ -269,14 +269,14 @@ const Home = () => {
       {/* 3. THE 3 CORE PILLARS: WEDDING, PRE-WEDDING & DESTINATION WEDDING */}
       <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-600/20 text-amber-800 text-xs font-mono font-bold uppercase tracking-widest">
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-600/20 text-amber-800 text-xs font-sans font-semibold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5 text-amber-700" />
             <span>Signature Photography & Cinema</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-900 leading-tight">
             Crafted for Unforgettable Celebrations
           </h2>
-          <p className="text-neutral-600 text-sm sm:text-base font-normal max-w-2xl mx-auto leading-relaxed">
+          <p className="text-neutral-600 text-sm sm:text-base font-normal max-w-2xl mx-auto leading-relaxed font-sans">
             Choose from our three core master collections tailored for modern Indian couples, royal palace unions, and destination celebrations across India.
           </p>
         </div>
@@ -298,7 +298,7 @@ const Home = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                   <div className="absolute top-4 left-4">
-                    <span className="px-3.5 py-1 rounded-full bg-black/80 backdrop-blur-md text-[10.5px] text-gold-300 font-mono font-bold uppercase tracking-wider border border-gold-500/40 shadow-md">
+                    <span className="px-3.5 py-1 rounded-full bg-black/80 backdrop-blur-md text-[10.5px] text-gold-300 font-sans font-semibold uppercase tracking-wider border border-gold-500/40 shadow-md">
                       {pillar.badge}
                     </span>
                   </div>
@@ -310,21 +310,21 @@ const Home = () => {
                     <h3 className="font-serif text-2xl font-bold text-neutral-900 group-hover:text-amber-800 transition-colors leading-snug">
                       {pillar.title}
                     </h3>
-                    <p className="text-xs text-amber-800 font-mono font-bold mt-1 tracking-wide">
+                    <p className="text-xs text-amber-800 font-sans font-semibold mt-1 tracking-wide">
                       {pillar.subtitle}
                     </p>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">
+                  <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal font-sans">
                     {pillar.description}
                   </p>
 
                   {/* Bullet Highlights */}
                   <div className="pt-2 space-y-2 border-t border-amber-900/10">
-                    <span className="text-[11px] font-mono uppercase font-bold text-neutral-800 block">
+                    <span className="text-[11px] font-sans uppercase font-semibold text-neutral-800 block">
                       Package Inclusions:
                     </span>
-                    <ul className="space-y-1.5">
+                    <ul className="space-y-1.5 font-sans">
                       {pillar.highlights.map((item, idx) => (
                         <li key={idx} className="flex items-start text-xs text-neutral-700">
                           <CheckCircle2 className="w-3.5 h-3.5 text-amber-700 mr-2 shrink-0 mt-0.5" />
@@ -361,13 +361,13 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-2 max-w-2xl">
-              <span className="text-xs uppercase font-mono tracking-[0.25em] text-amber-800 font-bold block">
+              <span className="text-xs uppercase font-sans tracking-[0.2em] text-amber-800 font-semibold block">
                 Master Portfolio
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-900">
                 Moments Captured in Full Frame
               </h2>
-              <p className="text-xs sm:text-sm text-neutral-600 font-normal">
+              <p className="text-xs sm:text-sm text-neutral-600 font-normal font-sans">
                 Explore authentic memories from palace courtyards, Maheshwar ghats, and royal Indian wedding mandaps.
               </p>
             </div>
@@ -412,7 +412,7 @@ const Home = () => {
                 </div>
 
                 <div className="relative z-10 space-y-1 text-white">
-                  <span className="text-[10px] font-mono uppercase font-bold text-gold-300 tracking-wider block">
+                  <span className="text-[10.5px] font-sans uppercase font-semibold text-gold-300 tracking-wider block">
                     {photo.category} • {photo.location}
                   </span>
                   <h4 className="font-serif text-base font-bold leading-tight group-hover:text-gold-200 transition-colors">
@@ -439,13 +439,13 @@ const Home = () => {
       {videos.length > 0 && (
         <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <div className="text-center space-y-2 max-w-2xl mx-auto">
-            <span className="text-xs uppercase font-mono tracking-[0.25em] text-amber-700 font-bold block">
+            <span className="text-xs uppercase font-sans tracking-[0.2em] text-amber-700 font-semibold block">
               Official YouTube Cinema
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-900">
               Moonlight Production 4K Films
             </h2>
-            <p className="text-xs sm:text-sm text-neutral-600 font-normal">
+            <p className="text-xs sm:text-sm text-neutral-600 font-normal font-sans">
               Every film crafted with emotional depth, custom color grades, and royal storytelling from @moonlightproductions_films.
             </p>
           </div>
@@ -484,21 +484,21 @@ const Home = () => {
                     </div>
 
                     {vid.duration && (
-                      <span className="absolute bottom-3 right-3 px-2.5 py-0.5 rounded bg-black/80 backdrop-blur-md text-[10px] font-mono font-bold text-white flex items-center border border-white/20">
+                      <span className="absolute bottom-3 right-3 px-2.5 py-0.5 rounded bg-black/80 backdrop-blur-md text-[10px] font-sans font-semibold text-white flex items-center border border-white/20">
                         {vid.duration}
                       </span>
                     )}
                   </div>
 
                   <div className="p-5 sm:p-6 space-y-1">
-                    <div className="flex items-center justify-between text-[10.5px] uppercase font-mono text-amber-800 font-bold">
+                    <div className="flex items-center justify-between text-[10.5px] uppercase font-sans text-amber-800 font-semibold">
                       <span>Moonlight Cinema • 4K Full Frame</span>
                       {vid.views && <span className="text-neutral-500 font-normal lowercase">{vid.views}</span>}
                     </div>
                     <h3 className="font-serif text-lg sm:text-xl font-bold text-neutral-900 group-hover:text-amber-800 line-clamp-1 transition-colors">
                       {vid.title}
                     </h3>
-                    <div className="pt-2 flex items-center text-xs text-amber-700 font-bold uppercase tracking-wider">
+                    <div className="pt-2 flex items-center text-xs text-amber-700 font-bold uppercase tracking-wider font-sans">
                       <Play className="w-3.5 h-3.5 mr-1.5" /> Click to Watch in 4K
                     </div>
                   </div>
@@ -518,7 +518,7 @@ const Home = () => {
               href="https://www.youtube.com/@moonlightproductions_films"
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full bg-white hover:bg-neutral-50 text-neutral-800 border border-neutral-300 text-xs sm:text-sm font-medium tracking-normal transition-all shadow-xs"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full bg-white hover:bg-neutral-50 text-neutral-800 border border-neutral-300 text-xs sm:text-sm font-medium tracking-normal transition-all shadow-xs font-sans"
             >
               <Youtube className="w-4 h-4 mr-1.5 text-red-600" /> YouTube Channel
             </a>
@@ -533,13 +533,13 @@ const Home = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
               {/* Left Description */}
               <div className="lg:col-span-7 space-y-4">
-                <span className="px-3.5 py-1 rounded-full bg-amber-500/10 text-amber-800 text-[10.5px] font-mono font-bold uppercase tracking-widest border border-amber-600/20 inline-block">
+                <span className="px-3.5 py-1 rounded-full bg-amber-500/10 text-amber-800 text-[10.5px] font-sans font-semibold uppercase tracking-wider border border-amber-600/20 inline-block">
                   Instant Wedding Cost Calculator & Planner
                 </span>
                 <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-900 leading-tight">
                   Calculate Instant Wedding Cost & Inquire Dates
                 </h2>
-                <p className="text-xs sm:text-base text-neutral-600 leading-relaxed font-normal">
+                <p className="text-xs sm:text-base text-neutral-600 leading-relaxed font-normal font-sans">
                   Calculate estimated budgets, select your palace destination, configure 4K drone cinematography, and receive a bespoke proposal with direct WhatsApp assistance.
                 </p>
 
@@ -557,15 +557,15 @@ const Home = () => {
               {/* Right Live Calculator Card */}
               <div className="lg:col-span-5 bg-[#FAF8F5] rounded-3xl p-6 sm:p-7 border border-amber-900/15 shadow-sm space-y-5">
                 <div className="flex items-center justify-between border-b border-amber-900/10 pb-3">
-                  <span className="text-xs uppercase font-mono tracking-wider text-amber-800 font-bold">
+                  <span className="text-xs uppercase font-sans tracking-wider text-amber-800 font-semibold">
                     Quick Estimate Calculator
                   </span>
-                  <span className="text-[10px] text-neutral-500 font-mono">Live AI Estimate</span>
+                  <span className="text-[10.5px] text-neutral-500 font-sans">Live Instant Estimate</span>
                 </div>
 
                 {/* Service Pills Selector */}
-                <div className="space-y-2">
-                  <label className="text-[11px] uppercase font-mono text-neutral-800 font-bold block">
+                <div className="space-y-2 font-sans">
+                  <label className="text-[11px] uppercase font-sans text-neutral-800 font-semibold block">
                     Select Coverage Options:
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -576,7 +576,7 @@ const Home = () => {
                           key={s}
                           type="button"
                           onClick={() => toggleCalculatorService(s)}
-                          className={`px-3 py-1.5 rounded-full text-xs font-mono transition-all flex items-center space-x-1.5 ${
+                          className={`px-3 py-1.5 rounded-full text-xs font-sans font-medium transition-all flex items-center space-x-1.5 ${
                             isSelected
                               ? 'bg-amber-100 border border-amber-600 text-amber-900 font-bold shadow-sm'
                               : 'bg-white border border-neutral-300 text-neutral-600 hover:text-neutral-900 hover:border-neutral-400'
@@ -595,8 +595,8 @@ const Home = () => {
                 </div>
 
                 {/* Guest Tier */}
-                <div className="space-y-2">
-                  <label className="text-[11px] uppercase font-mono text-neutral-800 font-bold block">
+                <div className="space-y-2 font-sans">
+                  <label className="text-[11px] uppercase font-sans text-neutral-800 font-semibold block">
                     Celebration Scale (Guests):
                   </label>
                   <div className="grid grid-cols-3 gap-2">
@@ -605,7 +605,7 @@ const Home = () => {
                         key={t}
                         type="button"
                         onClick={() => setGuestTier(t)}
-                        className={`py-2 rounded-xl text-xs font-medium transition-all ${
+                        className={`py-2 rounded-xl text-xs font-sans font-medium transition-all ${
                           guestTier === t
                             ? 'bg-gold-gradient text-neutral-950 font-bold shadow-sm'
                             : 'bg-white border border-neutral-300 text-neutral-600 hover:text-neutral-900'
@@ -620,10 +620,10 @@ const Home = () => {
                 {/* Estimated Total Display */}
                 <div className="pt-3 border-t border-amber-900/10 flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] uppercase font-mono text-neutral-500 block">
+                    <span className="text-[10.5px] uppercase font-sans text-neutral-500 block">
                       Estimated Investment
                     </span>
-                    <span className="font-serif text-2xl font-bold text-amber-700">
+                    <span className="font-serif text-2xl font-bold text-amber-800">
                       ₹{calculateEstimate().toLocaleString('en-IN')}
                     </span>
                   </div>

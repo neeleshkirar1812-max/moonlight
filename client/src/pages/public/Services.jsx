@@ -126,13 +126,13 @@ const Services = () => {
       <div className="max-w-7xl mx-auto space-y-12 sm:space-y-16">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <span className="text-xs uppercase font-mono tracking-[0.35em] text-amber-700 font-bold block">
+          <span className="text-xs uppercase font-sans tracking-[0.2em] text-amber-800 font-semibold block">
             Moonlight Production Packages
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-neutral-900">
             Indian Wedding Photography & Cinema Tiers
           </h1>
-          <p className="text-neutral-600 text-xs sm:text-base font-normal max-w-xl mx-auto">
+          <p className="text-neutral-600 text-xs sm:text-base font-normal max-w-xl mx-auto font-sans">
             From regal palace ceremonies to intimate destination rendezvous, every commission is executed with master craftsmanship.
           </p>
         </div>
@@ -151,13 +151,13 @@ const Services = () => {
                 >
                   {service.isPopular && (
                     <div className="absolute top-5 right-5 sm:top-6 sm:right-6">
-                      <span className="px-3 py-1 rounded-full bg-amber-500/15 border border-amber-600/30 text-amber-800 font-bold text-[9.5px] sm:text-[10px] uppercase tracking-widest shadow-sm">
+                      <span className="px-3 py-1 rounded-full bg-amber-500/15 border border-amber-600/30 text-amber-800 font-semibold text-[9.5px] sm:text-[10px] uppercase tracking-wider font-sans shadow-sm">
                         Signature Royal Tier
                       </span>
                     </div>
                   )}
 
-                  <div className="space-y-5">
+                  <div className="space-y-5 font-sans">
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-500/15 border border-amber-600/30 flex items-center justify-center text-amber-700 shadow-sm">
                       <IconComponent className="w-6 h-6 sm:w-7 sm:h-7" />
                     </div>
@@ -166,7 +166,7 @@ const Services = () => {
                       <h3 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900 mb-1">
                         {service.title}
                       </h3>
-                      <p className="text-xs sm:text-sm text-neutral-600 font-normal leading-relaxed">
+                      <p className="text-xs sm:text-sm text-neutral-600 font-normal leading-relaxed font-sans">
                         {service.fullDescription || service.shortDescription}
                       </p>
                     </div>
@@ -174,10 +174,10 @@ const Services = () => {
                     {/* Features & Deliverables */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 pt-4 border-t border-amber-900/10">
                       <div>
-                        <h4 className="text-[11px] uppercase font-mono tracking-wider text-amber-800 font-bold mb-2.5">
+                        <h4 className="text-[11px] uppercase font-sans tracking-wider text-amber-800 font-semibold mb-2.5">
                           Coverage Inclusions
                         </h4>
-                        <ul className="space-y-2 text-xs text-neutral-700 font-medium">
+                        <ul className="space-y-2 text-xs text-neutral-700 font-normal font-sans">
                           {service.features?.map((f, idx) => (
                             <li key={idx} className="flex items-start space-x-2">
                               <CheckCircle2 className="w-3.5 h-3.5 text-amber-700 shrink-0 mt-0.5" />
@@ -188,10 +188,10 @@ const Services = () => {
                       </div>
 
                       <div>
-                        <h4 className="text-[11px] uppercase font-mono tracking-wider text-amber-800 font-bold mb-2.5">
+                        <h4 className="text-[11px] uppercase font-sans tracking-wider text-amber-800 font-semibold mb-2.5">
                           Master Deliverables
                         </h4>
-                        <ul className="space-y-2 text-xs text-neutral-700 font-medium">
+                        <ul className="space-y-2 text-xs text-neutral-700 font-normal font-sans">
                           {service.deliverables?.map((d, idx) => (
                             <li key={idx} className="flex items-start space-x-2">
                               <Sparkles className="w-3.5 h-3.5 text-amber-700 shrink-0 mt-0.5" />
@@ -204,11 +204,11 @@ const Services = () => {
                   </div>
 
                   {/* Pricing & CTA */}
-                  <div className="pt-5 border-t border-amber-900/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="pt-5 border-t border-amber-900/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 font-sans">
                     <div>
-                      <span className="text-[10px] uppercase tracking-widest text-neutral-500 font-mono block">Investment Guide</span>
+                      <span className="text-[10px] uppercase tracking-wider text-neutral-500 font-sans block">Investment Guide</span>
                       <div className="flex items-baseline space-x-2">
-                        <span className="font-serif text-2xl sm:text-3xl font-bold text-amber-700">
+                        <span className="font-serif text-2xl sm:text-3xl font-bold text-amber-800">
                           ₹{service.startingPrice?.toLocaleString('en-IN')}
                         </span>
                         <span className="text-xs text-neutral-500 font-sans">{service.priceUnit || 'onwards'}</span>
@@ -217,7 +217,7 @@ const Services = () => {
 
                     <Link
                       to="/enquiry"
-                      className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider transition-all duration-300 shadow-sm hover:brightness-105 active:scale-95 btn-shimmer"
+                      className="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-gold-gradient text-neutral-950 font-bold text-xs shadow-gold-subtle hover:brightness-105 active:scale-95 transition-all btn-shimmer"
                     >
                       Book This Tier <ArrowRight className="w-3.5 h-3.5 ml-2 text-neutral-950" />
                     </Link>
@@ -229,28 +229,28 @@ const Services = () => {
         )}
 
         {/* FAQ Section */}
-        <div className="mt-16 pt-12 border-t border-amber-900/10 max-w-4xl mx-auto space-y-6">
+        <div className="mt-16 pt-12 border-t border-amber-900/10 max-w-4xl mx-auto space-y-6 font-sans">
           <div className="text-center space-y-1">
-            <span className="text-xs uppercase font-mono tracking-[0.2em] text-amber-700 font-bold">Common Queries</span>
+            <span className="text-xs uppercase font-sans tracking-[0.2em] text-amber-800 font-semibold">Common Queries</span>
             <h2 className="font-serif text-2xl sm:text-3xl text-neutral-900 font-bold">Frequently Asked Questions</h2>
           </div>
 
           <div className="space-y-4 text-xs sm:text-sm">
             <div className="p-5 sm:p-6 rounded-2xl bg-white border border-amber-900/15 shadow-sm space-y-1.5">
               <h4 className="font-serif text-base text-neutral-900 font-bold">How far in advance should we book our wedding dates?</h4>
-              <p className="text-neutral-600 font-normal leading-relaxed">
+              <p className="text-neutral-600 font-normal leading-relaxed font-sans">
                 Because Moonlight Production reserves exclusive dates for one major wedding per weekend, auspicious wedding muhurat dates (October to March) are usually blocked 4 to 8 months in advance.
               </p>
             </div>
             <div className="p-5 sm:p-6 rounded-2xl bg-white border border-amber-900/15 shadow-sm space-y-1.5">
               <h4 className="font-serif text-base text-neutral-900 font-bold">Do you travel across India for destination weddings?</h4>
-              <p className="text-neutral-600 font-normal leading-relaxed">
+              <p className="text-neutral-600 font-normal leading-relaxed font-sans">
                 Yes! We frequently film destination weddings across Udaipur, Jaipur, Jodhpur, Maheshwar, Bhopal, Goa, Mumbai, Delhi, and Kerala. Our dedicated cinematography and drone team handles all on-location gear logistics.
               </p>
             </div>
             <div className="p-5 sm:p-6 rounded-2xl bg-white border border-amber-900/15 shadow-sm space-y-1.5">
               <h4 className="font-serif text-base text-neutral-900 font-bold">What is your delivery timeline and terms?</h4>
-              <p className="text-neutral-600 font-normal leading-relaxed">
+              <p className="text-neutral-600 font-normal leading-relaxed font-sans">
                 Teaser photographs and reels are shared within 72 hours. The complete color-graded high-resolution photos and 4K cinema films are delivered within 90 days (3 months). 30% advance booking is required to reserve dates.
               </p>
             </div>

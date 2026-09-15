@@ -25,13 +25,13 @@ const Footer = () => {
       <div className="border-b border-amber-900/10 bg-[#EAE2D8] relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-5">
           <div className="space-y-1 text-center md:text-left">
-            <span className="text-[10px] uppercase font-mono tracking-[0.25em] text-amber-800 font-bold block">
+            <span className="text-[10px] uppercase font-sans tracking-[0.2em] text-amber-800 font-semibold block">
               Moonlight Production • India Studio
             </span>
             <h3 className="font-serif text-xl sm:text-2xl font-bold text-neutral-900">
               Booking Dates Open for 2026 – 2027 Royal Wedding Season
             </h3>
-            <p className="text-xs text-neutral-600 font-medium">
+            <p className="text-xs text-neutral-600 font-normal font-sans">
               Palace weddings in Rajasthan, Maheshwar Ghats, Goa beach ceremonies & all-India destination shoots.
             </p>
           </div>
@@ -41,7 +41,7 @@ const Footer = () => {
               href="https://api.whatsapp.com/send?phone=919229229323"
               target="_blank"
               rel="noreferrer"
-              className="px-4 py-2 rounded-full border border-emerald-600/30 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-800 font-medium text-xs transition-all flex items-center shadow-xs"
+              className="px-4 py-2 rounded-full border border-emerald-600/30 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-800 font-medium text-xs transition-all flex items-center shadow-xs font-sans"
             >
               <Phone className="w-3.5 h-3.5 mr-1.5" /> WhatsApp Us
             </a>
@@ -57,7 +57,7 @@ const Footer = () => {
       </div>
 
       {/* Main Footer Links & Information */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10 font-sans">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
           {/* Brand Identity & Social Column */}
           <div className="lg:col-span-2 space-y-5">
@@ -70,16 +70,16 @@ const Footer = () => {
                 />
               </div>
               <div>
-                <span className="font-serif text-2xl font-bold tracking-[0.16em] text-neutral-900">
+                <span className="font-serif text-2xl font-bold tracking-[0.14em] text-neutral-900">
                   MOONLIGHT
                 </span>
-                <p className="text-[9px] tracking-[0.25em] text-amber-800 font-mono uppercase font-bold">
+                <p className="text-[9.5px] tracking-[0.2em] text-amber-800 font-sans uppercase font-semibold">
                   Production • Indian Wedding Cinema
                 </p>
               </div>
             </div>
 
-            <p className="text-xs text-neutral-600 leading-relaxed max-w-sm font-medium">
+            <p className="text-xs text-neutral-600 leading-relaxed max-w-sm font-normal">
               Immortalizing Indian royal weddings, joyous Sangeet nights, vibrant Haldi rituals, and breathtaking cinematic pre-weddings across India.
             </p>
 
@@ -110,7 +110,7 @@ const Footer = () => {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Linktree"
-                className="w-9 h-9 rounded-full bg-white border border-amber-900/15 flex items-center justify-center hover:text-amber-800 hover:border-amber-600 transition-all text-xs font-mono font-bold shadow-sm"
+                className="w-9 h-9 rounded-full bg-white border border-amber-900/15 flex items-center justify-center hover:text-amber-800 hover:border-amber-600 transition-all text-xs font-sans font-bold shadow-sm"
                 title="Moonlight Production Linktree"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -128,7 +128,7 @@ const Footer = () => {
             </div>
 
             {/* Official Legal & Tax Registration Badges */}
-            <div className="pt-2 p-3.5 rounded-2xl bg-white/80 border border-amber-900/15 space-y-1.5 text-[11px] font-mono text-neutral-700 shadow-sm">
+            <div className="pt-2 p-3.5 rounded-2xl bg-white/80 border border-amber-900/15 space-y-1.5 text-[11px] font-sans text-neutral-700 shadow-sm">
               <div className="flex items-center space-x-2 text-amber-900 font-bold">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
                 <span>Govt. of India Registered Enterprise</span>
@@ -143,10 +143,10 @@ const Footer = () => {
 
           {/* Destination Wedding Circuits */}
           <div className="space-y-3.5">
-            <h4 className="text-xs uppercase tracking-[0.2em] text-amber-800 font-bold font-mono">
+            <h4 className="text-xs uppercase tracking-[0.16em] text-amber-800 font-bold font-sans">
               Top Wedding Circuits
             </h4>
-            <ul className="space-y-2 text-xs text-neutral-600 font-medium">
+            <ul className="space-y-2 text-xs text-neutral-600 font-normal font-sans">
               <li className="flex items-center hover:text-amber-900 transition-colors"><MapPin className="w-3 h-3 text-amber-600 mr-1.5 shrink-0" /> Udaipur & Palace Unions</li>
               <li className="flex items-center hover:text-amber-900 transition-colors"><MapPin className="w-3 h-3 text-amber-600 mr-1.5 shrink-0" /> Jaipur & Jodhpur Forts</li>
               <li className="flex items-center hover:text-amber-900 transition-colors"><MapPin className="w-3 h-3 text-amber-600 mr-1.5 shrink-0" /> Maheshwar Ghats & MP</li>
@@ -158,10 +158,10 @@ const Footer = () => {
 
           {/* Wedding Services & Rituals */}
           <div className="space-y-3.5">
-            <h4 className="text-xs uppercase tracking-[0.2em] text-amber-800 font-bold font-mono">
+            <h4 className="text-xs uppercase tracking-[0.16em] text-amber-800 font-bold font-sans">
               Shoots & Coverage
             </h4>
-            <ul className="space-y-2 text-xs text-neutral-600 font-medium">
+            <ul className="space-y-2 text-xs text-neutral-600 font-normal font-sans">
               <li><Link to="/portfolio/pre-wedding" className="hover:text-amber-900 transition-colors">Cinematic Pre-Wedding Shoots</Link></li>
               <li><Link to="/portfolio/films" className="hover:text-amber-900 transition-colors">4K Wedding Cinema & Teasers</Link></li>
               <li><Link to="/portfolio/wedding" className="hover:text-amber-900 transition-colors">Sangeet & Haldi Photo Shoots</Link></li>
@@ -173,22 +173,22 @@ const Footer = () => {
 
           {/* Registered Office & Studio Hotline */}
           <div className="space-y-3.5 lg:col-span-1">
-            <h4 className="text-xs uppercase tracking-[0.2em] text-amber-800 font-bold font-mono">
+            <h4 className="text-xs uppercase tracking-[0.16em] text-amber-800 font-bold font-sans">
               Registered Studio
             </h4>
             <div className="space-y-2 text-xs text-neutral-700">
               <div className="flex items-start space-x-2">
                 <MapPin className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
-                <p className="leading-snug text-neutral-600 font-medium">
+                <p className="leading-snug text-neutral-600 font-normal font-sans">
                   C 37, Pallavi Nagar, Rohit Nagar, Bawaria Kalan, Bhopal, MP - 462039
                 </p>
               </div>
-              <div className="pt-1 space-y-1.5 font-mono text-[11px]">
+              <div className="pt-1 space-y-1.5 font-sans text-[11.5px]">
                 <a
                   href="https://api.whatsapp.com/send?phone=919229229323"
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center text-emerald-700 hover:text-emerald-800 font-bold"
+                  className="flex items-center text-emerald-700 hover:text-emerald-800 font-semibold"
                 >
                   <Phone className="w-3.5 h-3.5 mr-1.5" /> +91 92292 29323
                 </a>
@@ -207,14 +207,14 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="pt-2 border-t border-neutral-300">
+            <div className="pt-2 border-t border-neutral-300 font-sans">
               <Link
                 to="/careers"
-                className="flex items-center text-xs text-amber-900 hover:text-amber-950 font-bold bg-amber-500/15 hover:bg-amber-500/25 px-2.5 py-2 rounded-lg border border-amber-500/30 transition-all group"
+                className="flex items-center text-xs text-amber-900 hover:text-amber-950 font-semibold bg-amber-500/15 hover:bg-amber-500/25 px-2.5 py-2 rounded-lg border border-amber-500/30 transition-all group"
               >
                 <Camera className="w-3.5 h-3.5 mr-1.5 text-amber-700" />
                 <span>Careers & Job Openings</span>
-                <span className="ml-auto px-1.5 py-0.2 rounded text-[9px] font-mono uppercase bg-emerald-600 text-white font-bold">
+                <span className="ml-auto px-1.5 py-0.2 rounded text-[9px] font-sans uppercase bg-emerald-600 text-white font-bold">
                   We're Hiring
                 </span>
               </Link>

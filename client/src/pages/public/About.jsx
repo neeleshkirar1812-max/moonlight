@@ -41,7 +41,7 @@ const About = () => {
       <div className="max-w-7xl mx-auto space-y-16 sm:space-y-24">
         {/* Hero Narrative */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <span className="text-xs uppercase font-mono tracking-[0.3em] text-amber-700 font-bold block">
+          <span className="text-xs uppercase font-sans tracking-[0.2em] text-amber-700 font-bold block">
             Our Heritage & Philosophy
           </span>
           <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-neutral-900 leading-tight">
@@ -92,7 +92,7 @@ const About = () => {
         {/* Team Showcase */}
         <div className="space-y-8 sm:space-y-12">
           <div className="text-center space-y-2">
-            <span className="text-xs uppercase font-mono tracking-[0.2em] text-amber-700 font-bold">The Masters</span>
+            <span className="text-xs uppercase font-sans tracking-[0.2em] text-amber-700 font-bold">The Masters</span>
             <h2 className="font-serif text-2xl sm:text-4xl text-neutral-900 font-bold">Meet Our Creative Team</h2>
           </div>
 
@@ -104,7 +104,7 @@ const About = () => {
                 </div>
                 <div>
                   <h3 className="font-serif text-lg font-bold text-neutral-900">{member.name}</h3>
-                  <p className="text-[11px] text-amber-700 uppercase tracking-wider font-mono font-bold mt-0.5">{member.role}</p>
+                  <p className="text-[11px] text-amber-700 uppercase tracking-wider font-sans font-semibold mt-0.5">{member.role}</p>
                 </div>
                 <p className="text-xs text-neutral-600 font-normal leading-relaxed">{member.bio}</p>
               </div>
@@ -116,40 +116,40 @@ const About = () => {
         <div className="bg-white rounded-3xl p-6 sm:p-10 border border-amber-900/15 shadow-xl space-y-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-900/10 pb-4">
             <div>
-              <span className="text-[11px] uppercase font-mono tracking-widest text-emerald-800 font-bold block">
+              <span className="text-[11px] uppercase font-sans tracking-wider text-emerald-800 font-bold block">
                 Govt. of India Registered Enterprise
               </span>
               <h3 className="font-serif text-2xl font-bold text-neutral-900">
                 Official Legal Accreditations & Compliance
               </h3>
             </div>
-            <div className="flex items-center space-x-2 text-emerald-700 font-mono text-xs font-bold bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-300">
+            <div className="flex items-center space-x-2 text-emerald-700 font-sans text-xs font-semibold bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-300">
               <ShieldCheck className="w-4 h-4" />
               <span>Verified MSME Enterprise</span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-mono">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-sans">
             <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-neutral-200 space-y-1">
-              <span className="text-neutral-500 uppercase text-[10px] block">GST Registration</span>
-              <p className="font-bold text-neutral-900 text-sm">23DHNPR9293D1ZT</p>
+              <span className="text-neutral-500 uppercase text-[10px] block font-semibold">GST Registration</span>
+              <p className="font-bold text-neutral-900 text-sm font-mono">23DHNPR9293D1ZT</p>
               <p className="text-[10px] text-neutral-600 font-sans">Form GST REG-06 Regular</p>
             </div>
 
             <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-neutral-200 space-y-1">
-              <span className="text-neutral-500 uppercase text-[10px] block">MSME Udyam Number</span>
-              <p className="font-bold text-neutral-900 text-sm">UDYAM-MP-10-0119118</p>
+              <span className="text-neutral-500 uppercase text-[10px] block font-semibold">MSME Udyam Number</span>
+              <p className="font-bold text-neutral-900 text-sm font-mono">UDYAM-MP-10-0119118</p>
               <p className="text-[10px] text-neutral-600 font-sans">Ministry of MSME, Govt. of India</p>
             </div>
 
             <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-neutral-200 space-y-1">
-              <span className="text-neutral-500 uppercase text-[10px] block">Legal Trade Name</span>
+              <span className="text-neutral-500 uppercase text-[10px] block font-semibold">Legal Trade Name</span>
               <p className="font-bold text-neutral-900 text-sm">MOONLIGHT PRODUCTION</p>
               <p className="text-[10px] text-neutral-600 font-sans">Prop. Raksha Rathore</p>
             </div>
 
             <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-neutral-200 space-y-1">
-              <span className="text-neutral-500 uppercase text-[10px] block">Principal Office</span>
+              <span className="text-neutral-500 uppercase text-[10px] block font-semibold">Principal Office</span>
               <p className="font-bold text-neutral-900 text-xs font-sans">C 37, Pallavi Nagar, Bawaria Kalan</p>
               <p className="text-[10px] text-neutral-600 font-sans">Bhopal, MP - 462039</p>
             </div>
@@ -160,12 +160,12 @@ const About = () => {
         <div className="text-center pt-6 space-y-4">
           <Link
             to="/enquiry"
-            className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-widest shadow-md hover:brightness-105 active:scale-95 transition-all btn-shimmer"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-full bg-gold-gradient text-neutral-950 font-bold text-xs uppercase tracking-wider shadow-gold-subtle hover:brightness-105 active:scale-95 transition-all btn-shimmer"
           >
             Commission Your Wedding Shoot With Moonlight Production <ArrowRight className="w-4 h-4 ml-2" />
           </Link>
 
-          <div className="flex justify-center space-x-6 pt-2 text-xs font-mono text-neutral-600">
+          <div className="flex justify-center space-x-6 pt-2 text-xs font-sans text-neutral-600">
             <a href="https://api.whatsapp.com/send?phone=919229229323" target="_blank" rel="noreferrer" className="text-emerald-700 hover:text-emerald-900 font-semibold flex items-center">
               <Phone className="w-3.5 h-3.5 mr-1" /> +91 92292 29323
             </a>

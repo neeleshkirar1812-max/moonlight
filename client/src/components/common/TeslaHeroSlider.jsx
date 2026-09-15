@@ -103,7 +103,7 @@ const TeslaHeroSlider = ({ onPlayVideo }) => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-black/60 border border-gold-400/50 backdrop-blur-md text-[9.5px] sm:text-[11px] font-mono uppercase tracking-[0.18em] text-gold-300 shadow-xl"
+          className="inline-flex items-center space-x-1.5 px-3.5 py-1 rounded-full bg-black/60 border border-gold-400/40 backdrop-blur-md text-[10px] sm:text-[11px] font-sans font-semibold uppercase tracking-[0.14em] text-gold-300 shadow-xl"
         >
           <Sparkles className="w-3 h-3 text-gold-400 shrink-0" />
           <span>Moonlight Production • India</span>
@@ -122,14 +122,14 @@ const TeslaHeroSlider = ({ onPlayVideo }) => {
             transition={{ duration: 0.6 }}
             className="space-y-1.5 sm:space-y-3"
           >
-            <h1 className="font-serif text-2xl xs:text-3xl sm:text-5xl md:text-7xl font-black text-white tracking-tight drop-shadow-2xl leading-tight">
+            <h1 className="font-serif text-2xl xs:text-3xl sm:text-5xl md:text-7xl font-bold text-white tracking-tight drop-shadow-2xl leading-tight">
               {slide.title}
             </h1>
-            <p className="text-xs sm:text-base md:text-lg text-neutral-100 font-medium tracking-wide max-w-xl mx-auto drop-shadow-md line-clamp-2">
+            <p className="text-xs sm:text-base md:text-lg text-neutral-100 font-sans font-normal tracking-wide max-w-xl mx-auto drop-shadow-md line-clamp-2">
               {slide.subtitle}
             </p>
-            <p className="text-[10px] sm:text-xs text-gold-300 font-mono tracking-widest uppercase flex items-center justify-center">
-              <MapPin className="w-3 h-3 mr-1 text-gold-400 shrink-0" />
+            <p className="text-[11px] sm:text-xs text-gold-200 font-sans font-medium tracking-wide flex items-center justify-center">
+              <MapPin className="w-3.5 h-3.5 mr-1 text-gold-400 shrink-0" />
               <span className="truncate max-w-[240px] sm:max-w-none">{slide.location}</span>
             </p>
           </motion.div>
@@ -181,7 +181,7 @@ const TeslaHeroSlider = ({ onPlayVideo }) => {
           <div className="pt-1">
             <button
               onClick={() => onPlayVideo(slide.videoModalId, slide.title)}
-              className="inline-flex items-center text-[10.5px] sm:text-xs text-gold-300 hover:text-white font-mono tracking-wider transition-colors"
+              className="inline-flex items-center text-[11px] sm:text-xs text-gold-300 hover:text-white font-sans font-medium tracking-wide transition-colors"
             >
               <Play className="w-3 h-3 mr-1 fill-gold-400 text-gold-400" />
               Watch Sample 4K Teaser Film

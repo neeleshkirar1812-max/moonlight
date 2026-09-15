@@ -79,7 +79,7 @@ const PortfolioCategoryPage = () => {
           <div className="flex items-center justify-between">
             <Link
               to="/portfolio"
-              className="inline-flex items-center text-xs uppercase tracking-widest text-neutral-800 hover:text-amber-700 font-bold group font-mono"
+              className="inline-flex items-center text-xs tracking-wide text-neutral-800 hover:text-amber-700 font-medium group font-sans"
             >
               <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
               Back to All Archives
@@ -90,17 +90,17 @@ const PortfolioCategoryPage = () => {
                 href="https://www.youtube.com/@moonlightproductions_films"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center px-4 py-1.5 rounded-full bg-red-50 hover:bg-red-600 text-red-700 hover:text-white border border-red-500/30 text-xs font-bold uppercase tracking-wider transition-all font-mono shadow-sm"
+                className="inline-flex items-center px-4 py-1.5 rounded-full bg-red-50 hover:bg-red-600 text-red-700 hover:text-white border border-red-500/30 text-xs font-medium tracking-normal transition-all font-sans shadow-sm"
               >
-                <Youtube className="w-3.5 h-3.5 mr-1.5" /> Subscribe on YouTube
+                <Youtube className="w-3.5 h-3.5 mr-1.5 text-red-600" /> Subscribe on YouTube
               </a>
             )}
           </div>
 
-          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-black text-neutral-900">
+          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-neutral-900">
             {categoryMeta.title}
           </h1>
-          <p className="text-neutral-600 text-xs sm:text-base font-normal max-w-2xl">
+          <p className="text-neutral-600 text-xs sm:text-base font-normal max-w-2xl font-sans">
             {categoryMeta.desc}
           </p>
 
@@ -109,30 +109,30 @@ const PortfolioCategoryPage = () => {
             <div className="flex items-center space-x-2 pt-2 overflow-x-auto pb-2 custom-scrollbar">
               <button
                 onClick={() => setFilmFilter('all')}
-                className={`px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all whitespace-nowrap ${
+                className={`px-4 py-2 rounded-full text-xs font-sans font-semibold tracking-normal transition-all whitespace-nowrap ${
                   filmFilter === 'all'
-                    ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
-                    : 'bg-white text-neutral-700 hover:text-neutral-900 border border-neutral-300 font-semibold shadow-sm'
+                    ? 'bg-gold-gradient text-neutral-950 font-bold shadow-sm'
+                    : 'bg-white text-neutral-700 hover:text-neutral-900 border border-neutral-300 font-medium shadow-sm'
                 }`}
               >
                 All 4K Films ({items.length})
               </button>
               <button
                 onClick={() => setFilmFilter('pre-wedding')}
-                className={`px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all whitespace-nowrap ${
+                className={`px-4 py-2 rounded-full text-xs font-sans font-semibold tracking-normal transition-all whitespace-nowrap ${
                   filmFilter === 'pre-wedding'
-                    ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
-                    : 'bg-white text-neutral-700 hover:text-neutral-900 border border-neutral-300 font-semibold shadow-sm'
+                    ? 'bg-gold-gradient text-neutral-950 font-bold shadow-sm'
+                    : 'bg-white text-neutral-700 hover:text-neutral-900 border border-neutral-300 font-medium shadow-sm'
                 }`}
               >
                 Pre-Wedding & Teasers
               </button>
               <button
                 onClick={() => setFilmFilter('wedding')}
-                className={`px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all whitespace-nowrap ${
+                className={`px-4 py-2 rounded-full text-xs font-sans font-semibold tracking-normal transition-all whitespace-nowrap ${
                   filmFilter === 'wedding'
-                    ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
-                    : 'bg-white text-neutral-700 hover:text-neutral-900 border border-neutral-300 font-semibold shadow-sm'
+                    ? 'bg-gold-gradient text-neutral-950 font-bold shadow-sm'
+                    : 'bg-white text-neutral-700 hover:text-neutral-900 border border-neutral-300 font-medium shadow-sm'
                 }`}
               >
                 Wedding Ceremonies & Highlights

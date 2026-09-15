@@ -70,14 +70,14 @@ const Blog = () => {
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-600/20 text-amber-800 text-xs font-mono font-bold uppercase tracking-widest">
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-600/20 text-amber-800 text-xs font-sans font-semibold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5 text-amber-700" />
             <span>Moonlight Studio Blog</span>
           </div>
           <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-900">
             Wedding Photography & Cinema Guides
           </h1>
-          <p className="text-neutral-600 text-sm sm:text-base font-normal max-w-2xl mx-auto leading-relaxed">
+          <p className="text-neutral-600 text-sm sm:text-base font-normal max-w-2xl mx-auto leading-relaxed font-sans">
             Expert tips, destination wedding guides, outfit lighting advice, and 4K cinema insights from the Moonlight creative team.
           </p>
         </div>
@@ -91,7 +91,7 @@ const Blog = () => {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap ${
                   selectedCategory === cat
-                    ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
+                    ? 'bg-gold-gradient text-neutral-950 font-bold shadow-gold-subtle'
                     : 'bg-white text-neutral-700 hover:text-neutral-900 border border-neutral-300 shadow-sm'
                 }`}
               >
@@ -107,7 +107,7 @@ const Blog = () => {
               placeholder="Search wedding guides..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-white border border-neutral-300 rounded-full pl-9 pr-4 py-2 text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-amber-600 shadow-sm"
+              className="w-full bg-white border border-neutral-300 rounded-full pl-9 pr-4 py-2 text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-amber-600 shadow-sm font-sans"
             />
           </div>
         </div>
@@ -119,7 +119,7 @@ const Blog = () => {
           <div className="text-center py-20 bg-white rounded-3xl border border-amber-900/10 space-y-3 shadow-sm">
             <BookOpen className="w-8 h-8 text-amber-700 mx-auto opacity-70" />
             <h3 className="font-serif text-xl text-neutral-900 font-bold">No articles matching your criteria.</h3>
-            <p className="text-xs text-neutral-500">Try selecting "All" or clearing your search keywords.</p>
+            <p className="text-xs text-neutral-500 font-sans">Try selecting "All" or clearing your search keywords.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -136,14 +136,14 @@ const Blog = () => {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute top-3 left-3">
-                      <span className="px-3 py-1 rounded-full bg-black/80 backdrop-blur-md text-[10px] text-gold-300 font-semibold uppercase tracking-widest border border-gold-500/30 shadow-sm">
+                      <span className="px-3 py-1 rounded-full bg-black/80 backdrop-blur-md text-[10px] text-amber-200 font-semibold uppercase tracking-wider border border-amber-400/30 shadow-sm font-sans">
                         {blog.category}
                       </span>
                     </div>
                   </div>
 
                   <div className="p-6 space-y-3">
-                    <div className="flex items-center space-x-4 text-[11px] text-neutral-500 font-mono">
+                    <div className="flex items-center space-x-4 text-[11px] text-neutral-500 font-sans">
                       <span className="flex items-center">
                         <Clock className="w-3 h-3 mr-1 text-amber-700" /> {blog.readingTime || '5 min read'}
                       </span>

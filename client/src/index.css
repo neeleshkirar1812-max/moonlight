@@ -33,16 +33,20 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', 'Cinzel', serif;
-    letter-spacing: 0.015em;
+    font-family: 'Playfair Display', 'Cormorant Garamond', 'Cinzel', serif;
+    letter-spacing: -0.01em;
     color: #111827;
     font-weight: 700;
     overflow-wrap: break-word;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
   }
 
-  p, span, label, a {
+  p, span, label, a, button, input, select, textarea {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
     color: inherit;
     overflow-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
   }
 
   /* Responsive image safety */

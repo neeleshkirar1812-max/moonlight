@@ -134,13 +134,13 @@ const Portfolio = () => {
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
         {/* Header Title */}
         <div className="text-center max-w-3xl mx-auto space-y-2 sm:space-y-3">
-          <span className="text-[11px] sm:text-xs uppercase font-mono tracking-[0.25em] sm:tracking-[0.35em] text-amber-700 font-bold block">
+          <span className="text-[11px] sm:text-xs uppercase font-sans tracking-[0.2em] text-amber-800 font-semibold block">
             Moonlight Production Archives
           </span>
           <h1 className="font-serif text-2xl sm:text-4xl lg:text-6xl font-bold text-neutral-900">
             Indian Royal Wedding Portfolio
           </h1>
-          <p className="text-neutral-600 text-xs sm:text-base font-normal max-w-xl mx-auto">
+          <p className="text-neutral-600 text-xs sm:text-base font-normal max-w-xl mx-auto font-sans">
             A curated anthology of timeless Indian love stories, regal palace unions, sacred Vedic rituals, and pre-wedding shoots.
           </p>
         </div>
@@ -155,9 +155,9 @@ const Portfolio = () => {
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`px-3.5 sm:px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap min-h-[44px] flex items-center ${
+                  className={`px-3.5 sm:px-4 py-2 rounded-full text-xs font-semibold tracking-normal transition-all whitespace-nowrap min-h-[44px] flex items-center ${
                     isActive
-                      ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
+                      ? 'bg-gold-gradient text-neutral-950 font-bold shadow-sm'
                       : 'bg-white text-neutral-700 hover:text-neutral-900 border border-neutral-300 shadow-sm'
                   }`}
                 >
@@ -175,7 +175,7 @@ const Portfolio = () => {
               placeholder="Search by city, couple or ritual..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white border border-neutral-300 rounded-full pl-10 pr-4 py-2 text-xs text-neutral-900 placeholder-neutral-400 focus:border-amber-600 focus:outline-none min-h-[44px] shadow-sm"
+              className="w-full bg-white border border-neutral-300 rounded-full pl-10 pr-4 py-2 text-xs text-neutral-900 placeholder-neutral-400 focus:border-amber-600 focus:outline-none min-h-[44px] shadow-sm font-sans"
             />
           </div>
         </div>
@@ -184,7 +184,7 @@ const Portfolio = () => {
         {loading ? (
           <CardSkeleton count={6} height="h-96" />
         ) : filteredItems.length === 0 ? (
-          <div className="text-center py-20 bg-white rounded-3xl border border-amber-900/10 shadow-sm space-y-4">
+          <div className="text-center py-20 bg-white rounded-3xl border border-amber-900/10 shadow-sm space-y-4 font-sans">
             <Sparkles className="w-10 h-10 text-amber-600 mx-auto opacity-70" />
             <h3 className="font-serif text-2xl text-neutral-900 font-bold">No Stories Found</h3>
             <p className="text-xs text-neutral-600">Try selecting a different category or refining your search term.</p>
@@ -213,20 +213,20 @@ const Portfolio = () => {
 
                     {/* Top Tag */}
                     <div className="absolute top-3 left-3">
-                      <span className="px-3 py-1 rounded-full bg-black/80 backdrop-blur-md border border-gold-500/40 text-[10px] text-gold-300 font-bold uppercase tracking-widest font-mono shadow-sm">
+                      <span className="px-3 py-1 rounded-full bg-black/80 backdrop-blur-md border border-gold-500/40 text-[10.5px] text-gold-300 font-semibold uppercase tracking-wider font-sans shadow-sm">
                         {item.category}
                       </span>
                     </div>
 
                     {/* Bottom Info on Hover */}
                     <div className="absolute bottom-0 left-0 right-0 p-6 space-y-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="flex items-center text-[10px] text-gold-400 font-mono tracking-wider">
-                        <MapPin className="w-3 h-3 mr-1 text-gold-400" />
+                      <div className="flex items-center text-[10.5px] text-gold-300 font-sans tracking-wide">
+                        <MapPin className="w-3.5 h-3.5 mr-1 text-gold-400" />
                         {item.location?.venue || item.location?.city}
                       </div>
                       <h3 className="font-serif text-lg font-bold text-white">{item.title}</h3>
-                      <p className="text-xs text-neutral-300 line-clamp-2 font-light">{item.description}</p>
-                      <div className="pt-2 flex items-center justify-between text-xs text-gold-400">
+                      <p className="text-xs text-neutral-300 line-clamp-2 font-normal font-sans">{item.description}</p>
+                      <div className="pt-2 flex items-center justify-between text-xs text-gold-400 font-sans">
                         <span className="flex items-center"><ZoomIn className="w-3.5 h-3.5 mr-1" /> View Full-Screen</span>
                         <span>Moonlight Studio</span>
                       </div>

@@ -83,13 +83,13 @@ const Register = () => {
               className="w-full h-full object-cover rounded-full"
             />
           </div>
-          <span className="text-xs font-mono tracking-widest uppercase text-amber-900 font-bold block">
+          <span className="text-xs font-sans tracking-wider uppercase text-amber-900 font-bold block">
             MOONLIGHT PRODUCTION
           </span>
-          <h1 className="text-2xl sm:text-3xl font-bold text-neutral-950 tracking-tight">
+          <h1 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-950 tracking-tight">
             {isSubmitted ? 'Request Submitted' : 'Couple Account Request'}
           </h1>
-          <p className="text-xs sm:text-sm text-neutral-700 font-medium max-w-sm mx-auto">
+          <p className="text-xs sm:text-sm text-neutral-700 font-normal max-w-sm mx-auto font-sans">
             {isSubmitted
               ? 'Your account request is awaiting activation by the studio director.'
               : 'Enter your details to create your private wedding portal account.'}

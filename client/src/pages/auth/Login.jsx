@@ -157,13 +157,13 @@ const Login = () => {
                 <span className="font-serif text-lg font-bold tracking-[0.18em] text-white block">
                   MOONLIGHT
                 </span>
-                <span className="text-[9px] tracking-[0.25em] text-amber-400 font-mono uppercase font-bold">
+                <span className="text-[9px] tracking-[0.2em] text-amber-400 font-sans uppercase font-bold">
                   Production • Luxury Cinema
                 </span>
               </div>
             </div>
 
-            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-amber-300 text-[10px] font-mono uppercase font-bold backdrop-blur-md">
+            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-amber-300 text-[10px] font-sans uppercase font-semibold backdrop-blur-md">
               <Award className="w-3.5 h-3.5 text-amber-400" />
               <span>India's Premier Wedding Studio</span>
             </div>
@@ -179,20 +179,20 @@ const Login = () => {
                 MP
               </div>
               <div>
-                <h4 className="text-xs font-bold text-white">Moonlight Cinema & Invitations</h4>
-                <p className="text-[10px] text-neutral-400">Bhopal • Udaipur • Goa • Destination</p>
+                <h4 className="text-xs font-bold text-white font-sans">Moonlight Cinema & Invitations</h4>
+                <p className="text-[10px] text-neutral-400 font-sans">Bhopal • Udaipur • Goa • Destination</p>
               </div>
             </div>
           </div>
 
           {/* Bottom Statistics */}
-          <div className="relative z-10 pt-4 border-t border-white/15 grid grid-cols-2 gap-4 text-xs font-mono">
+          <div className="relative z-10 pt-4 border-t border-white/15 grid grid-cols-2 gap-4 text-xs font-sans">
             <div>
-              <span className="text-[10px] text-neutral-400 uppercase block">Royal Celebrations</span>
+              <span className="text-[10px] text-neutral-400 uppercase block font-medium">Royal Celebrations</span>
               <span className="font-bold text-amber-300 text-sm">500+ Weddings</span>
             </div>
             <div>
-              <span className="text-[10px] text-neutral-400 uppercase block">Digital Suites</span>
+              <span className="text-[10px] text-neutral-400 uppercase block font-medium">Digital Suites</span>
               <span className="font-bold text-amber-300 text-sm">31 4K Gate Themes</span>
             </div>
           </div>
@@ -206,11 +206,11 @@ const Login = () => {
           {/* Header */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-mono uppercase tracking-[0.2em] text-amber-800 font-bold flex items-center">
+              <span className="text-xs font-sans uppercase tracking-wider text-amber-800 font-bold flex items-center">
                 <Sparkles className="w-3.5 h-3.5 mr-1.5 text-amber-600" />
                 SECURE AUTHENTICATION
               </span>
-              <span className="text-[10px] font-mono text-neutral-500 px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200">
+              <span className="text-[10px] font-sans font-medium text-neutral-500 px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200">
                 2026 Portal
               </span>
             </div>
@@ -225,11 +225,11 @@ const Login = () => {
           {/* 1-Click Fast Test Persona Picker */}
           <div className="space-y-2.5 p-4 rounded-2xl bg-[#FAF8F5] border border-stone-300">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-neutral-900 uppercase tracking-wider flex items-center">
+              <span className="text-[11px] font-bold text-neutral-900 uppercase tracking-wider flex items-center font-sans">
                 <Sparkles className="w-3.5 h-3.5 text-amber-700 mr-1.5" />
                 Quick-Fill Demo Accounts:
               </span>
-              <span className="text-[10px] text-neutral-500 font-mono">1-Click Test</span>
+              <span className="text-[10px] text-neutral-500 font-sans font-medium">1-Click Test</span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
@@ -249,7 +249,7 @@ const Login = () => {
                   >
                     <div className="flex items-center justify-between">
                       <IconComponent className={`w-3.5 h-3.5 ${isSelected ? 'text-amber-300' : 'text-amber-800'}`} />
-                      <span className={`text-[9px] font-mono font-bold uppercase ${isSelected ? 'text-amber-200' : 'text-neutral-500'}`}>
+                      <span className={`text-[9px] font-sans font-bold uppercase ${isSelected ? 'text-amber-200' : 'text-neutral-500'}`}>
                         {d.role === 'customer' ? 'Couple' : d.role === 'superadmin' ? 'Admin' : d.role === 'admin' ? 'HR' : 'Crew'}
                       </span>
                     </div>
