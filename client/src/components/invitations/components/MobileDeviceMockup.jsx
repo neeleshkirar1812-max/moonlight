@@ -42,7 +42,6 @@ const MobileDeviceMockup = ({
 }) => {
   const [device, setDevice] = useState(defaultDevice); // 'auto' | 'iphone-16-pro' | 'galaxy-s24' | 'pixel-9-pro' | 'native'
   const [currentTime, setCurrentTime] = useState('');
-  const [showQrModal, setShowQrModal] = useState(false);
   const [copied, setCopied] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -116,15 +115,6 @@ const MobileDeviceMockup = ({
             >
               <RotateCcw className="w-3 h-3 text-amber-700" />
               <span>Replay Gate</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setShowQrModal(true)}
-              className="p-1.5 rounded-xl bg-stone-200/80 hover:bg-stone-300 text-neutral-800 transition-colors"
-              title="Scan on Physical Phone"
-            >
-              <QrCode className="w-3.5 h-3.5" />
             </button>
 
             <button
@@ -300,65 +290,6 @@ const MobileDeviceMockup = ({
         </div>
       </div>
 
-      {/* ------------------------------------------------------------- */}
-      {/* SCAN ON PHYSICAL PHONE QR CODE MODAL */}
-      {/* ------------------------------------------------------------- */}
-      {showQrModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in font-sans">
-          <div className="bg-neutral-950 text-white rounded-3xl max-w-sm w-full p-6 space-y-5 border border-amber-500/40 shadow-2xl relative">
-            <button
-              type="button"
-              onClick={() => setShowQrModal(false)}
-              className="absolute top-4 right-4 p-2 rounded-full bg-white/10 text-neutral-400 hover:text-white"
-            >
-              <X className="w-4 h-4" />
-            </button>
-
-            <div className="text-center space-y-2">
-              <div className="w-12 h-12 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center mx-auto shadow-inner">
-                <Smartphone className="w-6 h-6" />
-              </div>
-              <h3 className="font-serif text-xl font-bold text-amber-200">
-                Test On Your Real Smartphone
-              </h3>
-              <p className="text-xs text-neutral-400">
-                Point your phone camera at the QR code below to experience the real 4K video doors, shehnai music & touch scratch card natively.
-              </p>
-            </div>
-
-            {/* QR Code Container */}
-            <div className="p-4 bg-white rounded-2xl flex justify-center shadow-lg border-2 border-amber-400/50">
-              <img
-                src={`https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(
-                  liveUrl
-                )}`}
-                alt="Physical Phone Preview QR"
-                className="w-48 h-48 rounded-lg"
-              />
-            </div>
-
-            {/* Direct Link Copy */}
-            <div className="p-2.5 rounded-xl bg-neutral-900 border border-neutral-800 text-[11px] font-mono text-neutral-300 flex items-center justify-between">
-              <span className="truncate mr-2">{liveUrl}</span>
-              <button
-                type="button"
-                onClick={handleCopyLink}
-                className="p-1.5 rounded-lg bg-amber-500 text-neutral-950 font-bold hover:brightness-110 shrink-0"
-              >
-                {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-              </button>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setShowQrModal(false)}
-              className="w-full py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider"
-            >
-              Done Testing
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
