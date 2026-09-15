@@ -44,7 +44,7 @@ const TeslaStickyBar = () => {
             href="https://api.whatsapp.com/send?phone=919229229323"
             target="_blank"
             rel="noreferrer"
-            className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-full bg-emerald-50 hover:bg-emerald-600 border border-emerald-500/30 text-emerald-700 hover:text-white text-[9px] sm:text-[10.5px] font-bold uppercase tracking-wider transition-all flex items-center shadow-sm min-h-[32px]"
+            className="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-emerald-50 hover:bg-emerald-600 border border-emerald-500/30 text-emerald-700 hover:text-white text-[10px] sm:text-xs font-medium transition-all flex items-center shadow-xs min-h-[32px]"
           >
             <Phone className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1" />
             <span className="hidden xs:inline">WhatsApp</span>
@@ -52,9 +52,9 @@ const TeslaStickyBar = () => {
 
           <Link
             to="/enquiry"
-            className="px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-[9px] sm:text-[10.5px] uppercase tracking-wider shadow-md hover:brightness-105 active:scale-95 transition-all flex items-center btn-shimmer min-h-[32px]"
+            className="px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white font-medium text-[10px] sm:text-xs shadow-xs active:scale-95 transition-all flex items-center min-h-[32px]"
           >
-            <span>Book</span>
+            <span>Book Shoot</span>
             <ArrowRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 ml-1" />
           </Link>
 

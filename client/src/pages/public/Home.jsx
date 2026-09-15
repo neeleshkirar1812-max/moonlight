@@ -340,13 +340,13 @@ const Home = () => {
               <div className="p-6 sm:p-7 pt-0 flex items-center gap-3">
                 <Link
                   to={pillar.primaryLink}
-                  className="flex-1 py-3 px-4 rounded-full bg-[#FAF8F5] hover:bg-amber-100 border border-amber-900/15 text-neutral-900 font-bold text-xs uppercase tracking-wider text-center transition-all shadow-sm"
+                  className="flex-1 py-2.5 px-4 rounded-full bg-white hover:bg-neutral-50 border border-neutral-300 text-neutral-800 font-medium text-xs text-center transition-all shadow-xs"
                 >
                   {pillar.primaryLabel}
                 </Link>
                 <Link
                   to={pillar.bookLink}
-                  className="py-3 px-5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-sm hover:brightness-105 active:scale-95 transition-all text-center btn-shimmer shrink-0"
+                  className="py-2.5 px-5 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white font-medium text-xs shadow-xs active:scale-95 transition-all text-center shrink-0"
                 >
                   Book Shoot
                 </Link>
@@ -378,10 +378,10 @@ const Home = () => {
                 <button
                   key={cat}
                   onClick={() => setSelectedPhotoCategory(cat)}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap ${
+                  className={`px-4 py-2 rounded-full text-xs font-medium transition-all whitespace-nowrap ${
                     selectedPhotoCategory === cat
-                      ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
-                      : 'bg-white text-neutral-700 hover:text-neutral-900 border border-neutral-300 shadow-sm'
+                      ? 'bg-neutral-950 text-white shadow-xs'
+                      : 'bg-white text-neutral-700 hover:text-neutral-900 border border-neutral-200 shadow-xs'
                   }`}
                 >
                   {cat === 'All' ? 'All Photos' : cat}
@@ -427,9 +427,9 @@ const Home = () => {
           <div className="text-center pt-4">
             <Link
               to="/portfolio"
-              className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-md hover:brightness-105 active:scale-95 transition-all btn-shimmer"
+              className="inline-flex items-center justify-center px-7 py-3 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white font-medium text-xs sm:text-sm shadow-xs active:scale-95 transition-all"
             >
-              Explore Complete Photo Archive <ArrowRight className="w-4 h-4 ml-2" />
+              Explore Photo Gallery <ArrowRight className="w-4 h-4 ml-2" />
             </Link>
           </div>
         </div>
@@ -478,7 +478,7 @@ const Home = () => {
                       }}
                     />
                     <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gold-gradient text-neutral-950 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/95 text-neutral-950 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                         <Play className="w-6 h-6 fill-neutral-950 ml-0.5" />
                       </div>
                     </div>
@@ -510,17 +510,17 @@ const Home = () => {
           <div className="text-center pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               to="/portfolio/films"
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-md hover:brightness-105 active:scale-95 transition-all btn-shimmer"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 sm:px-8 py-3 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white font-medium text-xs sm:text-sm shadow-xs active:scale-95 transition-all"
             >
-              Explore All 30+ 4K Wedding Films <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+              Watch All Films <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
             </Link>
             <a
               href="https://www.youtube.com/@moonlightproductions_films"
               target="_blank"
               rel="noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-red-50 hover:bg-red-600 text-red-700 hover:text-white border border-red-500/30 text-xs font-bold uppercase tracking-wider transition-all font-mono shadow-sm"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-full bg-white hover:bg-neutral-50 text-neutral-800 border border-neutral-300 text-xs sm:text-sm font-medium tracking-normal transition-all shadow-xs"
             >
-              <Youtube className="w-4 h-4 mr-1.5" /> YouTube Channel
+              <Youtube className="w-4 h-4 mr-1.5 text-red-600" /> YouTube Channel
             </a>
           </div>
         </section>
@@ -546,10 +546,10 @@ const Home = () => {
                 <div className="pt-2">
                   <Link
                     to="/enquiry"
-                    className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-md hover:brightness-105 active:scale-95 transition-all btn-shimmer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white font-medium text-xs sm:text-sm shadow-xs active:scale-95 transition-all"
                   >
-                    <Calendar className="w-3.5 h-3.5 mr-2" />
-                    Book Wedding Shoot / Check Availability
+                    <Calendar className="w-4 h-4 mr-2" />
+                    Book a Shoot
                   </Link>
                 </div>
               </div>
@@ -605,9 +605,9 @@ const Home = () => {
                         key={t}
                         type="button"
                         onClick={() => setGuestTier(t)}
-                        className={`py-1.5 rounded-xl text-xs font-mono transition-all ${
+                        className={`py-2 rounded-xl text-xs font-medium transition-all ${
                           guestTier === t
-                            ? 'bg-gold-gradient text-neutral-950 font-extrabold shadow-sm'
+                            ? 'bg-neutral-950 text-white shadow-xs'
                             : 'bg-white border border-neutral-300 text-neutral-600 hover:text-neutral-900'
                         }`}
                       >
@@ -630,7 +630,7 @@ const Home = () => {
 
                   <Link
                     to="/enquiry"
-                    className="px-4 py-2 rounded-full bg-neutral-900 hover:bg-black text-white text-xs font-bold uppercase tracking-wider transition-all shadow-sm"
+                    className="px-5 py-2.5 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white text-xs font-medium transition-all shadow-xs"
                   >
                     Lock Estimate →
                   </Link>

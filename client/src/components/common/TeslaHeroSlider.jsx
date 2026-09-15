@@ -10,8 +10,8 @@ const slides = [
     subtitle: 'Sacred Vedic Pheras, Sangeet Nights & Palace Baraat',
     location: 'Udaipur, Jaipur & Central India',
     image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=2000&q=90',
-    primaryCta: { label: 'Plan Wedding Shoot', path: '/enquiry' },
-    secondaryCta: { label: 'Explore Archives', path: '/portfolio/wedding' },
+    primaryCta: { label: 'Book a Shoot', path: '/enquiry' },
+    secondaryCta: { label: 'View Photos', path: '/portfolio/wedding' },
     videoModalId: 'ZXgYOwwY0yY',
   },
   {
@@ -21,27 +21,27 @@ const slides = [
     location: 'Ahilya Fort, Narmada Ghats & Marine Drive',
     image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=2000&q=90',
     primaryCta: { label: 'Book Pre-Wedding', path: '/enquiry' },
-    secondaryCta: { label: 'Watch 4K Teasers', path: '/portfolio/films' },
+    secondaryCta: { label: 'Watch Videos', path: '/portfolio/films' },
     videoModalId: 'MjxoZ8h01go',
   },
   {
     id: 3,
-    title: '4K Cinema Feature Films',
+    title: 'Wedding Films',
     subtitle: 'Mastercrafted Motion Pictures from @moonlightproductions_films',
     location: 'Shot on 4K Full-Frame Cinema Systems',
     image: 'https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&w=2000&q=90',
-    primaryCta: { label: 'Watch 30+ 4K Films', path: '/portfolio/films' },
-    secondaryCta: { label: 'YouTube Channel', external: 'https://www.youtube.com/@moonlightproductions_films' },
+    primaryCta: { label: 'Watch Films', path: '/portfolio/films' },
+    secondaryCta: { label: 'YouTube', external: 'https://www.youtube.com/@moonlightproductions_films' },
     videoModalId: 'FsCXOQJihF0',
   },
   {
     id: 4,
-    title: 'Destination Commissions',
+    title: 'Destination Weddings',
     subtitle: 'Goa Sunset Beach, Rajasthan Forts & Heritage Resorts',
     location: 'All-India Travel & Production Crew Included',
     image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=2000&q=90',
-    primaryCta: { label: 'View Pricing Tiers', path: '/services' },
-    secondaryCta: { label: 'Chat on WhatsApp', external: 'https://api.whatsapp.com/send?phone=919229229323' },
+    primaryCta: { label: 'View Pricing', path: '/services' },
+    secondaryCta: { label: 'WhatsApp', external: 'https://api.whatsapp.com/send?phone=919229229323' },
     videoModalId: 'fdPTAJ9MzyU',
   },
 ];
@@ -110,7 +110,7 @@ const TeslaHeroSlider = ({ onPlayVideo }) => {
         </motion.div>
       </div>
 
-      {/* Center-Aligned Tesla-Grade Hero Typography & Dual Action Buttons */}
+      {/* Center-Aligned Hero Typography & Action Buttons */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto space-y-3 sm:space-y-5 pb-16 sm:pb-24">
         {/* Slide Title & Subtitle */}
         <AnimatePresence mode="wait">
@@ -135,22 +135,22 @@ const TeslaHeroSlider = ({ onPlayVideo }) => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Dual Action Buttons (Stacked on Narrow Mobile, Side-by-Side on >=380px) */}
-        <div className="flex flex-col xs:flex-row items-center justify-center gap-2 sm:gap-3.5 pt-2 max-w-md mx-auto w-full px-3">
+        {/* Dual Action Buttons */}
+        <div className="flex flex-col xs:flex-row items-center justify-center gap-2.5 sm:gap-3.5 pt-2 max-w-md mx-auto w-full px-3">
           {/* Primary CTA */}
           {slide.primaryCta.external ? (
             <a
               href={slide.primaryCta.external}
               target="_blank"
               rel="noreferrer"
-              className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-gold-gradient text-black font-black text-xs uppercase tracking-wider shadow-gold-subtle active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center btn-shimmer"
+              className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-white hover:bg-neutral-100 text-neutral-950 font-semibold text-xs sm:text-sm tracking-normal shadow-lg active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center"
             >
               {slide.primaryCta.label}
             </a>
           ) : (
             <Link
               to={slide.primaryCta.path}
-              className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-gold-gradient text-black font-black text-xs uppercase tracking-wider shadow-gold-subtle active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center btn-shimmer"
+              className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-white hover:bg-neutral-100 text-neutral-950 font-semibold text-xs sm:text-sm tracking-normal shadow-lg active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center"
             >
               {slide.primaryCta.label}
             </Link>
@@ -162,14 +162,14 @@ const TeslaHeroSlider = ({ onPlayVideo }) => {
               href={slide.secondaryCta.external}
               target="_blank"
               rel="noreferrer"
-              className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-white/20 hover:bg-white/30 border border-white/40 text-white font-bold text-xs uppercase tracking-wider backdrop-blur-xl active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center"
+              className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-neutral-900/80 hover:bg-neutral-900 border border-white/20 text-white font-medium text-xs sm:text-sm tracking-normal backdrop-blur-md active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center"
             >
               {slide.secondaryCta.label}
             </a>
           ) : (
             <Link
               to={slide.secondaryCta.path}
-              className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-white/20 hover:bg-white/30 border border-white/40 text-white font-bold text-xs uppercase tracking-wider backdrop-blur-xl active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center"
+              className="w-full xs:flex-1 py-3 sm:py-3.5 px-4 sm:px-6 rounded-full bg-neutral-900/80 hover:bg-neutral-900 border border-white/20 text-white font-medium text-xs sm:text-sm tracking-normal backdrop-blur-md active:scale-95 transition-all text-center min-h-[44px] flex items-center justify-center"
             >
               {slide.secondaryCta.label}
             </Link>

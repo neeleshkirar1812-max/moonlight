@@ -41,16 +41,16 @@ const Footer = () => {
               href="https://api.whatsapp.com/send?phone=919229229323"
               target="_blank"
               rel="noreferrer"
-              className="px-4 py-2.5 rounded-full border border-emerald-600/40 bg-emerald-600/10 hover:bg-emerald-600 hover:text-white text-emerald-800 font-bold text-xs uppercase tracking-wider transition-all flex items-center shadow-sm"
+              className="px-4 py-2 rounded-full border border-emerald-600/30 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-800 font-medium text-xs transition-all flex items-center shadow-xs"
             >
-              <Phone className="w-3.5 h-3.5 mr-1.5" /> WhatsApp: +91 92292 29323
+              <Phone className="w-3.5 h-3.5 mr-1.5" /> WhatsApp Us
             </a>
 
             <Link
               to="/enquiry"
-              className="px-5 py-2.5 rounded-full bg-gold-gradient text-neutral-950 font-extrabold text-xs uppercase tracking-wider shadow-sm hover:brightness-105 active:scale-95 transition-all flex items-center btn-shimmer"
+              className="px-5 py-2 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white font-medium text-xs shadow-xs active:scale-95 transition-all flex items-center"
             >
-              <Calendar className="w-3.5 h-3.5 mr-1.5" /> Plan Wedding Shoot
+              <Calendar className="w-3.5 h-3.5 mr-1.5" /> Book a Shoot
             </Link>
           </div>
         </div>
