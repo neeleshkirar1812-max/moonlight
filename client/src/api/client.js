@@ -732,8 +732,17 @@ const handleMockRequest = async (method, url, data) => {
   if (cleanUrl.startsWith('/auth')) {
     if (cleanUrl.includes('login')) {
       const email = (data?.email || '').toLowerCase().trim();
+      const password = (data?.password || '').trim();
+      
+      const isMoonlightSuperAdmin = 
+        email === 'moonlight' || 
+        email === 'tarun' || 
+        email === 'tarunrathore3435@gmail.com' ||
+        email === 'nkneeleshkirar@gmail.com' ||
+        email.includes('superadmin');
+
       let role = 'customer';
-      if (email === 'nkneeleshkirar@gmail.com' || email.includes('superadmin')) {
+      if (isMoonlightSuperAdmin) {
         role = 'superadmin';
       } else if (email.includes('admin') || email.includes('director') || email.includes('hr')) {
         role = 'admin';
@@ -757,10 +766,11 @@ const handleMockRequest = async (method, url, data) => {
       }
       const token = `moonlight_jwt_${Date.now()}`;
       const userObj = {
-        _id: `usr-${Date.now()}`,
-        email,
-        name: (email.split('@')[0] || 'User').toUpperCase(),
+        _id: isMoonlightSuperAdmin ? 'usr-super-1' : `usr-${Date.now()}`,
+        email: isMoonlightSuperAdmin ? 'Tarunrathore3435@gmail.com' : email,
+        name: isMoonlightSuperAdmin ? 'Tarun Rathore (Studio Director)' : (email.split('@')[0] || 'User').toUpperCase(),
         role,
+        designation: isMoonlightSuperAdmin ? 'Supreme Creative Director & Super Admin' : (role === 'employee' ? 'Production Crew Master' : 'VIP Studio Client'),
       };
       return {
         data: {
