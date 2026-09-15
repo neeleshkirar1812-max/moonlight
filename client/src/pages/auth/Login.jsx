@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import SEO from '../../components/common/SEO';
 import { useNotification } from '../../context/NotificationContext';
@@ -13,31 +13,82 @@ import {
   Heart,
   Crown,
   ShieldCheck,
-  Camera,
   Phone,
-  CheckCircle2,
-  Play,
-  Film,
-  Award,
+  Layers,
+  Zap,
+  Fingerprint,
+  Mail,
+  ChevronRight,
 } from 'lucide-react';
 
 const Login = () => {
+  const [searchParams] = useSearchParams();
+  const initialTab = searchParams.get('portal') === 'admin' ? 'admin' : 'couple';
+
+  const [activeTab, setActiveTab] = useState(initialTab); // 'couple' | 'admin'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [selectedDemo, setSelectedDemo] = useState(null);
 
   const { login } = useAuth();
   const { addToast } = useNotification();
   const navigate = useNavigate();
+
+  // Fast Demo Personas for 2026 Seamless One-Click Login Testing
+  const demoPersonas = {
+    couple: [
+      {
+        id: 'couple-1',
+        title: 'Aarav & Kiara',
+        subtitle: 'Royal Imperial Suite (Live RSVP)',
+        email: 'aarav.kiara@moonlight.com',
+        password: 'Couple@2026',
+        badge: '👑 Royal Video Suite',
+      },
+      {
+        id: 'couple-2',
+        title: 'Kabir & Meera',
+        subtitle: 'Majesty Suite & Photo Vault',
+        email: 'kabir.meera@gmail.com',
+        password: 'Client@2026',
+        badge: '✨ Classic Suite',
+      },
+    ],
+    admin: [
+      {
+        id: 'admin-super',
+        title: 'Tarun Rathore',
+        subtitle: 'Founder & Super Admin (Root Access)',
+        email: 'nkneeleshkirar@gmail.com',
+        password: 'SuperAdmin@2026',
+        badge: '🔱 Super Admin',
+      },
+      {
+        id: 'admin-manager',
+        title: 'Studio Management',
+        subtitle: 'CRM, Bookings & Template Control',
+        email: 'admin@moonlightproduction.com',
+        password: 'Admin@2026',
+        badge: '👑 Studio Admin',
+      },
+    ],
+  };
+
+  const handleSelectDemo = (persona) => {
+    setSelectedDemo(persona.id);
+    setEmail(persona.email);
+    setPassword(persona.password);
+  };
 
   const handleLogin = async (e) => {
     if (e) e.preventDefault();
     if (!email || !password) {
       addToast({
         title: 'Required Details Missing',
-        message: 'Please enter both your email address and password.',
+        message: 'Please enter your email or username and password.',
         type: 'warning',
       });
       return;
@@ -45,28 +96,37 @@ const Login = () => {
 
     setLoading(true);
     try {
-      // Market Standard: Universal Intelligent Login (Auto-routes by role from backend/AuthContext)
-      const loggedUser = await login(email, password);
+      const explicitRole = activeTab === 'admin' ? 'admin' : 'customer';
+      const loggedUser = await login(email, password, explicitRole);
+      
       addToast({
         title: 'Authentication Successful',
-        message: `Welcome back, ${loggedUser.name}!`,
+        message: `Welcome back, ${loggedUser?.name || 'Guest'}! ✨`,
         type: 'success',
       });
 
-      // Intelligent Automatic Routing
-      if (loggedUser.role === 'superadmin') {
-        navigate('/super-admin/dashboard');
-      } else if (loggedUser.role === 'admin') {
-        navigate('/admin/dashboard');
-      } else if (loggedUser.role === 'employee') {
-        navigate('/employee/dashboard');
+      // Role-Based Intelligent Redirection
+      if (activeTab === 'admin') {
+        if (loggedUser?.role === 'superadmin') {
+          navigate('/super-admin/dashboard');
+        } else if (loggedUser?.role === 'employee') {
+          navigate('/employee/dashboard');
+        } else {
+          navigate('/admin/dashboard');
+        }
       } else {
-        navigate('/customer/dashboard');
+        if (loggedUser?.role === 'superadmin') {
+          navigate('/super-admin/dashboard');
+        } else if (loggedUser?.role === 'admin') {
+          navigate('/invitations/admin');
+        } else {
+          navigate('/invitations/dashboard');
+        }
       }
     } catch (err) {
       addToast({
         title: 'Sign In Failed',
-        message: err.message || 'Invalid email or password. Please verify your credentials.',
+        message: err.message || 'Invalid credentials. Please verify your login details.',
         type: 'error',
       });
     } finally {
@@ -75,156 +135,302 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-neutral-900 pt-24 pb-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center font-sans relative selection:bg-amber-200 selection:text-amber-900">
+    <div className="min-h-screen bg-[#0E0A08] text-neutral-100 pt-24 pb-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center font-sans relative selection:bg-amber-500 selection:text-neutral-950 overflow-hidden">
       <SEO
-        title="Sign In to Your Workspace | Moonlight Production"
-        description="Access your luxury wedding films, private client galleries, digital invitation suites, and studio workspace."
+        title="2026 Luxury Portal Access | Moonlight Studio & Digital Suites"
+        description="Sign in to your private couple wedding workspace or studio administration panel."
       />
 
-      {/* Background Decorative Ambient Glows */}
-      <div className="absolute top-10 left-1/4 w-96 h-96 rounded-full bg-amber-200/30 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-1/4 w-96 h-96 rounded-full bg-rose-200/20 blur-3xl pointer-events-none" />
+      {/* 2026 Ambient Golden Mesh & Radial Lighting Effects */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-amber-600/15 via-rose-600/10 to-transparent blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-tl from-amber-500/10 via-amber-900/20 to-transparent blur-3xl pointer-events-none" />
+      
+      {/* Delicate Noise Grain Overlay */}
+      <div
+        className="fixed inset-0 pointer-events-none opacity-20 z-0"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E")`,
+        }}
+      />
 
-      <div className="max-w-5xl w-full bg-white border border-stone-300 rounded-[32px] shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 relative z-10">
-        
+      {/* MAIN CONTAINER: 2026 ULTRA-LUXURY GLASS CARD */}
+      <div className="max-w-5xl w-full bg-neutral-950/80 backdrop-blur-2xl border border-amber-500/20 rounded-[36px] shadow-[0_30px_90px_-20px_rgba(0,0,0,0.9)] overflow-hidden grid grid-cols-1 lg:grid-cols-12 relative z-10">
+
         {/* ========================================================================= */}
-        {/* LEFT COLUMN: CINEMATIC LUXURY VISUAL CANVAS */}
+        {/* LEFT CANVAS: DYNAMIC 2026 PERSONA SHOWCASE */}
         {/* ========================================================================= */}
-        <div className="hidden lg:flex lg:col-span-5 bg-gradient-to-br from-[#120D0A] via-[#1E1510] to-[#2B1B12] p-10 flex-col justify-between relative text-white overflow-hidden">
-          {/* Background Ambient Poster */}
+        <div className="hidden lg:flex lg:col-span-5 bg-gradient-to-b from-[#18110D] via-[#120D0A] to-[#0A0705] p-10 flex-col justify-between relative text-white overflow-hidden border-r border-amber-500/15">
+          
+          {/* Background Ambient Poster with Smooth Transition */}
           <div className="absolute inset-0 z-0 opacity-40">
             <img
-              src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80"
-              alt="Moonlight Royal Wedding Cinema"
-              className="w-full h-full object-cover filter brightness-75 scale-105"
+              src={
+                activeTab === 'couple'
+                  ? 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80'
+                  : 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80'
+              }
+              alt="Moonlight Production Luxury Canvas"
+              className="w-full h-full object-cover filter brightness-70 scale-105 transition-all duration-1000"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#120D0A] via-[#120D0A]/70 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0E0A08] via-[#0E0A08]/75 to-transparent" />
           </div>
 
-          {/* Top Brand Crest */}
+          {/* Top Brand Crest & 2026 Ecosystem Badge */}
           <div className="relative z-10 space-y-3">
             <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 rounded-full border-2 border-amber-400/80 flex items-center justify-center bg-white p-0.5 shadow-lg">
-                <img
-                  src="https://ugc.production.linktr.ee/bbcf2874-0602-4cdb-b362-ad612f9fc135_zV3Uuw-tQraxE7KwMApwOHbWTg75v6W5ZJJOyWhXSJBR8O1GMQMZMOQ4CvB8uCMV4mM0SXMK-Q-s800-c-k-c0x00ffffff-no-r.jpeg?io=true&size=avatar-v3_0"
-                  alt="Moonlight Production"
-                  className="w-full h-full object-cover rounded-full"
-                />
+              <div className="w-12 h-12 rounded-2xl border border-amber-400/50 bg-gradient-to-br from-amber-500/20 to-neutral-900 p-1 shadow-lg backdrop-blur-md flex items-center justify-center">
+                <Crown className="w-6 h-6 text-amber-400" />
               </div>
               <div>
-                <span className="font-serif text-lg font-bold tracking-[0.18em] text-white block">
+                <span className="font-serif text-lg font-bold tracking-[0.2em] text-white block">
                   MOONLIGHT
                 </span>
-                <span className="text-[9px] tracking-[0.2em] text-amber-400 font-sans uppercase font-bold">
-                  Production • Luxury Cinema
+                <span className="text-[9px] tracking-[0.25em] text-amber-400 font-mono uppercase font-semibold">
+                  LUXURY WEDDING ECOSYSTEM
                 </span>
               </div>
             </div>
 
-            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-amber-300 text-[10px] font-sans uppercase font-semibold backdrop-blur-md">
-              <Award className="w-3.5 h-3.5 text-amber-400" />
-              <span>India's Premier Wedding Studio</span>
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[10px] font-mono uppercase font-medium backdrop-blur-md">
+              <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+              <span>2026 Next-Gen Architecture</span>
             </div>
           </div>
 
-          {/* Center Quote / Testimonial */}
-          <div className="relative z-10 space-y-4 my-auto py-8">
-            <blockquote className="font-serif text-xl sm:text-2xl font-normal leading-snug text-neutral-100 italic">
-              “Every sacred moment immortalized with royal grandeur, raw emotion, and master 4K color grading.”
-            </blockquote>
-            <div className="flex items-center space-x-3 pt-2">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-r from-amber-500 to-amber-700 text-neutral-950 font-bold flex items-center justify-center text-xs shadow">
-                MP
+          {/* Center Dynamic Preview Card */}
+          <div className="relative z-10 my-auto py-6">
+            {activeTab === 'couple' ? (
+              /* Couple Workspace Spotlight Widget */
+              <div className="p-5 rounded-2xl bg-white/[0.04] border border-amber-400/20 backdrop-blur-xl space-y-3 shadow-xl">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400 font-bold flex items-center gap-1.5">
+                    <Heart className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                    LIVE DIGITAL INVITATION
+                  </span>
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-[9px] text-emerald-300 font-mono">
+                    ● ACTIVE
+                  </span>
+                </div>
+                
+                <h3 className="font-serif text-xl text-neutral-100 font-medium">
+                  Aarav & Kiara’s Royal Vivah
+                </h3>
+                
+                <div className="grid grid-cols-2 gap-2 pt-1 text-xs">
+                  <div className="p-2 rounded-xl bg-black/40 border border-white/5">
+                    <span className="text-[10px] text-neutral-400 block font-mono">RSVP Received</span>
+                    <span className="font-bold text-amber-300 text-sm">184 Guests</span>
+                  </div>
+                  <div className="p-2 rounded-xl bg-black/40 border border-white/5">
+                    <span className="text-[10px] text-neutral-400 block font-mono">Gate Sequence</span>
+                    <span className="font-bold text-amber-300 text-sm">4K Video Open</span>
+                  </div>
+                </div>
+
+                <p className="text-[11px] text-neutral-400 italic">
+                  “Real-time guest notifications, instant WhatsApp cards, and private memory vault.”
+                </p>
               </div>
-              <div>
-                <h4 className="text-xs font-bold text-white font-sans">Moonlight Cinema & Invitations</h4>
-                <p className="text-[10px] text-neutral-400 font-sans">Bhopal • Udaipur • Goa • Destination</p>
+            ) : (
+              /* Admin Studio Command Spotlight Widget */
+              <div className="p-5 rounded-2xl bg-white/[0.04] border border-amber-400/20 backdrop-blur-xl space-y-3 shadow-xl">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400 font-bold flex items-center gap-1.5">
+                    <Layers className="w-3.5 h-3.5 text-amber-400" />
+                    STUDIO COMMAND CENTER
+                  </span>
+                  <span className="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-[9px] text-amber-300 font-mono">
+                    ● EXECUTIVE
+                  </span>
+                </div>
+                
+                <h3 className="font-serif text-xl text-neutral-100 font-medium">
+                  Moonlight Studio ERP & CRM
+                </h3>
+                
+                <div className="grid grid-cols-2 gap-2 pt-1 text-xs">
+                  <div className="p-2 rounded-xl bg-black/40 border border-white/5">
+                    <span className="text-[10px] text-neutral-400 block font-mono">Live Inquiries</span>
+                    <span className="font-bold text-amber-300 text-sm">38 Active</span>
+                  </div>
+                  <div className="p-2 rounded-xl bg-black/40 border border-white/5">
+                    <span className="text-[10px] text-neutral-400 block font-mono">Suites Online</span>
+                    <span className="font-bold text-amber-300 text-sm">31 Templates</span>
+                  </div>
+                </div>
+
+                <p className="text-[11px] text-neutral-400 italic">
+                  “Multi-tier role access, booking calendars, invoice generator, and automated client workflows.”
+                </p>
               </div>
+            )}
+          </div>
+
+          {/* Bottom Security & Trust Badges */}
+          <div className="relative z-10 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-neutral-400 font-mono">
+            <div className="flex items-center space-x-1.5">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <span>256-Bit SSL Secured</span>
+            </div>
+            <div className="flex items-center space-x-1.5">
+              <Fingerprint className="w-4 h-4 text-amber-400" />
+              <span>Passkey Ready</span>
             </div>
           </div>
 
-          {/* Bottom Statistics */}
-          <div className="relative z-10 pt-4 border-t border-white/15 grid grid-cols-2 gap-4 text-xs font-sans">
-            <div>
-              <span className="text-[10px] text-neutral-400 uppercase block font-medium">Royal Celebrations</span>
-              <span className="font-bold text-amber-300 text-sm">500+ Weddings</span>
-            </div>
-            <div>
-              <span className="text-[10px] text-neutral-400 uppercase block font-medium">Digital Suites</span>
-              <span className="font-bold text-amber-300 text-sm">31 4K Gate Themes</span>
-            </div>
-          </div>
         </div>
 
         {/* ========================================================================= */}
-        {/* RIGHT COLUMN: REFINED AUTHENTICATION FORM */}
+        {/* RIGHT COLUMN: 2026 HIGH-PRECISION AUTHENTICATION FORM */}
         {/* ========================================================================= */}
-        <div className="lg:col-span-7 p-6 sm:p-10 md:p-12 flex flex-col justify-between space-y-6 bg-white">
+        <div className="lg:col-span-7 p-6 sm:p-10 md:p-12 flex flex-col justify-between space-y-6 bg-gradient-to-b from-neutral-900/90 to-neutral-950/95">
           
-          {/* Header */}
-          <div className="space-y-2">
+          {/* 1. PORTAL SWITCHER: 2026 SEGMENTED GLASS TABS */}
+          <div className="p-1.5 rounded-2xl bg-black/60 border border-white/10 grid grid-cols-2 gap-1.5 shadow-inner">
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab('couple');
+                setSelectedDemo(null);
+                setEmail('');
+                setPassword('');
+              }}
+              className={`py-3 px-4 rounded-xl text-xs font-bold font-sans transition-all flex items-center justify-center space-x-2 cursor-pointer ${
+                activeTab === 'couple'
+                  ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-neutral-950 shadow-lg shadow-amber-500/20'
+                  : 'text-neutral-400 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <Heart className={`w-4 h-4 ${activeTab === 'couple' ? 'fill-neutral-950 text-neutral-950' : ''}`} />
+              <span>💍 Couple & Client Portal</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab('admin');
+                setSelectedDemo(null);
+                setEmail('');
+                setPassword('');
+              }}
+              className={`py-3 px-4 rounded-xl text-xs font-bold font-sans transition-all flex items-center justify-center space-x-2 cursor-pointer ${
+                activeTab === 'admin'
+                  ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-neutral-950 shadow-lg shadow-amber-500/20'
+                  : 'text-neutral-400 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <Crown className="w-4 h-4" />
+              <span>👑 Studio Administration</span>
+            </button>
+          </div>
+
+          {/* 2. HEADER: CONTEXTUAL TITLE & PURPOSE */}
+          <div className="space-y-1.5 text-left">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-sans uppercase tracking-wider text-amber-800 font-bold flex items-center">
-                <Sparkles className="w-3.5 h-3.5 mr-1.5 text-amber-600" />
-                SECURE AUTHENTICATION
+              <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-amber-400 font-bold flex items-center">
+                <Sparkles className="w-3.5 h-3.5 mr-1.5 text-amber-400" />
+                {activeTab === 'couple' ? 'COUPLE SUITE LOGIN' : 'STUDIO EXECUTIVE ACCESS'}
               </span>
-              <span className="text-[10px] font-sans font-medium text-neutral-500 px-2.5 py-0.5 rounded-full bg-stone-100 border border-stone-200">
-                2026 Portal
+              <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-amber-400/10 text-amber-300 border border-amber-400/20">
+                PRO 2026
               </span>
             </div>
-            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight">
-              Sign In to Your Workspace
+
+            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              {activeTab === 'couple'
+                ? 'Welcome to Your Couple Workspace'
+                : 'Moonlight Studio Administration'}
             </h1>
-            <p className="text-neutral-600 text-xs sm:text-sm font-sans">
-              Enter your credentials below. The platform will automatically route you to your dedicated couple portal or administration panel.
+
+            <p className="text-neutral-400 text-xs sm:text-sm font-sans">
+              {activeTab === 'couple'
+                ? 'Sign in to customize your live digital invitation, manage gate videos, and view guest RSVPs.'
+                : 'Access studio operations, CRM inquiries, client wedding films, template market, and payroll.'}
             </p>
           </div>
 
-          {/* Sign In Form */}
-          <form onSubmit={handleLogin} className="space-y-4 pt-2">
-            <div className="space-y-1.5">
-              <label className="text-neutral-900 font-bold text-xs uppercase tracking-wider block font-sans">
-                Username or Email Address
+          {/* 3. 1-CLICK FAST PERSONA DEMO PILLS */}
+          <div className="p-3 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-amber-300 font-bold flex items-center">
+                <Zap className="w-3 h-3 mr-1 text-amber-400 fill-amber-400" />
+                1-Click Instant Test Personas:
+              </span>
+              <span className="text-[9px] text-neutral-500 font-mono">Instant Fill</span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {demoPersonas[activeTab].map((persona) => (
+                <button
+                  key={persona.id}
+                  type="button"
+                  onClick={() => handleSelectDemo(persona)}
+                  className={`p-2.5 rounded-xl border text-left text-xs transition-all flex flex-col justify-between cursor-pointer ${
+                    selectedDemo === persona.id
+                      ? 'bg-amber-500/20 border-amber-400 text-amber-200'
+                      : 'bg-black/40 border-white/10 text-neutral-300 hover:border-amber-500/40 hover:bg-white/5'
+                  }`}
+                >
+                  <div className="flex items-center justify-between w-full">
+                    <span className="font-bold">{persona.title}</span>
+                    <span className="text-[9px] font-mono opacity-80">{persona.badge}</span>
+                  </div>
+                  <span className="text-[10px] text-neutral-400 font-sans mt-0.5 truncate">
+                    {persona.subtitle}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 4. AUTHENTICATION FORM */}
+          <form onSubmit={handleLogin} className="space-y-4">
+            {/* Email / Username Field */}
+            <div className="space-y-1.5 text-left">
+              <label className="text-neutral-300 font-mono text-xs uppercase tracking-wider block">
+                {activeTab === 'couple' ? 'Couple Email or Username' : 'Admin Username or Official Email'}
               </label>
               <div className="relative">
-                <User className="w-4 h-4 text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Mail className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter username (e.g. Moonlight) or email"
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl pl-10 pr-4 py-3 text-neutral-900 font-medium text-xs sm:text-sm placeholder-neutral-400 focus:border-amber-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all"
+                  placeholder={
+                    activeTab === 'couple'
+                      ? 'aarav.kiara@moonlight.com or couple username'
+                      : 'nkneeleshkirar@gmail.com or Moonlight'
+                  }
+                  className="w-full bg-black/50 border border-white/15 rounded-xl pl-10 pr-4 py-3 text-white text-xs sm:text-sm placeholder-neutral-500 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-500/20 transition-all font-sans"
                 />
               </div>
             </div>
 
-            <div className="space-y-1.5">
+            {/* Password Field */}
+            <div className="space-y-1.5 text-left">
               <div className="flex items-center justify-between">
-                <label className="text-neutral-900 font-bold text-xs uppercase tracking-wider block font-sans">
+                <label className="text-neutral-300 font-mono text-xs uppercase tracking-wider block">
                   Password
                 </label>
-                <Link to="/forgot-password" className="text-amber-800 font-bold text-xs hover:underline">
-                  Forgot password?
+                <Link to="/forgot-password" className="text-amber-400 font-sans text-xs hover:underline">
+                  Forgot Password?
                 </Link>
               </div>
               <div className="relative">
-                <Lock className="w-4 h-4 text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Lock className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
                   value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    setSelectedDemo(null);
-                  }}
-                  placeholder="Enter your password"
-                  className="w-full bg-[#FAF8F5] border border-stone-300 rounded-xl pl-10 pr-10 py-3 text-neutral-900 font-medium text-xs sm:text-sm placeholder-neutral-400 focus:border-amber-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all"
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your secure password"
+                  className="w-full bg-black/50 border border-white/15 rounded-xl pl-10 pr-10 py-3 text-white text-xs sm:text-sm placeholder-neutral-500 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-500/20 transition-all font-sans"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-800 p-1 cursor-pointer"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white p-1 cursor-pointer"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -232,60 +438,82 @@ const Login = () => {
               </div>
             </div>
 
-            {/* Remember Me Checkbox */}
+            {/* Remember Me & Device Trust */}
             <div className="flex items-center justify-between pt-1 text-xs">
-              <label className="flex items-center space-x-2 cursor-pointer select-none text-neutral-700 font-medium">
+              <label className="flex items-center space-x-2 cursor-pointer select-none text-neutral-300">
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-4 h-4 rounded border-stone-300 text-amber-700 focus:ring-amber-500 cursor-pointer"
+                  className="w-4 h-4 rounded border-white/20 bg-black/40 text-amber-500 focus:ring-amber-400 cursor-pointer"
                 />
-                <span>Remember this device</span>
+                <span>Remember this secure workstation</span>
               </label>
+
+              <span className="text-[10px] text-neutral-400 font-mono flex items-center gap-1">
+                <Fingerprint className="w-3 h-3 text-amber-400" />
+                Biometric Ready
+              </span>
             </div>
 
+            {/* Main Action Submit Button */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 mt-2 rounded-xl bg-gradient-to-r from-amber-700 via-amber-800 to-amber-900 hover:from-amber-800 hover:to-amber-950 active:scale-[0.99] text-white font-bold text-xs uppercase tracking-wider shadow-lg transition-all flex items-center justify-center disabled:opacity-50 cursor-pointer"
+              className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 hover:from-amber-400 hover:to-amber-600 active:scale-[0.99] text-neutral-950 font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-500/25 transition-all flex items-center justify-center cursor-pointer disabled:opacity-50"
             >
               {loading ? (
                 <div className="flex items-center space-x-2">
-                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Verifying & Opening Workspace...</span>
+                  <span className="w-4 h-4 border-2 border-neutral-950 border-t-transparent rounded-full animate-spin" />
+                  <span>Verifying Credentials & Initializing...</span>
                 </div>
               ) : (
-                <>
-                  <span>Sign In to Your Workspace</span>
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </>
+                <div className="flex items-center space-x-2">
+                  <span>
+                    {activeTab === 'couple'
+                      ? 'ACCESS COUPLE WORKSPACE'
+                      : 'ACCESS STUDIO ADMINISTRATION'}
+                  </span>
+                  <ArrowRight className="w-4 h-4" />
+                </div>
               )}
             </button>
           </form>
 
-          {/* Footer Links & Studio Hotline */}
-          <div className="pt-4 border-t border-stone-200 space-y-3 text-center text-xs">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-neutral-600">
-              <span>New couple creating an invitation?</span>
-              <Link to="/templates" className="text-amber-900 font-bold hover:underline">
-                Explore Digital Suites →
+          {/* 5. FOOTER: ASSISTANCE, REGISTRATION & HOTLINE */}
+          <div className="pt-4 border-t border-white/10 space-y-3 text-center text-xs">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-neutral-400">
+              <span>Looking to create a new wedding invitation?</span>
+              <Link to="/templates" className="text-amber-400 font-bold hover:underline flex items-center gap-1">
+                <span>Browse 31 Luxury Suites</span>
+                <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
-            <div className="flex items-center justify-center space-x-1.5 text-neutral-500 font-medium">
-              <Phone className="w-3.5 h-3.5 text-amber-800" />
-              <span>Direct Studio Assistance:</span>
-              <a href="tel:+919229229323" className="text-amber-900 font-bold hover:underline font-mono">
+            <div className="flex items-center justify-center space-x-2 text-neutral-400 text-xs">
+              <Phone className="w-3.5 h-3.5 text-amber-400" />
+              <span>Direct VIP Concierge:</span>
+              <a href="tel:+919229229323" className="text-amber-400 font-mono font-bold hover:underline">
                 +91 92292 29323
+              </a>
+              <span className="text-neutral-600">•</span>
+              <a
+                href="https://api.whatsapp.com/send?phone=919229229323&text=Hello%20Moonlight%20Production,%20I%20need%20assistance%20with%20portal%20access."
+                target="_blank"
+                rel="noreferrer"
+                className="text-emerald-400 font-bold hover:underline"
+              >
+                WhatsApp Chat
               </a>
             </div>
           </div>
 
         </div>
+
       </div>
     </div>
   );
 };
 
 export default Login;
+
