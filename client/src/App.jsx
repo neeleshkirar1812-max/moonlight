@@ -114,31 +114,9 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
 const App = () => {
   return (
     <Routes>
-      {/* 1. PRIMARY ROOT: ZAREQIA DIGITAL INVITATIONS PLATFORM */}
-      <Route element={<InvitationsLayout />}>
-        <Route path="/" element={<InvitationsLanding />} />
-        <Route path="/templates" element={<TemplateMarketplace />} />
-        <Route path="/templates/:slug" element={<TemplateDetail />} />
-        <Route path="/dashboard" element={<InvitationDashboard />} />
-        <Route path="/create/:id" element={<InvitationEditor />} />
-        <Route path="/edit/:id" element={<InvitationEditor />} />
-
-        {/* Nested /invitations/* routes mirror the root for compatibility */}
-        <Route path="/invitations" element={<InvitationsLanding />} />
-        <Route path="/invitations/templates" element={<TemplateMarketplace />} />
-        <Route path="/invitations/templates/:slug" element={<TemplateDetail />} />
-        <Route path="/invitations/dashboard" element={<InvitationDashboard />} />
-        <Route path="/invitations/create/:id" element={<InvitationEditor />} />
-        <Route path="/invitations/edit/:id" element={<InvitationEditor />} />
-        <Route path="/invitations/login" element={<InvitationLogin />} />
-        <Route path="/invitations/signup" element={<InvitationSignup />} />
-        <Route path="/invitations/admin" element={<InvitationAdmin />} />
-        <Route path="/invitations/admin/:tab" element={<InvitationAdmin />} />
-        <Route path="/invitations/admin/manual" element={<InvitationAdmin initialTab="manual" />} />
-      </Route>
-
-      {/* 2. Public Studio Legacy Website */}
+      {/* 1. Public Studio Website (Main Moonlight Production Site) */}
       <Route element={<PublicLayout />}>
+        <Route path="/" element={<Home />} />
         <Route path="/studio" element={<Home />} />
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/portfolio/:category" element={<PortfolioCategoryPage />} />
@@ -155,6 +133,26 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+      </Route>
+
+      {/* 2. Digital Invitations Platform */}
+      <Route element={<InvitationsLayout />}>
+        <Route path="/invitations" element={<InvitationsLanding />} />
+        <Route path="/invitations/templates" element={<TemplateMarketplace />} />
+        <Route path="/templates" element={<TemplateMarketplace />} />
+        <Route path="/invitations/templates/:slug" element={<TemplateDetail />} />
+        <Route path="/templates/:slug" element={<TemplateDetail />} />
+        <Route path="/invitations/dashboard" element={<InvitationDashboard />} />
+        <Route path="/dashboard" element={<InvitationDashboard />} />
+        <Route path="/invitations/create/:id" element={<InvitationEditor />} />
+        <Route path="/create/:id" element={<InvitationEditor />} />
+        <Route path="/invitations/edit/:id" element={<InvitationEditor />} />
+        <Route path="/edit/:id" element={<InvitationEditor />} />
+        <Route path="/invitations/login" element={<InvitationLogin />} />
+        <Route path="/invitations/signup" element={<InvitationSignup />} />
+        <Route path="/invitations/admin" element={<InvitationAdmin />} />
+        <Route path="/invitations/admin/:tab" element={<InvitationAdmin />} />
+        <Route path="/invitations/admin/manual" element={<InvitationAdmin initialTab="manual" />} />
       </Route>
 
       {/* 3. Customer Portal */}
