@@ -95,40 +95,30 @@ export const AuthProvider = ({ children }) => {
 
     const isNeelesh = normalizedEmail === 'nkneeleshkirar@gmail.com';
 
-    // === ROLE VALIDATION CHECKS ===
+    // === STRICT ROLE VALIDATION CHECKS ===
 
-    // 1. Super Admin
+    // 1. Super Admin (Master Studio Command)
     if (role === 'superadmin' || explicitRole === 'superadmin') {
       const allowedSuperAdmin = [
         'moonlight',
         'tarun',
         'tarunrathore3435@gmail.com',
         'nkneeleshkirar@gmail.com',
-        'superadmin@moonlightproduction.com',
-        'admin@moonlightproduction.com'
+        'superadmin@moonlightproduction.com'
       ];
       if (!allowedSuperAdmin.includes(normalizedEmail) && !normalizedEmail.includes('superadmin') && !normalizedEmail.includes('moonlight')) {
-        throw new Error('Access Denied: Username/Email is not registered as Super Admin. Only authorized studio directors can sign in here.');
+        throw new Error('Access Denied: Only authorized Super Admin / Studio Director can sign in here.');
       }
       // Password check for Moonlight / Tarun
-      if (password !== 'Tarun@1212' && password !== 'SuperAdmin@2026' && password !== 'Admin@2026') {
-        const savedPass = JSON.parse(localStorage.getItem('moonlight_user_passwords') || '{}');
-        if (savedPass[normalizedEmail] && savedPass[normalizedEmail] !== password) {
-          throw new Error('Incorrect password. Please enter the valid password or contact the Super Admin.');
-        } else if (!savedPass[normalizedEmail]) {
-          throw new Error('Incorrect password. Please enter the valid password.');
-        }
+      const savedPass = JSON.parse(localStorage.getItem('moonlight_user_passwords') || '{}');
+      const validPass = savedPass[normalizedEmail] || 'Tarun@1212';
+      if (password !== validPass && password !== 'Tarun@1212') {
+        throw new Error('Incorrect password. Please enter the valid Super Admin password.');
       }
     }
 
-    // 2. Studio Admin & HR
+    // 2. Studio Admin & HR (Must be created by Super Admin)
     if (role === 'admin' || explicitRole === 'admin') {
-      const allowedAdmins = [
-        'nkneeleshkirar@gmail.com',
-        'superadmin@moonlightproduction.com',
-        'admin@moonlightproduction.com',
-        'admin@gmail.com',
-      ];
       let customAdmins = [];
       try {
         const savedAdmins = localStorage.getItem('ml_admins');
@@ -138,43 +128,25 @@ export const AuthProvider = ({ children }) => {
         }
       } catch (e) {}
 
-      if (
-        !allowedAdmins.includes(normalizedEmail) &&
-        !customAdmins.includes(normalizedEmail) &&
-        !normalizedEmail.includes('admin') &&
-        !normalizedEmail.includes('hr')
-      ) {
-        throw new Error('Access Denied: Email is not registered as Admin. Please contact the Super Admin.');
+      if (!customAdmins.includes(normalizedEmail) && !isMoonlightDirector) {
+        throw new Error('Access Denied: No Admin account found with this email. Please ask the Super Admin to create your account.');
       }
     }
 
-    // 3. Crew Member
+    // 3. Crew Member (Must be added by Super Admin)
     if (role === 'employee' || explicitRole === 'employee') {
-      const defaultCrewEmails = [
-        'amanpawar074@gmail.com',
-        'crew@moonlightproduction.com',
-        'crew@gmail.com',
-      ];
-      const isOfficialCrew = defaultCrewEmails.includes(normalizedEmail) || normalizedEmail.includes('crew') || normalizedEmail.includes('employee');
-      const isStoredCrew = Boolean(storedEmp);
-
-      if (!isOfficialCrew && !isStoredCrew) {
-        throw new Error('Access Denied: No crew account found with this email. Please ask the Super Admin to add your profile.');
+      if (!storedEmp) {
+        throw new Error('Access Denied: No crew account found. Please ask the Super Admin to add your profile in Crew Management.');
       }
 
       const activeCrewStatus = storedEmp?.status;
       if (activeCrewStatus === 'pending_approval' || activeCrewStatus === 'pending') {
-        throw new Error('Access Pending: Your crew account is awaiting Super Admin clearance.');
+        throw new Error('Access Pending: Your crew account is awaiting Super Admin activation.');
       }
     }
 
-    // 4. Couple / Customer
+    // 4. Couple / Customer (Must be approved or registered with invoice/booking)
     if (role === 'customer' || explicitRole === 'customer') {
-      const defaultCouples = [
-        'aarav.ananya@gmail.com',
-        'client@gmail.com',
-        'couple@gmail.com',
-      ];
       let registeredCouples = [];
       try {
         const reg = JSON.parse(localStorage.getItem('moonlight_registered_clients') || '[]');
@@ -187,15 +159,16 @@ export const AuthProvider = ({ children }) => {
         invoiceEmails = invs.map((i) => (i.clientEmail || i.clientInfo?.email || '').toLowerCase().trim());
       } catch (e) {}
 
-      const allAllowedCouples = [...defaultCouples, ...registeredCouples, ...invoiceEmails];
+      let bookingEmails = [];
+      try {
+        const bks = JSON.parse(localStorage.getItem('ml_bookings') || '[]');
+        bookingEmails = bks.map((b) => (b.client?.email || b.email || '').toLowerCase().trim());
+      } catch (e) {}
 
-      if (!allAllowedCouples.includes(normalizedEmail) && !normalizedEmail.includes('client') && !normalizedEmail.includes('customer')) {
-        // Auto-register customer so any couple can easily log in
-        try {
-          const reg = JSON.parse(localStorage.getItem('moonlight_registered_clients') || '[]');
-          reg.push({ email: normalizedEmail, name: email.split('@')[0] });
-          localStorage.setItem('moonlight_registered_clients', JSON.stringify(reg));
-        } catch (e) {}
+      const allAllowedCouples = [...registeredCouples, ...invoiceEmails, ...bookingEmails];
+
+      if (!allAllowedCouples.includes(normalizedEmail)) {
+        throw new Error('Account Not Found: Your client account is not registered or is awaiting activation by the studio director.');
       }
     }
 
