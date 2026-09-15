@@ -123,6 +123,19 @@ const OpeningScreen = ({
 
   const isRoyalVideo = Boolean(videoGateSrc);
 
+  // Play video immediately on mount so no black screen appears
+  useEffect(() => {
+    if (videoRef.current && isRoyalVideo) {
+      videoRef.current.muted = true;
+      videoRef.current.playsInline = true;
+      videoRef.current.loop = true;
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+      }
+    }
+  }, [videoGateSrc, isRoyalVideo]);
+
   const getMonogram = () => {
     if (invitation.bride_name && invitation.groom_name) {
       return `${invitation.bride_name.trim().charAt(0)} & ${invitation.groom_name.trim().charAt(0)}`;
@@ -146,6 +159,7 @@ const OpeningScreen = ({
 
     // 2. Play video if royal video gate
     if (videoRef.current && isRoyalVideo) {
+      videoRef.current.loop = false;
       videoRef.current.currentTime = 0;
       videoRef.current.muted = true;
       videoRef.current.playsInline = true;
@@ -221,14 +235,16 @@ const OpeningScreen = ({
         } inset-0 z-50 flex items-center justify-center font-sans select-none w-full h-full cursor-pointer overflow-hidden transition-all duration-1200 ease-in-out ${
           isFadingOut
             ? 'pointer-events-none opacity-0 scale-105 bg-transparent'
-            : 'opacity-100 scale-100 bg-neutral-950'
+            : 'opacity-100 scale-100 bg-neutral-950/80 backdrop-blur-xs'
         }`}
       >
-        <div className="relative w-full h-full max-w-[480px] max-h-[820px] mx-auto overflow-hidden sm:rounded-3xl border border-amber-500/40 shadow-[0_0_60px_rgba(212,175,55,0.4)] bg-black flex flex-col justify-between">
-          {/* Full-Bleed 4K Video Element */}
+        <div className="relative w-full h-full max-w-[480px] max-h-[820px] mx-auto overflow-hidden sm:rounded-3xl border border-amber-500/40 shadow-[0_0_60px_rgba(212,175,55,0.4)] bg-neutral-950 flex flex-col justify-between">
+          {/* Full-Bleed 4K Video Element - Live on Mount */}
           <video
             ref={videoRef}
             src={videoGateSrc}
+            autoPlay
+            loop
             playsInline
             muted
             preload="auto"
@@ -238,14 +254,14 @@ const OpeningScreen = ({
             className="absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-700"
           />
 
-          {/* Dark luxury gradient overlay that smoothly clears when opening */}
+          {/* Light luxury gradient overlay over video */}
           <div
             className={`absolute inset-0 z-20 pointer-events-none transition-opacity duration-1000 ${
-              isOpen ? 'opacity-15' : 'opacity-75'
+              isOpen ? 'opacity-10' : 'opacity-35'
             }`}
             style={{
               background:
-                'linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.85) 100%)',
+                'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.7) 100%)',
             }}
           />
 

@@ -557,6 +557,22 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
   const brideParents =
     invitation.bride_parents || invitation.brideParents || 'Daughter of Mrs. Poonam & Mr. Anand Malhotra';
 
+  // Autoplay video immediately on mount so no black screen appears
+  useEffect(() => {
+    const vid = videoRef.current;
+    if (vid) {
+      vid.muted = true;
+      vid.playsInline = true;
+      vid.loop = true;
+      const playPromise = vid.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay handled by browser policy
+        });
+      }
+    }
+  }, [theme.video]);
+
   // Release scroll when gate opens
   useEffect(() => {
     if (!hasRevealed) {
@@ -583,6 +599,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
       try {
         vid.muted = true;
         vid.playsInline = true;
+        vid.loop = false;
         vid.currentTime = 0;
         await vid.play();
       } catch {
@@ -594,10 +611,10 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
       audioRef.current.play().then(() => setIsPlayingMusic(true)).catch(() => {});
     }
 
-    // 5.5s Gate Video reveal timing
+    // 4.5s Gate Video reveal timing
     setTimeout(() => {
       setHasRevealed(true);
-    }, 5500);
+    }, 4500);
   };
 
   const handleVideoEnded = () => {
@@ -690,15 +707,17 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           SECTION 1: 4K VIDEO GATE & COUPLE NAME REVEAL HERO (Zareqia 1:1)
          ========================================================================= */}
       <section
-        className="relative min-h-screen w-full overflow-hidden flex items-center justify-center cursor-pointer select-none bg-[#0f0f0f]"
+        className="relative min-h-screen w-full overflow-hidden flex items-center justify-center cursor-pointer select-none bg-gradient-to-b from-neutral-950 via-neutral-900 to-black"
         onClick={handleOpenGate}
       >
-        {/* Full-Bleed 4K Video Element */}
+        {/* Full-Bleed 4K Video Element - Live & Playing immediately on Mount */}
         <video
           ref={videoRef}
           key={theme.video + (theme.videoFilter || '')}
           src={theme.video}
           style={{ filter: theme.videoFilter || 'none' }}
+          autoPlay
+          loop
           playsInline
           muted
           preload="auto"
@@ -709,22 +728,56 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           onClick={handleOpenGate}
           onEnded={handleVideoEnded}
           onError={() => setHasRevealed(true)}
-          className="absolute inset-0 h-full w-full cursor-pointer object-cover"
+          className="absolute inset-0 h-full w-full cursor-pointer object-cover z-0"
         />
 
-        {/* Initial Gate Screen - Clean Central Pulse Indicator */}
+        {/* Initial Direct Overlay on Live Video - Monogram, Names & Tap Button */}
         {!hasStarted && (
-          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none p-4">
-            {/* Subtle Center Touch Ripple Indicator over Seal */}
-            <div className="relative flex items-center justify-center">
-              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-2 border-amber-300/60 animate-ping opacity-30 pointer-events-none" />
-              <div className="absolute w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-amber-400/10 backdrop-blur-xs border border-amber-300/40 shadow-[0_0_30px_rgba(212,175,55,0.3)] flex items-center justify-center" />
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-4">
+            {/* Subtle Royal Glassmorphism Center Card */}
+            <div className="relative flex flex-col items-center justify-center space-y-4 max-w-md w-full px-4 text-center">
+              {/* Royal Seal Monogram */}
+              <div className="relative group cursor-pointer">
+                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-amber-300/60 animate-ping opacity-30 pointer-events-none" />
+                <div className="absolute inset-0 w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-black/60 backdrop-blur-md border-2 border-amber-400/80 shadow-[0_0_40px_rgba(212,175,55,0.7)] flex flex-col items-center justify-center text-center p-2 transform group-hover:scale-105 active:scale-95 transition-transform">
+                  <Crown className="w-6 h-6 text-amber-300 animate-pulse mb-0.5" />
+                  <span className="font-serif text-sm sm:text-base font-bold text-amber-100 tracking-wider">
+                    {coupleNames.split('&')[0]?.trim()?.charAt(0) || 'M'} & {coupleNames.split('&')[1]?.trim()?.charAt(0) || 'P'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Couple Names over Live Video */}
+              <div className="space-y-1">
+                {theme.isHindi ? (
+                  <span className="text-xs sm:text-sm font-bold font-rozha text-amber-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] tracking-widest block">
+                    || 卐 श्री गणेशाय नमः 卐 ||
+                  </span>
+                ) : (
+                  <span className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.3em] text-amber-300 drop-shadow font-bold block">
+                    The Royal Wedding Invitation
+                  </span>
+                )}
+                <h2 className="font-serif text-2xl sm:text-4xl font-bold text-white drop-shadow-[0_2px_14px_rgba(0,0,0,0.95)] leading-tight">
+                  {coupleNames}
+                </h2>
+              </div>
+
+              {/* Interactive Glowing Tap Button */}
+              <button
+                type="button"
+                onClick={handleOpenGate}
+                className="mt-2 px-6 py-3 rounded-full bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 hover:from-yellow-400 hover:to-amber-500 text-neutral-950 font-bold text-xs sm:text-sm uppercase tracking-wider shadow-[0_0_35px_rgba(212,175,55,0.8)] transform hover:scale-105 active:scale-95 transition-all flex items-center justify-center space-x-2 border-2 border-amber-200 cursor-pointer"
+              >
+                <Sparkles className="w-4 h-4 text-neutral-950 animate-spin-slow" />
+                <span>{theme.isHindi ? 'शाही निमंत्रण खोलें' : 'Tap to Open Royal Invitation'}</span>
+              </button>
             </div>
 
             {/* Bottom Floating Hint */}
-            <div className="absolute bottom-10 inset-x-0 mx-auto text-center pointer-events-none">
-              <span className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-black/60 backdrop-blur-md border border-amber-400/40 text-amber-200 text-xs font-mono uppercase tracking-[0.2em] shadow-2xl animate-pulse">
-                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+            <div className="absolute bottom-8 inset-x-0 mx-auto text-center pointer-events-none">
+              <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-amber-400/40 text-amber-200 text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] shadow-2xl animate-pulse">
+                <Sparkles className="w-3 h-3 text-amber-300" />
                 <span>TAP ANYWHERE TO OPEN</span>
               </span>
             </div>
