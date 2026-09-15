@@ -613,10 +613,10 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
         setHasRevealed(true);
       }
 
-      // 1. As the gate doors swing open (around 900ms), text emerges naturally inside the palace opening
+      // 1. As the gate doors swing open (around 1800ms), text emerges slowly and gradually inside the palace opening
       setTimeout(() => {
         setTextRevealed(true);
-      }, 900);
+      }, 1800);
 
       // 2. When gate is fully open (around 4200ms), unlock scroll and show scroll indicator
       const durationMs =
@@ -627,7 +627,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
       setTimeout(() => {
         setTextRevealed(true);
         setHasRevealed(true);
-      }, Math.max(durationMs - 200, 3800));
+      }, Math.max(durationMs - 200, 4200));
     } else {
       setTextRevealed(true);
       setHasRevealed(true);
@@ -761,7 +761,7 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
 
         {/* Dark Luxury Gradient Overlay over Video when Opened */}
         <div
-          className={`absolute inset-0 pointer-events-none transition-opacity duration-1000 ${
+          className={`absolute inset-0 pointer-events-none transition-opacity duration-[2200ms] ease-out ${
             textRevealed ? 'opacity-100' : 'opacity-0'
           }`}
           style={{
@@ -770,12 +770,12 @@ const ZareqiaRoyalSuite = ({ invitation = {}, isPreview = false, onRsvpSuccess }
           }}
         />
 
-        {/* OPENED GATE REVEAL CONTENT (Naturally emerged inside the opened gates) */}
+        {/* OPENED GATE REVEAL CONTENT (Slowly and gradually emerges as gates swing open) */}
         <div
-          className={`relative z-20 flex w-full max-w-3xl mx-auto flex-col items-center justify-center px-4 sm:px-6 text-center pointer-events-none transition-all duration-1000 ease-out ${
+          className={`relative z-20 flex w-full max-w-3xl mx-auto flex-col items-center justify-center px-4 sm:px-6 text-center pointer-events-none transition-all duration-[2400ms] ease-out ${
             textRevealed
               ? 'opacity-100 translate-y-0 scale-100 blur-none'
-              : 'opacity-0 translate-y-6 scale-95 blur-xs'
+              : 'opacity-0 translate-y-8 scale-90 blur-xs'
           }`}
         >
           {/* Top Auspicious Symbol */}
