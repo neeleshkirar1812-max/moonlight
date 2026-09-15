@@ -5,6 +5,7 @@ import { useNotification } from '../../context/NotificationContext';
 import api from '../../api/client';
 import { invitationTemplates } from '../../data/invitationTemplates';
 import MusicCustomizer from '../../components/invitations/components/MusicCustomizer';
+import MobileDeviceMockup from '../../components/invitations/components/MobileDeviceMockup';
 import SEO from '../../components/common/SEO';
 import {
   Sparkles,
@@ -47,6 +48,7 @@ import {
   PauseCircle,
   Archive,
   ArrowUpRight,
+  Smartphone,
 } from 'lucide-react';
 
 const InvitationAdmin = ({ initialTab }) => {
@@ -57,6 +59,7 @@ const InvitationAdmin = ({ initialTab }) => {
 
   const [activeTab, setActiveTab] = useState(initialTab || urlTab || 'dashboard');
   const [loading, setLoading] = useState(true);
+  const [selectedPreviewInv, setSelectedPreviewInv] = useState(null);
 
   // Core Data States
   const [stats, setStats] = useState({
@@ -911,6 +914,15 @@ const InvitationAdmin = ({ initialTab }) => {
                             >
                               {inv.status || (inv.published ? 'PUBLISHED' : 'DRAFT')}
                             </span>
+                            <button
+                              type="button"
+                              onClick={() => setSelectedPreviewInv(inv)}
+                              className="px-2 py-1 rounded bg-amber-50 hover:bg-amber-100 text-amber-900 font-semibold text-[11px] flex items-center space-x-1"
+                              title="Live Mobile Display"
+                            >
+                              <Smartphone className="w-3 h-3 text-amber-600" />
+                              <span>Mobile</span>
+                            </button>
                             <Link
                               to={`/invitations/create/${inv._id || inv.id}`}
                               className="px-2 py-1 rounded bg-neutral-100 hover:bg-amber-100 font-semibold text-[11px]"
@@ -1286,6 +1298,16 @@ const InvitationAdmin = ({ initialTab }) => {
                               </td>
                               <td className="py-3.5 px-4 text-right">
                                 <div className="flex items-center justify-end space-x-1.5">
+                                  <button
+                                    type="button"
+                                    onClick={() => setSelectedPreviewInv(inv)}
+                                    className="px-2 py-1 rounded bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold text-[11px] flex items-center space-x-1 transition-colors"
+                                    title="Open Interactive Mobile Display Mockup"
+                                  >
+                                    <Smartphone className="w-3 h-3 text-amber-600" />
+                                    <span>Mobile</span>
+                                  </button>
+
                                   <Link
                                     to={`/invitations/create/${inv._id || inv.id}`}
                                     className="px-2 py-1 rounded bg-neutral-100 hover:bg-amber-100 text-neutral-800 hover:text-amber-900 font-bold text-[11px] transition-colors"
@@ -2007,6 +2029,54 @@ const InvitationAdmin = ({ initialTab }) => {
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 2026 MASTER ADMIN MOBILE PHONE DEVICE PREVIEW MODAL */}
+      {/* ========================================================================= */}
+      {selectedPreviewInv && (
+        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-2xl flex flex-col items-center justify-between p-3 sm:p-6 animate-fade-in font-sans">
+          {/* Header */}
+          <div className="w-full max-w-4xl flex items-center justify-between py-2 border-b border-amber-500/20 text-white gap-3 z-10">
+            <div className="flex items-center space-x-3">
+              <span className="font-serif text-lg font-bold text-amber-300 flex items-center space-x-2">
+                <Smartphone className="w-5 h-5 text-amber-400" />
+                <span>Admin Live Mobile Display</span>
+              </span>
+              <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-[10px] font-mono text-amber-300">
+                Client: {selectedPreviewInv.names || selectedPreviewInv.customerEmail}
+              </span>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Link
+                to={`/invitations/create/${selectedPreviewInv._id || selectedPreviewInv.id}`}
+                className="px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-amber-200 font-bold text-xs transition-all"
+              >
+                Open in Full Editor
+              </Link>
+              <button
+                type="button"
+                onClick={() => setSelectedPreviewInv(null)}
+                className="px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs uppercase tracking-wider shadow-lg transition-all"
+              >
+                ✕ Close Simulator
+              </button>
+            </div>
+          </div>
+
+          {/* Simulator Screen */}
+          <div className="w-full flex-1 flex items-center justify-center my-3 overflow-y-auto">
+            <MobileDeviceMockup
+              invitation={selectedPreviewInv}
+              isPreview={true}
+              showControls={true}
+              defaultDevice="auto"
+              maxHeight="78vh"
+              showOpeningInPreview={false}
+            />
           </div>
         </div>
       )}

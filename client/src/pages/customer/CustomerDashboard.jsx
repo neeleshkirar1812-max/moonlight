@@ -14,6 +14,8 @@ import {
   CheckCircle2,
   AlertCircle,
   Video,
+  Smartphone,
+  Gift,
 } from 'lucide-react';
 
 const CustomerDashboard = () => {
@@ -83,6 +85,40 @@ const CustomerDashboard = () => {
               {activeBooking.eventType}
             </span>
           </div>
+        </div>
+      </div>
+
+      {/* 2026 Royal Digital Invitations Suite Banner */}
+      <div className="relative rounded-3xl overflow-hidden p-6 sm:p-8 border border-amber-500/40 bg-gradient-to-r from-[#1A0D10] via-[#0E0608] to-[#1A0D10] text-amber-100 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="space-y-2 max-w-xl">
+          <div className="flex items-center space-x-2">
+            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+            <span className="text-[10px] font-mono uppercase tracking-widest text-amber-400 font-bold">
+              2026 Digital Wedding Invitations
+            </span>
+          </div>
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-white">
+            Royal Video Door Invitations & Live RSVP Suite
+          </h2>
+          <p className="text-xs text-neutral-300 leading-relaxed font-sans">
+            Craft your personalized digital wedding invitation with 4K video palace gates, shehnai soundtracks, interactive scratch cards, and live guest attendance tracker. Test in real-time inside our smartphone simulator.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3 shrink-0">
+          <Link
+            to="/invitations/dashboard"
+            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-neutral-950 font-bold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 flex items-center space-x-2 transition-all"
+          >
+            <Smartphone className="w-4 h-4" />
+            <span>Open My Invites</span>
+          </Link>
+          <Link
+            to="/invitations/templates"
+            className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs transition-all border border-white/15"
+          >
+            Browse 31 Themes
+          </Link>
         </div>
       </div>
 
